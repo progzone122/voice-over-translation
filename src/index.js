@@ -1279,6 +1279,8 @@ class VideoHandler {
     }
 
     addExtraEventListener(this.video, "emptied", () => {
+      if (getVideoId(this.site.host, this.video) === this.videoData.videoId)
+        return;
       debug.log("lipsync mode is emptied");
       this.stopTranslation();
     });
@@ -1569,6 +1571,7 @@ class VideoHandler {
         "trovo",
         "yandexdisk",
         "coursehunter",
+        "directlink",
       ].includes(this.site.host)
     ) {
       videoData.detectedLanguage = "auto";
@@ -1987,6 +1990,14 @@ class VideoHandler {
         }
 
         this.updateTranslation(urlOrError);
+        if (!this.subtitlesList.some((item) => item.source === "yandex")) {
+          this.subtitlesList = await getSubtitles(
+            this.site,
+            this.videoData.videoId,
+            this.videoData.detectedLanguage,
+          );
+          await this.updateSubtitlesLangSelect();
+        }
 
         this.videoTranslations.push({
           videoId: VIDEO_ID,
@@ -2006,19 +2017,17 @@ class VideoHandler {
   }
 
   async handleSrcChanged() {
+    if (getVideoId(this.site.host, this.video) === this.videoData.videoId)
+      return;
     debug.log("[VideoHandler] src changed", this);
-
-    this.stopTranslation();
 
     this.firstPlay = true;
 
     this.videoData = await this.getVideoData();
-    if (this.videoData.detectedLanguage) {
-      this.setSelectMenuValues(
-        this.videoData.detectedLanguage,
-        this.videoData.responseLanguage,
-      );
-    }
+    this.setSelectMenuValues(
+      this.videoData.detectedLanguage,
+      this.videoData.responseLanguage,
+    );
 
     const hide =
       (!this.video.src && !this.video.currentSrc && !this.video.srcObject) ||
@@ -2044,7 +2053,6 @@ class VideoHandler {
     debug.log("[VideoHandler] release");
 
     this.initialized = false;
-    this.stopTranslation();
     this.releaseExtraEvents();
     this.subtitlesWidget.release();
     this.votButton.container.remove();
