@@ -118,9 +118,10 @@
 // @match          *://*.egghead.io/*
 // @match          *://*.youku.com/*
 // @match          *://*/*.mp4*
+// @exclude        file://*/*.mp4*
 // @connect        api.browser.yandex.ru
 // @namespace      vot
-// @version        1.5.1.3
+// @version        1.5.1.4
 // @icon           https://translate.yandex.ru/icons/favicon.ico
 // @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation/issues
@@ -2306,6 +2307,8 @@ const getVideoId = (service, video) => {
       return url.pathname;
     case "youku":
       return url.pathname.match(/v_show\/id_[\w=]+/)?.[0];
+    // case "patreon":
+    //   return url.pathname.match(/posts\/([^/]+)/)?.[0];
     case "directlink":
       return url.pathname + url.search;
     default:
@@ -2394,7 +2397,7 @@ const VideoTranslationHelpObject = new protobuf.Type(
 
 const VideoTranslationRequest = new protobuf.Type("VideoTranslationRequest")
   .add(new protobuf.Field("url", 3, "string"))
-  .add(new protobuf.Field("deviceId", 4, "string")) // removed?
+  .add(new protobuf.Field("deviceId", 4, "string")) // used in mobile version
   .add(new protobuf.Field("firstRequest", 5, "bool")) // true for the first request, false for subsequent ones
   .add(new protobuf.Field("duration", 6, "double"))
   .add(new protobuf.Field("unknown2", 7, "int32")) // 1 1
@@ -4068,6 +4071,14 @@ const sites = () => {
       match: (url) => /([^.]+).mp4/.test(url.pathname),
       selector: null,
     },
+    // пока рано
+    // {
+    //   host: "patreon",
+    //   url: "https://www.patreon.com/",
+    //   match: /^www.patreon.com$/,
+    //   selector:
+    //     'div[data-tag="post-card"] div[elevation="subtle"] > div > div > div > div',
+    // },
     // Нужно куда-то заливать данные о плейлисте
     // {
     //   host: "epicgames",
@@ -5430,6 +5441,13 @@ class VideoHandler {
       this.container.draggable = false;
     }
 
+    addExtraEventListener(this.video, "emptied", () => {
+      if (getVideoId(this.site.host, this.video) === this.videoData.videoId)
+        return;
+      debug/* default */.A.log("lipsync mode is emptied");
+      this.stopTranslation();
+    });
+
     addExtraEventListener(this.video, "progress", async () => {
       if (
         !this.videoData.videoId ||
@@ -5716,6 +5734,7 @@ class VideoHandler {
         "trovo",
         "yandexdisk",
         "coursehunter",
+        "directlink",
       ].includes(this.site.host)
     ) {
       videoData.detectedLanguage = "auto";
@@ -5794,10 +5813,6 @@ class VideoHandler {
     if (mode == "playing") {
       debug/* default */.A.log("lipsync mode is playing");
       this.audio.play();
-    }
-    if (mode == "emptied") {
-      debug/* default */.A.log("lipsync mode is emptied");
-      this.stopTranslation();
     }
   }
 
@@ -6128,6 +6143,14 @@ class VideoHandler {
         }
 
         this.updateTranslation(urlOrError);
+        if (!this.subtitlesList.some((item) => item.source === "yandex")) {
+          this.subtitlesList = await subtitles_getSubtitles(
+            this.site,
+            this.videoData.videoId,
+            this.videoData.detectedLanguage,
+          );
+          await this.updateSubtitlesLangSelect();
+        }
 
         this.videoTranslations.push({
           videoId: VIDEO_ID,
@@ -6147,19 +6170,17 @@ class VideoHandler {
   }
 
   async handleSrcChanged() {
+    if (getVideoId(this.site.host, this.video) === this.videoData.videoId)
+      return;
     debug/* default */.A.log("[VideoHandler] src changed", this);
-
-    this.stopTranslation();
 
     this.firstPlay = true;
 
     this.videoData = await this.getVideoData();
-    if (this.videoData.detectedLanguage) {
-      this.setSelectMenuValues(
-        this.videoData.detectedLanguage,
-        this.videoData.responseLanguage,
-      );
-    }
+    this.setSelectMenuValues(
+      this.videoData.detectedLanguage,
+      this.videoData.responseLanguage,
+    );
 
     const hide =
       (!this.video.src && !this.video.currentSrc && !this.video.srcObject) ||
@@ -6185,7 +6206,6 @@ class VideoHandler {
     debug/* default */.A.log("[VideoHandler] release");
 
     this.initialized = false;
-    this.stopTranslation();
     this.releaseExtraEvents();
     this.subtitlesWidget.release();
     this.votButton.container.remove();
