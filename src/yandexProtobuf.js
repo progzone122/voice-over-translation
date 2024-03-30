@@ -7,7 +7,7 @@ const VideoTranslationHelpObject = new protobuf.Type(
 
 const VideoTranslationRequest = new protobuf.Type("VideoTranslationRequest")
   .add(new protobuf.Field("url", 3, "string"))
-  .add(new protobuf.Field("deviceId", 4, "string")) // removed?
+  .add(new protobuf.Field("deviceId", 4, "string")) // used in mobile version
   .add(new protobuf.Field("firstRequest", 5, "bool")) // true for the first request, false for subsequent ones
   .add(new protobuf.Field("duration", 6, "double"))
   .add(new protobuf.Field("unknown2", 7, "int32")) // 1 1
