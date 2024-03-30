@@ -289,6 +289,14 @@ const sites = () => {
       match: (url) => /([^.]+).mp4/.test(url.pathname),
       selector: null,
     },
+    // пока рано
+    // {
+    //   host: "patreon",
+    //   url: "https://www.patreon.com/",
+    //   match: /^www.patreon.com$/,
+    //   selector:
+    //     'div[data-tag="post-card"] div[elevation="subtle"] > div > div > div > div',
+    // },
     // Нужно куда-то заливать данные о плейлисте
     // {
     //   host: "epicgames",
