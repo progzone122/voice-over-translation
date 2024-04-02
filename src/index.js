@@ -250,7 +250,7 @@ class VideoHandler {
     this.container = container;
     this.site = site;
     this.handleSrcChangedBound = this.handleSrcChanged.bind(this);
-    this.video.addEventListener("loadedmetadata", this.handleSrcChangedBound);
+    this.video.addEventListener("loadeddata", this.handleSrcChangedBound);
     this.stopTranslationBound = this.stopTranslation.bind(this);
     this.handleVideoEventBound = this.handleVideoEvent.bind(this);
     this.changeOpacityOnEventBound = this.changeOpacityOnEvent.bind(this);
@@ -293,15 +293,14 @@ class VideoHandler {
       proxyWorkerHost: votStorage.get("proxyWorkerHost", proxyWorkerHost),
     };
 
-    const dataEntries = await Promise.all(
-      Object.entries(dataPromises).map(async ([key, promise]) => [
-        key,
-        await promise,
-      ]),
+    this.data = Object.fromEntries(
+      await Promise.all(
+        Object.entries(dataPromises).map(async ([key, promise]) => [
+          key,
+          await promise,
+        ]),
+      ),
     );
-    this.data = Object.fromEntries(dataEntries);
-
-    this.videoData = await this.getVideoData();
 
     console.log("[db] data from db: ", this.data);
 
@@ -321,14 +320,16 @@ class VideoHandler {
     this.votButton.container.hidden = videoHasNoSource;
     if (videoHasNoSource) {
       this.votMenu.container.hidden = true;
+    } else {
+      this.videoData = await this.getVideoData();
+      this.setSelectMenuValues(
+        this.videoData.detectedLanguage,
+        this.data.responseLanguage ?? "ru",
+      );
     }
 
     await this.updateSubtitles();
     await this.changeSubtitlesLang("disabled");
-    this.setSelectMenuValues(
-      this.videoData.detectedLanguage,
-      this.data.responseLanguage ?? "ru",
-    );
     this.translateToLang = this.data.responseLanguage ?? "ru";
 
     this.initExtraEvents();
@@ -1279,7 +1280,10 @@ class VideoHandler {
     }
 
     addExtraEventListener(this.video, "emptied", () => {
-      if (getVideoId(this.site.host, this.video) === this.videoData.videoId)
+      if (
+        this.video.src &&
+        getVideoId(this.site.host, this.video) === this.videoData.videoId
+      )
         return;
       debug.log("lipsync mode is emptied");
       this.stopTranslation();
@@ -1288,6 +1292,7 @@ class VideoHandler {
     addExtraEventListener(this.video, "progress", async () => {
       if (
         !this.videoData.videoId ||
+        this.audio.src ||
         !this.firstPlay ||
         this.data.autoTranslate !== 1 ||
         getVideoId(this.site.host, this.video) !== this.videoData.videoId
@@ -1391,6 +1396,7 @@ class VideoHandler {
       );
       this.subtitlesList = [];
       this.subtitlesListVideoId = null;
+      this.votButton.container.hidden = true;
       await this.updateSubtitlesLangSelect();
       return;
     }
@@ -1504,7 +1510,7 @@ class VideoHandler {
     if (window.location.hostname.includes("youtube.com")) {
       this.ytData = await youtubeUtils.getVideoData();
       videoData.isStream = this.ytData.isLive;
-      if (this.ytData.author !== "") {
+      if (this.ytData.title) {
         videoData.detectedLanguage = this.ytData.detectedLanguage;
         videoData.responseLanguage = this.translateToLang;
       }
@@ -2017,7 +2023,10 @@ class VideoHandler {
   }
 
   async handleSrcChanged() {
-    if (getVideoId(this.site.host, this.video) === this.videoData.videoId)
+    if (
+      this.audio.src &&
+      getVideoId(this.site.host, this.video) === this.videoData.videoId
+    )
       return;
     debug.log("[VideoHandler] src changed", this);
 
@@ -2030,8 +2039,7 @@ class VideoHandler {
     );
 
     const hide =
-      (!this.video.src && !this.video.currentSrc && !this.video.srcObject) ||
-      !this.videoData.videoId;
+      !this.video.src && !this.video.currentSrc && !this.video.srcObject;
     this.votButton.container.hidden = hide;
     hide && (this.votMenu.container.hidden = hide);
 
