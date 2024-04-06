@@ -133,37 +133,36 @@ function formatYoutubeSubtitles(subtitles) {
 }
 
 export async function fetchSubtitles(subtitlesObject) {
-  let resolved = false;
-  let subtitles = await Promise.race([
-    new Promise((resolve) => {
-      setTimeout(() => {
-        if (!resolved) {
-          console.error("[VOT] Failed to fetch subtitles. Reason: timeout");
-          resolve([]);
-        }
-      }, 5000);
-    }),
-    new Promise((resolve) => {
-      debug.log("Fetching subtitles:", subtitlesObject);
-      fetch(subtitlesObject.url)
-        .then((response) => response.json())
-        .then((json) => {
-          resolved = true;
-          resolve(json);
-        })
-        .catch((error) => {
-          console.error("[VOT] Failed to fetch subtitles. Reason:", error);
-          resolved = true;
-          resolve({
-            containsTokens: false,
-            subtitles: [],
-          });
-        });
-    }),
-  ]);
+  const timeoutPromise = new Promise((resolve) =>
+    setTimeout(
+      () =>
+        resolve({
+          containsTokens: false,
+          subtitles: [],
+        }),
+      5000,
+    ),
+  );
+
+  const fetchPromise = (async () => {
+    try {
+      const response = await fetch(subtitlesObject.url);
+      return await response.json();
+    } catch (error) {
+      console.error("[VOT] Failed to fetch subtitles. Reason:", error);
+      return {
+        containsTokens: false,
+        subtitles: [],
+      };
+    }
+  })();
+
+  let subtitles = await Promise.race([timeoutPromise, fetchPromise]);
+
   if (subtitlesObject.source === "youtube") {
     subtitles = formatYoutubeSubtitles(subtitles);
   }
+
   subtitles.subtitles = getSubtitlesTokens(subtitles, subtitlesObject.source);
   console.log("[VOT] subtitles:", subtitles);
   return subtitles;
