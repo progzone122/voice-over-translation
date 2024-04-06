@@ -102,38 +102,35 @@ export const localizationProvider = new (class {
   }
 
   async update(force = false) {
+    const localeVersion = await votStorage.get("locale-version", 0, true);
+    const localeLang = await votStorage.get("locale-lang");
     if (
       !force &&
-      (await votStorage.get("locale-version", 0, true)) === localesVersion &&
-      (await votStorage.get("locale-lang")) === this.lang
+      localeVersion === localesVersion &&
+      localeLang === this.lang
     ) {
       return;
     }
 
     debug.log("Updating locale...");
 
-    await fetch(`${localesUrl}/${this.lang}.json`)
-      .then((response) => {
-        if (response.status === 200) return response.text();
-        throw response.status;
-      })
-      .then(async (text) => {
-        await votStorage.set("locale-phrases", text);
-        this.setLocaleFromJsonString(text);
-        const version = this.getFromLocale(this.locale, "__version__");
-        if (typeof version === "number")
-          await votStorage.set("locale-version", version);
-        await votStorage.set("locale-lang", this.lang);
-      })
-      .catch(async (error) => {
-        console.error(
-          "[VOT] [localizationProvider] failed get locale, cause:",
-          error,
-        );
-        this.setLocaleFromJsonString(
-          await votStorage.get("locale-phrases", ""),
-        );
-      });
+    try {
+      const response = await fetch(`${localesUrl}/${this.lang}.json`);
+      if (response.status !== 200) throw response.status;
+      const text = await response.text();
+      await votStorage.set("locale-phrases", text);
+      this.setLocaleFromJsonString(text);
+      const version = this.getFromLocale(this.locale, "__version__");
+      if (typeof version === "number")
+        await votStorage.set("locale-version", version);
+      await votStorage.set("locale-lang", this.lang);
+    } catch (error) {
+      console.error(
+        "[VOT] [localizationProvider] failed get locale, cause:",
+        error,
+      );
+      this.setLocaleFromJsonString(await votStorage.get("locale-phrases", ""));
+    }
   }
 
   setLocaleFromJsonString(json) {
