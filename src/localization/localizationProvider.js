@@ -1,6 +1,7 @@
 import defaultLocale from "./locales/en.json";
 import debug from "../utils/debug.js";
 import { votStorage } from "../utils/storage.js";
+import { GM_fetch } from "../utils/utils.js";
 
 const localesVersion = 2;
 const localesUrl = `https://raw.githubusercontent.com/ilyhalight/voice-over-translation/${
@@ -115,7 +116,7 @@ export const localizationProvider = new (class {
     debug.log("Updating locale...");
 
     try {
-      const response = await fetch(`${localesUrl}/${this.lang}.json`);
+      const response = await GM_fetch(`${localesUrl}/${this.lang}.json`);
       if (response.status !== 200) throw response.status;
       const text = await response.text();
       await votStorage.set("locale-phrases", text);

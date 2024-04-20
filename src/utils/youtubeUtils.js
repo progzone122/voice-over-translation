@@ -108,6 +108,15 @@ function setVideoVolume(volume) {
   }
 }
 
+function isMuted() {
+  const player = getPlayer();
+  if (player?.isMuted) {
+    return player.isMuted.call();
+  }
+
+  return false;
+}
+
 function videoSeek(video, time) {
   // * TIME IN MS
   debug.log("videoSeek", time);
@@ -179,4 +188,5 @@ export default {
   getVideoData,
   setVideoVolume,
   videoSeek,
+  isMuted,
 };

@@ -1,5 +1,5 @@
 import youtubeUtils from "./utils/youtubeUtils.js";
-import { lang } from "./utils/utils.js";
+import { lang, GM_fetch } from "./utils/utils.js";
 import { yandexProtobuf } from "./yandexProtobuf.js";
 import requestVideoSubtitles from "./rvs.js";
 import debug from "./utils/debug.js";
@@ -146,7 +146,7 @@ export async function fetchSubtitles(subtitlesObject) {
 
   const fetchPromise = (async () => {
     try {
-      const response = await fetch(subtitlesObject.url);
+      const response = await GM_fetch(subtitlesObject.url);
       return await response.json();
     } catch (error) {
       console.error("[VOT] Failed to fetch subtitles. Reason:", error);

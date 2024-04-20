@@ -1,6 +1,7 @@
 import { yandexUserAgent, proxyWorkerHost } from "./config/config.js";
 import debug from "./utils/debug.js";
 import { votStorage } from "./utils/storage.js";
+import { GM_fetch } from "./utils/utils.js";
 
 async function yandexRequest(path, body, headers, callback) {
   let response;
@@ -35,7 +36,7 @@ async function yandexRequest(path, body, headers, callback) {
     };
     const workerHost = await votStorage.get("proxyWorkerHost", proxyWorkerHost);
     // Fetch the translation from the worker host
-    response = await fetch(`https://${workerHost}${path}`, options);
+    response = await GM_fetch(`https://${workerHost}${path}`, options);
     debug.log("yandexRequest:", response.status, response);
     // Get the response body as an array buffer
     responseBody = await response.arrayBuffer();
