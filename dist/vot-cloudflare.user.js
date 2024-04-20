@@ -121,9 +121,15 @@
 // @match          *://*.youku.com/*
 // @match          *://*/*.mp4*
 // @exclude        file://*/*.mp4*
-// @connect        api.browser.yandex.ru
+// @connect        yandex.ru
+// @connect        yandex.net
+// @connect        raw.githubusercontent.com
+// @connect        toil.cc
+// @connect        deno.dev
+// @connect        onrender.com
+// @connect        workers.dev
 // @namespace      vot-cloudflare
-// @version        1.5.2
+// @version        1.5.2.1
 // @icon           https://translate.yandex.ru/icons/favicon.ico
 // @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation/issues
