@@ -230,13 +230,17 @@ class VideoHandler {
   autoRetry;
   streamPing;
   volumeOnStart;
-  tempOriginalVolume;
-  tempVolume;
+  tempOriginalVolume; // temp video volume for syncing
+  tempVolume; // temp translation volume for syncing
+  firstSyncVolume = true; // used for skip 1st syncing with observer
 
   subtitlesList = [];
   subtitlesListVideoId = null;
 
   videoLastSrcObject = null;
+
+  // button move
+  dragging;
 
   constructor(video, container, site) {
     debug.log(
@@ -274,6 +278,7 @@ class VideoHandler {
         true,
       ),
       autoVolume: votStorage.get("autoVolume", defaultAutoVolume, true),
+      buttonPos: votStorage.get("buttonPos", "default"),
       showVideoSlider: votStorage.get("showVideoSlider", 1, true),
       syncVolume: votStorage.get("syncVolume", 0, true),
       subtitlesMaxLength: votStorage.get("subtitlesMaxLength", 300, true),
@@ -340,6 +345,7 @@ class VideoHandler {
   transformBtn(status = "none", text) {
     this.votButton.container.dataset.status = status;
     this.votButton.label.innerHTML = text;
+    this.votButton.container.title = status === "error" ? text : "";
   }
 
   initUI() {
@@ -348,6 +354,14 @@ class VideoHandler {
       this.votButton = ui.createVOTButton(
         localizationProvider.get("translateVideo"),
       );
+      this.votButton.container.dataset.direction =
+        this.data?.buttonPos &&
+        this.data?.buttonPos !== "default" &&
+        this.video.clientWidth > 550
+          ? "column"
+          : "row";
+      this.votButton.container.dataset.position =
+        this.video.clientWidth > 550 ? this.data?.buttonPos : "default";
       this.container.appendChild(this.votButton.container);
 
       this.votButton.pipButton.hidden =
@@ -365,6 +379,8 @@ class VideoHandler {
     // VOT Menu
     {
       this.votMenu = ui.createVOTMenu(localizationProvider.get("VOTSettings"));
+      this.votMenu.container.dataset.position =
+        this.video.clientWidth > 550 ? this.data?.buttonPos : "default";
       this.container.appendChild(this.votMenu.container);
 
       this.votDownloadButton = ui.createIconButton(
@@ -587,14 +603,10 @@ class VideoHandler {
         this.votUdemyDataTextfield.container,
       );
 
-      // youtube only
       this.votSyncVolumeCheckbox = ui.createCheckbox(
         localizationProvider.get("VOTSyncVolume"),
         this.data?.syncVolume ?? false,
       );
-      this.votSyncVolumeCheckbox.container.hidden =
-        !["youtube", "googledrive"].includes(this.site.host) ||
-        this.site.additionalData === "mobile";
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votSyncVolumeCheckbox.container,
       );
@@ -844,6 +856,39 @@ class VideoHandler {
       this.votButton.menuButton.addEventListener("click", () => {
         this.votMenu.container.hidden = !this.votMenu.container.hidden;
       });
+
+      this.votButton.container.addEventListener("mousedown", () => {
+        this.dragging = true;
+      });
+
+      document.addEventListener("mouseup", () => {
+        this.dragging = false;
+      });
+
+      document.addEventListener("mousemove", async (e) => {
+        if (this.dragging) {
+          e.preventDefault();
+
+          const percentX = (e.clientX / this.video.clientWidth) * 100;
+          // const percentY = (e.clientY / this.video.clientHeight) * 100;
+
+          this.data.buttonPos =
+            this.video.clientWidth > 550
+              ? percentX <= 33
+                ? "left"
+                : percentX >= 66
+                  ? "right"
+                  : "default"
+              : "default";
+          this.votButton.container.dataset.direction =
+            this.data.buttonPos === "default" ? "row" : "column";
+          this.votButton.container.dataset.position = this.data.buttonPos;
+          this.votMenu.container.dataset.position = this.data.buttonPos;
+          if (this.video.clientWidth > 550) {
+            await votStorage.set("buttonPos", this.data.buttonPos);
+          }
+        }
+      });
     }
 
     // VOT Menu
@@ -875,25 +920,8 @@ class VideoHandler {
         this.votVideoVolumeSlider.label.querySelector("strong").innerHTML =
           `${value}%`;
         this.setVideoVolume(value / 100);
-        if (this.data.syncVolume === 1) {
-          const translateVolume = Number(
-            this.votVideoTranslationVolumeSlider.input.value,
-          );
-          const finalValue = syncVolume(
-            this.audio,
-            value,
-            translateVolume,
-            this.tempOriginalVolume,
-          );
-
-          this.votVideoTranslationVolumeSlider.input.value = finalValue;
-          this.votVideoTranslationVolumeSlider.label.querySelector(
-            "strong",
-          ).innerHTML = `${finalValue}%`;
-          ui.updateSlider(this.votVideoTranslationVolumeSlider.input);
-
-          this.tempVolume = finalValue;
-          this.tempOriginalVolume = value;
+        if (this.data.syncVolume) {
+          this.syncVolumeWrapper("video", value);
         }
       });
 
@@ -907,8 +935,17 @@ class VideoHandler {
               "strong",
             ).innerHTML = `${this.data.defaultVolume}%`;
             this.audio.volume = this.data.defaultVolume / 100;
-            if (this.data.syncVolume === 1) {
-              this.syncTranslationWithVideo(this.data.defaultVolume);
+            if (!this.data.syncVolume) {
+              return;
+            }
+
+            this.syncVolumeWrapper("translation", this.data.defaultVolume);
+            if (
+              ["youtube", "googledrive"].includes(this.site.host) &&
+              this.site.additionalData !== "mobile"
+            ) {
+              // fix update youtube volume slider
+              this.setVideoVolume(this.tempOriginalVolume / 100);
             }
           })();
         },
@@ -1161,6 +1198,15 @@ class VideoHandler {
           `--vot-container-height: ${e.contentRect.height}px`,
         );
       });
+
+      this.votMenu.container.dataset.position =
+        this.video.clientWidth > 550 ? this.data?.buttonPos : "default";
+      this.votButton.container.dataset.direction =
+        this.data?.buttonPos &&
+        this.data?.buttonPos !== "default" &&
+        this.video.clientWidth > 550
+          ? "column"
+          : "row";
     });
     this.resizeObserver.observe(this.video);
     this.votMenu.container.setAttribute(
@@ -1175,18 +1221,37 @@ class VideoHandler {
         }px`,
       );
     }, 500);
-    // Sync volume slider with original video (youtube only)
+    // Sync menu volume slider with youtube original video (youtube only)
     if (
       ["youtube", "googledrive"].includes(this.site.host) &&
       this.site.additionalData !== "mobile"
     ) {
       this.syncVolumeObserver = new MutationObserver((mutations) => {
+        if (!this.audio.src || !this.data.syncVolume) {
+          return;
+        }
+
         mutations.forEach((mutation) => {
           if (
             mutation.type === "attributes" &&
             mutation.attributeName === "aria-valuenow"
           ) {
-            this.syncVideoVolumeSlider();
+            if (this.firstSyncVolume) {
+              // disable sync if it's sync when the translation is enabled
+              this.firstSyncVolume = false;
+              return;
+            }
+
+            // youtube sets setMuted and returns the old value if the slider is moved to 0
+            // also fixes the operation if the video is muted via the hotkey
+            const videoVolume = this.isMuted()
+              ? 0
+              : this.getVideoVolume() * 100;
+
+            const finalVolume = Math.round(videoVolume);
+            this.data.defaultVolume = finalVolume;
+            this.audio.volume = this.data.defaultVolume / 100;
+            this.syncVolumeWrapper("video", finalVolume);
           }
         });
       });
@@ -1288,6 +1353,12 @@ class VideoHandler {
       debug.log("lipsync mode is emptied");
       this.stopTranslation();
     });
+
+    if (!["rutube", "ok"].includes(this.site.host)) {
+      addExtraEventListener(this.video, "volumechange", () => {
+        this.syncVideoVolumeSlider();
+      });
+    }
 
     addExtraEventListener(this.video, "progress", async () => {
       if (
@@ -1422,7 +1493,7 @@ class VideoHandler {
   getVideoVolume() {
     let videoVolume = this.video?.volume;
     if (["youtube", "googledrive"].includes(this.site.host)) {
-      videoVolume = youtubeUtils.getVideoVolume() || videoVolume;
+      videoVolume = youtubeUtils.getVideoVolume() ?? videoVolume;
     }
     return videoVolume;
   }
@@ -1438,9 +1509,16 @@ class VideoHandler {
     this.video.volume = volume;
   }
 
-  // Sync volume slider with original video (youtube only)
+  isMuted() {
+    return ["youtube", "googledrive"].includes(this.site.host)
+      ? youtubeUtils.isMuted()
+      : this.video?.muted;
+  }
+
+  // Sync volume slider with original video
   syncVideoVolumeSlider() {
-    const newSlidersVolume = Math.round(this.getVideoVolume() * 100);
+    const videoVolume = this.isMuted() ? 0 : this.getVideoVolume() * 100;
+    const newSlidersVolume = Math.round(videoVolume);
 
     this.votVideoVolumeSlider.input.value = newSlidersVolume;
     this.votVideoVolumeSlider.label.querySelector("strong").innerHTML =
@@ -1466,28 +1544,35 @@ class VideoHandler {
     this.videoData.responseLanguage = to;
   }
 
-  // A helper function to sync translation volume with video volume
-  syncTranslationWithVideo(translationValue) {
-    // Get the video volume value
-    const videoVolume = Number(this.votVideoVolumeSlider.input.value);
+  /**
+   * wrap over syncVolume to make it easier to work with sliders
+   * @constructor
+   * @param {"translation" | "video"} fromType - the initiator of sync
+   * @param {number} newVolume - new volume of sliders
+   */
+  syncVolumeWrapper(fromType, newVolume) {
+    const slider =
+      fromType === "translation"
+        ? this.votVideoVolumeSlider
+        : this.votVideoTranslationVolumeSlider;
 
-    // Calculate the synced video volume based on the translation volume
+    const currentSliderValue = Number(slider.input.value);
+
     const finalValue = syncVolume(
-      this.video,
-      translationValue,
-      videoVolume,
-      this.tempVolume,
+      fromType === "translation" ? this.video : this.audio,
+      newVolume,
+      currentSliderValue,
+      fromType === "translation" ? this.tempVolume : this.tempOriginalVolume,
     );
 
-    // Set the video volume slider value to the synced value
-    this.votVideoVolumeSlider.input.value = finalValue;
-    this.votVideoVolumeSlider.label.querySelector("strong").innerHTML =
-      `${finalValue}%`;
-    ui.updateSlider(this.votVideoVolumeSlider.input);
+    slider.input.value = finalValue;
+    slider.label.querySelector("strong").innerHTML = `${finalValue}%`;
+    ui.updateSlider(slider.input);
 
     // Update the temp variables for future syncing
-    this.tempOriginalVolume = finalValue;
-    this.tempVolume = translationValue;
+    this.tempOriginalVolume =
+      fromType === "translation" ? finalValue : newVolume;
+    this.tempVolume = fromType === "translation" ? newVolume : finalValue;
   }
 
   async getVideoData() {
@@ -1686,6 +1771,7 @@ class VideoHandler {
     clearInterval(this.streamPing);
     this.hls?.destroy();
     this.hls = initHls();
+    this.firstSyncVolume = true;
   }
 
   async translateExecutor(VIDEO_ID) {
