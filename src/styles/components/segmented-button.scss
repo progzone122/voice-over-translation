@@ -131,6 +131,36 @@
     fill: #f28b82;
   }
 
+  &[data-direction="column"] {
+    flex-direction: column;
+    height: fit-content;
+
+    & .vot-segment-label {
+      display: none;
+    }
+
+    & > .vot-segment-only-icon,
+    & > .vot-segment {
+      padding: 8px;
+    }
+
+    .vot-separator {
+      height: 1px;
+      width: 50%;
+    }
+  }
+
+  &[data-position="left"] {
+    left: 50px;
+    top: calc(25vh / 2);
+  }
+
+  &[data-position="right"] {
+    left: auto;
+    right: 0;
+    top: calc(25vh / 2);
+  }
+
   & svg {
     width: fit-content;
   }
