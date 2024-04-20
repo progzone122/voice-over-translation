@@ -75,6 +75,7 @@ const sitesPeertube = [
   "peervideo.club",
   "tube.la-dina.net",
   "peertube.tmp.rcp.tf",
+  "peertube.su",
 ];
 
 export { sitesInvidious, sitesPiped, sitesProxyTok, sitesPeertube };
