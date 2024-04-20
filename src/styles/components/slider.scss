@@ -175,6 +175,11 @@
   border: none !important;
 }
 
+.vot-slider > input:focus {
+  // for vimeo player
+  outline: none !important;
+}
+
 /* MS | Track */
 .vot-slider > input::-ms-track {
   -webkit-box-sizing: border-box !important;
