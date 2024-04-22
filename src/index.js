@@ -354,14 +354,18 @@ class VideoHandler {
       this.votButton = ui.createVOTButton(
         localizationProvider.get("translateVideo"),
       );
+      // use an additional check because sometimes this.video.clientWidth = 0
       this.votButton.container.dataset.direction =
         this.data?.buttonPos &&
         this.data?.buttonPos !== "default" &&
+        this.video.clientWidth &&
         this.video.clientWidth > 550
           ? "column"
           : "row";
       this.votButton.container.dataset.position =
-        this.video.clientWidth > 550 ? this.data?.buttonPos : "default";
+        this.video.clientWidth && this.video.clientWidth > 550
+          ? this.data?.buttonPos
+          : "default";
       this.container.appendChild(this.votButton.container);
 
       this.votButton.pipButton.hidden =
@@ -380,7 +384,9 @@ class VideoHandler {
     {
       this.votMenu = ui.createVOTMenu(localizationProvider.get("VOTSettings"));
       this.votMenu.container.dataset.position =
-        this.video.clientWidth > 550 ? this.data?.buttonPos : "default";
+        this.video.clientWidth && this.video.clientWidth > 550
+          ? this.data?.buttonPos
+          : "default";
       this.container.appendChild(this.votMenu.container);
 
       this.votDownloadButton = ui.createIconButton(
@@ -873,7 +879,7 @@ class VideoHandler {
           // const percentY = (e.clientY / this.video.clientHeight) * 100;
 
           this.data.buttonPos =
-            this.video.clientWidth > 550
+            this.video.clientWidth && this.video.clientWidth > 550
               ? percentX <= 33
                 ? "left"
                 : percentX >= 66
@@ -884,7 +890,7 @@ class VideoHandler {
             this.data.buttonPos === "default" ? "row" : "column";
           this.votButton.container.dataset.position = this.data.buttonPos;
           this.votMenu.container.dataset.position = this.data.buttonPos;
-          if (this.video.clientWidth > 550) {
+          if (this.video.clientWidth && this.video.clientWidth > 550) {
             await votStorage.set("buttonPos", this.data.buttonPos);
           }
         }
@@ -1200,10 +1206,13 @@ class VideoHandler {
       });
 
       this.votMenu.container.dataset.position =
-        this.video.clientWidth > 550 ? this.data?.buttonPos : "default";
+        this.video.clientWidth && this.video.clientWidth > 550
+          ? this.data?.buttonPos
+          : "default";
       this.votButton.container.dataset.direction =
         this.data?.buttonPos &&
         this.data?.buttonPos !== "default" &&
+        this.video.clientWidth &&
         this.video.clientWidth > 550
           ? "column"
           : "row";
