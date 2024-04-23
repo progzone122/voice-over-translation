@@ -1493,7 +1493,7 @@ function initHls() {
 function GM_fetch(url, opt = {}) {
   // https://github.com/ilyhalight/voice-over-translation/discussions/589
   if (GM_info?.scriptHandler === "AdGuard") {
-    return fetch;
+    return fetch(url, opt);
   }
 
   // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
@@ -4688,17 +4688,18 @@ class VideoHandler {
         localizationProvider/* localizationProvider */.j.get("translateVideo"),
       );
       // use an additional check because sometimes this.video.clientWidth = 0
-      this.votButton.container.dataset.direction =
+      if (
         this.data?.buttonPos &&
         this.data?.buttonPos !== "default" &&
         this.video.clientWidth &&
         this.video.clientWidth > 550
-          ? "column"
-          : "row";
-      this.votButton.container.dataset.position =
-        this.video.clientWidth && this.video.clientWidth > 550
-          ? this.data?.buttonPos
-          : "default";
+      ) {
+        this.votButton.container.dataset.direction = "column";
+        this.votButton.container.dataset.position = this.data?.buttonPos;
+      } else {
+        this.votButton.container.dataset.direction = "row";
+        this.votButton.container.dataset.direction = "default";
+      }
       this.container.appendChild(this.votButton.container);
 
       this.votButton.pipButton.hidden =
