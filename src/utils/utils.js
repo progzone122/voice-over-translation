@@ -286,7 +286,7 @@ function initHls() {
 function GM_fetch(url, opt = {}) {
   // https://github.com/ilyhalight/voice-over-translation/discussions/589
   if (GM_info?.scriptHandler === "AdGuard") {
-    return fetch;
+    return fetch(url, opt);
   }
 
   // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
