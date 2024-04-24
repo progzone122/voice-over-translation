@@ -129,7 +129,7 @@
 // @connect        onrender.com
 // @connect        workers.dev
 // @namespace      vot
-// @version        1.5.2.1
+// @version        1.5.2.2
 // @icon           https://translate.yandex.ru/icons/favicon.ico
 // @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation/issues
@@ -1668,6 +1668,11 @@ function initHls() {
 }
 
 function GM_fetch(url, opt = {}) {
+  // https://github.com/ilyhalight/voice-over-translation/discussions/589
+  if (GM_info?.scriptHandler === "AdGuard") {
+    return fetch(url, opt);
+  }
+
   // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
   return new Promise((resolve, reject) => {
     // https://www.tampermonkey.net/documentation.php?ext=dhdg#GM_xmlhttpRequest
@@ -4572,14 +4577,19 @@ class VideoHandler {
       this.votButton = ui.createVOTButton(
         localizationProvider.get("translateVideo"),
       );
-      this.votButton.container.dataset.direction =
+      // use an additional check because sometimes this.video.clientWidth = 0
+      if (
         this.data?.buttonPos &&
         this.data?.buttonPos !== "default" &&
+        this.video.clientWidth &&
         this.video.clientWidth > 550
-          ? "column"
-          : "row";
-      this.votButton.container.dataset.position =
-        this.video.clientWidth > 550 ? this.data?.buttonPos : "default";
+      ) {
+        this.votButton.container.dataset.direction = "column";
+        this.votButton.container.dataset.position = this.data?.buttonPos;
+      } else {
+        this.votButton.container.dataset.direction = "row";
+        this.votButton.container.dataset.direction = "default";
+      }
       this.container.appendChild(this.votButton.container);
 
       this.votButton.pipButton.hidden =
@@ -4598,7 +4608,9 @@ class VideoHandler {
     {
       this.votMenu = ui.createVOTMenu(localizationProvider.get("VOTSettings"));
       this.votMenu.container.dataset.position =
-        this.video.clientWidth > 550 ? this.data?.buttonPos : "default";
+        this.video.clientWidth && this.video.clientWidth > 550
+          ? this.data?.buttonPos
+          : "default";
       this.container.appendChild(this.votMenu.container);
 
       this.votDownloadButton = ui.createIconButton(
@@ -5091,7 +5103,7 @@ class VideoHandler {
           // const percentY = (e.clientY / this.video.clientHeight) * 100;
 
           this.data.buttonPos =
-            this.video.clientWidth > 550
+            this.video.clientWidth && this.video.clientWidth > 550
               ? percentX <= 33
                 ? "left"
                 : percentX >= 66
@@ -5102,7 +5114,7 @@ class VideoHandler {
             this.data.buttonPos === "default" ? "row" : "column";
           this.votButton.container.dataset.position = this.data.buttonPos;
           this.votMenu.container.dataset.position = this.data.buttonPos;
-          if (this.video.clientWidth > 550) {
+          if (this.video.clientWidth && this.video.clientWidth > 550) {
             await votStorage.set("buttonPos", this.data.buttonPos);
           }
         }
@@ -5418,10 +5430,13 @@ class VideoHandler {
       });
 
       this.votMenu.container.dataset.position =
-        this.video.clientWidth > 550 ? this.data?.buttonPos : "default";
+        this.video.clientWidth && this.video.clientWidth > 550
+          ? this.data?.buttonPos
+          : "default";
       this.votButton.container.dataset.direction =
         this.data?.buttonPos &&
         this.data?.buttonPos !== "default" &&
+        this.video.clientWidth &&
         this.video.clientWidth > 550
           ? "column"
           : "row";
