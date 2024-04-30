@@ -321,7 +321,8 @@ function cleanText(title, description) {
 
 function GM_fetch(url, opt = {}) {
   // https://github.com/ilyhalight/voice-over-translation/discussions/589
-  if (GM_info?.scriptHandler === "AdGuard") {
+  if (GM_info?.scriptHandler === "AdGuard" || !GM_xmlhttpRequest) {
+    console.error("GM_xmlhttpRequest is not available");
     return fetch(url, opt);
   }
 
