@@ -1482,6 +1482,8 @@ class VideoHandler {
       return;
     }
 
+    this.votButton.container.hidden = false;
+
     if (this.subtitlesListVideoId === this.videoData.videoId) {
       return;
     }
