@@ -76,6 +76,13 @@ async function getVideoData(responseLang = "en") {
         targetUrl: `https://www.coursera.org${subtitlesURL}`,
       },
     ];
+  } else if (videoURL && !subtitlesURL) {
+    console.warn(
+      "[VOT] Subtitles files not found. Using the link only to the video file.",
+    );
+    translationHelp = {
+      url: videoURL,
+    };
   } else {
     console.error(
       `Failed to find subtitlesURL or videoURL. videoURL: ${videoURL}, subtitlesURL: ${subtitlesURL}`,
