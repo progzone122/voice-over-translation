@@ -589,6 +589,7 @@ const detectUrls = {
 
 const translateUrls = {
   yandex: "https://translate.toil.cc/translate",
+  deepl: "https://translate-deepl.toil.cc/translate",
 };
 
 
@@ -1155,6 +1156,39 @@ const RustServerAPI = {
   },
 };
 
+const DeeplServerAPI = {
+  async translate(text, fromLang = "auto", toLang = "ru") {
+    try {
+      const response = await fetchWithTimeout(_config_config_js__WEBPACK_IMPORTED_MODULE_0__/* .translateUrls */ .rw.deepl, {
+        method: "POST",
+        headers: {
+          "content-type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          text,
+          source_lang: fromLang,
+          target_lang: toLang,
+        }),
+      });
+
+      if (response instanceof Error) {
+        throw response;
+      }
+
+      const content = await response.json();
+
+      if (content.code !== 200) {
+        throw content.message;
+      }
+
+      return content.data;
+    } catch (error) {
+      console.error("Error translating text:", error);
+      return text;
+    }
+  },
+};
+
 async function translate(text, fromLang = "", toLang = "ru") {
   const service = await _storage_js__WEBPACK_IMPORTED_MODULE_1__/* .votStorage */ .d.get(
     "translationService",
@@ -1164,6 +1198,9 @@ async function translate(text, fromLang = "", toLang = "ru") {
     case "yandex": {
       const langPair = fromLang && toLang ? `${fromLang}-${toLang}` : toLang;
       return await YandexTranslateAPI.translate(text, langPair);
+    }
+    case "deepl": {
+      return await DeeplServerAPI.translate(text, fromLang, toLang);
     }
     default:
       return text;
@@ -1182,7 +1219,7 @@ async function detect(text) {
   }
 }
 
-const translateServices = ["yandex"];
+const translateServices = ["yandex", "deepl"];
 const detectServices = ["yandex", "rust-server"];
 
 

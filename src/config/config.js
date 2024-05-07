@@ -16,6 +16,7 @@ const detectUrls = {
 
 const translateUrls = {
   yandex: "https://translate.toil.cc/translate",
+  deepl: "https://translate-deepl.toil.cc/translate",
 };
 
 export {
