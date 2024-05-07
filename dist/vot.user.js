@@ -1219,8 +1219,10 @@ async function detect(text) {
   }
 }
 
-const translateServices = ["yandex", "deepl"];
-const detectServices = ["yandex", "rust-server"];
+const translateServices = Object.keys(config/* translateUrls */.rw);
+const detectServices = Object.keys(config/* detectUrls */.QL).map((k) =>
+  k === "rustServer" ? "rust-server" : k,
+);
 
 
 
@@ -4916,7 +4918,9 @@ class VideoHandler {
       );
 
       this.votTranslationServiceSelect = ui.createVOTSelect(
-        votStorage.syncGet("translationService", config/* defaultTranslationService */.mE),
+        votStorage
+          .syncGet("translationService", config/* defaultTranslationService */.mE)
+          .toUpperCase(),
         localizationProvider.get("VOTTranslationService"),
         genOptionsByOBJ(
           translateServices,
@@ -4943,7 +4947,7 @@ class VideoHandler {
       );
 
       this.votDetectServiceSelect = ui.createVOTSelect(
-        votStorage.syncGet("detectService", config/* defaultDetectService */.K2),
+        votStorage.syncGet("detectService", config/* defaultDetectService */.K2).toUpperCase(),
         localizationProvider.get("VOTDetectService"),
         genOptionsByOBJ(
           detectServices,

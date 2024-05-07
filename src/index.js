@@ -620,7 +620,9 @@ class VideoHandler {
       );
 
       this.votTranslationServiceSelect = ui.createVOTSelect(
-        votStorage.syncGet("translationService", defaultTranslationService),
+        votStorage
+          .syncGet("translationService", defaultTranslationService)
+          .toUpperCase(),
         localizationProvider.get("VOTTranslationService"),
         genOptionsByOBJ(
           translateServices,
@@ -647,7 +649,7 @@ class VideoHandler {
       );
 
       this.votDetectServiceSelect = ui.createVOTSelect(
-        votStorage.syncGet("detectService", defaultDetectService),
+        votStorage.syncGet("detectService", defaultDetectService).toUpperCase(),
         localizationProvider.get("VOTDetectService"),
         genOptionsByOBJ(
           detectServices,

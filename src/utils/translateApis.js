@@ -176,7 +176,9 @@ async function detect(text) {
   }
 }
 
-const translateServices = ["yandex", "deepl"];
-const detectServices = ["yandex", "rust-server"];
+const translateServices = Object.keys(translateUrls);
+const detectServices = Object.keys(detectUrls).map((k) =>
+  k === "rustServer" ? "rust-server" : k,
+);
 
 export { translate, detect, translateServices, detectServices };
