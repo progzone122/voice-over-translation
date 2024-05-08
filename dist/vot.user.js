@@ -1051,7 +1051,7 @@ const votStorage = new (class {
 
 const HTTP_TIMEOUT = 3000;
 
-async function fetchWithTimeout(url, options) {
+async function fetchWithTimeout(url, options = {}) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), HTTP_TIMEOUT);
 
@@ -1077,16 +1077,12 @@ const YandexTranslateAPI = {
     // ru, en (instead of auto-ru, auto-en)
 
     try {
-      const response = await fetchWithTimeout(config/* translateUrls */.rw.yandex, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({
+      const response = await fetchWithTimeout(
+        `${config/* translateUrls */.rw.yandex}?${new URLSearchParams({
           text,
           lang,
-        }),
-      });
+        })}`,
+      );
 
       if (response instanceof Error) {
         throw response;
@@ -1105,19 +1101,14 @@ const YandexTranslateAPI = {
     }
   },
 
-  async detect(text, lang) {
+  async detect(text) {
     // Limit: 10k symbols
     try {
-      const response = await fetchWithTimeout(config/* detectUrls */.QL.yandex, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({
+      const response = await fetchWithTimeout(
+        `${config/* detectUrls */.QL.yandex}?${new URLSearchParams({
           text,
-          lang,
-        }),
-      });
+        })}`,
+      );
 
       if (response instanceof Error) {
         throw response;
@@ -1130,7 +1121,7 @@ const YandexTranslateAPI = {
 
       return content.lang ?? "en";
     } catch (error) {
-      console.error("Error translating text:", error);
+      console.error("Error getting lang from text:", error);
       return "en";
     }
   },
@@ -1260,6 +1251,8 @@ async function getLanguage(player, response, title, description) {
   // If there is no caption track, use detect to get the language code from the description
 
   const text = cleanText(title, description);
+
+  debug/* default */.A.log(`Detecting language text: ${text}`);
 
   return detect(text);
 }

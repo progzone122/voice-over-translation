@@ -1051,7 +1051,7 @@ const votStorage = new (class {
 
 const HTTP_TIMEOUT = 3000;
 
-async function fetchWithTimeout(url, options) {
+async function fetchWithTimeout(url, options = {}) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), HTTP_TIMEOUT);
 
@@ -1077,16 +1077,12 @@ const YandexTranslateAPI = {
     // ru, en (instead of auto-ru, auto-en)
 
     try {
-      const response = await fetchWithTimeout(_config_config_js__WEBPACK_IMPORTED_MODULE_0__/* .translateUrls */ .rw.yandex, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({
+      const response = await fetchWithTimeout(
+        `${_config_config_js__WEBPACK_IMPORTED_MODULE_0__/* .translateUrls */ .rw.yandex}?${new URLSearchParams({
           text,
           lang,
-        }),
-      });
+        })}`,
+      );
 
       if (response instanceof Error) {
         throw response;
@@ -1105,19 +1101,14 @@ const YandexTranslateAPI = {
     }
   },
 
-  async detect(text, lang) {
+  async detect(text) {
     // Limit: 10k symbols
     try {
-      const response = await fetchWithTimeout(_config_config_js__WEBPACK_IMPORTED_MODULE_0__/* .detectUrls */ .QL.yandex, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({
+      const response = await fetchWithTimeout(
+        `${_config_config_js__WEBPACK_IMPORTED_MODULE_0__/* .detectUrls */ .QL.yandex}?${new URLSearchParams({
           text,
-          lang,
-        }),
-      });
+        })}`,
+      );
 
       if (response instanceof Error) {
         throw response;
@@ -1130,7 +1121,7 @@ const YandexTranslateAPI = {
 
       return content.lang ?? "en";
     } catch (error) {
-      console.error("Error translating text:", error);
+      console.error("Error getting lang from text:", error);
       return "en";
     }
   },
@@ -1667,6 +1658,8 @@ async function getLanguage(player, response, title, description) {
   // If there is no caption track, use detect to get the language code from the description
 
   const text = (0,_utils_js__WEBPACK_IMPORTED_MODULE_1__/* .cleanText */ .X5)(title, description);
+
+  _debug_js__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A.log(`Detecting language text: ${text}`);
 
   return (0,_translateApis_js__WEBPACK_IMPORTED_MODULE_2__/* .detect */ .o0)(text);
 }

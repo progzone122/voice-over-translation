@@ -32,6 +32,8 @@ async function getLanguage(player, response, title, description) {
 
   const text = cleanText(title, description);
 
+  debug.log(`Detecting language text: ${text}`);
+
   return detect(text);
 }
 
