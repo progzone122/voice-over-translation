@@ -2067,9 +2067,7 @@ var options = {};
 
 options.styleTagTransform = (styleTagTransform_default());
 options.setAttributes = (setAttributesWithoutAttributes_default());
-
-      options.insert = insertBySelector_default().bind(null, "head");
-    
+options.insert = insertBySelector_default().bind(null, "head");
 options.domAPI = (styleDomAPI_default());
 options.insertStyleElement = (style_loader_insertStyleElement_default());
 
@@ -6525,6 +6523,7 @@ class VideoHandler {
   }
 
   async handleSrcChanged() {
+    this.video.removeEventListener("loadeddata", this.handleSrcChangedBound);
     if (
       this.audio.src &&
       (0,utils/* getVideoId */.jI)(this.site.host, this.video) === this.videoData.videoId

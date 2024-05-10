@@ -2123,6 +2123,7 @@ class VideoHandler {
   }
 
   async handleSrcChanged() {
+    this.video.removeEventListener("loadeddata", this.handleSrcChangedBound);
     if (
       this.audio.src &&
       getVideoId(this.site.host, this.video) === this.videoData.videoId
