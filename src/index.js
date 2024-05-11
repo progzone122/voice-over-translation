@@ -253,8 +253,6 @@ class VideoHandler {
     this.video = video;
     this.container = container;
     this.site = site;
-    this.handleSrcChangedBound = this.handleSrcChanged.bind(this);
-    this.video.addEventListener("loadeddata", this.handleSrcChangedBound);
     this.stopTranslationBound = this.stopTranslation.bind(this);
     this.handleVideoEventBound = this.handleVideoEvent.bind(this);
     this.changeOpacityOnEventBound = this.changeOpacityOnEvent.bind(this);
@@ -1356,11 +1354,19 @@ class VideoHandler {
       this.container.draggable = false;
     }
 
+    addExtraEventListener(this.video, "loadeddata", async () => {
+      // Временное решение
+      if (this.site.host === "rutube" && this.video.src) {
+        return;
+      }
+      if (getVideoId(this.site.host, this.video) === this.videoData.videoId)
+        return;
+      await this.handleSrcChanged();
+      debug.log("lipsync mode is loadeddata");
+    });
+
     addExtraEventListener(this.video, "emptied", () => {
-      if (
-        this.video.src &&
-        getVideoId(this.site.host, this.video) === this.videoData.videoId
-      )
+      if (getVideoId(this.site.host, this.video) === this.videoData.videoId)
         return;
       debug.log("lipsync mode is emptied");
       this.stopTranslation();
@@ -2123,12 +2129,6 @@ class VideoHandler {
   }
 
   async handleSrcChanged() {
-    this.video.removeEventListener("loadeddata", this.handleSrcChangedBound);
-    if (
-      this.audio.src &&
-      getVideoId(this.site.host, this.video) === this.videoData.videoId
-    )
-      return;
     debug.log("[VideoHandler] src changed", this);
 
     this.firstPlay = true;
