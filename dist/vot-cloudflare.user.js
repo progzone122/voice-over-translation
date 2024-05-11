@@ -2067,9 +2067,7 @@ var options = {};
 
 options.styleTagTransform = (styleTagTransform_default());
 options.setAttributes = (setAttributesWithoutAttributes_default());
-
-      options.insert = insertBySelector_default().bind(null, "head");
-    
+options.insert = insertBySelector_default().bind(null, "head");
 options.domAPI = (styleDomAPI_default());
 options.insertStyleElement = (style_loader_insertStyleElement_default());
 
@@ -4655,8 +4653,6 @@ class VideoHandler {
     this.video = video;
     this.container = container;
     this.site = site;
-    this.handleSrcChangedBound = this.handleSrcChanged.bind(this);
-    this.video.addEventListener("loadeddata", this.handleSrcChangedBound);
     this.stopTranslationBound = this.stopTranslation.bind(this);
     this.handleVideoEventBound = this.handleVideoEvent.bind(this);
     this.changeOpacityOnEventBound = this.changeOpacityOnEvent.bind(this);
@@ -5758,11 +5754,19 @@ class VideoHandler {
       this.container.draggable = false;
     }
 
+    addExtraEventListener(this.video, "loadeddata", async () => {
+      // Временное решение
+      if (this.site.host === "rutube" && this.video.src) {
+        return;
+      }
+      if ((0,utils/* getVideoId */.jI)(this.site.host, this.video) === this.videoData.videoId)
+        return;
+      await this.handleSrcChanged();
+      debug/* default */.A.log("lipsync mode is loadeddata");
+    });
+
     addExtraEventListener(this.video, "emptied", () => {
-      if (
-        this.video.src &&
-        (0,utils/* getVideoId */.jI)(this.site.host, this.video) === this.videoData.videoId
-      )
+      if ((0,utils/* getVideoId */.jI)(this.site.host, this.video) === this.videoData.videoId)
         return;
       debug/* default */.A.log("lipsync mode is emptied");
       this.stopTranslation();
@@ -6525,11 +6529,6 @@ class VideoHandler {
   }
 
   async handleSrcChanged() {
-    if (
-      this.audio.src &&
-      (0,utils/* getVideoId */.jI)(this.site.host, this.video) === this.videoData.videoId
-    )
-      return;
     debug/* default */.A.log("[VideoHandler] src changed", this);
 
     this.firstPlay = true;
