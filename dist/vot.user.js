@@ -4549,6 +4549,20 @@ class VideoHandler {
     this.init();
   }
 
+  async autoTranslate() {
+    if (!(this.firstPlay && this.data.autoTranslate === 1)) return;
+    this.firstPlay = false;
+    try {
+      await this.translateExecutor(this.videoData.videoId);
+    } catch (err) {
+      console.error("[VOT]", err);
+      this.transformBtn(
+        "error",
+        err?.name === "VOTLocalizedError" ? err.localizedMessage : err,
+      );
+    }
+  }
+
   async init() {
     if (this.initialized) return;
 
@@ -4618,6 +4632,7 @@ class VideoHandler {
         this.videoData.detectedLanguage,
         this.data.responseLanguage ?? "ru",
       );
+      await this.autoTranslate();
     }
 
     await this.updateSubtitles();
@@ -5255,6 +5270,7 @@ class VideoHandler {
         (async () => {
           this.data.autoTranslate = Number(e.target.checked);
           await votStorage.set("autoTranslate", this.data.autoTranslate);
+          await this.autoTranslate();
           debug/* default */.A.log(
             "autoTranslate value changed. New value: ",
             this.data.autoTranslate,
@@ -5652,6 +5668,7 @@ class VideoHandler {
         return;
       await this.handleSrcChanged();
       debug/* default */.A.log("lipsync mode is loadeddata");
+      await this.autoTranslate();
     });
 
     addExtraEventListener(this.video, "emptied", () => {
@@ -5666,31 +5683,29 @@ class VideoHandler {
         this.syncVideoVolumeSlider();
       });
     }
+    //   if (
+    //     !this.videoData.videoId ||
+    //     this.audio.src ||
+    //     !this.firstPlay ||
+    //     this.data.autoTranslate !== 1 ||
+    //     getVideoId(this.site.host, this.video) !== this.videoData.videoId
+    //   ) {
+    //     return;
+    //   }
 
-    addExtraEventListener(this.video, "progress", async () => {
-      if (
-        !this.videoData.videoId ||
-        this.audio.src ||
-        !this.firstPlay ||
-        this.data.autoTranslate !== 1 ||
-        getVideoId(this.site.host, this.video) !== this.videoData.videoId
-      ) {
-        return;
-      }
-
-      try {
-        this.firstPlay = false;
-        await this.translateExecutor(this.videoData.videoId);
-      } catch (err) {
-        console.error("[VOT]", err);
-        if (err?.name === "VOTLocalizedError") {
-          this.transformBtn("error", err.localizedMessage);
-        } else {
-          this.transformBtn("error", err);
-        }
-        this.firstPlay = false;
-      }
-    });
+    //   try {
+    //     this.firstPlay = false;
+    //     await this.translateExecutor(this.videoData.videoId);
+    //   } catch (err) {
+    //     console.error("[VOT]", err);
+    //     if (err?.name === "VOTLocalizedError") {
+    //       this.transformBtn("error", err.localizedMessage);
+    //     } else {
+    //       this.transformBtn("error", err);
+    //     }
+    //     this.firstPlay = false;
+    //   }
+    // });
   }
 
   logout(n) {
