@@ -5381,6 +5381,7 @@ class VideoHandler {
         (async () => {
           this.data.autoTranslate = Number(e.target.checked);
           await storage/* votStorage */.d.set("autoTranslate", this.data.autoTranslate);
+          await this.autoTranslate();
           debug/* default */.A.log(
             "autoTranslate value changed. New value: ",
             this.data.autoTranslate,
