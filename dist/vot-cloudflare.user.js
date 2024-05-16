@@ -2752,11 +2752,10 @@ const yandexProtobuf = {
 var es5 = __webpack_require__("./node_modules/bowser/es5.js");
 ;// CONCATENATED MODULE: ./src/getUUID.js
 function getUUID(isLower) {
+  const randomBytes = crypto.getRandomValues(new Uint8Array(31));
+  let byteIndex = 0;
   const uuid = ([1e7] + 1e3 + 4e3 + 8e3 + 1e11).replace(/[018]/g, (c) =>
-    (
-      c ^
-      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
-    ).toString(16),
+    (c ^ (randomBytes[byteIndex++] & (15 >> (c / 4)))).toString(16),
   );
   return isLower ? uuid : uuid.toUpperCase();
 }
@@ -2768,7 +2767,7 @@ function getUUID(isLower) {
 
 async function getSignature(body) {
   // Create a key from the HMAC secret
-  const utf8Encoder = new TextEncoder("utf-8");
+  const utf8Encoder = new TextEncoder();
   const key = await window.crypto.subtle.importKey(
     "raw",
     utf8Encoder.encode(config/* yandexHmacKey */.S7),
@@ -2779,9 +2778,10 @@ async function getSignature(body) {
   // Sign the body with the key
   const signature = await window.crypto.subtle.sign("HMAC", key, body);
   // Convert the signature to a hex string
-  return Array.from(new Uint8Array(signature), (x) =>
-    x.toString(16).padStart(2, "0"),
-  ).join("");
+  return new Uint8Array(signature).reduce(
+    (str, byte) => str + byte.toString(16).padStart(2, "0"),
+    "",
+  );
 }
 
 
@@ -4661,7 +4661,14 @@ class VideoHandler {
   }
 
   async autoTranslate() {
-    if (!(this.firstPlay && this.data.autoTranslate === 1)) return;
+    if (
+      !(
+        this.firstPlay &&
+        this.data.autoTranslate === 1 &&
+        this.videoData.videoId
+      )
+    )
+      return;
     this.firstPlay = false;
     try {
       await this.translateExecutor(this.videoData.videoId);
@@ -5794,29 +5801,6 @@ class VideoHandler {
         this.syncVideoVolumeSlider();
       });
     }
-    //   if (
-    //     !this.videoData.videoId ||
-    //     this.audio.src ||
-    //     !this.firstPlay ||
-    //     this.data.autoTranslate !== 1 ||
-    //     getVideoId(this.site.host, this.video) !== this.videoData.videoId
-    //   ) {
-    //     return;
-    //   }
-
-    //   try {
-    //     this.firstPlay = false;
-    //     await this.translateExecutor(this.videoData.videoId);
-    //   } catch (err) {
-    //     console.error("[VOT]", err);
-    //     if (err?.name === "VOTLocalizedError") {
-    //       this.transformBtn("error", err.localizedMessage);
-    //     } else {
-    //       this.transformBtn("error", err);
-    //     }
-    //     this.firstPlay = false;
-    //   }
-    // });
   }
 
   logout(n) {
@@ -6204,6 +6188,7 @@ class VideoHandler {
     }
     this.volumeOnStart = "";
     clearInterval(this.streamPing);
+    clearTimeout(this.autoRetry);
     this.hls?.destroy();
     this.hls = (0,utils/* initHls */.CK)();
     this.firstSyncVolume = true;
@@ -6509,7 +6494,7 @@ class VideoHandler {
                   responseLang,
                   translationHelp,
                 ),
-              60_000,
+              30_000,
             );
           }
           console.error("[VOT]", urlOrError);
@@ -6585,22 +6570,26 @@ class VideoHandler {
 }
 
 function getSites() {
-  return config_sites.filter((e) => {
-    const isMathes = (match) => {
-      return (
-        (match instanceof RegExp && match.test(window.location.hostname)) ||
-        (typeof match === "string" &&
-          window.location.hostname.includes(match)) ||
-        (typeof match === "function" && match(new URL(window.location)))
-      );
-    };
-    if (
-      isMathes(e.match) ||
-      (e.match instanceof Array && e.match.some((e) => isMathes(e)))
-    ) {
-      return e.host && e.url;
+  const hostname = window.location.hostname;
+  const currentURL = new URL(window.location);
+
+  const isMathes = (match) => {
+    if (match instanceof RegExp) {
+      return match.test(hostname);
+    } else if (typeof match === "string") {
+      return hostname.includes(match);
+    } else if (typeof match === "function") {
+      return match(currentURL);
     }
     return false;
+  };
+
+  return config_sites.filter((e) => {
+    return (
+      (Array.isArray(e.match) ? e.match.some(isMathes) : isMathes(e.match)) &&
+      e.host &&
+      e.url
+    );
   });
 }
 
