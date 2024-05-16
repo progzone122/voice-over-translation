@@ -261,7 +261,14 @@ class VideoHandler {
   }
 
   async autoTranslate() {
-    if (!(this.firstPlay && this.data.autoTranslate === 1)) return;
+    if (
+      !(
+        this.firstPlay &&
+        this.data.autoTranslate === 1 &&
+        this.videoData.videoId
+      )
+    )
+      return;
     this.firstPlay = false;
     try {
       await this.translateExecutor(this.videoData.videoId);
@@ -1394,29 +1401,6 @@ class VideoHandler {
         this.syncVideoVolumeSlider();
       });
     }
-    //   if (
-    //     !this.videoData.videoId ||
-    //     this.audio.src ||
-    //     !this.firstPlay ||
-    //     this.data.autoTranslate !== 1 ||
-    //     getVideoId(this.site.host, this.video) !== this.videoData.videoId
-    //   ) {
-    //     return;
-    //   }
-
-    //   try {
-    //     this.firstPlay = false;
-    //     await this.translateExecutor(this.videoData.videoId);
-    //   } catch (err) {
-    //     console.error("[VOT]", err);
-    //     if (err?.name === "VOTLocalizedError") {
-    //       this.transformBtn("error", err.localizedMessage);
-    //     } else {
-    //       this.transformBtn("error", err);
-    //     }
-    //     this.firstPlay = false;
-    //   }
-    // });
   }
 
   logout(n) {
@@ -1804,6 +1788,7 @@ class VideoHandler {
     }
     this.volumeOnStart = "";
     clearInterval(this.streamPing);
+    clearTimeout(this.autoRetry);
     this.hls?.destroy();
     this.hls = initHls();
     this.firstSyncVolume = true;
@@ -2109,7 +2094,7 @@ class VideoHandler {
                   responseLang,
                   translationHelp,
                 ),
-              60_000,
+              30_000,
             );
           }
           console.error("[VOT]", urlOrError);
@@ -2185,22 +2170,26 @@ class VideoHandler {
 }
 
 function getSites() {
-  return sites.filter((e) => {
-    const isMathes = (match) => {
-      return (
-        (match instanceof RegExp && match.test(window.location.hostname)) ||
-        (typeof match === "string" &&
-          window.location.hostname.includes(match)) ||
-        (typeof match === "function" && match(new URL(window.location)))
-      );
-    };
-    if (
-      isMathes(e.match) ||
-      (e.match instanceof Array && e.match.some((e) => isMathes(e)))
-    ) {
-      return e.host && e.url;
+  const hostname = window.location.hostname;
+  const currentURL = new URL(window.location);
+
+  const isMathes = (match) => {
+    if (match instanceof RegExp) {
+      return match.test(hostname);
+    } else if (typeof match === "string") {
+      return hostname.includes(match);
+    } else if (typeof match === "function") {
+      return match(currentURL);
     }
     return false;
+  };
+
+  return sites.filter((e) => {
+    return (
+      (Array.isArray(e.match) ? e.match.some(isMathes) : isMathes(e.match)) &&
+      e.host &&
+      e.url
+    );
   });
 }
 
