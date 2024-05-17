@@ -350,11 +350,11 @@ class VideoHandler {
         this.videoData.detectedLanguage,
         this.data.responseLanguage ?? "ru",
       );
-      await this.autoTranslate();
     }
 
     await this.updateSubtitles();
     await this.changeSubtitlesLang("disabled");
+    await this.autoTranslate();
     this.translateToLang = this.data.responseLanguage ?? "ru";
 
     this.initExtraEvents();
@@ -1393,6 +1393,7 @@ class VideoHandler {
       if (getVideoId(this.site.host, this.video) === this.videoData.videoId)
         return;
       debug.log("lipsync mode is emptied");
+      this.videoData = "";
       this.stopTranslation();
     });
 
@@ -2068,6 +2069,12 @@ class VideoHandler {
       return;
     }
 
+    const timeoutDuration = this.subtitlesList.some(
+      (item) => item.source === "yandex",
+    )
+      ? 20_000
+      : 30_000;
+
     translateVideo(
       videoURL,
       this.videoData.duration,
@@ -2094,7 +2101,7 @@ class VideoHandler {
                   responseLang,
                   translationHelp,
                 ),
-              30_000,
+              timeoutDuration,
             );
           }
           console.error("[VOT]", urlOrError);

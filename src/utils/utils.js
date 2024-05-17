@@ -272,7 +272,7 @@ function secsToStrTime(secs) {
 }
 function langTo6391(lang) {
   // convert lang to ISO 639-1
-  return lang.toLowerCase().split(";")[0].trim().split("-")[0].split("_")[0];
+  return lang.toLowerCase().split(/[_;-]/)[0].trim();
 }
 
 function isPiPAvailable() {
@@ -318,13 +318,12 @@ function cleanText(title, description) {
         .join("")
     : "";
 
-  const cleanText = [title, cleanedDescription]
+  return [title, cleanedDescription]
     .join(" ")
     .replace(/[^\p{L}\s]/gu, " ")
     .trim()
     .replace(/\s+/g, " ")
     .slice(0, 1000);
-  return cleanText;
 }
 
 function GM_fetch(url, opt = {}) {
