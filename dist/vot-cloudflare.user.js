@@ -1510,7 +1510,7 @@ function secsToStrTime(secs) {
 }
 function langTo6391(lang) {
   // convert lang to ISO 639-1
-  return lang.toLowerCase().split(";")[0].trim().split("-")[0].split("_")[0];
+  return lang.toLowerCase().split(/[_;-]/)[0].trim();
 }
 
 function isPiPAvailable() {
@@ -1556,13 +1556,12 @@ function cleanText(title, description) {
         .join("")
     : "";
 
-  const cleanText = [title, cleanedDescription]
+  return [title, cleanedDescription]
     .join(" ")
     .replace(/[^\p{L}\s]/gu, " ")
     .trim()
     .replace(/\s+/g, " ")
     .slice(0, 1000);
-  return cleanText;
 }
 
 function GM_fetch(url, opt = {}) {
@@ -3063,7 +3062,7 @@ function formatYoutubeSubtitles(subtitles) {
   for (let i = 0; i < subtitles.events.length; i++) {
     if (!subtitles.events[i].segs) continue;
     const text = subtitles.events[i].segs
-      .map((e) => e.utf8.replace(/^ +| +$/g, ""))
+      .map((e) => e.utf8.replace(/^( +| +)$/g, ""))
       .join(" ");
     let durationMs = subtitles.events[i].dDurationMs;
     if (
@@ -4750,11 +4749,11 @@ class VideoHandler {
         this.videoData.detectedLanguage,
         this.data.responseLanguage ?? "ru",
       );
-      await this.autoTranslate();
     }
 
     await this.updateSubtitles();
     await this.changeSubtitlesLang("disabled");
+    await this.autoTranslate();
     this.translateToLang = this.data.responseLanguage ?? "ru";
 
     this.initExtraEvents();
@@ -5793,6 +5792,7 @@ class VideoHandler {
       if ((0,utils/* getVideoId */.jI)(this.site.host, this.video) === this.videoData.videoId)
         return;
       debug/* default */.A.log("lipsync mode is emptied");
+      this.videoData = "";
       this.stopTranslation();
     });
 
@@ -6468,6 +6468,12 @@ class VideoHandler {
       return;
     }
 
+    const timeoutDuration = this.subtitlesList.some(
+      (item) => item.source === "yandex",
+    )
+      ? 20_000
+      : 30_000;
+
     translateVideo(
       videoURL,
       this.videoData.duration,
@@ -6494,7 +6500,7 @@ class VideoHandler {
                   responseLang,
                   translationHelp,
                 ),
-              30_000,
+              timeoutDuration,
             );
           }
           console.error("[VOT]", urlOrError);

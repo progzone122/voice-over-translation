@@ -110,7 +110,7 @@ function formatYoutubeSubtitles(subtitles) {
   for (let i = 0; i < subtitles.events.length; i++) {
     if (!subtitles.events[i].segs) continue;
     const text = subtitles.events[i].segs
-      .map((e) => e.utf8.replace(/^ +| +$/g, ""))
+      .map((e) => e.utf8.replace(/^( +| +)$/g, ""))
       .join(" ");
     let durationMs = subtitles.events[i].dDurationMs;
     if (
