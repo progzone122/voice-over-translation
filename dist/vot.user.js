@@ -1861,7 +1861,9 @@ const localizationProvider = new (class {
   }
 
   reset() {
-    this.gmValues.forEach((v) => votStorage.syncDelete(v));
+    for (let i = 0; i < this.gmValues.length; i++) {
+      votStorage.syncDelete(this.gmValues[i]);
+    }
   }
 
   async update(force = false) {
@@ -2331,9 +2333,13 @@ function createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
 
         // removing the selected value for updating
         const contentItems = contentList.childNodes;
-        contentItems.forEach((ci) => (ci.dataset.votSelected = false));
+        for (let ci of contentItems) {
+          ci.dataset.votSelected = false;
+        }
         // fixed selection after closing the modal and opening again
-        items.forEach((i) => (i.selected = i.value === item.value));
+        for (let i of items) {
+          i.selected = i.value === item.value;
+        }
 
         contentItem.dataset.votSelected = true;
         title.innerText = item.label;
@@ -2352,9 +2358,10 @@ function createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
     votSearchLangTextfield.input.oninput = (e) => {
       const searchText = e.target.value.toLowerCase();
       // check if there are lovercase characters in the string. used for smarter search
-      Array.from(selectedItems).forEach(
-        (ci) => (ci.hidden = !ci.innerText.toLowerCase().includes(searchText)),
-      );
+      for (let i = 0; i < selectedItems.length; i++) {
+        const ci = selectedItems[i];
+        ci.hidden = !ci.innerText.toLowerCase().includes(searchText);
+      }
     };
 
     votSelectDialog.bodyContainer.append(
@@ -2378,10 +2385,18 @@ function createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
   };
 
   const setSelected = (val) => {
-    Array.from(selectedItems)
-      .filter((ci) => !ci.inert)
-      .forEach((ci) => (ci.dataset.votSelected = ci.dataset.votValue === val));
-    items.forEach((i) => (i.selected = String(i.value) === val));
+    const selectedItemsArray = Array.from(selectedItems).filter(
+      (ci) => !ci.inert,
+    );
+    for (let i = 0; i < selectedItemsArray.length; i++) {
+      const ci = selectedItemsArray[i];
+      ci.dataset.votSelected = ci.dataset.votValue === val;
+    }
+
+    for (let i = 0; i < items.length; i++) {
+      const currentItem = items[i];
+      currentItem.selected = String(currentItem.value) === val;
+    }
   };
 
   const updateItems = (newItems) => {
@@ -2921,7 +2936,8 @@ function createSubtitlesTokens(line, previousLineLastToken) {
 function getSubtitlesTokens(subtitles, source) {
   const result = [];
   let lastToken;
-  for (const line of subtitles.subtitles) {
+  for (let i = 0; i < subtitles.subtitles.length; i++) {
+    const line = subtitles.subtitles[i];
     let tokens;
     if (line?.tokens?.length) {
       if (source === "yandex") {
@@ -3287,7 +3303,8 @@ class SubtitlesWidget {
             }
             chunkEndIndex = i;
           }
-          for (const chunk of chunks) {
+          for (let index = 0; index < chunks.length; index++) {
+            const chunk = chunks[index];
             if (
               chunk.startMs < time &&
               time < chunk.startMs + chunk.durationMs
@@ -3297,7 +3314,8 @@ class SubtitlesWidget {
             }
           }
         }
-        for (let token of tokens) {
+        for (let i = 0; i < tokens.length; i++) {
+          const token = tokens[i];
           const passedMs = token.startMs + token.durationMs / 2;
           content += `<span ${
             time > passedMs ||
@@ -4279,16 +4297,20 @@ class VideoObserver {
     this.observer = new MutationObserver((mutationsList) => {
       window.requestIdleCallback(
         () => {
-          mutationsList.forEach((mutation) => {
-            if (mutation.type !== "childList") return;
+          for (let i = 0; i < mutationsList.length; i++) {
+            const mutation = mutationsList[i];
+            if (mutation.type !== "childList") continue;
 
-            filterVideoNodes(mutation.addedNodes).forEach(
-              this.handleVideoAddedBound,
-            );
-            filterVideoNodes(mutation.removedNodes).forEach(
-              this.handleVideoRemovedBound,
-            );
-          });
+            const addedNodes = filterVideoNodes(mutation.addedNodes);
+            for (let j = 0; j < addedNodes.length; j++) {
+              this.handleVideoAddedBound(addedNodes[j]);
+            }
+
+            const removedNodes = filterVideoNodes(mutation.removedNodes);
+            for (let k = 0; k < removedNodes.length; k++) {
+              this.handleVideoRemovedBound(removedNodes[k]);
+            }
+          }
         },
         { timeout: 1000 },
       );
@@ -4299,7 +4321,10 @@ class VideoObserver {
       childList: true,
       subtree: true,
     });
-    document.querySelectorAll("video").forEach(this.handleVideoAddedBound);
+    const videos = document.querySelectorAll("video");
+    for (let i = 0; i < videos.length; i++) {
+      this.handleVideoAddedBound(videos[i]);
+    }
   }
   disable() {
     this.observer.disconnect();
@@ -5468,9 +5493,12 @@ class VideoHandler {
         (async () => {
           localizationProvider.reset();
           const valuesForClear = await votStorage.list();
-          valuesForClear
-            .filter((v) => !localizationProvider.gmValues.includes(v))
-            .forEach((v) => votStorage.syncDelete(v));
+          for (let i = 0; i < valuesForClear.length; i++) {
+            const v = valuesForClear[i];
+            if (!localizationProvider.gmValues.includes(v)) {
+              votStorage.syncDelete(v);
+            }
+          }
           window.location.reload();
         })();
       });
@@ -5487,9 +5515,12 @@ class VideoHandler {
       this.syncVolumeObserver?.disconnect();
     }
 
-    this.extraEvents?.forEach((e) => {
-      e.element.removeEventListener(e.event, e.handler);
-    });
+    if (this.extraEvents) {
+      for (let i = 0; i < this.extraEvents.length; i++) {
+        const e = this.extraEvents[i];
+        e.element.removeEventListener(e.event, e.handler);
+      }
+    }
   }
 
   initExtraEvents() {
@@ -5505,18 +5536,19 @@ class VideoHandler {
     };
 
     const addExtraEventListeners = (element, events, handler) => {
-      events.forEach((event) => {
+      for (const event of events) {
         addExtraEventListener(element, event, handler);
-      });
+      }
     };
 
     this.resizeObserver = new ResizeObserver((entries) => {
-      entries.forEach((e) => {
+      for (let i = 0; i < entries.length; i++) {
+        const e = entries[i];
         this.votMenu.container.setAttribute(
           "style",
           `--vot-container-height: ${e.contentRect.height}px`,
         );
-      });
+      }
 
       const isBigWidth = this.video.clientWidth && this.video.clientWidth > 550;
 
@@ -5529,6 +5561,7 @@ class VideoHandler {
           ? "column"
           : "row";
     });
+
     this.resizeObserver.observe(this.video);
     this.votMenu.container.setAttribute(
       "style",
@@ -5552,7 +5585,8 @@ class VideoHandler {
           return;
         }
 
-        mutations.forEach((mutation) => {
+        for (let i = 0; i < mutations.length; i++) {
+          const mutation = mutations[i];
           if (
             mutation.type === "attributes" &&
             mutation.attributeName === "aria-valuenow"
@@ -5574,7 +5608,7 @@ class VideoHandler {
             this.audio.volume = this.data.defaultVolume / 100;
             this.syncVolumeWrapper("video", finalVolume);
           }
-        });
+        }
       });
 
       const ytpVolumePanel = document.querySelector(".ytp-volume-panel");
@@ -6060,9 +6094,9 @@ class VideoHandler {
 
   // Default actions on stop translate
   stopTranslate() {
-    videoLipSyncEvents.forEach((e) =>
-      this.video.removeEventListener(e, this.handleVideoEventBound),
-    );
+    for (const e of videoLipSyncEvents) {
+      this.video.removeEventListener(e, this.handleVideoEventBound);
+    }
     this.audio.pause();
     this.audio.src = "";
     this.audio.removeAttribute("src");
@@ -6165,9 +6199,9 @@ class VideoHandler {
     }
 
     if (this.video && !this.video.paused) this.lipSync("play");
-    videoLipSyncEvents.forEach((e) =>
-      this.video.addEventListener(e, this.handleVideoEventBound),
-    );
+    for (const e of videoLipSyncEvents) {
+      this.video.addEventListener(e, this.handleVideoEventBound);
+    }
     this.transformBtn("success", localizationProvider.get("disableTranslate"));
     this.afterUpdateTranslation(audioUrl);
   }
@@ -6318,9 +6352,9 @@ class VideoHandler {
           }
 
           if (this.video && !this.video.paused) this.lipSync("play");
-          videoLipSyncEvents.forEach((e) =>
-            this.video.addEventListener(e, this.handleVideoEventBound),
-          );
+          for (const e of videoLipSyncEvents) {
+            this.video.addEventListener(e, this.handleVideoEventBound);
+          }
 
           this.afterUpdateTranslation(streamURL);
         },

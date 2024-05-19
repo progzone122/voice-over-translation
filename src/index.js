@@ -1180,9 +1180,12 @@ class VideoHandler {
         (async () => {
           localizationProvider.reset();
           const valuesForClear = await votStorage.list();
-          valuesForClear
-            .filter((v) => !localizationProvider.gmValues.includes(v))
-            .forEach((v) => votStorage.syncDelete(v));
+          for (let i = 0; i < valuesForClear.length; i++) {
+            const v = valuesForClear[i];
+            if (!localizationProvider.gmValues.includes(v)) {
+              votStorage.syncDelete(v);
+            }
+          }
           window.location.reload();
         })();
       });
@@ -1199,9 +1202,12 @@ class VideoHandler {
       this.syncVolumeObserver?.disconnect();
     }
 
-    this.extraEvents?.forEach((e) => {
-      e.element.removeEventListener(e.event, e.handler);
-    });
+    if (this.extraEvents) {
+      for (let i = 0; i < this.extraEvents.length; i++) {
+        const e = this.extraEvents[i];
+        e.element.removeEventListener(e.event, e.handler);
+      }
+    }
   }
 
   initExtraEvents() {
@@ -1217,18 +1223,19 @@ class VideoHandler {
     };
 
     const addExtraEventListeners = (element, events, handler) => {
-      events.forEach((event) => {
+      for (const event of events) {
         addExtraEventListener(element, event, handler);
-      });
+      }
     };
 
     this.resizeObserver = new ResizeObserver((entries) => {
-      entries.forEach((e) => {
+      for (let i = 0; i < entries.length; i++) {
+        const e = entries[i];
         this.votMenu.container.setAttribute(
           "style",
           `--vot-container-height: ${e.contentRect.height}px`,
         );
-      });
+      }
 
       const isBigWidth = this.video.clientWidth && this.video.clientWidth > 550;
 
@@ -1241,6 +1248,7 @@ class VideoHandler {
           ? "column"
           : "row";
     });
+
     this.resizeObserver.observe(this.video);
     this.votMenu.container.setAttribute(
       "style",
@@ -1264,7 +1272,8 @@ class VideoHandler {
           return;
         }
 
-        mutations.forEach((mutation) => {
+        for (let i = 0; i < mutations.length; i++) {
+          const mutation = mutations[i];
           if (
             mutation.type === "attributes" &&
             mutation.attributeName === "aria-valuenow"
@@ -1286,7 +1295,7 @@ class VideoHandler {
             this.audio.volume = this.data.defaultVolume / 100;
             this.syncVolumeWrapper("video", finalVolume);
           }
-        });
+        }
       });
 
       const ytpVolumePanel = document.querySelector(".ytp-volume-panel");
@@ -1772,9 +1781,9 @@ class VideoHandler {
 
   // Default actions on stop translate
   stopTranslate() {
-    videoLipSyncEvents.forEach((e) =>
-      this.video.removeEventListener(e, this.handleVideoEventBound),
-    );
+    for (const e of videoLipSyncEvents) {
+      this.video.removeEventListener(e, this.handleVideoEventBound);
+    }
     this.audio.pause();
     this.audio.src = "";
     this.audio.removeAttribute("src");
@@ -1887,9 +1896,9 @@ class VideoHandler {
     }
 
     if (this.video && !this.video.paused) this.lipSync("play");
-    videoLipSyncEvents.forEach((e) =>
-      this.video.addEventListener(e, this.handleVideoEventBound),
-    );
+    for (const e of videoLipSyncEvents) {
+      this.video.addEventListener(e, this.handleVideoEventBound);
+    }
     this.transformBtn("success", localizationProvider.get("disableTranslate"));
     this.afterUpdateTranslation(audioUrl);
   }
@@ -2040,9 +2049,9 @@ class VideoHandler {
           }
 
           if (this.video && !this.video.paused) this.lipSync("play");
-          videoLipSyncEvents.forEach((e) =>
-            this.video.addEventListener(e, this.handleVideoEventBound),
-          );
+          for (const e of videoLipSyncEvents) {
+            this.video.addEventListener(e, this.handleVideoEventBound);
+          }
 
           this.afterUpdateTranslation(streamURL);
         },

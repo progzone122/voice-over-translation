@@ -347,9 +347,13 @@ export function createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
 
         // removing the selected value for updating
         const contentItems = contentList.childNodes;
-        contentItems.forEach((ci) => (ci.dataset.votSelected = false));
+        for (let ci of contentItems) {
+          ci.dataset.votSelected = false;
+        }
         // fixed selection after closing the modal and opening again
-        items.forEach((i) => (i.selected = i.value === item.value));
+        for (let i of items) {
+          i.selected = i.value === item.value;
+        }
 
         contentItem.dataset.votSelected = true;
         title.innerText = item.label;
@@ -368,9 +372,10 @@ export function createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
     votSearchLangTextfield.input.oninput = (e) => {
       const searchText = e.target.value.toLowerCase();
       // check if there are lovercase characters in the string. used for smarter search
-      Array.from(selectedItems).forEach(
-        (ci) => (ci.hidden = !ci.innerText.toLowerCase().includes(searchText)),
-      );
+      for (let i = 0; i < selectedItems.length; i++) {
+        const ci = selectedItems[i];
+        ci.hidden = !ci.innerText.toLowerCase().includes(searchText);
+      }
     };
 
     votSelectDialog.bodyContainer.append(
@@ -394,10 +399,18 @@ export function createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
   };
 
   const setSelected = (val) => {
-    Array.from(selectedItems)
-      .filter((ci) => !ci.inert)
-      .forEach((ci) => (ci.dataset.votSelected = ci.dataset.votValue === val));
-    items.forEach((i) => (i.selected = String(i.value) === val));
+    const selectedItemsArray = Array.from(selectedItems).filter(
+      (ci) => !ci.inert,
+    );
+    for (let i = 0; i < selectedItemsArray.length; i++) {
+      const ci = selectedItemsArray[i];
+      ci.dataset.votSelected = ci.dataset.votValue === val;
+    }
+
+    for (let i = 0; i < items.length; i++) {
+      const currentItem = items[i];
+      currentItem.selected = String(currentItem.value) === val;
+    }
   };
 
   const updateItems = (newItems) => {

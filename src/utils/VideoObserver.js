@@ -24,16 +24,20 @@ export class VideoObserver {
     this.observer = new MutationObserver((mutationsList) => {
       window.requestIdleCallback(
         () => {
-          mutationsList.forEach((mutation) => {
-            if (mutation.type !== "childList") return;
+          for (let i = 0; i < mutationsList.length; i++) {
+            const mutation = mutationsList[i];
+            if (mutation.type !== "childList") continue;
 
-            filterVideoNodes(mutation.addedNodes).forEach(
-              this.handleVideoAddedBound,
-            );
-            filterVideoNodes(mutation.removedNodes).forEach(
-              this.handleVideoRemovedBound,
-            );
-          });
+            const addedNodes = filterVideoNodes(mutation.addedNodes);
+            for (let j = 0; j < addedNodes.length; j++) {
+              this.handleVideoAddedBound(addedNodes[j]);
+            }
+
+            const removedNodes = filterVideoNodes(mutation.removedNodes);
+            for (let k = 0; k < removedNodes.length; k++) {
+              this.handleVideoRemovedBound(removedNodes[k]);
+            }
+          }
         },
         { timeout: 1000 },
       );
@@ -44,7 +48,10 @@ export class VideoObserver {
       childList: true,
       subtree: true,
     });
-    document.querySelectorAll("video").forEach(this.handleVideoAddedBound);
+    const videos = document.querySelectorAll("video");
+    for (let i = 0; i < videos.length; i++) {
+      this.handleVideoAddedBound(videos[i]);
+    }
   }
   disable() {
     this.observer.disconnect();
