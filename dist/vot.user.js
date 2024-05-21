@@ -577,7 +577,7 @@ const m3u8ProxyHost = "m3u8-proxy.toil.cc"; // used for striming
 const proxyWorkerHost = "vot.toil.cc"; // used for cloudflare version (vot-new.toil-dump.workers.dev || vot-worker.onrender.com)
 const yandexHmacKey = "xtGCyGdTY2Jy6OMEKdTuXev3Twhkamgm";
 const yandexUserAgent =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 YaBrowser/23.7.1.1140 Yowser/2.5 Safari/537.36";
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 YaBrowser/24.1.5.825 Yowser/2.5 Safari/537.36";
 const defaultAutoVolume = 0.15; // 0.0 - 1.0 (0% - 100%) - default volume of the video with the translation
 const defaultTranslationService = "yandex";
 const defaultDetectService = "yandex";
@@ -6021,15 +6021,15 @@ class VideoHandler {
       ) {
         throw new VOTLocalizedError("VOTDisableFromYourLang");
       }
-      // if (this.ytData.isPremiere) {
-      //   throw new VOTLocalizedError("VOTPremiere");
-      // }
-      // if (this.ytData.isLive) {
-      //   throw new VOTLocalizedError("VOTLiveNotSupported");
-      // }
-      if (!this.videoData.isStream && this.videoData.duration > 14_400) {
-        throw new VOTLocalizedError("VOTVideoIsTooLong");
-      }
+    }
+    // if (this.ytData.isPremiere) {
+    //   throw new VOTLocalizedError("VOTPremiere");
+    // }
+    // if (this.ytData.isLive) {
+    //   throw new VOTLocalizedError("VOTLiveNotSupported");
+    // }
+    if (!this.videoData.isStream && this.videoData.duration > 14_400) {
+      throw new VOTLocalizedError("VOTVideoIsTooLong");
     }
     return true;
   }
@@ -6421,7 +6421,13 @@ class VideoHandler {
         }
 
         this.updateTranslation(urlOrError);
-        if (!this.subtitlesList.some((item) => item.source === "yandex")) {
+        if (
+          !this.subtitlesList.some(
+            (item) =>
+              item.source === "yandex" &&
+              item.language === this.videoData.responseLanguage,
+          )
+        ) {
           this.subtitlesList = await subtitles_getSubtitles(
             this.site,
             this.videoData.videoId,

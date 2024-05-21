@@ -1708,15 +1708,15 @@ class VideoHandler {
       ) {
         throw new VOTLocalizedError("VOTDisableFromYourLang");
       }
-      // if (this.ytData.isPremiere) {
-      //   throw new VOTLocalizedError("VOTPremiere");
-      // }
-      // if (this.ytData.isLive) {
-      //   throw new VOTLocalizedError("VOTLiveNotSupported");
-      // }
-      if (!this.videoData.isStream && this.videoData.duration > 14_400) {
-        throw new VOTLocalizedError("VOTVideoIsTooLong");
-      }
+    }
+    // if (this.ytData.isPremiere) {
+    //   throw new VOTLocalizedError("VOTPremiere");
+    // }
+    // if (this.ytData.isLive) {
+    //   throw new VOTLocalizedError("VOTLiveNotSupported");
+    // }
+    if (!this.videoData.isStream && this.videoData.duration > 14_400) {
+      throw new VOTLocalizedError("VOTVideoIsTooLong");
     }
     return true;
   }
@@ -2118,7 +2118,13 @@ class VideoHandler {
         }
 
         this.updateTranslation(urlOrError);
-        if (!this.subtitlesList.some((item) => item.source === "yandex")) {
+        if (
+          !this.subtitlesList.some(
+            (item) =>
+              item.source === "yandex" &&
+              item.language === this.videoData.responseLanguage,
+          )
+        ) {
           this.subtitlesList = await getSubtitles(
             this.site,
             this.videoData.videoId,
