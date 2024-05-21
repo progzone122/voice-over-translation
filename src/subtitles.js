@@ -71,7 +71,8 @@ function createSubtitlesTokens(line, previousLineLastToken) {
 function getSubtitlesTokens(subtitles, source) {
   const result = [];
   let lastToken;
-  for (const line of subtitles.subtitles) {
+  for (let i = 0; i < subtitles.subtitles.length; i++) {
+    const line = subtitles.subtitles[i];
     let tokens;
     if (line?.tokens?.length) {
       if (source === "yandex") {
@@ -437,7 +438,8 @@ export class SubtitlesWidget {
             }
             chunkEndIndex = i;
           }
-          for (const chunk of chunks) {
+          for (let index = 0; index < chunks.length; index++) {
+            const chunk = chunks[index];
             if (
               chunk.startMs < time &&
               time < chunk.startMs + chunk.durationMs
@@ -447,7 +449,8 @@ export class SubtitlesWidget {
             }
           }
         }
-        for (let token of tokens) {
+        for (let i = 0; i < tokens.length; i++) {
+          const token = tokens[i];
           const passedMs = token.startMs + token.durationMs / 2;
           content += `<span ${
             time > passedMs ||

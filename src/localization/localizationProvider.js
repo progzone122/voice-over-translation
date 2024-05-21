@@ -99,7 +99,9 @@ export const localizationProvider = new (class {
   }
 
   reset() {
-    this.gmValues.forEach((v) => votStorage.syncDelete(v));
+    for (let i = 0; i < this.gmValues.length; i++) {
+      votStorage.syncDelete(this.gmValues[i]);
+    }
   }
 
   async update(force = false) {
