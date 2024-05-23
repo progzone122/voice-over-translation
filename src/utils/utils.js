@@ -326,48 +326,48 @@ function cleanText(title, description) {
     .slice(0, 1000);
 }
 
-function GM_fetch(url, opt = {}) {
-  // https://github.com/ilyhalight/voice-over-translation/discussions/589
-  if (GM_info?.scriptHandler === "AdGuard" || !GM_xmlhttpRequest) {
-    console.error("GM_xmlhttpRequest is not available");
-    return fetch(url, opt);
+async function GM_fetch(url, opt = {}) {
+  try {
+    // Попытка выполнить запрос с помощью fetch
+    const response = await fetch(url, opt);
+    return response;
+  } catch (error) {
+    // Если fetch завершился ошибкой, используем GM_xmlhttpRequest
+    // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
+    return new Promise((resolve, reject) => {
+      // https://www.tampermonkey.net/documentation.php?ext=dhdg#GM_xmlhttpRequest
+      // https://violentmonkey.github.io/api/gm/#gm_xmlhttprequest
+      GM_xmlhttpRequest({
+        method: opt.method || "GET",
+        url: url,
+        responseType: "blob",
+        onload: (resp) => {
+          resolve(
+            new Response(resp.response, {
+              status: resp.status,
+              // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/getAllResponseHeaders#examples
+              headers: Object.fromEntries(
+                resp.responseHeaders
+                  .trim()
+                  .split("\r\n")
+                  .map((line) => {
+                    let parts = line.split(": ");
+                    if (parts?.[0] === "set-cookie") {
+                      return;
+                    }
+                    return [parts.shift(), parts.join(": ")];
+                  })
+                  .filter((key) => key),
+              ),
+            }),
+          );
+        },
+        ontimeout: () => reject(new Error("fetch timeout")),
+        onerror: (error) => reject(error),
+        onabort: () => reject(new Error("fetch abort")),
+      });
+    });
   }
-
-  // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
-  return new Promise((resolve, reject) => {
-    // https://www.tampermonkey.net/documentation.php?ext=dhdg#GM_xmlhttpRequest
-    // https://violentmonkey.github.io/api/gm/#gm_xmlhttprequest
-    opt.url = url;
-    opt.data = opt.body;
-    opt.responseType = "blob";
-    opt.onload = (resp) => {
-      resolve(
-        new Response(resp.response, {
-          status: resp.status,
-          // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/getAllResponseHeaders#examples
-          headers: Object.fromEntries(
-            resp.responseHeaders
-              .trim()
-              .split("\r\n")
-              .map((line) => {
-                let parts = line.split(": ");
-                // if don't do this, you will get an error on some sites
-                if (parts?.[0] === "set-cookie") {
-                  return;
-                }
-
-                return [parts.shift(), parts.join(": ")];
-              })
-              .filter((key) => key),
-          ),
-        }),
-      );
-    };
-    opt.ontimeout = () => reject("fetch timeout");
-    opt.onerror = (error) => reject(error);
-    opt.onabort = () => reject("fetch abort");
-    GM_xmlhttpRequest(opt);
-  });
 }
 
 export {
