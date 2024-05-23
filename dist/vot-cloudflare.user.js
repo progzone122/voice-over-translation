@@ -129,7 +129,7 @@
 // @connect        onrender.com
 // @connect        workers.dev
 // @namespace      vot-cloudflare
-// @version        1.5.3
+// @version        1.5.3.1
 // @icon           https://translate.yandex.ru/icons/favicon.ico
 // @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation/issues
@@ -603,7 +603,6 @@ const translateUrls = {
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   Ww: () => (/* binding */ actualTTS),
-/* harmony export */   ZY: () => (/* binding */ additionalTTS),
 /* harmony export */   xm: () => (/* binding */ availableLangs)
 /* harmony export */ });
 /* unused harmony export cfOnlyExtensions */
@@ -621,66 +620,6 @@ const availableLangs = [
   "es",
   "de",
   "ja",
-];
-
-// Additional languages working with TTS
-const additionalTTS = [
-  "kk",
-  "bn",
-  "pt",
-  "cs",
-  "hi",
-  "mr", // TODO: Add menu translation (MAYBE)
-  "te", // TODO: Add menu translation (MAYBE)
-  "tr",
-  "ms",
-  "vi",
-  "ta", // TODO: Add menu translation (MAYBE)
-  "jv",
-  "ur",
-  "fa",
-  "gu", // TODO: Add menu translation (MAYBE)
-  "id",
-  "uk",
-  "da",
-  "fi",
-  "uz",
-  "pl",
-  "sv",
-  "az",
-  "sq",
-  "am",
-  "hy",
-  "af",
-  "eu",
-  "my",
-  "bg",
-  "bs",
-  "cy",
-  "hu",
-  "gl",
-  "el",
-  "zu",
-  "kn",
-  "ca",
-  "km",
-  "lo",
-  "mk",
-  "ml",
-  "mt",
-  "mn",
-  "ne",
-  "nl",
-  "pa",
-  "ro",
-  "sr",
-  "si",
-  "sk",
-  "sl",
-  "sw",
-  "su",
-  "hr",
-  "et",
 ];
 
 // up-to-date list of TTS working languages
@@ -4489,11 +4428,9 @@ const videoLipSyncEvents = [
   "pause",
 ];
 
-function genOptionsByOBJ(obj, conditionString, validateLangs = false) {
+function genOptionsByOBJ(obj, conditionString) {
   return obj.map((code) => ({
-    label: `${validateLangs && !constants/* actualTTS */.Ww.includes(code) ? "❌ " : ""}${
-      localizationProvider/* localizationProvider */.j.get("langs")[code] ?? code.toUpperCase()
-    }`,
+    label: localizationProvider/* localizationProvider */.j.get("langs")[code] ?? code.toUpperCase(),
     value: code,
     selected: conditionString === code,
   }));
@@ -4877,23 +4814,7 @@ class VideoHandler {
         },
         toTitle: localizationProvider/* localizationProvider */.j.get("langs")[this.video.responseLanguage],
         toDialogTitle: localizationProvider/* localizationProvider */.j.get("translationLanguage"),
-        toItems: [
-          ...genOptionsByOBJ(
-            constants/* availableLangs */.xm,
-            this.videoData.responseLanguage,
-            true,
-          ),
-          {
-            label: "─────────",
-            value: "separator",
-            disabled: true,
-          },
-          ...genOptionsByOBJ(
-            constants/* additionalTTS */.ZY,
-            this.videoData.responseLanguage,
-            true,
-          ),
-        ],
+        toItems: genOptionsByOBJ(constants/* actualTTS */.Ww, this.videoData.responseLanguage),
         toOnSelectCB: async (e) => {
           const newLang = e.target.dataset.votValue;
           debug/* default */.A.log("[toOnSelectCB] select to language", newLang);
@@ -5808,6 +5729,10 @@ class VideoHandler {
     // fix draggable menu in youtube (#394, #417)
     if (this.site.host === "youtube") {
       this.container.draggable = false;
+    }
+
+    if (this.site.host === "googledrive") {
+      this.container.style.height = "100%";
     }
 
     addExtraEventListener(this.video, "loadeddata", async () => {

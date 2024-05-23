@@ -129,7 +129,7 @@
 // @connect        onrender.com
 // @connect        workers.dev
 // @namespace      vot
-// @version        1.5.3
+// @version        1.5.3.1
 // @icon           https://translate.yandex.ru/icons/favicon.ico
 // @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation/issues
@@ -862,66 +862,6 @@ const availableLangs = [
   "es",
   "de",
   "ja",
-];
-
-// Additional languages working with TTS
-const additionalTTS = [
-  "kk",
-  "bn",
-  "pt",
-  "cs",
-  "hi",
-  "mr", // TODO: Add menu translation (MAYBE)
-  "te", // TODO: Add menu translation (MAYBE)
-  "tr",
-  "ms",
-  "vi",
-  "ta", // TODO: Add menu translation (MAYBE)
-  "jv",
-  "ur",
-  "fa",
-  "gu", // TODO: Add menu translation (MAYBE)
-  "id",
-  "uk",
-  "da",
-  "fi",
-  "uz",
-  "pl",
-  "sv",
-  "az",
-  "sq",
-  "am",
-  "hy",
-  "af",
-  "eu",
-  "my",
-  "bg",
-  "bs",
-  "cy",
-  "hu",
-  "gl",
-  "el",
-  "zu",
-  "kn",
-  "ca",
-  "km",
-  "lo",
-  "mk",
-  "ml",
-  "mt",
-  "mn",
-  "ne",
-  "nl",
-  "pa",
-  "ro",
-  "sr",
-  "si",
-  "sk",
-  "sl",
-  "sw",
-  "su",
-  "hr",
-  "et",
 ];
 
 // up-to-date list of TTS working languages
@@ -4383,11 +4323,9 @@ const videoLipSyncEvents = [
   "pause",
 ];
 
-function genOptionsByOBJ(obj, conditionString, validateLangs = false) {
+function genOptionsByOBJ(obj, conditionString) {
   return obj.map((code) => ({
-    label: `${validateLangs && !actualTTS.includes(code) ? "❌ " : ""}${
-      localizationProvider.get("langs")[code] ?? code.toUpperCase()
-    }`,
+    label: localizationProvider.get("langs")[code] ?? code.toUpperCase(),
     value: code,
     selected: conditionString === code,
   }));
@@ -4766,23 +4704,7 @@ class VideoHandler {
         },
         toTitle: localizationProvider.get("langs")[this.video.responseLanguage],
         toDialogTitle: localizationProvider.get("translationLanguage"),
-        toItems: [
-          ...genOptionsByOBJ(
-            availableLangs,
-            this.videoData.responseLanguage,
-            true,
-          ),
-          {
-            label: "─────────",
-            value: "separator",
-            disabled: true,
-          },
-          ...genOptionsByOBJ(
-            additionalTTS,
-            this.videoData.responseLanguage,
-            true,
-          ),
-        ],
+        toItems: genOptionsByOBJ(actualTTS, this.videoData.responseLanguage),
         toOnSelectCB: async (e) => {
           const newLang = e.target.dataset.votValue;
           debug/* default */.A.log("[toOnSelectCB] select to language", newLang);
@@ -5697,6 +5619,10 @@ class VideoHandler {
     // fix draggable menu in youtube (#394, #417)
     if (this.site.host === "youtube") {
       this.container.draggable = false;
+    }
+
+    if (this.site.host === "googledrive") {
+      this.container.style.height = "100%";
     }
 
     addExtraEventListener(this.video, "loadeddata", async () => {
