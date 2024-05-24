@@ -48,7 +48,7 @@
     "lint": "npx eslint .",
     "lint-fix": "npx eslint . --fix",
     "format": "prettier --write --ignore-unknown \"src/**/*.{html,css,scss,cjs,js,ts,json}\"",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "dependencies": {
     "bowser": "^2.11.0",
