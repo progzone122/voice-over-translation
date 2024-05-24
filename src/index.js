@@ -121,6 +121,12 @@ function translateVideo(
           callback(false, translateResponse.message);
           break;
         case 1:
+        case 5:
+          // status 5 (dzen)
+          // Отдает частичный контент т.е. аудио не для всего видео, а только для части (~10min)
+          // так же возвращается оставшееся время перевода (remainingTime) через которое нужно сделать повторный запрос,
+          // в котором будет возвращено полное аудио перевода и status 1.
+          // Если включена часть видео без перевода, то пишет "Эта часть видео еще не переведена"
           callback(
             !!translateResponse.url,
             translateResponse.url ||
