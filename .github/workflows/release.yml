@@ -1,7 +1,9 @@
 # adopted from https://github.com/MihailRis/VoxelEngine-Cpp
-name: Build and Release
+name: Release
 
-on: [push]
+on:
+  push:
+    branches: [main, dev]
 
 permissions:
   contents: write
