@@ -278,7 +278,6 @@ const sites = () => {
     },
     {
       host: "youku",
-      // Что-то перекрывает кнопку и не дает её нажать
       url: "https://v.youku.com/",
       match: /^v.youku.com$/,
       selector: "#ykPlayer",

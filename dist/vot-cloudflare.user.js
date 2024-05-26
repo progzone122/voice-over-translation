@@ -4258,7 +4258,6 @@ const sites = () => {
     },
     {
       host: "youku",
-      // Что-то перекрывает кнопку и не дает её нажать
       url: "https://v.youku.com/",
       match: /^v.youku.com$/,
       selector: "#ykPlayer",
@@ -6650,6 +6649,13 @@ async function src_main() {
       if (!container) continue;
       if (site.host === "rumble" && container.querySelector("vot-block")) {
         // fix multiply translation buttons in rumble.com
+        continue;
+      }
+
+      if (
+        site.host === "youku" &&
+        !video.parentElement?.classList?.contains("video-layer")
+      ) {
         continue;
       }
 
