@@ -43,6 +43,7 @@ export class VideoObserver {
       );
     });
   }
+
   enable() {
     this.observer.observe(document, {
       childList: true,
@@ -53,12 +54,23 @@ export class VideoObserver {
       this.handleVideoAddedBound(videos[i]);
     }
   }
+
   disable() {
     this.observer.disconnect();
   }
+
   handleVideoAdded(video) {
-    this.onVideoAdded.dispatch(video);
+    if (video.readyState >= 3) {
+      this.onVideoAdded.dispatch(video);
+    } else {
+      const canPlayHandler = () => {
+        video.removeEventListener("canplay", canPlayHandler);
+        this.onVideoAdded.dispatch(video);
+      };
+      video.addEventListener("canplay", canPlayHandler);
+    }
   }
+
   handleVideoRemoved(video) {
     if (!document.contains(video)) {
       this.onVideoRemoved.dispatch(video);
