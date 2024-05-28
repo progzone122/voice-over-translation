@@ -3130,12 +3130,10 @@ class SubtitlesWidget {
     this.onMouseUpBound = this.onMouseUp.bind(this);
     this.onMouseMoveBound = this.onMouseMove.bind(this);
     this.onTimeUpdateBound = this.onTimeUpdate.bind(this);
-    this.onResizeBound = this.onResize.bind(this);
 
     document.addEventListener("mousedown", this.onMouseDownBound);
     document.addEventListener("mouseup", this.onMouseUpBound);
     document.addEventListener("mousemove", this.onMouseMoveBound);
-    window.addEventListener("resize", this.onResizeBound);
 
     this.video?.addEventListener("timeupdate", this.onTimeUpdateBound);
   }
@@ -3146,7 +3144,6 @@ class SubtitlesWidget {
     document.removeEventListener("mousedown", this.onMouseDownBound);
     document.removeEventListener("mouseup", this.onMouseUpBound);
     document.removeEventListener("mousemove", this.onMouseMoveBound);
-    window.removeEventListener("resize", this.onResizeBound);
 
     this.votSubtitlesContainer.remove();
   }
@@ -3198,11 +3195,6 @@ class SubtitlesWidget {
         }px`;
       }
     }
-  }
-
-  onResize() {
-    this.votSubtitlesContainer.style.left = `25%`;
-    this.votSubtitlesContainer.style.top = `75%`;
   }
 
   onTimeUpdate() {
@@ -4241,7 +4233,6 @@ class EventImpl {
 
 
 
-
 function filterVideoNodes(nodes) {
   return Array.from(nodes).flatMap((node) => {
     if (node instanceof HTMLVideoElement) {
@@ -4254,25 +4245,6 @@ function filterVideoNodes(nodes) {
       ? Array.from(node.shadowRoot.querySelectorAll("video"))
       : [];
   });
-}
-
-const adKeywords =
-  /advertise|promo|sponsor|banner|commercial|preroll|midroll|postroll|ad-container|sponsored/i;
-
-function isAdVideo(video) {
-  if (adKeywords.test(video.className) || adKeywords.test(video.id)) {
-    return true;
-  }
-
-  let parent = video.parentElement;
-  while (parent) {
-    if (adKeywords.test(parent.className) || adKeywords.test(parent.id)) {
-      return true;
-    }
-    parent = parent.parentElement;
-  }
-
-  return false;
 }
 
 class VideoObserver {
@@ -4303,7 +4275,6 @@ class VideoObserver {
       );
     });
   }
-
   enable() {
     this.observer.observe(document, {
       childList: true,
@@ -4314,23 +4285,12 @@ class VideoObserver {
       this.handleVideoAddedBound(videos[i]);
     }
   }
-
   disable() {
     this.observer.disconnect();
   }
-
   handleVideoAdded(video) {
-    if (isAdVideo(video)) {
-      debug/* default */.A.log("The promotional video was ignored", video);
-      return;
-    }
-    const canPlayHandler = () => {
-      video.removeEventListener("canplay", canPlayHandler);
-      this.onVideoAdded.dispatch(video);
-    };
-    video.addEventListener("canplay", canPlayHandler);
+    this.onVideoAdded.dispatch(video);
   }
-
   handleVideoRemoved(video) {
     if (!document.contains(video)) {
       this.onVideoRemoved.dispatch(video);
@@ -5703,10 +5663,7 @@ class VideoHandler {
     });
 
     addExtraEventListener(this.video, "emptied", () => {
-      if (
-        this.video.src &&
-        getVideoId(this.site.host, this.video) === this.videoData.videoId
-      )
+      if (getVideoId(this.site.host, this.video) === this.videoData.videoId)
         return;
       debug/* default */.A.log("lipsync mode is emptied");
       this.videoData = "";
@@ -6579,17 +6536,17 @@ async function src_main() {
         }
       }
       if (!container) continue;
-      if (site.host === "rumble" && !video.poster) {
+      if (site.host === "rumble" && container.querySelector("vot-block")) {
         // fix multiply translation buttons in rumble.com
         continue;
       }
 
-      // if (
-      //   site.host === "youku" &&
-      //   !video.parentElement?.classList?.contains("video-layer")
-      // ) {
-      //   continue;
-      // }
+      if (
+        site.host === "youku" &&
+        !video.parentElement?.classList?.contains("video-layer")
+      ) {
+        continue;
+      }
 
       if (["peertube", "directlink"].includes(site.host)) {
         // we set the url of the current site, since peertube doesn't have a main server
