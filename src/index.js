@@ -1390,10 +1390,7 @@ class VideoHandler {
     });
 
     addExtraEventListener(this.video, "emptied", () => {
-      if (
-        this.video.src &&
-        getVideoId(this.site.host, this.video) === this.videoData.videoId
-      )
+      if (getVideoId(this.site.host, this.video) === this.videoData.videoId)
         return;
       debug.log("lipsync mode is emptied");
       this.videoData = "";
@@ -2276,17 +2273,17 @@ async function main() {
         }
       }
       if (!container) continue;
-      if (site.host === "rumble" && !video.poster) {
+      if (site.host === "rumble" && container.querySelector("vot-block")) {
         // fix multiply translation buttons in rumble.com
         continue;
       }
 
-      // if (
-      //   site.host === "youku" &&
-      //   !video.parentElement?.classList?.contains("video-layer")
-      // ) {
-      //   continue;
-      // }
+      if (
+        site.host === "youku" &&
+        !video.parentElement?.classList?.contains("video-layer")
+      ) {
+        continue;
+      }
 
       if (["peertube", "directlink"].includes(site.host)) {
         // we set the url of the current site, since peertube doesn't have a main server

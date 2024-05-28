@@ -305,12 +305,10 @@ export class SubtitlesWidget {
     this.onMouseUpBound = this.onMouseUp.bind(this);
     this.onMouseMoveBound = this.onMouseMove.bind(this);
     this.onTimeUpdateBound = this.onTimeUpdate.bind(this);
-    this.onResizeBound = this.onResize.bind(this);
 
     document.addEventListener("mousedown", this.onMouseDownBound);
     document.addEventListener("mouseup", this.onMouseUpBound);
     document.addEventListener("mousemove", this.onMouseMoveBound);
-    window.addEventListener("resize", this.onResizeBound);
 
     this.video?.addEventListener("timeupdate", this.onTimeUpdateBound);
   }
@@ -321,7 +319,6 @@ export class SubtitlesWidget {
     document.removeEventListener("mousedown", this.onMouseDownBound);
     document.removeEventListener("mouseup", this.onMouseUpBound);
     document.removeEventListener("mousemove", this.onMouseMoveBound);
-    window.removeEventListener("resize", this.onResizeBound);
 
     this.votSubtitlesContainer.remove();
   }
@@ -373,11 +370,6 @@ export class SubtitlesWidget {
         }px`;
       }
     }
-  }
-
-  onResize() {
-    this.votSubtitlesContainer.style.left = `25%`;
-    this.votSubtitlesContainer.style.top = `75%`;
   }
 
   onTimeUpdate() {
