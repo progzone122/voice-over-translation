@@ -1,5 +1,6 @@
 import "requestidlecallback-polyfill";
 import { EventImpl } from "./EventImpl.js";
+import debug from "./debug.js";
 
 function filterVideoNodes(nodes) {
   return Array.from(nodes).flatMap((node) => {
@@ -16,7 +17,7 @@ function filterVideoNodes(nodes) {
 }
 
 const adKeywords =
-  /ad|advertise|promo|sponsor|banner|commercial|preroll|midroll|postroll|sponsored/i;
+  /advertise|promo|sponsor|banner|commercial|preroll|midroll|postroll|ad-container|sponsored/i;
 
 function isAdVideo(video) {
   if (adKeywords.test(video.className) || adKeywords.test(video.id)) {
@@ -80,17 +81,14 @@ export class VideoObserver {
 
   handleVideoAdded(video) {
     if (isAdVideo(video)) {
+      debug.log("The promotional video was ignored", video);
       return;
     }
-    if (video.readyState >= 3) {
+    const canPlayHandler = () => {
+      video.removeEventListener("canplay", canPlayHandler);
       this.onVideoAdded.dispatch(video);
-    } else {
-      const canPlayHandler = () => {
-        video.removeEventListener("canplay", canPlayHandler);
-        this.onVideoAdded.dispatch(video);
-      };
-      video.addEventListener("canplay", canPlayHandler);
-    }
+    };
+    video.addEventListener("canplay", canPlayHandler);
   }
 
   handleVideoRemoved(video) {
