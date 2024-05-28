@@ -1,5 +1,6 @@
 import "requestidlecallback-polyfill";
 import { EventImpl } from "./EventImpl.js";
+import debug from "./debug.js";
 
 function filterVideoNodes(nodes) {
   return Array.from(nodes).flatMap((node) => {
@@ -13,6 +14,25 @@ function filterVideoNodes(nodes) {
       ? Array.from(node.shadowRoot.querySelectorAll("video"))
       : [];
   });
+}
+
+const adKeywords =
+  /advertise|promo|sponsor|banner|commercial|preroll|midroll|postroll|ad-container|sponsored/i;
+
+function isAdVideo(video) {
+  if (adKeywords.test(video.className) || adKeywords.test(video.id)) {
+    return true;
+  }
+
+  let parent = video.parentElement;
+  while (parent) {
+    if (adKeywords.test(parent.className) || adKeywords.test(parent.id)) {
+      return true;
+    }
+    parent = parent.parentElement;
+  }
+
+  return false;
 }
 
 export class VideoObserver {
@@ -43,6 +63,7 @@ export class VideoObserver {
       );
     });
   }
+
   enable() {
     this.observer.observe(document, {
       childList: true,
@@ -53,12 +74,23 @@ export class VideoObserver {
       this.handleVideoAddedBound(videos[i]);
     }
   }
+
   disable() {
     this.observer.disconnect();
   }
+
   handleVideoAdded(video) {
-    this.onVideoAdded.dispatch(video);
+    if (isAdVideo(video)) {
+      debug.log("The promotional video was ignored", video);
+      return;
+    }
+    const canPlayHandler = () => {
+      video.removeEventListener("canplay", canPlayHandler);
+      this.onVideoAdded.dispatch(video);
+    };
+    video.addEventListener("canplay", canPlayHandler);
   }
+
   handleVideoRemoved(video) {
     if (!document.contains(video)) {
       this.onVideoRemoved.dispatch(video);
