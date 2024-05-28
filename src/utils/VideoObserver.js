@@ -15,6 +15,24 @@ function filterVideoNodes(nodes) {
   });
 }
 
+const adKeywords = /ad|advertise|promo|sponsor/i;
+
+function isAdVideo(video) {
+  if (adKeywords.test(video.className) || adKeywords.test(video.id)) {
+    return true;
+  }
+
+  let parent = video.parentElement;
+  while (parent) {
+    if (adKeywords.test(parent.className) || adKeywords.test(parent.id)) {
+      return true;
+    }
+    parent = parent.parentElement;
+  }
+
+  return false;
+}
+
 export class VideoObserver {
   constructor() {
     this.onVideoAdded = new EventImpl();
@@ -60,12 +78,17 @@ export class VideoObserver {
   }
 
   handleVideoAdded(video) {
+    if (isAdVideo(video)) {
+      return;
+    }
     if (video.readyState >= 3) {
       this.onVideoAdded.dispatch(video);
     } else {
       const canPlayHandler = () => {
         video.removeEventListener("canplay", canPlayHandler);
-        this.onVideoAdded.dispatch(video);
+        if (!isAdVideo(video)) {
+          this.onVideoAdded.dispatch(video);
+        }
       };
       video.addEventListener("canplay", canPlayHandler);
     }
