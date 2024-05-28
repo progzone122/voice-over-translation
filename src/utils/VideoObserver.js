@@ -15,7 +15,8 @@ function filterVideoNodes(nodes) {
   });
 }
 
-const adKeywords = /ad|advertise|promo|sponsor/i;
+const adKeywords =
+  /ad|advertise|promo|sponsor|banner|commercial|preroll|midroll|postroll|sponsored/i;
 
 function isAdVideo(video) {
   if (adKeywords.test(video.className) || adKeywords.test(video.id)) {
@@ -86,9 +87,7 @@ export class VideoObserver {
     } else {
       const canPlayHandler = () => {
         video.removeEventListener("canplay", canPlayHandler);
-        if (!isAdVideo(video)) {
-          this.onVideoAdded.dispatch(video);
-        }
+        this.onVideoAdded.dispatch(video);
       };
       video.addEventListener("canplay", canPlayHandler);
     }
