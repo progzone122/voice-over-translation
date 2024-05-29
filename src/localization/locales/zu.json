@@ -14,8 +14,8 @@
   "translationTakeMoreThanHour": "Ukuhumusha kuzothatha isikhathi esingaphezu kwehora",
   "translationTakeAboutMinute": "Ukuhumusha kuzothatha cishe umzuzu",
   "translationTakeFewMinutes": "Ukuhumusha kuzothatha imizuzu embalwa",
-  "translationTakeApproximatelyMinutes": "Ukuhumusha kuzothatha cishe imizuzu engu-0",
-  "translationTakeApproximatelyMinute": "Ukuhumusha kuzothatha cishe imizuzu engu-0",
+  "translationTakeApproximatelyMinutes": "Ukuhumusha kuzothatha cishe imizuzu {0}",
+  "translationTakeApproximatelyMinute": "Ukuhumusha kuzothatha cishe imizuzu {0}",
   "unSupportedExtensionError": "Iphutha! {0} ayisekelwa yile nguqulo yesandiso!\n\nSicela usebenzise i-cloudflare version ye-vot extension.",
   "requestTranslationFailed": "Yehlulekile ukucela ukuhunyushwa kwevidiyo",
   "audioNotReceived": "Isixhumanisi somsindo asitholakalanga",
@@ -191,5 +191,5 @@
   "VOTProxyWorkerHost": "Faka ikheli proxy isisebenzi",
   "VOTM3u8ProxyHost": "Faka ikheli le-m3u8 proxy worker",
   "proxySettings": "Izilungiselelo Ze-Proxy",
-  "translationTakeApproximatelyMinute2": "Ukuhumusha kuzothatha cishe imizuzu engu-0"
+  "translationTakeApproximatelyMinute2": "Ukuhumusha kuzothatha cishe imizuzu {0}"
 }
