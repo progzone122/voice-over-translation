@@ -367,6 +367,10 @@ class VideoHandler {
 
   transformBtn(status = "none", text) {
     this.votButton.container.dataset.status = status;
+    this.votButton.container.dataset.translating =
+      status === "error"
+        ? text.includes(localizationProvider.get("translationTake"))
+        : false;
     this.votButton.label.innerHTML = text;
     this.votButton.container.title = status === "error" ? text : "";
   }
