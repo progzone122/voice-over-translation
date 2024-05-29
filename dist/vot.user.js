@@ -5665,7 +5665,10 @@ class VideoHandler {
     });
 
     addExtraEventListener(this.video, "emptied", () => {
-      if (getVideoId(this.site.host, this.video) === this.videoData.videoId)
+      if (
+        this.video.src &&
+        getVideoId(this.site.host, this.video) === this.videoData.videoId
+      )
         return;
       debug/* default */.A.log("lipsync mode is emptied");
       this.videoData = "";
@@ -6561,7 +6564,7 @@ async function src_main() {
         continue;
       }
 
-      if (site.host === "rumble" && container.querySelector("vot-block")) {
+      if (site.host === "rumble" && !video.style.display) {
         continue; // fix multiply translation buttons in rumble.com
       }
 
