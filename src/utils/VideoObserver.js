@@ -19,8 +19,6 @@ export class VideoObserver {
   constructor() {
     this.onVideoAdded = new EventImpl();
     this.onVideoRemoved = new EventImpl();
-    this.handleVideoAddedBound = this.handleVideoAdded.bind(this);
-    this.handleVideoRemovedBound = this.handleVideoRemoved.bind(this);
     this.observer = new MutationObserver((mutationsList) => {
       window.requestIdleCallback(
         () => {
@@ -30,12 +28,12 @@ export class VideoObserver {
 
             const addedNodes = filterVideoNodes(mutation.addedNodes);
             for (let j = 0; j < addedNodes.length; j++) {
-              this.handleVideoAddedBound(addedNodes[j]);
+              this.handleVideoAdded(addedNodes[j]);
             }
 
             const removedNodes = filterVideoNodes(mutation.removedNodes);
             for (let k = 0; k < removedNodes.length; k++) {
-              this.handleVideoRemovedBound(removedNodes[k]);
+              this.handleVideoRemoved(removedNodes[k]);
             }
           }
         },
@@ -43,6 +41,7 @@ export class VideoObserver {
       );
     });
   }
+
   enable() {
     this.observer.observe(document, {
       childList: true,
@@ -50,18 +49,21 @@ export class VideoObserver {
     });
     const videos = document.querySelectorAll("video");
     for (let i = 0; i < videos.length; i++) {
-      this.handleVideoAddedBound(videos[i]);
+      this.handleVideoAdded(videos[i]);
     }
   }
+
   disable() {
     this.observer.disconnect();
   }
-  handleVideoAdded(video) {
+
+  handleVideoAdded = (video) => {
     this.onVideoAdded.dispatch(video);
-  }
-  handleVideoRemoved(video) {
+  };
+
+  handleVideoRemoved = (video) => {
     if (!document.contains(video)) {
       this.onVideoRemoved.dispatch(video);
     }
-  }
+  };
 }
