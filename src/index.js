@@ -2208,6 +2208,59 @@ function getSites() {
 
 const videoObserver = new VideoObserver();
 const videosWrappers = new WeakMap();
+const adKeywords =
+  /advertise|promo|sponsor|banner|commercial|preroll|midroll|postroll|ad-container|sponsored/i;
+
+function isAdVideo(video) {
+  if (adKeywords.test(video.className) || adKeywords.test(video.title)) {
+    return true;
+  }
+
+  let parent = video.parentElement;
+  while (parent) {
+    if (adKeywords.test(parent.className) || adKeywords.test(parent.id)) {
+      return true;
+    }
+    parent = parent.parentElement;
+  }
+
+  return false;
+}
+
+function findContainer(site, video) {
+  if (site.shadowRoot) {
+    let container = site.selector
+      ? Array.from(document.querySelectorAll(site.selector)).find((e) =>
+          e.shadowRoot.contains(video),
+        )
+      : video.parentElement;
+    return container && container.shadowRoot
+      ? container.parentElement
+      : container;
+  } else {
+    const browserVersion = browserInfo.browser.version.split(".")[0];
+    if (
+      site.selector?.includes(":not") &&
+      site.selector?.includes("*") &&
+      browserVersion &&
+      ((browserInfo.browser.name === "Chrome" && Number(browserVersion) < 88) ||
+        (browserInfo.browser.name === "Firefox" && Number(browserVersion) < 84))
+    ) {
+      const selector = site.selector.split(" *")[0];
+      return selector
+        ? Array.from(document.querySelectorAll(selector)).find((e) =>
+            e.contains(video),
+          )
+        : video.parentElement;
+    } else {
+      return site.selector
+        ? Array.from(document.querySelectorAll(site.selector)).find((e) =>
+            e.contains(video),
+          )
+        : video.parentElement;
+    }
+  }
+}
 
 async function main() {
   debug.log("Loading extension...");
@@ -2235,59 +2288,27 @@ async function main() {
     for (const site of getSites()) {
       if (!site) continue;
 
-      let container;
-      if (site.shadowRoot) {
-        container = site.selector
-          ? Object.values(document.querySelectorAll(site.selector)).find((e) =>
-              e.shadowRoot.contains(video),
-            )
-          : video.parentElement;
-        container =
-          container && container.shadowRoot
-            ? container.parentElement
-            : container;
-      } else {
-        const browserVersion = browserInfo.browser.version.split(".")?.[0];
-
-        if (
-          site.selector?.includes(":not") &&
-          site.selector?.includes("*") &&
-          browserVersion &&
-          ((browserInfo.browser.name === "Chrome" &&
-            Number(browserVersion) < 88) ||
-            (browserInfo.browser.name === "Firefox" &&
-              Number(browserVersion) < 84))
-        ) {
-          const selector = site.selector?.split(" *")?.[0];
-          container = selector
-            ? Object.values(document.querySelectorAll(selector)).find((e) =>
-                e.contains(video),
-              )
-            : video.parentElement;
-        } else {
-          container = site.selector
-            ? Object.values(document.querySelectorAll(site.selector)).find(
-                (e) => e.contains(video),
-              )
-            : video.parentElement;
-        }
-      }
+      let container = findContainer(site, video);
       if (!container) continue;
-      if (site.host === "rumble" && container.querySelector("vot-block")) {
-        // fix multiply translation buttons in rumble.com
+
+      if (isAdVideo(video)) {
+        debug.log("The promotional video was ignored", video);
         continue;
       }
 
-      if (
-        site.host === "youku" &&
-        !video.parentElement?.classList?.contains("video-layer")
-      ) {
-        continue;
+      if (site.host === "rumble" && container.querySelector("vot-block")) {
+        continue; // fix multiply translation buttons in rumble.com
       }
+
+      // if (
+      //   site.host === "youku" &&
+      //   !video.parentElement?.classList.contains("video-layer")
+      // ) {
+      //   continue;
+      // }
 
       if (["peertube", "directlink"].includes(site.host)) {
-        // we set the url of the current site, since peertube doesn't have a main server
-        site.url = window.location.origin;
+        site.url = window.location.origin; // set the url of the current site for peertube and directlink
       }
 
       if (!videosWrappers.has(video)) {
@@ -2296,6 +2317,7 @@ async function main() {
       }
     }
   });
+
   videoObserver.onVideoRemoved.addListener(async (video) => {
     if (videosWrappers.has(video)) {
       await videosWrappers.get(video).release();
