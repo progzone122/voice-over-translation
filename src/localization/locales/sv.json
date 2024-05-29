@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "Rekommenderad",
   "translateVideo": "Översätt video",
   "disableTranslate": "Stänga",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "Översätta felet",
   "VOTProxyWorkerHost": "Ange proxyarbetarens adress",
   "VOTM3u8ProxyHost": "Ange adressen till M3U8-proxyarbetaren",
-  "proxySettings": "Proxyinställningar"
+  "proxySettings": "Proxyinställningar",
+  "translationTakeApproximatelyMinute2": "Översättningen tar ungefär {0} minuter"
 }

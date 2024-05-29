@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "preporučeno",
   "translateVideo": "Prevedi video",
   "disableTranslate": "Isključi",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "Prijevod pogreške",
   "VOTProxyWorkerHost": "Unesite radnu adresu opunomoćenika",
   "VOTM3u8ProxyHost": "Unesite adresu radnog opunomoćenika od 93 do 8",
-  "proxySettings": "Postavke opunomoćenika"
+  "proxySettings": "Postavke opunomoćenika",
+  "translationTakeApproximatelyMinute2": "Prijevod će trajati približno {0} minuta"
 }

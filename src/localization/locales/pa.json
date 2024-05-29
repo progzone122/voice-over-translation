@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "ਸਿਫਾਰਸ਼ੀ",
   "translateVideo": "ਵੀਡੀਓ ਅਨੁਵਾਦ ਕਰੋ",
   "disableTranslate": "ਬੰਦ ਕਰੋ",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "ਗਲਤੀ ਅਨੁਵਾਦ",
   "VOTProxyWorkerHost": "ਪਰਾਕਸੀ ਵਰਕਰ ਐਡਰੈੱਸ ਦਿਓ",
   "VOTM3u8ProxyHost": "ਐਮ 3 ਯੂ 8 ਪ੍ਰੌਕਸੀ ਵਰਕਰ ਦਾ ਪਤਾ ਦਰਜ ਕਰੋ",
-  "proxySettings": "ਪਰਾਕਸੀ ਸੈਟਿੰਗ"
+  "proxySettings": "ਪਰਾਕਸੀ ਸੈਟਿੰਗ",
+  "translationTakeApproximatelyMinute2": "ਅਨੁਵਾਦ ਲਗਭਗ {0} ਮਿੰਟ ਲਵੇਗਾ"
 }

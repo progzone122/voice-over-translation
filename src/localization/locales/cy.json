@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "argymhellir",
   "translateVideo": "Cyfieithu fideo",
   "disableTranslate": "Trowch i ffwrdd",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "Cyfieithu'r gwall",
   "VOTProxyWorkerHost": "Rhowch gyfeiriad y gweithiwr dirprwy",
   "VOTM3u8ProxyHost": "Rhowch gyfeiriad y gweithiwr dirprwy m3u8",
-  "proxySettings": "Gosodiadau Dirprwy"
+  "proxySettings": "Gosodiadau Dirprwy",
+  "translationTakeApproximatelyMinute2": "Bydd y cyfieithiad yn cymryd oddeutu {0} munud"
 }

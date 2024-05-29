@@ -3,7 +3,7 @@ import debug from "../utils/debug.js";
 import { votStorage } from "../utils/storage.js";
 import { GM_fetch } from "../utils/utils.js";
 
-const localesVersion = 2;
+const localesVersion = 4;
 const localesUrl = `https://raw.githubusercontent.com/ilyhalight/voice-over-translation/${
   DEBUG_MODE || IS_BETA_VERSION ? "dev" : "master"
 }/src/localization/locales`;

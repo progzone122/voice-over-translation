@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "ಶಿಫಾರಸು ಮಾಡಲಾಗಿದೆ",
   "translateVideo": "ವೀಡಿಯೊ ಭಾಷಾಂತರಿಸಿ",
   "disableTranslate": "ಆಫ್ ಮಾಡಿ",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "ದೋಷ ಅನುವಾದ",
   "VOTProxyWorkerHost": "ಪ್ರಾಕ್ಸಿ ಕಾರ್ಮಿಕರ ವಿಳಾಸವನ್ನು ನಮೂದಿಸಿ",
   "VOTM3u8ProxyHost": "M3u8 ಪ್ರಾಕ್ಸಿ ಕೆಲಸಗಾರನ ವಿಳಾಸವನ್ನು ನಮೂದಿಸಿ",
-  "proxySettings": "ಪ್ರಾಕ್ಸಿ ಸೆಟ್ಟಿಂಗ್ಗಳು"
+  "proxySettings": "ಪ್ರಾಕ್ಸಿ ಸೆಟ್ಟಿಂಗ್ಗಳು",
+  "translationTakeApproximatelyMinute2": "ಅನುವಾದವು ಸರಿಸುಮಾರು {0} ನಿಮಿಷಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳುತ್ತದೆ"
 }

@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "ұсынылады",
   "translateVideo": "Бейнені аудару",
   "disableTranslate": "Өшіру",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "Қате аудармасы",
   "VOTProxyWorkerHost": "Прокси-сервердің жұмыс мекенжайын енгізіңіз",
   "VOTM3u8ProxyHost": "M3u8 жұмыс прокси мекенжайын енгізіңіз",
-  "proxySettings": "Прокси параметрлері"
+  "proxySettings": "Прокси параметрлері",
+  "translationTakeApproximatelyMinute2": "Аударма шамамен {0} минутты алады"
 }

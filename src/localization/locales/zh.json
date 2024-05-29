@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "推荐使用",
   "translateVideo": "翻译视频",
   "disableTranslate": "关闭",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "翻译错误",
   "VOTProxyWorkerHost": "输入代理工作者地址",
   "VOTM3u8ProxyHost": "输入m3u8代理worker的地址",
-  "proxySettings": "代理设置"
+  "proxySettings": "代理设置",
+  "translationTakeApproximatelyMinute2": "翻译大约需要{0}分钟"
 }

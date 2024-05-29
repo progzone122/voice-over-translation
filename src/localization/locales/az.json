@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "tövsiyə",
   "translateVideo": "Videonu tərcümə edin",
   "disableTranslate": "Söndürün",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "Səhv tərcümə",
   "VOTProxyWorkerHost": "Proxy serverin iş ünvanını daxil edin",
   "VOTM3u8ProxyHost": "M3u8 işləyən proxy server ünvanını daxil edin",
-  "proxySettings": "Proxy server parametrləri"
+  "proxySettings": "Proxy server parametrləri",
+  "translationTakeApproximatelyMinute2": "Tərcümə təxminən {0} dəqiqə çəkəcək"
 }

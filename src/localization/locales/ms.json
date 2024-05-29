@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "disyorkan",
   "translateVideo": "Terjemahkan video",
   "disableTranslate": "Matikan",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "Menterjemahkan ralat",
   "VOTProxyWorkerHost": "Masukkan alamat pekerja proksi",
   "VOTM3u8ProxyHost": "Masukkan alamat pekerja proksi m3u8",
-  "proxySettings": "Tetapan Proksi"
+  "proxySettings": "Tetapan Proksi",
+  "translationTakeApproximatelyMinute2": "Terjemahan akan mengambil masa lebih kurang {0} minit"
 }

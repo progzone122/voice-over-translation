@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "अनुशंसित",
   "translateVideo": "वीडियो अनुवाद करें",
   "disableTranslate": "बंद करें",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "त्रुटि का अनुवाद",
   "VOTProxyWorkerHost": "प्रॉक्सी कार्यकर्ता पता दर्ज करें",
   "VOTM3u8ProxyHost": "एम 3 यू 8 प्रॉक्सी कार्यकर्ता का पता दर्ज करें",
-  "proxySettings": "प्रॉक्सी सेटिंग्स"
+  "proxySettings": "प्रॉक्सी सेटिंग्स",
+  "translationTakeApproximatelyMinute2": "अनुवाद में लगभग {0} मिनट लगेंगे"
 }

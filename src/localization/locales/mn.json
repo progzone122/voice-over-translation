@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "Зөвлөмж болгож байна",
   "translateVideo": "Видео орчуулах",
   "disableTranslate": "Унтраа",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "Алдааг орчуулах",
   "VOTProxyWorkerHost": "Прокси ажилчдын хаягийг оруулна уу",
   "VOTM3u8ProxyHost": "M3u8 прокси ажилтны хаягийг оруулна уу",
-  "proxySettings": "Прокси Тохиргоо"
+  "proxySettings": "Прокси Тохиргоо",
+  "translationTakeApproximatelyMinute2": "Орчуулга нь ойролцоогоор {0} минут болно"
 }

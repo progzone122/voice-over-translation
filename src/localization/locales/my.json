@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "အကြံပြုထားသည်",
   "translateVideo": "ဗီဒီယိုဘာသာပြန်",
   "disableTranslate": "ပိတ်လိုက်ပါ",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "အမှားကိုဘာသာပြန်ခြင်း",
   "VOTProxyWorkerHost": "Proxy worker လိပ်စာကိုရိုက်ထည့်ပါ",
   "VOTM3u8ProxyHost": "M3u8 proxy worker၏လိပ်စာကိုရိုက်ထည့်ပါ",
-  "proxySettings": "Proxy Setting များ"
+  "proxySettings": "Proxy Setting များ",
+  "translationTakeApproximatelyMinute2": "ဘာသာပြန်ဆိုမှုသည်{0}မိနစ်ခန့်ကြာလိမ့်မည်။"
 }

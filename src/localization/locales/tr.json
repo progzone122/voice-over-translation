@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "önerilen",
   "translateVideo": "Videoyu çevir",
   "disableTranslate": "Kapat",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "Hatayı çevirmek",
   "VOTProxyWorkerHost": "Vekil çalışan adresini girin",
   "VOTM3u8ProxyHost": "M3u8 proxy çalışanının adresini girin",
-  "proxySettings": "Proxy Ayarları"
+  "proxySettings": "Proxy Ayarları",
+  "translationTakeApproximatelyMinute2": "Çeviri yaklaşık {0} dakika sürecektir"
 }

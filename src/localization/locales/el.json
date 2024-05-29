@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "προτεινόμενη",
   "translateVideo": "Μετάφραση βίντεο",
   "disableTranslate": "Απενεργοποιήσετε",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "Μετάφραση του σφάλματος",
   "VOTProxyWorkerHost": "Εισαγάγετε τη διεύθυνση διακομιστή μεσολάβησης",
   "VOTM3u8ProxyHost": "Εισαγάγετε τη διεύθυνση του διακομιστή μεσολάβησης m3u8",
-  "proxySettings": "Ρυθμίσεις Διακομιστή Μεσολάβησης"
+  "proxySettings": "Ρυθμίσεις Διακομιστή Μεσολάβησης",
+  "translationTakeApproximatelyMinute2": "Η μετάφραση θα διαρκέσει περίπου {0} λεπτά"
 }

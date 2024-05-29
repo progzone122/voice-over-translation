@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "anbefalet",
   "translateVideo": "Oversæt video",
   "disableTranslate": "Slukke",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "Oversættelse af fejlen",
   "VOTProxyWorkerHost": "Indtast adressen på fuldmægtig",
   "VOTM3u8ProxyHost": "Indtast adressen på M3U8 fuldmægtig",
-  "proxySettings": "Fuldmagtsindstillinger"
+  "proxySettings": "Fuldmagtsindstillinger",
+  "translationTakeApproximatelyMinute2": "Oversættelsen tager cirka {0} minutter"
 }

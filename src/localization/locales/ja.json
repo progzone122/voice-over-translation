@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "おすすめ",
   "translateVideo": "動画を翻訳する",
   "disableTranslate": "オフにする",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "エラーの翻訳",
   "VOTProxyWorkerHost": "プロキシワーカーアドレスを入力します",
   "VOTM3u8ProxyHost": "M3u8プロキシワーカーのアドレスを入力します",
-  "proxySettings": "プロキシ設定"
+  "proxySettings": "プロキシ設定",
+  "translationTakeApproximatelyMinute2": "翻訳には約{0}分かかります"
 }

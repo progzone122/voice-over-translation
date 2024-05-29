@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "disaranake",
   "translateVideo": "Translate vidéo",
   "disableTranslate": "Patèni",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "Nerjemahake kesalahan",
   "VOTProxyWorkerHost": "Ketik alamat buruh proxy",
   "VOTM3u8ProxyHost": "Pilih alamat m3u8 pekerja proxy",
-  "proxySettings": "Setelan Proxy"
+  "proxySettings": "Setelan Proxy",
+  "translationTakeApproximatelyMinute2": "Terjemahan bakal njupuk kira-kira {0} menit"
 }

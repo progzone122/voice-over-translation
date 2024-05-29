@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "препорачано",
   "translateVideo": "Преведи видео",
   "disableTranslate": "Исклучи",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "Преведување на грешката",
   "VOTProxyWorkerHost": "Внесете ја адресата на прокси-работникот",
   "VOTM3u8ProxyHost": "Внесете ја адресата на прокси-работникот м3у8",
-  "proxySettings": "Поставки За Прокси"
+  "proxySettings": "Поставки За Прокси",
+  "translationTakeApproximatelyMinute2": "Преводот ќе трае приближно {0} минути"
 }

@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "সুপারিশ করা হয়",
   "translateVideo": "ভিডিও অনুবাদ করুন",
   "disableTranslate": "বন্ধ করুন",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "ত্রুটি অনুবাদ",
   "VOTProxyWorkerHost": "প্রক্সি কর্মী ঠিকানা লিখুন",
   "VOTM3u8ProxyHost": "এম 3 ইউ 8 প্রক্সি কর্মীর ঠিকানা লিখুন",
-  "proxySettings": "প্রক্সি সেটিংস"
+  "proxySettings": "প্রক্সি সেটিংস",
+  "translationTakeApproximatelyMinute2": "অনুবাদটি প্রায় {0} মিনিট সময় নেবে"
 }

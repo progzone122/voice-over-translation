@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "Được đề xuất",
   "translateVideo": "Dịch video",
   "disableTranslate": "Tắt",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "Dịch lỗi",
   "VOTProxyWorkerHost": "Nhập địa chỉ công nhân proxy",
   "VOTM3u8ProxyHost": "Nhập địa chỉ của nhân viên proxy m3u8",
-  "proxySettings": "Cài Đặt Proxy"
+  "proxySettings": "Cài Đặt Proxy",
+  "translationTakeApproximatelyMinute2": "Bản dịch sẽ mất khoảng {0} phút"
 }

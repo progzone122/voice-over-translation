@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "ശുപാർശ",
   "translateVideo": "വീഡിയോ പരിഭാഷപ്പെടുത്തുക",
   "disableTranslate": "ഓഫ് ചെയ്യുക",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "തെറ്റ് വിവർത്തനം ചെയ്യുക",
   "VOTProxyWorkerHost": "പ്രോക്സി തൊഴിലാളിയുടെ വിലാസം നല്കുക",
   "VOTM3u8ProxyHost": "എം 3 യു 8 പ്രോക്സി തൊഴിലാളിയുടെ വിലാസം നൽകുക",
-  "proxySettings": "പ്രോക്സി ക്രമീകരണങ്ങൾ"
+  "proxySettings": "പ്രോക്സി ക്രമീകരണങ്ങൾ",
+  "translationTakeApproximatelyMinute2": "പരിഭാഷ ഏകദേശം {0} മിനിറ്റ് എടുക്കും"
 }

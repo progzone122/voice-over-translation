@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "kunconywa",
   "translateVideo": "Humusha ividiyo",
   "disableTranslate": "Cisha",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "Ukuhumusha iphutha",
   "VOTProxyWorkerHost": "Faka ikheli proxy isisebenzi",
   "VOTM3u8ProxyHost": "Faka ikheli le-m3u8 proxy worker",
-  "proxySettings": "Izilungiselelo Ze-Proxy"
+  "proxySettings": "Izilungiselelo Ze-Proxy",
+  "translationTakeApproximatelyMinute2": "Ukuhumusha kuzothatha cishe imizuzu engu-0"
 }

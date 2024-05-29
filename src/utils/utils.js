@@ -258,18 +258,23 @@ function secsToStrTime(secs) {
   const seconds = Math.floor(secs % 60);
   if (minutes >= 60) {
     return localizationProvider.get("translationTakeMoreThanHour");
-  } else if (minutes >= 10 && minutes % 10) {
-    return localizationProvider
-      .get("translationTakeApproximatelyMinutes")
-      .replace("{0}", minutes);
-  } else if (minutes == 1 || (minutes == 0 && seconds > 0)) {
+  } else if (minutes === 1 || (minutes === 0 && seconds > 0)) {
     return localizationProvider.get("translationTakeAboutMinute");
-  } else {
+  } else if (minutes !== 11 && minutes % 10 === 1) {
+    return localizationProvider
+      .get("translationTakeApproximatelyMinute2")
+      .replace("{0}", minutes);
+  } else if (minutes > 21 && [2, 3, 4].includes(minutes % 10)) {
     return localizationProvider
       .get("translationTakeApproximatelyMinute")
       .replace("{0}", minutes);
   }
+
+  return localizationProvider
+    .get("translationTakeApproximatelyMinutes")
+    .replace("{0}", minutes);
 }
+
 function langTo6391(lang) {
   // convert lang to ISO 639-1
   return lang.toLowerCase().split(/[_;-]/)[0].trim();

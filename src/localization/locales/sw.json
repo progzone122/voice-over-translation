@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "imependekezwa",
   "translateVideo": "Tafsiri video",
   "disableTranslate": "Zima",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "Kutafsiri kosa",
   "VOTProxyWorkerHost": "Ingiza anwani ya mfanyakazi wa wakala",
   "VOTM3u8ProxyHost": "Ingiza anwani ya mfanyakazi wa wakala wa m3u8",
-  "proxySettings": "Mipangilio Ya Wakala"
+  "proxySettings": "Mipangilio Ya Wakala",
+  "translationTakeApproximatelyMinute2": "Tafsiri itachukua takriban {0} dakika"
 }

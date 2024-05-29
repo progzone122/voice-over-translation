@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "추천",
   "translateVideo": "비디오 번역",
   "disableTranslate": "끄기",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "오류 번역",
   "VOTProxyWorkerHost": "프록시 작업자 주소를 입력합니다",
   "VOTM3u8ProxyHost": "프록시 작업자의 주소를 입력합니다",
-  "proxySettings": "프록시 설정"
+  "proxySettings": "프록시 설정",
+  "translationTakeApproximatelyMinute2": "번역은 약{0}분이 소요됩니다"
 }

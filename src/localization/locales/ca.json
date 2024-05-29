@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "recomanat",
   "translateVideo": "Traduir vídeo",
   "disableTranslate": "Apaga",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "Traducció de l'error",
   "VOTProxyWorkerHost": "Introduïu l'adreça del treballador del servidor intermediari",
   "VOTM3u8ProxyHost": "Introduïu l'adreça del treballador intermediari m3u8",
-  "proxySettings": "Arranjament Del Servidor Intermediari"
+  "proxySettings": "Arranjament Del Servidor Intermediari",
+  "translationTakeApproximatelyMinute2": "La traducció trigarà aproximadament {0} minuts"
 }

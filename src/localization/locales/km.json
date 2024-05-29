@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "បានផ្ដល់ជាអនុសាសន៍",
   "translateVideo": "បកប្រែវីដេអូ",
   "disableTranslate": "បិទ",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "ការបកប្រែកំហុស",
   "VOTProxyWorkerHost": "បញ្ចូលអាសយដ្ឋានកម្មករប្រូកស៊ី",
   "VOTM3u8ProxyHost": "បញ្ចូលអាសយដ្ឋានរបស់កម្មករប្រូកស៊ី m3u8",
-  "proxySettings": "ការកំណត់ប្រូកស៊ី"
+  "proxySettings": "ការកំណត់ប្រូកស៊ី",
+  "translationTakeApproximatelyMinute2": "ការបកប្រែនេះនឹងចំណាយពេលប្រមាណ{0}នាទី"
 }

@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "ajánlott",
   "translateVideo": "Videó fordítása",
   "disableTranslate": "Kapcsolja ki",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "A hiba fordítása",
   "VOTProxyWorkerHost": "Adja meg a proxy munkavállaló címét",
   "VOTM3u8ProxyHost": "Írja be az m3u8 proxy munkás címét",
-  "proxySettings": "Proxy Beállítások"
+  "proxySettings": "Proxy Beállítások",
+  "translationTakeApproximatelyMinute2": "A fordítás körülbelül {0} percet vesz igénybe"
 }

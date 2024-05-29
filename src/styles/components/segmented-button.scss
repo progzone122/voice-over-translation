@@ -131,6 +131,16 @@
     fill: #f28b82;
   }
 
+  &[data-translating="true"] {
+    #vot-translating-icon {
+      display: block !important;
+    }
+
+    #vot-translate-icon {
+      display: none !important;
+    }
+  }
+
   &[data-direction="column"] {
     flex-direction: column;
     height: fit-content;

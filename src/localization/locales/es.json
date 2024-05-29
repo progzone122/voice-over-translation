@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "recomendado",
   "translateVideo": "Traducir vídeo",
   "disableTranslate": "Apagar",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "Traduciendo el error",
   "VOTProxyWorkerHost": "Ingrese la dirección del trabajador proxy",
   "VOTM3u8ProxyHost": "Ingrese la dirección del trabajador proxy m3u8",
-  "proxySettings": "Configuración de Proxy"
+  "proxySettings": "Configuración de Proxy",
+  "translationTakeApproximatelyMinute2": "La traducción tardará aproximadamente {0} minutos"
 }

@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "تجویز کیا",
   "translateVideo": "ویڈیو ترجمہ کریں",
   "disableTranslate": "برطرف کریں",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "غلطی کا ترجمہ",
   "VOTProxyWorkerHost": "پراکسی ورکر ایڈریس درج کریں ۔ ",
   "VOTM3u8ProxyHost": "M3u8 پراکسی ورکر کا پتہ درج کریں ۔ ",
-  "proxySettings": "پراکسی کی ترتیبات"
+  "proxySettings": "پراکسی کی ترتیبات",
+  "translationTakeApproximatelyMinute2": "ترجمہ میں تقریبا {0} منٹ لگیں گے"
 }

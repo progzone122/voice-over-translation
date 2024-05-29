@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "aanbevolen",
   "translateVideo": "Video vertalen",
   "disableTranslate": "Uitgeschakeld",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "Vertaling van de fout",
   "VOTProxyWorkerHost": "Voer het proxy worker-adres in",
   "VOTM3u8ProxyHost": "Voer het adres van de m3u8 proxy worker in",
-  "proxySettings": "Proxy-Instellingen"
+  "proxySettings": "Proxy-Instellingen",
+  "translationTakeApproximatelyMinute2": "De vertaling duurt ongeveer {0} minuten"
 }

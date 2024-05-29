@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "gomendatua",
   "translateVideo": "Itzuli bideoa",
   "disableTranslate": "Itzali",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "Errorea itzultzen",
   "VOTProxyWorkerHost": "Sartu ordezko langilearen helbidea",
   "VOTM3u8ProxyHost": "Sartu m3u8 ordezkariaren helbidea",
-  "proxySettings": "Ordezko Ezarpenak"
+  "proxySettings": "Ordezko Ezarpenak",
+  "translationTakeApproximatelyMinute2": "Itzulpenak gutxi gorabehera {0} minutu hartuko ditu"
 }

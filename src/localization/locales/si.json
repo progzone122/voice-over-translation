@@ -1,5 +1,5 @@
 {
-  "__version__": 3,
+  "__version__": 4,
   "recommended": "නිර්දේශිත",
   "translateVideo": "වීඩියෝ පරිවර්තනය කරන්න",
   "disableTranslate": "අක් රිය කරන්න",
@@ -190,5 +190,6 @@
   "VOTTranslatingError": "දෝෂය පරිවර්තනය කිරීම",
   "VOTProxyWorkerHost": "ප්රොක්සි සේවක ලිපිනය ඇතුලත් කරන්න",
   "VOTM3u8ProxyHost": "M3u8 ප්රොක්සි සේවකයාගේ ලිපිනය ඇතුලත් කරන්න",
-  "proxySettings": "ප්රොක්සි සැකසුම්"
+  "proxySettings": "ප්රොක්සි සැකසුම්",
+  "translationTakeApproximatelyMinute2": "පරිවර්තනය සඳහා ආසන්න වශයෙන් {0} විනාඩි ගතවනු ඇත"
 }
