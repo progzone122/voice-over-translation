@@ -1591,7 +1591,10 @@ function secsToStrTime(secs) {
     return localizationProvider
       .get("translationTakeApproximatelyMinute2")
       .replace("{0}", minutes);
-  } else if (minutes > 21 && [2, 3, 4].includes(minutes % 10)) {
+  } else if (
+    ![12, 13, 14].includes(minutes) &&
+    [2, 3, 4].includes(minutes % 10)
+  ) {
     return localizationProvider
       .get("translationTakeApproximatelyMinute")
       .replace("{0}", minutes);

@@ -1443,7 +1443,10 @@ function secsToStrTime(secs) {
     return _localization_localizationProvider_js__WEBPACK_IMPORTED_MODULE_0__/* .localizationProvider */ .j
       .get("translationTakeApproximatelyMinute2")
       .replace("{0}", minutes);
-  } else if (minutes > 21 && [2, 3, 4].includes(minutes % 10)) {
+  } else if (
+    ![12, 13, 14].includes(minutes) &&
+    [2, 3, 4].includes(minutes % 10)
+  ) {
     return _localization_localizationProvider_js__WEBPACK_IMPORTED_MODULE_0__/* .localizationProvider */ .j
       .get("translationTakeApproximatelyMinute")
       .replace("{0}", minutes);
