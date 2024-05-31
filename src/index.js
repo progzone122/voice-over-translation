@@ -34,7 +34,12 @@ import Bowser from "bowser";
 import requestStreamPing from "./rsp.js";
 import requestStreamTranslation from "./rst.js";
 import requestVideoTranslation from "./rvt.js";
-import { SubtitlesWidget, fetchSubtitles, getSubtitles } from "./subtitles.js";
+import {
+  SubtitlesWidget,
+  fetchSubtitles,
+  getSubtitles,
+  jsonToSrt,
+} from "./subtitles.js";
 
 import youtubeUtils from "./utils/youtubeUtils.js";
 import coursehunterUtils from "./utils/coursehunterUtils.js";
@@ -920,11 +925,15 @@ class VideoHandler {
         }
       });
 
-      this.votDownloadSubtitlesButton.addEventListener("click", () => {
-        console.log(this.downloadSubtitlesUrl);
-        if (this.downloadSubtitlesUrl) {
-          window.open(this.downloadSubtitlesUrl, "_blank").focus();
-        }
+      this.votDownloadSubtitlesButton.addEventListener("click", async () => {
+        const srtContent = jsonToSrt(this.YandexSubtitles);
+        const blob = new Blob([srtContent], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `subtitles_${this.videoData.videoId}.srt`;
+        a.click();
+        URL.revokeObjectURL(url);
       });
 
       this.votSettingsButton.addEventListener("click", () => {
@@ -1439,14 +1448,14 @@ class VideoHandler {
       );
       this.subtitlesWidget.setContent(null);
       this.votDownloadSubtitlesButton.hidden = true;
-      this.downloadSubtitlesUrl = null;
+      this.YandexSubtitles = null;
     } else {
       const fetchedSubs = await fetchSubtitles(
         this.subtitlesList.at(parseInt(subs)),
       );
       this.subtitlesWidget.setContent(fetchedSubs);
       this.votDownloadSubtitlesButton.hidden = false;
-      this.downloadSubtitlesUrl = this.subtitlesList.at(parseInt(subs))?.url;
+      this.YandexSubtitles = fetchedSubs;
     }
   }
 

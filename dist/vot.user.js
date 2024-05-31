@@ -2963,6 +2963,31 @@ function formatYoutubeSubtitles(subtitles) {
   return result;
 }
 
+function convertToSrtTimeFormat(seconds) {
+  let hours = Math.floor(seconds / 3600);
+  let minutes = Math.floor((seconds % 3600) / 60);
+  let remainingSeconds = Math.floor(seconds % 60);
+  let milliseconds = Math.floor((seconds % 1) * 1000);
+
+  return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")},${milliseconds.toString().padStart(3, "0")}`;
+}
+
+function jsonToSrt(jsonData) {
+  let srtContent = "";
+  let index = 1;
+  for (const entry of jsonData.subtitles) {
+    let startTime = entry.startMs / 1000.0;
+    let endTime = (entry.startMs + entry.durationMs) / 1000.0;
+
+    srtContent += `${index}\n`;
+    srtContent += `${convertToSrtTimeFormat(startTime)} --> ${convertToSrtTimeFormat(endTime)}\n`;
+    srtContent += `${entry.text}\n\n`;
+    index++;
+  }
+
+  return srtContent.trim();
+}
+
 async function fetchSubtitles(subtitlesObject) {
   const timeoutPromise = new Promise((resolve) =>
     setTimeout(
@@ -5200,11 +5225,15 @@ class VideoHandler {
         }
       });
 
-      this.votDownloadSubtitlesButton.addEventListener("click", () => {
-        console.log(this.downloadSubtitlesUrl);
-        if (this.downloadSubtitlesUrl) {
-          window.open(this.downloadSubtitlesUrl, "_blank").focus();
-        }
+      this.votDownloadSubtitlesButton.addEventListener("click", async () => {
+        const srtContent = jsonToSrt(this.YandexSubtitles);
+        const blob = new Blob([srtContent], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `subtitles_${this.videoData.videoId}.srt`;
+        a.click();
+        URL.revokeObjectURL(url);
       });
 
       this.votSettingsButton.addEventListener("click", () => {
@@ -5719,14 +5748,14 @@ class VideoHandler {
       );
       this.subtitlesWidget.setContent(null);
       this.votDownloadSubtitlesButton.hidden = true;
-      this.downloadSubtitlesUrl = null;
+      this.YandexSubtitles = null;
     } else {
       const fetchedSubs = await fetchSubtitles(
         this.subtitlesList.at(parseInt(subs)),
       );
       this.subtitlesWidget.setContent(fetchedSubs);
       this.votDownloadSubtitlesButton.hidden = false;
-      this.downloadSubtitlesUrl = this.subtitlesList.at(parseInt(subs))?.url;
+      this.YandexSubtitles = fetchedSubs;
     }
   }
 
