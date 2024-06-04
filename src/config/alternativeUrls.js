@@ -49,7 +49,7 @@ const sitesPiped = [
   "piped.frontendfriendly.xyz",
 ];
 
-const sitesProxyTok = [
+const sitesProxiTok = [
   "proxitok.pabloferreiro.es",
   "proxitok.pussthecat.org",
   "tok.habedieeh.re",
@@ -78,4 +78,4 @@ const sitesPeertube = [
   "peertube.su",
 ];
 
-export { sitesInvidious, sitesPiped, sitesProxyTok, sitesPeertube };
+export { sitesInvidious, sitesPiped, sitesProxiTok, sitesPeertube };

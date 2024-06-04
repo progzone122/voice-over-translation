@@ -1,7 +1,7 @@
 import {
   sitesInvidious,
   sitesPiped,
-  sitesProxyTok,
+  sitesProxiTok,
   sitesPeertube,
 } from "./alternativeUrls.js";
 
@@ -34,9 +34,9 @@ const sites = () => {
       selector: null,
     },
     {
-      host: "proxytok",
+      host: "proxitok",
       url: "https://www.tiktok.com/",
-      match: sitesProxyTok,
+      match: sitesProxiTok,
       selector: ".column.has-text-centered",
     },
     {
@@ -190,7 +190,7 @@ const sites = () => {
     },
     {
       host: "rumble",
-      url: "https://rumble.com", // <-- there should be no slash because we take the whole pathname
+      url: "https://rumble.com/",
       match: /^rumble.com$/,
       selector: "#videoPlayer > .videoPlayer-Rumble-cls > div",
     },
