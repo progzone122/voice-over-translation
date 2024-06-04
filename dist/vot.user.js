@@ -814,7 +814,7 @@ const sitesPiped = [
   "piped.frontendfriendly.xyz",
 ];
 
-const sitesProxyTok = [
+const sitesProxiTok = [
   "proxitok.pabloferreiro.es",
   "proxitok.pussthecat.org",
   "tok.habedieeh.re",
@@ -1376,50 +1376,75 @@ const getVideoId = (service, video) => {
         url.searchParams.get("v")
       );
     }
-    case "vk":
-      if (url.pathname.match(/^\/video-?[0-9]{8,9}_[0-9]{9}$/)) {
-        return url.pathname.match(/^\/video-?[0-9]{8,9}_[0-9]{9}$/)[0].slice(1);
-      } else if (url.searchParams.get("z")) {
-        return url.searchParams.get("z").split("/")[0];
-      } else if (url.searchParams.get("oid") && url.searchParams.get("id")) {
-        return `video-${Math.abs(
-          url.searchParams.get("oid"),
-        )}_${url.searchParams.get("id")}`;
-      } else {
-        return false;
+    case "vk": {
+      const pathID = url.pathname.match(/^\/video-?[0-9]{8,9}_[0-9]{9}$/);
+      const paramZ = url.searchParams.get("z");
+      const paramOID = url.searchParams.get("oid");
+      const paramID = url.searchParams.get("id");
+      if (pathID) {
+        return pathID[0].slice(1);
+      } else if (paramZ) {
+        return paramZ.split("/")[0];
+      } else if (paramOID && paramID) {
+        return `video-${Math.abs(parseInt(paramOID))}_${paramID}`;
       }
+
+      return null;
+    }
     case "nine_gag":
     case "9gag":
     case "gag":
       return url.pathname.match(/gag\/([^/]+)/)?.[1];
-    case "twitch":
-      if (/^m\.twitch\.tv$/.test(window.location.hostname)) {
-        const linkUrl = document.head.querySelector('link[rel="canonical"]');
-        return (
-          linkUrl?.href.match(/videos\/([^/]+)/)?.[0] || url.pathname.slice(1)
-        );
-      } else if (/^player\.twitch\.tv$/.test(window.location.hostname)) {
+    case "twitch": {
+      const clipPath = url.pathname.match(/([^/]+)\/(?:clip)\/([^/]+)/);
+      if (/^m\.twitch\.tv$/.test(url.hostname)) {
+        url.host = "www.twitch.tv";
+        return url.href.match(/videos\/([^/]+)/)?.[0] || url.pathname.slice(1);
+      } else if (/^player\.twitch\.tv$/.test(url.hostname)) {
         return `videos/${url.searchParams.get("video")}`;
-      } else if (/^clips\.twitch\.tv$/.test(window.location.hostname)) {
-        // get link to twitch channel (ex.: https://www.twitch.tv/xqc)
-        const channelLink = document.querySelector(
-          ".tw-link[data-test-selector='stream-info-card-component__stream-avatar-link']",
+      } else if (/^clips\.twitch\.tv$/.test(url.hostname)) {
+        // https://clips.twitch.tv/clipId
+        const schema = document.querySelector(
+          "script[type='application/ld+json']",
         );
-        if (!channelLink) {
-          return false;
+        const pathname = url.pathname.slice(1);
+        if (!schema) {
+          // иногда из-за не прогрузов твича это не работает, но пусть лучше будет (можно переделать все в async и ждать элемента, но нужно ли это ради 1 сайта)
+          // ссылки вида https://clips.twitch.tv/embed?clip=clipId грузятся нормально
+          const isEmbed = pathname === "embed";
+          const channelLink = document.querySelector(
+            isEmbed
+              ? ".tw-link[data-test-selector='stream-info-card-component__stream-avatar-link']"
+              : ".clips-player a:not([class])",
+          );
+
+          if (!channelLink) {
+            return;
+          }
+
+          const channelName = channelLink.href.replace(
+            "https://www.twitch.tv/",
+            "",
+          );
+
+          return `${channelName}/clip/${isEmbed ? url.searchParams.get("clip") : pathname}`;
         }
 
-        const channelName = channelLink.href.replace(
-          "https://www.twitch.tv/",
-          "",
-        );
-        return `${channelName}/clip/${url.searchParams.get("clip")}`;
-      } else if (url.pathname.match(/([^/]+)\/(?:clip)\/([^/]+)/)) {
-        return url.pathname.match(/([^/]+)\/(?:clip)\/([^/]+)/)[0];
-      } else {
-        return url.pathname.match(/(?:videos)\/([^/]+)/)?.[0];
+        const schemaJSON = JSON.parse(schema.innerText);
+        const channelLink = schemaJSON["@graph"].find(
+          (obj) => obj["@type"] === "VideoObject",
+        )?.creator.url;
+
+        const channelName = channelLink.replace("https://www.twitch.tv/", "");
+        return `${channelName}/clip/${pathname}`;
+      } else if (clipPath) {
+        return clipPath[0];
       }
-    case "proxytok":
+
+      return url.pathname.match(/(?:videos)\/([^/]+)/)?.[0];
+    }
+
+    case "proxitok":
       return url.pathname.match(/([^/]+)\/video\/([^/]+)/)?.[0];
     case "tiktok": {
       let id = url.pathname.match(/([^/]+)\/video\/([^/]+)/)?.[0];
@@ -1461,7 +1486,7 @@ const getVideoId = (service, video) => {
     case "udemy":
       return url.pathname;
     case "rumble":
-      return url.pathname;
+      return url.pathname.slice(1);
     case "facebook":
       return url.pathname;
     case "rutube":
@@ -3946,9 +3971,9 @@ const sites = () => {
       selector: null,
     },
     {
-      host: "proxytok",
+      host: "proxitok",
       url: "https://www.tiktok.com/",
-      match: sitesProxyTok,
+      match: sitesProxiTok,
       selector: ".column.has-text-centered",
     },
     {
@@ -4102,7 +4127,7 @@ const sites = () => {
     },
     {
       host: "rumble",
-      url: "https://rumble.com", // <-- there should be no slash because we take the whole pathname
+      url: "https://rumble.com/",
       match: /^rumble.com$/,
       selector: "#videoPlayer > .videoPlayer-Rumble-cls > div",
     },
@@ -6187,7 +6212,7 @@ class VideoHandler {
     switch (this.site.host) {
       case "twitter":
         document
-          .querySelector('div[data-testid="app-bar-back"][role="button"]')
+          .querySelector('button[data-testid="app-bar-back"][role="button"]')
           .addEventListener("click", this.stopTranslationBound);
         break;
       case "invidious":
