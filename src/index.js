@@ -1894,7 +1894,7 @@ class VideoHandler {
     switch (this.site.host) {
       case "twitter":
         document
-          .querySelector('div[data-testid="app-bar-back"][role="button"]')
+          .querySelector('button[data-testid="app-bar-back"][role="button"]')
           .addEventListener("click", this.stopTranslationBound);
         break;
       case "invidious":
