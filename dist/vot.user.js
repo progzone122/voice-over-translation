@@ -1259,6 +1259,91 @@ function videoSeek(video, time) {
   video.currentTime = finalTime;
 }
 
+function isMusic() {
+  // Нужно доработать логику
+  const channelName = getPlayerData().author,
+    titleStr = getPlayerData().title.toUpperCase(),
+    titleWordsList = titleStr.match(/\w+/g),
+    playerData = document.body.querySelector("ytd-watch-flexy")?.playerData;
+
+  return (
+    [
+      titleStr,
+      document.URL,
+      channelName,
+      playerData?.microformat?.playerMicroformatRenderer.category,
+      playerData?.title,
+    ].some((i) => i?.toUpperCase().includes("MUSIC")) ||
+    document.body.querySelector(
+      "#upload-info #channel-name .badge-style-type-verified-artist",
+    ) ||
+    (channelName &&
+      /(VEVO|Topic|Records|RECORDS|Recordings|AMV)$/.test(channelName)) ||
+    (channelName &&
+      /(MUSIC|ROCK|SOUNDS|SONGS)/.test(channelName.toUpperCase())) ||
+    (titleWordsList?.length &&
+      [
+        "🎵",
+        "♫",
+        "SONG",
+        "SONGS",
+        "SOUNDTRACK",
+        "LYRIC",
+        "LYRICS",
+        "AMBIENT",
+        "MIX",
+        "VEVO",
+        "CLIP",
+        "KARAOKE",
+        "OPENING",
+        "COVER",
+        "COVERED",
+        "VOCAL",
+        "INSTRUMENTAL",
+        "ORCHESTRAL",
+        "DUBSTEP",
+        "DJ",
+        "DNB",
+        "BASS",
+        "BEAT",
+        "ALBUM",
+        "PLAYLIST",
+        "DUBSTEP",
+        "CHILL",
+        "RELAX",
+        "CLASSIC",
+        "CINEMATIC",
+      ].some((i) => titleWordsList.includes(i))) ||
+    [
+      "OFFICIAL VIDEO",
+      "OFFICIAL AUDIO",
+      "FEAT.",
+      "FT.",
+      "LIVE RADIO",
+      "DANCE VER",
+      "HIP HOP",
+      "ROCK N ROLL",
+      "HOUR VER",
+      "HOURS VER",
+      "INTRO THEME",
+    ].some((i) => titleStr.includes(i)) ||
+    (titleWordsList?.length &&
+      [
+        "OP",
+        "ED",
+        "MV",
+        "OST",
+        "NCS",
+        "BGM",
+        "EDM",
+        "GMV",
+        "AMV",
+        "MMD",
+        "MAD",
+      ].some((i) => titleWordsList.includes(i)))
+  );
+}
+
 function getSubtitles() {
   const response = getPlayerResponse();
   let captionTracks =
@@ -1322,6 +1407,7 @@ async function getVideoData() {
   setVideoVolume,
   videoSeek,
   isMuted,
+  isMusic,
 });
 
 ;// CONCATENATED MODULE: ./src/utils/utils.js
@@ -1678,7 +1764,7 @@ function cleanText(title, description) {
     .replace(/[^\p{L}\s]/gu, " ")
     .trim()
     .replace(/\s+/g, " ")
-    .slice(0, 1000);
+    .slice(0, 450);
 }
 
 async function GM_fetch(url, opt = {}) {
@@ -4078,15 +4164,16 @@ const sites = () => {
       host: "bilibili",
       url: "https://www.bilibili.com/video/",
       match: /^(www|m|player).bilibili.com$/,
-      selector: ".bpx-player-video-wrap",
+      selector: "#bilibili-player",
     },
-    {
-      additionalData: "old", // /blackboard/webplayer/embed-old.html
-      host: "bilibili",
-      url: "https://www.bilibili.com/video/",
-      match: /^(www|m).bilibili.com$/,
-      selector: null,
-    },
+    // Добавляет лишние видео в обработчик
+    // {
+    //   additionalData: "old", // /blackboard/webplayer/embed-old.html
+    //   host: "bilibili",
+    //   url: "https://www.bilibili.com/video/",
+    //   match: /^(www|m).bilibili.com$/,
+    //   selector: null,
+    // },
     {
       host: "twitter",
       url: "https://twitter.com/i/status/",
@@ -4308,6 +4395,22 @@ function filterVideoNodes(nodes) {
   });
 }
 
+function isVideoReady(video) {
+  return video.readyState >= 3;
+}
+
+function waitForVideoReady(video, callback) {
+  function checkVideoState() {
+    if (isVideoReady(video)) {
+      callback(video);
+    } else {
+      requestAnimationFrame(checkVideoState);
+    }
+  }
+
+  checkVideoState();
+}
+
 class VideoObserver {
   constructor() {
     this.onVideoAdded = new EventImpl();
@@ -4321,7 +4424,7 @@ class VideoObserver {
 
             const addedNodes = filterVideoNodes(mutation.addedNodes);
             for (let j = 0; j < addedNodes.length; j++) {
-              this.handleVideoAdded(addedNodes[j]);
+              this.checkAndHandleVideo(addedNodes[j]);
             }
 
             const removedNodes = filterVideoNodes(mutation.removedNodes);
@@ -4333,6 +4436,7 @@ class VideoObserver {
         { timeout: 1000 },
       );
     });
+    this.videoCache = new Set();
   }
 
   enable() {
@@ -4342,12 +4446,19 @@ class VideoObserver {
     });
     const videos = document.querySelectorAll("video");
     for (let i = 0; i < videos.length; i++) {
-      this.handleVideoAdded(videos[i]);
+      this.checkAndHandleVideo(videos[i]);
     }
   }
 
   disable() {
     this.observer.disconnect();
+  }
+
+  checkAndHandleVideo(video) {
+    waitForVideoReady(video, (readyVideo) => {
+      this.handleVideoAdded(readyVideo);
+      this.videoCache.add(readyVideo);
+    });
   }
 
   handleVideoAdded = (video) => {
@@ -4394,6 +4505,8 @@ class VideoObserver {
 
 
 const browserInfo = es5.getParser(window.navigator.userAgent).getResult();
+
+const dontTranslateMusic = false; // Пока не придумал как стоит реализовать
 
 const sitesChromiumBlocked = [...sitesInvidious, ...sitesPiped];
 
@@ -4600,6 +4713,13 @@ class VideoHandler {
   }
 
   async autoTranslate() {
+    if (
+      this.site.host === "youtube" &&
+      dontTranslateMusic &&
+      youtubeUtils.isMusic()
+    ) {
+      return;
+    }
     if (
       !(
         this.firstPlay &&
@@ -5721,7 +5841,7 @@ class VideoHandler {
       this.container.style.height = "100%";
     }
 
-    addExtraEventListener(this.video, "loadeddata", async () => {
+    addExtraEventListener(this.video, "canplaythrough", async () => {
       // Временное решение
       if (this.site.host === "rutube" && this.video.src) {
         return;
