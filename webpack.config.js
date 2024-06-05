@@ -69,11 +69,7 @@ export default (env) => {
     entry: path.resolve(__dirname, "src", "index.js"),
     output: {
       path: path.resolve(__dirname, "dist"),
-      ...(() => {
-        if (!dev) {
-          return { filename: get_filename() };
-        }
-      })(),
+      ...(!dev ? { filename: get_filename() } : {}),
     },
     monkey: {
       debug: dev,
