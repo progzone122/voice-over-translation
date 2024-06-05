@@ -4413,6 +4413,7 @@ function waitForVideoReady(video, callback) {
 
 class VideoObserver {
   constructor() {
+    this.videoCache = new Set();
     this.onVideoAdded = new EventImpl();
     this.onVideoRemoved = new EventImpl();
     this.observer = new MutationObserver((mutationsList) => {
@@ -4436,7 +4437,18 @@ class VideoObserver {
         { timeout: 1000 },
       );
     });
-    this.videoCache = new Set();
+
+    this.intersectionObserver = new IntersectionObserver(
+      (entries) => {
+        for (let i = 0; i < entries.length; i++) {
+          const entry = entries[i];
+          if (entry.isIntersecting) {
+            this.handleIntersectingVideo(entry.target);
+          }
+        }
+      },
+      { threshold: 0.1 },
+    );
   }
 
   enable() {
@@ -4452,12 +4464,21 @@ class VideoObserver {
 
   disable() {
     this.observer.disconnect();
+    this.intersectionObserver.disconnect();
   }
 
   checkAndHandleVideo(video) {
+    if (this.videoCache.has(video)) {
+      return;
+    }
+    this.videoCache.add(video);
+    this.intersectionObserver.observe(video);
+  }
+
+  handleIntersectingVideo(video) {
+    this.intersectionObserver.unobserve(video);
     waitForVideoReady(video, (readyVideo) => {
       this.handleVideoAdded(readyVideo);
-      this.videoCache.add(readyVideo);
     });
   }
 
