@@ -1398,7 +1398,6 @@ const getVideoId = (service, video) => {
     case "twitch": {
       const clipPath = url.pathname.match(/([^/]+)\/(?:clip)\/([^/]+)/);
       if (/^m\.twitch\.tv$/.test(url.hostname)) {
-        url.host = "www.twitch.tv";
         return url.href.match(/videos\/([^/]+)/)?.[0] || url.pathname.slice(1);
       } else if (/^player\.twitch\.tv$/.test(url.hostname)) {
         return `videos/${url.searchParams.get("video")}`;
@@ -1484,49 +1483,49 @@ const getVideoId = (service, video) => {
     case "twitter":
       return url.pathname.match(/status\/([^/]+)/)?.[1];
     case "udemy":
-      return url.pathname;
     case "rumble":
-      return url.pathname.slice(1);
     case "facebook":
-      return url.pathname;
+      return url.pathname.slice(1);
     case "rutube":
       return url.pathname.match(/(?:video|embed)\/([^/]+)/)?.[1];
     case "coub":
-      if (url.pathname.includes("/view")) {
-        return url.pathname.match(/view\/([^/]+)/)?.[1];
-      } else if (url.pathname.includes("/embed")) {
-        return url.pathname.match(/embed\/([^/]+)/)?.[1];
-      } else {
-        return document.querySelector(".coub.active")?.dataset?.permalink;
-      }
+      return (
+        url.pathname.match(/(?:view|embed)\/([^/]+)/)?.[1] ||
+        document.querySelector(".coub.active")?.dataset?.permalink
+      );
     case "bilibili": {
       const bvid = url.searchParams.get("bvid");
       if (bvid) {
         return bvid;
-      } else {
-        let vid = url.pathname.match(/video\/([^/]+)/)?.[1];
-        if (vid && url.search && url.searchParams.get("p") !== null) {
-          vid += `/?p=${url.searchParams.get("p")}`;
-        }
-        return vid;
       }
-    }
-    case "mail_ru":
-      if (url.pathname.startsWith("/v/") || url.pathname.startsWith("/mail/")) {
-        return url.pathname;
-      } else if (url.pathname.match(/video\/embed\/([^/]+)/)) {
-        const referer = document.querySelector(
-          ".b-video-controls__mymail-link",
-        );
-        if (!referer) {
-          return false;
-        }
 
-        return referer?.href.split("my.mail.ru")?.[1];
+      let vid = url.pathname.match(/video\/([^/]+)/)?.[1];
+      if (vid && url.searchParams.get("p") !== null) {
+        vid += `/?p=${url.searchParams.get("p")}`;
       }
-      return false;
+
+      return vid;
+    }
+    case "mail_ru": {
+      const pathname = url.pathname;
+      if (pathname.startsWith("/v/") || pathname.startsWith("/mail/")) {
+        return pathname.slice(1);
+      }
+
+      const videoId = pathname.match(/video\/embed\/([^/]+)/)?.[1];
+      if (!videoId) {
+        return null;
+      }
+
+      const referer = document.querySelector(".b-video-controls__mymail-link");
+      if (!referer) {
+        return false;
+      }
+
+      return referer?.href.split("my.mail.ru")?.[1];
+    }
     case "bitchute":
-      return url.pathname.match(/video\/([^/]+)/)?.[1];
+      return url.pathname.match(/(video|embed)\/([^/]+)/)?.[2];
     case "coursera":
       // ! LINK SHOULD BE LIKE THIS https://www.coursera.org/learn/learning-how-to-learn/lecture/75EsZ
       // return url.pathname.match(/lecture\/([^/]+)\/([^/]+)/)?.[1]; // <--- COURSE PREVIEW
@@ -1551,18 +1550,14 @@ const getVideoId = (service, video) => {
       }
     }
     case "trovo": {
-      if (!url.pathname.startsWith("/s/")) {
-        return false;
-      }
-
       const vid = url.searchParams.get("vid");
       if (!vid) {
-        return false;
+        return null;
       }
 
       const path = url.pathname.match(/([^/]+)\/([\d]+)/)?.[0];
       if (!path) {
-        return false;
+        return null;
       }
 
       return `${path}?vid=${vid}`;
@@ -1574,7 +1569,7 @@ const getVideoId = (service, video) => {
       return courseId ? courseId + url.search : false;
     }
     case "ok.ru": {
-      return url.pathname.match(/\/video\/(\d+)/)?.[0];
+      return url.pathname.match(/\/video\/(\d+)/)?.[1];
     }
     case "googledrive":
       return url.searchParams.get("docid");
@@ -1585,7 +1580,7 @@ const getVideoId = (service, video) => {
     case "newgrounds":
       return url.pathname.match(/([^/]+)\/(view)\/([^/]+)/)?.[0];
     case "egghead":
-      return url.pathname;
+      return url.pathname.slice(1);
     case "youku":
       return url.pathname.match(/v_show\/id_[\w=]+/)?.[0];
     // case "sibnet": {
@@ -3788,14 +3783,14 @@ async function getHmacSha1(hmacKey, salt) {
 
 const API_ORIGIN = "https://global.apis.naver.com/weverse/wevweb"; // find as REACT_APP_API_GW_ORIGIN in main.<hash>.js
 const API_APP_ID = "be4d79eb8fc7bd008ee82c8ec4ff6fd4"; // find as REACT_APP_API_APP_ID in main.<hash>.js
-const API_HMAC_KEY = "1b9cb6378d959b45714bec49971ade22e6e24e42"; // find as c.active near `createHmac("sha1"...`  in main.<hash>.js
+const API_HMAC_KEY = "1b9cb6378d959b45714bec49971ade22e6e24e42"; // find as c.active near `createHmac('sha1'...`  in main.<hash>.js
 
 async function createHash(pathname) {
   // pathname example: /post/v1.0/post-3-142049908/preview?fieldSet=postForPreview...
   const timestamp = Date.now();
 
-  let salt = pathname.substring(0, Math.min(255, pathname.length)) + timestamp;
   // example salt is /video/v1.1/vod/67134/inKey?gcc=RU&appId=be4d79eb8fc7bd008ee82c8ec4ff6fd4&language=en&os=WEB&platform=WEB&wpf=pc1707527163588
+  let salt = pathname.substring(0, Math.min(255, pathname.length)) + timestamp;
 
   const sign = await getHmacSha1(API_HMAC_KEY, salt);
 
@@ -3825,16 +3820,16 @@ async function getVideoPreview(postId) {
 
   const hash = await createHash(pathname);
 
-  return await fetch(API_ORIGIN + pathname + "&" + new URLSearchParams(hash))
-    .then((res) => res.json())
-    .catch((err) => {
-      console.error(err);
-      return {
-        extension: {
-          video: {},
-        },
-      };
-    });
+  try {
+    const res = await fetch(
+      API_ORIGIN + pathname + "&" + new URLSearchParams(hash),
+    );
+
+    return await res.json();
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
 }
 
 async function getVideoInKey(videoId) {
@@ -3846,49 +3841,51 @@ async function getVideoInKey(videoId) {
     }); // ! DON'T EDIT ME
   const hash = await createHash(pathname);
 
-  return await fetch(API_ORIGIN + pathname + "&" + new URLSearchParams(hash), {
-    method: "POST",
-  })
-    .then((res) => res.json())
-    .catch((err) => {
-      console.error(err);
-      return {};
-    });
+  try {
+    const res = await fetch(
+      API_ORIGIN + pathname + "&" + new URLSearchParams(hash),
+      {
+        method: "POST",
+      },
+    );
+
+    return await res.json();
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
 }
 
 async function weverseUtils_getVideoInfo(infraVideoId, inkey, serviceId) {
   const timestamp = Date.now();
-  return await fetch(
-    `https://global.apis.naver.com/rmcnmv/rmcnmv/vod/play/v2.0/${infraVideoId}?` +
-      new URLSearchParams({
-        key: inkey,
-        sid: serviceId,
-        // pid: "863c411f-fbf0-4b67-868a-ef54427e5316", // возможно не нужен
-        nonce: timestamp,
-        devt: "html5_pc",
-        prv: "N",
-        aup: "N",
-        stpb: "N",
-        cpl: "en",
-        env: "prod",
-        lc: "en",
-        adi: [
-          {
-            adSystem: null,
-          },
-        ],
-        adu: "/",
-      }),
-  )
-    .then((res) => res.json())
-    .catch((err) => {
-      console.error(err);
-      return {
-        videos: {
-          list: [],
-        },
-      };
-    });
+  try {
+    const res = await fetch(
+      `https://global.apis.naver.com/rmcnmv/rmcnmv/vod/play/v2.0/${infraVideoId}?` +
+        new URLSearchParams({
+          key: inkey,
+          sid: serviceId,
+          nonce: timestamp,
+          devt: "html5_pc",
+          prv: "N",
+          aup: "N",
+          stpb: "N",
+          cpl: "en",
+          env: "prod",
+          lc: "en",
+          adi: JSON.stringify([
+            {
+              adSystem: null,
+            },
+          ]),
+          adu: "/",
+        }),
+    );
+
+    return await res.json();
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
 }
 
 function extractVideoInfo(videoList) {
@@ -3906,32 +3903,38 @@ async function weverseUtils_getVideoData() {
   )?.[3];
 
   const videoPreview = await getVideoPreview(postId);
+  if (!videoPreview) {
+    return undefined;
+  }
+
   debug/* default */.A.log("weverse video preview data:", videoPreview);
 
   const { videoId, serviceId, infraVideoId } = videoPreview.extension.video;
-
   if (!(videoId && serviceId && infraVideoId)) {
     return false;
   }
 
-  const { inKey } = await getVideoInKey(videoId);
+  const inkeyData = await getVideoInKey(videoId);
   debug/* default */.A.log("weverse video inKey data:", videoPreview);
-  if (!inKey) {
+  if (!inkeyData) {
     return false;
   }
 
-  const videoData = await weverseUtils_getVideoInfo(infraVideoId, inKey, serviceId);
-  debug/* default */.A.log("weverse video data:", videoData);
+  const videoInfo = await weverseUtils_getVideoInfo(
+    infraVideoId,
+    inkeyData.inKey,
+    serviceId,
+  );
+  debug/* default */.A.log("weverse video info:", videoInfo);
 
-  const videoSource = extractVideoInfo(videoData.videos.list);
-  if (!videoSource) {
+  const videoItem = extractVideoInfo(videoInfo.videos.list);
+  if (!videoItem) {
     return false;
   }
 
-  const { source: url, duration } = videoSource;
   return {
-    url,
-    duration,
+    url: videoItem.source,
+    duration: videoItem.duration,
   };
 }
 
@@ -4036,7 +4039,7 @@ const sites = () => {
     },
     {
       host: "ok.ru",
-      url: "https://ok.ru/",
+      url: "https://ok.ru/video/",
       match: /^ok.ru$/,
       selector: ".html5-vpl_vid",
     },
@@ -4056,7 +4059,7 @@ const sites = () => {
       host: "bitchute",
       url: "https://www.bitchute.com/video/",
       match: /^(www.)?bitchute.com$/,
-      selector: "#player",
+      selector: "div#player", // video#player also using for initializing player
     },
     {
       host: "rutube",
@@ -4106,7 +4109,7 @@ const sites = () => {
     {
       // ONLY IF YOU LOGINED TO UDEMY /course/NAME/learn/lecture/XXXX
       host: "udemy",
-      url: "https://www.udemy.com",
+      url: "https://www.udemy.com/",
       match: /udemy.com$/,
       selector:
         'div[data-purpose="curriculum-item-viewer-content"] > section > div > div > div > div:nth-of-type(2)',
@@ -4139,13 +4142,13 @@ const sites = () => {
     },
     {
       host: "peertube",
-      url: "tube.shanti.cafe", // This is a stub. The present value is set using window.location.origin. Check "src/index.js:videoObserver.onVideoAdded.addListener" to get more info
+      url: "stub", // This is a stub. The present value is set using window.location.origin. Check "src/index.js:videoObserver.onVideoAdded.addListener" to get more info
       match: sitesPeertube,
       selector: ".vjs-v7",
     },
     {
       host: "dailymotion",
-      url: "https://www.dailymotion.com/video/", // This is a stub. The present value is set using window.location.origin. Check "src/index.js:videoObserver.onVideoAdded.addListener" to get more info
+      url: "https://dai.ly/", // This is a stub. The present value is set using window.location.origin. Check "src/index.js:videoObserver.onVideoAdded.addListener" to get more info
       match: /^geo.dailymotion.com$/,
       selector: ".player",
     },
@@ -4157,7 +4160,7 @@ const sites = () => {
     },
     {
       host: "yandexdisk",
-      url: "https://disk.yandex.ru/i/",
+      url: "https://yadi.sk/i/",
       match: /^disk.yandex.ru$/,
       selector: "yaplayertag > div:nth-of-type(1)",
     },
@@ -4181,15 +4184,15 @@ const sites = () => {
     },
     {
       host: "facebook",
-      url: "https://facebook.com", // <-- there should be no slash because we take the whole pathname
+      url: "https://facebook.com/",
       match: (url) =>
         url.host.includes("facebook.com") && url.pathname.includes("/videos/"),
-      selector: 'div[data-pagelet="WatchPermalinkVideo"]',
+      selector: 'div[role="main"] div[data-pagelet$="video" i]',
     },
     {
       additionalData: "reels",
       host: "facebook",
-      url: "https://facebook.com", // <-- there should be no slash because we take the whole pathname
+      url: "https://facebook.com/",
       match: (url) =>
         url.host.includes("facebook.com") && url.pathname.includes("/reel/"),
       selector: 'div[role="main"]',
@@ -4207,9 +4210,9 @@ const sites = () => {
       selector: ".ng-video-player",
     },
     {
-      // TODO: Добавить поддержку tips и платных курсов
+      // TODO: Добавить поддержку tips (сделать через m3u8 т.к. обычная ссылка не принимается) и платных курсов
       host: "egghead",
-      url: "https://egghead.io",
+      url: "https://egghead.io/",
       match: /^egghead.io$/,
       selector: ".cueplayer-react-video-holder",
     },
@@ -4221,7 +4224,7 @@ const sites = () => {
     },
     {
       host: "directlink",
-      url: "any", // This is a stub. The present value is set using window.location.origin. Check "src/index.js:videoObserver.onVideoAdded.addListener" to get more info
+      url: "stub", // This is a stub. The present value is set using window.location.origin. Check "src/index.js:videoObserver.onVideoAdded.addListener" to get more info
       match: (url) => /([^.]+).mp4/.test(url.pathname),
       selector: null,
     },
