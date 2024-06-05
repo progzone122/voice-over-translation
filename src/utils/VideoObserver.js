@@ -75,10 +75,6 @@ export class VideoObserver {
   }
 
   checkAndHandleVideo(video) {
-    if (this.videoCache.has(video)) {
-      return;
-    }
-
     waitForVideoReady(video, (readyVideo) => {
       this.handleVideoAdded(readyVideo);
       this.videoCache.add(readyVideo);
