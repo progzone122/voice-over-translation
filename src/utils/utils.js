@@ -351,7 +351,7 @@ function cleanText(title, description) {
     .replace(/[^\p{L}\s]/gu, " ")
     .trim()
     .replace(/\s+/g, " ")
-    .slice(0, 1000);
+    .slice(0, 450);
 }
 
 async function GM_fetch(url, opt = {}) {
