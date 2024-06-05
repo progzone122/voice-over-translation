@@ -59,6 +59,8 @@ import {
 
 const browserInfo = Bowser.getParser(window.navigator.userAgent).getResult();
 
+const dontTranslateMusic = false; // Пока не придумал как стоит реализовать
+
 const sitesChromiumBlocked = [...sitesInvidious, ...sitesPiped];
 
 const videoLipSyncEvents = [
@@ -269,6 +271,13 @@ class VideoHandler {
   }
 
   async autoTranslate() {
+    if (
+      this.site.host === "youtube" &&
+      dontTranslateMusic &&
+      youtubeUtils.isMusic()
+    ) {
+      return;
+    }
     if (
       !(
         this.firstPlay &&
@@ -1390,7 +1399,7 @@ class VideoHandler {
       this.container.style.height = "100%";
     }
 
-    addExtraEventListener(this.video, "loadeddata", async () => {
+    addExtraEventListener(this.video, "canplaythrough", async () => {
       // Временное решение
       if (this.site.host === "rutube" && this.video.src) {
         return;
@@ -1894,7 +1903,7 @@ class VideoHandler {
     switch (this.site.host) {
       case "twitter":
         document
-          .querySelector('div[data-testid="app-bar-back"][role="button"]')
+          .querySelector('button[data-testid="app-bar-back"][role="button"]')
           .addEventListener("click", this.stopTranslationBound);
         break;
       case "invidious":

@@ -15,6 +15,22 @@ function filterVideoNodes(nodes) {
   });
 }
 
+function isVideoReady(video) {
+  return video.readyState >= 3;
+}
+
+function waitForVideoReady(video, callback) {
+  function checkVideoState() {
+    if (isVideoReady(video)) {
+      callback(video);
+    } else {
+      requestAnimationFrame(checkVideoState);
+    }
+  }
+
+  checkVideoState();
+}
+
 export class VideoObserver {
   constructor() {
     this.onVideoAdded = new EventImpl();
@@ -28,7 +44,7 @@ export class VideoObserver {
 
             const addedNodes = filterVideoNodes(mutation.addedNodes);
             for (let j = 0; j < addedNodes.length; j++) {
-              this.handleVideoAdded(addedNodes[j]);
+              this.checkAndHandleVideo(addedNodes[j]);
             }
 
             const removedNodes = filterVideoNodes(mutation.removedNodes);
@@ -40,6 +56,7 @@ export class VideoObserver {
         { timeout: 1000 },
       );
     });
+    this.videoCache = new Set();
   }
 
   enable() {
@@ -49,12 +66,23 @@ export class VideoObserver {
     });
     const videos = document.querySelectorAll("video");
     for (let i = 0; i < videos.length; i++) {
-      this.handleVideoAdded(videos[i]);
+      this.checkAndHandleVideo(videos[i]);
     }
   }
 
   disable() {
     this.observer.disconnect();
+  }
+
+  checkAndHandleVideo(video) {
+    if (this.videoCache.has(video)) {
+      return;
+    }
+
+    waitForVideoReady(video, (readyVideo) => {
+      this.handleVideoAdded(readyVideo);
+      this.videoCache.add(readyVideo);
+    });
   }
 
   handleVideoAdded = (video) => {

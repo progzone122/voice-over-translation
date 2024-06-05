@@ -99,6 +99,91 @@ function videoSeek(video, time) {
   video.currentTime = finalTime;
 }
 
+function isMusic() {
+  // Нужно доработать логику
+  const channelName = getPlayerData().author,
+    titleStr = getPlayerData().title.toUpperCase(),
+    titleWordsList = titleStr.match(/\w+/g),
+    playerData = document.body.querySelector("ytd-watch-flexy")?.playerData;
+
+  return (
+    [
+      titleStr,
+      document.URL,
+      channelName,
+      playerData?.microformat?.playerMicroformatRenderer.category,
+      playerData?.title,
+    ].some((i) => i?.toUpperCase().includes("MUSIC")) ||
+    document.body.querySelector(
+      "#upload-info #channel-name .badge-style-type-verified-artist",
+    ) ||
+    (channelName &&
+      /(VEVO|Topic|Records|RECORDS|Recordings|AMV)$/.test(channelName)) ||
+    (channelName &&
+      /(MUSIC|ROCK|SOUNDS|SONGS)/.test(channelName.toUpperCase())) ||
+    (titleWordsList?.length &&
+      [
+        "🎵",
+        "♫",
+        "SONG",
+        "SONGS",
+        "SOUNDTRACK",
+        "LYRIC",
+        "LYRICS",
+        "AMBIENT",
+        "MIX",
+        "VEVO",
+        "CLIP",
+        "KARAOKE",
+        "OPENING",
+        "COVER",
+        "COVERED",
+        "VOCAL",
+        "INSTRUMENTAL",
+        "ORCHESTRAL",
+        "DUBSTEP",
+        "DJ",
+        "DNB",
+        "BASS",
+        "BEAT",
+        "ALBUM",
+        "PLAYLIST",
+        "DUBSTEP",
+        "CHILL",
+        "RELAX",
+        "CLASSIC",
+        "CINEMATIC",
+      ].some((i) => titleWordsList.includes(i))) ||
+    [
+      "OFFICIAL VIDEO",
+      "OFFICIAL AUDIO",
+      "FEAT.",
+      "FT.",
+      "LIVE RADIO",
+      "DANCE VER",
+      "HIP HOP",
+      "ROCK N ROLL",
+      "HOUR VER",
+      "HOURS VER",
+      "INTRO THEME",
+    ].some((i) => titleStr.includes(i)) ||
+    (titleWordsList?.length &&
+      [
+        "OP",
+        "ED",
+        "MV",
+        "OST",
+        "NCS",
+        "BGM",
+        "EDM",
+        "GMV",
+        "AMV",
+        "MMD",
+        "MAD",
+      ].some((i) => titleWordsList.includes(i)))
+  );
+}
+
 function getSubtitles() {
   const response = getPlayerResponse();
   let captionTracks =
@@ -162,4 +247,5 @@ export default {
   setVideoVolume,
   videoSeek,
   isMuted,
+  isMusic,
 };

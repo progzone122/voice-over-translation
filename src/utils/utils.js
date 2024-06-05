@@ -49,50 +49,74 @@ const getVideoId = (service, video) => {
         url.searchParams.get("v")
       );
     }
-    case "vk":
-      if (url.pathname.match(/^\/video-?[0-9]{8,9}_[0-9]{9}$/)) {
-        return url.pathname.match(/^\/video-?[0-9]{8,9}_[0-9]{9}$/)[0].slice(1);
-      } else if (url.searchParams.get("z")) {
-        return url.searchParams.get("z").split("/")[0];
-      } else if (url.searchParams.get("oid") && url.searchParams.get("id")) {
-        return `video-${Math.abs(
-          url.searchParams.get("oid"),
-        )}_${url.searchParams.get("id")}`;
-      } else {
-        return false;
+    case "vk": {
+      const pathID = url.pathname.match(/^\/video-?[0-9]{8,9}_[0-9]{9}$/);
+      const paramZ = url.searchParams.get("z");
+      const paramOID = url.searchParams.get("oid");
+      const paramID = url.searchParams.get("id");
+      if (pathID) {
+        return pathID[0].slice(1);
+      } else if (paramZ) {
+        return paramZ.split("/")[0];
+      } else if (paramOID && paramID) {
+        return `video-${Math.abs(parseInt(paramOID))}_${paramID}`;
       }
+
+      return null;
+    }
     case "nine_gag":
     case "9gag":
     case "gag":
       return url.pathname.match(/gag\/([^/]+)/)?.[1];
-    case "twitch":
-      if (/^m\.twitch\.tv$/.test(window.location.hostname)) {
-        const linkUrl = document.head.querySelector('link[rel="canonical"]');
-        return (
-          linkUrl?.href.match(/videos\/([^/]+)/)?.[0] || url.pathname.slice(1)
-        );
-      } else if (/^player\.twitch\.tv$/.test(window.location.hostname)) {
+    case "twitch": {
+      const clipPath = url.pathname.match(/([^/]+)\/(?:clip)\/([^/]+)/);
+      if (/^m\.twitch\.tv$/.test(url.hostname)) {
+        return url.href.match(/videos\/([^/]+)/)?.[0] || url.pathname.slice(1);
+      } else if (/^player\.twitch\.tv$/.test(url.hostname)) {
         return `videos/${url.searchParams.get("video")}`;
-      } else if (/^clips\.twitch\.tv$/.test(window.location.hostname)) {
-        // get link to twitch channel (ex.: https://www.twitch.tv/xqc)
-        const channelLink = document.querySelector(
-          ".tw-link[data-test-selector='stream-info-card-component__stream-avatar-link']",
+      } else if (/^clips\.twitch\.tv$/.test(url.hostname)) {
+        // https://clips.twitch.tv/clipId
+        const schema = document.querySelector(
+          "script[type='application/ld+json']",
         );
-        if (!channelLink) {
-          return false;
+        const pathname = url.pathname.slice(1);
+        if (!schema) {
+          // иногда из-за не прогрузов твича это не работает, но пусть лучше будет (можно переделать все в async и ждать элемента, но нужно ли это ради 1 сайта)
+          // ссылки вида https://clips.twitch.tv/embed?clip=clipId грузятся нормально
+          const isEmbed = pathname === "embed";
+          const channelLink = document.querySelector(
+            isEmbed
+              ? ".tw-link[data-test-selector='stream-info-card-component__stream-avatar-link']"
+              : ".clips-player a:not([class])",
+          );
+
+          if (!channelLink) {
+            return;
+          }
+
+          const channelName = channelLink.href.replace(
+            "https://www.twitch.tv/",
+            "",
+          );
+
+          return `${channelName}/clip/${isEmbed ? url.searchParams.get("clip") : pathname}`;
         }
 
-        const channelName = channelLink.href.replace(
-          "https://www.twitch.tv/",
-          "",
-        );
-        return `${channelName}/clip/${url.searchParams.get("clip")}`;
-      } else if (url.pathname.match(/([^/]+)\/(?:clip)\/([^/]+)/)) {
-        return url.pathname.match(/([^/]+)\/(?:clip)\/([^/]+)/)[0];
-      } else {
-        return url.pathname.match(/(?:videos)\/([^/]+)/)?.[0];
+        const schemaJSON = JSON.parse(schema.innerText);
+        const channelLink = schemaJSON["@graph"].find(
+          (obj) => obj["@type"] === "VideoObject",
+        )?.creator.url;
+
+        const channelName = channelLink.replace("https://www.twitch.tv/", "");
+        return `${channelName}/clip/${pathname}`;
+      } else if (clipPath) {
+        return clipPath[0];
       }
-    case "proxytok":
+
+      return url.pathname.match(/(?:videos)\/([^/]+)/)?.[0];
+    }
+
+    case "proxitok":
       return url.pathname.match(/([^/]+)\/video\/([^/]+)/)?.[0];
     case "tiktok": {
       let id = url.pathname.match(/([^/]+)\/video\/([^/]+)/)?.[0];
@@ -132,49 +156,49 @@ const getVideoId = (service, video) => {
     case "twitter":
       return url.pathname.match(/status\/([^/]+)/)?.[1];
     case "udemy":
-      return url.pathname;
     case "rumble":
-      return url.pathname;
     case "facebook":
-      return url.pathname;
+      return url.pathname.slice(1);
     case "rutube":
       return url.pathname.match(/(?:video|embed)\/([^/]+)/)?.[1];
     case "coub":
-      if (url.pathname.includes("/view")) {
-        return url.pathname.match(/view\/([^/]+)/)?.[1];
-      } else if (url.pathname.includes("/embed")) {
-        return url.pathname.match(/embed\/([^/]+)/)?.[1];
-      } else {
-        return document.querySelector(".coub.active")?.dataset?.permalink;
-      }
+      return (
+        url.pathname.match(/(?:view|embed)\/([^/]+)/)?.[1] ||
+        document.querySelector(".coub.active")?.dataset?.permalink
+      );
     case "bilibili": {
       const bvid = url.searchParams.get("bvid");
       if (bvid) {
         return bvid;
-      } else {
-        let vid = url.pathname.match(/video\/([^/]+)/)?.[1];
-        if (vid && url.search && url.searchParams.get("p") !== null) {
-          vid += `/?p=${url.searchParams.get("p")}`;
-        }
-        return vid;
       }
-    }
-    case "mail_ru":
-      if (url.pathname.startsWith("/v/") || url.pathname.startsWith("/mail/")) {
-        return url.pathname;
-      } else if (url.pathname.match(/video\/embed\/([^/]+)/)) {
-        const referer = document.querySelector(
-          ".b-video-controls__mymail-link",
-        );
-        if (!referer) {
-          return false;
-        }
 
-        return referer?.href.split("my.mail.ru")?.[1];
+      let vid = url.pathname.match(/video\/([^/]+)/)?.[1];
+      if (vid && url.searchParams.get("p") !== null) {
+        vid += `/?p=${url.searchParams.get("p")}`;
       }
-      return false;
+
+      return vid;
+    }
+    case "mail_ru": {
+      const pathname = url.pathname;
+      if (pathname.startsWith("/v/") || pathname.startsWith("/mail/")) {
+        return pathname.slice(1);
+      }
+
+      const videoId = pathname.match(/video\/embed\/([^/]+)/)?.[1];
+      if (!videoId) {
+        return null;
+      }
+
+      const referer = document.querySelector(".b-video-controls__mymail-link");
+      if (!referer) {
+        return false;
+      }
+
+      return referer?.href.split("my.mail.ru")?.[1];
+    }
     case "bitchute":
-      return url.pathname.match(/video\/([^/]+)/)?.[1];
+      return url.pathname.match(/(video|embed)\/([^/]+)/)?.[2];
     case "coursera":
       // ! LINK SHOULD BE LIKE THIS https://www.coursera.org/learn/learning-how-to-learn/lecture/75EsZ
       // return url.pathname.match(/lecture\/([^/]+)\/([^/]+)/)?.[1]; // <--- COURSE PREVIEW
@@ -199,18 +223,14 @@ const getVideoId = (service, video) => {
       }
     }
     case "trovo": {
-      if (!url.pathname.startsWith("/s/")) {
-        return false;
-      }
-
       const vid = url.searchParams.get("vid");
       if (!vid) {
-        return false;
+        return null;
       }
 
       const path = url.pathname.match(/([^/]+)\/([\d]+)/)?.[0];
       if (!path) {
-        return false;
+        return null;
       }
 
       return `${path}?vid=${vid}`;
@@ -222,7 +242,7 @@ const getVideoId = (service, video) => {
       return courseId ? courseId + url.search : false;
     }
     case "ok.ru": {
-      return url.pathname.match(/\/video\/(\d+)/)?.[0];
+      return url.pathname.match(/\/video\/(\d+)/)?.[1];
     }
     case "googledrive":
       return url.searchParams.get("docid");
@@ -233,7 +253,7 @@ const getVideoId = (service, video) => {
     case "newgrounds":
       return url.pathname.match(/([^/]+)\/(view)\/([^/]+)/)?.[0];
     case "egghead":
-      return url.pathname;
+      return url.pathname.slice(1);
     case "youku":
       return url.pathname.match(/v_show\/id_[\w=]+/)?.[0];
     // case "sibnet": {
@@ -331,7 +351,7 @@ function cleanText(title, description) {
     .replace(/[^\p{L}\s]/gu, " ")
     .trim()
     .replace(/\s+/g, " ")
-    .slice(0, 1000);
+    .slice(0, 450);
 }
 
 async function GM_fetch(url, opt = {}) {

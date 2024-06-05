@@ -1,7 +1,7 @@
 import {
   sitesInvidious,
   sitesPiped,
-  sitesProxyTok,
+  sitesProxiTok,
   sitesPeertube,
 } from "./alternativeUrls.js";
 
@@ -34,9 +34,9 @@ const sites = () => {
       selector: null,
     },
     {
-      host: "proxytok",
+      host: "proxitok",
       url: "https://www.tiktok.com/",
-      match: sitesProxyTok,
+      match: sitesProxiTok,
       selector: ".column.has-text-centered",
     },
     {
@@ -99,7 +99,7 @@ const sites = () => {
     },
     {
       host: "ok.ru",
-      url: "https://ok.ru/",
+      url: "https://ok.ru/video/",
       match: /^ok.ru$/,
       selector: ".html5-vpl_vid",
     },
@@ -119,7 +119,7 @@ const sites = () => {
       host: "bitchute",
       url: "https://www.bitchute.com/video/",
       match: /^(www.)?bitchute.com$/,
-      selector: "#player",
+      selector: "div#player", // video#player also using for initializing player
     },
     {
       host: "rutube",
@@ -138,15 +138,16 @@ const sites = () => {
       host: "bilibili",
       url: "https://www.bilibili.com/video/",
       match: /^(www|m|player).bilibili.com$/,
-      selector: ".bpx-player-video-wrap",
+      selector: "#bilibili-player",
     },
-    {
-      additionalData: "old", // /blackboard/webplayer/embed-old.html
-      host: "bilibili",
-      url: "https://www.bilibili.com/video/",
-      match: /^(www|m).bilibili.com$/,
-      selector: null,
-    },
+    // Добавляет лишние видео в обработчик
+    // {
+    //   additionalData: "old", // /blackboard/webplayer/embed-old.html
+    //   host: "bilibili",
+    //   url: "https://www.bilibili.com/video/",
+    //   match: /^(www|m).bilibili.com$/,
+    //   selector: null,
+    // },
     {
       host: "twitter",
       url: "https://twitter.com/i/status/",
@@ -169,7 +170,7 @@ const sites = () => {
     {
       // ONLY IF YOU LOGINED TO UDEMY /course/NAME/learn/lecture/XXXX
       host: "udemy",
-      url: "https://www.udemy.com",
+      url: "https://www.udemy.com/",
       match: /udemy.com$/,
       selector:
         'div[data-purpose="curriculum-item-viewer-content"] > section > div > div > div > div:nth-of-type(2)',
@@ -190,7 +191,7 @@ const sites = () => {
     },
     {
       host: "rumble",
-      url: "https://rumble.com", // <-- there should be no slash because we take the whole pathname
+      url: "https://rumble.com/",
       match: /^rumble.com$/,
       selector: "#videoPlayer > .videoPlayer-Rumble-cls > div",
     },
@@ -202,13 +203,13 @@ const sites = () => {
     },
     {
       host: "peertube",
-      url: "tube.shanti.cafe", // This is a stub. The present value is set using window.location.origin. Check "src/index.js:videoObserver.onVideoAdded.addListener" to get more info
+      url: "stub", // This is a stub. The present value is set using window.location.origin. Check "src/index.js:videoObserver.onVideoAdded.addListener" to get more info
       match: sitesPeertube,
       selector: ".vjs-v7",
     },
     {
       host: "dailymotion",
-      url: "https://www.dailymotion.com/video/", // This is a stub. The present value is set using window.location.origin. Check "src/index.js:videoObserver.onVideoAdded.addListener" to get more info
+      url: "https://dai.ly/", // This is a stub. The present value is set using window.location.origin. Check "src/index.js:videoObserver.onVideoAdded.addListener" to get more info
       match: /^geo.dailymotion.com$/,
       selector: ".player",
     },
@@ -220,7 +221,7 @@ const sites = () => {
     },
     {
       host: "yandexdisk",
-      url: "https://disk.yandex.ru/i/",
+      url: "https://yadi.sk/i/",
       match: /^disk.yandex.ru$/,
       selector: "yaplayertag > div:nth-of-type(1)",
     },
@@ -244,15 +245,15 @@ const sites = () => {
     },
     {
       host: "facebook",
-      url: "https://facebook.com", // <-- there should be no slash because we take the whole pathname
+      url: "https://facebook.com/",
       match: (url) =>
         url.host.includes("facebook.com") && url.pathname.includes("/videos/"),
-      selector: 'div[data-pagelet="WatchPermalinkVideo"]',
+      selector: 'div[role="main"] div[data-pagelet$="video" i]',
     },
     {
       additionalData: "reels",
       host: "facebook",
-      url: "https://facebook.com", // <-- there should be no slash because we take the whole pathname
+      url: "https://facebook.com/",
       match: (url) =>
         url.host.includes("facebook.com") && url.pathname.includes("/reel/"),
       selector: 'div[role="main"]',
@@ -270,9 +271,9 @@ const sites = () => {
       selector: ".ng-video-player",
     },
     {
-      // TODO: Добавить поддержку tips и платных курсов
+      // TODO: Добавить поддержку tips (сделать через m3u8 т.к. обычная ссылка не принимается) и платных курсов
       host: "egghead",
-      url: "https://egghead.io",
+      url: "https://egghead.io/",
       match: /^egghead.io$/,
       selector: ".cueplayer-react-video-holder",
     },
@@ -284,7 +285,7 @@ const sites = () => {
     },
     {
       host: "directlink",
-      url: "any", // This is a stub. The present value is set using window.location.origin. Check "src/index.js:videoObserver.onVideoAdded.addListener" to get more info
+      url: "stub", // This is a stub. The present value is set using window.location.origin. Check "src/index.js:videoObserver.onVideoAdded.addListener" to get more info
       match: (url) => /([^.]+).mp4/.test(url.pathname),
       selector: null,
     },
