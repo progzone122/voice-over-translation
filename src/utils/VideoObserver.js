@@ -1,5 +1,6 @@
 import "requestidlecallback-polyfill";
 import { EventImpl } from "./EventImpl.js";
+import debug from "./debug.js";
 
 function filterVideoNodes(nodes) {
   return Array.from(nodes).flatMap((node) => {
@@ -13,6 +14,25 @@ function filterVideoNodes(nodes) {
       ? Array.from(node.shadowRoot.querySelectorAll("video"))
       : [];
   });
+}
+
+const adKeywords =
+  /advertise|promo|sponsor|banner|commercial|preroll|midroll|postroll|ad-container|sponsored/i;
+
+function isAdVideo(video) {
+  if (adKeywords.test(video.className) || adKeywords.test(video.title)) {
+    return true;
+  }
+
+  let parent = video.parentElement;
+  while (parent) {
+    if (adKeywords.test(parent.className) || adKeywords.test(parent.id)) {
+      return true;
+    }
+    parent = parent.parentElement;
+  }
+
+  return false;
 }
 
 function isVideoReady(video) {
@@ -97,6 +117,10 @@ export class VideoObserver {
 
   handleIntersectingVideo(video) {
     this.intersectionObserver.unobserve(video);
+    if (isAdVideo(video)) {
+      debug.log("The promotional video was ignored", video);
+      return;
+    }
     waitForVideoReady(video, (readyVideo) => {
       this.handleVideoAdded(readyVideo);
     });
@@ -108,6 +132,7 @@ export class VideoObserver {
 
   handleVideoRemoved = (video) => {
     if (!document.contains(video)) {
+      this.videoCache.delete(video);
       this.onVideoRemoved.dispatch(video);
     }
   };

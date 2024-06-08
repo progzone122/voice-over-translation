@@ -2233,24 +2233,6 @@ function getSites() {
 
 const videoObserver = new VideoObserver();
 const videosWrappers = new WeakMap();
-const adKeywords =
-  /advertise|promo|sponsor|banner|commercial|preroll|midroll|postroll|ad-container|sponsored/i;
-
-function isAdVideo(video) {
-  if (adKeywords.test(video.className) || adKeywords.test(video.title)) {
-    return true;
-  }
-
-  let parent = video.parentElement;
-  while (parent) {
-    if (adKeywords.test(parent.className) || adKeywords.test(parent.id)) {
-      return true;
-    }
-    parent = parent.parentElement;
-  }
-
-  return false;
-}
 
 function findContainer(site, video) {
   if (site.shadowRoot) {
@@ -2315,11 +2297,6 @@ async function main() {
 
       let container = findContainer(site, video);
       if (!container) continue;
-
-      if (isAdVideo(video)) {
-        debug.log("The promotional video was ignored", video);
-        continue;
-      }
 
       if (site.host === "rumble" && !video.style.display) {
         continue; // fix multiply translation buttons in rumble.com
