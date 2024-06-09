@@ -1202,7 +1202,6 @@ class VideoHandler {
   }
 
   releaseExtraEvents() {
-    clearInterval(this.resizeInterval);
     this.resizeObserver?.disconnect();
     if (
       ["youtube", "googledrive"].includes(this.site.host) &&
@@ -1263,14 +1262,6 @@ class VideoHandler {
       "style",
       `--vot-container-height: ${this.video.getBoundingClientRect().height}px`,
     );
-    this.resizeInterval = setInterval(() => {
-      this.votMenu.container.setAttribute(
-        "style",
-        `--vot-container-height: ${
-          this.video.getBoundingClientRect().height
-        }px`,
-      );
-    }, 500);
     // Sync menu volume slider with youtube original video (youtube only)
     if (
       ["youtube", "googledrive"].includes(this.site.host) &&
