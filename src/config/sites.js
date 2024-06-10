@@ -138,16 +138,16 @@ const sites = () => {
       host: "bilibili",
       url: "https://www.bilibili.com/video/",
       match: /^(www|m|player).bilibili.com$/,
-      selector: "#bilibili-player",
+      selector: ".bpx-player-video-wrap",
     },
     // Добавляет лишние видео в обработчик
-    // {
-    //   additionalData: "old", // /blackboard/webplayer/embed-old.html
-    //   host: "bilibili",
-    //   url: "https://www.bilibili.com/video/",
-    //   match: /^(www|m).bilibili.com$/,
-    //   selector: null,
-    // },
+    {
+      additionalData: "old", // /blackboard/webplayer/embed-old.html
+      host: "bilibili",
+      url: "https://www.bilibili.com/video/",
+      match: /^(www|m).bilibili.com$/,
+      selector: null,
+    },
     {
       host: "twitter",
       url: "https://twitter.com/i/status/",
