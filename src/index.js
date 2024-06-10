@@ -1641,7 +1641,7 @@ class VideoHandler {
       window.location.hostname.includes("my.mail.ru")
     ) {
       videoData.detectedLanguage = "ru";
-    } else if (["bilibili", "youku"].includes(this.site.host)) {
+    } else if (["youku"].includes(this.site.host)) {
       videoData.detectedLanguage = "zh";
     } else if (["vk"].includes(this.site.host)) {
       const trackLang = document.getElementsByTagName("track")?.[0]?.srclang;
@@ -1689,6 +1689,7 @@ class VideoHandler {
       videoData.translationHelp = udemyData.translationHelp;
     } else if (
       [
+        "bilibili",
         "piped",
         "invidious",
         "bitchute",
