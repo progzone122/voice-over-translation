@@ -6,12 +6,12 @@
 > [!CAUTION]
 > Before creating Issues, we strongly recommend that you read the [FAQ](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) section, as well as with existing [Issues](https://github.com/ilyhalight/voice-over-translation/issues)
 
-> [!WARNING]
-> If you use Tampermonkey 5.2.0+, don't forget to [enable](https://github.com/ilyhalight/voice-over-translation/issues/662#issuecomment-2160768958) Developer mode or use Tampermonkey MV2
-
 The voice-over translation of the video is now available not only in YandexBrowser. Very grateful, **[Yandex.Translate](https://translate.yandex.ru/)**, **[sodapng](https://github.com/sodapng)**, **[mynovelhost](https://github.com/mynovelhost)**, **[SashaXser](https://github.com/SashaXser)** and to all other contributors. Thanks <3
 
 ## Installing the extension:
+
+> [!WARNING]
+> If you use Tampermonkey 5.2.0+, don't forget to [enable](https://github.com/ilyhalight/voice-over-translation/issues/662#issuecomment-2160768958) Developer mode or use Tampermonkey MV2
 
 1. Install the extension **[Tampermonkey](https://www.tampermonkey.net/)** (An alternative for Safari: **[UserScripts](https://apps.apple.com/app/userscripts/id1463298887)**)
 2. **[«Install the Script»](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot.user.js)** (**[Cloudflare version](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot-cloudflare.user.js)**)
