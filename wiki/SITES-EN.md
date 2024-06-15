@@ -446,7 +446,7 @@ Limitations:
 
 - Translation of live broadcasts is not available
 
-## Yandexdisk
+## Yandex Disk
 
 Status: [⚠️] Works with limitations
 
@@ -475,7 +475,7 @@ Available (sub)domains:
 
 - /course/COURSE_ID
 
-## Googledrive
+## Google Drive
 
 Status: [✅] Working
 
@@ -491,7 +491,7 @@ Limitations:
 
 - It only works with public links
 
-## Bannedvideo
+## Banned.Video
 
 Status: [✅] Working
 

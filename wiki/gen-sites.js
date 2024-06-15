@@ -376,6 +376,9 @@ async function main() {
       .join("\n\n")
       .replace("Nine_gag", "9GAG")
       .replace("Mail_ru", "Mail.ru")
+      .replace("Yandexdisk", "Yandex Disk")
+      .replace("Googledrive", "Google Drive")
+      .replace("Bannedvideo", "Banned.Video")
       .replace(
         "geo.dailymotion.com",
         `geo.dailymotion.com (${i18n.dailymotionNotice[lang]})`,
