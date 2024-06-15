@@ -34,6 +34,13 @@
     user-select: none;
   }
 
+  & span {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+  }
+
   & .passed {
     color: var(--vot-subtitles-passed-color, rgb(33, 150, 243));
   }
