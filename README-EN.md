@@ -6,6 +6,9 @@
 > [!CAUTION]
 > Before creating Issues, we strongly recommend that you read the [FAQ](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) section, as well as with existing [Issues](https://github.com/ilyhalight/voice-over-translation/issues)
 
+> [!WARNING]
+> If you use Tampermonkey 5.2.0+, don't forget to [enable](https://github.com/ilyhalight/voice-over-translation/issues/662#issuecomment-2160768958) Developer mode or use Tampermonkey MV2
+
 The voice-over translation of the video is now available not only in YandexBrowser. Very grateful, **[Yandex.Translate](https://translate.yandex.ru/)**, **[sodapng](https://github.com/sodapng)**, **[mynovelhost](https://github.com/mynovelhost)**, **[SashaXser](https://github.com/SashaXser)** and to all other contributors. Thanks <3
 
 ## Installing the extension:
@@ -49,7 +52,7 @@ You can see all the restrictions related to site support in [wiki](https://githu
 - **[Bilibili](https://bilibili.com/)**
 - **[Video Mail.ru](https://my.mail.ru/video)**
 - **[Vimeo](https://vimeo.com/)**
-- **[[⚠️] XVideos](https://xvideos.com/)**
+- **[XVideos](https://xvideos.com/)**
 - **[PornHub](https://rt.pornhub.com/)**
 - **[Bitchute](https://www.bitchute.com/)**
 - **[Coursera](https://www.coursera.org/)**
@@ -69,15 +72,11 @@ You can see all the restrictions related to site support in [wiki](https://githu
 - **[Youku](https://youku.com)**
 - **[Newgrounds](https://newgrounds.com)**
 - **[ProxiTok](https://proxitok.pabloferreiro.es/)**
-- **[[⚠️] Invidious](https://yewtu.be)**
-- **[[⚠️] Piped](https://piped.video)**
+- **[Invidious](https://yewtu.be)**
+- **[Piped](https://piped.video)**
 - **Any direct web links to `.mp4`**
 
 ⚠️ - Requires additional actions, more in **[Wiki](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-Supported-sites)**
-
-❌ - Doesn't work
-
-❔ - Yandex support may be disabled
 
 ## List of functionality:
 

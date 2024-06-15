@@ -9,6 +9,9 @@
 Закадровый перевод видео, теперь, доступен не только в YandexBrowser.
 Очень признателен, **[Yandex.Translate](https://translate.yandex.ru/)**, **[sodapng](https://github.com/sodapng)**, **[mynovelhost](https://github.com/mynovelhost)**, **[SashaXser](https://github.com/SashaXser)** и всем остальным контрибьюторам. Спасиб <3
 
+> [!WARNING]
+> Если вы пользуетесь Tampermonkey 5.2.0+, не забудьте [включить](https://github.com/ilyhalight/voice-over-translation/issues/662#issuecomment-2160768958) режим разработчика или используйте Tampermonkey MV2
+
 ## Установка расширения:
 
 1. Установите расширение **[Tampermonkey](https://www.tampermonkey.net/)** (Альтернатива для Safari: **[UserScripts](https://apps.apple.com/app/userscripts/id1463298887)**)
@@ -50,7 +53,7 @@
 - **[Bilibili](https://bilibili.com/)**
 - **[Видео Mail.ru](https://my.mail.ru/video)**
 - **[Vimeo](https://vimeo.com/)**
-- **[[⚠️] XVideos](https://xvideos.com/)**
+- **[XVideos](https://xvideos.com/)**
 - **[PornHub](https://rt.pornhub.com/)**
 - **[Bitchute](https://www.bitchute.com/)**
 - **[Coursera](https://www.coursera.org/)**
@@ -70,15 +73,11 @@
 - **[Youku](https://youku.com)**
 - **[Newgrounds](https://newgrounds.com)**
 - **[ProxiTok](https://proxitok.pabloferreiro.es/)**
-- **[[⚠️] Invidious](https://yewtu.be)**
-- **[[⚠️] Piped](https://piped.video)**
+- **[Invidious](https://yewtu.be)**
+- **[Piped](https://piped.video)**
 - **Любые прямые веб-ссылки на `.mp4`**
 
 ⚠️ - Требует дополнительных действий, подробнее в **[Wiki](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-Supported-sites)**
-
-❌ - Не поддерживается
-
-❔ - Возможно отключена поддержка со стороны Яндекса
 
 ## Список функционала:
 
