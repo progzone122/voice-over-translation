@@ -11,14 +11,14 @@ const sites = () => {
       additionalData: "mobile",
       host: "youtube",
       url: "https://youtu.be/",
-      match: /^m.youtube(-nocookie)?.com$/,
+      match: /^m.youtube.com$/,
       selector: "shorts-video #player",
     },
     {
       additionalData: "mobile",
       host: "youtube",
       url: "https://youtu.be/",
-      match: /^m.youtube(-nocookie)?.com$/,
+      match: /^m.youtube.com$/,
       selector: ".player-container",
     },
     {
@@ -79,6 +79,13 @@ const sites = () => {
       shadowRoot: true,
     },
     {
+      additionalData: "clips",
+      host: "vk",
+      url: "https://vk.com/video?z=",
+      match: /^(www.|m.)?vk.(com|ru)$/,
+      selector: 'div[data-testid="clipcontainer-video"]',
+    },
+    {
       host: "vk",
       url: "https://vk.com/video?z=",
       match: /^(www.|m.)?vk.(com|ru)$/,
@@ -109,12 +116,12 @@ const sites = () => {
       match: /^9gag.com$/,
       selector: ".video-post",
     },
-    {
-      host: "coub",
-      url: "https://coub.com/view/",
-      match: /^coub.com$/,
-      selector: ".viewer__player",
-    },
+    // {
+    //   host: "coub",
+    //   url: "https://coub.com/view/",
+    //   match: /^coub.com$/,
+    //   selector: ".viewer__player",
+    // },
     {
       host: "bitchute",
       url: "https://www.bitchute.com/video/",
