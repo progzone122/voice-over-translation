@@ -4,10 +4,10 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- (www.)?youtube.com
-- (www.)?youtube-nocookie.com
-- (www.)?youtubekids.com
-- m.youtube.com
+- `(www.)?youtube.com`
+- `(www.)?youtube-nocookie.com`
+- `(www.)?youtubekids.com`
+- `m.youtube.com`
 
 Available (sub)domains:
 
@@ -27,7 +27,7 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- (www.)?tiktok.com
+- `(www.)?tiktok.com`
 
 Available (sub)domains:
 
@@ -43,18 +43,18 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- proxitok.pabloferreiro.es
-- proxitok.pussthecat.org
-- tok.habedieeh.re
-- proxitok.esmailelbob.xyz
-- proxitok.privacydev.net
-- tok.artemislena.eu
-- tok.adminforge.de
-- tik.hostux.net
-- tt.vern.cc
-- cringe.whatever.social
-- proxitok.lunar.icu
-- proxitok.privacy.com.de
+- `proxitok.pabloferreiro.es`
+- `proxitok.pussthecat.org`
+- `tok.habedieeh.re`
+- `proxitok.esmailelbob.xyz`
+- `proxitok.privacydev.net`
+- `tok.artemislena.eu`
+- `tok.adminforge.de`
+- `tik.hostux.net`
+- `tt.vern.cc`
+- `cringe.whatever.social`
+- `proxitok.lunar.icu`
+- `proxitok.privacy.com.de`
 
 Available (sub)domains:
 
@@ -66,10 +66,10 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- m.twitch.tv
-- www.twitch.tv
-- clips.twitch.tv
-- player.twitch.tv
+- `m.twitch.tv`
+- `www.twitch.tv`
+- `clips.twitch.tv`
+- `player.twitch.tv`
 
 Available (sub)domains:
 
@@ -88,7 +88,7 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- www.xvideos.com
+- `www.xvideos.com`
 
 Available (sub)domains:
 
@@ -104,8 +104,8 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- pornhub.com
-- [a-z]+.pornhub.com
+- `pornhub.com`
+- `[a-z]+.pornhub.com`
 
 Available (sub)domains:
 
@@ -122,12 +122,12 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- vk.com
-- vk.ru
-- www.vk.com
-- www.vk.ru
-- m.vk.com
-- m.vk.ru
+- `vk.com`
+- `vk.ru`
+- `www.vk.com`
+- `www.vk.ru`
+- `m.vk.com`
+- `m.vk.ru`
 
 Available (sub)domains:
 
@@ -141,8 +141,8 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- player.vimeo.com
-- vimeo.com
+- `player.vimeo.com`
+- `vimeo.com`
 
 Available (sub)domains:
 
@@ -155,7 +155,7 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- ok.ru
+- `ok.ru`
 
 Available (sub)domains:
 
@@ -167,7 +167,7 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- 9gag.com
+- `9gag.com`
 
 Available (sub)domains:
 
@@ -183,7 +183,7 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- (www.)?bitchute.com
+- `(www.)?bitchute.com`
 
 Available (sub)domains:
 
@@ -196,7 +196,7 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- rutube.ru
+- `rutube.ru`
 
 Available (sub)domains:
 
@@ -209,9 +209,9 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- www.bilibili.com
-- m.bilibili.com
-- player.bilibili.com
+- `www.bilibili.com`
+- `m.bilibili.com`
+- `player.bilibili.com`
 
 Available (sub)domains:
 
@@ -224,7 +224,7 @@ Status: [⚠️] Works with limitations
 
 Available (sub)domains:
 
-- twitter.com
+- `twitter.com`
 
 Available (sub)domains:
 
@@ -241,7 +241,7 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- my.mail.ru
+- `my.mail.ru`
 
 Available (sub)domains:
 
@@ -255,7 +255,7 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- coursera.org
+- `coursera.org`
 
 Available (sub)domains:
 
@@ -272,7 +272,7 @@ Status: [⚠️] Works with limitations
 
 Available (sub)domains:
 
-- udemy.com
+- `udemy.com`
 
 Available (sub)domains:
 
@@ -290,21 +290,21 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- invidious.snopyta.org
-- yewtu.be
-- invidious.kavin.rocks
-- vid.puffyan.us
-- invidious.namazso.eu
-- inv.riverside.rocks
-- yt.artemislena.eu
-- invidious.flokinet.to
-- invidious.esmailelbob.xyz
-- y.com.sb
-- invidious.nerdvpn.de
-- inv.vern.cc
-- invidious.slipfox.xyz
-- invidio.xamh.de
-- invidious.dhusch.de
+- `invidious.snopyta.org`
+- `yewtu.be`
+- `invidious.kavin.rocks`
+- `vid.puffyan.us`
+- `invidious.namazso.eu`
+- `inv.riverside.rocks`
+- `yt.artemislena.eu`
+- `invidious.flokinet.to`
+- `invidious.esmailelbob.xyz`
+- `y.com.sb`
+- `invidious.nerdvpn.de`
+- `inv.vern.cc`
+- `invidious.slipfox.xyz`
+- `invidio.xamh.de`
+- `invidious.dhusch.de`
 
 Available (sub)domains:
 
@@ -324,34 +324,34 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- piped.video
-- piped.tokhmi.xyz
-- piped.moomoo.me
-- piped.syncpundit.io
-- piped.mha.fi
-- watch.whatever.social
-- piped.garudalinux.org
-- efy.piped.pages.dev
-- watch.leptons.xyz
-- piped.lunar.icu
-- yt.dc09.ru
-- piped.mint.lgbt
-- il.ax
-- piped.privacy.com.de
-- piped.esmailelbob.xyz
-- piped.projectsegfau.lt
-- piped.in.projectsegfau.lt
-- piped.us.projectsegfau.lt
-- piped.privacydev.net
-- piped.palveluntarjoaja.eu
-- piped.smnz.de
-- piped.adminforge.de
-- piped.qdi.fi
-- piped.hostux.net
-- piped.chauvet.pro
-- piped.jotoma.de
-- piped.pfcd.me
-- piped.frontendfriendly.xyz
+- `piped.video`
+- `piped.tokhmi.xyz`
+- `piped.moomoo.me`
+- `piped.syncpundit.io`
+- `piped.mha.fi`
+- `watch.whatever.social`
+- `piped.garudalinux.org`
+- `efy.piped.pages.dev`
+- `watch.leptons.xyz`
+- `piped.lunar.icu`
+- `yt.dc09.ru`
+- `piped.mint.lgbt`
+- `il.ax`
+- `piped.privacy.com.de`
+- `piped.esmailelbob.xyz`
+- `piped.projectsegfau.lt`
+- `piped.in.projectsegfau.lt`
+- `piped.us.projectsegfau.lt`
+- `piped.privacydev.net`
+- `piped.palveluntarjoaja.eu`
+- `piped.smnz.de`
+- `piped.adminforge.de`
+- `piped.qdi.fi`
+- `piped.hostux.net`
+- `piped.chauvet.pro`
+- `piped.jotoma.de`
+- `piped.pfcd.me`
+- `piped.frontendfriendly.xyz`
 
 Available (sub)domains:
 
@@ -371,7 +371,7 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- rumble.com
+- `rumble.com`
 
 Available (sub)domains:
 
@@ -387,7 +387,7 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- (www.)?eporner.com
+- `(www.)?eporner.com`
 
 Available (sub)domains:
 
@@ -399,16 +399,16 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- peertube.1312.media
-- tube.shanti.cafe
-- bee-tube.fr
-- video.sadmin.io
-- dalek.zone
-- review.peertube.biz
-- peervideo.club
-- tube.la-dina.net
-- peertube.tmp.rcp.tf
-- peertube.su
+- `peertube.1312.media`
+- `tube.shanti.cafe`
+- `bee-tube.fr`
+- `video.sadmin.io`
+- `dalek.zone`
+- `review.peertube.biz`
+- `peervideo.club`
+- `tube.la-dina.net`
+- `peertube.tmp.rcp.tf`
+- `peertube.su`
 
 Available (sub)domains:
 
@@ -424,7 +424,7 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- geo.dailymotion.com (embedded player, on www.dailymotion.com it works)
+- `geo.dailymotion.com (embedded player, on www.dailymotion.com it works)`
 
 Available (sub)domains:
 
@@ -436,7 +436,7 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- trovo.live
+- `trovo.live`
 
 Available (sub)domains:
 
@@ -452,7 +452,7 @@ Status: [⚠️] Works with limitations
 
 Available (sub)domains:
 
-- disk.yandex.ru
+- `disk.yandex.ru`
 
 Available (sub)domains:
 
@@ -469,7 +469,7 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- coursehunter.net
+- `coursehunter.net`
 
 Available (sub)domains:
 
@@ -481,7 +481,7 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- youtube.googleapis.com
+- `youtube.googleapis.com`
 
 Available (sub)domains:
 
@@ -497,7 +497,7 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- (www.)?banned.video
+- `(www.)?banned.video`
 
 Available (sub)domains:
 
@@ -509,7 +509,7 @@ Status: [⚠️] Works with limitations
 
 Available (sub)domains:
 
-- facebook.com
+- `facebook.com`
 
 Available (sub)domains:
 
@@ -526,7 +526,7 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- weverse.io
+- `weverse.io`
 
 Available (sub)domains:
 
@@ -543,7 +543,7 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- www.newgrounds.com
+- `www.newgrounds.com`
 
 Available (sub)domains:
 
@@ -555,7 +555,7 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- egghead.io
+- `egghead.io`
 
 Available (sub)domains:
 
@@ -567,7 +567,7 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- v.youku.com
+- `v.youku.com`
 
 Available (sub)domains:
 
@@ -579,7 +579,7 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- any
+- `any`
 
 Available (sub)domains:
 

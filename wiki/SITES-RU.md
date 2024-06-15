@@ -4,10 +4,10 @@
 
 Доступные (под)домены:
 
-- (www.)?youtube.com
-- (www.)?youtube-nocookie.com
-- (www.)?youtubekids.com
-- m.youtube.com
+- `(www.)?youtube.com`
+- `(www.)?youtube-nocookie.com`
+- `(www.)?youtubekids.com`
+- `m.youtube.com`
 
 Доступные (под)домены:
 
@@ -27,7 +27,7 @@
 
 Доступные (под)домены:
 
-- (www.)?tiktok.com
+- `(www.)?tiktok.com`
 
 Доступные (под)домены:
 
@@ -43,18 +43,18 @@
 
 Доступные (под)домены:
 
-- proxitok.pabloferreiro.es
-- proxitok.pussthecat.org
-- tok.habedieeh.re
-- proxitok.esmailelbob.xyz
-- proxitok.privacydev.net
-- tok.artemislena.eu
-- tok.adminforge.de
-- tik.hostux.net
-- tt.vern.cc
-- cringe.whatever.social
-- proxitok.lunar.icu
-- proxitok.privacy.com.de
+- `proxitok.pabloferreiro.es`
+- `proxitok.pussthecat.org`
+- `tok.habedieeh.re`
+- `proxitok.esmailelbob.xyz`
+- `proxitok.privacydev.net`
+- `tok.artemislena.eu`
+- `tok.adminforge.de`
+- `tik.hostux.net`
+- `tt.vern.cc`
+- `cringe.whatever.social`
+- `proxitok.lunar.icu`
+- `proxitok.privacy.com.de`
 
 Доступные (под)домены:
 
@@ -66,10 +66,10 @@
 
 Доступные (под)домены:
 
-- m.twitch.tv
-- www.twitch.tv
-- clips.twitch.tv
-- player.twitch.tv
+- `m.twitch.tv`
+- `www.twitch.tv`
+- `clips.twitch.tv`
+- `player.twitch.tv`
 
 Доступные (под)домены:
 
@@ -88,7 +88,7 @@
 
 Доступные (под)домены:
 
-- www.xvideos.com
+- `www.xvideos.com`
 
 Доступные (под)домены:
 
@@ -104,8 +104,8 @@
 
 Доступные (под)домены:
 
-- pornhub.com
-- [a-z]+.pornhub.com
+- `pornhub.com`
+- `[a-z]+.pornhub.com`
 
 Доступные (под)домены:
 
@@ -122,12 +122,12 @@
 
 Доступные (под)домены:
 
-- vk.com
-- vk.ru
-- www.vk.com
-- www.vk.ru
-- m.vk.com
-- m.vk.ru
+- `vk.com`
+- `vk.ru`
+- `www.vk.com`
+- `www.vk.ru`
+- `m.vk.com`
+- `m.vk.ru`
 
 Доступные (под)домены:
 
@@ -141,8 +141,8 @@
 
 Доступные (под)домены:
 
-- player.vimeo.com
-- vimeo.com
+- `player.vimeo.com`
+- `vimeo.com`
 
 Доступные (под)домены:
 
@@ -155,7 +155,7 @@
 
 Доступные (под)домены:
 
-- ok.ru
+- `ok.ru`
 
 Доступные (под)домены:
 
@@ -167,7 +167,7 @@
 
 Доступные (под)домены:
 
-- 9gag.com
+- `9gag.com`
 
 Доступные (под)домены:
 
@@ -183,7 +183,7 @@
 
 Доступные (под)домены:
 
-- (www.)?bitchute.com
+- `(www.)?bitchute.com`
 
 Доступные (под)домены:
 
@@ -196,7 +196,7 @@
 
 Доступные (под)домены:
 
-- rutube.ru
+- `rutube.ru`
 
 Доступные (под)домены:
 
@@ -209,9 +209,9 @@
 
 Доступные (под)домены:
 
-- www.bilibili.com
-- m.bilibili.com
-- player.bilibili.com
+- `www.bilibili.com`
+- `m.bilibili.com`
+- `player.bilibili.com`
 
 Доступные (под)домены:
 
@@ -224,7 +224,7 @@
 
 Доступные (под)домены:
 
-- twitter.com
+- `twitter.com`
 
 Доступные (под)домены:
 
@@ -241,7 +241,7 @@
 
 Доступные (под)домены:
 
-- my.mail.ru
+- `my.mail.ru`
 
 Доступные (под)домены:
 
@@ -255,7 +255,7 @@
 
 Доступные (под)домены:
 
-- coursera.org
+- `coursera.org`
 
 Доступные (под)домены:
 
@@ -272,7 +272,7 @@
 
 Доступные (под)домены:
 
-- udemy.com
+- `udemy.com`
 
 Доступные (под)домены:
 
@@ -290,21 +290,21 @@
 
 Доступные (под)домены:
 
-- invidious.snopyta.org
-- yewtu.be
-- invidious.kavin.rocks
-- vid.puffyan.us
-- invidious.namazso.eu
-- inv.riverside.rocks
-- yt.artemislena.eu
-- invidious.flokinet.to
-- invidious.esmailelbob.xyz
-- y.com.sb
-- invidious.nerdvpn.de
-- inv.vern.cc
-- invidious.slipfox.xyz
-- invidio.xamh.de
-- invidious.dhusch.de
+- `invidious.snopyta.org`
+- `yewtu.be`
+- `invidious.kavin.rocks`
+- `vid.puffyan.us`
+- `invidious.namazso.eu`
+- `inv.riverside.rocks`
+- `yt.artemislena.eu`
+- `invidious.flokinet.to`
+- `invidious.esmailelbob.xyz`
+- `y.com.sb`
+- `invidious.nerdvpn.de`
+- `inv.vern.cc`
+- `invidious.slipfox.xyz`
+- `invidio.xamh.de`
+- `invidious.dhusch.de`
 
 Доступные (под)домены:
 
@@ -324,34 +324,34 @@
 
 Доступные (под)домены:
 
-- piped.video
-- piped.tokhmi.xyz
-- piped.moomoo.me
-- piped.syncpundit.io
-- piped.mha.fi
-- watch.whatever.social
-- piped.garudalinux.org
-- efy.piped.pages.dev
-- watch.leptons.xyz
-- piped.lunar.icu
-- yt.dc09.ru
-- piped.mint.lgbt
-- il.ax
-- piped.privacy.com.de
-- piped.esmailelbob.xyz
-- piped.projectsegfau.lt
-- piped.in.projectsegfau.lt
-- piped.us.projectsegfau.lt
-- piped.privacydev.net
-- piped.palveluntarjoaja.eu
-- piped.smnz.de
-- piped.adminforge.de
-- piped.qdi.fi
-- piped.hostux.net
-- piped.chauvet.pro
-- piped.jotoma.de
-- piped.pfcd.me
-- piped.frontendfriendly.xyz
+- `piped.video`
+- `piped.tokhmi.xyz`
+- `piped.moomoo.me`
+- `piped.syncpundit.io`
+- `piped.mha.fi`
+- `watch.whatever.social`
+- `piped.garudalinux.org`
+- `efy.piped.pages.dev`
+- `watch.leptons.xyz`
+- `piped.lunar.icu`
+- `yt.dc09.ru`
+- `piped.mint.lgbt`
+- `il.ax`
+- `piped.privacy.com.de`
+- `piped.esmailelbob.xyz`
+- `piped.projectsegfau.lt`
+- `piped.in.projectsegfau.lt`
+- `piped.us.projectsegfau.lt`
+- `piped.privacydev.net`
+- `piped.palveluntarjoaja.eu`
+- `piped.smnz.de`
+- `piped.adminforge.de`
+- `piped.qdi.fi`
+- `piped.hostux.net`
+- `piped.chauvet.pro`
+- `piped.jotoma.de`
+- `piped.pfcd.me`
+- `piped.frontendfriendly.xyz`
 
 Доступные (под)домены:
 
@@ -371,7 +371,7 @@
 
 Доступные (под)домены:
 
-- rumble.com
+- `rumble.com`
 
 Доступные (под)домены:
 
@@ -387,7 +387,7 @@
 
 Доступные (под)домены:
 
-- (www.)?eporner.com
+- `(www.)?eporner.com`
 
 Доступные (под)домены:
 
@@ -399,16 +399,16 @@
 
 Доступные (под)домены:
 
-- peertube.1312.media
-- tube.shanti.cafe
-- bee-tube.fr
-- video.sadmin.io
-- dalek.zone
-- review.peertube.biz
-- peervideo.club
-- tube.la-dina.net
-- peertube.tmp.rcp.tf
-- peertube.su
+- `peertube.1312.media`
+- `tube.shanti.cafe`
+- `bee-tube.fr`
+- `video.sadmin.io`
+- `dalek.zone`
+- `review.peertube.biz`
+- `peervideo.club`
+- `tube.la-dina.net`
+- `peertube.tmp.rcp.tf`
+- `peertube.su`
 
 Доступные (под)домены:
 
@@ -424,7 +424,7 @@
 
 Доступные (под)домены:
 
-- geo.dailymotion.com (встраиваемый плеер, на www.dailymotion.com работает)
+- `geo.dailymotion.com (встраиваемый плеер, на www.dailymotion.com работает)`
 
 Доступные (под)домены:
 
@@ -436,7 +436,7 @@
 
 Доступные (под)домены:
 
-- trovo.live
+- `trovo.live`
 
 Доступные (под)домены:
 
@@ -452,7 +452,7 @@
 
 Доступные (под)домены:
 
-- disk.yandex.ru
+- `disk.yandex.ru`
 
 Доступные (под)домены:
 
@@ -469,7 +469,7 @@
 
 Доступные (под)домены:
 
-- coursehunter.net
+- `coursehunter.net`
 
 Доступные (под)домены:
 
@@ -481,7 +481,7 @@
 
 Доступные (под)домены:
 
-- youtube.googleapis.com
+- `youtube.googleapis.com`
 
 Доступные (под)домены:
 
@@ -497,7 +497,7 @@
 
 Доступные (под)домены:
 
-- (www.)?banned.video
+- `(www.)?banned.video`
 
 Доступные (под)домены:
 
@@ -509,7 +509,7 @@
 
 Доступные (под)домены:
 
-- facebook.com
+- `facebook.com`
 
 Доступные (под)домены:
 
@@ -526,7 +526,7 @@
 
 Доступные (под)домены:
 
-- weverse.io
+- `weverse.io`
 
 Доступные (под)домены:
 
@@ -543,7 +543,7 @@
 
 Доступные (под)домены:
 
-- www.newgrounds.com
+- `www.newgrounds.com`
 
 Доступные (под)домены:
 
@@ -555,7 +555,7 @@
 
 Доступные (под)домены:
 
-- egghead.io
+- `egghead.io`
 
 Доступные (под)домены:
 
@@ -567,7 +567,7 @@
 
 Доступные (под)домены:
 
-- v.youku.com
+- `v.youku.com`
 
 Доступные (под)домены:
 
@@ -579,7 +579,7 @@
 
 Доступные (под)домены:
 
-- any
+- `any`
 
 Доступные (под)домены:
 

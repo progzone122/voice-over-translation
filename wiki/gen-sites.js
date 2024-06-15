@@ -319,7 +319,7 @@ function removeDuplicatesKeepLast(arr, key) {
 }
 
 function genMarkdown(sites, lang = "ru") {
-  let test = sites.map((site, idx) => {
+  let sitesData = sites.map((site, idx) => {
     let domains = getDomains(site.match);
     let prev = idx > 0 ? sites[idx - 1] : null;
     if (prev?.host === site.host) {
@@ -329,19 +329,17 @@ function genMarkdown(sites, lang = "ru") {
 
     return {
       ...site,
-      domains: domains.join("\n- "),
+      domains: domains.map((domain) => `\`${domain}\``).join("\n- "),
     };
   });
 
-  return removeDuplicatesKeepLast(test, "host").map((site) => {
+  return removeDuplicatesKeepLast(sitesData, "host").map((site) => {
     const hasData = Object.hasOwn(siteData, site.host);
     const limitsData = hasData ? siteData[site.host].limits : [];
     let limits = "";
     if (limitsData?.length) {
       limits = `\n\n${i18n.limitations[lang]}:\n- ${limitsData.map((limit) => limit[lang]).join("\n- ")}`;
     }
-
-    // console.log(site);
 
     const pathsData = hasData ? Array.from(siteData[site.host].paths) : [];
     let paths = "";
