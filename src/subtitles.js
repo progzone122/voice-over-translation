@@ -212,7 +212,7 @@ export async function getSubtitles(site, videoId, requestLang) {
         `${site.url}${videoId}`,
         requestLang,
         (success, response) => {
-          debug.log("[exec callback] Requesting video subtitles");
+          debug.log("[exec callback] Requesting video subtitles", videoId);
 
           if (!success) {
             console.error("[VOT] Failed get yandex subtitles");
@@ -436,68 +436,49 @@ export class SubtitlesWidget {
       return e.startMs < time && time < e.startMs + e.durationMs;
     });
     if (line) {
-      if (highlightWords) {
-        let { tokens } = line;
-        if (tokens.at(-1).alignRange.end > this.maxLength) {
-          let chunks = [];
-          let chunkStartIndex = 0;
-          let chunkEndIndex = 0;
-          let length = 0;
-          for (let i = 0; i < tokens.length + 1; i++) {
-            length += tokens[i]?.text?.length ?? 0;
-            if (!tokens[i] || length > this.maxLength) {
-              let t = tokens.slice(chunkStartIndex, chunkEndIndex + 1);
-              if (t.at(0) && t.at(0).text === " ") t = t.slice(1);
-              if (t.at(-1) && t.at(-1).text === " ")
-                t = t.slice(0, t.length - 1);
-              chunks.push({
-                startMs: tokens[chunkStartIndex].startMs,
-                durationMs:
-                  tokens[chunkEndIndex].startMs +
-                  tokens[chunkEndIndex].durationMs -
-                  tokens[chunkStartIndex].startMs,
-                tokens: t,
-              });
-              chunkStartIndex = i;
-              length = 0;
-            }
-            chunkEndIndex = i;
+      let { tokens } = line;
+      if (tokens.at(-1).alignRange.end > this.maxLength) {
+        let chunks = [];
+        let chunkStartIndex = 0;
+        let chunkEndIndex = 0;
+        let length = 0;
+        for (let i = 0; i < tokens.length + 1; i++) {
+          length += tokens[i]?.text?.length ?? 0;
+          if (!tokens[i] || length > this.maxLength) {
+            let t = tokens.slice(chunkStartIndex, chunkEndIndex + 1);
+            if (t.at(0) && t.at(0).text === " ") t = t.slice(1);
+            if (t.at(-1) && t.at(-1).text === " ") t = t.slice(0, t.length - 1);
+            chunks.push({
+              startMs: tokens[chunkStartIndex].startMs,
+              durationMs:
+                tokens[chunkEndIndex].startMs +
+                tokens[chunkEndIndex].durationMs -
+                tokens[chunkStartIndex].startMs,
+              tokens: t,
+            });
+            chunkStartIndex = i;
+            length = 0;
           }
-          for (let index = 0; index < chunks.length; index++) {
-            const chunk = chunks[index];
-            if (
-              chunk.startMs < time &&
-              time < chunk.startMs + chunk.durationMs
-            ) {
-              tokens = chunk.tokens;
-              break;
-            }
-          }
+          chunkEndIndex = i;
         }
-        for (let i = 0; i < tokens.length; i++) {
-          const token = tokens[i];
-          const passedMs = token.startMs + token.durationMs / 2;
-          content += `<span ${
-            time > passedMs ||
-            (time > token.startMs - 100 && passedMs - time < 275)
-              ? 'class="passed"'
-              : ""
-          }>${token.text}</span>`;
-        }
-      } else if (line.text.length > this.maxLength) {
-        let chunks = line.text.match(this.maxLengthRegexp);
-        let chunkDurationMs = line.durationMs / chunks.length;
-        for (let i = 0; i < chunks.length; i++) {
-          if (
-            line.startMs + chunkDurationMs * i < time &&
-            time < line.startMs + chunkDurationMs * (i + 1)
-          ) {
-            content = chunks[i].trim();
+        for (let index = 0; index < chunks.length; index++) {
+          const chunk = chunks[index];
+          if (chunk.startMs < time && time < chunk.startMs + chunk.durationMs) {
+            tokens = chunk.tokens;
             break;
           }
         }
-      } else {
-        content = line.text;
+      }
+      for (let i = 0; i < tokens.length; i++) {
+        const token = tokens[i];
+        const passedMs = token.startMs + token.durationMs / 2;
+        content += `<span ${
+          highlightWords &&
+          (time > passedMs ||
+            (time > token.startMs - 100 && passedMs - time < 275))
+            ? 'class="passed"'
+            : ""
+        }>${token.text}</span>`;
       }
     }
     if (content !== this.lastContent) {
