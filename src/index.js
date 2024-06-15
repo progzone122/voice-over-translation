@@ -866,6 +866,14 @@ class VideoHandler {
               throw new VOTLocalizedError("VOTNoVideoIDFound");
             }
 
+            // при скролле ленты клипов в вк сохраняется старый айди видео для перевода,
+            // но для субтитров используется новый, поэтому перед запуском перевода необходимо получить актуальный айди
+            if (
+              this.site.host === "vk" &&
+              this.site.additionalData === "clips"
+            ) {
+              this.videoData = await this.getVideoData();
+            }
             await this.translateExecutor(this.videoData.videoId);
           } catch (err) {
             console.error("[VOT]", err);
@@ -1813,7 +1821,7 @@ class VideoHandler {
   }
 
   async translateExecutor(VIDEO_ID) {
-    debug.log("Run translateFunc");
+    debug.log("Run translateFunc", VIDEO_ID);
     this.translateFunc(
       VIDEO_ID,
       this.videoData.isStream,
@@ -1924,7 +1932,7 @@ class VideoHandler {
       ? translationHelp.url
       : `${this.site.url}${VIDEO_ID}`;
 
-    // fix enabling the old requested voiceover when changing the language to the native language (#)
+    // fix enabling the old requested voiceover when changing the language to the native language (#414)
     debug.log("Run videoValidator");
     this.videoValidator();
 

@@ -50,7 +50,9 @@ const getVideoId = (service, video) => {
       );
     }
     case "vk": {
-      const pathID = url.pathname.match(/^\/video-?[0-9]{8,9}_[0-9]{9}$/);
+      const pathID = url.pathname.match(
+        /^\/(video|clip)-?[0-9]{8,9}_[0-9]{9}$/,
+      );
       const paramZ = url.searchParams.get("z");
       const paramOID = url.searchParams.get("oid");
       const paramID = url.searchParams.get("id");
@@ -115,7 +117,6 @@ const getVideoId = (service, video) => {
 
       return url.pathname.match(/(?:videos)\/([^/]+)/)?.[0];
     }
-
     case "proxitok":
       return url.pathname.match(/([^/]+)\/video\/([^/]+)/)?.[0];
     case "tiktok": {
