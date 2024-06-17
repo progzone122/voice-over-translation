@@ -17,27 +17,30 @@
 1. Установите расширение **[Tampermonkey](https://www.tampermonkey.net/)** (Альтернатива для Safari: **[UserScripts](https://apps.apple.com/app/userscripts/id1463298887)**)
 2. **[«Установите Скрипт»](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot.user.js)** (**[Cloudflare version](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot-cloudflare.user.js)**)
 
+## Список функционала:
+
+1. Перевод видео с [одного из доступных языков](LANG_SUPPORT.md) на русский, английский или казахский
+2. Перевод стримов на YouTube (работает с небольшой задержкой)
+3. Отображение субтитров сгенерированных нейросетью (на YouTube дополнительно отображаются автосгенерированные субтитры)
+4. Сохранение используемых субтитров (в `.srt` формате)
+5. Сохранение аудиодорожки перевода (в `.mp3` формате)
+6. Автоматический перевод видео при открытие
+7. Слайдеры для изменения громкости видео и перевода
+8. Автоматическое выставление громкости переведенного видео (как в Яндекс браузере)
+9. Синхронизация громкости перевода с громкостью видео
+10. Ограничить перевод видео с родного языка (язык можно выбрать в меню)
+11. Проксирование аудио, если у вас забанены сервера Яндекса (в Cloudflare версии)
+
 ### Полезные ссылки:
 
 1. Версия для VioletMonkey, FireMonkey, GreaseMonkey, AdGuard, OrangeMonkey, UserScripts и некоторых браузеров (cloudflare-version): **[Ссылка](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot-cloudflare.user.js)**
 2. Версия для терминала (vot-cli): **[Ссылка](https://github.com/FOSWLY/vot-cli)**
 3. Вики: **[Link](https://github.com/ilyhalight/voice-over-translation/wiki)**
 
-### Наши домены:
+## Примечание:
 
-Эти домены могут быть установлены в настройках расширения (здесь указаны только те домены, которые можно изменить без пересборки):
-
-#### Proxy-сервер
-
-- [vot.toil.cc](https://vot.toil.cc/health) (Балансировщик между прокси серверами)
-- [vot-worker.toil.cc](https://github.com/FOSWLY/vot-worker)
-- [vot.deno.dev](https://github.com/FOSWLY/vot-worker)
-- [vot-new.toil-dump.workers.dev](https://github.com/FOSWLY/vot-worker) (⚠️ не работает в РФ)
-
-#### M3U8 Proxy-сервер
-
-- [m3u8-proxy.toil.cc](https://github.com/FOSWLY/m3u8-proxy-worker)
-- [m3u8-proxy.toiloff.workers.dev](https://github.com/FOSWLY/m3u8-proxy-worker) (⚠️ не работает в РФ. Не рекомендуется к использованию из-за низких лимитов.)
+1. Рекомендую разрешить автовоспроизведение "аудио и видео", чтобы избежать ошибок при работе расширения
+2. Расширение не может переводить видео длиной более 4 часов (ограничение API переводчика)
 
 ## Список поддерживаемых сайтов:
 
@@ -79,15 +82,21 @@
 
 ⚠️ - Требует дополнительных действий, подробнее в **[Wiki](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-Supported-sites)**
 
-## Список функционала:
+### Наши домены:
 
-1. Перевод с одного из доступных языков на русский. Язык определяется автоматически, если языка нету в списке или не удалось его определить, то используется перевод с английского.
-2. Перевод с русского на английский язык
-3. Автоматический перевод видео при открытие
-4. Слайдер для изменения громкости видео
-5. Автоматически выставлять громкость видео (как в Яндекс браузере)
-6. [YouTube Only] Синхронизация громкости перевода с громкостью видео
-7. [YouTube Only] Ограничить перевод видео с родного языка
+Эти домены могут быть установлены в настройках расширения (здесь указаны только те домены, которые можно изменить без пересборки):
+
+#### Proxy-сервер
+
+- [vot.toil.cc](https://vot.toil.cc/health) (Балансировщик между прокси серверами)
+- [vot-worker.toil.cc](https://github.com/FOSWLY/vot-worker)
+- [vot.deno.dev](https://github.com/FOSWLY/vot-worker)
+- [vot-new.toil-dump.workers.dev](https://github.com/FOSWLY/vot-worker) (⚠️ не работает в РФ)
+
+#### M3U8 Proxy-сервер
+
+- [m3u8-proxy.toil.cc](https://github.com/FOSWLY/m3u8-proxy-worker)
+- [m3u8-proxy.toiloff.workers.dev](https://github.com/FOSWLY/m3u8-proxy-worker) (⚠️ не работает в РФ. Не рекомендуется к использованию из-за низких лимитов.)
 
 ## Как собрать расширение?
 
@@ -141,15 +150,6 @@ npm i
    npm run prepare
    ```
 
-## Как задеплоить свой VOT Worker?
-
-[Нажми, чтобы перейти](https://github.com/FOSWLY/vot-worker)
-
-## Примечание:
-
-1. Рекомендую разрешить автовоспроизведение "аудио и видео", чтобы избежать ошибок при работе расширения
-2. Расширение не может переводить видео длиной более 4 часов (ограничение API переводчика)
-
 ## Кастомизация внешнего вида:
 
 Расширение поддерживает кастомизацию внешнего вида с помощью Stylus, Stylish и других подобных расширений
@@ -183,28 +183,32 @@ npm i
 
 ## Расширение протестировано в следующих браузерах:
 
-| Статус | Браузер                   | Версия браузера           | Платформа               | Расширение                               |
-| ------ | ------------------------- | ------------------------- | ----------------------- | ---------------------------------------- |
-| ⠀✅    | Firefox Developer Edition | v106 — v117, 64 bit       | Windows                 | Tampermonkey                             |
-| ⠀✅    | Firefox                   | v116.0.2                  | Windows, Linux, Android | Tampermonkey, Violetmonkey               |
-| ⠀✅    | Firefox Nightly           | v118.0a1                  | Windows, Android        | Tampermonkey                             |
-| ⠀✅    | LibreWolf                 | v100.0.2-1                | Windows                 | Tampermonkey                             |
-| ⠀✅    | Brave                     | v106.0.5249.91            | Windows                 | Tampermonkey                             |
-| ⠀✅    | MS Edge                   | v106.0.1370.34            | Windows, Linux          | Tampermonkey                             |
-| ⠀✅    | Cent Browser              | v4.3.9.248, 32 bit        | Windows                 | Tampermonkey                             |
-| ⠀✅    | Cent Browser Beta         | v5.0.1002.182, 64 bit     | Windows                 | Tampermonkey                             |
-| ⠀✅    | Google Chrome             | v106 — 116                | Windows, MacOS, Linux   | Tampermonkey, Violetmonkey, OrangeMonkey |
-| ⠀✅    | Opera GX                  | LVL4 (core: 91.0.4516.36) | Windows                 | Tampermonkey                             |
-| ⠀✅    | Opera                     | v92.0.4561.43             | Windows                 | Tampermonkey                             |
-| ⠀✅    | Vivaldi                   | 5.7.2921.63               | Windows, Linux          | Tampermonkey                             |
-| ⠀✅    | Safari                    | v15.6.1                   | MacOS, iOS              | Userscripts                              |
-| ⠀✅    | Kiwi Browser              | v116.0.5845.61            | Android                 | Tampermonkey                             |
+| Статус | Браузер                   | Версия браузера                   | Платформа               | Расширение                                                         |
+| ------ | ------------------------- | --------------------------------- | ----------------------- | ------------------------------------------------------------------ |
+| ⠀✅    | Firefox Developer Edition | v106 — v128, 64 bit               | Windows                 | Tampermonkey (MV2)                                                 |
+| ⠀✅    | Firefox                   | v116.0.2                          | Windows, Linux, Android | Tampermonkey (MV2), Violetmonkey                                   |
+| ⠀✅    | Firefox Nightly           | v118.0a1                          | Windows, Android        | Tampermonkey (MV2)                                                 |
+| ⠀✅    | LibreWolf                 | v100.0.2-1                        | Windows                 | Tampermonkey (MV2)                                                 |
+| ⠀✅    | Brave                     | v106.0.5249.91                    | Windows                 | Tampermonkey (MV2)                                                 |
+| ⠀✅    | MS Edge                   | v106.0.1370.34                    | Windows, Linux          | Tampermonkey (MV2)                                                 |
+| ⠀✅    | Cent Browser              | v4.3.9.248, 32 bit                | Windows                 | Tampermonkey (MV2)                                                 |
+| ⠀✅    | Cent Browser Beta         | v5.0.1002.182, 64 bit             | Windows                 | Tampermonkey (MV2)                                                 |
+| ⠀✅    | Google Chrome             | v106 — 126                        | Windows, MacOS, Linux   | Tampermonkey (MV2), Tampermonkey (MV3), Violetmonkey, OrangeMonkey |
+| ⠀✅    | Opera GX                  | LVL4 (core: 91) - LVL5 (core 109) | Windows                 | Tampermonkey Opera                                                 |
+| ⠀✅    | Opera                     | v92.0.4561.43                     | Windows                 | Tampermonkey Opera                                                 |
+| ⠀✅    | Vivaldi                   | 5.7.2921.63                       | Windows, Linux          | Tampermonkey (MV2)                                                 |
+| ⠀✅    | Safari                    | v15.6.1                           | MacOS, iOS              | Userscripts                                                        |
+| ⠀✅    | Kiwi Browser              | v116.0.5845.61                    | Android                 | Tampermonkey (MV2)                                                 |
+
+Работа с современной версией Tampermonkey (MV3) не тестировалась в большинстве браузеров. При наличие проблем рекомендуется использовать Tampermonkey Legacy (MV2)
 
 ## Протестировано в следующих расширениях для юзерскриптов:
 
 | Статус                                                                                                                  | Браузер | Расширение                                                                         |
 | ----------------------------------------------------------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------- |
-| ⠀✅                                                                                                                     | Любой   | Tampermonkey                                                                       |
+| ⠀✅                                                                                                                     | Любой   | Tampermonkey Legacy (MV2)                                                          |
+| ⠀✅                                                                                                                     | Opera   | Tampermonkey Opera                                                                 |
+| ⠀✅                                                                                                                     | Chrome  | Tampermonkey (MV3)                                                                 |
 | ⠀[⚠️ Загрузить](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot-cloudflare.user.js) | Safari  | Userscripts                                                                        |
 | ⠀[⚠️ Загрузить](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot-cloudflare.user.js) | Любой   | Violetmonkey                                                                       |
 | ⠀[⚠️ Загрузить](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot-cloudflare.user.js) | Любой   | [AdGuard Usercripts](https://kb.adguard.com/en/general/userscripts#supported-apps) |
