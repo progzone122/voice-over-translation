@@ -198,8 +198,12 @@ Example of changing styles:
 | ⠀✅    | Vivaldi                   | 5.7.2921.63                       | Windows, Linux          | Tampermonkey (MV2)                                                 |
 | ⠀✅    | Safari                    | v15.6.1                           | MacOS, iOS              | Userscripts                                                        |
 | ⠀✅    | Kiwi Browser              | v116.0.5845.61                    | Android                 | Tampermonkey (MV2)                                                 |
+| ⠀✅    | Yandex Browser            | v24.4-24.6                        | Windows                 | Tampermonkey (MV2), Tampermonkey (MV3)                             |
+| ⠀✅    | Arc                       | v1.6.1                            | Windows                 | Tampermonkey (MV3)                                                 |
 
 Working with the modern version of Tampermonkey (MV3) has not been tested in most browsers. If there are problems, it is recommended to use Tampermonkey Legacy (MV2)
+
+To activate the script in Tampermonkey (MV3), you must [enable "Developer Mode"](https://www.tampermonkey.net/faq.php#Q209)
 
 ## Tested in the following extensions for user scripts:
 

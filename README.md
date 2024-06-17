@@ -199,8 +199,12 @@ npm i
 | ⠀✅    | Vivaldi                   | 5.7.2921.63                       | Windows, Linux          | Tampermonkey (MV2)                                                 |
 | ⠀✅    | Safari                    | v15.6.1                           | MacOS, iOS              | Userscripts                                                        |
 | ⠀✅    | Kiwi Browser              | v116.0.5845.61                    | Android                 | Tampermonkey (MV2)                                                 |
+| ⠀✅    | Yandex Browser            | v24.4-24.6                        | Windows                 | Tampermonkey (MV2), Tampermonkey (MV3)                             |
+| ⠀✅    | Arc                       | v1.6.1                            | Windows                 | Tampermonkey (MV3)                                                 |
 
 Работа с современной версией Tampermonkey (MV3) не тестировалась в большинстве браузеров. При наличие проблем рекомендуется использовать Tampermonkey Legacy (MV2)
+
+Для активации скрипта в Tampermonkey (MV3) необходимо [включить "Developer Mode"](https://www.tampermonkey.net/faq.php#Q209)
 
 ## Протестировано в следующих расширениях для юзерскриптов:
 
