@@ -4334,7 +4334,7 @@ const sites = () => {
       host: "yandexdisk",
       url: "https://yadi.sk/i/",
       match: /^disk.yandex.ru$/,
-      selector: "yaplayertag > div:nth-of-type(1)",
+      selector: ".video-player__player > div:nth-child(1)",
     },
     {
       host: "coursehunter",
