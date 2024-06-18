@@ -5486,11 +5486,11 @@ class VideoHandler {
         this.dragging = true;
       });
 
-      document.addEventListener("mouseup", () => {
+      this.container.addEventListener("mouseup", () => {
         this.dragging = false;
       });
 
-      document.addEventListener("mousemove", async (e) => {
+      this.container.addEventListener("mousemove", async (e) => {
         if (this.dragging) {
           e.preventDefault();
 
