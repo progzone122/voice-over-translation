@@ -904,19 +904,19 @@ class VideoHandler {
         this.dragging = true;
       });
 
-      document.addEventListener("mouseup", () => {
+      this.container.addEventListener("mouseup", () => {
         this.dragging = false;
       });
 
-      document.addEventListener("mousemove", async (e) => {
+      this.container.addEventListener("mousemove", async (e) => {
         if (this.dragging) {
           e.preventDefault();
 
-          const percentX = (e.clientX / this.video.clientWidth) * 100;
+          const percentX = (e.clientX / this.container.clientWidth) * 100;
           // const percentY = (e.clientY / this.video.clientHeight) * 100;
 
           this.data.buttonPos =
-            this.video.clientWidth && this.video.clientWidth > 550
+            this.container.clientWidth && this.container.clientWidth > 550
               ? percentX <= 33
                 ? "left"
                 : percentX >= 66
@@ -927,7 +927,7 @@ class VideoHandler {
             this.data.buttonPos === "default" ? "row" : "column";
           this.votButton.container.dataset.position = this.data.buttonPos;
           this.votMenu.container.dataset.position = this.data.buttonPos;
-          if (this.video.clientWidth && this.video.clientWidth > 550) {
+          if (this.container.clientWidth && this.container.clientWidth > 550) {
             await votStorage.set("buttonPos", this.data.buttonPos);
           }
         }
