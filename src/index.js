@@ -1719,8 +1719,7 @@ class VideoHandler {
       debug.log("VideoValidator videoData: ", this.videoData);
       if (
         this.data.dontTranslateYourLang === 1 &&
-        this.videoData.detectedLanguage === this.data.dontTranslateLanguage &&
-        this.videoData.responseLanguage === this.data.dontTranslateLanguage
+        this.videoData.detectedLanguage === this.data.dontTranslateLanguage
       ) {
         throw new VOTLocalizedError("VOTDisableFromYourLang");
       }
