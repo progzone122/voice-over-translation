@@ -2834,13 +2834,10 @@ const yandexProtobuf = {
 // EXTERNAL MODULE: ./node_modules/bowser/es5.js
 var es5 = __webpack_require__("./node_modules/bowser/es5.js");
 ;// CONCATENATED MODULE: ./src/getUUID.js
-function getUUID(isLower) {
-  const randomBytes = crypto.getRandomValues(new Uint8Array(31));
-  let byteIndex = 0;
-  const uuid = ([1e7] + 1e3 + 4e3 + 8e3 + 1e11).replace(/[018]/g, (c) =>
-    (c ^ (randomBytes[byteIndex++] & (15 >> (c / 4)))).toString(16),
-  );
-  return isLower ? uuid : uuid.toUpperCase();
+function getUUID() {
+  return "xxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (e, n) => {
+    return (e === "x" ? (16 * Math.random()) | 0 : (3 & n) | 8).toString(16);
+  });
 }
 
 
@@ -2891,7 +2888,7 @@ async function requestStreamPing(pingId, callback) {
       body,
       {
         "Vtrans-Signature": await getSignature(body),
-        "Sec-Vtrans-Token": getUUID(false),
+        "Sec-Vtrans-Token": getUUID(),
       },
       callback,
     );
@@ -2935,7 +2932,7 @@ async function requestStreamTranslation(
       body,
       {
         "Vtrans-Signature": await getSignature(body),
-        "Sec-Vtrans-Token": getUUID(false),
+        "Sec-Vtrans-Token": getUUID(),
       },
       callback,
     );
@@ -2984,7 +2981,7 @@ async function requestVideoTranslation(
       body,
       {
         "Vtrans-Signature": await getSignature(body),
-        "Sec-Vtrans-Token": getUUID(false),
+        "Sec-Vtrans-Token": getUUID(),
       },
       callback,
     );
@@ -3020,7 +3017,7 @@ async function requestVideoSubtitles(url, requestLang, callback) {
       body,
       {
         "Vsubs-Signature": await getSignature(body),
-        "Sec-Vsubs-Token": getUUID(false),
+        "Sec-Vsubs-Token": getUUID(),
       },
       callback,
     );

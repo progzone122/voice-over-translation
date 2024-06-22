@@ -30,7 +30,7 @@ async function requestStreamTranslation(
       body,
       {
         "Vtrans-Signature": await getSignature(body),
-        "Sec-Vtrans-Token": getUUID(false),
+        "Sec-Vtrans-Token": getUUID(),
       },
       callback,
     );

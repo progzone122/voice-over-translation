@@ -20,7 +20,7 @@ async function requestVideoSubtitles(url, requestLang, callback) {
       body,
       {
         "Vsubs-Signature": await getSignature(body),
-        "Sec-Vsubs-Token": getUUID(false),
+        "Sec-Vsubs-Token": getUUID(),
       },
       callback,
     );
