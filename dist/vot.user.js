@@ -2736,9 +2736,13 @@ const yandexProtobuf = {
 var es5 = __webpack_require__("./node_modules/bowser/es5.js");
 ;// CONCATENATED MODULE: ./src/getUUID.js
 function getUUID() {
-  return "xxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (e, n) => {
-    return (e === "x" ? (16 * Math.random()) | 0 : (3 & n) | 8).toString(16);
-  });
+  const hexDigits = "0123456789ABCDEF";
+  let uuid = "";
+  for (let i = 0; i < 32; i++) {
+    const randomDigit = Math.floor(Math.random() * 16);
+    uuid += hexDigits[randomDigit];
+  }
+  return uuid;
 }
 
 
