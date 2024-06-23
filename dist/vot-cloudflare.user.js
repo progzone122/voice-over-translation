@@ -2849,23 +2849,22 @@ function getUUID() {
 ;// CONCATENATED MODULE: ./src/getSignature.js
 
 
+// Create a key from the HMAC secret
+const CryptoKey = window.crypto.subtle.importKey(
+  "raw",
+  new TextEncoder().encode(config/* yandexHmacKey */.S7),
+  { name: "HMAC", hash: { name: "SHA-256" } },
+  false,
+  ["sign", "verify"],
+);
+
 async function getSignature(body) {
-  // Create a key from the HMAC secret
-  const utf8Encoder = new TextEncoder();
-  const key = await window.crypto.subtle.importKey(
-    "raw",
-    utf8Encoder.encode(config/* yandexHmacKey */.S7),
-    { name: "HMAC", hash: { name: "SHA-256" } },
-    false,
-    ["sign", "verify"],
-  );
-  // Sign the body with the key
-  const signature = await window.crypto.subtle.sign("HMAC", key, body);
-  // Convert the signature to a hex string
-  return new Uint8Array(signature).reduce(
-    (str, byte) => str + byte.toString(16).padStart(2, "0"),
-    "",
-  );
+  const key = await CryptoKey;
+  return new Uint8Array(
+    // Sign the body with the key
+    await window.crypto.subtle.sign("HMAC", key, body),
+    // Convert the signature to a hex string
+  ).reduce((str, byte) => str + byte.toString(16).padStart(2, "0"), "");
 }
 
 
@@ -4983,8 +4982,8 @@ class VideoHandler {
       if (
         this.data?.buttonPos &&
         this.data?.buttonPos !== "default" &&
-        this.video.clientWidth &&
-        this.video.clientWidth > 550
+        this.container.clientWidth &&
+        this.container.clientWidth > 550
       ) {
         this.votButton.container.dataset.direction = "column";
         this.votButton.container.dataset.position = this.data?.buttonPos;
@@ -5010,7 +5009,7 @@ class VideoHandler {
     {
       this.votMenu = ui.createVOTMenu(localizationProvider/* localizationProvider */.j.get("VOTSettings"));
       this.votMenu.container.dataset.position =
-        this.video.clientWidth && this.video.clientWidth > 550
+        this.container.clientWidth && this.container.clientWidth > 550
           ? this.data?.buttonPos
           : "default";
       this.container.appendChild(this.votMenu.container);
@@ -5500,7 +5499,7 @@ class VideoHandler {
 
           this.data.buttonPos =
             this.container.clientWidth && this.container.clientWidth > 550
-              ? percentX <= 33
+              ? percentX <= 44
                 ? "left"
                 : percentX >= 66
                   ? "right"
@@ -5836,7 +5835,8 @@ class VideoHandler {
         );
       }
 
-      const isBigWidth = this.video.clientWidth && this.video.clientWidth > 550;
+      const isBigWidth =
+        this.container.clientWidth && this.container.clientWidth > 550;
 
       this.votButton.container.dataset.position =
         this.votMenu.container.dataset.position = isBigWidth
