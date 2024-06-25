@@ -214,6 +214,9 @@ const siteData = {
   youku: {
     paths: ["/v_show/VIDEO_ID"],
   },
+  archive: {
+    paths: ["/details/VIDEO_ID", "/embed/VIDEO_ID"],
+  },
   directlink: {
     paths: ["/*.mp4"],
     limits: [i18n.noLocalLinks],
@@ -338,13 +341,13 @@ function genMarkdown(sites, lang = "ru") {
     const limitsData = hasData ? siteData[site.host].limits : [];
     let limits = "";
     if (limitsData?.length) {
-      limits = `\n\n${i18n.limitations[lang]}:\n- ${limitsData.map((limit) => limit[lang]).join("\n- ")}`;
+      limits = `\n\n${i18n.limitations[lang]}:\n\n- ${limitsData.map((limit) => limit[lang]).join("\n- ")}`;
     }
 
     const pathsData = hasData ? Array.from(siteData[site.host].paths) : [];
     let paths = "";
     if (pathsData.length) {
-      paths = `\n\n${i18n.availabledDomains[lang]}:\n- ${pathsData.join("\n- ")}`;
+      paths = `\n\n${i18n.availabledDomains[lang]}:\n\n- ${pathsData.join("\n- ")}`;
     }
 
     return `## ${ucFirst(site.host)}
@@ -352,6 +355,7 @@ function genMarkdown(sites, lang = "ru") {
 ${i18n.status[lang]}: [${site.status}] ${site.statusPhrase[lang]}
 
 ${i18n.availabledDomains[lang]}:
+
 - ${site.domains}${paths}${limits}`;
   });
 }

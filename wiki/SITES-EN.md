@@ -573,6 +573,19 @@ Available (sub)domains:
 
 - /v_show/VIDEO_ID
 
+## Archive
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `archive.org`
+
+Available (sub)domains:
+
+- /details/VIDEO_ID
+- /embed/VIDEO_ID
+
 ## Directlink
 
 Status: [✅] Working

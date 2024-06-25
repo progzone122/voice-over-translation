@@ -257,6 +257,9 @@ const getVideoId = (service, video) => {
       return url.pathname.slice(1);
     case "youku":
       return url.pathname.match(/v_show\/id_[\w=]+/)?.[0];
+    case "archive": {
+      return url.pathname.match(/(details|embed)\/([^/]+)/)?.[2];
+    }
     // case "sibnet": {
     //   const videoId = url.searchParams.get("videoid");
     //   if (videoId) {

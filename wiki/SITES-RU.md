@@ -573,6 +573,19 @@
 
 - /v_show/VIDEO_ID
 
+## Archive
+
+Статус: [✅] Работает
+
+Доступные (под)домены:
+
+- `archive.org`
+
+Доступные (под)домены:
+
+- /details/VIDEO_ID
+- /embed/VIDEO_ID
+
 ## Directlink
 
 Статус: [✅] Работает

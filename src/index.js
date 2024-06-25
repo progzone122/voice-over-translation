@@ -1708,6 +1708,7 @@ class VideoHandler {
         "trovo",
         "yandexdisk",
         "coursehunter",
+        "archive",
         "directlink",
       ].includes(this.site.host)
     ) {

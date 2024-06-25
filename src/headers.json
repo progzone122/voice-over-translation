@@ -106,6 +106,7 @@
     "*://*.newgrounds.com/*",
     "*://*.egghead.io/*",
     "*://*.youku.com/*",
+    "*://*.archive.org/*",
     "*://*/*.mp4*"
   ],
   "exclude": ["file://*/*.mp4*"],

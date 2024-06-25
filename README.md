@@ -74,6 +74,7 @@
 - **[Weverse](https://weverse.io/)**
 - **[Egghead](https://egghead.io)**
 - **[Youku](https://youku.com)**
+- **[Archive.org](https://archive.org)**
 - **[Newgrounds](https://newgrounds.com)**
 - **[ProxiTok](https://proxitok.pabloferreiro.es/)**
 - **[Invidious](https://yewtu.be)**

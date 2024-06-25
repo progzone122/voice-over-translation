@@ -119,6 +119,7 @@
 // @match          *://*.newgrounds.com/*
 // @match          *://*.egghead.io/*
 // @match          *://*.youku.com/*
+// @match          *://*.archive.org/*
 // @match          *://*/*.mp4*
 // @exclude        file://*/*.mp4*
 // @connect        yandex.ru
@@ -1670,6 +1671,9 @@ const getVideoId = (service, video) => {
       return url.pathname.slice(1);
     case "youku":
       return url.pathname.match(/v_show\/id_[\w=]+/)?.[0];
+    case "archive": {
+      return url.pathname.match(/(details|embed)\/([^/]+)/)?.[2];
+    }
     // case "sibnet": {
     //   const videoId = url.searchParams.get("videoid");
     //   if (videoId) {
@@ -4294,6 +4298,12 @@ const sites = () => {
       selector: "#ykPlayer",
     },
     {
+      host: "archive",
+      url: "https://archive.org/details/",
+      match: /^archive.org$/,
+      selector: ".jw-media",
+    },
+    {
       host: "directlink",
       url: "stub", // This is a stub. The present value is set using window.location.origin. Check "src/index.js:videoObserver.onVideoAdded.addListener" to get more info
       match: (url) => /([^.]+).mp4/.test(url.pathname),
@@ -6180,6 +6190,7 @@ class VideoHandler {
         "trovo",
         "yandexdisk",
         "coursehunter",
+        "archive",
         "directlink",
       ].includes(this.site.host)
     ) {

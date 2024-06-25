@@ -291,6 +291,12 @@ const sites = () => {
       selector: "#ykPlayer",
     },
     {
+      host: "archive",
+      url: "https://archive.org/details/",
+      match: /^archive.org$/,
+      selector: ".jw-media",
+    },
+    {
       host: "directlink",
       url: "stub", // This is a stub. The present value is set using window.location.origin. Check "src/index.js:videoObserver.onVideoAdded.addListener" to get more info
       match: (url) => /([^.]+).mp4/.test(url.pathname),
