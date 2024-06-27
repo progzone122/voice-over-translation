@@ -53,7 +53,7 @@ const sites = () => {
     {
       host: "xvideos",
       url: "https://www.xvideos.com/",
-      match: /^www.xvideos.com$/,
+      match: /^www.(xvideos|xv-ru).com$/,
       selector: ".video-bg-pic",
     },
     {

@@ -89,6 +89,7 @@ Status: [✅] Working
 Available (sub)domains:
 
 - `www.xvideos.com`
+- `www.xv-ru.com`
 
 Available (sub)domains:
 
