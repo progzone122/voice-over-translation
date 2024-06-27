@@ -89,8 +89,11 @@
 
 #### Proxy-сервер
 
-- [vot.toil.cc](https://vot.toil.cc/health) (Балансировщик между прокси серверами)
-- [vot-worker.toil.cc](https://github.com/FOSWLY/vot-worker)
+> [!WARNING]
+> В следующей версии домен `vot.toil.cc` будет заменен на `vot-worker.toil.cc`. Если вы не планируете обновляться до нее и вы пользуетесь cloudflare версией, то вам будет необходимо самостоятельно установить домен `vot-worker.toil.cc` в меню расширения
+
+- [vot-worker.toil.cc](https://vot-worker.toil.cc/health) (Балансировщик между прокси серверами)
+- [vot-worker-s1.toil.cc](https://github.com/FOSWLY/vot-worker)
 - [vot.deno.dev](https://github.com/FOSWLY/vot-worker)
 - [vot-new.toil-dump.workers.dev](https://github.com/FOSWLY/vot-worker) (⚠️ не работает в РФ)
 

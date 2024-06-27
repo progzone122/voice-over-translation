@@ -88,8 +88,11 @@ These domains can be set in the extension settings (only those domains that can 
 
 #### Proxy-server
 
-- [vot.toil.cc](https://vot.toil.cc/health) (Load balancer between proxy servers)
-- [vot-worker.toil.cc](https://github.com/FOSWLY/vot-worker)
+> [!WARNING]
+> In the next version, the domain `vot.toil.cc` will be replaced by `vot-worker.toil.cc`. If you don't plan to upgrade extension and you are using the cloudflare version, then you will need to install the domain yourself `vot-worker.toil.cc ` in the extension menu
+
+- [vot-worker.toil.cc](https://vot-worker.toil.cc/health) (Load balancer between proxy servers)
+- [vot-worker-s1.toil.cc](https://github.com/FOSWLY/vot-worker)
 - [vot.deno.dev](https://github.com/FOSWLY/vot-worker)
 - [vot-new.toil-dump.workers.dev](https://github.com/FOSWLY/vot-worker) (⚠️ doesn't work in Russia)
 
