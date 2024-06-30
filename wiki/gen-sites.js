@@ -278,7 +278,7 @@ function fixRegexStr(str) {
     .replace(/[$/]$/g, "");
   if (str instanceof Function) {
     return [
-      domain.match(/host.includes\(([^()]*)\)/)?.[1]?.replace(/["']/g, ""),
+      /host.includes\(([^()]*)\)/.exec(domain)?.[1]?.replace(/["']/g, ""),
     ];
   }
 

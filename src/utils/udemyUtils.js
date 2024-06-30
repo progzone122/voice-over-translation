@@ -85,7 +85,7 @@ function getModuleData() {
 }
 
 function getLectureId() {
-  return window.location.pathname.match(/learn\/lecture\/([^/]+)/)?.[1];
+  return /learn\/lecture\/([^/]+)/.exec(window.location.pathname)?.[1];
 }
 
 function getPlayer() {
