@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "Прокси-сервердің жұмыс мекенжайын енгізіңіз",
   "VOTM3u8ProxyHost": "M3u8 жұмыс прокси мекенжайын енгізіңіз",
   "proxySettings": "Прокси параметрлері",
-  "translationTakeApproximatelyMinute2": "Аударма шамамен {0} минутты алады"
+  "translationTakeApproximatelyMinute2": "Аударма шамамен {0} минутты алады",
+  "VOTAudioBooster": "Аударма көлемінің ұлғаюы"
 }

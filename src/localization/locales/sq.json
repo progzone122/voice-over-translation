@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "Vendosni adresën e punonjësit të përfaqësuesit",
   "VOTM3u8ProxyHost": "Vendosni adresën e punonjësit të përfaqësuesit m3u8",
   "proxySettings": "Cilësimet E Përfaqësuesit",
-  "translationTakeApproximatelyMinute2": "Përkthimi do të zgjasë afërsisht {0} minuta"
+  "translationTakeApproximatelyMinute2": "Përkthimi do të zgjasë afërsisht {0} minuta",
+  "VOTAudioBooster": "Rritja e vëllimit të përkthimit të zgjeruar"
 }

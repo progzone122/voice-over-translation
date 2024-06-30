@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "Vnesite naslov pooblaščenca",
   "VOTM3u8ProxyHost": "Vnesite naslov pooblaščenca m3u8",
   "proxySettings": "Nastavitve Posrednika",
-  "translationTakeApproximatelyMinute2": "Prevod bo trajal približno {0} minut"
+  "translationTakeApproximatelyMinute2": "Prevod bo trajal približno {0} minut",
+  "VOTAudioBooster": "Povečanje obsega razširjenega prevajanja"
 }

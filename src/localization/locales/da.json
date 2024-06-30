@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "Indtast adressen på fuldmægtig",
   "VOTM3u8ProxyHost": "Indtast adressen på M3U8 fuldmægtig",
   "proxySettings": "Fuldmagtsindstillinger",
-  "translationTakeApproximatelyMinute2": "Oversættelsen tager cirka {0} minutter"
+  "translationTakeApproximatelyMinute2": "Oversættelsen tager cirka {0} minutter",
+  "VOTAudioBooster": "Udvidet oversættelse volumen stigning"
 }

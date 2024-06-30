@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "Voer die volmagwerker-adres in",
   "VOTM3u8ProxyHost": "Voer die adres van die m3u8-volmagwerker in",
   "proxySettings": "Instaaninstellings",
-  "translationTakeApproximatelyMinute2": "Die vertaling sal ongeveer {0} minute neem"
+  "translationTakeApproximatelyMinute2": "Die vertaling sal ongeveer {0} minute neem",
+  "VOTAudioBooster": "Uitgebreide vertaalvolume-verhoging"
 }

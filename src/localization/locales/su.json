@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "Asupkeun alamat proxy worker",
   "VOTM3u8ProxyHost": "Tuliskeun alamat worker proxy m3u8",
   "proxySettings": "Setélan Proxy",
-  "translationTakeApproximatelyMinute2": "Tarjamahan bakal nyandak kira-kira {0} menit"
+  "translationTakeApproximatelyMinute2": "Tarjamahan bakal nyandak kira-kira {0} menit",
+  "VOTAudioBooster": "Paningkatan volume tarjamahan anu diperpanjang"
 }

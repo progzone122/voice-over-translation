@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "Proxy worker လိပ်စာကိုရိုက်ထည့်ပါ",
   "VOTM3u8ProxyHost": "M3u8 proxy worker၏လိပ်စာကိုရိုက်ထည့်ပါ",
   "proxySettings": "Proxy Setting များ",
-  "translationTakeApproximatelyMinute2": "ဘာသာပြန်ဆိုမှုသည်{0}မိနစ်ခန့်ကြာလိမ့်မည်။"
+  "translationTakeApproximatelyMinute2": "ဘာသာပြန်ဆိုမှုသည်{0}မိနစ်ခန့်ကြာလိမ့်မည်။",
+  "VOTAudioBooster": "ဘာသာပြန်မှုပမာဏတိုးမြှင့်"
 }

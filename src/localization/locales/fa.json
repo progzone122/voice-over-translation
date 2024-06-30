@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "آدرس کارگر پروکسی را وارد کنید",
   "VOTM3u8ProxyHost": "آدرس کارگر پروکسی m3u8 را وارد کنید",
   "proxySettings": "تنظیمات پروکسی",
-  "translationTakeApproximatelyMinute2": "ترجمه تقریبا {0} دقیقه طول خواهد کشید"
+  "translationTakeApproximatelyMinute2": "ترجمه تقریبا {0} دقیقه طول خواهد کشید",
+  "VOTAudioBooster": "افزایش حجم ترجمه گسترده"
 }

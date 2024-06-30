@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "ተኪ ሠራተኛ አድራሻ ያስገቡ",
   "VOTM3u8ProxyHost": "የ m3u8 ተኪ ሰራተኛ አድራሻ ያስገቡ",
   "proxySettings": "የተኪ ቅንብሮች",
-  "translationTakeApproximatelyMinute2": "ትርጉሙ በግምት ይወስዳል {0} ደቂቃዎች"
+  "translationTakeApproximatelyMinute2": "ትርጉሙ በግምት ይወስዳል {0} ደቂቃዎች",
+  "VOTAudioBooster": "የተራዘመ የትርጉም መጠን መጨመር"
 }

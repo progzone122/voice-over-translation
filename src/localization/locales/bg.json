@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "Въведете адреса на пълномощника",
   "VOTM3u8ProxyHost": "Въведете адреса на прокси служителя м3у8",
   "proxySettings": "Настройки На Прокси Сървъра",
-  "translationTakeApproximatelyMinute2": "Преводът ще отнеме около {0} минути"
+  "translationTakeApproximatelyMinute2": "Преводът ще отнеме около {0} минути",
+  "VOTAudioBooster": "Увеличаване на обема на превода"
 }

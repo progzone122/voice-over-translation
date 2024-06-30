@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "Introduceți adresa lucrătorului proxy",
   "VOTM3u8ProxyHost": "Introduceți adresa lucrătorului proxy m3u8",
   "proxySettings": "Setări Proxy",
-  "translationTakeApproximatelyMinute2": "Traducerea va dura aproximativ {0} minute"
+  "translationTakeApproximatelyMinute2": "Traducerea va dura aproximativ {0} minute",
+  "VOTAudioBooster": "Creșterea extinsă a volumului de traducere"
 }

@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "Унесите радну адресу проки сервера",
   "VOTM3u8ProxyHost": "Унесите адресу радног проки сервера м3у8",
   "proxySettings": "Подешавања проксија",
-  "translationTakeApproximatelyMinute2": "Превод ће трајати приближно {0} минута"
+  "translationTakeApproximatelyMinute2": "Превод ће трајати приближно {0} минута",
+  "VOTAudioBooster": "Повећање обима проширеног трансфера"
 }

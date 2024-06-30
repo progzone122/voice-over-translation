@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "Masukkan alamat pekerja proksi",
   "VOTM3u8ProxyHost": "Masukkan alamat pekerja proksi m3u8",
   "proxySettings": "Tetapan Proksi",
-  "translationTakeApproximatelyMinute2": "Terjemahan akan mengambil masa lebih kurang {0} minit"
+  "translationTakeApproximatelyMinute2": "Terjemahan akan mengambil masa lebih kurang {0} minit",
+  "VOTAudioBooster": "Peningkatan jumlah terjemahan lanjutan"
 }

@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "Ange proxyarbetarens adress",
   "VOTM3u8ProxyHost": "Ange adressen till M3U8-proxyarbetaren",
   "proxySettings": "Proxyinställningar",
-  "translationTakeApproximatelyMinute2": "Översättningen tar ungefär {0} minuter"
+  "translationTakeApproximatelyMinute2": "Översättningen tar ungefär {0} minuter",
+  "VOTAudioBooster": "Utökad volymökning av översättning"
 }

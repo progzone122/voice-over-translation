@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "Sartu ordezko langilearen helbidea",
   "VOTM3u8ProxyHost": "Sartu m3u8 ordezkariaren helbidea",
   "proxySettings": "Ordezko Ezarpenak",
-  "translationTakeApproximatelyMinute2": "Itzulpenak gutxi gorabehera {0} minutu hartuko ditu"
+  "translationTakeApproximatelyMinute2": "Itzulpenak gutxi gorabehera {0} minutu hartuko ditu",
+  "VOTAudioBooster": "Luzatu itzulpen bolumena handitzea"
 }

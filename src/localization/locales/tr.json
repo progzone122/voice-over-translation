@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "Vekil çalışan adresini girin",
   "VOTM3u8ProxyHost": "M3u8 proxy çalışanının adresini girin",
   "proxySettings": "Proxy Ayarları",
-  "translationTakeApproximatelyMinute2": "Çeviri yaklaşık {0} dakika sürecektir"
+  "translationTakeApproximatelyMinute2": "Çeviri yaklaşık {0} dakika sürecektir",
+  "VOTAudioBooster": "Genişletilmiş çeviri hacmi artışı"
 }

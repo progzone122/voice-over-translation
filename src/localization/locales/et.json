@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "Sisestage puhverserveri töötaja aadress",
   "VOTM3u8ProxyHost": "Sisestage m3u8 puhverserveri töötaja aadress",
   "proxySettings": "Puhverserveri Seaded",
-  "translationTakeApproximatelyMinute2": "Tõlge võtab umbes {0} minutit"
+  "translationTakeApproximatelyMinute2": "Tõlge võtab umbes {0} minutit",
+  "VOTAudioBooster": "Laiendatud tõlke mahu suurenemine"
 }

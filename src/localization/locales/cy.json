@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "Rhowch gyfeiriad y gweithiwr dirprwy",
   "VOTM3u8ProxyHost": "Rhowch gyfeiriad y gweithiwr dirprwy m3u8",
   "proxySettings": "Gosodiadau Dirprwy",
-  "translationTakeApproximatelyMinute2": "Bydd y cyfieithiad yn cymryd oddeutu {0} munud"
+  "translationTakeApproximatelyMinute2": "Bydd y cyfieithiad yn cymryd oddeutu {0} munud",
+  "VOTAudioBooster": "Cynyddu cyfaint cyfieithu estynedig"
 }

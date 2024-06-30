@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "Daħħal l indirizz tal ħaddiem tal prokura",
   "VOTM3u8ProxyHost": "Daħħal l indirizz tal ħaddiem tal prokura m3u8",
   "proxySettings": "Settings Tal-Prokura",
-  "translationTakeApproximatelyMinute2": "It-traduzzjoni tieħu madwar {0} minuti"
+  "translationTakeApproximatelyMinute2": "It-traduzzjoni tieħu madwar {0} minuti",
+  "VOTAudioBooster": "Żieda estiża fil-volum tat-traduzzjoni"
 }

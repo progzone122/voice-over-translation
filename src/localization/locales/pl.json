@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "Wprowadź adres pracownika proxy",
   "VOTM3u8ProxyHost": "Wprowadź adres pracownika proxy m3u8",
   "proxySettings": "Ustawienia Proxy",
-  "translationTakeApproximatelyMinute2": "Tłumaczenie zajmie około {0} minut"
+  "translationTakeApproximatelyMinute2": "Tłumaczenie zajmie około {0} minut",
+  "VOTAudioBooster": "Rozszerzony wzrost objętości tłumaczenia"
 }

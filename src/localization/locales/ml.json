@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "പ്രോക്സി തൊഴിലാളിയുടെ വിലാസം നല്കുക",
   "VOTM3u8ProxyHost": "എം 3 യു 8 പ്രോക്സി തൊഴിലാളിയുടെ വിലാസം നൽകുക",
   "proxySettings": "പ്രോക്സി ക്രമീകരണങ്ങൾ",
-  "translationTakeApproximatelyMinute2": "പരിഭാഷ ഏകദേശം {0} മിനിറ്റ് എടുക്കും"
+  "translationTakeApproximatelyMinute2": "പരിഭാഷ ഏകദേശം {0} മിനിറ്റ് എടുക്കും",
+  "VOTAudioBooster": "വിപുലീകരിച്ച പരിഭാഷ വോള്യം വർദ്ധിപ്പിക്കാൻ"
 }

@@ -336,6 +336,7 @@ class VideoHandler {
       detectService: votStorage.get("detectService", defaultDetectService),
       m3u8ProxyHost: votStorage.get("m3u8ProxyHost", m3u8ProxyHost),
       proxyWorkerHost: votStorage.get("proxyWorkerHost", proxyWorkerHost),
+      audioBooster: votStorage.get("audioBooster", 0, true),
     };
 
     this.data = Object.fromEntries(
@@ -548,7 +549,7 @@ class VideoHandler {
         }%</strong>`,
         this.data?.defaultVolume ?? 100,
         0,
-        maxAudioVolume,
+        this.data.audioBooster ? maxAudioVolume : 100,
       );
       this.votVideoTranslationVolumeSlider.container.hidden =
         this.votButton.container.dataset.status !== "success";
@@ -636,6 +637,14 @@ class VideoHandler {
       );
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votShowVideoSliderCheckbox.container,
+      );
+
+      this.votAudioBoosterCheckbox = ui.createCheckbox(
+        localizationProvider.get("VOTAudioBooster"),
+        this.data?.audioBooster ?? false,
+      );
+      this.votSettingsDialog.bodyContainer.appendChild(
+        this.votAudioBoosterCheckbox.container,
       );
 
       // udemy only
@@ -1077,6 +1086,31 @@ class VideoHandler {
           this.votVideoVolumeSlider.container.hidden =
             this.data.showVideoSlider !== 1 ||
             this.votButton.container.dataset.status !== "success";
+        })();
+      });
+
+      this.votAudioBoosterCheckbox.input.addEventListener("change", (e) => {
+        (async () => {
+          this.data.audioBooster = Number(e.target.checked);
+          await votStorage.set("audioBooster", this.data.audioBooster);
+          debug.log(
+            "audioBooster value changed. New value: ",
+            this.data.audioBooster,
+          );
+
+          const currentAudioVolume =
+            this.votVideoTranslationVolumeSlider.input.value;
+          this.votVideoTranslationVolumeSlider.input.max = this.data
+            .audioBooster
+            ? maxAudioVolume
+            : 100;
+          if (!this.data.audioBooster) {
+            this.votVideoTranslationVolumeSlider.input.value =
+              currentAudioVolume > 100 ? 100 : currentAudioVolume;
+            this.votVideoTranslationVolumeSlider.input.dispatchEvent(
+              new Event("input"),
+            );
+          }
         })();
       });
 

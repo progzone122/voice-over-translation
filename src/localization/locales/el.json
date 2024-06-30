@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "Εισαγάγετε τη διεύθυνση διακομιστή μεσολάβησης",
   "VOTM3u8ProxyHost": "Εισαγάγετε τη διεύθυνση του διακομιστή μεσολάβησης m3u8",
   "proxySettings": "Ρυθμίσεις Διακομιστή Μεσολάβησης",
-  "translationTakeApproximatelyMinute2": "Η μετάφραση θα διαρκέσει περίπου {0} λεπτά"
+  "translationTakeApproximatelyMinute2": "Η μετάφραση θα διαρκέσει περίπου {0} λεπτά",
+  "VOTAudioBooster": "Εκτεταμένη αύξηση όγκου μετάφρασης"
 }

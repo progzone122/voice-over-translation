@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "Proksi-server manzilini kiriting",
   "VOTM3u8ProxyHost": "M3u8 proksi-serverining manzilini kiriting",
   "proxySettings": "Proksi Moslamalari",
-  "translationTakeApproximatelyMinute2": "Tarjima taxminan {0} daqiqa davom etadi"
+  "translationTakeApproximatelyMinute2": "Tarjima taxminan {0} daqiqa davom etadi",
+  "VOTAudioBooster": "Kengaytirilgan tarjima hajmini oshirish"
 }

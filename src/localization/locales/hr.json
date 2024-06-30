@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "Unesite radnu adresu opunomoćenika",
   "VOTM3u8ProxyHost": "Unesite adresu radnog opunomoćenika od 93 do 8",
   "proxySettings": "Postavke opunomoćenika",
-  "translationTakeApproximatelyMinute2": "Prijevod će trajati približno {0} minuta"
+  "translationTakeApproximatelyMinute2": "Prijevod će trajati približno {0} minuta",
+  "VOTAudioBooster": "Povećanje opsega proširenog prijevoda"
 }

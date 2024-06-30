@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "ກະລຸນາໃສ່ທີ່ຢູ່ພະນັກງານຕົວແທນ",
   "VOTM3u8ProxyHost": "ໃສ່ທີ່ຢູ່ຂອງພະນັກງານຕົວແທນ m3u8",
   "proxySettings": "ການຕັ້ງຄ່າຕົວແທນ",
-  "translationTakeApproximatelyMinute2": "ການແປພາສາຈະໃຊ້ເວລາປະມານ{0}ນາທີ"
+  "translationTakeApproximatelyMinute2": "ການແປພາສາຈະໃຊ້ເວລາປະມານ{0}ນາທີ",
+  "VOTAudioBooster": "ການແປພາສາຂະຫຍາຍປະລິມານເພີ່ມຂຶ້ນ"
 }

@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "프록시 작업자 주소를 입력합니다",
   "VOTM3u8ProxyHost": "프록시 작업자의 주소를 입력합니다",
   "proxySettings": "프록시 설정",
-  "translationTakeApproximatelyMinute2": "번역은 약{0}분이 소요됩니다"
+  "translationTakeApproximatelyMinute2": "번역은 약{0}분이 소요됩니다",
+  "VOTAudioBooster": "확장 번역 볼륨 증가"
 }

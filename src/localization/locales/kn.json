@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "ಪ್ರಾಕ್ಸಿ ಕಾರ್ಮಿಕರ ವಿಳಾಸವನ್ನು ನಮೂದಿಸಿ",
   "VOTM3u8ProxyHost": "M3u8 ಪ್ರಾಕ್ಸಿ ಕೆಲಸಗಾರನ ವಿಳಾಸವನ್ನು ನಮೂದಿಸಿ",
   "proxySettings": "ಪ್ರಾಕ್ಸಿ ಸೆಟ್ಟಿಂಗ್ಗಳು",
-  "translationTakeApproximatelyMinute2": "ಅನುವಾದವು ಸರಿಸುಮಾರು {0} ನಿಮಿಷಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳುತ್ತದೆ"
+  "translationTakeApproximatelyMinute2": "ಅನುವಾದವು ಸರಿಸುಮಾರು {0} ನಿಮಿಷಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳುತ್ತದೆ",
+  "VOTAudioBooster": "ವಿಸ್ತೃತ ಅನುವಾದ ಪರಿಮಾಣ ಹೆಚ್ಚಳ"
 }

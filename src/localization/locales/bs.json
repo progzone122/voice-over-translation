@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "Unesite adresu proxy radnika",
   "VOTM3u8ProxyHost": "Unesite adresu m3u8 proxy radnika",
   "proxySettings": "_postavke ... ",
-  "translationTakeApproximatelyMinute2": "Prevod će trajati otprilike {0} minuta"
+  "translationTakeApproximatelyMinute2": "Prevod će trajati otprilike {0} minuta",
+  "VOTAudioBooster": "Prošireno povećanje obima prevođenja"
 }

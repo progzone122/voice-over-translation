@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "Faka ikheli proxy isisebenzi",
   "VOTM3u8ProxyHost": "Faka ikheli le-m3u8 proxy worker",
   "proxySettings": "Izilungiselelo Ze-Proxy",
-  "translationTakeApproximatelyMinute2": "Ukuhumusha kuzothatha cishe imizuzu {0}"
+  "translationTakeApproximatelyMinute2": "Ukuhumusha kuzothatha cishe imizuzu {0}",
+  "VOTAudioBooster": "Ukwanda kwevolumu yokuhumusha okwandisiwe"
 }

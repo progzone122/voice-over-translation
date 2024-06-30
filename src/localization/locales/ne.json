@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "प्रोक्सी कार्यकर्ताको ठेगाना प्रविष्ट गर्नुहोस्",
   "VOTM3u8ProxyHost": "M3u8 प्रोक्सी कार्यकर्ताको ठेगाना प्रविष्ट गर्नुहोस्",
   "proxySettings": "प्रोक्सी सेटिङ",
-  "translationTakeApproximatelyMinute2": "अनुवाद लगभग {0} मिनेट लाग्नेछ"
+  "translationTakeApproximatelyMinute2": "अनुवाद लगभग {0} मिनेट लाग्नेछ",
+  "VOTAudioBooster": "विस्तारित अनुवाद मात्रा वृद्धि"
 }

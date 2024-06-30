@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "ਪਰਾਕਸੀ ਵਰਕਰ ਐਡਰੈੱਸ ਦਿਓ",
   "VOTM3u8ProxyHost": "ਐਮ 3 ਯੂ 8 ਪ੍ਰੌਕਸੀ ਵਰਕਰ ਦਾ ਪਤਾ ਦਰਜ ਕਰੋ",
   "proxySettings": "ਪਰਾਕਸੀ ਸੈਟਿੰਗ",
-  "translationTakeApproximatelyMinute2": "ਅਨੁਵਾਦ ਲਗਭਗ {0} ਮਿੰਟ ਲਵੇਗਾ"
+  "translationTakeApproximatelyMinute2": "ਅਨੁਵਾਦ ਲਗਭਗ {0} ਮਿੰਟ ਲਵੇਗਾ",
+  "VOTAudioBooster": "ਵਿਸਤ੍ਰਿਤ ਅਨੁਵਾਦ ਵਾਲੀਅਮ ਵਾਧਾ"
 }

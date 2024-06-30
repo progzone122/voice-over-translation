@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "Ingiza anwani ya mfanyakazi wa wakala",
   "VOTM3u8ProxyHost": "Ingiza anwani ya mfanyakazi wa wakala wa m3u8",
   "proxySettings": "Mipangilio Ya Wakala",
-  "translationTakeApproximatelyMinute2": "Tafsiri itachukua takriban {0} dakika"
+  "translationTakeApproximatelyMinute2": "Tafsiri itachukua takriban {0} dakika",
+  "VOTAudioBooster": "Kuongezeka kwa kiasi cha tafsiri"
 }

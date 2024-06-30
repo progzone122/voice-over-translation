@@ -191,5 +191,6 @@
   "VOTProxyWorkerHost": "Մուտքագրեք վստահված սերվերի աշխատանքային հասցեն",
   "VOTM3u8ProxyHost": "Մուտքագրեք աշխատանքային m3u8 վստահված անձի հասցեն",
   "proxySettings": "Վստահված սերվերի կարգավորումներ",
-  "translationTakeApproximatelyMinute2": "Թարգմանությունը կտեւի մոտավորապես {0} րոպե"
+  "translationTakeApproximatelyMinute2": "Թարգմանությունը կտեւի մոտավորապես {0} րոպե",
+  "VOTAudioBooster": "Ընդլայնված թարգմանության ծավալի ավելացում"
 }
