@@ -118,8 +118,8 @@ async function getVideoData() {
   // ! When translating using a regular link (like this https://weverse.io/aespa/live/3-142049908),
   // ! we will get an error, so we have to do this
 
-  const postId = new URL(window.location).pathname.match(
-    /([^/]+)\/(live|media)\/([^/]+)/,
+  const postId = /([^/]+)\/(live|media)\/([^/]+)/.exec(
+    new URL(window.location).pathname,
   )?.[3];
 
   const videoPreview = await getVideoPreview(postId);

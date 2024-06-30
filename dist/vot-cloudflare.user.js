@@ -1233,7 +1233,7 @@ const getVideoId = (service, video) => {
       );
     }
     case "vk": {
-      const pathID = /^\/(video|clip)-?[0-9]{8,9}_[0-9]{9}$/.exec(url.pathname);
+      const pathID = /^\/(video|clip)-?\d{8,9}_\d{9}$/.exec(url.pathname);
       const paramZ = url.searchParams.get("z");
       const paramOID = url.searchParams.get("oid");
       const paramID = url.searchParams.get("id");
@@ -1311,7 +1311,7 @@ const getVideoId = (service, video) => {
           'a[data-e2e="video-author-avatar"]',
         );
         if (playerEl && authorEl) {
-          const videoId = playerEl.id?.match(/^xgwrapper-[0-9]+-(.*)$/)?.at(1);
+          const videoId = playerEl.id?.match(/^xgwrapper-\d+-(.*)$/)?.at(1);
           const author = authorEl.href?.match(/.*(@.*)$/)?.at(1);
           if (videoId && author) {
             id = `${author}/video/${videoId}`;
@@ -1410,7 +1410,7 @@ const getVideoId = (service, video) => {
         return null;
       }
 
-      const path = /([^/]+)\/([\d]+)/.exec(url.pathname)?.[0];
+      const path = /([^/]+)\/(\d+)/.exec(url.pathname)?.[0];
       if (!path) {
         return null;
       }
@@ -1504,7 +1504,7 @@ function initHls() {
 }
 
 const deletefilter = [
-  /(?:https?|ftp):\/\/[\S]+/g,
+  /(?:https?|ftp):\/\/\S+/g,
   /https?:\/\/\S+|www\.\S+/gm,
   /\b\S+\.\S+/gm,
   /#[^\s#]+/g,
@@ -4066,8 +4066,8 @@ async function weverseUtils_getVideoData() {
   // ! When translating using a regular link (like this https://weverse.io/aespa/live/3-142049908),
   // ! we will get an error, so we have to do this
 
-  const postId = new URL(window.location).pathname.match(
-    /([^/]+)\/(live|media)\/([^/]+)/,
+  const postId = /([^/]+)\/(live|media)\/([^/]+)/.exec(
+    new URL(window.location).pathname,
   )?.[3];
 
   const videoPreview = await getVideoPreview(postId);
