@@ -568,6 +568,7 @@ module.exports = function () {
 /* harmony export */   Pm: () => (/* binding */ proxyWorkerHost),
 /* harmony export */   QL: () => (/* binding */ detectUrls),
 /* harmony export */   S7: () => (/* binding */ yandexHmacKey),
+/* harmony export */   T8: () => (/* binding */ maxAudioVolume),
 /* harmony export */   mE: () => (/* binding */ defaultTranslationService),
 /* harmony export */   rl: () => (/* binding */ workerHost),
 /* harmony export */   rw: () => (/* binding */ translateUrls),
@@ -581,6 +582,7 @@ const yandexHmacKey = "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf";
 const yandexUserAgent =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 YaBrowser/24.4.0.0 Safari/537.36";
 const defaultAutoVolume = 0.15; // 0.0 - 1.0 (0% - 100%) - default volume of the video with the translation
+const maxAudioVolume = 900;
 const defaultTranslationService = "yandex";
 const defaultDetectService = "yandex";
 
@@ -4711,6 +4713,9 @@ class VideoHandler {
   videoData = "";
   firstPlay = true;
   audio = new Audio();
+  audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  gainNode = this.audioContext.createGain();
+
   hls = initHls(); // debug enabled only in dev mode
 
   videoTranslations = [];
@@ -4834,6 +4839,12 @@ class VideoHandler {
     );
     this.subtitlesWidget.setMaxLength(this.data.subtitlesMaxLength);
     this.subtitlesWidget.setHighlightWords(this.data.highlightWords);
+
+    // audio booster
+    this.audio.crossOrigin = "anonymous";
+    this.gainNode.connect(this.audioContext.destination);
+    this.audioSource = this.audioContext.createMediaElementSource(this.audio);
+    this.audioSource.connect(this.gainNode);
 
     this.initUI();
     this.initUIEvents();
@@ -5019,6 +5030,8 @@ class VideoHandler {
           this.data?.defaultVolume ?? 100
         }%</strong>`,
         this.data?.defaultVolume ?? 100,
+        0,
+        config/* maxAudioVolume */.T8,
       );
       this.votVideoTranslationVolumeSlider.container.hidden =
         this.votButton.container.dataset.status !== "success";
@@ -5463,7 +5476,7 @@ class VideoHandler {
             this.votVideoTranslationVolumeSlider.label.querySelector(
               "strong",
             ).innerHTML = `${this.data.defaultVolume}%`;
-            this.audio.volume = this.data.defaultVolume / 100;
+            this.gainNode.gain.value = this.data.defaultVolume / 100;
             if (!this.data.syncVolume) {
               return;
             }
@@ -5783,7 +5796,7 @@ class VideoHandler {
 
             const finalVolume = Math.round(videoVolume);
             this.data.defaultVolume = finalVolume;
-            this.audio.volume = this.data.defaultVolume / 100;
+            this.gainNode.gain.value = this.data.defaultVolume / 100;
             this.syncVolumeWrapper("video", finalVolume);
           }
         }
@@ -6364,7 +6377,7 @@ class VideoHandler {
 
     this.volumeOnStart = this.getVideoVolume();
     if (typeof this.data.defaultVolume === "number") {
-      this.audio.volume = this.data.defaultVolume / 100;
+      this.gainNode.gain.value = this.data.defaultVolume / 100;
     }
     if (
       typeof this.data.autoSetVolumeYandexStyle === "number" &&
@@ -6518,7 +6531,7 @@ class VideoHandler {
 
           this.volumeOnStart = this.getVideoVolume();
           if (typeof this.data.defaultVolume === "number") {
-            this.audio.volume = this.data.defaultVolume / 100;
+            this.gainNode.gain.value = this.data.defaultVolume / 100;
           }
 
           if (

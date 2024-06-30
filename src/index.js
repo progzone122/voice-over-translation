@@ -5,6 +5,7 @@ import {
   defaultTranslationService,
   m3u8ProxyHost,
   proxyWorkerHost,
+  maxAudioVolume,
 } from "./config/config.js";
 import {
   actualTTS,
@@ -229,6 +230,9 @@ class VideoHandler {
   videoData = "";
   firstPlay = true;
   audio = new Audio();
+  audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  gainNode = this.audioContext.createGain();
+
   hls = initHls(); // debug enabled only in dev mode
 
   videoTranslations = [];
@@ -352,6 +356,12 @@ class VideoHandler {
     );
     this.subtitlesWidget.setMaxLength(this.data.subtitlesMaxLength);
     this.subtitlesWidget.setHighlightWords(this.data.highlightWords);
+
+    // audio booster
+    this.audio.crossOrigin = "anonymous";
+    this.gainNode.connect(this.audioContext.destination);
+    this.audioSource = this.audioContext.createMediaElementSource(this.audio);
+    this.audioSource.connect(this.gainNode);
 
     this.initUI();
     this.initUIEvents();
@@ -537,6 +547,8 @@ class VideoHandler {
           this.data?.defaultVolume ?? 100
         }%</strong>`,
         this.data?.defaultVolume ?? 100,
+        0,
+        maxAudioVolume,
       );
       this.votVideoTranslationVolumeSlider.container.hidden =
         this.votButton.container.dataset.status !== "success";
@@ -981,7 +993,7 @@ class VideoHandler {
             this.votVideoTranslationVolumeSlider.label.querySelector(
               "strong",
             ).innerHTML = `${this.data.defaultVolume}%`;
-            this.audio.volume = this.data.defaultVolume / 100;
+            this.gainNode.gain.value = this.data.defaultVolume / 100;
             if (!this.data.syncVolume) {
               return;
             }
@@ -1301,7 +1313,7 @@ class VideoHandler {
 
             const finalVolume = Math.round(videoVolume);
             this.data.defaultVolume = finalVolume;
-            this.audio.volume = this.data.defaultVolume / 100;
+            this.gainNode.gain.value = this.data.defaultVolume / 100;
             this.syncVolumeWrapper("video", finalVolume);
           }
         }
@@ -1892,7 +1904,7 @@ class VideoHandler {
 
     this.volumeOnStart = this.getVideoVolume();
     if (typeof this.data.defaultVolume === "number") {
-      this.audio.volume = this.data.defaultVolume / 100;
+      this.gainNode.gain.value = this.data.defaultVolume / 100;
     }
     if (
       typeof this.data.autoSetVolumeYandexStyle === "number" &&
@@ -2046,7 +2058,7 @@ class VideoHandler {
 
           this.volumeOnStart = this.getVideoVolume();
           if (typeof this.data.defaultVolume === "number") {
-            this.audio.volume = this.data.defaultVolume / 100;
+            this.gainNode.gain.value = this.data.defaultVolume / 100;
           }
 
           if (
