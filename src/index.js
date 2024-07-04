@@ -2186,6 +2186,7 @@ class VideoHandler {
           !this.subtitlesList.some(
             (item) =>
               item.source === "yandex" &&
+              item.translatedFromLanguage === this.videoData.detectedLanguage &&
               item.language === this.videoData.responseLanguage,
           )
         ) {
