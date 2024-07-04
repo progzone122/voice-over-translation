@@ -1613,8 +1613,15 @@ const getVideoId = (service, video) => {
 
       return referer?.href.split("my.mail.ru")?.[1];
     }
-    case "bitchute":
-      return /(video|embed)\/([^/]+)/.exec(url.pathname)?.[2];
+    case "bitchute": {
+      if (video.src?.startsWith("blob:") || !video.src?.includes(".mp4")) {
+        return null;
+      }
+
+      return video.src;
+      // doesn't want to translate using a bitchute link
+      // return /([^/]+)\/([^/]+).mp4/.exec(videoUrl.pathname)?.[2];
+    }
     case "coursera":
       // ! LINK SHOULD BE LIKE THIS https://www.coursera.org/learn/learning-how-to-learn/lecture/75EsZ
       // return url.pathname.match(/lecture\/([^/]+)\/([^/]+)/)?.[1]; // <--- COURSE PREVIEW
@@ -4133,7 +4140,7 @@ const sites = () => {
       host: "bitchute",
       url: "https://www.bitchute.com/video/",
       match: /^(www.)?bitchute.com$/,
-      selector: "div#player", // video#player also using for initializing player
+      selector: ".video-js",
     },
     {
       host: "rutube",
@@ -6164,39 +6171,35 @@ class VideoHandler {
       return videoData;
     }
 
-    if (window.location.hostname.includes("youtube.com")) {
+    if (this.site.host === "youtube") {
       this.ytData = await youtubeUtils.getVideoData();
       videoData.isStream = this.ytData.isLive;
       if (this.ytData.title) {
         videoData.detectedLanguage = this.ytData.detectedLanguage;
         videoData.responseLanguage = this.translateToLang;
       }
-    } else if (
-      window.location.hostname.includes("rutube") ||
-      window.location.hostname.includes("ok.ru") ||
-      window.location.hostname.includes("my.mail.ru")
-    ) {
+    } else if (["rutube", "ok.ru", "mail_ru"].includes(this.site.host)) {
       videoData.detectedLanguage = "ru";
-    } else if (["youku"].includes(this.site.host)) {
+    } else if (this.site.host === "youku") {
       videoData.detectedLanguage = "zh";
-    } else if (["vk"].includes(this.site.host)) {
+    } else if (this.site.host === "vk") {
       const trackLang = document.getElementsByTagName("track")?.[0]?.srclang;
       videoData.detectedLanguage = trackLang || "auto";
-    } else if (window.location.hostname.includes("coursera.org")) {
+    } else if (this.site.host === "coursera") {
       const courseraData = await courseraUtils.getVideoData(
         this.translateToLang,
       );
       videoData.duration = courseraData.duration || videoData.duration; // courseraData.duration sometimes it can be equal to NaN
       videoData.detectedLanguage = courseraData.detectedLanguage;
       videoData.translationHelp = courseraData.translationHelp;
-    } else if (window.location.hostname.includes("coursehunter.net")) {
+    } else if (this.site.host === "coursehunter") {
       const coursehunterData = await coursehunterUtils.getVideoData();
       videoData.translationHelp = {
         // use direct link
         url: coursehunterData.url,
       };
       videoData.duration = coursehunterData.duration || videoData.duration;
-    } else if (window.location.hostname.includes("banned.video")) {
+    } else if (this.site.host === "bannedvideo") {
       const bannedvideoData = await bannedvideoUtils.getVideoData(
         videoData.videoId,
       );
@@ -6206,7 +6209,7 @@ class VideoHandler {
 
       videoData.duration = bannedvideoData.duration || videoData.duration;
       videoData.isStream = bannedvideoData.live;
-    } else if (window.location.hostname.includes("weverse.io")) {
+    } else if (this.site.host === "weverse") {
       const weverseData = await weverseUtils.getVideoData();
       videoData.detectedLanguage = "ko";
       if (weverseData) {
@@ -6215,7 +6218,7 @@ class VideoHandler {
         };
         videoData.duration = weverseData.duration || videoData.duration;
       }
-    } else if (window.location.hostname.includes("udemy.com")) {
+    } else if (this.site.host === "udemy") {
       const udemyData = await udemyUtils.getVideoData(
         this.data.udemyData,
         this.translateToLang,
@@ -6223,6 +6226,11 @@ class VideoHandler {
       videoData.duration = udemyData.duration || videoData.duration;
       videoData.detectedLanguage = udemyData.detectedLanguage;
       videoData.translationHelp = udemyData.translationHelp;
+    } else if (this.site.host === "bitchute") {
+      // to avoid creating a separate file with the same functionality
+      videoData.translationHelp = {
+        url: videoData.videoId,
+      };
     } else if (
       [
         "bilibili",

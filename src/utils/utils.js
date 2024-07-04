@@ -196,8 +196,15 @@ const getVideoId = (service, video) => {
 
       return referer?.href.split("my.mail.ru")?.[1];
     }
-    case "bitchute":
-      return /(video|embed)\/([^/]+)/.exec(url.pathname)?.[2];
+    case "bitchute": {
+      if (video.src?.startsWith("blob:") || !video.src?.includes(".mp4")) {
+        return null;
+      }
+
+      return video.src;
+      // doesn't want to translate using a bitchute link
+      // return /([^/]+)\/([^/]+).mp4/.exec(videoUrl.pathname)?.[2];
+    }
     case "coursera":
       // ! LINK SHOULD BE LIKE THIS https://www.coursera.org/learn/learning-how-to-learn/lecture/75EsZ
       // return url.pathname.match(/lecture\/([^/]+)\/([^/]+)/)?.[1]; // <--- COURSE PREVIEW
