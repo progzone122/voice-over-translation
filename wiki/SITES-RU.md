@@ -9,7 +9,7 @@
 - `(www.)?youtubekids.com`
 - `m.youtube.com`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /watch
 - /embed
@@ -29,7 +29,7 @@
 
 - `(www.)?tiktok.com`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /@NICKNAME/video/VIDEO_ID
 
@@ -56,7 +56,7 @@
 - `proxitok.lunar.icu`
 - `proxitok.privacy.com.de`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /@NICKNAME/video/VIDEO_ID
 
@@ -71,7 +71,7 @@
 - `clips.twitch.tv`
 - `player.twitch.tv`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /videos
 - /embed
@@ -91,7 +91,7 @@
 - `www.xvideos.com`
 - `www.xv-ru.com`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /VIDEO_ID/VIDEO_NAME
 
@@ -108,7 +108,7 @@
 - `pornhub.com`
 - `[a-z]+.pornhub.com`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /view_video.php?viewkey=VIDEO_ID
 - /embed/VIDEO_ID
@@ -130,7 +130,7 @@
 - `m.vk.com`
 - `m.vk.ru`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /video-xxxxxxxxx_xxxxxxxxx
 - ?z=VIDEO_ID
@@ -145,7 +145,7 @@
 - `player.vimeo.com`
 - `vimeo.com`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /CHANNEL_ID/VIDEO_ID
 - /VIDEO_ID
@@ -158,7 +158,7 @@
 
 - `ok.ru`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /video/VIDEO_ID
 
@@ -170,7 +170,7 @@
 
 - `9gag.com`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /gag/VIDEO_ID
 
@@ -186,7 +186,7 @@
 
 - `(www.)?bitchute.com`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /video/VIDEO_ID
 - /embed/VIDEO_ID
@@ -199,7 +199,7 @@
 
 - `rutube.ru`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /video/VIDEO_ID
 - /?bvid=VIDEO_ID
@@ -214,7 +214,7 @@
 - `m.bilibili.com`
 - `player.bilibili.com`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /video/VIDEO_ID
 - /?bvid=VIDEO_ID
@@ -227,7 +227,7 @@
 
 - `twitter.com`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /NAME/status/VIDEO_ID
 
@@ -244,7 +244,7 @@
 
 - `my.mail.ru`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /v/NICKNAME/video/...
 - /mail/NICKNAME/video/...
@@ -258,7 +258,7 @@
 
 - `coursera.org`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /learn/NAME/lecture/XXXX
 
@@ -275,7 +275,7 @@
 
 - `udemy.com`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /course/NAME/learn/lecture/LECTURE_ID
 
@@ -307,7 +307,7 @@
 - `invidio.xamh.de`
 - `invidious.dhusch.de`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /watch
 - /embed
@@ -354,7 +354,7 @@
 - `piped.pfcd.me`
 - `piped.frontendfriendly.xyz`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /watch
 - /embed
@@ -374,7 +374,7 @@
 
 - `rumble.com`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /VIDEO_NAME
 
@@ -390,7 +390,7 @@
 
 - `(www.)?eporner.com`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /video-VIDEO_ID/NAME
 
@@ -411,7 +411,7 @@
 - `peertube.tmp.rcp.tf`
 - `peertube.su`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /w/VIDEO_ID
 
@@ -427,7 +427,7 @@
 
 - `geo.dailymotion.com (встраиваемый плеер, на www.dailymotion.com работает)`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /video/VIDEO_ID
 
@@ -439,7 +439,7 @@
 
 - `trovo.live`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /s/NICK/VIDEO_ID
 
@@ -455,7 +455,7 @@
 
 - `disk.yandex.ru`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /i/FILE_ID
 
@@ -472,7 +472,7 @@
 
 - `coursehunter.net`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /course/COURSE_ID
 
@@ -484,7 +484,7 @@
 
 - `youtube.googleapis.com`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /file/d/FILE_ID
 
@@ -500,7 +500,7 @@
 
 - `(www.)?banned.video`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /watch?id=VIDEO_ID
 
@@ -512,7 +512,7 @@
 
 - `facebook.com`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /reel/VIDEO_ID
 - /videos/VIDEO_ID
@@ -529,7 +529,7 @@
 
 - `weverse.io`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /CHANNEL_NAME/media/VIDEO_ID
 - /CHANNEL_NAME/live/VIDEO_ID
@@ -546,7 +546,7 @@
 
 - `www.newgrounds.com`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /XXX/view/XXX
 
@@ -558,7 +558,7 @@
 
 - `egghead.io`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /lessons/LESSON_NAME
 
@@ -570,7 +570,7 @@
 
 - `v.youku.com`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /v_show/VIDEO_ID
 
@@ -582,7 +582,7 @@
 
 - `archive.org`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /details/VIDEO_ID
 - /embed/VIDEO_ID
@@ -595,10 +595,26 @@
 
 - `any`
 
-Доступные (под)домены:
+Доступные пути:
 
 - /\*.mp4
 
 Ограничения:
 
 - Нельзя переводить локальные видео
+
+## Patreon
+
+Статус: [✅] Работает
+
+Доступные (под)домены:
+
+- `www.patreon.com`
+
+Доступные пути:
+
+- /posts/POST_ID
+
+Ограничения:
+
+- Нет субтитров

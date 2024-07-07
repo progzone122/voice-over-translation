@@ -9,7 +9,7 @@ Available (sub)domains:
 - `(www.)?youtubekids.com`
 - `m.youtube.com`
 
-Available (sub)domains:
+Available paths:
 
 - /watch
 - /embed
@@ -29,7 +29,7 @@ Available (sub)domains:
 
 - `(www.)?tiktok.com`
 
-Available (sub)domains:
+Available paths:
 
 - /@NICKNAME/video/VIDEO_ID
 
@@ -56,7 +56,7 @@ Available (sub)domains:
 - `proxitok.lunar.icu`
 - `proxitok.privacy.com.de`
 
-Available (sub)domains:
+Available paths:
 
 - /@NICKNAME/video/VIDEO_ID
 
@@ -71,7 +71,7 @@ Available (sub)domains:
 - `clips.twitch.tv`
 - `player.twitch.tv`
 
-Available (sub)domains:
+Available paths:
 
 - /videos
 - /embed
@@ -91,7 +91,7 @@ Available (sub)domains:
 - `www.xvideos.com`
 - `www.xv-ru.com`
 
-Available (sub)domains:
+Available paths:
 
 - /VIDEO_ID/VIDEO_NAME
 
@@ -108,7 +108,7 @@ Available (sub)domains:
 - `pornhub.com`
 - `[a-z]+.pornhub.com`
 
-Available (sub)domains:
+Available paths:
 
 - /view_video.php?viewkey=VIDEO_ID
 - /embed/VIDEO_ID
@@ -130,7 +130,7 @@ Available (sub)domains:
 - `m.vk.com`
 - `m.vk.ru`
 
-Available (sub)domains:
+Available paths:
 
 - /video-xxxxxxxxx_xxxxxxxxx
 - ?z=VIDEO_ID
@@ -145,7 +145,7 @@ Available (sub)domains:
 - `player.vimeo.com`
 - `vimeo.com`
 
-Available (sub)domains:
+Available paths:
 
 - /CHANNEL_ID/VIDEO_ID
 - /VIDEO_ID
@@ -158,7 +158,7 @@ Available (sub)domains:
 
 - `ok.ru`
 
-Available (sub)domains:
+Available paths:
 
 - /video/VIDEO_ID
 
@@ -170,7 +170,7 @@ Available (sub)domains:
 
 - `9gag.com`
 
-Available (sub)domains:
+Available paths:
 
 - /gag/VIDEO_ID
 
@@ -186,7 +186,7 @@ Available (sub)domains:
 
 - `(www.)?bitchute.com`
 
-Available (sub)domains:
+Available paths:
 
 - /video/VIDEO_ID
 - /embed/VIDEO_ID
@@ -199,7 +199,7 @@ Available (sub)domains:
 
 - `rutube.ru`
 
-Available (sub)domains:
+Available paths:
 
 - /video/VIDEO_ID
 - /?bvid=VIDEO_ID
@@ -214,7 +214,7 @@ Available (sub)domains:
 - `m.bilibili.com`
 - `player.bilibili.com`
 
-Available (sub)domains:
+Available paths:
 
 - /video/VIDEO_ID
 - /?bvid=VIDEO_ID
@@ -227,7 +227,7 @@ Available (sub)domains:
 
 - `twitter.com`
 
-Available (sub)domains:
+Available paths:
 
 - /NAME/status/VIDEO_ID
 
@@ -244,7 +244,7 @@ Available (sub)domains:
 
 - `my.mail.ru`
 
-Available (sub)domains:
+Available paths:
 
 - /v/NICKNAME/video/...
 - /mail/NICKNAME/video/...
@@ -258,7 +258,7 @@ Available (sub)domains:
 
 - `coursera.org`
 
-Available (sub)domains:
+Available paths:
 
 - /learn/NAME/lecture/XXXX
 
@@ -275,7 +275,7 @@ Available (sub)domains:
 
 - `udemy.com`
 
-Available (sub)domains:
+Available paths:
 
 - /course/NAME/learn/lecture/LECTURE_ID
 
@@ -307,7 +307,7 @@ Available (sub)domains:
 - `invidio.xamh.de`
 - `invidious.dhusch.de`
 
-Available (sub)domains:
+Available paths:
 
 - /watch
 - /embed
@@ -354,7 +354,7 @@ Available (sub)domains:
 - `piped.pfcd.me`
 - `piped.frontendfriendly.xyz`
 
-Available (sub)domains:
+Available paths:
 
 - /watch
 - /embed
@@ -374,7 +374,7 @@ Available (sub)domains:
 
 - `rumble.com`
 
-Available (sub)domains:
+Available paths:
 
 - /VIDEO_NAME
 
@@ -390,7 +390,7 @@ Available (sub)domains:
 
 - `(www.)?eporner.com`
 
-Available (sub)domains:
+Available paths:
 
 - /video-VIDEO_ID/NAME
 
@@ -411,7 +411,7 @@ Available (sub)domains:
 - `peertube.tmp.rcp.tf`
 - `peertube.su`
 
-Available (sub)domains:
+Available paths:
 
 - /w/VIDEO_ID
 
@@ -427,7 +427,7 @@ Available (sub)domains:
 
 - `geo.dailymotion.com (embedded player, on www.dailymotion.com it works)`
 
-Available (sub)domains:
+Available paths:
 
 - /video/VIDEO_ID
 
@@ -439,7 +439,7 @@ Available (sub)domains:
 
 - `trovo.live`
 
-Available (sub)domains:
+Available paths:
 
 - /s/NICK/VIDEO_ID
 
@@ -455,7 +455,7 @@ Available (sub)domains:
 
 - `disk.yandex.ru`
 
-Available (sub)domains:
+Available paths:
 
 - /i/FILE_ID
 
@@ -472,7 +472,7 @@ Available (sub)domains:
 
 - `coursehunter.net`
 
-Available (sub)domains:
+Available paths:
 
 - /course/COURSE_ID
 
@@ -484,7 +484,7 @@ Available (sub)domains:
 
 - `youtube.googleapis.com`
 
-Available (sub)domains:
+Available paths:
 
 - /file/d/FILE_ID
 
@@ -500,7 +500,7 @@ Available (sub)domains:
 
 - `(www.)?banned.video`
 
-Available (sub)domains:
+Available paths:
 
 - /watch?id=VIDEO_ID
 
@@ -512,7 +512,7 @@ Available (sub)domains:
 
 - `facebook.com`
 
-Available (sub)domains:
+Available paths:
 
 - /reel/VIDEO_ID
 - /videos/VIDEO_ID
@@ -529,7 +529,7 @@ Available (sub)domains:
 
 - `weverse.io`
 
-Available (sub)domains:
+Available paths:
 
 - /CHANNEL_NAME/media/VIDEO_ID
 - /CHANNEL_NAME/live/VIDEO_ID
@@ -546,7 +546,7 @@ Available (sub)domains:
 
 - `www.newgrounds.com`
 
-Available (sub)domains:
+Available paths:
 
 - /XXX/view/XXX
 
@@ -558,7 +558,7 @@ Available (sub)domains:
 
 - `egghead.io`
 
-Available (sub)domains:
+Available paths:
 
 - /lessons/LESSON_NAME
 
@@ -570,7 +570,7 @@ Available (sub)domains:
 
 - `v.youku.com`
 
-Available (sub)domains:
+Available paths:
 
 - /v_show/VIDEO_ID
 
@@ -582,7 +582,7 @@ Available (sub)domains:
 
 - `archive.org`
 
-Available (sub)domains:
+Available paths:
 
 - /details/VIDEO_ID
 - /embed/VIDEO_ID
@@ -595,10 +595,26 @@ Available (sub)domains:
 
 - `any`
 
-Available (sub)domains:
+Available paths:
 
 - /\*.mp4
 
 Limitations:
 
 - Local videos cannot be translated
+
+## Patreon
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `www.patreon.com`
+
+Available paths:
+
+- /posts/POST_ID
+
+Limitations:
+
+- There are no subtitles

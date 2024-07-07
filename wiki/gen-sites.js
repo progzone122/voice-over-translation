@@ -81,6 +81,10 @@ const i18n = {
     ru: "Нельзя переводить локальные видео",
     en: "Local videos cannot be translated",
   },
+  noSubtitles: {
+    ru: "Нет субтитров",
+    en: "There are no subtitles",
+  },
 };
 
 const youtubeSiteData = {
@@ -217,6 +221,10 @@ const siteData = {
   archive: {
     paths: ["/details/VIDEO_ID", "/embed/VIDEO_ID"],
   },
+  patreon: {
+    paths: ["/posts/POST_ID"],
+    limits: [i18n.noSubtitles],
+  },
   directlink: {
     paths: ["/*.mp4"],
     limits: [i18n.noLocalLinks],
@@ -347,7 +355,7 @@ function genMarkdown(sites, lang = "ru") {
     const pathsData = hasData ? Array.from(siteData[site.host].paths) : [];
     let paths = "";
     if (pathsData.length) {
-      paths = `\n\n${i18n.availabledDomains[lang]}:\n\n- ${pathsData.join("\n- ")}`;
+      paths = `\n\n${i18n.availabledPaths[lang]}:\n\n- ${pathsData.join("\n- ")}`;
     }
 
     return `## ${ucFirst(site.host)}
