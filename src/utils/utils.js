@@ -1,36 +1,9 @@
 import { localizationProvider } from "../localization/localizationProvider.js";
 import youtubeUtils from "./youtubeUtils.js";
+import debug from "./debug.js";
 
 const userlang = navigator.language || navigator.userLanguage;
 export const lang = userlang?.substr(0, 2)?.toLowerCase() ?? "en";
-
-// not used
-// function waitForElm(selector) {
-//   // https://stackoverflow.com/questions/5525071/how-to-wait-until-an-element-exists
-//   return new Promise((resolve) => {
-//     const element = document.querySelector(selector);
-//     if (element) {
-//       return resolve(element);
-//     }
-
-//     const observer = new MutationObserver(() => {
-//       const element = document.querySelector(selector);
-//       if (element) {
-//         resolve(element);
-//         observer.disconnect();
-//       }
-//     });
-
-//     observer.observe(document.body, {
-//       childList: true,
-//       subtree: true,
-//       once: true,
-//     });
-//   });
-// }
-
-// not used
-// const sleep = (m) => new Promise((r) => setTimeout(r, m));
 
 const getVideoId = (service, video) => {
   let url = new URL(window.location.href);
@@ -272,8 +245,8 @@ const getVideoId = (service, video) => {
 
     //   return /video([^/]+)/.exec(url.pathname)?.[0];
     // }
-    // case "patreon":
-    //   return /posts\/([^/]+)/.exec(url.pathname)?.[0];
+    case "patreon":
+      return /posts\/([^/]+)/.exec(url.pathname)?.[0];
     case "directlink":
       return url.pathname + url.search;
     default:
@@ -357,21 +330,24 @@ function cleanText(title, description) {
   return fullText.replace(/[^\p{L}\s]+|\s+/gu, " ").trim();
 }
 
-async function GM_fetch(url, opt = {}) {
+async function GM_fetch(url, opts = {}) {
   try {
-    // Попытка выполнить запрос с помощью fetch
-    const response = await fetch(url, opt);
-    return response;
-  } catch (error) {
+    if (url.includes("api.browser.yandex.ru")) {
+      throw new Error("Preventing yandex cors");
+    }
+
+    return await fetch(url, opts);
+  } catch (err) {
     // Если fetch завершился ошибкой, используем GM_xmlhttpRequest
     // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
+    debug.log("GM_fetch preventing cors by GM_xmlhttpRequest", err.message);
     return new Promise((resolve, reject) => {
-      // https://www.tampermonkey.net/documentation.php?ext=dhdg#GM_xmlhttpRequest
-      // https://violentmonkey.github.io/api/gm/#gm_xmlhttprequest
       GM_xmlhttpRequest({
-        method: opt.method || "GET",
+        method: "GET",
         url: url,
         responseType: "blob",
+        ...opts,
+        data: opts.body,
         onload: (resp) => {
           resolve(
             new Response(resp.response, {
