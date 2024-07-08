@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import {
   sitesInvidious,
   sitesPiped,
@@ -302,14 +303,14 @@ const sites = () => {
       match: (url) => /([^.]+).mp4/.test(url.pathname),
       selector: null,
     },
+    {
+      host: "patreon",
+      url: "https://www.patreon.com/",
+      match: /^www.patreon.com$/,
+      selector:
+        'div[data-tag="post-card"] div[elevation="subtle"] > div > div > div > div',
+    },
     // пока рано
-    // {
-    //   host: "patreon",
-    //   url: "https://www.patreon.com/",
-    //   match: /^www.patreon.com$/,
-    //   selector:
-    //     'div[data-tag="post-card"] div[elevation="subtle"] > div > div > div > div',
-    // },
     // {
     //   host: "sibnet",
     //   url: "https://video.sibnet.ru/",
