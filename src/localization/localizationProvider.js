@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import defaultLocale from "./locales/en.json";
 import debug from "../utils/debug.js";
 import { votStorage } from "../utils/storage.js";
