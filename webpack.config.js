@@ -34,7 +34,7 @@ export default (env) => {
   console.log("build mode: ", build_mode);
   console.log("build type: ", build_type);
 
-  function get_filename() {
+  function getFilename() {
     let name = "vot";
     if (build_mode === "cloudflare") {
       name += "-cloudflare";
@@ -47,13 +47,10 @@ export default (env) => {
     return name + ".user.js";
   }
 
-  function get_name_by_build_mode(name) {
-    let finalName =
-      build_mode === "cloudflare"
-        ? name.replace("[VOT]", "[VOT Cloudflare]")
-        : name;
-
-    return finalName;
+  function getNameByBuildMode(name) {
+    return build_mode === "cloudflare"
+      ? name.replace("[VOT]", "[VOT Cloudflare]")
+      : name;
   }
 
   return monkey({
@@ -69,14 +66,14 @@ export default (env) => {
     entry: path.resolve(__dirname, "src", "index.js"),
     output: {
       path: path.resolve(__dirname, "dist"),
-      ...(!dev ? { filename: get_filename() } : {}),
+      ...(!dev ? { filename: getFilename() } : {}),
     },
     monkey: {
       debug: dev,
       meta: {
         resolve: "headers.json",
         transform({ meta }) {
-          const extFileName = get_filename().slice(0, -8);
+          const extFileName = getFilename().slice(0, -8);
           const finalURL = `${repo}/${
             isBeta ? "dev" : "master"
           }/dist/${extFileName}.user.js`;
@@ -105,7 +102,7 @@ export default (env) => {
             const localeHeaders = getHeaders(file);
             const lang = file.substring(0, 2);
 
-            meta.name[lang] = get_name_by_build_mode(localeHeaders.name);
+            meta.name[lang] = getNameByBuildMode(localeHeaders.name);
             meta.description[lang] = localeHeaders.description;
           }
 
@@ -114,13 +111,16 @@ export default (env) => {
       },
     },
     plugins: [
-      new ESLintPlugin(),
+      new ESLintPlugin({
+        configType: "flat",
+      }),
       new webpack.optimize.LimitChunkCountPlugin({
         maxChunks: 1,
       }),
       new webpack.DefinePlugin({
         BUILD_MODE: JSON.stringify(build_mode),
-        DEBUG_MODE: dev,
+        // DEBUG_MODE: dev,
+        DEBUG_MODE: true,
         IS_BETA_VERSION: isBeta,
         ...(() => {
           if (!dev) {
@@ -144,8 +144,15 @@ export default (env) => {
     optimization: {
       emitOnErrors: true,
       moduleIds: "named",
-      minimize: build_type === "minify" ? true : false,
+      minimize: build_type === "minify",
       minimizer: [new TerserPlugin()],
+    },
+    externalsType: "window",
+    externals: {
+      // ignore UnhandledSchemeError: Reading from "node:crypto" is not handled by plugins (Unhandled scheme)
+
+      // TODO: придумать как убирать лишний импорт Unpkg node:crypto из меты
+      "node:crypto": "crypto",
     },
   });
 };
