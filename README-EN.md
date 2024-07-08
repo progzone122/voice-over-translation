@@ -4,6 +4,9 @@
 [![en](https://img.shields.io/badge/lang-English%20%F0%9F%87%AC%F0%9F%87%A7-white)](README-EN.md)
 
 > [!CAUTION]
+> WIP. All necessary depends will be opened with the release of beta
+
+> [!CAUTION]
 > Before creating Issues, we strongly recommend that you read the [FAQ](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) section, as well as with existing [Issues](https://github.com/ilyhalight/voice-over-translation/issues)
 
 The voice-over translation of the video is now available not only in YandexBrowser. Very grateful, **[Yandex.Translate](https://translate.yandex.ru/)**, **[sodapng](https://github.com/sodapng)**, **[mynovelhost](https://github.com/mynovelhost)**, **[SashaXser](https://github.com/SashaXser)** and to all other contributors. Thanks <3
@@ -103,7 +106,7 @@ These domains can be set in the extension settings (only those domains that can 
 
 ## How to build an extension?
 
-1. Install NodeJS 18+
+1. Install Node.js 18.18+ / Bun.sh
 2. Install dependencies:
 
 ```bash
