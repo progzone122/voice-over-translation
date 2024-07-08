@@ -20,9 +20,9 @@
 // @grant          GM_getValue
 // @grant          GM_xmlhttpRequest
 // @grant          GM_info
-// @require        https://cdn.jsdelivr.net/npm/protobufjs/dist/light/protobuf.min.js
 // @require        https://cdn.jsdelivr.net/npm/hls.js/dist/hls.light.min.js
 // @require        https://gist.githubusercontent.com/ilyhalight/6eb5bb4dffc7ca9e3c57d6933e2452f3/raw/7ab38af2228d0bed13912e503bc8a9ee4b11828d/gm-addstyle-polyfill.js
+// @require        https://unpkg.com/node:crypto
 // @match          *://*.youtube.com/*
 // @match          *://*.youtube-nocookie.com/*
 // @match          *://*.youtubekids.com/*
@@ -121,6 +121,7 @@
 // @match          *://*.egghead.io/*
 // @match          *://*.youku.com/*
 // @match          *://*.archive.org/*
+// @match          *://*.patreon.com/*
 // @match          *://*/*.mp4*
 // @exclude        file://*/*.mp4*
 // @connect        yandex.ru
@@ -131,12 +132,12 @@
 // @connect        onrender.com
 // @connect        workers.dev
 // @namespace      vot
-// @version        1.5.3.1
+// @version        1.6.0-beta.1
 // @icon           https://translate.yandex.ru/icons/favicon.ico
 // @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation/issues
-// @updateURL      https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot.user.js
-// @downloadURL    https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot.user.js
+// @updateURL      https://raw.githubusercontent.com/ilyhalight/voice-over-translation/dev/dist/vot.user.js
+// @downloadURL    https://raw.githubusercontent.com/ilyhalight/voice-over-translation/dev/dist/vot.user.js
 // @supportURL     https://github.com/ilyhalight/voice-over-translation/issues
 // ==/UserScript==
 
@@ -557,133 +558,3109 @@ module.exports = function () {
 
 /***/ }),
 
-/***/ "./src/config/config.js":
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+/***/ "../vot.js/node_modules/@protobufjs/aspromise/index.js":
+/***/ ((module) => {
 
 "use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Cc: () => (/* binding */ yandexUserAgent),
-/* harmony export */   JD: () => (/* binding */ defaultAutoVolume),
-/* harmony export */   K2: () => (/* binding */ defaultDetectService),
-/* harmony export */   Pm: () => (/* binding */ proxyWorkerHost),
-/* harmony export */   QL: () => (/* binding */ detectUrls),
-/* harmony export */   S7: () => (/* binding */ yandexHmacKey),
-/* harmony export */   T8: () => (/* binding */ maxAudioVolume),
-/* harmony export */   mE: () => (/* binding */ defaultTranslationService),
-/* harmony export */   rl: () => (/* binding */ workerHost),
-/* harmony export */   rw: () => (/* binding */ translateUrls),
-/* harmony export */   se: () => (/* binding */ m3u8ProxyHost)
-/* harmony export */ });
-// CONFIGURATION
-const workerHost = "api.browser.yandex.ru";
-const m3u8ProxyHost = "m3u8-proxy.toil.cc"; // used for streaming
-const proxyWorkerHost = "vot-worker.toil.cc"; // used for cloudflare version
-const yandexHmacKey = "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf";
-const yandexUserAgent =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 YaBrowser/24.4.0.0 Safari/537.36";
-const defaultAutoVolume = 0.15; // 0.0 - 1.0 (0% - 100%) - default volume of the video with the translation
-const maxAudioVolume = 900;
-const defaultTranslationService = "yandex";
-const defaultDetectService = "yandex";
 
-const detectUrls = {
-  yandex: "https://translate.toil.cc/detect",
-  rustServer: "https://rust-server-531j.onrender.com/detect",
-};
+module.exports = asPromise;
 
-const translateUrls = {
-  yandex: "https://translate.toil.cc/translate",
-  deepl: "https://translate-deepl.toil.cc/translate",
-};
+/**
+ * Callback as used by {@link util.asPromise}.
+ * @typedef asPromiseCallback
+ * @type {function}
+ * @param {Error|null} error Error, if any
+ * @param {...*} params Additional arguments
+ * @returns {undefined}
+ */
 
-
-
-
-/***/ }),
-
-/***/ "./src/utils/debug.js":
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   A: () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-const debug = {};
-debug.log = (...text) => {
-  if (true) {
-    return;
-  }
-  return console.log(
-    "%c[VOT DEBUG]",
-    "background: #F2452D; color: #fff; padding: 5px;",
-    ...text,
-  );
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (debug);
-
-
-/***/ }),
-
-/***/ "./src/yandexRequest.js":
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _config_config_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("./src/config/config.js");
-/* harmony import */ var _utils_debug_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("./src/utils/debug.js");
-
-
-
-async function yandexRequest(path, body, headers, callback) {
-  try {
-    _utils_debug_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .A.log("yandexRequest:", path);
-    // Create a fetch options object with headers and body
-    const options = {
-      url: `https://${_config_config_js__WEBPACK_IMPORTED_MODULE_0__/* .workerHost */ .rl}${path}`,
-      method: "POST",
-      headers: {
-        ...{
-          Accept: "application/x-protobuf",
-          "Accept-Language": "en",
-          "Content-Type": "application/x-protobuf",
-          "User-Agent": _config_config_js__WEBPACK_IMPORTED_MODULE_0__/* .yandexUserAgent */ .Cc,
-          Pragma: "no-cache",
-          "Cache-Control": "no-cache",
-          "Sec-Fetch-Mode": "no-cors",
-          "sec-ch-ua": null,
-          "sec-ch-ua-mobile": null,
-          "sec-ch-ua-platform": null,
-        },
-        ...headers,
-      },
-      binary: true,
-      data: new Blob([body]),
-      responseType: "arraybuffer",
-    };
-    // Send the request using GM_xmlhttpRequest
-    GM_xmlhttpRequest({
-      ...options,
-      onload: (http) => {
-        _utils_debug_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .A.log("yandexRequest:", http.status, http);
-        callback(http.status === 200, http.response);
-      },
-      onerror: (error) => {
-        console.error("[VOT]", error);
-        callback(false);
-      },
+/**
+ * Returns a promise from a node-style callback function.
+ * @memberof util
+ * @param {asPromiseCallback} fn Function to call
+ * @param {*} ctx Function context
+ * @param {...*} params Function arguments
+ * @returns {Promise<*>} Promisified function
+ */
+function asPromise(fn, ctx/*, varargs */) {
+    var params  = new Array(arguments.length - 1),
+        offset  = 0,
+        index   = 2,
+        pending = true;
+    while (index < arguments.length)
+        params[offset++] = arguments[index++];
+    return new Promise(function executor(resolve, reject) {
+        params[offset] = function callback(err/*, varargs */) {
+            if (pending) {
+                pending = false;
+                if (err)
+                    reject(err);
+                else {
+                    var params = new Array(arguments.length - 1),
+                        offset = 0;
+                    while (offset < params.length)
+                        params[offset++] = arguments[offset];
+                    resolve.apply(null, params);
+                }
+            }
+        };
+        try {
+            fn.apply(ctx || null, params);
+        } catch (err) {
+            if (pending) {
+                pending = false;
+                reject(err);
+            }
+        }
     });
-  } catch (exception) {
-    console.error("[VOT]", exception);
-    // Handle errors
-    callback(false);
-  }
 }
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (yandexRequest);
+
+/***/ }),
+
+/***/ "../vot.js/node_modules/@protobufjs/base64/index.js":
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+
+/**
+ * A minimal base64 implementation for number arrays.
+ * @memberof util
+ * @namespace
+ */
+var base64 = exports;
+
+/**
+ * Calculates the byte length of a base64 encoded string.
+ * @param {string} string Base64 encoded string
+ * @returns {number} Byte length
+ */
+base64.length = function length(string) {
+    var p = string.length;
+    if (!p)
+        return 0;
+    var n = 0;
+    while (--p % 4 > 1 && string.charAt(p) === "=")
+        ++n;
+    return Math.ceil(string.length * 3) / 4 - n;
+};
+
+// Base64 encoding table
+var b64 = new Array(64);
+
+// Base64 decoding table
+var s64 = new Array(123);
+
+// 65..90, 97..122, 48..57, 43, 47
+for (var i = 0; i < 64;)
+    s64[b64[i] = i < 26 ? i + 65 : i < 52 ? i + 71 : i < 62 ? i - 4 : i - 59 | 43] = i++;
+
+/**
+ * Encodes a buffer to a base64 encoded string.
+ * @param {Uint8Array} buffer Source buffer
+ * @param {number} start Source start
+ * @param {number} end Source end
+ * @returns {string} Base64 encoded string
+ */
+base64.encode = function encode(buffer, start, end) {
+    var parts = null,
+        chunk = [];
+    var i = 0, // output index
+        j = 0, // goto index
+        t;     // temporary
+    while (start < end) {
+        var b = buffer[start++];
+        switch (j) {
+            case 0:
+                chunk[i++] = b64[b >> 2];
+                t = (b & 3) << 4;
+                j = 1;
+                break;
+            case 1:
+                chunk[i++] = b64[t | b >> 4];
+                t = (b & 15) << 2;
+                j = 2;
+                break;
+            case 2:
+                chunk[i++] = b64[t | b >> 6];
+                chunk[i++] = b64[b & 63];
+                j = 0;
+                break;
+        }
+        if (i > 8191) {
+            (parts || (parts = [])).push(String.fromCharCode.apply(String, chunk));
+            i = 0;
+        }
+    }
+    if (j) {
+        chunk[i++] = b64[t];
+        chunk[i++] = 61;
+        if (j === 1)
+            chunk[i++] = 61;
+    }
+    if (parts) {
+        if (i)
+            parts.push(String.fromCharCode.apply(String, chunk.slice(0, i)));
+        return parts.join("");
+    }
+    return String.fromCharCode.apply(String, chunk.slice(0, i));
+};
+
+var invalidEncoding = "invalid encoding";
+
+/**
+ * Decodes a base64 encoded string to a buffer.
+ * @param {string} string Source string
+ * @param {Uint8Array} buffer Destination buffer
+ * @param {number} offset Destination offset
+ * @returns {number} Number of bytes written
+ * @throws {Error} If encoding is invalid
+ */
+base64.decode = function decode(string, buffer, offset) {
+    var start = offset;
+    var j = 0, // goto index
+        t;     // temporary
+    for (var i = 0; i < string.length;) {
+        var c = string.charCodeAt(i++);
+        if (c === 61 && j > 1)
+            break;
+        if ((c = s64[c]) === undefined)
+            throw Error(invalidEncoding);
+        switch (j) {
+            case 0:
+                t = c;
+                j = 1;
+                break;
+            case 1:
+                buffer[offset++] = t << 2 | (c & 48) >> 4;
+                t = c;
+                j = 2;
+                break;
+            case 2:
+                buffer[offset++] = (t & 15) << 4 | (c & 60) >> 2;
+                t = c;
+                j = 3;
+                break;
+            case 3:
+                buffer[offset++] = (t & 3) << 6 | c;
+                j = 0;
+                break;
+        }
+    }
+    if (j === 1)
+        throw Error(invalidEncoding);
+    return offset - start;
+};
+
+/**
+ * Tests if the specified string appears to be base64 encoded.
+ * @param {string} string String to test
+ * @returns {boolean} `true` if probably base64 encoded, otherwise false
+ */
+base64.test = function test(string) {
+    return /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(string);
+};
+
+
+/***/ }),
+
+/***/ "../vot.js/node_modules/@protobufjs/eventemitter/index.js":
+/***/ ((module) => {
+
+"use strict";
+
+module.exports = EventEmitter;
+
+/**
+ * Constructs a new event emitter instance.
+ * @classdesc A minimal event emitter.
+ * @memberof util
+ * @constructor
+ */
+function EventEmitter() {
+
+    /**
+     * Registered listeners.
+     * @type {Object.<string,*>}
+     * @private
+     */
+    this._listeners = {};
+}
+
+/**
+ * Registers an event listener.
+ * @param {string} evt Event name
+ * @param {function} fn Listener
+ * @param {*} [ctx] Listener context
+ * @returns {util.EventEmitter} `this`
+ */
+EventEmitter.prototype.on = function on(evt, fn, ctx) {
+    (this._listeners[evt] || (this._listeners[evt] = [])).push({
+        fn  : fn,
+        ctx : ctx || this
+    });
+    return this;
+};
+
+/**
+ * Removes an event listener or any matching listeners if arguments are omitted.
+ * @param {string} [evt] Event name. Removes all listeners if omitted.
+ * @param {function} [fn] Listener to remove. Removes all listeners of `evt` if omitted.
+ * @returns {util.EventEmitter} `this`
+ */
+EventEmitter.prototype.off = function off(evt, fn) {
+    if (evt === undefined)
+        this._listeners = {};
+    else {
+        if (fn === undefined)
+            this._listeners[evt] = [];
+        else {
+            var listeners = this._listeners[evt];
+            for (var i = 0; i < listeners.length;)
+                if (listeners[i].fn === fn)
+                    listeners.splice(i, 1);
+                else
+                    ++i;
+        }
+    }
+    return this;
+};
+
+/**
+ * Emits an event by calling its listeners with the specified arguments.
+ * @param {string} evt Event name
+ * @param {...*} args Arguments
+ * @returns {util.EventEmitter} `this`
+ */
+EventEmitter.prototype.emit = function emit(evt) {
+    var listeners = this._listeners[evt];
+    if (listeners) {
+        var args = [],
+            i = 1;
+        for (; i < arguments.length;)
+            args.push(arguments[i++]);
+        for (i = 0; i < listeners.length;)
+            listeners[i].fn.apply(listeners[i++].ctx, args);
+    }
+    return this;
+};
+
+
+/***/ }),
+
+/***/ "../vot.js/node_modules/@protobufjs/float/index.js":
+/***/ ((module) => {
+
+"use strict";
+
+
+module.exports = factory(factory);
+
+/**
+ * Reads / writes floats / doubles from / to buffers.
+ * @name util.float
+ * @namespace
+ */
+
+/**
+ * Writes a 32 bit float to a buffer using little endian byte order.
+ * @name util.float.writeFloatLE
+ * @function
+ * @param {number} val Value to write
+ * @param {Uint8Array} buf Target buffer
+ * @param {number} pos Target buffer offset
+ * @returns {undefined}
+ */
+
+/**
+ * Writes a 32 bit float to a buffer using big endian byte order.
+ * @name util.float.writeFloatBE
+ * @function
+ * @param {number} val Value to write
+ * @param {Uint8Array} buf Target buffer
+ * @param {number} pos Target buffer offset
+ * @returns {undefined}
+ */
+
+/**
+ * Reads a 32 bit float from a buffer using little endian byte order.
+ * @name util.float.readFloatLE
+ * @function
+ * @param {Uint8Array} buf Source buffer
+ * @param {number} pos Source buffer offset
+ * @returns {number} Value read
+ */
+
+/**
+ * Reads a 32 bit float from a buffer using big endian byte order.
+ * @name util.float.readFloatBE
+ * @function
+ * @param {Uint8Array} buf Source buffer
+ * @param {number} pos Source buffer offset
+ * @returns {number} Value read
+ */
+
+/**
+ * Writes a 64 bit double to a buffer using little endian byte order.
+ * @name util.float.writeDoubleLE
+ * @function
+ * @param {number} val Value to write
+ * @param {Uint8Array} buf Target buffer
+ * @param {number} pos Target buffer offset
+ * @returns {undefined}
+ */
+
+/**
+ * Writes a 64 bit double to a buffer using big endian byte order.
+ * @name util.float.writeDoubleBE
+ * @function
+ * @param {number} val Value to write
+ * @param {Uint8Array} buf Target buffer
+ * @param {number} pos Target buffer offset
+ * @returns {undefined}
+ */
+
+/**
+ * Reads a 64 bit double from a buffer using little endian byte order.
+ * @name util.float.readDoubleLE
+ * @function
+ * @param {Uint8Array} buf Source buffer
+ * @param {number} pos Source buffer offset
+ * @returns {number} Value read
+ */
+
+/**
+ * Reads a 64 bit double from a buffer using big endian byte order.
+ * @name util.float.readDoubleBE
+ * @function
+ * @param {Uint8Array} buf Source buffer
+ * @param {number} pos Source buffer offset
+ * @returns {number} Value read
+ */
+
+// Factory function for the purpose of node-based testing in modified global environments
+function factory(exports) {
+
+    // float: typed array
+    if (typeof Float32Array !== "undefined") (function() {
+
+        var f32 = new Float32Array([ -0 ]),
+            f8b = new Uint8Array(f32.buffer),
+            le  = f8b[3] === 128;
+
+        function writeFloat_f32_cpy(val, buf, pos) {
+            f32[0] = val;
+            buf[pos    ] = f8b[0];
+            buf[pos + 1] = f8b[1];
+            buf[pos + 2] = f8b[2];
+            buf[pos + 3] = f8b[3];
+        }
+
+        function writeFloat_f32_rev(val, buf, pos) {
+            f32[0] = val;
+            buf[pos    ] = f8b[3];
+            buf[pos + 1] = f8b[2];
+            buf[pos + 2] = f8b[1];
+            buf[pos + 3] = f8b[0];
+        }
+
+        /* istanbul ignore next */
+        exports.writeFloatLE = le ? writeFloat_f32_cpy : writeFloat_f32_rev;
+        /* istanbul ignore next */
+        exports.writeFloatBE = le ? writeFloat_f32_rev : writeFloat_f32_cpy;
+
+        function readFloat_f32_cpy(buf, pos) {
+            f8b[0] = buf[pos    ];
+            f8b[1] = buf[pos + 1];
+            f8b[2] = buf[pos + 2];
+            f8b[3] = buf[pos + 3];
+            return f32[0];
+        }
+
+        function readFloat_f32_rev(buf, pos) {
+            f8b[3] = buf[pos    ];
+            f8b[2] = buf[pos + 1];
+            f8b[1] = buf[pos + 2];
+            f8b[0] = buf[pos + 3];
+            return f32[0];
+        }
+
+        /* istanbul ignore next */
+        exports.readFloatLE = le ? readFloat_f32_cpy : readFloat_f32_rev;
+        /* istanbul ignore next */
+        exports.readFloatBE = le ? readFloat_f32_rev : readFloat_f32_cpy;
+
+    // float: ieee754
+    })(); else (function() {
+
+        function writeFloat_ieee754(writeUint, val, buf, pos) {
+            var sign = val < 0 ? 1 : 0;
+            if (sign)
+                val = -val;
+            if (val === 0)
+                writeUint(1 / val > 0 ? /* positive */ 0 : /* negative 0 */ 2147483648, buf, pos);
+            else if (isNaN(val))
+                writeUint(2143289344, buf, pos);
+            else if (val > 3.4028234663852886e+38) // +-Infinity
+                writeUint((sign << 31 | 2139095040) >>> 0, buf, pos);
+            else if (val < 1.1754943508222875e-38) // denormal
+                writeUint((sign << 31 | Math.round(val / 1.401298464324817e-45)) >>> 0, buf, pos);
+            else {
+                var exponent = Math.floor(Math.log(val) / Math.LN2),
+                    mantissa = Math.round(val * Math.pow(2, -exponent) * 8388608) & 8388607;
+                writeUint((sign << 31 | exponent + 127 << 23 | mantissa) >>> 0, buf, pos);
+            }
+        }
+
+        exports.writeFloatLE = writeFloat_ieee754.bind(null, writeUintLE);
+        exports.writeFloatBE = writeFloat_ieee754.bind(null, writeUintBE);
+
+        function readFloat_ieee754(readUint, buf, pos) {
+            var uint = readUint(buf, pos),
+                sign = (uint >> 31) * 2 + 1,
+                exponent = uint >>> 23 & 255,
+                mantissa = uint & 8388607;
+            return exponent === 255
+                ? mantissa
+                ? NaN
+                : sign * Infinity
+                : exponent === 0 // denormal
+                ? sign * 1.401298464324817e-45 * mantissa
+                : sign * Math.pow(2, exponent - 150) * (mantissa + 8388608);
+        }
+
+        exports.readFloatLE = readFloat_ieee754.bind(null, readUintLE);
+        exports.readFloatBE = readFloat_ieee754.bind(null, readUintBE);
+
+    })();
+
+    // double: typed array
+    if (typeof Float64Array !== "undefined") (function() {
+
+        var f64 = new Float64Array([-0]),
+            f8b = new Uint8Array(f64.buffer),
+            le  = f8b[7] === 128;
+
+        function writeDouble_f64_cpy(val, buf, pos) {
+            f64[0] = val;
+            buf[pos    ] = f8b[0];
+            buf[pos + 1] = f8b[1];
+            buf[pos + 2] = f8b[2];
+            buf[pos + 3] = f8b[3];
+            buf[pos + 4] = f8b[4];
+            buf[pos + 5] = f8b[5];
+            buf[pos + 6] = f8b[6];
+            buf[pos + 7] = f8b[7];
+        }
+
+        function writeDouble_f64_rev(val, buf, pos) {
+            f64[0] = val;
+            buf[pos    ] = f8b[7];
+            buf[pos + 1] = f8b[6];
+            buf[pos + 2] = f8b[5];
+            buf[pos + 3] = f8b[4];
+            buf[pos + 4] = f8b[3];
+            buf[pos + 5] = f8b[2];
+            buf[pos + 6] = f8b[1];
+            buf[pos + 7] = f8b[0];
+        }
+
+        /* istanbul ignore next */
+        exports.writeDoubleLE = le ? writeDouble_f64_cpy : writeDouble_f64_rev;
+        /* istanbul ignore next */
+        exports.writeDoubleBE = le ? writeDouble_f64_rev : writeDouble_f64_cpy;
+
+        function readDouble_f64_cpy(buf, pos) {
+            f8b[0] = buf[pos    ];
+            f8b[1] = buf[pos + 1];
+            f8b[2] = buf[pos + 2];
+            f8b[3] = buf[pos + 3];
+            f8b[4] = buf[pos + 4];
+            f8b[5] = buf[pos + 5];
+            f8b[6] = buf[pos + 6];
+            f8b[7] = buf[pos + 7];
+            return f64[0];
+        }
+
+        function readDouble_f64_rev(buf, pos) {
+            f8b[7] = buf[pos    ];
+            f8b[6] = buf[pos + 1];
+            f8b[5] = buf[pos + 2];
+            f8b[4] = buf[pos + 3];
+            f8b[3] = buf[pos + 4];
+            f8b[2] = buf[pos + 5];
+            f8b[1] = buf[pos + 6];
+            f8b[0] = buf[pos + 7];
+            return f64[0];
+        }
+
+        /* istanbul ignore next */
+        exports.readDoubleLE = le ? readDouble_f64_cpy : readDouble_f64_rev;
+        /* istanbul ignore next */
+        exports.readDoubleBE = le ? readDouble_f64_rev : readDouble_f64_cpy;
+
+    // double: ieee754
+    })(); else (function() {
+
+        function writeDouble_ieee754(writeUint, off0, off1, val, buf, pos) {
+            var sign = val < 0 ? 1 : 0;
+            if (sign)
+                val = -val;
+            if (val === 0) {
+                writeUint(0, buf, pos + off0);
+                writeUint(1 / val > 0 ? /* positive */ 0 : /* negative 0 */ 2147483648, buf, pos + off1);
+            } else if (isNaN(val)) {
+                writeUint(0, buf, pos + off0);
+                writeUint(2146959360, buf, pos + off1);
+            } else if (val > 1.7976931348623157e+308) { // +-Infinity
+                writeUint(0, buf, pos + off0);
+                writeUint((sign << 31 | 2146435072) >>> 0, buf, pos + off1);
+            } else {
+                var mantissa;
+                if (val < 2.2250738585072014e-308) { // denormal
+                    mantissa = val / 5e-324;
+                    writeUint(mantissa >>> 0, buf, pos + off0);
+                    writeUint((sign << 31 | mantissa / 4294967296) >>> 0, buf, pos + off1);
+                } else {
+                    var exponent = Math.floor(Math.log(val) / Math.LN2);
+                    if (exponent === 1024)
+                        exponent = 1023;
+                    mantissa = val * Math.pow(2, -exponent);
+                    writeUint(mantissa * 4503599627370496 >>> 0, buf, pos + off0);
+                    writeUint((sign << 31 | exponent + 1023 << 20 | mantissa * 1048576 & 1048575) >>> 0, buf, pos + off1);
+                }
+            }
+        }
+
+        exports.writeDoubleLE = writeDouble_ieee754.bind(null, writeUintLE, 0, 4);
+        exports.writeDoubleBE = writeDouble_ieee754.bind(null, writeUintBE, 4, 0);
+
+        function readDouble_ieee754(readUint, off0, off1, buf, pos) {
+            var lo = readUint(buf, pos + off0),
+                hi = readUint(buf, pos + off1);
+            var sign = (hi >> 31) * 2 + 1,
+                exponent = hi >>> 20 & 2047,
+                mantissa = 4294967296 * (hi & 1048575) + lo;
+            return exponent === 2047
+                ? mantissa
+                ? NaN
+                : sign * Infinity
+                : exponent === 0 // denormal
+                ? sign * 5e-324 * mantissa
+                : sign * Math.pow(2, exponent - 1075) * (mantissa + 4503599627370496);
+        }
+
+        exports.readDoubleLE = readDouble_ieee754.bind(null, readUintLE, 0, 4);
+        exports.readDoubleBE = readDouble_ieee754.bind(null, readUintBE, 4, 0);
+
+    })();
+
+    return exports;
+}
+
+// uint helpers
+
+function writeUintLE(val, buf, pos) {
+    buf[pos    ] =  val        & 255;
+    buf[pos + 1] =  val >>> 8  & 255;
+    buf[pos + 2] =  val >>> 16 & 255;
+    buf[pos + 3] =  val >>> 24;
+}
+
+function writeUintBE(val, buf, pos) {
+    buf[pos    ] =  val >>> 24;
+    buf[pos + 1] =  val >>> 16 & 255;
+    buf[pos + 2] =  val >>> 8  & 255;
+    buf[pos + 3] =  val        & 255;
+}
+
+function readUintLE(buf, pos) {
+    return (buf[pos    ]
+          | buf[pos + 1] << 8
+          | buf[pos + 2] << 16
+          | buf[pos + 3] << 24) >>> 0;
+}
+
+function readUintBE(buf, pos) {
+    return (buf[pos    ] << 24
+          | buf[pos + 1] << 16
+          | buf[pos + 2] << 8
+          | buf[pos + 3]) >>> 0;
+}
+
+
+/***/ }),
+
+/***/ "../vot.js/node_modules/@protobufjs/inquire/index.js":
+/***/ ((module) => {
+
+"use strict";
+
+module.exports = inquire;
+
+/**
+ * Requires a module only if available.
+ * @memberof util
+ * @param {string} moduleName Module to require
+ * @returns {?Object} Required module if available and not empty, otherwise `null`
+ */
+function inquire(moduleName) {
+    try {
+        var mod = eval("quire".replace(/^/,"re"))(moduleName); // eslint-disable-line no-eval
+        if (mod && (mod.length || Object.keys(mod).length))
+            return mod;
+    } catch (e) {} // eslint-disable-line no-empty
+    return null;
+}
+
+
+/***/ }),
+
+/***/ "../vot.js/node_modules/@protobufjs/pool/index.js":
+/***/ ((module) => {
+
+"use strict";
+
+module.exports = pool;
+
+/**
+ * An allocator as used by {@link util.pool}.
+ * @typedef PoolAllocator
+ * @type {function}
+ * @param {number} size Buffer size
+ * @returns {Uint8Array} Buffer
+ */
+
+/**
+ * A slicer as used by {@link util.pool}.
+ * @typedef PoolSlicer
+ * @type {function}
+ * @param {number} start Start offset
+ * @param {number} end End offset
+ * @returns {Uint8Array} Buffer slice
+ * @this {Uint8Array}
+ */
+
+/**
+ * A general purpose buffer pool.
+ * @memberof util
+ * @function
+ * @param {PoolAllocator} alloc Allocator
+ * @param {PoolSlicer} slice Slicer
+ * @param {number} [size=8192] Slab size
+ * @returns {PoolAllocator} Pooled allocator
+ */
+function pool(alloc, slice, size) {
+    var SIZE   = size || 8192;
+    var MAX    = SIZE >>> 1;
+    var slab   = null;
+    var offset = SIZE;
+    return function pool_alloc(size) {
+        if (size < 1 || size > MAX)
+            return alloc(size);
+        if (offset + size > SIZE) {
+            slab = alloc(SIZE);
+            offset = 0;
+        }
+        var buf = slice.call(slab, offset, offset += size);
+        if (offset & 7) // align to 32 bit
+            offset = (offset | 7) + 1;
+        return buf;
+    };
+}
+
+
+/***/ }),
+
+/***/ "../vot.js/node_modules/@protobufjs/utf8/index.js":
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+
+/**
+ * A minimal UTF8 implementation for number arrays.
+ * @memberof util
+ * @namespace
+ */
+var utf8 = exports;
+
+/**
+ * Calculates the UTF8 byte length of a string.
+ * @param {string} string String
+ * @returns {number} Byte length
+ */
+utf8.length = function utf8_length(string) {
+    var len = 0,
+        c = 0;
+    for (var i = 0; i < string.length; ++i) {
+        c = string.charCodeAt(i);
+        if (c < 128)
+            len += 1;
+        else if (c < 2048)
+            len += 2;
+        else if ((c & 0xFC00) === 0xD800 && (string.charCodeAt(i + 1) & 0xFC00) === 0xDC00) {
+            ++i;
+            len += 4;
+        } else
+            len += 3;
+    }
+    return len;
+};
+
+/**
+ * Reads UTF8 bytes as a string.
+ * @param {Uint8Array} buffer Source buffer
+ * @param {number} start Source start
+ * @param {number} end Source end
+ * @returns {string} String read
+ */
+utf8.read = function utf8_read(buffer, start, end) {
+    var len = end - start;
+    if (len < 1)
+        return "";
+    var parts = null,
+        chunk = [],
+        i = 0, // char offset
+        t;     // temporary
+    while (start < end) {
+        t = buffer[start++];
+        if (t < 128)
+            chunk[i++] = t;
+        else if (t > 191 && t < 224)
+            chunk[i++] = (t & 31) << 6 | buffer[start++] & 63;
+        else if (t > 239 && t < 365) {
+            t = ((t & 7) << 18 | (buffer[start++] & 63) << 12 | (buffer[start++] & 63) << 6 | buffer[start++] & 63) - 0x10000;
+            chunk[i++] = 0xD800 + (t >> 10);
+            chunk[i++] = 0xDC00 + (t & 1023);
+        } else
+            chunk[i++] = (t & 15) << 12 | (buffer[start++] & 63) << 6 | buffer[start++] & 63;
+        if (i > 8191) {
+            (parts || (parts = [])).push(String.fromCharCode.apply(String, chunk));
+            i = 0;
+        }
+    }
+    if (parts) {
+        if (i)
+            parts.push(String.fromCharCode.apply(String, chunk.slice(0, i)));
+        return parts.join("");
+    }
+    return String.fromCharCode.apply(String, chunk.slice(0, i));
+};
+
+/**
+ * Writes a string as UTF8 bytes.
+ * @param {string} string Source string
+ * @param {Uint8Array} buffer Destination buffer
+ * @param {number} offset Destination offset
+ * @returns {number} Bytes written
+ */
+utf8.write = function utf8_write(string, buffer, offset) {
+    var start = offset,
+        c1, // character 1
+        c2; // character 2
+    for (var i = 0; i < string.length; ++i) {
+        c1 = string.charCodeAt(i);
+        if (c1 < 128) {
+            buffer[offset++] = c1;
+        } else if (c1 < 2048) {
+            buffer[offset++] = c1 >> 6       | 192;
+            buffer[offset++] = c1       & 63 | 128;
+        } else if ((c1 & 0xFC00) === 0xD800 && ((c2 = string.charCodeAt(i + 1)) & 0xFC00) === 0xDC00) {
+            c1 = 0x10000 + ((c1 & 0x03FF) << 10) + (c2 & 0x03FF);
+            ++i;
+            buffer[offset++] = c1 >> 18      | 240;
+            buffer[offset++] = c1 >> 12 & 63 | 128;
+            buffer[offset++] = c1 >> 6  & 63 | 128;
+            buffer[offset++] = c1       & 63 | 128;
+        } else {
+            buffer[offset++] = c1 >> 12      | 224;
+            buffer[offset++] = c1 >> 6  & 63 | 128;
+            buffer[offset++] = c1       & 63 | 128;
+        }
+    }
+    return offset - start;
+};
+
+
+/***/ }),
+
+/***/ "../vot.js/node_modules/dom-parser/dist/index.js":
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.parseFromString = void 0;
+const Dom_1 = __webpack_require__("../vot.js/node_modules/dom-parser/dist/lib/Dom.js");
+function parseFromString(html) {
+    return new Dom_1.Dom(html);
+}
+exports.parseFromString = parseFromString;
+__exportStar(__webpack_require__("../vot.js/node_modules/dom-parser/dist/lib/Dom.js"), exports);
+__exportStar(__webpack_require__("../vot.js/node_modules/dom-parser/dist/lib/Node.js"), exports);
+
+
+/***/ }),
+
+/***/ "../vot.js/node_modules/dom-parser/dist/lib/Dom.js":
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Dom = void 0;
+const Node_1 = __webpack_require__("../vot.js/node_modules/dom-parser/dist/lib/Node.js");
+const NodeAttribute_1 = __webpack_require__("../vot.js/node_modules/dom-parser/dist/lib/NodeAttribute.js");
+const tagRegExp = /(<\/?(?:[a-z][a-z0-9]*:)?[a-z][a-z0-9-_.]*?[a-z0-9]*\s*(?:\s+[a-z0-9-_:]+(?:=(?:(?:'[\s\S]*?')|(?:"[\s\S]*?")))?)*\s*\/?>)|([^<]|<(?![a-z/]))*/gi;
+const attrRegExp = /\s[a-z0-9-_:]+\b(\s*=\s*('|")[\s\S]*?\2)?/gi;
+const splitAttrRegExp = /(\s[a-z0-9-_:]+\b\s*)(?:=(\s*('|")[\s\S]*?\3))?/gi;
+const startTagExp = /^<[a-z]/;
+const selfCloseTagExp = /\/>$/;
+const closeTagExp = /^<\//;
+const textNodeExp = /^[^<]/;
+const nodeNameExp = /<\/?((?:([a-z][a-z0-9]*):)?(?:[a-z](?:[a-z0-9-_.]*[a-z0-9])?))/i;
+const attributeQuotesExp = /^('|")|('|")$/g;
+const noClosingTagsExp = /^(?:area|base|br|col|command|embed|hr|img|input|link|meta|param|source)/i;
+class Dom {
+    constructor(rawHTML) {
+        this.rawHTML = rawHTML;
+    }
+    find(conditionFn, findFirst) {
+        const result = find(this.rawHTML, conditionFn, findFirst);
+        return findFirst ? result[0] || null : result;
+    }
+    getElementsByClassName(className) {
+        const expr = new RegExp(`^(.*?\\s)?${className}(\\s.*?)?$`);
+        return this.find((node) => Boolean(node.attributes.length && expr.test(node.getAttribute('class') || '')));
+    }
+    getElementsByTagName(tagName) {
+        return this.find((node) => node.nodeName.toUpperCase() === tagName.toUpperCase());
+    }
+    getElementById(id) {
+        return this.find((node) => node.getAttribute('id') === id, true);
+    }
+    getElementsByName(name) {
+        return this.find((node) => node.getAttribute('name') === name);
+    }
+    getElementsByAttribute(attributeName, attributeValue) {
+        return this.find((node) => node.getAttribute(attributeName) === attributeValue);
+    }
+}
+exports.Dom = Dom;
+// private
+function find(html, conditionFn, onlyFirst = false) {
+    const generator = domGenerator(html);
+    const result = [];
+    for (const node of generator) {
+        if (node && conditionFn(node)) {
+            result.push(node);
+            if (onlyFirst) {
+                return result;
+            }
+        }
+    }
+    return result;
+}
+function* domGenerator(html) {
+    const tags = getAllTags(html);
+    let cursor = null;
+    for (let i = 0, l = tags.length; i < l; i++) {
+        const tag = tags[i];
+        const node = createNode(tag, cursor);
+        cursor = node || cursor;
+        if (isElementComposed(cursor, tag)) {
+            yield cursor;
+            cursor = cursor.parentNode;
+        }
+    }
+    while (cursor) {
+        yield cursor;
+        cursor = cursor.parentNode;
+    }
+}
+function isElementComposed(element, tag) {
+    if (!tag) {
+        return false;
+    }
+    const isCloseTag = closeTagExp.test(tag);
+    const [, nodeName] = tag.match(nodeNameExp) || [];
+    const isElementClosedByTag = isCloseTag && element.nodeName === nodeName;
+    return isElementClosedByTag || element.isSelfCloseTag || element.nodeType === Node_1.NodeType.text;
+}
+function getAllTags(html) {
+    return html.match(tagRegExp) || [];
+}
+function createNode(tag, parentNode) {
+    const isTextNode = textNodeExp.test(tag);
+    const isStartTag = startTagExp.test(tag);
+    if (isTextNode) {
+        return createTextNode(tag, parentNode);
+    }
+    if (isStartTag) {
+        return createElementNode(tag, parentNode);
+    }
+    return null;
+}
+function createElementNode(tag, parentNode) {
+    var _a;
+    const [, nodeName, namespace] = tag.match(nodeNameExp) || [];
+    const selfCloseTag = selfCloseTagExp.test(tag) || noClosingTagsExp.test(nodeName);
+    const attributes = parseAttributes(tag);
+    const elementNode = new Node_1.Node({
+        nodeType: Node_1.NodeType.element,
+        nodeName,
+        namespace,
+        attributes,
+        childNodes: [],
+        parentNode,
+        selfCloseTag,
+    });
+    (_a = parentNode === null || parentNode === void 0 ? void 0 : parentNode.childNodes) === null || _a === void 0 ? void 0 : _a.push(elementNode);
+    return elementNode;
+}
+function parseAttributes(tag) {
+    return (tag.match(attrRegExp) || []).map((attributeString) => {
+        splitAttrRegExp.lastIndex = 0;
+        const exec = splitAttrRegExp.exec(attributeString) || [];
+        const [, name = '', value = ''] = exec;
+        return new NodeAttribute_1.NodeAttribute({
+            name: name.trim(),
+            value: value.trim().replace(attributeQuotesExp, ''),
+        });
+    });
+}
+function createTextNode(text, parentNode) {
+    var _a;
+    const textNode = new Node_1.Node({
+        nodeType: Node_1.NodeType.text,
+        nodeName: '#text',
+        text,
+        parentNode,
+    });
+    (_a = parentNode === null || parentNode === void 0 ? void 0 : parentNode.childNodes) === null || _a === void 0 ? void 0 : _a.push(textNode);
+    return textNode;
+}
+
+
+/***/ }),
+
+/***/ "../vot.js/node_modules/dom-parser/dist/lib/Node.js":
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+// https://developer.mozilla.org/en-US/docs/Web/API/Node
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Node = exports.NodeType = void 0;
+var NodeType;
+(function (NodeType) {
+    NodeType[NodeType["element"] = 1] = "element";
+    NodeType[NodeType["text"] = 3] = "text";
+})(NodeType || (exports.NodeType = NodeType = {}));
+class Node {
+    constructor({ nodeType, namespace, selfCloseTag, text, nodeName, childNodes, parentNode, attributes, }) {
+        this.namespace = namespace || null;
+        this.nodeType = nodeType;
+        this.isSelfCloseTag = Boolean(selfCloseTag);
+        this.text = text || null;
+        this.nodeName = nodeType === NodeType.element ? nodeName : '#text';
+        this.childNodes = childNodes || [];
+        this.parentNode = parentNode;
+        this.attributes = attributes || [];
+    }
+    get firstChild() {
+        return this.childNodes[0] || null;
+    }
+    get lastChild() {
+        return this.childNodes[this.childNodes.length - 1] || null;
+    }
+    get innerHTML() {
+        return this.childNodes.reduce((html, node) => html + (node.nodeType === NodeType.text ? node.text : node.outerHTML), '');
+    }
+    get outerHTML() {
+        if (this.nodeType === NodeType.text) {
+            return this.textContent;
+        }
+        const attributesString = stringifyAttributes(this.attributes);
+        const openTag = `<${this.nodeName}${attributesString.length ? ' ' : ''}${attributesString}${this.isSelfCloseTag ? '/' : ''}>`;
+        if (this.isSelfCloseTag) {
+            return openTag;
+        }
+        const childs = this.childNodes.map((child) => child.outerHTML).join('');
+        const closeTag = `</${this.nodeName}>`;
+        return [openTag, childs, closeTag].join('');
+    }
+    get textContent() {
+        if (this.nodeType === NodeType.text) {
+            return this.text;
+        }
+        return this.childNodes
+            .map((node) => node.textContent)
+            .join('')
+            .replace(/\x20+/g, ' ');
+    }
+    getAttribute(name) {
+        const attribute = this.attributes.find((a) => a.name === name);
+        return attribute ? attribute.value : null;
+    }
+    getElementsByTagName(tagName) {
+        return searchElements(this, (elem) => elem.nodeName.toUpperCase() === tagName.toUpperCase());
+    }
+    getElementsByClassName(className) {
+        const expr = new RegExp(`^(.*?\\s)?${className}(\\s.*?)?$`);
+        return searchElements(this, (node) => Boolean(node.attributes.length && expr.test(node.getAttribute('class') || '')));
+    }
+    getElementsByName(name) {
+        return searchElements(this, (node) => Boolean(node.attributes.length && node.getAttribute('name') === name));
+    }
+    getElementById(id) {
+        return searchElement(this, (node) => Boolean(node.attributes.length && node.getAttribute('id') === id));
+    }
+}
+exports.Node = Node;
+Node.ELEMENT_NODE = NodeType.element;
+Node.TEXT_NODE = NodeType.text;
+// private
+function searchElements(root, conditionFn) {
+    if (root.nodeType === NodeType.text) {
+        return [];
+    }
+    return root.childNodes.reduce((accumulator, childNode) => {
+        if (childNode.nodeType !== NodeType.text && conditionFn(childNode)) {
+            return [...accumulator, childNode, ...searchElements(childNode, conditionFn)];
+        }
+        return [...accumulator, ...searchElements(childNode, conditionFn)];
+    }, []);
+}
+function searchElement(root, conditionFn) {
+    for (let i = 0, l = root.childNodes.length; i < l; i++) {
+        const childNode = root.childNodes[i];
+        if (conditionFn(childNode)) {
+            return childNode;
+        }
+        const node = searchElement(childNode, conditionFn);
+        if (node) {
+            return node;
+        }
+    }
+    return null;
+}
+function stringifyAttributes(attributes) {
+    return attributes.map((elem) => elem.name + (elem.value ? `="${elem.value}"` : '')).join(' ');
+}
+
+
+/***/ }),
+
+/***/ "../vot.js/node_modules/dom-parser/dist/lib/NodeAttribute.js":
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.NodeAttribute = void 0;
+class NodeAttribute {
+    constructor({ name, value }) {
+        this.name = name;
+        this.value = value;
+    }
+}
+exports.NodeAttribute = NodeAttribute;
+
+
+/***/ }),
+
+/***/ "../vot.js/node_modules/protobufjs/minimal.js":
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+// minimal library entry point.
+
+
+module.exports = __webpack_require__("../vot.js/node_modules/protobufjs/src/index-minimal.js");
+
+
+/***/ }),
+
+/***/ "../vot.js/node_modules/protobufjs/src/index-minimal.js":
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+var protobuf = exports;
+
+/**
+ * Build type, one of `"full"`, `"light"` or `"minimal"`.
+ * @name build
+ * @type {string}
+ * @const
+ */
+protobuf.build = "minimal";
+
+// Serialization
+protobuf.Writer       = __webpack_require__("../vot.js/node_modules/protobufjs/src/writer.js");
+protobuf.BufferWriter = __webpack_require__("../vot.js/node_modules/protobufjs/src/writer_buffer.js");
+protobuf.Reader       = __webpack_require__("../vot.js/node_modules/protobufjs/src/reader.js");
+protobuf.BufferReader = __webpack_require__("../vot.js/node_modules/protobufjs/src/reader_buffer.js");
+
+// Utility
+protobuf.util         = __webpack_require__("../vot.js/node_modules/protobufjs/src/util/minimal.js");
+protobuf.rpc          = __webpack_require__("../vot.js/node_modules/protobufjs/src/rpc.js");
+protobuf.roots        = __webpack_require__("../vot.js/node_modules/protobufjs/src/roots.js");
+protobuf.configure    = configure;
+
+/* istanbul ignore next */
+/**
+ * Reconfigures the library according to the environment.
+ * @returns {undefined}
+ */
+function configure() {
+    protobuf.util._configure();
+    protobuf.Writer._configure(protobuf.BufferWriter);
+    protobuf.Reader._configure(protobuf.BufferReader);
+}
+
+// Set up buffer utility according to the environment
+configure();
+
+
+/***/ }),
+
+/***/ "../vot.js/node_modules/protobufjs/src/reader.js":
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+module.exports = Reader;
+
+var util      = __webpack_require__("../vot.js/node_modules/protobufjs/src/util/minimal.js");
+
+var BufferReader; // cyclic
+
+var LongBits  = util.LongBits,
+    utf8      = util.utf8;
+
+/* istanbul ignore next */
+function indexOutOfRange(reader, writeLength) {
+    return RangeError("index out of range: " + reader.pos + " + " + (writeLength || 1) + " > " + reader.len);
+}
+
+/**
+ * Constructs a new reader instance using the specified buffer.
+ * @classdesc Wire format reader using `Uint8Array` if available, otherwise `Array`.
+ * @constructor
+ * @param {Uint8Array} buffer Buffer to read from
+ */
+function Reader(buffer) {
+
+    /**
+     * Read buffer.
+     * @type {Uint8Array}
+     */
+    this.buf = buffer;
+
+    /**
+     * Read buffer position.
+     * @type {number}
+     */
+    this.pos = 0;
+
+    /**
+     * Read buffer length.
+     * @type {number}
+     */
+    this.len = buffer.length;
+}
+
+var create_array = typeof Uint8Array !== "undefined"
+    ? function create_typed_array(buffer) {
+        if (buffer instanceof Uint8Array || Array.isArray(buffer))
+            return new Reader(buffer);
+        throw Error("illegal buffer");
+    }
+    /* istanbul ignore next */
+    : function create_array(buffer) {
+        if (Array.isArray(buffer))
+            return new Reader(buffer);
+        throw Error("illegal buffer");
+    };
+
+var create = function create() {
+    return util.Buffer
+        ? function create_buffer_setup(buffer) {
+            return (Reader.create = function create_buffer(buffer) {
+                return util.Buffer.isBuffer(buffer)
+                    ? new BufferReader(buffer)
+                    /* istanbul ignore next */
+                    : create_array(buffer);
+            })(buffer);
+        }
+        /* istanbul ignore next */
+        : create_array;
+};
+
+/**
+ * Creates a new reader using the specified buffer.
+ * @function
+ * @param {Uint8Array|Buffer} buffer Buffer to read from
+ * @returns {Reader|BufferReader} A {@link BufferReader} if `buffer` is a Buffer, otherwise a {@link Reader}
+ * @throws {Error} If `buffer` is not a valid buffer
+ */
+Reader.create = create();
+
+Reader.prototype._slice = util.Array.prototype.subarray || /* istanbul ignore next */ util.Array.prototype.slice;
+
+/**
+ * Reads a varint as an unsigned 32 bit value.
+ * @function
+ * @returns {number} Value read
+ */
+Reader.prototype.uint32 = (function read_uint32_setup() {
+    var value = 4294967295; // optimizer type-hint, tends to deopt otherwise (?!)
+    return function read_uint32() {
+        value = (         this.buf[this.pos] & 127       ) >>> 0; if (this.buf[this.pos++] < 128) return value;
+        value = (value | (this.buf[this.pos] & 127) <<  7) >>> 0; if (this.buf[this.pos++] < 128) return value;
+        value = (value | (this.buf[this.pos] & 127) << 14) >>> 0; if (this.buf[this.pos++] < 128) return value;
+        value = (value | (this.buf[this.pos] & 127) << 21) >>> 0; if (this.buf[this.pos++] < 128) return value;
+        value = (value | (this.buf[this.pos] &  15) << 28) >>> 0; if (this.buf[this.pos++] < 128) return value;
+
+        /* istanbul ignore if */
+        if ((this.pos += 5) > this.len) {
+            this.pos = this.len;
+            throw indexOutOfRange(this, 10);
+        }
+        return value;
+    };
+})();
+
+/**
+ * Reads a varint as a signed 32 bit value.
+ * @returns {number} Value read
+ */
+Reader.prototype.int32 = function read_int32() {
+    return this.uint32() | 0;
+};
+
+/**
+ * Reads a zig-zag encoded varint as a signed 32 bit value.
+ * @returns {number} Value read
+ */
+Reader.prototype.sint32 = function read_sint32() {
+    var value = this.uint32();
+    return value >>> 1 ^ -(value & 1) | 0;
+};
+
+/* eslint-disable no-invalid-this */
+
+function readLongVarint() {
+    // tends to deopt with local vars for octet etc.
+    var bits = new LongBits(0, 0);
+    var i = 0;
+    if (this.len - this.pos > 4) { // fast route (lo)
+        for (; i < 4; ++i) {
+            // 1st..4th
+            bits.lo = (bits.lo | (this.buf[this.pos] & 127) << i * 7) >>> 0;
+            if (this.buf[this.pos++] < 128)
+                return bits;
+        }
+        // 5th
+        bits.lo = (bits.lo | (this.buf[this.pos] & 127) << 28) >>> 0;
+        bits.hi = (bits.hi | (this.buf[this.pos] & 127) >>  4) >>> 0;
+        if (this.buf[this.pos++] < 128)
+            return bits;
+        i = 0;
+    } else {
+        for (; i < 3; ++i) {
+            /* istanbul ignore if */
+            if (this.pos >= this.len)
+                throw indexOutOfRange(this);
+            // 1st..3th
+            bits.lo = (bits.lo | (this.buf[this.pos] & 127) << i * 7) >>> 0;
+            if (this.buf[this.pos++] < 128)
+                return bits;
+        }
+        // 4th
+        bits.lo = (bits.lo | (this.buf[this.pos++] & 127) << i * 7) >>> 0;
+        return bits;
+    }
+    if (this.len - this.pos > 4) { // fast route (hi)
+        for (; i < 5; ++i) {
+            // 6th..10th
+            bits.hi = (bits.hi | (this.buf[this.pos] & 127) << i * 7 + 3) >>> 0;
+            if (this.buf[this.pos++] < 128)
+                return bits;
+        }
+    } else {
+        for (; i < 5; ++i) {
+            /* istanbul ignore if */
+            if (this.pos >= this.len)
+                throw indexOutOfRange(this);
+            // 6th..10th
+            bits.hi = (bits.hi | (this.buf[this.pos] & 127) << i * 7 + 3) >>> 0;
+            if (this.buf[this.pos++] < 128)
+                return bits;
+        }
+    }
+    /* istanbul ignore next */
+    throw Error("invalid varint encoding");
+}
+
+/* eslint-enable no-invalid-this */
+
+/**
+ * Reads a varint as a signed 64 bit value.
+ * @name Reader#int64
+ * @function
+ * @returns {Long} Value read
+ */
+
+/**
+ * Reads a varint as an unsigned 64 bit value.
+ * @name Reader#uint64
+ * @function
+ * @returns {Long} Value read
+ */
+
+/**
+ * Reads a zig-zag encoded varint as a signed 64 bit value.
+ * @name Reader#sint64
+ * @function
+ * @returns {Long} Value read
+ */
+
+/**
+ * Reads a varint as a boolean.
+ * @returns {boolean} Value read
+ */
+Reader.prototype.bool = function read_bool() {
+    return this.uint32() !== 0;
+};
+
+function readFixed32_end(buf, end) { // note that this uses `end`, not `pos`
+    return (buf[end - 4]
+          | buf[end - 3] << 8
+          | buf[end - 2] << 16
+          | buf[end - 1] << 24) >>> 0;
+}
+
+/**
+ * Reads fixed 32 bits as an unsigned 32 bit integer.
+ * @returns {number} Value read
+ */
+Reader.prototype.fixed32 = function read_fixed32() {
+
+    /* istanbul ignore if */
+    if (this.pos + 4 > this.len)
+        throw indexOutOfRange(this, 4);
+
+    return readFixed32_end(this.buf, this.pos += 4);
+};
+
+/**
+ * Reads fixed 32 bits as a signed 32 bit integer.
+ * @returns {number} Value read
+ */
+Reader.prototype.sfixed32 = function read_sfixed32() {
+
+    /* istanbul ignore if */
+    if (this.pos + 4 > this.len)
+        throw indexOutOfRange(this, 4);
+
+    return readFixed32_end(this.buf, this.pos += 4) | 0;
+};
+
+/* eslint-disable no-invalid-this */
+
+function readFixed64(/* this: Reader */) {
+
+    /* istanbul ignore if */
+    if (this.pos + 8 > this.len)
+        throw indexOutOfRange(this, 8);
+
+    return new LongBits(readFixed32_end(this.buf, this.pos += 4), readFixed32_end(this.buf, this.pos += 4));
+}
+
+/* eslint-enable no-invalid-this */
+
+/**
+ * Reads fixed 64 bits.
+ * @name Reader#fixed64
+ * @function
+ * @returns {Long} Value read
+ */
+
+/**
+ * Reads zig-zag encoded fixed 64 bits.
+ * @name Reader#sfixed64
+ * @function
+ * @returns {Long} Value read
+ */
+
+/**
+ * Reads a float (32 bit) as a number.
+ * @function
+ * @returns {number} Value read
+ */
+Reader.prototype.float = function read_float() {
+
+    /* istanbul ignore if */
+    if (this.pos + 4 > this.len)
+        throw indexOutOfRange(this, 4);
+
+    var value = util.float.readFloatLE(this.buf, this.pos);
+    this.pos += 4;
+    return value;
+};
+
+/**
+ * Reads a double (64 bit float) as a number.
+ * @function
+ * @returns {number} Value read
+ */
+Reader.prototype.double = function read_double() {
+
+    /* istanbul ignore if */
+    if (this.pos + 8 > this.len)
+        throw indexOutOfRange(this, 4);
+
+    var value = util.float.readDoubleLE(this.buf, this.pos);
+    this.pos += 8;
+    return value;
+};
+
+/**
+ * Reads a sequence of bytes preceeded by its length as a varint.
+ * @returns {Uint8Array} Value read
+ */
+Reader.prototype.bytes = function read_bytes() {
+    var length = this.uint32(),
+        start  = this.pos,
+        end    = this.pos + length;
+
+    /* istanbul ignore if */
+    if (end > this.len)
+        throw indexOutOfRange(this, length);
+
+    this.pos += length;
+    if (Array.isArray(this.buf)) // plain array
+        return this.buf.slice(start, end);
+
+    if (start === end) { // fix for IE 10/Win8 and others' subarray returning array of size 1
+        var nativeBuffer = util.Buffer;
+        return nativeBuffer
+            ? nativeBuffer.alloc(0)
+            : new this.buf.constructor(0);
+    }
+    return this._slice.call(this.buf, start, end);
+};
+
+/**
+ * Reads a string preceeded by its byte length as a varint.
+ * @returns {string} Value read
+ */
+Reader.prototype.string = function read_string() {
+    var bytes = this.bytes();
+    return utf8.read(bytes, 0, bytes.length);
+};
+
+/**
+ * Skips the specified number of bytes if specified, otherwise skips a varint.
+ * @param {number} [length] Length if known, otherwise a varint is assumed
+ * @returns {Reader} `this`
+ */
+Reader.prototype.skip = function skip(length) {
+    if (typeof length === "number") {
+        /* istanbul ignore if */
+        if (this.pos + length > this.len)
+            throw indexOutOfRange(this, length);
+        this.pos += length;
+    } else {
+        do {
+            /* istanbul ignore if */
+            if (this.pos >= this.len)
+                throw indexOutOfRange(this);
+        } while (this.buf[this.pos++] & 128);
+    }
+    return this;
+};
+
+/**
+ * Skips the next element of the specified wire type.
+ * @param {number} wireType Wire type received
+ * @returns {Reader} `this`
+ */
+Reader.prototype.skipType = function(wireType) {
+    switch (wireType) {
+        case 0:
+            this.skip();
+            break;
+        case 1:
+            this.skip(8);
+            break;
+        case 2:
+            this.skip(this.uint32());
+            break;
+        case 3:
+            while ((wireType = this.uint32() & 7) !== 4) {
+                this.skipType(wireType);
+            }
+            break;
+        case 5:
+            this.skip(4);
+            break;
+
+        /* istanbul ignore next */
+        default:
+            throw Error("invalid wire type " + wireType + " at offset " + this.pos);
+    }
+    return this;
+};
+
+Reader._configure = function(BufferReader_) {
+    BufferReader = BufferReader_;
+    Reader.create = create();
+    BufferReader._configure();
+
+    var fn = util.Long ? "toLong" : /* istanbul ignore next */ "toNumber";
+    util.merge(Reader.prototype, {
+
+        int64: function read_int64() {
+            return readLongVarint.call(this)[fn](false);
+        },
+
+        uint64: function read_uint64() {
+            return readLongVarint.call(this)[fn](true);
+        },
+
+        sint64: function read_sint64() {
+            return readLongVarint.call(this).zzDecode()[fn](false);
+        },
+
+        fixed64: function read_fixed64() {
+            return readFixed64.call(this)[fn](true);
+        },
+
+        sfixed64: function read_sfixed64() {
+            return readFixed64.call(this)[fn](false);
+        }
+
+    });
+};
+
+
+/***/ }),
+
+/***/ "../vot.js/node_modules/protobufjs/src/reader_buffer.js":
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+module.exports = BufferReader;
+
+// extends Reader
+var Reader = __webpack_require__("../vot.js/node_modules/protobufjs/src/reader.js");
+(BufferReader.prototype = Object.create(Reader.prototype)).constructor = BufferReader;
+
+var util = __webpack_require__("../vot.js/node_modules/protobufjs/src/util/minimal.js");
+
+/**
+ * Constructs a new buffer reader instance.
+ * @classdesc Wire format reader using node buffers.
+ * @extends Reader
+ * @constructor
+ * @param {Buffer} buffer Buffer to read from
+ */
+function BufferReader(buffer) {
+    Reader.call(this, buffer);
+
+    /**
+     * Read buffer.
+     * @name BufferReader#buf
+     * @type {Buffer}
+     */
+}
+
+BufferReader._configure = function () {
+    /* istanbul ignore else */
+    if (util.Buffer)
+        BufferReader.prototype._slice = util.Buffer.prototype.slice;
+};
+
+
+/**
+ * @override
+ */
+BufferReader.prototype.string = function read_string_buffer() {
+    var len = this.uint32(); // modifies pos
+    return this.buf.utf8Slice
+        ? this.buf.utf8Slice(this.pos, this.pos = Math.min(this.pos + len, this.len))
+        : this.buf.toString("utf-8", this.pos, this.pos = Math.min(this.pos + len, this.len));
+};
+
+/**
+ * Reads a sequence of bytes preceeded by its length as a varint.
+ * @name BufferReader#bytes
+ * @function
+ * @returns {Buffer} Value read
+ */
+
+BufferReader._configure();
+
+
+/***/ }),
+
+/***/ "../vot.js/node_modules/protobufjs/src/roots.js":
+/***/ ((module) => {
+
+"use strict";
+
+module.exports = {};
+
+/**
+ * Named roots.
+ * This is where pbjs stores generated structures (the option `-r, --root` specifies a name).
+ * Can also be used manually to make roots available across modules.
+ * @name roots
+ * @type {Object.<string,Root>}
+ * @example
+ * // pbjs -r myroot -o compiled.js ...
+ *
+ * // in another module:
+ * require("./compiled.js");
+ *
+ * // in any subsequent module:
+ * var root = protobuf.roots["myroot"];
+ */
+
+
+/***/ }),
+
+/***/ "../vot.js/node_modules/protobufjs/src/rpc.js":
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+/**
+ * Streaming RPC helpers.
+ * @namespace
+ */
+var rpc = exports;
+
+/**
+ * RPC implementation passed to {@link Service#create} performing a service request on network level, i.e. by utilizing http requests or websockets.
+ * @typedef RPCImpl
+ * @type {function}
+ * @param {Method|rpc.ServiceMethod<Message<{}>,Message<{}>>} method Reflected or static method being called
+ * @param {Uint8Array} requestData Request data
+ * @param {RPCImplCallback} callback Callback function
+ * @returns {undefined}
+ * @example
+ * function rpcImpl(method, requestData, callback) {
+ *     if (protobuf.util.lcFirst(method.name) !== "myMethod") // compatible with static code
+ *         throw Error("no such method");
+ *     asynchronouslyObtainAResponse(requestData, function(err, responseData) {
+ *         callback(err, responseData);
+ *     });
+ * }
+ */
+
+/**
+ * Node-style callback as used by {@link RPCImpl}.
+ * @typedef RPCImplCallback
+ * @type {function}
+ * @param {Error|null} error Error, if any, otherwise `null`
+ * @param {Uint8Array|null} [response] Response data or `null` to signal end of stream, if there hasn't been an error
+ * @returns {undefined}
+ */
+
+rpc.Service = __webpack_require__("../vot.js/node_modules/protobufjs/src/rpc/service.js");
+
+
+/***/ }),
+
+/***/ "../vot.js/node_modules/protobufjs/src/rpc/service.js":
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+module.exports = Service;
+
+var util = __webpack_require__("../vot.js/node_modules/protobufjs/src/util/minimal.js");
+
+// Extends EventEmitter
+(Service.prototype = Object.create(util.EventEmitter.prototype)).constructor = Service;
+
+/**
+ * A service method callback as used by {@link rpc.ServiceMethod|ServiceMethod}.
+ *
+ * Differs from {@link RPCImplCallback} in that it is an actual callback of a service method which may not return `response = null`.
+ * @typedef rpc.ServiceMethodCallback
+ * @template TRes extends Message<TRes>
+ * @type {function}
+ * @param {Error|null} error Error, if any
+ * @param {TRes} [response] Response message
+ * @returns {undefined}
+ */
+
+/**
+ * A service method part of a {@link rpc.Service} as created by {@link Service.create}.
+ * @typedef rpc.ServiceMethod
+ * @template TReq extends Message<TReq>
+ * @template TRes extends Message<TRes>
+ * @type {function}
+ * @param {TReq|Properties<TReq>} request Request message or plain object
+ * @param {rpc.ServiceMethodCallback<TRes>} [callback] Node-style callback called with the error, if any, and the response message
+ * @returns {Promise<Message<TRes>>} Promise if `callback` has been omitted, otherwise `undefined`
+ */
+
+/**
+ * Constructs a new RPC service instance.
+ * @classdesc An RPC service as returned by {@link Service#create}.
+ * @exports rpc.Service
+ * @extends util.EventEmitter
+ * @constructor
+ * @param {RPCImpl} rpcImpl RPC implementation
+ * @param {boolean} [requestDelimited=false] Whether requests are length-delimited
+ * @param {boolean} [responseDelimited=false] Whether responses are length-delimited
+ */
+function Service(rpcImpl, requestDelimited, responseDelimited) {
+
+    if (typeof rpcImpl !== "function")
+        throw TypeError("rpcImpl must be a function");
+
+    util.EventEmitter.call(this);
+
+    /**
+     * RPC implementation. Becomes `null` once the service is ended.
+     * @type {RPCImpl|null}
+     */
+    this.rpcImpl = rpcImpl;
+
+    /**
+     * Whether requests are length-delimited.
+     * @type {boolean}
+     */
+    this.requestDelimited = Boolean(requestDelimited);
+
+    /**
+     * Whether responses are length-delimited.
+     * @type {boolean}
+     */
+    this.responseDelimited = Boolean(responseDelimited);
+}
+
+/**
+ * Calls a service method through {@link rpc.Service#rpcImpl|rpcImpl}.
+ * @param {Method|rpc.ServiceMethod<TReq,TRes>} method Reflected or static method
+ * @param {Constructor<TReq>} requestCtor Request constructor
+ * @param {Constructor<TRes>} responseCtor Response constructor
+ * @param {TReq|Properties<TReq>} request Request message or plain object
+ * @param {rpc.ServiceMethodCallback<TRes>} callback Service callback
+ * @returns {undefined}
+ * @template TReq extends Message<TReq>
+ * @template TRes extends Message<TRes>
+ */
+Service.prototype.rpcCall = function rpcCall(method, requestCtor, responseCtor, request, callback) {
+
+    if (!request)
+        throw TypeError("request must be specified");
+
+    var self = this;
+    if (!callback)
+        return util.asPromise(rpcCall, self, method, requestCtor, responseCtor, request);
+
+    if (!self.rpcImpl) {
+        setTimeout(function() { callback(Error("already ended")); }, 0);
+        return undefined;
+    }
+
+    try {
+        return self.rpcImpl(
+            method,
+            requestCtor[self.requestDelimited ? "encodeDelimited" : "encode"](request).finish(),
+            function rpcCallback(err, response) {
+
+                if (err) {
+                    self.emit("error", err, method);
+                    return callback(err);
+                }
+
+                if (response === null) {
+                    self.end(/* endedByRPC */ true);
+                    return undefined;
+                }
+
+                if (!(response instanceof responseCtor)) {
+                    try {
+                        response = responseCtor[self.responseDelimited ? "decodeDelimited" : "decode"](response);
+                    } catch (err) {
+                        self.emit("error", err, method);
+                        return callback(err);
+                    }
+                }
+
+                self.emit("data", response, method);
+                return callback(null, response);
+            }
+        );
+    } catch (err) {
+        self.emit("error", err, method);
+        setTimeout(function() { callback(err); }, 0);
+        return undefined;
+    }
+};
+
+/**
+ * Ends this service and emits the `end` event.
+ * @param {boolean} [endedByRPC=false] Whether the service has been ended by the RPC implementation.
+ * @returns {rpc.Service} `this`
+ */
+Service.prototype.end = function end(endedByRPC) {
+    if (this.rpcImpl) {
+        if (!endedByRPC) // signal end to rpcImpl
+            this.rpcImpl(null, null, null);
+        this.rpcImpl = null;
+        this.emit("end").off();
+    }
+    return this;
+};
+
+
+/***/ }),
+
+/***/ "../vot.js/node_modules/protobufjs/src/util/longbits.js":
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+module.exports = LongBits;
+
+var util = __webpack_require__("../vot.js/node_modules/protobufjs/src/util/minimal.js");
+
+/**
+ * Constructs new long bits.
+ * @classdesc Helper class for working with the low and high bits of a 64 bit value.
+ * @memberof util
+ * @constructor
+ * @param {number} lo Low 32 bits, unsigned
+ * @param {number} hi High 32 bits, unsigned
+ */
+function LongBits(lo, hi) {
+
+    // note that the casts below are theoretically unnecessary as of today, but older statically
+    // generated converter code might still call the ctor with signed 32bits. kept for compat.
+
+    /**
+     * Low bits.
+     * @type {number}
+     */
+    this.lo = lo >>> 0;
+
+    /**
+     * High bits.
+     * @type {number}
+     */
+    this.hi = hi >>> 0;
+}
+
+/**
+ * Zero bits.
+ * @memberof util.LongBits
+ * @type {util.LongBits}
+ */
+var zero = LongBits.zero = new LongBits(0, 0);
+
+zero.toNumber = function() { return 0; };
+zero.zzEncode = zero.zzDecode = function() { return this; };
+zero.length = function() { return 1; };
+
+/**
+ * Zero hash.
+ * @memberof util.LongBits
+ * @type {string}
+ */
+var zeroHash = LongBits.zeroHash = "\0\0\0\0\0\0\0\0";
+
+/**
+ * Constructs new long bits from the specified number.
+ * @param {number} value Value
+ * @returns {util.LongBits} Instance
+ */
+LongBits.fromNumber = function fromNumber(value) {
+    if (value === 0)
+        return zero;
+    var sign = value < 0;
+    if (sign)
+        value = -value;
+    var lo = value >>> 0,
+        hi = (value - lo) / 4294967296 >>> 0;
+    if (sign) {
+        hi = ~hi >>> 0;
+        lo = ~lo >>> 0;
+        if (++lo > 4294967295) {
+            lo = 0;
+            if (++hi > 4294967295)
+                hi = 0;
+        }
+    }
+    return new LongBits(lo, hi);
+};
+
+/**
+ * Constructs new long bits from a number, long or string.
+ * @param {Long|number|string} value Value
+ * @returns {util.LongBits} Instance
+ */
+LongBits.from = function from(value) {
+    if (typeof value === "number")
+        return LongBits.fromNumber(value);
+    if (util.isString(value)) {
+        /* istanbul ignore else */
+        if (util.Long)
+            value = util.Long.fromString(value);
+        else
+            return LongBits.fromNumber(parseInt(value, 10));
+    }
+    return value.low || value.high ? new LongBits(value.low >>> 0, value.high >>> 0) : zero;
+};
+
+/**
+ * Converts this long bits to a possibly unsafe JavaScript number.
+ * @param {boolean} [unsigned=false] Whether unsigned or not
+ * @returns {number} Possibly unsafe number
+ */
+LongBits.prototype.toNumber = function toNumber(unsigned) {
+    if (!unsigned && this.hi >>> 31) {
+        var lo = ~this.lo + 1 >>> 0,
+            hi = ~this.hi     >>> 0;
+        if (!lo)
+            hi = hi + 1 >>> 0;
+        return -(lo + hi * 4294967296);
+    }
+    return this.lo + this.hi * 4294967296;
+};
+
+/**
+ * Converts this long bits to a long.
+ * @param {boolean} [unsigned=false] Whether unsigned or not
+ * @returns {Long} Long
+ */
+LongBits.prototype.toLong = function toLong(unsigned) {
+    return util.Long
+        ? new util.Long(this.lo | 0, this.hi | 0, Boolean(unsigned))
+        /* istanbul ignore next */
+        : { low: this.lo | 0, high: this.hi | 0, unsigned: Boolean(unsigned) };
+};
+
+var charCodeAt = String.prototype.charCodeAt;
+
+/**
+ * Constructs new long bits from the specified 8 characters long hash.
+ * @param {string} hash Hash
+ * @returns {util.LongBits} Bits
+ */
+LongBits.fromHash = function fromHash(hash) {
+    if (hash === zeroHash)
+        return zero;
+    return new LongBits(
+        ( charCodeAt.call(hash, 0)
+        | charCodeAt.call(hash, 1) << 8
+        | charCodeAt.call(hash, 2) << 16
+        | charCodeAt.call(hash, 3) << 24) >>> 0
+    ,
+        ( charCodeAt.call(hash, 4)
+        | charCodeAt.call(hash, 5) << 8
+        | charCodeAt.call(hash, 6) << 16
+        | charCodeAt.call(hash, 7) << 24) >>> 0
+    );
+};
+
+/**
+ * Converts this long bits to a 8 characters long hash.
+ * @returns {string} Hash
+ */
+LongBits.prototype.toHash = function toHash() {
+    return String.fromCharCode(
+        this.lo        & 255,
+        this.lo >>> 8  & 255,
+        this.lo >>> 16 & 255,
+        this.lo >>> 24      ,
+        this.hi        & 255,
+        this.hi >>> 8  & 255,
+        this.hi >>> 16 & 255,
+        this.hi >>> 24
+    );
+};
+
+/**
+ * Zig-zag encodes this long bits.
+ * @returns {util.LongBits} `this`
+ */
+LongBits.prototype.zzEncode = function zzEncode() {
+    var mask =   this.hi >> 31;
+    this.hi  = ((this.hi << 1 | this.lo >>> 31) ^ mask) >>> 0;
+    this.lo  = ( this.lo << 1                   ^ mask) >>> 0;
+    return this;
+};
+
+/**
+ * Zig-zag decodes this long bits.
+ * @returns {util.LongBits} `this`
+ */
+LongBits.prototype.zzDecode = function zzDecode() {
+    var mask = -(this.lo & 1);
+    this.lo  = ((this.lo >>> 1 | this.hi << 31) ^ mask) >>> 0;
+    this.hi  = ( this.hi >>> 1                  ^ mask) >>> 0;
+    return this;
+};
+
+/**
+ * Calculates the length of this longbits when encoded as a varint.
+ * @returns {number} Length
+ */
+LongBits.prototype.length = function length() {
+    var part0 =  this.lo,
+        part1 = (this.lo >>> 28 | this.hi << 4) >>> 0,
+        part2 =  this.hi >>> 24;
+    return part2 === 0
+         ? part1 === 0
+           ? part0 < 16384
+             ? part0 < 128 ? 1 : 2
+             : part0 < 2097152 ? 3 : 4
+           : part1 < 16384
+             ? part1 < 128 ? 5 : 6
+             : part1 < 2097152 ? 7 : 8
+         : part2 < 128 ? 9 : 10;
+};
+
+
+/***/ }),
+
+/***/ "../vot.js/node_modules/protobufjs/src/util/minimal.js":
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var util = exports;
+
+// used to return a Promise where callback is omitted
+util.asPromise = __webpack_require__("../vot.js/node_modules/@protobufjs/aspromise/index.js");
+
+// converts to / from base64 encoded strings
+util.base64 = __webpack_require__("../vot.js/node_modules/@protobufjs/base64/index.js");
+
+// base class of rpc.Service
+util.EventEmitter = __webpack_require__("../vot.js/node_modules/@protobufjs/eventemitter/index.js");
+
+// float handling accross browsers
+util.float = __webpack_require__("../vot.js/node_modules/@protobufjs/float/index.js");
+
+// requires modules optionally and hides the call from bundlers
+util.inquire = __webpack_require__("../vot.js/node_modules/@protobufjs/inquire/index.js");
+
+// converts to / from utf8 encoded strings
+util.utf8 = __webpack_require__("../vot.js/node_modules/@protobufjs/utf8/index.js");
+
+// provides a node-like buffer pool in the browser
+util.pool = __webpack_require__("../vot.js/node_modules/@protobufjs/pool/index.js");
+
+// utility to work with the low and high bits of a 64 bit value
+util.LongBits = __webpack_require__("../vot.js/node_modules/protobufjs/src/util/longbits.js");
+
+/**
+ * Whether running within node or not.
+ * @memberof util
+ * @type {boolean}
+ */
+util.isNode = Boolean(typeof __webpack_require__.g !== "undefined"
+                   && __webpack_require__.g
+                   && __webpack_require__.g.process
+                   && __webpack_require__.g.process.versions
+                   && __webpack_require__.g.process.versions.node);
+
+/**
+ * Global object reference.
+ * @memberof util
+ * @type {Object}
+ */
+util.global = util.isNode && __webpack_require__.g
+           || typeof window !== "undefined" && window
+           || typeof self   !== "undefined" && self
+           || this; // eslint-disable-line no-invalid-this
+
+/**
+ * An immuable empty array.
+ * @memberof util
+ * @type {Array.<*>}
+ * @const
+ */
+util.emptyArray = Object.freeze ? Object.freeze([]) : /* istanbul ignore next */ []; // used on prototypes
+
+/**
+ * An immutable empty object.
+ * @type {Object}
+ * @const
+ */
+util.emptyObject = Object.freeze ? Object.freeze({}) : /* istanbul ignore next */ {}; // used on prototypes
+
+/**
+ * Tests if the specified value is an integer.
+ * @function
+ * @param {*} value Value to test
+ * @returns {boolean} `true` if the value is an integer
+ */
+util.isInteger = Number.isInteger || /* istanbul ignore next */ function isInteger(value) {
+    return typeof value === "number" && isFinite(value) && Math.floor(value) === value;
+};
+
+/**
+ * Tests if the specified value is a string.
+ * @param {*} value Value to test
+ * @returns {boolean} `true` if the value is a string
+ */
+util.isString = function isString(value) {
+    return typeof value === "string" || value instanceof String;
+};
+
+/**
+ * Tests if the specified value is a non-null object.
+ * @param {*} value Value to test
+ * @returns {boolean} `true` if the value is a non-null object
+ */
+util.isObject = function isObject(value) {
+    return value && typeof value === "object";
+};
+
+/**
+ * Checks if a property on a message is considered to be present.
+ * This is an alias of {@link util.isSet}.
+ * @function
+ * @param {Object} obj Plain object or message instance
+ * @param {string} prop Property name
+ * @returns {boolean} `true` if considered to be present, otherwise `false`
+ */
+util.isset =
+
+/**
+ * Checks if a property on a message is considered to be present.
+ * @param {Object} obj Plain object or message instance
+ * @param {string} prop Property name
+ * @returns {boolean} `true` if considered to be present, otherwise `false`
+ */
+util.isSet = function isSet(obj, prop) {
+    var value = obj[prop];
+    if (value != null && obj.hasOwnProperty(prop)) // eslint-disable-line eqeqeq, no-prototype-builtins
+        return typeof value !== "object" || (Array.isArray(value) ? value.length : Object.keys(value).length) > 0;
+    return false;
+};
+
+/**
+ * Any compatible Buffer instance.
+ * This is a minimal stand-alone definition of a Buffer instance. The actual type is that exported by node's typings.
+ * @interface Buffer
+ * @extends Uint8Array
+ */
+
+/**
+ * Node's Buffer class if available.
+ * @type {Constructor<Buffer>}
+ */
+util.Buffer = (function() {
+    try {
+        var Buffer = util.inquire("buffer").Buffer;
+        // refuse to use non-node buffers if not explicitly assigned (perf reasons):
+        return Buffer.prototype.utf8Write ? Buffer : /* istanbul ignore next */ null;
+    } catch (e) {
+        /* istanbul ignore next */
+        return null;
+    }
+})();
+
+// Internal alias of or polyfull for Buffer.from.
+util._Buffer_from = null;
+
+// Internal alias of or polyfill for Buffer.allocUnsafe.
+util._Buffer_allocUnsafe = null;
+
+/**
+ * Creates a new buffer of whatever type supported by the environment.
+ * @param {number|number[]} [sizeOrArray=0] Buffer size or number array
+ * @returns {Uint8Array|Buffer} Buffer
+ */
+util.newBuffer = function newBuffer(sizeOrArray) {
+    /* istanbul ignore next */
+    return typeof sizeOrArray === "number"
+        ? util.Buffer
+            ? util._Buffer_allocUnsafe(sizeOrArray)
+            : new util.Array(sizeOrArray)
+        : util.Buffer
+            ? util._Buffer_from(sizeOrArray)
+            : typeof Uint8Array === "undefined"
+                ? sizeOrArray
+                : new Uint8Array(sizeOrArray);
+};
+
+/**
+ * Array implementation used in the browser. `Uint8Array` if supported, otherwise `Array`.
+ * @type {Constructor<Uint8Array>}
+ */
+util.Array = typeof Uint8Array !== "undefined" ? Uint8Array /* istanbul ignore next */ : Array;
+
+/**
+ * Any compatible Long instance.
+ * This is a minimal stand-alone definition of a Long instance. The actual type is that exported by long.js.
+ * @interface Long
+ * @property {number} low Low bits
+ * @property {number} high High bits
+ * @property {boolean} unsigned Whether unsigned or not
+ */
+
+/**
+ * Long.js's Long class if available.
+ * @type {Constructor<Long>}
+ */
+util.Long = /* istanbul ignore next */ util.global.dcodeIO && /* istanbul ignore next */ util.global.dcodeIO.Long
+         || /* istanbul ignore next */ util.global.Long
+         || util.inquire("long");
+
+/**
+ * Regular expression used to verify 2 bit (`bool`) map keys.
+ * @type {RegExp}
+ * @const
+ */
+util.key2Re = /^true|false|0|1$/;
+
+/**
+ * Regular expression used to verify 32 bit (`int32` etc.) map keys.
+ * @type {RegExp}
+ * @const
+ */
+util.key32Re = /^-?(?:0|[1-9][0-9]*)$/;
+
+/**
+ * Regular expression used to verify 64 bit (`int64` etc.) map keys.
+ * @type {RegExp}
+ * @const
+ */
+util.key64Re = /^(?:[\\x00-\\xff]{8}|-?(?:0|[1-9][0-9]*))$/;
+
+/**
+ * Converts a number or long to an 8 characters long hash string.
+ * @param {Long|number} value Value to convert
+ * @returns {string} Hash
+ */
+util.longToHash = function longToHash(value) {
+    return value
+        ? util.LongBits.from(value).toHash()
+        : util.LongBits.zeroHash;
+};
+
+/**
+ * Converts an 8 characters long hash string to a long or number.
+ * @param {string} hash Hash
+ * @param {boolean} [unsigned=false] Whether unsigned or not
+ * @returns {Long|number} Original value
+ */
+util.longFromHash = function longFromHash(hash, unsigned) {
+    var bits = util.LongBits.fromHash(hash);
+    if (util.Long)
+        return util.Long.fromBits(bits.lo, bits.hi, unsigned);
+    return bits.toNumber(Boolean(unsigned));
+};
+
+/**
+ * Merges the properties of the source object into the destination object.
+ * @memberof util
+ * @param {Object.<string,*>} dst Destination object
+ * @param {Object.<string,*>} src Source object
+ * @param {boolean} [ifNotSet=false] Merges only if the key is not already set
+ * @returns {Object.<string,*>} Destination object
+ */
+function merge(dst, src, ifNotSet) { // used by converters
+    for (var keys = Object.keys(src), i = 0; i < keys.length; ++i)
+        if (dst[keys[i]] === undefined || !ifNotSet)
+            dst[keys[i]] = src[keys[i]];
+    return dst;
+}
+
+util.merge = merge;
+
+/**
+ * Converts the first character of a string to lower case.
+ * @param {string} str String to convert
+ * @returns {string} Converted string
+ */
+util.lcFirst = function lcFirst(str) {
+    return str.charAt(0).toLowerCase() + str.substring(1);
+};
+
+/**
+ * Creates a custom error constructor.
+ * @memberof util
+ * @param {string} name Error name
+ * @returns {Constructor<Error>} Custom error constructor
+ */
+function newError(name) {
+
+    function CustomError(message, properties) {
+
+        if (!(this instanceof CustomError))
+            return new CustomError(message, properties);
+
+        // Error.call(this, message);
+        // ^ just returns a new error instance because the ctor can be called as a function
+
+        Object.defineProperty(this, "message", { get: function() { return message; } });
+
+        /* istanbul ignore next */
+        if (Error.captureStackTrace) // node
+            Error.captureStackTrace(this, CustomError);
+        else
+            Object.defineProperty(this, "stack", { value: new Error().stack || "" });
+
+        if (properties)
+            merge(this, properties);
+    }
+
+    CustomError.prototype = Object.create(Error.prototype, {
+        constructor: {
+            value: CustomError,
+            writable: true,
+            enumerable: false,
+            configurable: true,
+        },
+        name: {
+            get: function get() { return name; },
+            set: undefined,
+            enumerable: false,
+            // configurable: false would accurately preserve the behavior of
+            // the original, but I'm guessing that was not intentional.
+            // For an actual error subclass, this property would
+            // be configurable.
+            configurable: true,
+        },
+        toString: {
+            value: function value() { return this.name + ": " + this.message; },
+            writable: true,
+            enumerable: false,
+            configurable: true,
+        },
+    });
+
+    return CustomError;
+}
+
+util.newError = newError;
+
+/**
+ * Constructs a new protocol error.
+ * @classdesc Error subclass indicating a protocol specifc error.
+ * @memberof util
+ * @extends Error
+ * @template T extends Message<T>
+ * @constructor
+ * @param {string} message Error message
+ * @param {Object.<string,*>} [properties] Additional properties
+ * @example
+ * try {
+ *     MyMessage.decode(someBuffer); // throws if required fields are missing
+ * } catch (e) {
+ *     if (e instanceof ProtocolError && e.instance)
+ *         console.log("decoded so far: " + JSON.stringify(e.instance));
+ * }
+ */
+util.ProtocolError = newError("ProtocolError");
+
+/**
+ * So far decoded message instance.
+ * @name util.ProtocolError#instance
+ * @type {Message<T>}
+ */
+
+/**
+ * A OneOf getter as returned by {@link util.oneOfGetter}.
+ * @typedef OneOfGetter
+ * @type {function}
+ * @returns {string|undefined} Set field name, if any
+ */
+
+/**
+ * Builds a getter for a oneof's present field name.
+ * @param {string[]} fieldNames Field names
+ * @returns {OneOfGetter} Unbound getter
+ */
+util.oneOfGetter = function getOneOf(fieldNames) {
+    var fieldMap = {};
+    for (var i = 0; i < fieldNames.length; ++i)
+        fieldMap[fieldNames[i]] = 1;
+
+    /**
+     * @returns {string|undefined} Set field name, if any
+     * @this Object
+     * @ignore
+     */
+    return function() { // eslint-disable-line consistent-return
+        for (var keys = Object.keys(this), i = keys.length - 1; i > -1; --i)
+            if (fieldMap[keys[i]] === 1 && this[keys[i]] !== undefined && this[keys[i]] !== null)
+                return keys[i];
+    };
+};
+
+/**
+ * A OneOf setter as returned by {@link util.oneOfSetter}.
+ * @typedef OneOfSetter
+ * @type {function}
+ * @param {string|undefined} value Field name
+ * @returns {undefined}
+ */
+
+/**
+ * Builds a setter for a oneof's present field name.
+ * @param {string[]} fieldNames Field names
+ * @returns {OneOfSetter} Unbound setter
+ */
+util.oneOfSetter = function setOneOf(fieldNames) {
+
+    /**
+     * @param {string} name Field name
+     * @returns {undefined}
+     * @this Object
+     * @ignore
+     */
+    return function(name) {
+        for (var i = 0; i < fieldNames.length; ++i)
+            if (fieldNames[i] !== name)
+                delete this[fieldNames[i]];
+    };
+};
+
+/**
+ * Default conversion options used for {@link Message#toJSON} implementations.
+ *
+ * These options are close to proto3's JSON mapping with the exception that internal types like Any are handled just like messages. More precisely:
+ *
+ * - Longs become strings
+ * - Enums become string keys
+ * - Bytes become base64 encoded strings
+ * - (Sub-)Messages become plain objects
+ * - Maps become plain objects with all string keys
+ * - Repeated fields become arrays
+ * - NaN and Infinity for float and double fields become strings
+ *
+ * @type {IConversionOptions}
+ * @see https://developers.google.com/protocol-buffers/docs/proto3?hl=en#json
+ */
+util.toJSONOptions = {
+    longs: String,
+    enums: String,
+    bytes: String,
+    json: true
+};
+
+// Sets up buffer utility according to the environment (called in index-minimal)
+util._configure = function() {
+    var Buffer = util.Buffer;
+    /* istanbul ignore if */
+    if (!Buffer) {
+        util._Buffer_from = util._Buffer_allocUnsafe = null;
+        return;
+    }
+    // because node 4.x buffers are incompatible & immutable
+    // see: https://github.com/dcodeIO/protobuf.js/pull/665
+    util._Buffer_from = Buffer.from !== Uint8Array.from && Buffer.from ||
+        /* istanbul ignore next */
+        function Buffer_from(value, encoding) {
+            return new Buffer(value, encoding);
+        };
+    util._Buffer_allocUnsafe = Buffer.allocUnsafe ||
+        /* istanbul ignore next */
+        function Buffer_allocUnsafe(size) {
+            return new Buffer(size);
+        };
+};
+
+
+/***/ }),
+
+/***/ "../vot.js/node_modules/protobufjs/src/writer.js":
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+module.exports = Writer;
+
+var util      = __webpack_require__("../vot.js/node_modules/protobufjs/src/util/minimal.js");
+
+var BufferWriter; // cyclic
+
+var LongBits  = util.LongBits,
+    base64    = util.base64,
+    utf8      = util.utf8;
+
+/**
+ * Constructs a new writer operation instance.
+ * @classdesc Scheduled writer operation.
+ * @constructor
+ * @param {function(*, Uint8Array, number)} fn Function to call
+ * @param {number} len Value byte length
+ * @param {*} val Value to write
+ * @ignore
+ */
+function Op(fn, len, val) {
+
+    /**
+     * Function to call.
+     * @type {function(Uint8Array, number, *)}
+     */
+    this.fn = fn;
+
+    /**
+     * Value byte length.
+     * @type {number}
+     */
+    this.len = len;
+
+    /**
+     * Next operation.
+     * @type {Writer.Op|undefined}
+     */
+    this.next = undefined;
+
+    /**
+     * Value to write.
+     * @type {*}
+     */
+    this.val = val; // type varies
+}
+
+/* istanbul ignore next */
+function noop() {} // eslint-disable-line no-empty-function
+
+/**
+ * Constructs a new writer state instance.
+ * @classdesc Copied writer state.
+ * @memberof Writer
+ * @constructor
+ * @param {Writer} writer Writer to copy state from
+ * @ignore
+ */
+function State(writer) {
+
+    /**
+     * Current head.
+     * @type {Writer.Op}
+     */
+    this.head = writer.head;
+
+    /**
+     * Current tail.
+     * @type {Writer.Op}
+     */
+    this.tail = writer.tail;
+
+    /**
+     * Current buffer length.
+     * @type {number}
+     */
+    this.len = writer.len;
+
+    /**
+     * Next state.
+     * @type {State|null}
+     */
+    this.next = writer.states;
+}
+
+/**
+ * Constructs a new writer instance.
+ * @classdesc Wire format writer using `Uint8Array` if available, otherwise `Array`.
+ * @constructor
+ */
+function Writer() {
+
+    /**
+     * Current length.
+     * @type {number}
+     */
+    this.len = 0;
+
+    /**
+     * Operations head.
+     * @type {Object}
+     */
+    this.head = new Op(noop, 0, 0);
+
+    /**
+     * Operations tail
+     * @type {Object}
+     */
+    this.tail = this.head;
+
+    /**
+     * Linked forked states.
+     * @type {Object|null}
+     */
+    this.states = null;
+
+    // When a value is written, the writer calculates its byte length and puts it into a linked
+    // list of operations to perform when finish() is called. This both allows us to allocate
+    // buffers of the exact required size and reduces the amount of work we have to do compared
+    // to first calculating over objects and then encoding over objects. In our case, the encoding
+    // part is just a linked list walk calling operations with already prepared values.
+}
+
+var create = function create() {
+    return util.Buffer
+        ? function create_buffer_setup() {
+            return (Writer.create = function create_buffer() {
+                return new BufferWriter();
+            })();
+        }
+        /* istanbul ignore next */
+        : function create_array() {
+            return new Writer();
+        };
+};
+
+/**
+ * Creates a new writer.
+ * @function
+ * @returns {BufferWriter|Writer} A {@link BufferWriter} when Buffers are supported, otherwise a {@link Writer}
+ */
+Writer.create = create();
+
+/**
+ * Allocates a buffer of the specified size.
+ * @param {number} size Buffer size
+ * @returns {Uint8Array} Buffer
+ */
+Writer.alloc = function alloc(size) {
+    return new util.Array(size);
+};
+
+// Use Uint8Array buffer pool in the browser, just like node does with buffers
+/* istanbul ignore else */
+if (util.Array !== Array)
+    Writer.alloc = util.pool(Writer.alloc, util.Array.prototype.subarray);
+
+/**
+ * Pushes a new operation to the queue.
+ * @param {function(Uint8Array, number, *)} fn Function to call
+ * @param {number} len Value byte length
+ * @param {number} val Value to write
+ * @returns {Writer} `this`
+ * @private
+ */
+Writer.prototype._push = function push(fn, len, val) {
+    this.tail = this.tail.next = new Op(fn, len, val);
+    this.len += len;
+    return this;
+};
+
+function writeByte(val, buf, pos) {
+    buf[pos] = val & 255;
+}
+
+function writeVarint32(val, buf, pos) {
+    while (val > 127) {
+        buf[pos++] = val & 127 | 128;
+        val >>>= 7;
+    }
+    buf[pos] = val;
+}
+
+/**
+ * Constructs a new varint writer operation instance.
+ * @classdesc Scheduled varint writer operation.
+ * @extends Op
+ * @constructor
+ * @param {number} len Value byte length
+ * @param {number} val Value to write
+ * @ignore
+ */
+function VarintOp(len, val) {
+    this.len = len;
+    this.next = undefined;
+    this.val = val;
+}
+
+VarintOp.prototype = Object.create(Op.prototype);
+VarintOp.prototype.fn = writeVarint32;
+
+/**
+ * Writes an unsigned 32 bit value as a varint.
+ * @param {number} value Value to write
+ * @returns {Writer} `this`
+ */
+Writer.prototype.uint32 = function write_uint32(value) {
+    // here, the call to this.push has been inlined and a varint specific Op subclass is used.
+    // uint32 is by far the most frequently used operation and benefits significantly from this.
+    this.len += (this.tail = this.tail.next = new VarintOp(
+        (value = value >>> 0)
+                < 128       ? 1
+        : value < 16384     ? 2
+        : value < 2097152   ? 3
+        : value < 268435456 ? 4
+        :                     5,
+    value)).len;
+    return this;
+};
+
+/**
+ * Writes a signed 32 bit value as a varint.
+ * @function
+ * @param {number} value Value to write
+ * @returns {Writer} `this`
+ */
+Writer.prototype.int32 = function write_int32(value) {
+    return value < 0
+        ? this._push(writeVarint64, 10, LongBits.fromNumber(value)) // 10 bytes per spec
+        : this.uint32(value);
+};
+
+/**
+ * Writes a 32 bit value as a varint, zig-zag encoded.
+ * @param {number} value Value to write
+ * @returns {Writer} `this`
+ */
+Writer.prototype.sint32 = function write_sint32(value) {
+    return this.uint32((value << 1 ^ value >> 31) >>> 0);
+};
+
+function writeVarint64(val, buf, pos) {
+    while (val.hi) {
+        buf[pos++] = val.lo & 127 | 128;
+        val.lo = (val.lo >>> 7 | val.hi << 25) >>> 0;
+        val.hi >>>= 7;
+    }
+    while (val.lo > 127) {
+        buf[pos++] = val.lo & 127 | 128;
+        val.lo = val.lo >>> 7;
+    }
+    buf[pos++] = val.lo;
+}
+
+/**
+ * Writes an unsigned 64 bit value as a varint.
+ * @param {Long|number|string} value Value to write
+ * @returns {Writer} `this`
+ * @throws {TypeError} If `value` is a string and no long library is present.
+ */
+Writer.prototype.uint64 = function write_uint64(value) {
+    var bits = LongBits.from(value);
+    return this._push(writeVarint64, bits.length(), bits);
+};
+
+/**
+ * Writes a signed 64 bit value as a varint.
+ * @function
+ * @param {Long|number|string} value Value to write
+ * @returns {Writer} `this`
+ * @throws {TypeError} If `value` is a string and no long library is present.
+ */
+Writer.prototype.int64 = Writer.prototype.uint64;
+
+/**
+ * Writes a signed 64 bit value as a varint, zig-zag encoded.
+ * @param {Long|number|string} value Value to write
+ * @returns {Writer} `this`
+ * @throws {TypeError} If `value` is a string and no long library is present.
+ */
+Writer.prototype.sint64 = function write_sint64(value) {
+    var bits = LongBits.from(value).zzEncode();
+    return this._push(writeVarint64, bits.length(), bits);
+};
+
+/**
+ * Writes a boolish value as a varint.
+ * @param {boolean} value Value to write
+ * @returns {Writer} `this`
+ */
+Writer.prototype.bool = function write_bool(value) {
+    return this._push(writeByte, 1, value ? 1 : 0);
+};
+
+function writeFixed32(val, buf, pos) {
+    buf[pos    ] =  val         & 255;
+    buf[pos + 1] =  val >>> 8   & 255;
+    buf[pos + 2] =  val >>> 16  & 255;
+    buf[pos + 3] =  val >>> 24;
+}
+
+/**
+ * Writes an unsigned 32 bit value as fixed 32 bits.
+ * @param {number} value Value to write
+ * @returns {Writer} `this`
+ */
+Writer.prototype.fixed32 = function write_fixed32(value) {
+    return this._push(writeFixed32, 4, value >>> 0);
+};
+
+/**
+ * Writes a signed 32 bit value as fixed 32 bits.
+ * @function
+ * @param {number} value Value to write
+ * @returns {Writer} `this`
+ */
+Writer.prototype.sfixed32 = Writer.prototype.fixed32;
+
+/**
+ * Writes an unsigned 64 bit value as fixed 64 bits.
+ * @param {Long|number|string} value Value to write
+ * @returns {Writer} `this`
+ * @throws {TypeError} If `value` is a string and no long library is present.
+ */
+Writer.prototype.fixed64 = function write_fixed64(value) {
+    var bits = LongBits.from(value);
+    return this._push(writeFixed32, 4, bits.lo)._push(writeFixed32, 4, bits.hi);
+};
+
+/**
+ * Writes a signed 64 bit value as fixed 64 bits.
+ * @function
+ * @param {Long|number|string} value Value to write
+ * @returns {Writer} `this`
+ * @throws {TypeError} If `value` is a string and no long library is present.
+ */
+Writer.prototype.sfixed64 = Writer.prototype.fixed64;
+
+/**
+ * Writes a float (32 bit).
+ * @function
+ * @param {number} value Value to write
+ * @returns {Writer} `this`
+ */
+Writer.prototype.float = function write_float(value) {
+    return this._push(util.float.writeFloatLE, 4, value);
+};
+
+/**
+ * Writes a double (64 bit float).
+ * @function
+ * @param {number} value Value to write
+ * @returns {Writer} `this`
+ */
+Writer.prototype.double = function write_double(value) {
+    return this._push(util.float.writeDoubleLE, 8, value);
+};
+
+var writeBytes = util.Array.prototype.set
+    ? function writeBytes_set(val, buf, pos) {
+        buf.set(val, pos); // also works for plain array values
+    }
+    /* istanbul ignore next */
+    : function writeBytes_for(val, buf, pos) {
+        for (var i = 0; i < val.length; ++i)
+            buf[pos + i] = val[i];
+    };
+
+/**
+ * Writes a sequence of bytes.
+ * @param {Uint8Array|string} value Buffer or base64 encoded string to write
+ * @returns {Writer} `this`
+ */
+Writer.prototype.bytes = function write_bytes(value) {
+    var len = value.length >>> 0;
+    if (!len)
+        return this._push(writeByte, 1, 0);
+    if (util.isString(value)) {
+        var buf = Writer.alloc(len = base64.length(value));
+        base64.decode(value, buf, 0);
+        value = buf;
+    }
+    return this.uint32(len)._push(writeBytes, len, value);
+};
+
+/**
+ * Writes a string.
+ * @param {string} value Value to write
+ * @returns {Writer} `this`
+ */
+Writer.prototype.string = function write_string(value) {
+    var len = utf8.length(value);
+    return len
+        ? this.uint32(len)._push(utf8.write, len, value)
+        : this._push(writeByte, 1, 0);
+};
+
+/**
+ * Forks this writer's state by pushing it to a stack.
+ * Calling {@link Writer#reset|reset} or {@link Writer#ldelim|ldelim} resets the writer to the previous state.
+ * @returns {Writer} `this`
+ */
+Writer.prototype.fork = function fork() {
+    this.states = new State(this);
+    this.head = this.tail = new Op(noop, 0, 0);
+    this.len = 0;
+    return this;
+};
+
+/**
+ * Resets this instance to the last state.
+ * @returns {Writer} `this`
+ */
+Writer.prototype.reset = function reset() {
+    if (this.states) {
+        this.head   = this.states.head;
+        this.tail   = this.states.tail;
+        this.len    = this.states.len;
+        this.states = this.states.next;
+    } else {
+        this.head = this.tail = new Op(noop, 0, 0);
+        this.len  = 0;
+    }
+    return this;
+};
+
+/**
+ * Resets to the last state and appends the fork state's current write length as a varint followed by its operations.
+ * @returns {Writer} `this`
+ */
+Writer.prototype.ldelim = function ldelim() {
+    var head = this.head,
+        tail = this.tail,
+        len  = this.len;
+    this.reset().uint32(len);
+    if (len) {
+        this.tail.next = head.next; // skip noop
+        this.tail = tail;
+        this.len += len;
+    }
+    return this;
+};
+
+/**
+ * Finishes the write operation.
+ * @returns {Uint8Array} Finished buffer
+ */
+Writer.prototype.finish = function finish() {
+    var head = this.head.next, // skip noop
+        buf  = this.constructor.alloc(this.len),
+        pos  = 0;
+    while (head) {
+        head.fn(head.val, buf, pos);
+        pos += head.len;
+        head = head.next;
+    }
+    // this.head = this.tail = null;
+    return buf;
+};
+
+Writer._configure = function(BufferWriter_) {
+    BufferWriter = BufferWriter_;
+    Writer.create = create();
+    BufferWriter._configure();
+};
+
+
+/***/ }),
+
+/***/ "../vot.js/node_modules/protobufjs/src/writer_buffer.js":
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+module.exports = BufferWriter;
+
+// extends Writer
+var Writer = __webpack_require__("../vot.js/node_modules/protobufjs/src/writer.js");
+(BufferWriter.prototype = Object.create(Writer.prototype)).constructor = BufferWriter;
+
+var util = __webpack_require__("../vot.js/node_modules/protobufjs/src/util/minimal.js");
+
+/**
+ * Constructs a new buffer writer instance.
+ * @classdesc Wire format writer using node buffers.
+ * @extends Writer
+ * @constructor
+ */
+function BufferWriter() {
+    Writer.call(this);
+}
+
+BufferWriter._configure = function () {
+    /**
+     * Allocates a buffer of the specified size.
+     * @function
+     * @param {number} size Buffer size
+     * @returns {Buffer} Buffer
+     */
+    BufferWriter.alloc = util._Buffer_allocUnsafe;
+
+    BufferWriter.writeBytesBuffer = util.Buffer && util.Buffer.prototype instanceof Uint8Array && util.Buffer.prototype.set.name === "set"
+        ? function writeBytesBuffer_set(val, buf, pos) {
+          buf.set(val, pos); // faster than copy (requires node >= 4 where Buffers extend Uint8Array and set is properly inherited)
+          // also works for plain array values
+        }
+        /* istanbul ignore next */
+        : function writeBytesBuffer_copy(val, buf, pos) {
+          if (val.copy) // Buffer values
+            val.copy(buf, pos, 0, val.length);
+          else for (var i = 0; i < val.length;) // plain array values
+            buf[pos++] = val[i++];
+        };
+};
+
+
+/**
+ * @override
+ */
+BufferWriter.prototype.bytes = function write_bytes_buffer(value) {
+    if (util.isString(value))
+        value = util._Buffer_from(value, "base64");
+    var len = value.length >>> 0;
+    this.uint32(len);
+    if (len)
+        this._push(BufferWriter.writeBytesBuffer, len, value);
+    return this;
+};
+
+function writeStringBuffer(val, buf, pos) {
+    if (val.length < 40) // plain js is faster for short strings (probably due to redundant assertions)
+        util.utf8.write(val, buf, pos);
+    else if (buf.utf8Write)
+        buf.utf8Write(val, pos);
+    else
+        buf.write(val, pos);
+}
+
+/**
+ * @override
+ */
+BufferWriter.prototype.string = function write_string_buffer(value) {
+    var len = util.Buffer.byteLength(value);
+    this.uint32(len);
+    if (len)
+        this._push(writeStringBuffer, len, value);
+    return this;
+};
+
+
+/**
+ * Finishes the write operation.
+ * @name BufferWriter#finish
+ * @function
+ * @returns {Buffer} Finished buffer
+ */
+
+BufferWriter._configure();
 
 
 /***/ })
@@ -739,20 +3716,21 @@ async function yandexRequest(path, body, headers, callback) {
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/nonce */
@@ -766,9 +3744,4075 @@ var __webpack_exports__ = {};
 (() => {
 "use strict";
 
+// EXTERNAL MODULE: ./node_modules/bowser/es5.js
+var es5 = __webpack_require__("./node_modules/bowser/es5.js");
+;// CONCATENATED MODULE: ../vot.js/node_modules/long/index.js
+/**
+ * @license
+ * Copyright 2009 The Closure Library Authors
+ * Copyright 2020 Daniel Wirtz / The long.js Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+// WebAssembly optimizations to do native i64 multiplication and divide
+var wasm = null;
+try {
+  wasm = new WebAssembly.Instance(new WebAssembly.Module(new Uint8Array([
+    0, 97, 115, 109, 1, 0, 0, 0, 1, 13, 2, 96, 0, 1, 127, 96, 4, 127, 127, 127, 127, 1, 127, 3, 7, 6, 0, 1, 1, 1, 1, 1, 6, 6, 1, 127, 1, 65, 0, 11, 7, 50, 6, 3, 109, 117, 108, 0, 1, 5, 100, 105, 118, 95, 115, 0, 2, 5, 100, 105, 118, 95, 117, 0, 3, 5, 114, 101, 109, 95, 115, 0, 4, 5, 114, 101, 109, 95, 117, 0, 5, 8, 103, 101, 116, 95, 104, 105, 103, 104, 0, 0, 10, 191, 1, 6, 4, 0, 35, 0, 11, 36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173, 32, 3, 173, 66, 32, 134, 132, 126, 34, 4, 66, 32, 135, 167, 36, 0, 32, 4, 167, 11, 36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173, 32, 3, 173, 66, 32, 134, 132, 127, 34, 4, 66, 32, 135, 167, 36, 0, 32, 4, 167, 11, 36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173, 32, 3, 173, 66, 32, 134, 132, 128, 34, 4, 66, 32, 135, 167, 36, 0, 32, 4, 167, 11, 36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173, 32, 3, 173, 66, 32, 134, 132, 129, 34, 4, 66, 32, 135, 167, 36, 0, 32, 4, 167, 11, 36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173, 32, 3, 173, 66, 32, 134, 132, 130, 34, 4, 66, 32, 135, 167, 36, 0, 32, 4, 167, 11
+  ])), {}).exports;
+} catch (e) {
+  // no wasm support :(
+}
+
+/**
+ * Constructs a 64 bit two's-complement integer, given its low and high 32 bit values as *signed* integers.
+ *  See the from* functions below for more convenient ways of constructing Longs.
+ * @exports Long
+ * @class A Long class for representing a 64 bit two's-complement integer value.
+ * @param {number} low The low (signed) 32 bits of the long
+ * @param {number} high The high (signed) 32 bits of the long
+ * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
+ * @constructor
+ */
+function Long(low, high, unsigned) {
+
+  /**
+   * The low 32 bits as a signed value.
+   * @type {number}
+   */
+  this.low = low | 0;
+
+  /**
+   * The high 32 bits as a signed value.
+   * @type {number}
+   */
+  this.high = high | 0;
+
+  /**
+   * Whether unsigned or not.
+   * @type {boolean}
+   */
+  this.unsigned = !!unsigned;
+}
+
+// The internal representation of a long is the two given signed, 32-bit values.
+// We use 32-bit pieces because these are the size of integers on which
+// Javascript performs bit-operations.  For operations like addition and
+// multiplication, we split each number into 16 bit pieces, which can easily be
+// multiplied within Javascript's floating-point representation without overflow
+// or change in sign.
+//
+// In the algorithms below, we frequently reduce the negative case to the
+// positive case by negating the input(s) and then post-processing the result.
+// Note that we must ALWAYS check specially whether those values are MIN_VALUE
+// (-2^63) because -MIN_VALUE == MIN_VALUE (since 2^63 cannot be represented as
+// a positive number, it overflows back into a negative).  Not handling this
+// case would often result in infinite recursion.
+//
+// Common constant values ZERO, ONE, NEG_ONE, etc. are defined below the from*
+// methods on which they depend.
+
+/**
+ * An indicator used to reliably determine if an object is a Long or not.
+ * @type {boolean}
+ * @const
+ * @private
+ */
+Long.prototype.__isLong__;
+
+Object.defineProperty(Long.prototype, "__isLong__", { value: true });
+
+/**
+ * @function
+ * @param {*} obj Object
+ * @returns {boolean}
+ * @inner
+ */
+function isLong(obj) {
+  return (obj && obj["__isLong__"]) === true;
+}
+
+/**
+ * @function
+ * @param {*} value number
+ * @returns {number}
+ * @inner
+ */
+function ctz32(value) {
+  var c = Math.clz32(value & -value);
+  return value ? 31 - c : c;
+}
+
+/**
+ * Tests if the specified object is a Long.
+ * @function
+ * @param {*} obj Object
+ * @returns {boolean}
+ */
+Long.isLong = isLong;
+
+/**
+ * A cache of the Long representations of small integer values.
+ * @type {!Object}
+ * @inner
+ */
+var INT_CACHE = {};
+
+/**
+ * A cache of the Long representations of small unsigned integer values.
+ * @type {!Object}
+ * @inner
+ */
+var UINT_CACHE = {};
+
+/**
+ * @param {number} value
+ * @param {boolean=} unsigned
+ * @returns {!Long}
+ * @inner
+ */
+function fromInt(value, unsigned) {
+  var obj, cachedObj, cache;
+  if (unsigned) {
+    value >>>= 0;
+    if (cache = (0 <= value && value < 256)) {
+      cachedObj = UINT_CACHE[value];
+      if (cachedObj)
+        return cachedObj;
+    }
+    obj = fromBits(value, 0, true);
+    if (cache)
+      UINT_CACHE[value] = obj;
+    return obj;
+  } else {
+    value |= 0;
+    if (cache = (-128 <= value && value < 128)) {
+      cachedObj = INT_CACHE[value];
+      if (cachedObj)
+        return cachedObj;
+    }
+    obj = fromBits(value, value < 0 ? -1 : 0, false);
+    if (cache)
+      INT_CACHE[value] = obj;
+    return obj;
+  }
+}
+
+/**
+ * Returns a Long representing the given 32 bit integer value.
+ * @function
+ * @param {number} value The 32 bit integer in question
+ * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
+ * @returns {!Long} The corresponding Long value
+ */
+Long.fromInt = fromInt;
+
+/**
+ * @param {number} value
+ * @param {boolean=} unsigned
+ * @returns {!Long}
+ * @inner
+ */
+function fromNumber(value, unsigned) {
+  if (isNaN(value))
+    return unsigned ? UZERO : ZERO;
+  if (unsigned) {
+    if (value < 0)
+      return UZERO;
+    if (value >= TWO_PWR_64_DBL)
+      return MAX_UNSIGNED_VALUE;
+  } else {
+    if (value <= -TWO_PWR_63_DBL)
+      return MIN_VALUE;
+    if (value + 1 >= TWO_PWR_63_DBL)
+      return MAX_VALUE;
+  }
+  if (value < 0)
+    return fromNumber(-value, unsigned).neg();
+  return fromBits((value % TWO_PWR_32_DBL) | 0, (value / TWO_PWR_32_DBL) | 0, unsigned);
+}
+
+/**
+ * Returns a Long representing the given value, provided that it is a finite number. Otherwise, zero is returned.
+ * @function
+ * @param {number} value The number in question
+ * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
+ * @returns {!Long} The corresponding Long value
+ */
+Long.fromNumber = fromNumber;
+
+/**
+ * @param {number} lowBits
+ * @param {number} highBits
+ * @param {boolean=} unsigned
+ * @returns {!Long}
+ * @inner
+ */
+function fromBits(lowBits, highBits, unsigned) {
+  return new Long(lowBits, highBits, unsigned);
+}
+
+/**
+ * Returns a Long representing the 64 bit integer that comes by concatenating the given low and high bits. Each is
+ *  assumed to use 32 bits.
+ * @function
+ * @param {number} lowBits The low 32 bits
+ * @param {number} highBits The high 32 bits
+ * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
+ * @returns {!Long} The corresponding Long value
+ */
+Long.fromBits = fromBits;
+
+/**
+ * @function
+ * @param {number} base
+ * @param {number} exponent
+ * @returns {number}
+ * @inner
+ */
+var pow_dbl = Math.pow; // Used 4 times (4*8 to 15+4)
+
+/**
+ * @param {string} str
+ * @param {(boolean|number)=} unsigned
+ * @param {number=} radix
+ * @returns {!Long}
+ * @inner
+ */
+function fromString(str, unsigned, radix) {
+  if (str.length === 0)
+    throw Error('empty string');
+  if (typeof unsigned === 'number') {
+    // For goog.math.long compatibility
+    radix = unsigned;
+    unsigned = false;
+  } else {
+    unsigned = !!unsigned;
+  }
+  if (str === "NaN" || str === "Infinity" || str === "+Infinity" || str === "-Infinity")
+    return unsigned ? UZERO : ZERO;
+  radix = radix || 10;
+  if (radix < 2 || 36 < radix)
+    throw RangeError('radix');
+
+  var p;
+  if ((p = str.indexOf('-')) > 0)
+    throw Error('interior hyphen');
+  else if (p === 0) {
+    return fromString(str.substring(1), unsigned, radix).neg();
+  }
+
+  // Do several (8) digits each time through the loop, so as to
+  // minimize the calls to the very expensive emulated div.
+  var radixToPower = fromNumber(pow_dbl(radix, 8));
+
+  var result = ZERO;
+  for (var i = 0; i < str.length; i += 8) {
+    var size = Math.min(8, str.length - i),
+      value = parseInt(str.substring(i, i + size), radix);
+    if (size < 8) {
+      var power = fromNumber(pow_dbl(radix, size));
+      result = result.mul(power).add(fromNumber(value));
+    } else {
+      result = result.mul(radixToPower);
+      result = result.add(fromNumber(value));
+    }
+  }
+  result.unsigned = unsigned;
+  return result;
+}
+
+/**
+ * Returns a Long representation of the given string, written using the specified radix.
+ * @function
+ * @param {string} str The textual representation of the Long
+ * @param {(boolean|number)=} unsigned Whether unsigned or not, defaults to signed
+ * @param {number=} radix The radix in which the text is written (2-36), defaults to 10
+ * @returns {!Long} The corresponding Long value
+ */
+Long.fromString = fromString;
+
+/**
+ * @function
+ * @param {!Long|number|string|!{low: number, high: number, unsigned: boolean}} val
+ * @param {boolean=} unsigned
+ * @returns {!Long}
+ * @inner
+ */
+function fromValue(val, unsigned) {
+  if (typeof val === 'number')
+    return fromNumber(val, unsigned);
+  if (typeof val === 'string')
+    return fromString(val, unsigned);
+  // Throws for non-objects, converts non-instanceof Long:
+  return fromBits(val.low, val.high, typeof unsigned === 'boolean' ? unsigned : val.unsigned);
+}
+
+/**
+ * Converts the specified value to a Long using the appropriate from* function for its type.
+ * @function
+ * @param {!Long|number|string|!{low: number, high: number, unsigned: boolean}} val Value
+ * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
+ * @returns {!Long}
+ */
+Long.fromValue = fromValue;
+
+// NOTE: the compiler should inline these constant values below and then remove these variables, so there should be
+// no runtime penalty for these.
+
+/**
+ * @type {number}
+ * @const
+ * @inner
+ */
+var TWO_PWR_16_DBL = 1 << 16;
+
+/**
+ * @type {number}
+ * @const
+ * @inner
+ */
+var TWO_PWR_24_DBL = 1 << 24;
+
+/**
+ * @type {number}
+ * @const
+ * @inner
+ */
+var TWO_PWR_32_DBL = TWO_PWR_16_DBL * TWO_PWR_16_DBL;
+
+/**
+ * @type {number}
+ * @const
+ * @inner
+ */
+var TWO_PWR_64_DBL = TWO_PWR_32_DBL * TWO_PWR_32_DBL;
+
+/**
+ * @type {number}
+ * @const
+ * @inner
+ */
+var TWO_PWR_63_DBL = TWO_PWR_64_DBL / 2;
+
+/**
+ * @type {!Long}
+ * @const
+ * @inner
+ */
+var TWO_PWR_24 = fromInt(TWO_PWR_24_DBL);
+
+/**
+ * @type {!Long}
+ * @inner
+ */
+var ZERO = fromInt(0);
+
+/**
+ * Signed zero.
+ * @type {!Long}
+ */
+Long.ZERO = ZERO;
+
+/**
+ * @type {!Long}
+ * @inner
+ */
+var UZERO = fromInt(0, true);
+
+/**
+ * Unsigned zero.
+ * @type {!Long}
+ */
+Long.UZERO = UZERO;
+
+/**
+ * @type {!Long}
+ * @inner
+ */
+var ONE = fromInt(1);
+
+/**
+ * Signed one.
+ * @type {!Long}
+ */
+Long.ONE = ONE;
+
+/**
+ * @type {!Long}
+ * @inner
+ */
+var UONE = fromInt(1, true);
+
+/**
+ * Unsigned one.
+ * @type {!Long}
+ */
+Long.UONE = UONE;
+
+/**
+ * @type {!Long}
+ * @inner
+ */
+var NEG_ONE = fromInt(-1);
+
+/**
+ * Signed negative one.
+ * @type {!Long}
+ */
+Long.NEG_ONE = NEG_ONE;
+
+/**
+ * @type {!Long}
+ * @inner
+ */
+var MAX_VALUE = fromBits(0xFFFFFFFF | 0, 0x7FFFFFFF | 0, false);
+
+/**
+ * Maximum signed value.
+ * @type {!Long}
+ */
+Long.MAX_VALUE = MAX_VALUE;
+
+/**
+ * @type {!Long}
+ * @inner
+ */
+var MAX_UNSIGNED_VALUE = fromBits(0xFFFFFFFF | 0, 0xFFFFFFFF | 0, true);
+
+/**
+ * Maximum unsigned value.
+ * @type {!Long}
+ */
+Long.MAX_UNSIGNED_VALUE = MAX_UNSIGNED_VALUE;
+
+/**
+ * @type {!Long}
+ * @inner
+ */
+var MIN_VALUE = fromBits(0, 0x80000000 | 0, false);
+
+/**
+ * Minimum signed value.
+ * @type {!Long}
+ */
+Long.MIN_VALUE = MIN_VALUE;
+
+/**
+ * @alias Long.prototype
+ * @inner
+ */
+var LongPrototype = Long.prototype;
+
+/**
+ * Converts the Long to a 32 bit integer, assuming it is a 32 bit integer.
+ * @this {!Long}
+ * @returns {number}
+ */
+LongPrototype.toInt = function toInt() {
+  return this.unsigned ? this.low >>> 0 : this.low;
+};
+
+/**
+ * Converts the Long to a the nearest floating-point representation of this value (double, 53 bit mantissa).
+ * @this {!Long}
+ * @returns {number}
+ */
+LongPrototype.toNumber = function toNumber() {
+  if (this.unsigned)
+    return ((this.high >>> 0) * TWO_PWR_32_DBL) + (this.low >>> 0);
+  return this.high * TWO_PWR_32_DBL + (this.low >>> 0);
+};
+
+/**
+ * Converts the Long to a string written in the specified radix.
+ * @this {!Long}
+ * @param {number=} radix Radix (2-36), defaults to 10
+ * @returns {string}
+ * @override
+ * @throws {RangeError} If `radix` is out of range
+ */
+LongPrototype.toString = function toString(radix) {
+  radix = radix || 10;
+  if (radix < 2 || 36 < radix)
+    throw RangeError('radix');
+  if (this.isZero())
+    return '0';
+  if (this.isNegative()) { // Unsigned Longs are never negative
+    if (this.eq(MIN_VALUE)) {
+      // We need to change the Long value before it can be negated, so we remove
+      // the bottom-most digit in this base and then recurse to do the rest.
+      var radixLong = fromNumber(radix),
+        div = this.div(radixLong),
+        rem1 = div.mul(radixLong).sub(this);
+      return div.toString(radix) + rem1.toInt().toString(radix);
+    } else
+      return '-' + this.neg().toString(radix);
+  }
+
+  // Do several (6) digits each time through the loop, so as to
+  // minimize the calls to the very expensive emulated div.
+  var radixToPower = fromNumber(pow_dbl(radix, 6), this.unsigned),
+    rem = this;
+  var result = '';
+  while (true) {
+    var remDiv = rem.div(radixToPower),
+      intval = rem.sub(remDiv.mul(radixToPower)).toInt() >>> 0,
+      digits = intval.toString(radix);
+    rem = remDiv;
+    if (rem.isZero())
+      return digits + result;
+    else {
+      while (digits.length < 6)
+        digits = '0' + digits;
+      result = '' + digits + result;
+    }
+  }
+};
+
+/**
+ * Gets the high 32 bits as a signed integer.
+ * @this {!Long}
+ * @returns {number} Signed high bits
+ */
+LongPrototype.getHighBits = function getHighBits() {
+  return this.high;
+};
+
+/**
+ * Gets the high 32 bits as an unsigned integer.
+ * @this {!Long}
+ * @returns {number} Unsigned high bits
+ */
+LongPrototype.getHighBitsUnsigned = function getHighBitsUnsigned() {
+  return this.high >>> 0;
+};
+
+/**
+ * Gets the low 32 bits as a signed integer.
+ * @this {!Long}
+ * @returns {number} Signed low bits
+ */
+LongPrototype.getLowBits = function getLowBits() {
+  return this.low;
+};
+
+/**
+ * Gets the low 32 bits as an unsigned integer.
+ * @this {!Long}
+ * @returns {number} Unsigned low bits
+ */
+LongPrototype.getLowBitsUnsigned = function getLowBitsUnsigned() {
+  return this.low >>> 0;
+};
+
+/**
+ * Gets the number of bits needed to represent the absolute value of this Long.
+ * @this {!Long}
+ * @returns {number}
+ */
+LongPrototype.getNumBitsAbs = function getNumBitsAbs() {
+  if (this.isNegative()) // Unsigned Longs are never negative
+    return this.eq(MIN_VALUE) ? 64 : this.neg().getNumBitsAbs();
+  var val = this.high != 0 ? this.high : this.low;
+  for (var bit = 31; bit > 0; bit--)
+    if ((val & (1 << bit)) != 0)
+      break;
+  return this.high != 0 ? bit + 33 : bit + 1;
+};
+
+/**
+ * Tests if this Long's value equals zero.
+ * @this {!Long}
+ * @returns {boolean}
+ */
+LongPrototype.isZero = function isZero() {
+  return this.high === 0 && this.low === 0;
+};
+
+/**
+ * Tests if this Long's value equals zero. This is an alias of {@link Long#isZero}.
+ * @returns {boolean}
+ */
+LongPrototype.eqz = LongPrototype.isZero;
+
+/**
+ * Tests if this Long's value is negative.
+ * @this {!Long}
+ * @returns {boolean}
+ */
+LongPrototype.isNegative = function isNegative() {
+  return !this.unsigned && this.high < 0;
+};
+
+/**
+ * Tests if this Long's value is positive or zero.
+ * @this {!Long}
+ * @returns {boolean}
+ */
+LongPrototype.isPositive = function isPositive() {
+  return this.unsigned || this.high >= 0;
+};
+
+/**
+ * Tests if this Long's value is odd.
+ * @this {!Long}
+ * @returns {boolean}
+ */
+LongPrototype.isOdd = function isOdd() {
+  return (this.low & 1) === 1;
+};
+
+/**
+ * Tests if this Long's value is even.
+ * @this {!Long}
+ * @returns {boolean}
+ */
+LongPrototype.isEven = function isEven() {
+  return (this.low & 1) === 0;
+};
+
+/**
+ * Tests if this Long's value equals the specified's.
+ * @this {!Long}
+ * @param {!Long|number|string} other Other value
+ * @returns {boolean}
+ */
+LongPrototype.equals = function equals(other) {
+  if (!isLong(other))
+    other = fromValue(other);
+  if (this.unsigned !== other.unsigned && (this.high >>> 31) === 1 && (other.high >>> 31) === 1)
+    return false;
+  return this.high === other.high && this.low === other.low;
+};
+
+/**
+ * Tests if this Long's value equals the specified's. This is an alias of {@link Long#equals}.
+ * @function
+ * @param {!Long|number|string} other Other value
+ * @returns {boolean}
+ */
+LongPrototype.eq = LongPrototype.equals;
+
+/**
+ * Tests if this Long's value differs from the specified's.
+ * @this {!Long}
+ * @param {!Long|number|string} other Other value
+ * @returns {boolean}
+ */
+LongPrototype.notEquals = function notEquals(other) {
+  return !this.eq(/* validates */ other);
+};
+
+/**
+ * Tests if this Long's value differs from the specified's. This is an alias of {@link Long#notEquals}.
+ * @function
+ * @param {!Long|number|string} other Other value
+ * @returns {boolean}
+ */
+LongPrototype.neq = LongPrototype.notEquals;
+
+/**
+ * Tests if this Long's value differs from the specified's. This is an alias of {@link Long#notEquals}.
+ * @function
+ * @param {!Long|number|string} other Other value
+ * @returns {boolean}
+ */
+LongPrototype.ne = LongPrototype.notEquals;
+
+/**
+ * Tests if this Long's value is less than the specified's.
+ * @this {!Long}
+ * @param {!Long|number|string} other Other value
+ * @returns {boolean}
+ */
+LongPrototype.lessThan = function lessThan(other) {
+  return this.comp(/* validates */ other) < 0;
+};
+
+/**
+ * Tests if this Long's value is less than the specified's. This is an alias of {@link Long#lessThan}.
+ * @function
+ * @param {!Long|number|string} other Other value
+ * @returns {boolean}
+ */
+LongPrototype.lt = LongPrototype.lessThan;
+
+/**
+ * Tests if this Long's value is less than or equal the specified's.
+ * @this {!Long}
+ * @param {!Long|number|string} other Other value
+ * @returns {boolean}
+ */
+LongPrototype.lessThanOrEqual = function lessThanOrEqual(other) {
+  return this.comp(/* validates */ other) <= 0;
+};
+
+/**
+ * Tests if this Long's value is less than or equal the specified's. This is an alias of {@link Long#lessThanOrEqual}.
+ * @function
+ * @param {!Long|number|string} other Other value
+ * @returns {boolean}
+ */
+LongPrototype.lte = LongPrototype.lessThanOrEqual;
+
+/**
+ * Tests if this Long's value is less than or equal the specified's. This is an alias of {@link Long#lessThanOrEqual}.
+ * @function
+ * @param {!Long|number|string} other Other value
+ * @returns {boolean}
+ */
+LongPrototype.le = LongPrototype.lessThanOrEqual;
+
+/**
+ * Tests if this Long's value is greater than the specified's.
+ * @this {!Long}
+ * @param {!Long|number|string} other Other value
+ * @returns {boolean}
+ */
+LongPrototype.greaterThan = function greaterThan(other) {
+  return this.comp(/* validates */ other) > 0;
+};
+
+/**
+ * Tests if this Long's value is greater than the specified's. This is an alias of {@link Long#greaterThan}.
+ * @function
+ * @param {!Long|number|string} other Other value
+ * @returns {boolean}
+ */
+LongPrototype.gt = LongPrototype.greaterThan;
+
+/**
+ * Tests if this Long's value is greater than or equal the specified's.
+ * @this {!Long}
+ * @param {!Long|number|string} other Other value
+ * @returns {boolean}
+ */
+LongPrototype.greaterThanOrEqual = function greaterThanOrEqual(other) {
+  return this.comp(/* validates */ other) >= 0;
+};
+
+/**
+ * Tests if this Long's value is greater than or equal the specified's. This is an alias of {@link Long#greaterThanOrEqual}.
+ * @function
+ * @param {!Long|number|string} other Other value
+ * @returns {boolean}
+ */
+LongPrototype.gte = LongPrototype.greaterThanOrEqual;
+
+/**
+ * Tests if this Long's value is greater than or equal the specified's. This is an alias of {@link Long#greaterThanOrEqual}.
+ * @function
+ * @param {!Long|number|string} other Other value
+ * @returns {boolean}
+ */
+LongPrototype.ge = LongPrototype.greaterThanOrEqual;
+
+/**
+ * Compares this Long's value with the specified's.
+ * @this {!Long}
+ * @param {!Long|number|string} other Other value
+ * @returns {number} 0 if they are the same, 1 if the this is greater and -1
+ *  if the given one is greater
+ */
+LongPrototype.compare = function compare(other) {
+  if (!isLong(other))
+    other = fromValue(other);
+  if (this.eq(other))
+    return 0;
+  var thisNeg = this.isNegative(),
+    otherNeg = other.isNegative();
+  if (thisNeg && !otherNeg)
+    return -1;
+  if (!thisNeg && otherNeg)
+    return 1;
+  // At this point the sign bits are the same
+  if (!this.unsigned)
+    return this.sub(other).isNegative() ? -1 : 1;
+  // Both are positive if at least one is unsigned
+  return (other.high >>> 0) > (this.high >>> 0) || (other.high === this.high && (other.low >>> 0) > (this.low >>> 0)) ? -1 : 1;
+};
+
+/**
+ * Compares this Long's value with the specified's. This is an alias of {@link Long#compare}.
+ * @function
+ * @param {!Long|number|string} other Other value
+ * @returns {number} 0 if they are the same, 1 if the this is greater and -1
+ *  if the given one is greater
+ */
+LongPrototype.comp = LongPrototype.compare;
+
+/**
+ * Negates this Long's value.
+ * @this {!Long}
+ * @returns {!Long} Negated Long
+ */
+LongPrototype.negate = function negate() {
+  if (!this.unsigned && this.eq(MIN_VALUE))
+    return MIN_VALUE;
+  return this.not().add(ONE);
+};
+
+/**
+ * Negates this Long's value. This is an alias of {@link Long#negate}.
+ * @function
+ * @returns {!Long} Negated Long
+ */
+LongPrototype.neg = LongPrototype.negate;
+
+/**
+ * Returns the sum of this and the specified Long.
+ * @this {!Long}
+ * @param {!Long|number|string} addend Addend
+ * @returns {!Long} Sum
+ */
+LongPrototype.add = function add(addend) {
+  if (!isLong(addend))
+    addend = fromValue(addend);
+
+  // Divide each number into 4 chunks of 16 bits, and then sum the chunks.
+
+  var a48 = this.high >>> 16;
+  var a32 = this.high & 0xFFFF;
+  var a16 = this.low >>> 16;
+  var a00 = this.low & 0xFFFF;
+
+  var b48 = addend.high >>> 16;
+  var b32 = addend.high & 0xFFFF;
+  var b16 = addend.low >>> 16;
+  var b00 = addend.low & 0xFFFF;
+
+  var c48 = 0, c32 = 0, c16 = 0, c00 = 0;
+  c00 += a00 + b00;
+  c16 += c00 >>> 16;
+  c00 &= 0xFFFF;
+  c16 += a16 + b16;
+  c32 += c16 >>> 16;
+  c16 &= 0xFFFF;
+  c32 += a32 + b32;
+  c48 += c32 >>> 16;
+  c32 &= 0xFFFF;
+  c48 += a48 + b48;
+  c48 &= 0xFFFF;
+  return fromBits((c16 << 16) | c00, (c48 << 16) | c32, this.unsigned);
+};
+
+/**
+ * Returns the difference of this and the specified Long.
+ * @this {!Long}
+ * @param {!Long|number|string} subtrahend Subtrahend
+ * @returns {!Long} Difference
+ */
+LongPrototype.subtract = function subtract(subtrahend) {
+  if (!isLong(subtrahend))
+    subtrahend = fromValue(subtrahend);
+  return this.add(subtrahend.neg());
+};
+
+/**
+ * Returns the difference of this and the specified Long. This is an alias of {@link Long#subtract}.
+ * @function
+ * @param {!Long|number|string} subtrahend Subtrahend
+ * @returns {!Long} Difference
+ */
+LongPrototype.sub = LongPrototype.subtract;
+
+/**
+ * Returns the product of this and the specified Long.
+ * @this {!Long}
+ * @param {!Long|number|string} multiplier Multiplier
+ * @returns {!Long} Product
+ */
+LongPrototype.multiply = function multiply(multiplier) {
+  if (this.isZero())
+    return this;
+  if (!isLong(multiplier))
+    multiplier = fromValue(multiplier);
+
+  // use wasm support if present
+  if (wasm) {
+    var low = wasm["mul"](this.low,
+      this.high,
+      multiplier.low,
+      multiplier.high);
+    return fromBits(low, wasm["get_high"](), this.unsigned);
+  }
+
+  if (multiplier.isZero())
+    return this.unsigned ? UZERO : ZERO;
+  if (this.eq(MIN_VALUE))
+    return multiplier.isOdd() ? MIN_VALUE : ZERO;
+  if (multiplier.eq(MIN_VALUE))
+    return this.isOdd() ? MIN_VALUE : ZERO;
+
+  if (this.isNegative()) {
+    if (multiplier.isNegative())
+      return this.neg().mul(multiplier.neg());
+    else
+      return this.neg().mul(multiplier).neg();
+  } else if (multiplier.isNegative())
+    return this.mul(multiplier.neg()).neg();
+
+  // If both longs are small, use float multiplication
+  if (this.lt(TWO_PWR_24) && multiplier.lt(TWO_PWR_24))
+    return fromNumber(this.toNumber() * multiplier.toNumber(), this.unsigned);
+
+  // Divide each long into 4 chunks of 16 bits, and then add up 4x4 products.
+  // We can skip products that would overflow.
+
+  var a48 = this.high >>> 16;
+  var a32 = this.high & 0xFFFF;
+  var a16 = this.low >>> 16;
+  var a00 = this.low & 0xFFFF;
+
+  var b48 = multiplier.high >>> 16;
+  var b32 = multiplier.high & 0xFFFF;
+  var b16 = multiplier.low >>> 16;
+  var b00 = multiplier.low & 0xFFFF;
+
+  var c48 = 0, c32 = 0, c16 = 0, c00 = 0;
+  c00 += a00 * b00;
+  c16 += c00 >>> 16;
+  c00 &= 0xFFFF;
+  c16 += a16 * b00;
+  c32 += c16 >>> 16;
+  c16 &= 0xFFFF;
+  c16 += a00 * b16;
+  c32 += c16 >>> 16;
+  c16 &= 0xFFFF;
+  c32 += a32 * b00;
+  c48 += c32 >>> 16;
+  c32 &= 0xFFFF;
+  c32 += a16 * b16;
+  c48 += c32 >>> 16;
+  c32 &= 0xFFFF;
+  c32 += a00 * b32;
+  c48 += c32 >>> 16;
+  c32 &= 0xFFFF;
+  c48 += a48 * b00 + a32 * b16 + a16 * b32 + a00 * b48;
+  c48 &= 0xFFFF;
+  return fromBits((c16 << 16) | c00, (c48 << 16) | c32, this.unsigned);
+};
+
+/**
+ * Returns the product of this and the specified Long. This is an alias of {@link Long#multiply}.
+ * @function
+ * @param {!Long|number|string} multiplier Multiplier
+ * @returns {!Long} Product
+ */
+LongPrototype.mul = LongPrototype.multiply;
+
+/**
+ * Returns this Long divided by the specified. The result is signed if this Long is signed or
+ *  unsigned if this Long is unsigned.
+ * @this {!Long}
+ * @param {!Long|number|string} divisor Divisor
+ * @returns {!Long} Quotient
+ */
+LongPrototype.divide = function divide(divisor) {
+  if (!isLong(divisor))
+    divisor = fromValue(divisor);
+  if (divisor.isZero())
+    throw Error('division by zero');
+
+  // use wasm support if present
+  if (wasm) {
+    // guard against signed division overflow: the largest
+    // negative number / -1 would be 1 larger than the largest
+    // positive number, due to two's complement.
+    if (!this.unsigned &&
+      this.high === -0x80000000 &&
+      divisor.low === -1 && divisor.high === -1) {
+      // be consistent with non-wasm code path
+      return this;
+    }
+    var low = (this.unsigned ? wasm["div_u"] : wasm["div_s"])(
+      this.low,
+      this.high,
+      divisor.low,
+      divisor.high
+    );
+    return fromBits(low, wasm["get_high"](), this.unsigned);
+  }
+
+  if (this.isZero())
+    return this.unsigned ? UZERO : ZERO;
+  var approx, rem, res;
+  if (!this.unsigned) {
+    // This section is only relevant for signed longs and is derived from the
+    // closure library as a whole.
+    if (this.eq(MIN_VALUE)) {
+      if (divisor.eq(ONE) || divisor.eq(NEG_ONE))
+        return MIN_VALUE;  // recall that -MIN_VALUE == MIN_VALUE
+      else if (divisor.eq(MIN_VALUE))
+        return ONE;
+      else {
+        // At this point, we have |other| >= 2, so |this/other| < |MIN_VALUE|.
+        var halfThis = this.shr(1);
+        approx = halfThis.div(divisor).shl(1);
+        if (approx.eq(ZERO)) {
+          return divisor.isNegative() ? ONE : NEG_ONE;
+        } else {
+          rem = this.sub(divisor.mul(approx));
+          res = approx.add(rem.div(divisor));
+          return res;
+        }
+      }
+    } else if (divisor.eq(MIN_VALUE))
+      return this.unsigned ? UZERO : ZERO;
+    if (this.isNegative()) {
+      if (divisor.isNegative())
+        return this.neg().div(divisor.neg());
+      return this.neg().div(divisor).neg();
+    } else if (divisor.isNegative())
+      return this.div(divisor.neg()).neg();
+    res = ZERO;
+  } else {
+    // The algorithm below has not been made for unsigned longs. It's therefore
+    // required to take special care of the MSB prior to running it.
+    if (!divisor.unsigned)
+      divisor = divisor.toUnsigned();
+    if (divisor.gt(this))
+      return UZERO;
+    if (divisor.gt(this.shru(1))) // 15 >>> 1 = 7 ; with divisor = 8 ; true
+      return UONE;
+    res = UZERO;
+  }
+
+  // Repeat the following until the remainder is less than other:  find a
+  // floating-point that approximates remainder / other *from below*, add this
+  // into the result, and subtract it from the remainder.  It is critical that
+  // the approximate value is less than or equal to the real value so that the
+  // remainder never becomes negative.
+  rem = this;
+  while (rem.gte(divisor)) {
+    // Approximate the result of division. This may be a little greater or
+    // smaller than the actual value.
+    approx = Math.max(1, Math.floor(rem.toNumber() / divisor.toNumber()));
+
+    // We will tweak the approximate result by changing it in the 48-th digit or
+    // the smallest non-fractional digit, whichever is larger.
+    var log2 = Math.ceil(Math.log(approx) / Math.LN2),
+      delta = (log2 <= 48) ? 1 : pow_dbl(2, log2 - 48),
+
+      // Decrease the approximation until it is smaller than the remainder.  Note
+      // that if it is too large, the product overflows and is negative.
+      approxRes = fromNumber(approx),
+      approxRem = approxRes.mul(divisor);
+    while (approxRem.isNegative() || approxRem.gt(rem)) {
+      approx -= delta;
+      approxRes = fromNumber(approx, this.unsigned);
+      approxRem = approxRes.mul(divisor);
+    }
+
+    // We know the answer can't be zero... and actually, zero would cause
+    // infinite recursion since we would make no progress.
+    if (approxRes.isZero())
+      approxRes = ONE;
+
+    res = res.add(approxRes);
+    rem = rem.sub(approxRem);
+  }
+  return res;
+};
+
+/**
+ * Returns this Long divided by the specified. This is an alias of {@link Long#divide}.
+ * @function
+ * @param {!Long|number|string} divisor Divisor
+ * @returns {!Long} Quotient
+ */
+LongPrototype.div = LongPrototype.divide;
+
+/**
+ * Returns this Long modulo the specified.
+ * @this {!Long}
+ * @param {!Long|number|string} divisor Divisor
+ * @returns {!Long} Remainder
+ */
+LongPrototype.modulo = function modulo(divisor) {
+  if (!isLong(divisor))
+    divisor = fromValue(divisor);
+
+  // use wasm support if present
+  if (wasm) {
+    var low = (this.unsigned ? wasm["rem_u"] : wasm["rem_s"])(
+      this.low,
+      this.high,
+      divisor.low,
+      divisor.high
+    );
+    return fromBits(low, wasm["get_high"](), this.unsigned);
+  }
+
+  return this.sub(this.div(divisor).mul(divisor));
+};
+
+/**
+ * Returns this Long modulo the specified. This is an alias of {@link Long#modulo}.
+ * @function
+ * @param {!Long|number|string} divisor Divisor
+ * @returns {!Long} Remainder
+ */
+LongPrototype.mod = LongPrototype.modulo;
+
+/**
+ * Returns this Long modulo the specified. This is an alias of {@link Long#modulo}.
+ * @function
+ * @param {!Long|number|string} divisor Divisor
+ * @returns {!Long} Remainder
+ */
+LongPrototype.rem = LongPrototype.modulo;
+
+/**
+ * Returns the bitwise NOT of this Long.
+ * @this {!Long}
+ * @returns {!Long}
+ */
+LongPrototype.not = function not() {
+  return fromBits(~this.low, ~this.high, this.unsigned);
+};
+
+/**
+ * Returns count leading zeros of this Long.
+ * @this {!Long}
+ * @returns {!number}
+ */
+LongPrototype.countLeadingZeros = function countLeadingZeros() {
+  return this.high ? Math.clz32(this.high) : Math.clz32(this.low) + 32;
+};
+
+/**
+ * Returns count leading zeros. This is an alias of {@link Long#countLeadingZeros}.
+ * @function
+ * @param {!Long}
+ * @returns {!number}
+ */
+LongPrototype.clz = LongPrototype.countLeadingZeros;
+
+/**
+ * Returns count trailing zeros of this Long.
+ * @this {!Long}
+ * @returns {!number}
+ */
+LongPrototype.countTrailingZeros = function countTrailingZeros() {
+  return this.low ? ctz32(this.low) : ctz32(this.high) + 32;
+};
+
+/**
+ * Returns count trailing zeros. This is an alias of {@link Long#countTrailingZeros}.
+ * @function
+ * @param {!Long}
+ * @returns {!number}
+ */
+LongPrototype.ctz = LongPrototype.countTrailingZeros;
+
+/**
+ * Returns the bitwise AND of this Long and the specified.
+ * @this {!Long}
+ * @param {!Long|number|string} other Other Long
+ * @returns {!Long}
+ */
+LongPrototype.and = function and(other) {
+  if (!isLong(other))
+    other = fromValue(other);
+  return fromBits(this.low & other.low, this.high & other.high, this.unsigned);
+};
+
+/**
+ * Returns the bitwise OR of this Long and the specified.
+ * @this {!Long}
+ * @param {!Long|number|string} other Other Long
+ * @returns {!Long}
+ */
+LongPrototype.or = function or(other) {
+  if (!isLong(other))
+    other = fromValue(other);
+  return fromBits(this.low | other.low, this.high | other.high, this.unsigned);
+};
+
+/**
+ * Returns the bitwise XOR of this Long and the given one.
+ * @this {!Long}
+ * @param {!Long|number|string} other Other Long
+ * @returns {!Long}
+ */
+LongPrototype.xor = function xor(other) {
+  if (!isLong(other))
+    other = fromValue(other);
+  return fromBits(this.low ^ other.low, this.high ^ other.high, this.unsigned);
+};
+
+/**
+ * Returns this Long with bits shifted to the left by the given amount.
+ * @this {!Long}
+ * @param {number|!Long} numBits Number of bits
+ * @returns {!Long} Shifted Long
+ */
+LongPrototype.shiftLeft = function shiftLeft(numBits) {
+  if (isLong(numBits))
+    numBits = numBits.toInt();
+  if ((numBits &= 63) === 0)
+    return this;
+  else if (numBits < 32)
+    return fromBits(this.low << numBits, (this.high << numBits) | (this.low >>> (32 - numBits)), this.unsigned);
+  else
+    return fromBits(0, this.low << (numBits - 32), this.unsigned);
+};
+
+/**
+ * Returns this Long with bits shifted to the left by the given amount. This is an alias of {@link Long#shiftLeft}.
+ * @function
+ * @param {number|!Long} numBits Number of bits
+ * @returns {!Long} Shifted Long
+ */
+LongPrototype.shl = LongPrototype.shiftLeft;
+
+/**
+ * Returns this Long with bits arithmetically shifted to the right by the given amount.
+ * @this {!Long}
+ * @param {number|!Long} numBits Number of bits
+ * @returns {!Long} Shifted Long
+ */
+LongPrototype.shiftRight = function shiftRight(numBits) {
+  if (isLong(numBits))
+    numBits = numBits.toInt();
+  if ((numBits &= 63) === 0)
+    return this;
+  else if (numBits < 32)
+    return fromBits((this.low >>> numBits) | (this.high << (32 - numBits)), this.high >> numBits, this.unsigned);
+  else
+    return fromBits(this.high >> (numBits - 32), this.high >= 0 ? 0 : -1, this.unsigned);
+};
+
+/**
+ * Returns this Long with bits arithmetically shifted to the right by the given amount. This is an alias of {@link Long#shiftRight}.
+ * @function
+ * @param {number|!Long} numBits Number of bits
+ * @returns {!Long} Shifted Long
+ */
+LongPrototype.shr = LongPrototype.shiftRight;
+
+/**
+ * Returns this Long with bits logically shifted to the right by the given amount.
+ * @this {!Long}
+ * @param {number|!Long} numBits Number of bits
+ * @returns {!Long} Shifted Long
+ */
+LongPrototype.shiftRightUnsigned = function shiftRightUnsigned(numBits) {
+  if (isLong(numBits)) numBits = numBits.toInt();
+  if ((numBits &= 63) === 0) return this;
+  if (numBits < 32) return fromBits((this.low >>> numBits) | (this.high << (32 - numBits)), this.high >>> numBits, this.unsigned);
+  if (numBits === 32) return fromBits(this.high, 0, this.unsigned);
+  return fromBits(this.high >>> (numBits - 32), 0, this.unsigned);
+};
+
+/**
+ * Returns this Long with bits logically shifted to the right by the given amount. This is an alias of {@link Long#shiftRightUnsigned}.
+ * @function
+ * @param {number|!Long} numBits Number of bits
+ * @returns {!Long} Shifted Long
+ */
+LongPrototype.shru = LongPrototype.shiftRightUnsigned;
+
+/**
+ * Returns this Long with bits logically shifted to the right by the given amount. This is an alias of {@link Long#shiftRightUnsigned}.
+ * @function
+ * @param {number|!Long} numBits Number of bits
+ * @returns {!Long} Shifted Long
+ */
+LongPrototype.shr_u = LongPrototype.shiftRightUnsigned;
+
+/**
+ * Returns this Long with bits rotated to the left by the given amount.
+ * @this {!Long}
+ * @param {number|!Long} numBits Number of bits
+ * @returns {!Long} Rotated Long
+ */
+LongPrototype.rotateLeft = function rotateLeft(numBits) {
+  var b;
+  if (isLong(numBits)) numBits = numBits.toInt();
+  if ((numBits &= 63) === 0) return this;
+  if (numBits === 32) return fromBits(this.high, this.low, this.unsigned);
+  if (numBits < 32) {
+    b = (32 - numBits);
+    return fromBits(((this.low << numBits) | (this.high >>> b)), ((this.high << numBits) | (this.low >>> b)), this.unsigned);
+  }
+  numBits -= 32;
+  b = (32 - numBits);
+  return fromBits(((this.high << numBits) | (this.low >>> b)), ((this.low << numBits) | (this.high >>> b)), this.unsigned);
+}
+/**
+ * Returns this Long with bits rotated to the left by the given amount. This is an alias of {@link Long#rotateLeft}.
+ * @function
+ * @param {number|!Long} numBits Number of bits
+ * @returns {!Long} Rotated Long
+ */
+LongPrototype.rotl = LongPrototype.rotateLeft;
+
+/**
+ * Returns this Long with bits rotated to the right by the given amount.
+ * @this {!Long}
+ * @param {number|!Long} numBits Number of bits
+ * @returns {!Long} Rotated Long
+ */
+LongPrototype.rotateRight = function rotateRight(numBits) {
+  var b;
+  if (isLong(numBits)) numBits = numBits.toInt();
+  if ((numBits &= 63) === 0) return this;
+  if (numBits === 32) return fromBits(this.high, this.low, this.unsigned);
+  if (numBits < 32) {
+    b = (32 - numBits);
+    return fromBits(((this.high << b) | (this.low >>> numBits)), ((this.low << b) | (this.high >>> numBits)), this.unsigned);
+  }
+  numBits -= 32;
+  b = (32 - numBits);
+  return fromBits(((this.low << b) | (this.high >>> numBits)), ((this.high << b) | (this.low >>> numBits)), this.unsigned);
+}
+/**
+ * Returns this Long with bits rotated to the right by the given amount. This is an alias of {@link Long#rotateRight}.
+ * @function
+ * @param {number|!Long} numBits Number of bits
+ * @returns {!Long} Rotated Long
+ */
+LongPrototype.rotr = LongPrototype.rotateRight;
+
+/**
+ * Converts this Long to signed.
+ * @this {!Long}
+ * @returns {!Long} Signed long
+ */
+LongPrototype.toSigned = function toSigned() {
+  if (!this.unsigned)
+    return this;
+  return fromBits(this.low, this.high, false);
+};
+
+/**
+ * Converts this Long to unsigned.
+ * @this {!Long}
+ * @returns {!Long} Unsigned long
+ */
+LongPrototype.toUnsigned = function toUnsigned() {
+  if (this.unsigned)
+    return this;
+  return fromBits(this.low, this.high, true);
+};
+
+/**
+ * Converts this Long to its byte representation.
+ * @param {boolean=} le Whether little or big endian, defaults to big endian
+ * @this {!Long}
+ * @returns {!Array.<number>} Byte representation
+ */
+LongPrototype.toBytes = function toBytes(le) {
+  return le ? this.toBytesLE() : this.toBytesBE();
+};
+
+/**
+ * Converts this Long to its little endian byte representation.
+ * @this {!Long}
+ * @returns {!Array.<number>} Little endian byte representation
+ */
+LongPrototype.toBytesLE = function toBytesLE() {
+  var hi = this.high,
+    lo = this.low;
+  return [
+    lo & 0xff,
+    lo >>> 8 & 0xff,
+    lo >>> 16 & 0xff,
+    lo >>> 24,
+    hi & 0xff,
+    hi >>> 8 & 0xff,
+    hi >>> 16 & 0xff,
+    hi >>> 24
+  ];
+};
+
+/**
+ * Converts this Long to its big endian byte representation.
+ * @this {!Long}
+ * @returns {!Array.<number>} Big endian byte representation
+ */
+LongPrototype.toBytesBE = function toBytesBE() {
+  var hi = this.high,
+    lo = this.low;
+  return [
+    hi >>> 24,
+    hi >>> 16 & 0xff,
+    hi >>> 8 & 0xff,
+    hi & 0xff,
+    lo >>> 24,
+    lo >>> 16 & 0xff,
+    lo >>> 8 & 0xff,
+    lo & 0xff
+  ];
+};
+
+/**
+ * Creates a Long from its byte representation.
+ * @param {!Array.<number>} bytes Byte representation
+ * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
+ * @param {boolean=} le Whether little or big endian, defaults to big endian
+ * @returns {Long} The corresponding Long value
+ */
+Long.fromBytes = function fromBytes(bytes, unsigned, le) {
+  return le ? Long.fromBytesLE(bytes, unsigned) : Long.fromBytesBE(bytes, unsigned);
+};
+
+/**
+ * Creates a Long from its little endian byte representation.
+ * @param {!Array.<number>} bytes Little endian byte representation
+ * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
+ * @returns {Long} The corresponding Long value
+ */
+Long.fromBytesLE = function fromBytesLE(bytes, unsigned) {
+  return new Long(
+    bytes[0] |
+    bytes[1] << 8 |
+    bytes[2] << 16 |
+    bytes[3] << 24,
+    bytes[4] |
+    bytes[5] << 8 |
+    bytes[6] << 16 |
+    bytes[7] << 24,
+    unsigned
+  );
+};
+
+/**
+ * Creates a Long from its big endian byte representation.
+ * @param {!Array.<number>} bytes Big endian byte representation
+ * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
+ * @returns {Long} The corresponding Long value
+ */
+Long.fromBytesBE = function fromBytesBE(bytes, unsigned) {
+  return new Long(
+    bytes[4] << 24 |
+    bytes[5] << 16 |
+    bytes[6] << 8 |
+    bytes[7],
+    bytes[0] << 24 |
+    bytes[1] << 16 |
+    bytes[2] << 8 |
+    bytes[3],
+    unsigned
+  );
+};
+
+/* harmony default export */ const node_modules_long = (Long);
+
+// EXTERNAL MODULE: ../vot.js/node_modules/protobufjs/minimal.js
+var minimal = __webpack_require__("../vot.js/node_modules/protobufjs/minimal.js");
+;// CONCATENATED MODULE: ../vot.js/dist/protos/yandex.js
+
+
+const protobufPackage = "";
+var StreamInterval;
+(function (StreamInterval) {
+    StreamInterval[StreamInterval["NO_CONNECTION"] = 0] = "NO_CONNECTION";
+    StreamInterval[StreamInterval["TRANSLATING"] = 10] = "TRANSLATING";
+    StreamInterval[StreamInterval["STREAMING"] = 20] = "STREAMING";
+    StreamInterval[StreamInterval["UNRECOGNIZED"] = -1] = "UNRECOGNIZED";
+})(StreamInterval || (StreamInterval = {}));
+function streamIntervalFromJSON(object) {
+    switch (object) {
+        case 0:
+        case "NO_CONNECTION":
+            return StreamInterval.NO_CONNECTION;
+        case 10:
+        case "TRANSLATING":
+            return StreamInterval.TRANSLATING;
+        case 20:
+        case "STREAMING":
+            return StreamInterval.STREAMING;
+        case -1:
+        case "UNRECOGNIZED":
+        default:
+            return StreamInterval.UNRECOGNIZED;
+    }
+}
+function streamIntervalToJSON(object) {
+    switch (object) {
+        case StreamInterval.NO_CONNECTION:
+            return "NO_CONNECTION";
+        case StreamInterval.TRANSLATING:
+            return "TRANSLATING";
+        case StreamInterval.STREAMING:
+            return "STREAMING";
+        case StreamInterval.UNRECOGNIZED:
+        default:
+            return "UNRECOGNIZED";
+    }
+}
+function createBaseVideoTranslationHelpObject() {
+    return { target: "", targetUrl: "" };
+}
+const VideoTranslationHelpObject = {
+    encode(message, writer = minimal.Writer.create()) {
+        if (message.target !== "") {
+            writer.uint32(10).string(message.target);
+        }
+        if (message.targetUrl !== "") {
+            writer.uint32(18).string(message.targetUrl);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof minimal.Reader ? input : minimal.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseVideoTranslationHelpObject();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.target = reader.string();
+                    continue;
+                case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.targetUrl = reader.string();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            target: isSet(object.target) ? globalThis.String(object.target) : "",
+            targetUrl: isSet(object.targetUrl) ? globalThis.String(object.targetUrl) : "",
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.target !== "") {
+            obj.target = message.target;
+        }
+        if (message.targetUrl !== "") {
+            obj.targetUrl = message.targetUrl;
+        }
+        return obj;
+    },
+    create(base) {
+        return VideoTranslationHelpObject.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseVideoTranslationHelpObject();
+        message.target = object.target ?? "";
+        message.targetUrl = object.targetUrl ?? "";
+        return message;
+    },
+};
+function createBaseVideoTranslationRequest() {
+    return {
+        url: "",
+        deviceId: undefined,
+        firstRequest: false,
+        duration: 0,
+        unknown0: 0,
+        language: "",
+        forceSourceLang: false,
+        unknown1: 0,
+        translationHelp: [],
+        responseLanguage: "",
+        unknown2: 0,
+        unknown3: 0,
+        bypassCache: false,
+    };
+}
+const VideoTranslationRequest = {
+    encode(message, writer = minimal.Writer.create()) {
+        if (message.url !== "") {
+            writer.uint32(26).string(message.url);
+        }
+        if (message.deviceId !== undefined) {
+            writer.uint32(34).string(message.deviceId);
+        }
+        if (message.firstRequest !== false) {
+            writer.uint32(40).bool(message.firstRequest);
+        }
+        if (message.duration !== 0) {
+            writer.uint32(49).double(message.duration);
+        }
+        if (message.unknown0 !== 0) {
+            writer.uint32(56).int32(message.unknown0);
+        }
+        if (message.language !== "") {
+            writer.uint32(66).string(message.language);
+        }
+        if (message.forceSourceLang !== false) {
+            writer.uint32(72).bool(message.forceSourceLang);
+        }
+        if (message.unknown1 !== 0) {
+            writer.uint32(80).int32(message.unknown1);
+        }
+        for (const v of message.translationHelp) {
+            VideoTranslationHelpObject.encode(v, writer.uint32(90).fork()).ldelim();
+        }
+        if (message.responseLanguage !== "") {
+            writer.uint32(114).string(message.responseLanguage);
+        }
+        if (message.unknown2 !== 0) {
+            writer.uint32(120).int32(message.unknown2);
+        }
+        if (message.unknown3 !== 0) {
+            writer.uint32(128).int32(message.unknown3);
+        }
+        if (message.bypassCache !== false) {
+            writer.uint32(136).bool(message.bypassCache);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof minimal.Reader ? input : minimal.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseVideoTranslationRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
+                    message.url = reader.string();
+                    continue;
+                case 4:
+                    if (tag !== 34) {
+                        break;
+                    }
+                    message.deviceId = reader.string();
+                    continue;
+                case 5:
+                    if (tag !== 40) {
+                        break;
+                    }
+                    message.firstRequest = reader.bool();
+                    continue;
+                case 6:
+                    if (tag !== 49) {
+                        break;
+                    }
+                    message.duration = reader.double();
+                    continue;
+                case 7:
+                    if (tag !== 56) {
+                        break;
+                    }
+                    message.unknown0 = reader.int32();
+                    continue;
+                case 8:
+                    if (tag !== 66) {
+                        break;
+                    }
+                    message.language = reader.string();
+                    continue;
+                case 9:
+                    if (tag !== 72) {
+                        break;
+                    }
+                    message.forceSourceLang = reader.bool();
+                    continue;
+                case 10:
+                    if (tag !== 80) {
+                        break;
+                    }
+                    message.unknown1 = reader.int32();
+                    continue;
+                case 11:
+                    if (tag !== 90) {
+                        break;
+                    }
+                    message.translationHelp.push(VideoTranslationHelpObject.decode(reader, reader.uint32()));
+                    continue;
+                case 14:
+                    if (tag !== 114) {
+                        break;
+                    }
+                    message.responseLanguage = reader.string();
+                    continue;
+                case 15:
+                    if (tag !== 120) {
+                        break;
+                    }
+                    message.unknown2 = reader.int32();
+                    continue;
+                case 16:
+                    if (tag !== 128) {
+                        break;
+                    }
+                    message.unknown3 = reader.int32();
+                    continue;
+                case 17:
+                    if (tag !== 136) {
+                        break;
+                    }
+                    message.bypassCache = reader.bool();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            url: isSet(object.url) ? globalThis.String(object.url) : "",
+            deviceId: isSet(object.deviceId) ? globalThis.String(object.deviceId) : undefined,
+            firstRequest: isSet(object.firstRequest) ? globalThis.Boolean(object.firstRequest) : false,
+            duration: isSet(object.duration) ? globalThis.Number(object.duration) : 0,
+            unknown0: isSet(object.unknown0) ? globalThis.Number(object.unknown0) : 0,
+            language: isSet(object.language) ? globalThis.String(object.language) : "",
+            forceSourceLang: isSet(object.forceSourceLang) ? globalThis.Boolean(object.forceSourceLang) : false,
+            unknown1: isSet(object.unknown1) ? globalThis.Number(object.unknown1) : 0,
+            translationHelp: globalThis.Array.isArray(object?.translationHelp)
+                ? object.translationHelp.map((e) => VideoTranslationHelpObject.fromJSON(e))
+                : [],
+            responseLanguage: isSet(object.responseLanguage) ? globalThis.String(object.responseLanguage) : "",
+            unknown2: isSet(object.unknown2) ? globalThis.Number(object.unknown2) : 0,
+            unknown3: isSet(object.unknown3) ? globalThis.Number(object.unknown3) : 0,
+            bypassCache: isSet(object.bypassCache) ? globalThis.Boolean(object.bypassCache) : false,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.url !== "") {
+            obj.url = message.url;
+        }
+        if (message.deviceId !== undefined) {
+            obj.deviceId = message.deviceId;
+        }
+        if (message.firstRequest !== false) {
+            obj.firstRequest = message.firstRequest;
+        }
+        if (message.duration !== 0) {
+            obj.duration = message.duration;
+        }
+        if (message.unknown0 !== 0) {
+            obj.unknown0 = Math.round(message.unknown0);
+        }
+        if (message.language !== "") {
+            obj.language = message.language;
+        }
+        if (message.forceSourceLang !== false) {
+            obj.forceSourceLang = message.forceSourceLang;
+        }
+        if (message.unknown1 !== 0) {
+            obj.unknown1 = Math.round(message.unknown1);
+        }
+        if (message.translationHelp?.length) {
+            obj.translationHelp = message.translationHelp.map((e) => VideoTranslationHelpObject.toJSON(e));
+        }
+        if (message.responseLanguage !== "") {
+            obj.responseLanguage = message.responseLanguage;
+        }
+        if (message.unknown2 !== 0) {
+            obj.unknown2 = Math.round(message.unknown2);
+        }
+        if (message.unknown3 !== 0) {
+            obj.unknown3 = Math.round(message.unknown3);
+        }
+        if (message.bypassCache !== false) {
+            obj.bypassCache = message.bypassCache;
+        }
+        return obj;
+    },
+    create(base) {
+        return VideoTranslationRequest.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseVideoTranslationRequest();
+        message.url = object.url ?? "";
+        message.deviceId = object.deviceId ?? undefined;
+        message.firstRequest = object.firstRequest ?? false;
+        message.duration = object.duration ?? 0;
+        message.unknown0 = object.unknown0 ?? 0;
+        message.language = object.language ?? "";
+        message.forceSourceLang = object.forceSourceLang ?? false;
+        message.unknown1 = object.unknown1 ?? 0;
+        message.translationHelp = object.translationHelp?.map((e) => VideoTranslationHelpObject.fromPartial(e)) || [];
+        message.responseLanguage = object.responseLanguage ?? "";
+        message.unknown2 = object.unknown2 ?? 0;
+        message.unknown3 = object.unknown3 ?? 0;
+        message.bypassCache = object.bypassCache ?? false;
+        return message;
+    },
+};
+function createBaseVideoTranslationResponse() {
+    return {
+        url: undefined,
+        duration: undefined,
+        status: 0,
+        remainingTime: undefined,
+        unknown0: undefined,
+        translationId: "",
+        language: undefined,
+        message: undefined,
+    };
+}
+const VideoTranslationResponse = {
+    encode(message, writer = minimal.Writer.create()) {
+        if (message.url !== undefined) {
+            writer.uint32(10).string(message.url);
+        }
+        if (message.duration !== undefined) {
+            writer.uint32(17).double(message.duration);
+        }
+        if (message.status !== 0) {
+            writer.uint32(32).int32(message.status);
+        }
+        if (message.remainingTime !== undefined) {
+            writer.uint32(40).int32(message.remainingTime);
+        }
+        if (message.unknown0 !== undefined) {
+            writer.uint32(48).int32(message.unknown0);
+        }
+        if (message.translationId !== "") {
+            writer.uint32(58).string(message.translationId);
+        }
+        if (message.language !== undefined) {
+            writer.uint32(66).string(message.language);
+        }
+        if (message.message !== undefined) {
+            writer.uint32(74).string(message.message);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof minimal.Reader ? input : minimal.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseVideoTranslationResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.url = reader.string();
+                    continue;
+                case 2:
+                    if (tag !== 17) {
+                        break;
+                    }
+                    message.duration = reader.double();
+                    continue;
+                case 4:
+                    if (tag !== 32) {
+                        break;
+                    }
+                    message.status = reader.int32();
+                    continue;
+                case 5:
+                    if (tag !== 40) {
+                        break;
+                    }
+                    message.remainingTime = reader.int32();
+                    continue;
+                case 6:
+                    if (tag !== 48) {
+                        break;
+                    }
+                    message.unknown0 = reader.int32();
+                    continue;
+                case 7:
+                    if (tag !== 58) {
+                        break;
+                    }
+                    message.translationId = reader.string();
+                    continue;
+                case 8:
+                    if (tag !== 66) {
+                        break;
+                    }
+                    message.language = reader.string();
+                    continue;
+                case 9:
+                    if (tag !== 74) {
+                        break;
+                    }
+                    message.message = reader.string();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            url: isSet(object.url) ? globalThis.String(object.url) : undefined,
+            duration: isSet(object.duration) ? globalThis.Number(object.duration) : undefined,
+            status: isSet(object.status) ? globalThis.Number(object.status) : 0,
+            remainingTime: isSet(object.remainingTime) ? globalThis.Number(object.remainingTime) : undefined,
+            unknown0: isSet(object.unknown0) ? globalThis.Number(object.unknown0) : undefined,
+            translationId: isSet(object.translationId) ? globalThis.String(object.translationId) : "",
+            language: isSet(object.language) ? globalThis.String(object.language) : undefined,
+            message: isSet(object.message) ? globalThis.String(object.message) : undefined,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.url !== undefined) {
+            obj.url = message.url;
+        }
+        if (message.duration !== undefined) {
+            obj.duration = message.duration;
+        }
+        if (message.status !== 0) {
+            obj.status = Math.round(message.status);
+        }
+        if (message.remainingTime !== undefined) {
+            obj.remainingTime = Math.round(message.remainingTime);
+        }
+        if (message.unknown0 !== undefined) {
+            obj.unknown0 = Math.round(message.unknown0);
+        }
+        if (message.translationId !== "") {
+            obj.translationId = message.translationId;
+        }
+        if (message.language !== undefined) {
+            obj.language = message.language;
+        }
+        if (message.message !== undefined) {
+            obj.message = message.message;
+        }
+        return obj;
+    },
+    create(base) {
+        return VideoTranslationResponse.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseVideoTranslationResponse();
+        message.url = object.url ?? undefined;
+        message.duration = object.duration ?? undefined;
+        message.status = object.status ?? 0;
+        message.remainingTime = object.remainingTime ?? undefined;
+        message.unknown0 = object.unknown0 ?? undefined;
+        message.translationId = object.translationId ?? "";
+        message.language = object.language ?? undefined;
+        message.message = object.message ?? undefined;
+        return message;
+    },
+};
+function createBaseSubtitlesObject() {
+    return { language: "", url: "", unknown0: 0, translatedLanguage: "", translatedUrl: "", unknown1: 0, unknown2: 0 };
+}
+const SubtitlesObject = {
+    encode(message, writer = minimal.Writer.create()) {
+        if (message.language !== "") {
+            writer.uint32(10).string(message.language);
+        }
+        if (message.url !== "") {
+            writer.uint32(18).string(message.url);
+        }
+        if (message.unknown0 !== 0) {
+            writer.uint32(24).int32(message.unknown0);
+        }
+        if (message.translatedLanguage !== "") {
+            writer.uint32(34).string(message.translatedLanguage);
+        }
+        if (message.translatedUrl !== "") {
+            writer.uint32(42).string(message.translatedUrl);
+        }
+        if (message.unknown1 !== 0) {
+            writer.uint32(48).int32(message.unknown1);
+        }
+        if (message.unknown2 !== 0) {
+            writer.uint32(56).int32(message.unknown2);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof minimal.Reader ? input : minimal.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseSubtitlesObject();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.language = reader.string();
+                    continue;
+                case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.url = reader.string();
+                    continue;
+                case 3:
+                    if (tag !== 24) {
+                        break;
+                    }
+                    message.unknown0 = reader.int32();
+                    continue;
+                case 4:
+                    if (tag !== 34) {
+                        break;
+                    }
+                    message.translatedLanguage = reader.string();
+                    continue;
+                case 5:
+                    if (tag !== 42) {
+                        break;
+                    }
+                    message.translatedUrl = reader.string();
+                    continue;
+                case 6:
+                    if (tag !== 48) {
+                        break;
+                    }
+                    message.unknown1 = reader.int32();
+                    continue;
+                case 7:
+                    if (tag !== 56) {
+                        break;
+                    }
+                    message.unknown2 = reader.int32();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            language: isSet(object.language) ? globalThis.String(object.language) : "",
+            url: isSet(object.url) ? globalThis.String(object.url) : "",
+            unknown0: isSet(object.unknown0) ? globalThis.Number(object.unknown0) : 0,
+            translatedLanguage: isSet(object.translatedLanguage) ? globalThis.String(object.translatedLanguage) : "",
+            translatedUrl: isSet(object.translatedUrl) ? globalThis.String(object.translatedUrl) : "",
+            unknown1: isSet(object.unknown1) ? globalThis.Number(object.unknown1) : 0,
+            unknown2: isSet(object.unknown2) ? globalThis.Number(object.unknown2) : 0,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.language !== "") {
+            obj.language = message.language;
+        }
+        if (message.url !== "") {
+            obj.url = message.url;
+        }
+        if (message.unknown0 !== 0) {
+            obj.unknown0 = Math.round(message.unknown0);
+        }
+        if (message.translatedLanguage !== "") {
+            obj.translatedLanguage = message.translatedLanguage;
+        }
+        if (message.translatedUrl !== "") {
+            obj.translatedUrl = message.translatedUrl;
+        }
+        if (message.unknown1 !== 0) {
+            obj.unknown1 = Math.round(message.unknown1);
+        }
+        if (message.unknown2 !== 0) {
+            obj.unknown2 = Math.round(message.unknown2);
+        }
+        return obj;
+    },
+    create(base) {
+        return SubtitlesObject.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseSubtitlesObject();
+        message.language = object.language ?? "";
+        message.url = object.url ?? "";
+        message.unknown0 = object.unknown0 ?? 0;
+        message.translatedLanguage = object.translatedLanguage ?? "";
+        message.translatedUrl = object.translatedUrl ?? "";
+        message.unknown1 = object.unknown1 ?? 0;
+        message.unknown2 = object.unknown2 ?? 0;
+        return message;
+    },
+};
+function createBaseSubtitlesRequest() {
+    return { url: "", language: "" };
+}
+const SubtitlesRequest = {
+    encode(message, writer = minimal.Writer.create()) {
+        if (message.url !== "") {
+            writer.uint32(10).string(message.url);
+        }
+        if (message.language !== "") {
+            writer.uint32(18).string(message.language);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof minimal.Reader ? input : minimal.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseSubtitlesRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.url = reader.string();
+                    continue;
+                case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.language = reader.string();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            url: isSet(object.url) ? globalThis.String(object.url) : "",
+            language: isSet(object.language) ? globalThis.String(object.language) : "",
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.url !== "") {
+            obj.url = message.url;
+        }
+        if (message.language !== "") {
+            obj.language = message.language;
+        }
+        return obj;
+    },
+    create(base) {
+        return SubtitlesRequest.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseSubtitlesRequest();
+        message.url = object.url ?? "";
+        message.language = object.language ?? "";
+        return message;
+    },
+};
+function createBaseSubtitlesResponse() {
+    return { waiting: false, subtitles: [] };
+}
+const SubtitlesResponse = {
+    encode(message, writer = minimal.Writer.create()) {
+        if (message.waiting !== false) {
+            writer.uint32(8).bool(message.waiting);
+        }
+        for (const v of message.subtitles) {
+            SubtitlesObject.encode(v, writer.uint32(18).fork()).ldelim();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof minimal.Reader ? input : minimal.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseSubtitlesResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    if (tag !== 8) {
+                        break;
+                    }
+                    message.waiting = reader.bool();
+                    continue;
+                case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.subtitles.push(SubtitlesObject.decode(reader, reader.uint32()));
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            waiting: isSet(object.waiting) ? globalThis.Boolean(object.waiting) : false,
+            subtitles: globalThis.Array.isArray(object?.subtitles)
+                ? object.subtitles.map((e) => SubtitlesObject.fromJSON(e))
+                : [],
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.waiting !== false) {
+            obj.waiting = message.waiting;
+        }
+        if (message.subtitles?.length) {
+            obj.subtitles = message.subtitles.map((e) => SubtitlesObject.toJSON(e));
+        }
+        return obj;
+    },
+    create(base) {
+        return SubtitlesResponse.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseSubtitlesResponse();
+        message.waiting = object.waiting ?? false;
+        message.subtitles = object.subtitles?.map((e) => SubtitlesObject.fromPartial(e)) || [];
+        return message;
+    },
+};
+function createBaseStreamTranslationObject() {
+    return { url: "", timestamp: 0 };
+}
+const StreamTranslationObject = {
+    encode(message, writer = minimal.Writer.create()) {
+        if (message.url !== "") {
+            writer.uint32(10).string(message.url);
+        }
+        if (message.timestamp !== 0) {
+            writer.uint32(16).int64(message.timestamp);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof minimal.Reader ? input : minimal.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseStreamTranslationObject();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.url = reader.string();
+                    continue;
+                case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
+                    message.timestamp = longToNumber(reader.int64());
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            url: isSet(object.url) ? globalThis.String(object.url) : "",
+            timestamp: isSet(object.timestamp) ? globalThis.Number(object.timestamp) : 0,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.url !== "") {
+            obj.url = message.url;
+        }
+        if (message.timestamp !== 0) {
+            obj.timestamp = Math.round(message.timestamp);
+        }
+        return obj;
+    },
+    create(base) {
+        return StreamTranslationObject.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseStreamTranslationObject();
+        message.url = object.url ?? "";
+        message.timestamp = object.timestamp ?? 0;
+        return message;
+    },
+};
+function createBaseStreamTranslationRequest() {
+    return { url: "", language: "", responseLanguage: "" };
+}
+const StreamTranslationRequest = {
+    encode(message, writer = minimal.Writer.create()) {
+        if (message.url !== "") {
+            writer.uint32(10).string(message.url);
+        }
+        if (message.language !== "") {
+            writer.uint32(18).string(message.language);
+        }
+        if (message.responseLanguage !== "") {
+            writer.uint32(26).string(message.responseLanguage);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof minimal.Reader ? input : minimal.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseStreamTranslationRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.url = reader.string();
+                    continue;
+                case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.language = reader.string();
+                    continue;
+                case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
+                    message.responseLanguage = reader.string();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            url: isSet(object.url) ? globalThis.String(object.url) : "",
+            language: isSet(object.language) ? globalThis.String(object.language) : "",
+            responseLanguage: isSet(object.responseLanguage) ? globalThis.String(object.responseLanguage) : "",
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.url !== "") {
+            obj.url = message.url;
+        }
+        if (message.language !== "") {
+            obj.language = message.language;
+        }
+        if (message.responseLanguage !== "") {
+            obj.responseLanguage = message.responseLanguage;
+        }
+        return obj;
+    },
+    create(base) {
+        return StreamTranslationRequest.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseStreamTranslationRequest();
+        message.url = object.url ?? "";
+        message.language = object.language ?? "";
+        message.responseLanguage = object.responseLanguage ?? "";
+        return message;
+    },
+};
+function createBaseStreamTranslationResponse() {
+    return { interval: 0, translatedInfo: undefined, pingId: undefined };
+}
+const StreamTranslationResponse = {
+    encode(message, writer = minimal.Writer.create()) {
+        if (message.interval !== 0) {
+            writer.uint32(8).int32(message.interval);
+        }
+        if (message.translatedInfo !== undefined) {
+            StreamTranslationObject.encode(message.translatedInfo, writer.uint32(18).fork()).ldelim();
+        }
+        if (message.pingId !== undefined) {
+            writer.uint32(24).int32(message.pingId);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof minimal.Reader ? input : minimal.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseStreamTranslationResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    if (tag !== 8) {
+                        break;
+                    }
+                    message.interval = reader.int32();
+                    continue;
+                case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.translatedInfo = StreamTranslationObject.decode(reader, reader.uint32());
+                    continue;
+                case 3:
+                    if (tag !== 24) {
+                        break;
+                    }
+                    message.pingId = reader.int32();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            interval: isSet(object.interval) ? streamIntervalFromJSON(object.interval) : 0,
+            translatedInfo: isSet(object.translatedInfo)
+                ? StreamTranslationObject.fromJSON(object.translatedInfo)
+                : undefined,
+            pingId: isSet(object.pingId) ? globalThis.Number(object.pingId) : undefined,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.interval !== 0) {
+            obj.interval = streamIntervalToJSON(message.interval);
+        }
+        if (message.translatedInfo !== undefined) {
+            obj.translatedInfo = StreamTranslationObject.toJSON(message.translatedInfo);
+        }
+        if (message.pingId !== undefined) {
+            obj.pingId = Math.round(message.pingId);
+        }
+        return obj;
+    },
+    create(base) {
+        return StreamTranslationResponse.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseStreamTranslationResponse();
+        message.interval = object.interval ?? 0;
+        message.translatedInfo = (object.translatedInfo !== undefined && object.translatedInfo !== null)
+            ? StreamTranslationObject.fromPartial(object.translatedInfo)
+            : undefined;
+        message.pingId = object.pingId ?? undefined;
+        return message;
+    },
+};
+function createBaseStreamPingRequest() {
+    return { pingId: 0 };
+}
+const StreamPingRequest = {
+    encode(message, writer = minimal.Writer.create()) {
+        if (message.pingId !== 0) {
+            writer.uint32(8).int32(message.pingId);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof minimal.Reader ? input : minimal.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseStreamPingRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    if (tag !== 8) {
+                        break;
+                    }
+                    message.pingId = reader.int32();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { pingId: isSet(object.pingId) ? globalThis.Number(object.pingId) : 0 };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.pingId !== 0) {
+            obj.pingId = Math.round(message.pingId);
+        }
+        return obj;
+    },
+    create(base) {
+        return StreamPingRequest.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseStreamPingRequest();
+        message.pingId = object.pingId ?? 0;
+        return message;
+    },
+};
+function createBaseYandexSessionRequest() {
+    return { uuid: "", module: "" };
+}
+const YandexSessionRequest = {
+    encode(message, writer = minimal.Writer.create()) {
+        if (message.uuid !== "") {
+            writer.uint32(10).string(message.uuid);
+        }
+        if (message.module !== "") {
+            writer.uint32(18).string(message.module);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof minimal.Reader ? input : minimal.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseYandexSessionRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.uuid = reader.string();
+                    continue;
+                case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.module = reader.string();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            uuid: isSet(object.uuid) ? globalThis.String(object.uuid) : "",
+            module: isSet(object.module) ? globalThis.String(object.module) : "",
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.uuid !== "") {
+            obj.uuid = message.uuid;
+        }
+        if (message.module !== "") {
+            obj.module = message.module;
+        }
+        return obj;
+    },
+    create(base) {
+        return YandexSessionRequest.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseYandexSessionRequest();
+        message.uuid = object.uuid ?? "";
+        message.module = object.module ?? "";
+        return message;
+    },
+};
+function createBaseYandexSessionResponse() {
+    return { secretKey: "", expires: 0 };
+}
+const YandexSessionResponse = {
+    encode(message, writer = minimal.Writer.create()) {
+        if (message.secretKey !== "") {
+            writer.uint32(10).string(message.secretKey);
+        }
+        if (message.expires !== 0) {
+            writer.uint32(16).int32(message.expires);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof minimal.Reader ? input : minimal.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseYandexSessionResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.secretKey = reader.string();
+                    continue;
+                case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
+                    message.expires = reader.int32();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            secretKey: isSet(object.secretKey) ? globalThis.String(object.secretKey) : "",
+            expires: isSet(object.expires) ? globalThis.Number(object.expires) : 0,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.secretKey !== "") {
+            obj.secretKey = message.secretKey;
+        }
+        if (message.expires !== 0) {
+            obj.expires = Math.round(message.expires);
+        }
+        return obj;
+    },
+    create(base) {
+        return YandexSessionResponse.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseYandexSessionResponse();
+        message.secretKey = object.secretKey ?? "";
+        message.expires = object.expires ?? 0;
+        return message;
+    },
+};
+function longToNumber(long) {
+    if (long.gt(globalThis.Number.MAX_SAFE_INTEGER)) {
+        throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+    }
+    if (long.lt(globalThis.Number.MIN_SAFE_INTEGER)) {
+        throw new globalThis.Error("Value is smaller than Number.MIN_SAFE_INTEGER");
+    }
+    return long.toNumber();
+}
+if (minimal.util.Long !== node_modules_long) {
+    minimal.util.Long = node_modules_long;
+    minimal.configure();
+}
+function isSet(value) {
+    return value !== null && value !== undefined;
+}
+
+;// CONCATENATED MODULE: ../vot.js/dist/protobuf.js
+
+const yandexProtobuf = {
+    encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp) {
+        return VideoTranslationRequest.encode({
+            url,
+            firstRequest: true,
+            duration,
+            unknown0: 1,
+            language: requestLang,
+            forceSourceLang: false,
+            unknown1: 0,
+            translationHelp: translationHelp ? translationHelp : [],
+            responseLanguage: responseLang,
+            unknown2: 0,
+            unknown3: 1,
+            bypassCache: false,
+        }).finish();
+    },
+    decodeTranslationResponse(response) {
+        return VideoTranslationResponse.decode(new Uint8Array(response));
+    },
+    encodeSubtitlesRequest(url, requestLang) {
+        return SubtitlesRequest.encode({
+            url,
+            language: requestLang,
+        }).finish();
+    },
+    decodeSubtitlesResponse(response) {
+        return SubtitlesResponse.decode(new Uint8Array(response));
+    },
+    encodeStreamPingRequest(pingId) {
+        return StreamPingRequest.encode({
+            pingId,
+        }).finish();
+    },
+    encodeStreamRequest(url, requestLang, responseLang) {
+        return StreamTranslationRequest.encode({
+            url,
+            language: requestLang,
+            responseLanguage: responseLang,
+        }).finish();
+    },
+    decodeStreamResponse(response) {
+        return StreamTranslationResponse.decode(new Uint8Array(response));
+    },
+    encodeYandexSessionRequest(uuid, module) {
+        return YandexSessionRequest.encode({
+            uuid,
+            module,
+        }).finish();
+    },
+    decodeYandexSessionResponse(response) {
+        return YandexSessionResponse.decode(new Uint8Array(response));
+    },
+};
+
+;// CONCATENATED MODULE: ../vot.js/dist/config/config.js
+/* harmony default export */ const config = ({
+    host: "api.browser.yandex.ru",
+    hostVOT: "https://vot-api.toil.cc/v1",
+    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 YaBrowser/24.6.0.0 Safari/537.36",
+    componentVersion: "24.6.1.766",
+    hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
+    defaultDuration: 343,
+});
+
+;// CONCATENATED MODULE: ../vot.js/package.json
+const package_namespaceObject = {"rE":"1.0.0"};
+;// CONCATENATED MODULE: external "crypto"
+const external_crypto_namespaceObject = crypto;
+;// CONCATENATED MODULE: ../vot.js/dist/secure.js
+
+
+const utf8Encoder = new TextEncoder();
+async function signHMAC(hashName, hmac, data) {
+    const key = await external_crypto_namespaceObject.subtle.importKey("raw", utf8Encoder.encode(hmac), { name: "HMAC", hash: { name: hashName } }, false, ["sign", "verify"]);
+    return await external_crypto_namespaceObject.subtle.sign("HMAC", key, data);
+}
+async function getSignature(body) {
+    const signature = await signHMAC("SHA-256", config.hmac, body);
+    return new Uint8Array(signature).reduce((str, byte) => str + byte.toString(16).padStart(2, "0"), "");
+}
+function getUUID() {
+    const hexDigits = "0123456789ABCDEF";
+    let uuid = "";
+    for (let i = 0; i < 32; i++) {
+        const randomDigit = Math.floor(Math.random() * 16);
+        uuid += hexDigits[randomDigit];
+    }
+    return uuid;
+}
+async function getHmacSha1(hmacKey, salt) {
+    try {
+        const hmacSalt = utf8Encoder.encode(salt);
+        const signature = await signHMAC("SHA-1", hmacKey, hmacSalt);
+        return btoa(String.fromCharCode(...new Uint8Array(signature)));
+    }
+    catch (err) {
+        console.error(err);
+        return false;
+    }
+}
+
+;// CONCATENATED MODULE: ../vot.js/dist/types/yandex.js
+var VideoService;
+(function (VideoService) {
+    VideoService["custom"] = "custom";
+    VideoService["directlink"] = "custom";
+    VideoService["youtube"] = "youtube";
+    VideoService["piped"] = "piped";
+    VideoService["invidious"] = "invidious";
+    VideoService["vk"] = "vk";
+    VideoService["nine_gag"] = "nine_gag";
+    VideoService["gag"] = "nine_gag";
+    VideoService["twitch"] = "twitch";
+    VideoService["proxitok"] = "proxitok";
+    VideoService["tiktok"] = "tiktok";
+    VideoService["vimeo"] = "vimeo";
+    VideoService["xvideos"] = "xvideos";
+    VideoService["pornhub"] = "pornhub";
+    VideoService["twitter"] = "twitter";
+    VideoService["rumble"] = "rumble";
+    VideoService["facebook"] = "facebook";
+    VideoService["rutube"] = "rutube";
+    VideoService["coub"] = "coub";
+    VideoService["bilibili"] = "bilibili";
+    VideoService["mail_ru"] = "mailru";
+    VideoService["mailru"] = "mailru";
+    VideoService["bitchute"] = "bitchute";
+    VideoService["eporner"] = "eporner";
+    VideoService["peertube"] = "peertube";
+    VideoService["dailymotion"] = "dailymotion";
+    VideoService["trovo"] = "trovo";
+    VideoService["yandexdisk"] = "yandexdisk";
+    VideoService["ok_ru"] = "okru";
+    VideoService["okru"] = "okru";
+    VideoService["googledrive"] = "googledrive";
+    VideoService["bannedvideo"] = "bannedvideo";
+    VideoService["weverse"] = "weverse";
+    VideoService["newgrounds"] = "newgrounds";
+    VideoService["egghead"] = "egghead";
+    VideoService["youku"] = "youku";
+    VideoService["archive"] = "archive";
+    VideoService["kodik"] = "kodik";
+    VideoService["patreon"] = "patreon";
+    VideoService["reddit"] = "reddit";
+})(VideoService || (VideoService = {}));
+var VideoTranslationStatus;
+(function (VideoTranslationStatus) {
+    VideoTranslationStatus[VideoTranslationStatus["FAILED"] = 0] = "FAILED";
+    VideoTranslationStatus[VideoTranslationStatus["FINISHED"] = 1] = "FINISHED";
+    VideoTranslationStatus[VideoTranslationStatus["WAITING"] = 2] = "WAITING";
+    VideoTranslationStatus[VideoTranslationStatus["LONG_WAITING"] = 3] = "LONG_WAITING";
+    VideoTranslationStatus[VideoTranslationStatus["PART_CONTENT"] = 5] = "PART_CONTENT";
+    VideoTranslationStatus[VideoTranslationStatus["LONG_WAITING_2"] = 6] = "LONG_WAITING_2";
+})(VideoTranslationStatus || (VideoTranslationStatus = {}));
+
+;// CONCATENATED MODULE: ../vot.js/dist/utils/utils.js
+
+async function fetchWithTimeout(url, options = {
+    headers: {
+        "User-Agent": config.userAgent,
+    },
+}) {
+    const { timeout = 3000 } = options;
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+    const response = await fetch(url, {
+        ...options,
+        signal: controller.signal,
+    });
+    clearTimeout(id);
+    return response;
+}
+function getTimestamp() {
+    return Math.floor(Date.now() / 1000);
+}
+
+;// CONCATENATED MODULE: ../vot.js/dist/config/alternativeUrls.js
+const sitesInvidious = [
+    "invidious.snopyta.org",
+    "yewtu.be",
+    "invidious.kavin.rocks",
+    "vid.puffyan.us",
+    "invidious.namazso.eu",
+    "inv.riverside.rocks",
+    "yt.artemislena.eu",
+    "invidious.flokinet.to",
+    "invidious.esmailelbob.xyz",
+    "y.com.sb",
+    "invidious.nerdvpn.de",
+    "inv.vern.cc",
+    "invidious.slipfox.xyz",
+    "invidio.xamh.de",
+    "invidious.dhusch.de",
+];
+const sitesPiped = [
+    "piped.video",
+    "piped.tokhmi.xyz",
+    "piped.moomoo.me",
+    "piped.syncpundit.io",
+    "piped.mha.fi",
+    "watch.whatever.social",
+    "piped.garudalinux.org",
+    "efy.piped.pages.dev",
+    "watch.leptons.xyz",
+    "piped.lunar.icu",
+    "yt.dc09.ru",
+    "piped.mint.lgbt",
+    "il.ax",
+    "piped.privacy.com.de",
+    "piped.esmailelbob.xyz",
+    "piped.projectsegfau.lt",
+    "piped.in.projectsegfau.lt",
+    "piped.us.projectsegfau.lt",
+    "piped.privacydev.net",
+    "piped.palveluntarjoaja.eu",
+    "piped.smnz.de",
+    "piped.adminforge.de",
+    "piped.qdi.fi",
+    "piped.hostux.net",
+    "piped.chauvet.pro",
+    "piped.jotoma.de",
+    "piped.pfcd.me",
+    "piped.frontendfriendly.xyz",
+];
+const sitesProxiTok = [
+    "proxitok.pabloferreiro.es",
+    "proxitok.pussthecat.org",
+    "tok.habedieeh.re",
+    "proxitok.esmailelbob.xyz",
+    "proxitok.privacydev.net",
+    "tok.artemislena.eu",
+    "tok.adminforge.de",
+    "tik.hostux.net",
+    "tt.vern.cc",
+    "cringe.whatever.social",
+    "proxitok.lunar.icu",
+    "proxitok.privacy.com.de",
+];
+const sitesPeertube = [
+    "peertube.1312.media",
+    "tube.shanti.cafe",
+    "bee-tube.fr",
+    "video.sadmin.io",
+    "dalek.zone",
+    "review.peertube.biz",
+    "peervideo.club",
+    "tube.la-dina.net",
+    "peertube.tmp.rcp.tf",
+    "peertube.su",
+];
+
+
+;// CONCATENATED MODULE: ../vot.js/dist/config/sites.js
+
+
+/* harmony default export */ const sites = ([
+    {
+        host: VideoService.youtube,
+        url: "https://youtu.be/",
+        match: /^((www.|m.)?youtube(-nocookie|kids)?.com)|(youtu.be)$/,
+    },
+    {
+        host: VideoService.invidious,
+        url: "https://youtu.be/",
+        match: sitesInvidious,
+    },
+    {
+        host: VideoService.piped,
+        url: "https://youtu.be/",
+        match: sitesPiped,
+    },
+    {
+        host: VideoService.vk,
+        url: "https://vk.com/video?z=",
+        match: /^(www.|m.)?vk.(com|ru)$/,
+    },
+    {
+        host: VideoService.nine_gag,
+        url: "https://9gag.com/gag/",
+        match: /^9gag.com$/,
+    },
+    {
+        host: VideoService.twitch,
+        url: "https://twitch.tv/",
+        match: [
+            /^m.twitch.tv$/,
+            /^(www.)?twitch.tv$/,
+            /^clips.twitch.tv$/,
+            /^player.twitch.tv$/,
+        ],
+    },
+    {
+        host: VideoService.proxitok,
+        url: "https://www.tiktok.com/",
+        match: sitesProxiTok,
+    },
+    {
+        host: VideoService.tiktok,
+        url: "https://www.tiktok.com/",
+        match: /^(www.)?tiktok.com$/,
+    },
+    {
+        host: VideoService.vimeo,
+        url: "https://vimeo.com/",
+        match: /^vimeo.com$/,
+    },
+    {
+        host: VideoService.vimeo,
+        url: "https://player.vimeo.com/",
+        match: /^player.vimeo.com$/,
+    },
+    {
+        host: VideoService.xvideos,
+        url: "https://www.xvideos.com/",
+        match: /^(www.)?(xvideos|xv-ru).com$/,
+    },
+    {
+        host: VideoService.pornhub,
+        url: "https://rt.pornhub.com/view_video.php?viewkey=",
+        match: /^[a-z]+.pornhub.com$/,
+    },
+    {
+        host: VideoService.twitter,
+        url: "https://twitter.com/i/status/",
+        match: /^twitter.com$/,
+    },
+    {
+        host: VideoService.rumble,
+        url: "https://rumble.com/",
+        match: /^rumble.com$/,
+    },
+    {
+        host: VideoService.facebook,
+        url: "https://facebook.com/",
+        match: (url) => url.host.includes("facebook.com") &&
+            (url.pathname.includes("/videos/") || url.pathname.includes("/reel/")),
+    },
+    {
+        host: VideoService.rutube,
+        url: "https://rutube.ru/video/",
+        match: /^rutube.ru$/,
+    },
+    {
+        host: VideoService.bilibili,
+        url: "https://www.bilibili.com/video/",
+        match: /^(www|m|player).bilibili.com$/,
+    },
+    {
+        host: VideoService.mailru,
+        url: "https://my.mail.ru/",
+        match: /^my.mail.ru$/,
+    },
+    {
+        host: VideoService.bitchute,
+        url: "https://www.bitchute.com/video/",
+        match: /^(www.)?bitchute.com$/,
+    },
+    {
+        host: VideoService.eporner,
+        url: "https://www.eporner.com/",
+        match: /^(www.)?eporner.com$/,
+    },
+    {
+        host: VideoService.peertube,
+        url: "stub",
+        match: sitesPeertube,
+    },
+    {
+        host: VideoService.dailymotion,
+        url: "https://dai.ly/",
+        match: /^(www.)?dailymotion.com|dai.ly$/,
+    },
+    {
+        host: VideoService.trovo,
+        url: "https://trovo.live/s/",
+        match: /^trovo.live$/,
+    },
+    {
+        host: VideoService.yandexdisk,
+        url: "https://yadi.sk/i/",
+        match: /^disk.yandex.ru|yadi.sk$/,
+    },
+    {
+        host: VideoService.okru,
+        url: "https://ok.ru/video/",
+        match: /^ok.ru$/,
+    },
+    {
+        host: VideoService.googledrive,
+        url: "https://drive.google.com/file/d/",
+        match: /^drive.google.com$/,
+    },
+    {
+        host: VideoService.bannedvideo,
+        url: "https://madmaxworld.tv/watch?id=",
+        match: /^(www.)?banned.video|madmaxworld.tv$/,
+        rawResult: true,
+    },
+    {
+        host: VideoService.weverse,
+        url: "https://weverse.io/",
+        match: /^weverse.io$/,
+        needExtraData: true,
+    },
+    {
+        host: VideoService.newgrounds,
+        url: "https://www.newgrounds.com/",
+        match: /^(www.)?newgrounds.com$/,
+    },
+    {
+        host: VideoService.egghead,
+        url: "https://egghead.io/",
+        match: /^egghead.io$/,
+    },
+    {
+        host: VideoService.youku,
+        url: "https://v.youku.com/",
+        match: /^v.youku.com$/,
+    },
+    {
+        host: VideoService.archive,
+        url: "https://archive.org/details/",
+        match: /^archive.org$/,
+    },
+    {
+        host: VideoService.kodik,
+        url: "stub",
+        match: /^kodik.(info|biz|cc)$/,
+        needExtraData: true,
+    },
+    {
+        host: VideoService.patreon,
+        url: "stub",
+        match: /^(www.)?patreon.com$/,
+        needExtraData: true,
+    },
+    {
+        host: VideoService.reddit,
+        url: "stub",
+        match: /^(www.)?reddit.com$/,
+        needExtraData: true,
+    },
+    {
+        host: VideoService.custom,
+        url: "stub",
+        match: (url) => /([^.]+).mp4/.test(url.pathname),
+        rawResult: true,
+    },
+]);
+
+// EXTERNAL MODULE: ../vot.js/node_modules/dom-parser/dist/index.js
+var dist = __webpack_require__("../vot.js/node_modules/dom-parser/dist/index.js");
+;// CONCATENATED MODULE: ../vot.js/dist/utils/helper.js
+
+
+
+
+
+class VideoHelperError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "VideoHelper";
+        this.message = message;
+    }
+}
+class MailRuHelper {
+    async getVideoData(videoId) {
+        try {
+            const res = await fetchWithTimeout(`https://my.mail.ru/+/video/meta/${videoId}?xemail=&ajax_call=1&func_name=&mna=&mnb=&ext=1&_=${new Date().getTime()}`);
+            return (await res.json());
+        }
+        catch (err) {
+            console.error("Failed to get mail.ru video info", err.message);
+            return undefined;
+        }
+    }
+}
+class WeverseHelper {
+    API_ORIGIN = "https://global.apis.naver.com/weverse/wevweb";
+    API_APP_ID = "be4d79eb8fc7bd008ee82c8ec4ff6fd4";
+    API_HMAC_KEY = "1b9cb6378d959b45714bec49971ade22e6e24e42";
+    HEADERS = {
+        Accept: "application/json, text/plain, */*",
+        Origin: "https://weverse.io",
+        Referer: "https://weverse.io/",
+    };
+    getURLData() {
+        return {
+            appId: this.API_APP_ID,
+            language: "en",
+            os: "WEB",
+            platform: "WEB",
+            wpf: "pc",
+        };
+    }
+    async createHash(pathname) {
+        const timestamp = Date.now();
+        const salt = pathname.substring(0, Math.min(255, pathname.length)) + timestamp;
+        const sign = await getHmacSha1(this.API_HMAC_KEY, salt);
+        if (!sign) {
+            throw new VideoHelperError("Failed to get weverse HMAC signature");
+        }
+        return {
+            wmsgpad: timestamp.toString(),
+            wmd: sign,
+        };
+    }
+    async getHashURLParams(pathname) {
+        const hash = await this.createHash(pathname);
+        return new URLSearchParams(hash).toString();
+    }
+    async getPostPreview(postId) {
+        const pathname = `/post/v1.0/post-${postId}/preview?` +
+            new URLSearchParams({
+                fieldSet: "postForPreview",
+                ...this.getURLData(),
+            }).toString();
+        try {
+            const urlParams = await this.getHashURLParams(pathname);
+            const res = await fetchWithTimeout(this.API_ORIGIN + pathname + "&" + urlParams, {
+                headers: this.HEADERS,
+            });
+            return (await res.json());
+        }
+        catch (err) {
+            console.error(`Failed to get weverse post preview by postId: ${postId}`, err.message);
+            return false;
+        }
+    }
+    async getVideoInKey(videoId) {
+        const pathname = `/video/v1.1/vod/${videoId}/inKey?` +
+            new URLSearchParams({
+                gcc: "RU",
+                ...this.getURLData(),
+            }).toString();
+        try {
+            const urlParams = await this.getHashURLParams(pathname);
+            const res = await fetchWithTimeout(this.API_ORIGIN + pathname + "&" + urlParams, {
+                method: "POST",
+                headers: this.HEADERS,
+            });
+            return (await res.json());
+        }
+        catch (err) {
+            console.error(`Failed to get weverse InKey by videoId: ${videoId}`, err.message);
+            return false;
+        }
+    }
+    async getVideoInfo(infraVideoId, inkey, serviceId) {
+        const timestamp = Date.now();
+        try {
+            const urlParams = new URLSearchParams({
+                key: inkey,
+                sid: serviceId,
+                nonce: timestamp.toString(),
+                devt: "html5_pc",
+                prv: "N",
+                aup: "N",
+                stpb: "N",
+                cpl: "en",
+                env: "prod",
+                lc: "en",
+                adi: JSON.stringify([
+                    {
+                        adSystem: null,
+                    },
+                ]),
+                adu: "/",
+            }).toString();
+            const res = await fetchWithTimeout(`https://global.apis.naver.com/rmcnmv/rmcnmv/vod/play/v2.0/${infraVideoId}?` +
+                urlParams, {
+                headers: this.HEADERS,
+            });
+            return (await res.json());
+        }
+        catch (err) {
+            console.error(`Failed to get weverse video info (infraVideoId: ${infraVideoId}, inkey: ${inkey}, serviceId: ${serviceId}`, err.message);
+            return false;
+        }
+    }
+    extractVideoInfo(videoList) {
+        return videoList.find((video) => video.useP2P === false && video.source.includes(".mp4"));
+    }
+    async getVideoData(postId) {
+        const videoPreview = await this.getPostPreview(postId);
+        if (!videoPreview) {
+            return undefined;
+        }
+        const { videoId, serviceId, infraVideoId } = videoPreview.extension.video;
+        if (!(videoId && serviceId && infraVideoId)) {
+            return undefined;
+        }
+        const inkeyData = await this.getVideoInKey(videoId);
+        if (!inkeyData) {
+            return undefined;
+        }
+        const videoInfo = await this.getVideoInfo(infraVideoId, inkeyData.inKey, serviceId);
+        if (!videoInfo) {
+            return undefined;
+        }
+        const videoItem = this.extractVideoInfo(videoInfo.videos.list);
+        if (!videoItem) {
+            return undefined;
+        }
+        return {
+            url: videoItem.source,
+            duration: videoItem.duration,
+        };
+    }
+}
+class KodikHelper {
+    API_ORIGIN = "https://kodik.biz";
+    async getSecureData(videoPath) {
+        try {
+            const url = this.API_ORIGIN + videoPath;
+            const res = await fetchWithTimeout(url, {
+                headers: {
+                    "User-Agent": config.userAgent,
+                    Origin: this.API_ORIGIN,
+                    Referer: this.API_ORIGIN,
+                },
+            });
+            const content = await res.text();
+            const [videoType, videoId, hash] = videoPath.split("/").filter((a) => a);
+            const doc = (0,dist.parseFromString)(content);
+            const secureScript = Array.from(doc.getElementsByTagName("script")).filter((s) => s.innerHTML.includes(`videoId = "${videoId}"`));
+            if (!secureScript.length) {
+                throw new VideoHelperError("Failed to find secure script");
+            }
+            const secureContent = /'{[^']+}'/.exec(secureScript[0].textContent.trim())?.[0];
+            if (!secureContent) {
+                throw new VideoHelperError("Secure json wasn't found in secure script");
+            }
+            const secureJSON = JSON.parse(secureContent.replaceAll("'", ""));
+            return {
+                videoType: videoType,
+                videoId,
+                hash,
+                ...secureJSON,
+            };
+        }
+        catch (err) {
+            console.error(`Failed to get kodik secure data by videoPath: ${videoPath}.`, err.message);
+            return false;
+        }
+    }
+    async getFtor(secureData) {
+        const { videoType, videoId: id, hash, d, d_sign, pd, pd_sign, ref, ref_sign, } = secureData;
+        try {
+            const res = await fetchWithTimeout(this.API_ORIGIN + "/ftor", {
+                method: "POST",
+                headers: {
+                    "User-Agent": config.userAgent,
+                    Origin: this.API_ORIGIN,
+                    Referer: `${this.API_ORIGIN}/${videoType}/${id}/${hash}/360p`,
+                },
+                body: new URLSearchParams({
+                    d,
+                    d_sign,
+                    pd,
+                    pd_sign,
+                    ref: decodeURIComponent(ref),
+                    ref_sign,
+                    bad_user: "false",
+                    cdn_is_working: "true",
+                    info: "{}",
+                    type: videoType,
+                    hash,
+                    id,
+                }),
+            });
+            return (await res.json());
+        }
+        catch (err) {
+            console.error(`Failed to get kodik video data (type: ${videoType}, id: ${id}, hash: ${hash})`, err.message);
+            return false;
+        }
+    }
+    decryptUrl(encryptedUrl) {
+        const decryptedUrl = atob(encryptedUrl.replace(/[a-zA-Z]/g, function (e) {
+            const charCode = e.charCodeAt(0) + 13;
+            return String.fromCharCode((e <= "Z" ? 90 : 122) >= charCode ? charCode : charCode - 26);
+        }));
+        return "https:" + decryptedUrl;
+    }
+    async getVideoData(videoPath) {
+        const secureData = await this.getSecureData(videoPath);
+        if (!secureData) {
+            return undefined;
+        }
+        const videoData = await this.getFtor(secureData);
+        if (!videoData) {
+            return undefined;
+        }
+        const videoDataLinks = Object.entries(videoData.links[videoData.default.toString()]);
+        const videoLink = videoDataLinks.find(([_, data]) => data.type === "application/x-mpegURL")?.[1];
+        if (!videoLink) {
+            return undefined;
+        }
+        return {
+            url: this.decryptUrl(videoLink.src),
+        };
+    }
+}
+class PatreonHelper {
+    async getPosts(postId) {
+        try {
+            const res = await fetchWithTimeout(`https://www.patreon.com/api/posts/${postId}?json-api-use-default-includes=false`);
+            return (await res.json());
+        }
+        catch (err) {
+            console.error(`Failed to get patreon posts by postId: ${postId}.`, err.message);
+            return false;
+        }
+    }
+    async getVideoData(postId) {
+        const postData = await this.getPosts(postId);
+        if (!postData) {
+            return undefined;
+        }
+        const postFileUrl = postData.data.attributes.post_file.url;
+        if (!postFileUrl) {
+            return undefined;
+        }
+        return {
+            url: postFileUrl,
+        };
+    }
+}
+class RedditHelper {
+    async getVideoData(videoId) {
+        const res = await fetchWithTimeout(`https://www.reddit.com/r/${videoId}`);
+        const content = await res.text();
+        const contentUrl = /https:\/\/v\.redd\.it\/([^/]+)\/HLSPlaylist\.m3u8\?([^"]+)/
+            .exec(content)?.[0]
+            ?.replaceAll("&amp;", "&");
+        if (!contentUrl) {
+            return undefined;
+        }
+        return {
+            url: decodeURIComponent(contentUrl),
+        };
+    }
+}
+class VideoHelper {
+    static [VideoService.mailru] = new MailRuHelper();
+    static [VideoService.weverse] = new WeverseHelper();
+    static [VideoService.kodik] = new KodikHelper();
+    static [VideoService.patreon] = new PatreonHelper();
+    static [VideoService.reddit] = new RedditHelper();
+}
+
+;// CONCATENATED MODULE: ../vot.js/dist/utils/videoData.js
+
+
+
+
+class VideoDataError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "VideoDataError";
+        this.message = message;
+    }
+}
+function getService(videoUrl) {
+    if (videoUrl.startsWith("file://"))
+        return false;
+    let enteredURL;
+    try {
+        enteredURL = new URL(videoUrl);
+    }
+    catch (e) {
+        console.error(`Invalid URL: ${videoUrl}. Have you forgotten https?`);
+        return false;
+    }
+    const hostname = enteredURL.hostname;
+    const isMathes = (match) => {
+        if (match instanceof RegExp) {
+            return match.test(hostname);
+        }
+        else if (typeof match === "string") {
+            return hostname.includes(match);
+        }
+        else if (typeof match === "function") {
+            return match(enteredURL);
+        }
+        return false;
+    };
+    return sites.find((e) => {
+        return ((Array.isArray(e.match) ? e.match.some(isMathes) : isMathes(e.match)) &&
+            e.host &&
+            e.url);
+    });
+}
+async function getVideoID(service, videoURL) {
+    const url = new URL(videoURL);
+    switch (service.host) {
+        case VideoService.custom:
+            return url.href;
+        case VideoService.piped:
+        case VideoService.invidious:
+        case VideoService.youtube:
+            if (url.hostname === "youtu.be") {
+                url.search = `?v=${url.pathname.replace("/", "")}`;
+                url.pathname = "/watch";
+            }
+            return (/(?:watch|embed|shorts|live)\/([^/]+)/.exec(url.pathname)?.[1] ??
+                url.searchParams.get("v"));
+        case VideoService.vk: {
+            const pathID = /^\/(video|clip)-?\d{8,9}_\d{9}$/.exec(url.pathname);
+            const paramZ = url.searchParams.get("z");
+            const paramOID = url.searchParams.get("oid");
+            const paramID = url.searchParams.get("id");
+            if (pathID) {
+                return pathID[0].slice(1);
+            }
+            else if (paramZ) {
+                return paramZ.split("/")[0];
+            }
+            else if (paramOID && paramID) {
+                return `video-${Math.abs(parseInt(paramOID))}_${paramID}`;
+            }
+            return null;
+        }
+        case VideoService.nine_gag:
+        case VideoService.gag:
+            return /gag\/([^/]+)/.exec(url.pathname)?.[1];
+        case VideoService.twitch: {
+            const clipPath = /([^/]+)\/(?:clip)\/([^/]+)/.exec(url.pathname);
+            const isClipsDomain = /^clips\.twitch\.tv$/.test(url.hostname);
+            if (/^m\.twitch\.tv$/.test(url.hostname)) {
+                return /videos\/([^/]+)/.exec(url.href)?.[0] ?? url.pathname.slice(1);
+            }
+            else if (/^player\.twitch\.tv$/.test(url.hostname)) {
+                return `videos/${url.searchParams.get("video")}`;
+            }
+            else if (isClipsDomain) {
+                const pathname = url.pathname.slice(1);
+                const isEmbed = pathname === "embed";
+                const res = await fetchWithTimeout(`https://clips.twitch.tv/${isEmbed ? url.searchParams.get("clip") : url.pathname.slice(1)}`, {
+                    headers: {
+                        "User-Agent": "Googlebot/2.1 (+http://www.googlebot.com/bot.html)",
+                    },
+                });
+                const content = await res.text();
+                const channelLink = /"url":"https:\/\/www\.twitch\.tv\/([^"]+)"/.exec(content);
+                if (!channelLink) {
+                    return null;
+                }
+                return `${channelLink[1]}/clip/${isEmbed ? url.searchParams.get("clip") : pathname}`;
+            }
+            else if (clipPath) {
+                return clipPath[0];
+            }
+            return /(?:videos)\/([^/]+)/.exec(url.pathname)?.[0];
+        }
+        case VideoService.proxitok:
+        case VideoService.tiktok:
+            return /([^/]+)\/video\/([^/]+)/.exec(url.pathname)?.[0];
+        case VideoService.vimeo: {
+            const appId = url.searchParams.get("app_id");
+            const videoId = /[^/]+\/[^/]+$/.exec(url.pathname)?.[0] ??
+                /[^/]+$/.exec(url.pathname)?.[0];
+            return appId ? `${videoId}?app_id=${appId}` : videoId;
+        }
+        case VideoService.xvideos:
+            return /[^/]+\/[^/]+$/.exec(url.pathname)?.[0];
+        case VideoService.pornhub:
+            return (url.searchParams.get("viewkey") ??
+                /embed\/([^/]+)/.exec(url.pathname)?.[1]);
+        case VideoService.twitter:
+            return /status\/([^/]+)/.exec(url.pathname)?.[1];
+        case VideoService.rumble:
+        case VideoService.facebook:
+            return url.pathname.slice(1);
+        case VideoService.rutube:
+            return /(?:video|embed)\/([^/]+)/.exec(url.pathname)?.[1];
+        case VideoService.bilibili: {
+            const bvid = url.searchParams.get("bvid");
+            if (bvid) {
+                return bvid;
+            }
+            let vid = /video\/([^/]+)/.exec(url.pathname)?.[1];
+            if (vid && url.searchParams.get("p") !== null) {
+                vid += `/?p=${url.searchParams.get("p")}`;
+            }
+            return vid;
+        }
+        case VideoService.mailru: {
+            const pathname = url.pathname;
+            if (pathname.startsWith("/v/") || pathname.startsWith("/mail/")) {
+                return pathname.slice(1);
+            }
+            const videoId = /video\/embed\/([^/]+)/.exec(pathname)?.[1];
+            if (!videoId) {
+                return null;
+            }
+            const videoData = await VideoHelper.mailru.getVideoData(videoId);
+            if (!videoData) {
+                return null;
+            }
+            return videoData.meta.url.replace("//my.mail.ru/", "");
+        }
+        case VideoService.bitchute:
+            return /(video|embed)\/([^/]+)/.exec(url.pathname)?.[2];
+        case VideoService.eporner:
+            return /video-([^/]+)\/([^/]+)/.exec(url.pathname)?.[0];
+        case VideoService.peertube:
+            return /\/w\/([^/]+)/.exec(url.pathname)?.[0];
+        case VideoService.dailymotion: {
+            return url.hostname === "dai.ly"
+                ? url.pathname.slice(1)
+                : /video\/([^/]+)/.exec(url.pathname)?.[1];
+        }
+        case VideoService.trovo: {
+            const vid = url.searchParams.get("vid");
+            if (!vid) {
+                return null;
+            }
+            const path = /([^/]+)\/([\d]+)/.exec(url.pathname)?.[0];
+            if (!path) {
+                return null;
+            }
+            return `${path}?vid=${vid}`;
+        }
+        case VideoService.yandexdisk:
+            return /\/i\/([^/]+)/.exec(url.pathname)?.[1];
+        case VideoService.okru: {
+            return /\/video\/(\d+)/.exec(url.pathname)?.[1];
+        }
+        case VideoService.googledrive:
+            return /\/file\/d\/([^/]+)/.exec(url.pathname)?.[1];
+        case VideoService.bannedvideo: {
+            const videoId = url.searchParams.get("id");
+            const res = await fetchWithTimeout(`${service.url}${videoId}`);
+            const content = await res.text();
+            return /https:\/\/download.assets.video\/videos\/([^.]+).mp4/.exec(content)?.[0];
+        }
+        case VideoService.weverse:
+            return /([^/]+)\/(live|media)\/([^/]+)/.exec(url.pathname)?.[3];
+        case VideoService.newgrounds:
+            return /([^/]+)\/(view)\/([^/]+)/.exec(url.pathname)?.[0];
+        case VideoService.egghead:
+            return url.pathname.slice(1);
+        case VideoService.youku:
+            return /v_show\/id_[\w=]+/.exec(url.pathname)?.[0];
+        case VideoService.archive:
+            return /(details|embed)\/([^/]+)/.exec(url.pathname)?.[2];
+        case VideoService.kodik:
+            return /\/(seria|video)\/([^/]+)\/([^/]+)\/([\d]+)p/.exec(url.pathname)?.[0];
+        case VideoService.patreon: {
+            const fullPostId = /posts\/([^/]+)/.exec(url.pathname)?.[1];
+            if (!fullPostId) {
+                return undefined;
+            }
+            return fullPostId.replace(/[^\d.]/g, "");
+        }
+        case VideoService.reddit:
+            return /\/r\/(([^/]+)\/([^/]+)\/([^/]+)\/([^/]+))/.exec(url.pathname)?.[1];
+        default:
+            return undefined;
+    }
+}
+async function getVideoData(url) {
+    const service = getService(url);
+    if (!service) {
+        throw new VideoDataError(`URL: "${url}" is unknown service`);
+    }
+    const videoId = await getVideoID(service, url);
+    if (!videoId) {
+        throw new VideoDataError(`Entered unsupported link: "${url}"`);
+    }
+    if (service.host === VideoService.peertube) {
+        service.url = new URL(url).origin;
+    }
+    if (service.rawResult) {
+        return {
+            url: videoId,
+            videoId,
+            host: service.host,
+            duration: undefined,
+        };
+    }
+    if (!service.needExtraData) {
+        return {
+            url: service.url + videoId,
+            videoId,
+            host: service.host,
+            duration: undefined,
+        };
+    }
+    const result = await VideoHelper[service.host].getVideoData(videoId);
+    if (!result) {
+        throw new VideoDataError(`Failed to get video raw url for ${service.host}`);
+    }
+    return {
+        url: result.url,
+        videoId,
+        host: service.host,
+        duration: result.duration,
+    };
+}
+
+;// CONCATENATED MODULE: ../vot.js/dist/utils/vot.js
+
+function convertVOT(service, videoId, url) {
+    if (service === VideoService.patreon) {
+        return {
+            service: "mux",
+            videoId: new URL(url).pathname.slice(1),
+        };
+    }
+    return {
+        service,
+        videoId,
+    };
+}
+
+;// CONCATENATED MODULE: ../vot.js/dist/client.js
+
+
+
+
+
+
+
+
+
+const { /* version */ "rE": version } = package_namespaceObject;
+class VOTJSError extends Error {
+    data;
+    constructor(message, data = undefined) {
+        super(message);
+        this.data = data;
+        this.name = "VOTJSError";
+        this.message = message;
+    }
+}
+class VOTClient {
+    host;
+    hostVOT;
+    schema;
+    schemaVOT;
+    fetch;
+    fetchOpts;
+    getVideoDataFn;
+    sessions = {};
+    requestLang;
+    responseLang;
+    userAgent = config.userAgent;
+    componentVersion = config.componentVersion;
+    paths = {
+        videoTranslation: "/video-translation/translate",
+    };
+    isCustomFormat(url) {
+        return /\.(m3u8|m4(a|v)|mpd)/.exec(url);
+    }
+    headers = {
+        "User-Agent": this.userAgent,
+        Accept: "application/x-protobuf",
+        "Accept-Language": "en",
+        "Content-Type": "application/x-protobuf",
+        Pragma: "no-cache",
+        "Cache-Control": "no-cache",
+        "Sec-Fetch-Mode": "no-cors",
+    };
+    headersVOT = {
+        "User-Agent": `vot-cli/${version}`,
+        "Content-Type": "application/json",
+        Pragma: "no-cache",
+        "Cache-Control": "no-cache",
+    };
+    constructor({ host = config.host, hostVOT = config.hostVOT, fetchFn = fetchWithTimeout, fetchOpts = {}, getVideoDataFn = getVideoData, requestLang = "en", responseLang = "ru", headers = {}, } = {}) {
+        const schemaRe = /(http(s)?):\/\//;
+        const schema = schemaRe.exec(host)?.[1];
+        this.host = schema ? host.replace(`${schema}://`, "") : host;
+        this.schema = schema ?? "https";
+        const schemaVOT = schemaRe.exec(hostVOT)?.[1];
+        this.hostVOT = schemaVOT ? hostVOT.replace(`${schemaVOT}://`, "") : hostVOT;
+        this.schemaVOT = schemaVOT ?? "https";
+        this.fetch = fetchFn;
+        this.fetchOpts = fetchOpts;
+        this.getVideoDataFn = getVideoDataFn;
+        this.requestLang = requestLang;
+        this.responseLang = responseLang;
+        this.headers = { ...this.headers, ...headers };
+    }
+    getOpts(body, headers = {}) {
+        return {
+            method: "POST",
+            headers: {
+                ...this.headers,
+                ...headers,
+            },
+            body,
+            ...this.fetchOpts,
+        };
+    }
+    async request(path, body, headers = {}) {
+        const options = this.getOpts(new Blob([body]), headers);
+        try {
+            const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
+            const data = await res.arrayBuffer();
+            return {
+                success: res.status === 200,
+                data,
+            };
+        }
+        catch (err) {
+            console.error("[vot.js]", err.message);
+            return {
+                success: false,
+                data: null,
+            };
+        }
+    }
+    async requestVOT(path, body, headers = {}) {
+        const options = this.getOpts(JSON.stringify(body), {
+            ...this.headersVOT,
+            ...headers,
+        });
+        try {
+            console.log(`${this.schemaVOT}://${this.hostVOT}${path}`);
+            const res = await this.fetch(`${this.schemaVOT}://${this.hostVOT}${path}`, options);
+            const data = (await res.json());
+            return {
+                success: res.status === 200,
+                data,
+            };
+        }
+        catch (err) {
+            console.error("[vot.js]", err.message);
+            return {
+                success: false,
+                data: null,
+            };
+        }
+    }
+    async getSession(module) {
+        const timestamp = getTimestamp();
+        const session = this.sessions[module];
+        if (session && session.timestamp + session.expires > timestamp) {
+            return session;
+        }
+        const { secretKey, expires, uuid } = await this.createSession(module);
+        this.sessions[module] = {
+            secretKey,
+            expires,
+            timestamp,
+            uuid,
+        };
+        return this.sessions[module];
+    }
+    async translateVideoYAImpl({ url, duration = config.defaultDuration, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, }) {
+        const { secretKey, uuid } = await this.getSession("video-translation");
+        const body = yandexProtobuf.encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp);
+        const sign = await getSignature(body);
+        const res = await this.request(this.paths.videoTranslation, body, {
+            "Vtrans-Signature": sign,
+            "Sec-Vtrans-Sk": secretKey,
+            "Sec-Vtrans-Token": `${sign}:${uuid}:${this.paths.videoTranslation}:${this.componentVersion}`,
+            ...headers,
+        });
+        if (!res.success) {
+            throw new VOTJSError("Failed to request video translation", res);
+        }
+        const translationData = yandexProtobuf.decodeTranslationResponse(res.data);
+        switch (translationData.status) {
+            case VideoTranslationStatus.FAILED:
+                throw new VOTJSError("Yandex couldn't translate video", translationData);
+            case VideoTranslationStatus.FINISHED:
+            case VideoTranslationStatus.PART_CONTENT:
+                if (!translationData.url) {
+                    throw new VOTJSError("Audio link wasn't received from Yandex response", translationData);
+                }
+                return {
+                    translated: true,
+                    url: translationData.url,
+                    remainingTime: translationData.remainingTime ?? -1,
+                };
+            case VideoTranslationStatus.WAITING:
+                return {
+                    translated: false,
+                    remainingTime: translationData.remainingTime,
+                };
+            case VideoTranslationStatus.LONG_WAITING:
+            case VideoTranslationStatus.LONG_WAITING_2:
+                return {
+                    translated: false,
+                    remainingTime: translationData.remainingTime ?? -1,
+                };
+            default:
+                console.error("[vot.js] Unknown response", translationData);
+                throw new VOTJSError("Unknown response from Yandex", translationData);
+        }
+    }
+    async translateVideoVOTImpl({ url, videoId, service, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
+        const votData = convertVOT(service, videoId, url);
+        const res = await this.requestVOT(this.paths.videoTranslation, {
+            provider: "yandex",
+            service: votData.service,
+            videoId: votData.videoId,
+            fromLang: requestLang,
+            toLang: responseLang,
+            rawVideo: url,
+        }, headers);
+        if (!res.success) {
+            throw new VOTJSError("Failed to request video translation", res);
+        }
+        const translationData = res.data;
+        switch (translationData.status) {
+            case "failed":
+                throw new VOTJSError("Yandex couldn't translate video", translationData);
+            case "success":
+                if (!translationData.translatedUrl) {
+                    throw new VOTJSError("Audio link wasn't received from VOT response", translationData);
+                }
+                return {
+                    translated: true,
+                    url: translationData.translatedUrl,
+                    remainingTime: -1,
+                };
+            case "waiting":
+                return {
+                    translated: false,
+                    remainingTime: translationData.remainingTime,
+                    message: translationData.message,
+                };
+        }
+    }
+    async translateVideo({ url, duration = config.defaultDuration, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, }) {
+        const { url: videoUrl, videoId, host, duration: videoDuration, } = await this.getVideoDataFn(url);
+        return this.isCustomFormat(videoUrl)
+            ? await this.translateVideoVOTImpl({
+                url: videoUrl,
+                videoId,
+                service: host,
+                requestLang,
+                responseLang,
+                headers,
+            })
+            : await this.translateVideoYAImpl({
+                url: videoUrl,
+                duration: videoDuration ?? duration,
+                requestLang,
+                responseLang,
+                translationHelp,
+                headers,
+            });
+    }
+    async getSubtitles({ url, requestLang = this.requestLang, headers = {}, }) {
+        const { url: videoUrl } = await this.getVideoDataFn(url);
+        if (this.isCustomFormat(videoUrl)) {
+            throw new VOTJSError("Unsupported video URL for getting subtitles");
+        }
+        const { secretKey, uuid } = await this.getSession("video-translation");
+        const body = yandexProtobuf.encodeSubtitlesRequest(videoUrl, requestLang);
+        const sign = await getSignature(body);
+        const pathname = "/video-subtitles/get-subtitles";
+        const res = await this.request(pathname, body, {
+            "Vsubs-Signature": await getSignature(body),
+            "Sec-Vsubs-Sk": secretKey,
+            "Sec-Vsubs-Token": `${sign}:${uuid}:${pathname}:${this.componentVersion}`,
+            ...headers,
+        });
+        if (!res.success) {
+            throw new VOTJSError("Failed to request video subtitles", res);
+        }
+        return yandexProtobuf.decodeSubtitlesResponse(res.data);
+    }
+    async pingStream({ pingId, headers = {} }) {
+        const { secretKey, uuid } = await this.getSession("video-translation");
+        const body = yandexProtobuf.encodeStreamPingRequest(pingId);
+        const sign = await getSignature(body);
+        const pathname = "/stream-translation/ping-stream";
+        const res = await this.request(pathname, body, {
+            "Vtrans-Signature": await getSignature(body),
+            "Sec-Vtrans-Sk": secretKey,
+            "Sec-Vtrans-Token": `${sign}:${uuid}:${pathname}:${this.componentVersion}`,
+            ...headers,
+        });
+        if (!res.success) {
+            throw new VOTJSError("Failed to request stream ping", res);
+        }
+        return true;
+    }
+    async translateStream({ url, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
+        const { url: videoUrl } = await this.getVideoDataFn(url);
+        if (this.isCustomFormat(videoUrl)) {
+            throw new VOTJSError("Unsupported video URL for getting stream translation");
+        }
+        const { secretKey, uuid } = await this.getSession("video-translation");
+        const body = yandexProtobuf.encodeStreamRequest(videoUrl, requestLang, responseLang);
+        const sign = await getSignature(body);
+        const pathname = "/stream-translation/translate-stream";
+        const res = await this.request(pathname, body, {
+            "Vtrans-Signature": await getSignature(body),
+            "Sec-Vtrans-Sk": secretKey,
+            "Sec-Vtrans-Token": `${sign}:${uuid}:${pathname}:${this.componentVersion}`,
+            ...headers,
+        });
+        if (!res.success) {
+            throw new VOTJSError("Failed to request stream translation", res);
+        }
+        const translateResponse = yandexProtobuf.decodeStreamResponse(res.data);
+        const interval = translateResponse.interval;
+        switch (interval) {
+            case StreamInterval.NO_CONNECTION:
+            case StreamInterval.TRANSLATING:
+                return {
+                    translated: false,
+                    interval,
+                    message: interval === StreamInterval.NO_CONNECTION
+                        ? "streamNoConnectionToServer"
+                        : "translationTakeFewMinutes",
+                };
+            case StreamInterval.STREAMING: {
+                return {
+                    translated: true,
+                    interval,
+                    pingId: translateResponse.pingId,
+                    result: translateResponse.translatedInfo,
+                };
+            }
+            default:
+                console.error("[vot.js] Unknown response", translateResponse);
+                throw new VOTJSError("Unknown response from Yandex", translateResponse);
+        }
+    }
+    async createSession(module) {
+        const uuid = getUUID();
+        const body = yandexProtobuf.encodeYandexSessionRequest(uuid, module);
+        const res = await this.request("/session/create", body, {
+            "Vtrans-Signature": await getSignature(body),
+        });
+        if (!res.success) {
+            throw new VOTJSError("Failed to request create session", res);
+        }
+        const subtitlesResponse = yandexProtobuf.decodeYandexSessionResponse(res.data);
+        return {
+            ...subtitlesResponse,
+            uuid,
+        };
+    }
+}
+class VOTWorkerClient extends (/* unused pure expression or super */ null && (VOTClient)) {
+    async request(path, body, headers = {}) {
+        const options = this.getOpts(JSON.stringify({
+            headers: {
+                ...this.headers,
+                ...headers,
+            },
+            body: Array.from(body),
+        }), {
+            "Content-Type": "application/json",
+        });
+        try {
+            const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
+            const data = await res.arrayBuffer();
+            return {
+                success: res.status === 200,
+                data,
+            };
+        }
+        catch (err) {
+            console.error("[vot.js]", err.message);
+            return {
+                success: false,
+                data: null,
+            };
+        }
+    }
+}
+
+;// CONCATENATED MODULE: ../vot.js/dist/index.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ;// CONCATENATED MODULE: ./src/config/alternativeUrls.js
 // Sites host Invidious. I tested the performance only on invidious.kevin.rocks, youtu.be and inv.vern.cc
-const sitesInvidious = [
+const alternativeUrls_sitesInvidious = [
   "invidious.snopyta.org",
   "yewtu.be",
   "invidious.kavin.rocks",
@@ -787,7 +7831,7 @@ const sitesInvidious = [
 ];
 
 // Sites host Piped. I tested the performance only on piped.video
-const sitesPiped = [
+const alternativeUrls_sitesPiped = [
   "piped.video",
   "piped.tokhmi.xyz",
   "piped.moomoo.me",
@@ -818,7 +7862,7 @@ const sitesPiped = [
   "piped.frontendfriendly.xyz",
 ];
 
-const sitesProxiTok = [
+const alternativeUrls_sitesProxiTok = [
   "proxitok.pabloferreiro.es",
   "proxitok.pussthecat.org",
   "tok.habedieeh.re",
@@ -834,7 +7878,7 @@ const sitesProxiTok = [
 ];
 
 // Sites host Peertube. I tested the performance only on dalek.zone and tube.shanti.cafe
-const sitesPeertube = [
+const alternativeUrls_sitesPeertube = [
   "peertube.1312.media",
   "tube.shanti.cafe",
   "bee-tube.fr",
@@ -849,8 +7893,32 @@ const sitesPeertube = [
 
 
 
-// EXTERNAL MODULE: ./src/config/config.js
-var config = __webpack_require__("./src/config/config.js");
+;// CONCATENATED MODULE: ./src/config/config.js
+// CONFIGURATION
+const workerHost = "api.browser.yandex.ru";
+const m3u8ProxyHost = "m3u8-proxy.toil.cc"; // used for streaming
+const proxyWorkerHost = "vot-worker.toil.cc"; // used for cloudflare version
+const votBackendUrl = "https://vot-api.toil.cc/v1";
+const yandexHmacKey = "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf";
+const yandexUserAgent =
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 YaBrowser/24.4.0.0 Safari/537.36";
+const defaultAutoVolume = 0.15; // 0.0 - 1.0 (0% - 100%) - default volume of the video with the translation
+const maxAudioVolume = 900;
+const defaultTranslationService = "yandex";
+const defaultDetectService = "yandex";
+
+const detectUrls = {
+  yandex: "https://translate.toil.cc/detect",
+  rustServer: "https://rust-server-531j.onrender.com/detect",
+};
+
+const translateUrls = {
+  yandex: "https://translate.toil.cc/translate",
+  deepl: "https://translate-deepl.toil.cc/translate",
+};
+
+
+
 ;// CONCATENATED MODULE: ./src/config/constants.js
 // available languages for translation
 const availableLangs = [
@@ -883,15 +7951,26 @@ const cfOnlyExtensions = [
 
 ;// CONCATENATED MODULE: ./src/localization/locales/en.json
 const en_namespaceObject = /*#__PURE__*/JSON.parse('{"__version__":4,"recommended":"recommended","translateVideo":"Translate video","disableTranslate":"Turn off","translationSettings":"Translation settings","subtitlesSettings":"Subtitles settings","about":"About extension","resetSettings":"Reset settings","videoBeingTranslated":"The video is being translated","videoLanguage":"Video language","translationLanguage":"Translation language","translationTake":"The translation will take","translationTakeMoreThanHour":"The translation will take more than an hour","translationTakeAboutMinute":"The translation will take about a minute","translationTakeFewMinutes":"The translation will take a few minutes","translationTakeApproximatelyMinutes":"The translation will take approximately {0} minutes","translationTakeApproximatelyMinute":"The translation will take approximately {0} minutes","unSupportedExtensionError":"Error! {0} is not supported by this version of the extension!\\n\\nPlease use the cloudflare version of the VOT extension.","requestTranslationFailed":"Failed to request video translation","audioNotReceived":"Audio link not received","grantPermissionToAutoPlay":"Grant permission to autoplay","neededAdditionalExtension":"An additional extension is needed to support this site","audioFormatNotSupported":"The audio format is not supported","VOTAutoTranslate":"Translate on open","VOTDontTranslateYourLang":"Do not translate from my language","VOTVolume":"Video volume","VOTVolumeTranslation":"Translation Volume","VOTAutoSetVolume":"Reduce video volume to ","VOTShowVideoSlider":"Video volume slider","VOTSyncVolume":"Link translation and video volume","VOTAudioProxy":"Proxy received audio","VOTDisableFromYourLang":"You have disabled the translation of the video in your language","VOTLiveNotSupported":"Translation of live streams is not supported","VOTPremiere":"Wait for the premiere to end before translating","VOTVideoIsTooLong":"Video is too long","VOTNoVideoIDFound":"No video ID found","VOTSubtitles":"Subtitles","VOTSubtitlesDisabled":"Disabled","VOTSubtitlesMaxLength":"Subtitles max length","VOTHighlightWords":"Highlight words","VOTTranslatedFrom":"translated from","VOTAutogenerated":"autogenerated","VOTSettings":"VOT Settings","VOTMenuLanguage":"Menu language","VOTAuthors":"Authors","VOTVersion":"Version","VOTLoader":"Loader","VOTBrowser":"Browser","VOTShowPiPButton":"Show PiP button","langs":{"auto":"Auto","af":"Afrikaans","ak":"Akan","sq":"Albanian","am":"Amharic","ar":"Arabic","hy":"Armenian","as":"Assamese","ay":"Aymara","az":"Azerbaijani","bn":"Bangla","eu":"Basque","be":"Belarusian","bho":"Bhojpuri","bs":"Bosnian","bg":"Bulgarian","my":"Burmese","ca":"Catalan","ceb":"Cebuano","zh":"Chinese","zh-Hans":"Chinese (Simplified)","zh-Hant":"Chinese (Traditional)","co":"Corsican","hr":"Croatian","cs":"Czech","da":"Danish","dv":"Divehi","nl":"Dutch","en":"English","eo":"Esperanto","et":"Estonian","ee":"Ewe","fil":"Filipino","fi":"Finnish","fr":"French","gl":"Galician","lg":"Ganda","ka":"Georgian","de":"German","el":"Greek","gn":"Guarani","gu":"Gujarati","ht":"Haitian Creole","ha":"Hausa","haw":"Hawaiian","iw":"Hebrew","hi":"Hindi","hmn":"Hmong","hu":"Hungarian","is":"Icelandic","ig":"Igbo","id":"Indonesian","ga":"Irish","it":"Italian","ja":"Japanese","jv":"Javanese","kn":"Kannada","kk":"Kazakh","km":"Khmer","rw":"Kinyarwanda","ko":"Korean","kri":"Krio","ku":"Kurdish","ky":"Kyrgyz","lo":"Lao","la":"Latin","lv":"Latvian","ln":"Lingala","lt":"Lithuanian","lb":"Luxembourgish","mk":"Macedonian","mg":"Malagasy","ms":"Malay","ml":"Malayalam","mt":"Maltese","mi":"Māori","mr":"Marathi","mn":"Mongolian","ne":"Nepali","nso":"Northern Sotho","no":"Norwegian","ny":"Nyanja","or":"Odia","om":"Oromo","ps":"Pashto","fa":"Persian","pl":"Polish","pt":"Portuguese","pa":"Punjabi","qu":"Quechua","ro":"Romanian","ru":"Russian","sm":"Samoan","sa":"Sanskrit","gd":"Scottish Gaelic","sr":"Serbian","sn":"Shona","sd":"Sindhi","si":"Sinhala","sk":"Slovak","sl":"Slovenian","so":"Somali","st":"Southern Sotho","es":"Spanish","su":"Sundanese","sw":"Swahili","sv":"Swedish","tg":"Tajik","ta":"Tamil","tt":"Tatar","te":"Telugu","th":"Thai","ti":"Tigrinya","ts":"Tsonga","tr":"Turkish","tk":"Turkmen","uk":"Ukrainian","ur":"Urdu","ug":"Uyghur","uz":"Uzbek","vi":"Vietnamese","cy":"Welsh","fy":"Western Frisian","xh":"Xhosa","yi":"Yiddish","yo":"Yoruba","zu":"Zulu"},"udemyAccessTokenExpired":"Your entered Udemy Access Token has expired","udemyModuleArgsNotFound":"Could not get udemy module data due to the fact that ModuleArgs was not found","VOTTranslationHelpNull":"Could not get the data required for the translate","enterUdemyAccessToken":"Enter Udemy Access Token","VOTUdemyData":"Udemy Data","streamNoConnectionToServer":"There is no connection to the server","searchField":"Search...","VOTTranslateAPIErrors":"Translate errors from the API","VOTTranslationService":"Translation Service","VOTDetectService":"Detect Service","VOTTranslatingError":"Translating the error","VOTProxyWorkerHost":"Enter the proxy worker address","VOTM3u8ProxyHost":"Enter the address of the m3u8 proxy worker","proxySettings":"Proxy Settings","translationTakeApproximatelyMinute2":"The translation will take approximately {0} minutes","VOTAudioBooster":"Extended translation volume increase"}');
-// EXTERNAL MODULE: ./src/utils/debug.js
-var debug = __webpack_require__("./src/utils/debug.js");
+;// CONCATENATED MODULE: ./src/utils/debug.js
+const debug = {};
+debug.log = (...text) => {
+  if (false) {}
+  return console.log(
+    "%c[VOT DEBUG]",
+    "background: #F2452D; color: #fff; padding: 5px;",
+    ...text,
+  );
+};
+
+/* harmony default export */ const utils_debug = (debug);
+
 ;// CONCATENATED MODULE: ./src/utils/storage.js
 
 
 const votStorage = new (class {
   constructor() {
     this.gmSupport = typeof GM_getValue === "function";
-    debug/* default */.A.log(`GM Storage Status: ${this.gmSupport}`);
+    utils_debug.log(`GM Storage Status: ${this.gmSupport}`);
   }
 
   syncGet(name, def = undefined, toNumber = false) {
@@ -995,7 +8074,7 @@ const votStorage = new (class {
 
 const HTTP_TIMEOUT = 3000;
 
-async function fetchWithTimeout(url, options = {}) {
+async function translateApis_fetchWithTimeout(url, options = {}) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), HTTP_TIMEOUT);
 
@@ -1021,8 +8100,8 @@ const YandexTranslateAPI = {
     // ru, en (instead of auto-ru, auto-en)
 
     try {
-      const response = await fetchWithTimeout(
-        `${config/* translateUrls */.rw.yandex}?${new URLSearchParams({
+      const response = await translateApis_fetchWithTimeout(
+        `${translateUrls.yandex}?${new URLSearchParams({
           text,
           lang,
         })}`,
@@ -1048,8 +8127,8 @@ const YandexTranslateAPI = {
   async detect(text) {
     // Limit: 10k symbols
     try {
-      const response = await fetchWithTimeout(
-        `${config/* detectUrls */.QL.yandex}?${new URLSearchParams({
+      const response = await translateApis_fetchWithTimeout(
+        `${detectUrls.yandex}?${new URLSearchParams({
           text,
         })}`,
       );
@@ -1074,7 +8153,7 @@ const YandexTranslateAPI = {
 const RustServerAPI = {
   async detect(text) {
     try {
-      const response = await fetch(config/* detectUrls */.QL.rustServer, {
+      const response = await fetch(detectUrls.rustServer, {
         method: "POST",
         body: text,
       });
@@ -1094,7 +8173,7 @@ const RustServerAPI = {
 const DeeplServerAPI = {
   async translate(text, fromLang = "auto", toLang = "ru") {
     try {
-      const response = await fetchWithTimeout(config/* translateUrls */.rw.deepl, {
+      const response = await translateApis_fetchWithTimeout(translateUrls.deepl, {
         method: "POST",
         headers: {
           "content-type": "application/x-www-form-urlencoded",
@@ -1127,7 +8206,7 @@ const DeeplServerAPI = {
 async function translate(text, fromLang = "", toLang = "ru") {
   const service = await votStorage.get(
     "translationService",
-    config/* defaultTranslationService */.mE,
+    defaultTranslationService,
   );
   switch (service) {
     case "yandex": {
@@ -1143,7 +8222,7 @@ async function translate(text, fromLang = "", toLang = "ru") {
 }
 
 async function detect(text) {
-  const service = await votStorage.get("detectService", config/* defaultDetectService */.K2);
+  const service = await votStorage.get("detectService", defaultDetectService);
   switch (service) {
     case "yandex":
       return await YandexTranslateAPI.detect(text);
@@ -1154,8 +8233,8 @@ async function detect(text) {
   }
 }
 
-const translateServices = Object.keys(config/* translateUrls */.rw);
-const detectServices = Object.keys(config/* detectUrls */.QL).map((k) =>
+const translateServices = Object.keys(translateUrls);
+const detectServices = Object.keys(detectUrls).map((k) =>
   k === "rustServer" ? "rust-server" : k,
 );
 
@@ -1196,7 +8275,7 @@ async function getLanguage(player, response, title, description) {
 
   const text = cleanText(title, description);
 
-  debug/* default */.A.log(`Detecting language text: ${text}`);
+  utils_debug.log(`Detecting language text: ${text}`);
 
   return detect(text);
 }
@@ -1256,7 +8335,7 @@ function isMuted() {
 
 function videoSeek(video, time) {
   // * TIME IN MS
-  debug/* default */.A.log("videoSeek", time);
+  utils_debug.log("videoSeek", time);
   const preTime =
     getPlayer()?.getProgressState()?.seekableEnd || video.currentTime;
   const finalTime = preTime - time; // we always throw it to the end of the stream - time
@@ -1371,12 +8450,12 @@ function getSubtitles() {
     }
     return result;
   }, []);
-  debug/* default */.A.log("youtube subtitles:", captionTracks);
+  utils_debug.log("youtube subtitles:", captionTracks);
   return captionTracks;
 }
 
 // Get the video data from the player
-async function getVideoData() {
+async function youtubeUtils_getVideoData() {
   const player = getPlayer();
   const response = getPlayerResponse(); // null in /embed
   const data = getPlayerData();
@@ -1395,7 +8474,7 @@ async function getVideoData() {
     description,
     detectedLanguage,
   };
-  debug/* default */.A.log("youtube video data:", videoData);
+  utils_debug.log("youtube video data:", videoData);
   console.log("[VOT] Detected language: ", videoData.detectedLanguage);
   return videoData;
 }
@@ -1407,7 +8486,7 @@ async function getVideoData() {
   getPlayerData,
   getVideoVolume,
   getSubtitles,
-  getVideoData,
+  getVideoData: youtubeUtils_getVideoData,
   setVideoVolume,
   videoSeek,
   isMuted,
@@ -1418,36 +8497,9 @@ async function getVideoData() {
 
 
 
+
 const userlang = navigator.language || navigator.userLanguage;
 const lang = userlang?.substr(0, 2)?.toLowerCase() ?? "en";
-
-// not used
-// function waitForElm(selector) {
-//   // https://stackoverflow.com/questions/5525071/how-to-wait-until-an-element-exists
-//   return new Promise((resolve) => {
-//     const element = document.querySelector(selector);
-//     if (element) {
-//       return resolve(element);
-//     }
-
-//     const observer = new MutationObserver(() => {
-//       const element = document.querySelector(selector);
-//       if (element) {
-//         resolve(element);
-//         observer.disconnect();
-//       }
-//     });
-
-//     observer.observe(document.body, {
-//       childList: true,
-//       subtree: true,
-//       once: true,
-//     });
-//   });
-// }
-
-// not used
-// const sleep = (m) => new Promise((r) => setTimeout(r, m));
 
 const getVideoId = (service, video) => {
   let url = new URL(window.location.href);
@@ -1689,8 +8741,8 @@ const getVideoId = (service, video) => {
 
     //   return /video([^/]+)/.exec(url.pathname)?.[0];
     // }
-    // case "patreon":
-    //   return /posts\/([^/]+)/.exec(url.pathname)?.[0];
+    case "patreon":
+      return /posts\/([^/]+)/.exec(url.pathname)?.[0];
     case "directlink":
       return url.pathname + url.search;
     default:
@@ -1737,7 +8789,7 @@ function isPiPAvailable() {
 function initHls() {
   return typeof Hls != "undefined" && Hls?.isSupported()
     ? new Hls({
-        debug: false, // turn it on manually if necessary
+        debug: true, // turn it on manually if necessary
         lowLatencyMode: true,
         backBufferLength: 90,
       })
@@ -1774,21 +8826,24 @@ function cleanText(title, description) {
   return fullText.replace(/[^\p{L}\s]+|\s+/gu, " ").trim();
 }
 
-async function GM_fetch(url, opt = {}) {
+async function GM_fetch(url, opts = {}) {
   try {
-    // Попытка выполнить запрос с помощью fetch
-    const response = await fetch(url, opt);
-    return response;
-  } catch (error) {
+    if (url.includes("api.browser.yandex.ru")) {
+      throw new Error("Preventing yandex cors");
+    }
+
+    return await fetch(url, opts);
+  } catch (err) {
     // Если fetch завершился ошибкой, используем GM_xmlhttpRequest
     // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
+    utils_debug.log("GM_fetch preventing cors by GM_xmlhttpRequest", err.message);
     return new Promise((resolve, reject) => {
-      // https://www.tampermonkey.net/documentation.php?ext=dhdg#GM_xmlhttpRequest
-      // https://violentmonkey.github.io/api/gm/#gm_xmlhttprequest
       GM_xmlhttpRequest({
-        method: opt.method || "GET",
+        method: "GET",
         url: url,
         responseType: "blob",
+        ...opts,
+        data: opts.body,
         onload: (resp) => {
           resolve(
             new Response(resp.response, {
@@ -1821,6 +8876,7 @@ async function GM_fetch(url, opt = {}) {
 
 
 ;// CONCATENATED MODULE: ./src/localization/localizationProvider.js
+/* eslint-disable sonarjs/no-duplicate-string */
 
 
 
@@ -1828,7 +8884,7 @@ async function GM_fetch(url, opt = {}) {
 
 const localesVersion = 4;
 const localesUrl = `https://raw.githubusercontent.com/ilyhalight/voice-over-translation/${
-   false ? 0 : "master"
+   true ? "dev" : 0
 }/src/localization/locales`;
 
 const availableLocales = [
@@ -1938,7 +8994,7 @@ const localizationProvider = new (class {
       return;
     }
 
-    debug/* default */.A.log("Updating locale...");
+    utils_debug.log("Updating locale...");
 
     try {
       const response = await GM_fetch(`${localesUrl}/${this.lang}.json`);
@@ -2046,6 +9102,8 @@ var update = injectStylesIntoStyleTag_default()(main/* default */.A, options);
 
 ;// CONCATENATED MODULE: ./src/ui.js
 
+
+const undefinedPhrase = "#UNDEFINED";
 
 function createHeader(html, level = 4) {
   const header = document.createElement("vot-block");
@@ -2343,8 +9401,7 @@ function createVOTSelectLabel(text) {
 }
 
 function createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
-  const onSelectCb = options.onSelectCb || function () {};
-  const labelElement = options.labelElement || "";
+  const { onSelectCb = function () {}, labelElement = "" } = options;
   let selectedItems = [];
 
   const container = document.createElement("vot-block");
@@ -2476,14 +9533,16 @@ function createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
 }
 
 function createVOTLanguageSelect(options) {
-  const fromTitle = options.fromTitle || "#UNDEFINED";
-  const fromDialogTitle = options.fromDialogTitle || "#UNDEFINED";
-  const fromItems = options.fromItems || [];
-  const fromOnSelectCB = options.fromOnSelectCB || function () {};
-  const toTitle = options.toTitle || "#UNDEFINED";
-  const toDialogTitle = options.toDialogTitle || "#UNDEFINED";
-  const toItems = options.toItems || [];
-  const toOnSelectCB = options.toOnSelectCB || function () {};
+  const {
+    fromTitle = undefinedPhrase,
+    fromDialogTitle = undefinedPhrase,
+    fromItems = [],
+    fromOnSelectCB = null,
+    toTitle = undefinedPhrase,
+    toDialogTitle = undefinedPhrase,
+    toItems = [],
+    toOnSelectCB = null,
+  } = options;
 
   const container = document.createElement("vot-block");
   container.classList.add("vot-lang-select");
@@ -2572,381 +9631,7 @@ function syncVolume(element, sliderVolume, otherSliderVolume, tempVolume) {
 
 
 
-;// CONCATENATED MODULE: ./src/yandexProtobuf.js
-// coursera & udemy translation help object
-const VideoTranslationHelpObject = new protobuf.Type(
-  "VideoTranslationHelpObject",
-)
-  .add(new protobuf.Field("target", 1, "string")) // video_file_url or subtitles_file_url
-  .add(new protobuf.Field("targetUrl", 2, "string")); // url to video_file or url to subtitles
-
-const VideoTranslationRequest = new protobuf.Type("VideoTranslationRequest")
-  .add(new protobuf.Field("url", 3, "string"))
-  .add(new protobuf.Field("deviceId", 4, "string")) // used in mobile version
-  .add(new protobuf.Field("firstRequest", 5, "bool")) // true for the first request, false for subsequent ones
-  .add(new protobuf.Field("duration", 6, "double"))
-  .add(new protobuf.Field("unknown2", 7, "int32")) // 1 1
-  .add(new protobuf.Field("language", 8, "string")) // source language code
-  .add(new protobuf.Field("forceSourceLang", 9, "bool")) // 0 - auto detected by yabrowser, 1 - user set his own lang by dropdown
-  .add(new protobuf.Field("unknown4", 10, "int32")) // 0 0
-  .add(
-    new protobuf.Field(
-      "translationHelp",
-      11,
-      "VideoTranslationHelpObject",
-      "repeated",
-    ),
-  ) // array for translation assistance ([0] -> {2: link to video, 1: "video_file_url"}, [1] -> {2: link to subtitles, 1: "subtitles_file_url"})
-  .add(new protobuf.Field("responseLanguage", 14, "string"))
-  .add(new protobuf.Field("unknown5", 15, "int32")) // 0
-  .add(new protobuf.Field("unknown6", 16, "int32")) // 1
-  .add(new protobuf.Field("bypassCache", 17, "bool")); // ? maybe they have some kind of bypass limiter from one IP, because after one such request it stopped working
-
-const VideoSubtitlesRequest = new protobuf.Type("VideoSubtitlesRequest")
-  .add(new protobuf.Field("url", 1, "string"))
-  .add(new protobuf.Field("language", 2, "string")); // source language code
-
-const VideoStreamRequest = new protobuf.Type("VideoStreamRequest")
-  .add(new protobuf.Field("url", 1, "string"))
-  .add(new protobuf.Field("language", 2, "string"))
-  .add(new protobuf.Field("responseLanguage", 3, "string"));
-
-const VideoStreamPingRequest = new protobuf.Type("VideoStreamPingRequest").add(
-  new protobuf.Field("pingId", 1, "int32"),
-);
-
-const VideoTranslationResponse = new protobuf.Type("VideoTranslationResponse")
-  .add(new protobuf.Field("url", 1, "string"))
-  .add(new protobuf.Field("duration", 2, "double"))
-  .add(new protobuf.Field("status", 4, "int32"))
-  .add(new protobuf.Field("remainingTime", 5, "int32")) // secs before translation (used as interval before next request in yaBrowser)
-  .add(new protobuf.Field("unknown0", 6, "int32")) // unknown 0 (1st request) -> 10 (2nd, 3th and etc requests). (if status is 0)
-  .add(new protobuf.Field("translationId", 7, "string"))
-  .add(new protobuf.Field("language", 8, "string")) // detected language (if the wrong one is set)
-  .add(new protobuf.Field("message", 9, "string"));
-
-const VideoSubtitlesObject = new protobuf.Type("VideoSubtitlesObject")
-  .add(new protobuf.Field("language", 1, "string"))
-  .add(new protobuf.Field("url", 2, "string"))
-  .add(new protobuf.Field("unknown2", 3, "int32"))
-  .add(new protobuf.Field("translatedLanguage", 4, "string"))
-  .add(new protobuf.Field("translatedUrl", 5, "string"))
-  .add(new protobuf.Field("unknown5", 6, "int32"))
-  .add(new protobuf.Field("unknown6", 7, "int32"));
-
-const VideoSubtitlesResponse = new protobuf.Type("VideoSubtitlesResponse")
-  .add(new protobuf.Field("waiting", 1, "int32")) // 0 - finished/failed | 1 - waiting result (1 - ~10min, maybe more)
-  .add(new protobuf.Field("subtitles", 2, "VideoSubtitlesObject", "repeated"));
-
-const VideoStreamObject = new protobuf.Type("VideoStreamObject")
-  .add(new protobuf.Field("url", 1, "string"))
-  .add(new protobuf.Field("timestamp", 2, "int64")); // timestamp in ms (probably means the time of 1 request to translate the stream)
-
-const VideoStreamResponse = new protobuf.Type("VideoStreamResponse")
-  .add(new protobuf.Field("interval", 1, "int32")) // 20s - streaming, 10s - translating, 0s - there is no connection with the server (the broadcast is finished or deleted)
-  .add(new protobuf.Field("translatedInfo", 2, "VideoStreamObject"))
-  .add(new protobuf.Field("pingId", 3, "int32"));
-
-// /session/create
-const YandexSessionRequest = new protobuf.Type("YandexSessionRequest")
-  .add(new protobuf.Field("uuid", 1, "string"))
-  .add(new protobuf.Field("module", 2, "string"));
-
-const YandexSessionResponse = new protobuf.Type("YandexSessionResponse")
-  .add(new protobuf.Field("sign", 1, "string"))
-  .add(new protobuf.Field("expires", 2, "int32"));
-
-// * Yandex has been skipping any translation streams for a long time (whitelist always return true)
-// * Most likely, it is already outdated and will not be used
-// const VideoWhitelistStreamRequest = new protobuf.Type("VideoWhitelistStreamRequest")
-//   .add(new protobuf.Field("url", 1, "string"))
-//   .add(new protobuf.Field("deviceId", 4, "string"))
-
-// const VideoWhitelistStreamResponse = new protobuf.Type("VideoWhitelistStreamResponse")
-//   .add(new protobuf.Field("inWhitelist", 1, "bool"))
-
-// Create a root namespace and add the types
-const root = new protobuf.Root()
-  .define("yandex")
-  .add(VideoTranslationHelpObject)
-  .add(VideoTranslationRequest)
-  .add(VideoTranslationResponse)
-  .add(VideoSubtitlesRequest)
-  .add(VideoSubtitlesObject)
-  .add(VideoSubtitlesResponse)
-  .add(VideoStreamPingRequest)
-  .add(VideoStreamRequest)
-  .add(VideoStreamObject)
-  .add(VideoStreamResponse)
-  .add(YandexSessionRequest)
-  .add(YandexSessionResponse);
-
-// Export the encoding and decoding functions
-const yandexProtobuf = {
-  encodeTranslationRequest(
-    url,
-    duration,
-    requestLang,
-    responseLang,
-    translationHelp,
-  ) {
-    return root.VideoTranslationRequest.encode({
-      url,
-      firstRequest: true,
-      duration,
-      unknown2: 1,
-      language: requestLang,
-      forceSourceLang: false,
-      unknown4: 0,
-      translationHelp,
-      responseLanguage: responseLang,
-      unknown5: 0,
-      unknown6: 1,
-      bypassCache: false,
-    }).finish();
-  },
-  decodeTranslationResponse(response) {
-    return root.VideoTranslationResponse.decode(new Uint8Array(response));
-  },
-  encodeSubtitlesRequest(url, requestLang) {
-    return root.VideoSubtitlesRequest.encode({
-      url,
-      language: requestLang,
-    }).finish();
-  },
-  decodeSubtitlesResponse(response) {
-    return root.VideoSubtitlesResponse.decode(new Uint8Array(response));
-  },
-  encodeStreamPingRequest(pingId) {
-    return root.VideoStreamPingRequest.encode({
-      pingId,
-    }).finish();
-  },
-  encodeStreamRequest(url, requestLang, responseLang) {
-    return root.VideoStreamRequest.encode({
-      url,
-      language: requestLang,
-      responseLanguage: responseLang,
-    }).finish();
-  },
-  decodeStreamResponse(response) {
-    return root.VideoStreamResponse.decode(new Uint8Array(response));
-  },
-  encodeYandexSessionRequest(uuid, module) {
-    return root.YandexSessionRequest.encode({
-      uuid,
-      module,
-    }).finish();
-  },
-  decodeYandexSessionResponse(response) {
-    return root.YandexSessionResponse.decode(new Uint8Array(response));
-  },
-};
-
-// EXTERNAL MODULE: ./node_modules/bowser/es5.js
-var es5 = __webpack_require__("./node_modules/bowser/es5.js");
-;// CONCATENATED MODULE: ./src/getUUID.js
-function getUUID() {
-  const hexDigits = "0123456789ABCDEF";
-  let uuid = "";
-  for (let i = 0; i < 32; i++) {
-    const randomDigit = Math.floor(Math.random() * 16);
-    uuid += hexDigits[randomDigit];
-  }
-  return uuid;
-}
-
-
-
-;// CONCATENATED MODULE: ./src/getSignature.js
-
-
-// Create a key from the HMAC secret
-const CryptoKey = window.crypto.subtle.importKey(
-  "raw",
-  new TextEncoder().encode(config/* yandexHmacKey */.S7),
-  { name: "HMAC", hash: { name: "SHA-256" } },
-  false,
-  ["sign", "verify"],
-);
-
-async function getSignature(body) {
-  const key = await CryptoKey;
-  return new Uint8Array(
-    // Sign the body with the key
-    await window.crypto.subtle.sign("HMAC", key, body),
-    // Convert the signature to a hex string
-  ).reduce((str, byte) => str + byte.toString(16).padStart(2, "0"), "");
-}
-
-
-
-;// CONCATENATED MODULE: ./src/rsp.js
-
-
-
-
-
-// Request stream ping from Yandex API
-async function requestStreamPing(pingId, callback) {
-  try {
-    debug/* default */.A.log("requestStreamPing");
-    // ! CURRENT CLOUDFLARE WORKER DOESN'T SUPPORT STREAM TRANSLATIONS
-    const yar = await Promise.resolve(/* import() */).then(__webpack_require__.bind(__webpack_require__, "./src/yandexRequest.js"));
-    const yandexRequest = yar.default;
-    debug/* default */.A.log("Inited yandexRequest...");
-    // Initialize variables
-    const body = yandexProtobuf.encodeStreamPingRequest(pingId);
-    // Send the request
-    await yandexRequest(
-      "/stream-translation/ping-stream",
-      body,
-      {
-        "Vtrans-Signature": await getSignature(body),
-        "Sec-Vtrans-Token": getUUID(),
-      },
-      callback,
-    );
-  } catch (exception) {
-    console.error("[VOT]", exception);
-    // Handle errors
-    callback(false);
-  }
-}
-
-/* harmony default export */ const rsp = (requestStreamPing);
-
-;// CONCATENATED MODULE: ./src/rst.js
-
-
-
-
-
-// Request stream translation from Yandex API
-async function requestStreamTranslation(
-  url,
-  requestLang,
-  responseLang,
-  callback,
-) {
-  try {
-    debug/* default */.A.log("requestStreamTranslation");
-    // ! CURRENT CLOUDFLARE WORKER DOESN'T SUPPORT STREAM TRANSLATIONS
-    const yar = await Promise.resolve(/* import() */).then(__webpack_require__.bind(__webpack_require__, "./src/yandexRequest.js"));
-    const yandexRequest = yar.default;
-    debug/* default */.A.log("Inited yandexRequest...");
-    // Initialize variables
-    const body = yandexProtobuf.encodeStreamRequest(
-      url,
-      requestLang,
-      responseLang,
-    );
-    // Send the request
-    await yandexRequest(
-      "/stream-translation/translate-stream",
-      body,
-      {
-        "Vtrans-Signature": await getSignature(body),
-        "Sec-Vtrans-Token": getUUID(),
-      },
-      callback,
-    );
-  } catch (exception) {
-    console.error("[VOT]", exception);
-    // Handle errors
-    callback(false);
-  }
-}
-
-/* harmony default export */ const rst = (requestStreamTranslation);
-
-;// CONCATENATED MODULE: ./src/rvt.js
-
-
-
-
-
-// Request video translation from Yandex API
-async function requestVideoTranslation(
-  url,
-  duration,
-  requestLang,
-  responseLang,
-  translationHelp,
-  callback,
-) {
-  try {
-    debug/* default */.A.log("requestVideoTranslation");
-    const yar = await Promise.resolve(/* import() */).then(__webpack_require__.bind(__webpack_require__, "./src/yandexRequest.js"));
-    const yandexRequest = yar.default;
-    debug/* default */.A.log("Inited yandexRequest...");
-    // Initialize variables
-    const body = yandexProtobuf.encodeTranslationRequest(
-      url,
-      duration,
-      requestLang,
-      responseLang,
-      translationHelp,
-    );
-    // Send the request
-    await yandexRequest(
-      // "/stream-translation/whitelist-stream",
-      // "/stream-translation/translate-stream",
-      "/video-translation/translate",
-      body,
-      {
-        "Vtrans-Signature": await getSignature(body),
-        "Sec-Vtrans-Token": getUUID(),
-      },
-      callback,
-    );
-  } catch (exception) {
-    console.error("[VOT]", exception);
-    // Handle errors
-    callback(false);
-  }
-}
-
-/* harmony default export */ const rvt = (requestVideoTranslation);
-
-;// CONCATENATED MODULE: ./src/rvs.js
-
-
-
-
-
-// Request video subtitles from Yandex API
-async function requestVideoSubtitles(url, requestLang, callback) {
-  try {
-    debug/* default */.A.log("requestVideoSubtitles");
-    const yar = await Promise.resolve(/* import() */).then(__webpack_require__.bind(__webpack_require__, "./src/yandexRequest.js"));
-    const yandexRequest = yar.default;
-    debug/* default */.A.log("Inited yandexRequest...");
-    // Initialize variables
-    const body = yandexProtobuf.encodeSubtitlesRequest(url, requestLang);
-    // Send the request
-    await yandexRequest(
-      "/video-subtitles/get-subtitles",
-      body,
-      {
-        "Vsubs-Signature": await getSignature(body),
-        "Sec-Vsubs-Token": getUUID(),
-      },
-      callback,
-    );
-  } catch (exception) {
-    console.error("[VOT]", exception);
-    // Handle errors
-    callback(false);
-  }
-}
-
-/* harmony default export */ const rvs = (requestVideoSubtitles);
-
 ;// CONCATENATED MODULE: ./src/subtitles.js
-
-
-
 
 
 
@@ -3140,7 +9825,7 @@ async function fetchSubtitles(subtitlesObject) {
   return subtitles;
 }
 
-async function subtitles_getSubtitles(site, videoId, requestLang) {
+async function subtitles_getSubtitles(client, site, videoId, requestLang) {
   const ytSubtitles =
     site.host === "youtube" ? youtubeUtils.getSubtitles() : [];
   let resolved = false;
@@ -3154,23 +9839,20 @@ async function subtitles_getSubtitles(site, videoId, requestLang) {
       }, 5000);
     }),
     new Promise((resolve) => {
-      rvs(
-        `${site.url}${videoId}`,
-        requestLang,
-        (success, response) => {
-          debug/* default */.A.log("[exec callback] Requesting video subtitles", videoId);
-
-          if (!success) {
+      client
+        .getSubtitles({
+          url: `${site.url}${videoId}`,
+          requestLang,
+        })
+        .then((res) => {
+          console.log("[VOT] Subtitles response: ", res);
+          if (res.waiting) {
             console.error("[VOT] Failed get yandex subtitles");
             resolved = true;
             resolve([]);
           }
 
-          const subtitlesResponse =
-            yandexProtobuf.decodeSubtitlesResponse(response);
-          console.log("[VOT] Subtitles response: ", subtitlesResponse);
-
-          let subtitles = subtitlesResponse.subtitles ?? [];
+          let subtitles = res.subtitles ?? [];
           subtitles = subtitles.reduce((result, yaSubtitlesObject) => {
             if (
               yaSubtitlesObject.language &&
@@ -3202,10 +9884,10 @@ async function subtitles_getSubtitles(site, videoId, requestLang) {
           }, []);
           resolved = true;
           resolve(subtitles);
-        },
-      );
+        });
     }),
   ]);
+
   const subtitles = [...yaSubtitles, ...ytSubtitles].sort((a, b) => {
     if (a.source !== b.source) {
       // sort by source
@@ -3464,7 +10146,7 @@ async function coursehunterUtils_getVideoData() {
 
   const { file: videoUrl, duration } = lessonData;
 
-  debug/* default */.A.log("coursehunter course data:", courseData);
+  utils_debug.log("coursehunter course data:", courseData);
   return {
     url: videoUrl,
     duration,
@@ -3573,7 +10255,7 @@ async function courseraUtils_getVideoData(responseLang = "en") {
     translationHelp,
   };
 
-  debug/* default */.A.log("coursera video data:", videoData);
+  utils_debug.log("coursera video data:", videoData);
   console.log("[VOT] Detected language: ", videoData.detectedLanguage);
   return videoData;
 }
@@ -3688,17 +10370,17 @@ function getVideoURLFromPlayer() {
 async function udemyUtils_getVideoData(udemyData, responseLang = "en") {
   let translationHelp = null;
   const data = udemyUtils_getPlayerData();
-  debug/* default */.A.log("udemyData", udemyData);
+  utils_debug.log("udemyData", udemyData);
 
   const moduleData = getModuleData();
-  debug/* default */.A.log("moduleData: ", moduleData);
+  utils_debug.log("moduleData: ", moduleData);
 
   const courseId = moduleData.courseId;
   const lectureId = getLectureId();
-  debug/* default */.A.log(`CourseId: ${courseId}, lectureId: ${lectureId}`);
+  utils_debug.log(`CourseId: ${courseId}, lectureId: ${lectureId}`);
 
   const courseLang = await getCourseLang(courseId);
-  debug/* default */.A.log("courseLang Data:", courseLang);
+  utils_debug.log("courseLang Data:", courseLang);
   const lectureData = await getLectureData(udemyData, courseId, lectureId);
   console.log("lecture Data:", lectureData);
 
@@ -3751,7 +10433,7 @@ async function udemyUtils_getVideoData(udemyData, responseLang = "en") {
     translationHelp,
   };
 
-  debug/* default */.A.log("udemy video data:", videoData);
+  utils_debug.log("udemy video data:", videoData);
   console.log("[VOT] Detected language: ", videoData.detectedLanguage);
   return videoData;
 }
@@ -3811,7 +10493,7 @@ async function getVideoInfo(videoId) {
 async function bannedvideoUtils_getVideoData(videoId) {
   const videoData = await getVideoInfo(videoId);
 
-  debug/* default */.A.log("banned.video video data:", videoData);
+  utils_debug.log("banned.video video data:", videoData);
 
   const { videoUrl, duration, live, description, title } =
     videoData.data.getVideo;
@@ -3832,7 +10514,7 @@ async function bannedvideoUtils_getVideoData(videoId) {
 });
 
 ;// CONCATENATED MODULE: ./src/utils/crypto.js
-async function getHmacSha1(hmacKey, salt) {
+async function crypto_getHmacSha1(hmacKey, salt) {
   try {
     const utf8Encoder = new TextEncoder("utf-8");
     salt = utf8Encoder.encode(salt);
@@ -3866,7 +10548,7 @@ async function createHash(pathname) {
   // example salt is /video/v1.1/vod/67134/inKey?gcc=RU&appId=be4d79eb8fc7bd008ee82c8ec4ff6fd4&language=en&os=WEB&platform=WEB&wpf=pc1707527163588
   let salt = pathname.substring(0, Math.min(255, pathname.length)) + timestamp;
 
-  const sign = await getHmacSha1(API_HMAC_KEY, salt);
+  const sign = await crypto_getHmacSha1(API_HMAC_KEY, salt);
 
   return {
     wmsgpad: timestamp,
@@ -3981,7 +10663,7 @@ async function weverseUtils_getVideoData() {
     return undefined;
   }
 
-  debug/* default */.A.log("weverse video preview data:", videoPreview);
+  utils_debug.log("weverse video preview data:", videoPreview);
 
   const { videoId, serviceId, infraVideoId } = videoPreview.extension.video;
   if (!(videoId && serviceId && infraVideoId)) {
@@ -3989,7 +10671,7 @@ async function weverseUtils_getVideoData() {
   }
 
   const inkeyData = await getVideoInKey(videoId);
-  debug/* default */.A.log("weverse video inKey data:", videoPreview);
+  utils_debug.log("weverse video inKey data:", videoPreview);
   if (!inkeyData) {
     return false;
   }
@@ -3999,7 +10681,7 @@ async function weverseUtils_getVideoData() {
     inkeyData.inKey,
     serviceId,
   );
-  debug/* default */.A.log("weverse video info:", videoInfo);
+  utils_debug.log("weverse video info:", videoInfo);
 
   const videoItem = extractVideoInfo(videoInfo.videos.list);
   if (!videoItem) {
@@ -4017,9 +10699,10 @@ async function weverseUtils_getVideoData() {
 });
 
 ;// CONCATENATED MODULE: ./src/config/sites.js
+/* eslint-disable sonarjs/no-duplicate-string */
 
 
-const sites = () => {
+const sites_sites = () => {
   return [
     {
       additionalData: "mobile",
@@ -4050,7 +10733,7 @@ const sites = () => {
     {
       host: "proxitok",
       url: "https://www.tiktok.com/",
-      match: sitesProxiTok,
+      match: alternativeUrls_sitesProxiTok,
       selector: ".column.has-text-centered",
     },
     {
@@ -4200,14 +10883,14 @@ const sites = () => {
       // Sites host Invidious. I tested the performance only on invidious.kevin.rocks, youtu.be and inv.vern.cc
       host: "invidious",
       url: "https://youtu.be/",
-      match: sitesInvidious,
+      match: alternativeUrls_sitesInvidious,
       selector: "#player",
     },
     {
       // Sites host Piped. I tested the performance only on piped.video
       host: "piped",
       url: "https://youtu.be/",
-      match: sitesPiped,
+      match: alternativeUrls_sitesPiped,
       selector: ".shaka-video-container",
     },
     {
@@ -4225,7 +10908,7 @@ const sites = () => {
     {
       host: "peertube",
       url: "stub", // This is a stub. The present value is set using window.location.origin. Check "src/index.js:videoObserver.onVideoAdded.addListener" to get more info
-      match: sitesPeertube,
+      match: alternativeUrls_sitesPeertube,
       selector: ".vjs-v7",
     },
     {
@@ -4316,14 +10999,14 @@ const sites = () => {
       match: (url) => /([^.]+).mp4/.test(url.pathname),
       selector: null,
     },
+    {
+      host: "patreon",
+      url: "https://www.patreon.com/",
+      match: /^www.patreon.com$/,
+      selector:
+        'div[data-tag="post-card"] div[elevation="subtle"] > div > div > div > div',
+    },
     // пока рано
-    // {
-    //   host: "patreon",
-    //   url: "https://www.patreon.com/",
-    //   match: /^www.patreon.com$/,
-    //   selector:
-    //     'div[data-tag="post-card"] div[elevation="subtle"] > div > div > div > div',
-    // },
     // {
     //   host: "sibnet",
     //   url: "https://video.sibnet.ru/",
@@ -4340,7 +11023,7 @@ const sites = () => {
   ];
 };
 
-/* harmony default export */ const config_sites = (sites());
+/* harmony default export */ const config_sites = (sites_sites());
 
 // EXTERNAL MODULE: ./node_modules/requestidlecallback-polyfill/index.js
 var requestidlecallback_polyfill = __webpack_require__("./node_modules/requestidlecallback-polyfill/index.js");
@@ -4499,7 +11182,7 @@ class VideoObserver {
   handleIntersectingVideo(video) {
     this.intersectionObserver.unobserve(video);
     if (isAdVideo(video)) {
-      debug/* default */.A.log("The promotional video was ignored", video);
+      utils_debug.log("The promotional video was ignored", video);
       return;
     }
     waitForVideoReady(video, (readyVideo) => {
@@ -4548,15 +11231,9 @@ class VideoObserver {
 
 
 
-
-
-
 const browserInfo = es5.getParser(window.navigator.userAgent).getResult();
-
 const dontTranslateMusic = false; // Пока не придумал как стоит реализовать
-
-const sitesChromiumBlocked = [...sitesInvidious, ...sitesPiped];
-
+const sitesChromiumBlocked = [...alternativeUrls_sitesInvidious, ...alternativeUrls_sitesPiped];
 const videoLipSyncEvents = [
   "playing",
   "ratechange",
@@ -4573,139 +11250,26 @@ function genOptionsByOBJ(obj, conditionString) {
   }));
 }
 
-if (false) { var translationPanding; }
-
-function translateVideo(
-  url,
-  duration,
-  requestLang,
-  responseLang,
-  translationHelp,
-  callback,
-) {
-  debug/* default */.A.log(
-    `Translate video (url: ${url}, duration: ${duration}, requestLang: ${requestLang}, responseLang: ${responseLang})`,
-  );
-
-  debug/* default */.A.log("translationHelp:", translationHelp);
-
-  if (false) {}
-
-  translationPanding = true;
-
-  rvt(
-    url,
-    duration,
-    requestLang,
-    responseLang,
-    translationHelp,
-    (success, response) => {
-      translationPanding = false;
-
-      debug/* default */.A.log("[exec callback] Requesting video translation");
-      if (!success) {
-        callback(false, localizationProvider.get("requestTranslationFailed"));
-        return;
-      }
-
-      const translateResponse =
-        yandexProtobuf.decodeTranslationResponse(response);
-      console.log("[VOT] Translation response: ", translateResponse);
-
-      switch (translateResponse.status) {
-        case 0:
-          callback(false, translateResponse.message);
-          break;
-        case 1:
-        case 5:
-          // status 5 (dzen)
-          // Отдает частичный контент т.е. аудио не для всего видео, а только для части (~10min)
-          // так же возвращается оставшееся время перевода (remainingTime) через которое нужно сделать повторный запрос,
-          // в котором будет возвращено полное аудио перевода и status 1.
-          // Если включена часть видео без перевода, то пишет "Эта часть видео еще не переведена"
-          callback(
-            !!translateResponse.url,
-            translateResponse.url ||
-              localizationProvider.get("audioNotReceived"),
-          );
-          break;
-        case 2:
-          callback(
-            false,
-            translateResponse.remainingTime
-              ? secsToStrTime(translateResponse.remainingTime)
-              : localizationProvider.get("translationTakeFewMinutes"),
-          );
-          break;
-        case 3:
-        case 6:
-          /*
-            status: 3
-            Иногда, в ответе приходит статус код 3, но видео всё, так же, ожидает перевода.
-            В конечном итоге, это занимает слишком много времени,
-            как-будто сервер не понимает, что данное видео уже недавно было переведено
-            и заместо возвращения готовой ссылки на перевод начинает переводить видео заново
-            при чём у него это получается за очень длительное время.
-
-            status: 6
-            Случайно встретил 6 статус код при котором видео так же продолжается перевод,
-            но после него ничего сверхъестественного не происходит.
-            Он появляется при первом запросе с 17=1, но не исключено,
-            что может появится и просто так
-          */
-          callback(false, localizationProvider.get("videoBeingTranslated"));
-          break;
-      }
-    },
-  );
-}
-
-function translateStream(url, requestLang, responseLang, callback) {
-  debug/* default */.A.log(
-    `Translate stream (url: ${url}, requestLang: ${requestLang}, responseLang: ${responseLang})`,
-  );
-
-  rst(
-    url,
-    requestLang,
-    responseLang,
-    (success, response) => {
-      debug/* default */.A.log("[exec callback] Requesting stream translation");
-      if (!success) {
-        callback(false, localizationProvider.get("requestTranslationFailed"));
-        return;
-      }
-
-      const streamResponse = yandexProtobuf.decodeStreamResponse(response);
-      console.log("[VOT] Stream Translation response: ", streamResponse);
-
-      switch (streamResponse.interval) {
-        case 10:
-          callback(
-            false,
-            streamResponse.interval,
-            localizationProvider.get("translationTakeFewMinutes"),
-          );
-          break;
-        case 20:
-          callback(
-            true,
-            streamResponse.interval,
-            streamResponse || localizationProvider.get("audioNotReceived"),
-          );
-          break;
-        case 0:
-          // stream removed or ended
-          callback(
-            false,
-            streamResponse.interval,
-            localizationProvider.get("streamNoConnectionToServer"),
-          );
-          break;
-      }
-    },
-  );
-}
+const votOpts = {
+  headers:
+     false
+      ? 0
+      : {
+          "sec-ch-ua": null,
+          "sec-ch-ua-mobile": null,
+          "sec-ch-ua-platform": null,
+          // "sec-ch-ua-model": null,
+          // "sec-ch-ua-platform-version": null,
+          // "sec-ch-ua-wow64": null,
+          // "sec-ch-ua-arch": null,
+          // "sec-ch-ua-bitness": null,
+          // "sec-ch-ua-full-version": null,
+          // "sec-ch-ua-full-version-list": null,
+        },
+  fetchFn: GM_fetch,
+  hostVOT: votBackendUrl,
+  host:  false ? 0 : workerHost,
+};
 
 class VideoHandler {
   // translate properties
@@ -4722,6 +11286,9 @@ class VideoHandler {
   gainNode = this.audioContext.createGain();
 
   hls = initHls(); // debug enabled only in dev mode
+  votClient = new ( false ? 0 : VOTClient)(
+    votOpts,
+  );
 
   videoTranslations = [];
   videoTranslationTTL = 7200;
@@ -4745,7 +11312,7 @@ class VideoHandler {
   dragging;
 
   constructor(video, container, site) {
-    debug/* default */.A.log(
+    utils_debug.log(
       "[VideoHandler] add video:",
       video,
       "container:",
@@ -4760,6 +11327,134 @@ class VideoHandler {
     this.changeOpacityOnEventBound = this.changeOpacityOnEvent.bind(this);
     this.resetTimerBound = this.resetTimer.bind(this);
     this.init();
+  }
+
+  async translateVideoImpl(
+    url,
+    videoId,
+    duration,
+    requestLang,
+    responseLang,
+    translationHelp = null,
+  ) {
+    clearTimeout(this.autoRetry);
+    utils_debug.log(
+      `Translate video (url: ${url}, duration: ${duration}, requestLang: ${requestLang}, responseLang: ${responseLang})`,
+    );
+
+    if (getVideoId(this.site.host, this.video) !== videoId) {
+      return null;
+    }
+
+    try {
+      const res = await this.votClient.translateVideo({
+        url,
+        duration,
+        requestLang,
+        responseLang,
+        translationHelp,
+      });
+      utils_debug.log("Translate video result", res);
+      if (res.translated && res.remainingTime < 1) {
+        utils_debug.log("Video translation finished with this data: ", res);
+        return res;
+      }
+
+      await this.updateTranslationErrorMsg(
+        res.remainingTime > 0
+          ? secsToStrTime(res.remainingTime)
+          : res.message ??
+              localizationProvider.get("translationTakeFewMinutes"),
+      );
+    } catch (err) {
+      console.error("[VOT] Failed to translate video", err);
+      await this.updateTranslationErrorMsg(err.res?.message ?? err.message);
+      return null;
+    }
+
+    return new Promise((resolve) => {
+      const timeoutDuration = this.subtitlesList.some(
+        (item) => item.source === "yandex",
+      )
+        ? 20_000
+        : 30_000;
+      this.autoRetry = setTimeout(async () => {
+        const res = await this.translateVideoImpl(
+          url,
+          videoId,
+          duration,
+          requestLang,
+          responseLang,
+          translationHelp,
+        );
+        if (!res || (res.translated && res.remainingTime < 1)) {
+          resolve(res);
+        }
+      }, timeoutDuration);
+    });
+  }
+
+  async translateStreamImpl(url, videoId, requestLang, responseLang) {
+    clearTimeout(this.autoRetry);
+    utils_debug.log(
+      `Translate stream (url: ${url}, requestLang: ${requestLang}, responseLang: ${responseLang})`,
+    );
+
+    if (getVideoId(this.site.host, this.video) !== videoId) {
+      return null;
+    }
+
+    try {
+      const res = await this.votClient.translateStream({
+        url,
+        requestLang,
+        responseLang,
+      });
+      utils_debug.log("Translate stream result", res);
+      if (!res.translated && res.interval === 10) {
+        await this.updateTranslationErrorMsg(
+          localizationProvider.get("translationTakeFewMinutes"),
+        );
+        return new Promise((resolve) => {
+          this.autoRetry = setTimeout(async () => {
+            const res = await this.translateStreamImpl(
+              url,
+              videoId,
+              requestLang,
+              responseLang,
+            );
+            if (!res || !(!res.translated && res.interval === 10)) {
+              resolve(res);
+            }
+          }, res.interval * 1000);
+        });
+      }
+
+      if (res.message) {
+        utils_debug.log(`Stream translation aborted! Message: ${res.message}`);
+        throw new VOTLocalizedError("streamNoConnectionToServer");
+      }
+
+      if (!res.result) {
+        utils_debug.log("Failed to find translation result! Data:", res);
+        throw new VOTLocalizedError("audioNotReceived");
+      }
+
+      utils_debug.log("Stream translated successfully. Running...", res);
+
+      this.streamPing = setInterval(async () => {
+        utils_debug.log("Ping stream translation", res.pingId);
+        this.votClient.pingStream({
+          pingId: res.pingId,
+        });
+      }, res.interval * 1000);
+
+      return res;
+    } catch (err) {
+      console.error("[VOT] Failed to translate stream", err);
+      await this.updateTranslationErrorMsg(err.res?.message ?? err.message);
+      return null;
+    }
   }
 
   async autoTranslate() {
@@ -4805,7 +11500,7 @@ class VideoHandler {
         1,
         true,
       ),
-      autoVolume: votStorage.get("autoVolume", config/* defaultAutoVolume */.JD, true),
+      autoVolume: votStorage.get("autoVolume", defaultAutoVolume, true),
       buttonPos: votStorage.get("buttonPos", "default"),
       showVideoSlider: votStorage.get("showVideoSlider", 1, true),
       syncVolume: votStorage.get("syncVolume", 0, true),
@@ -4819,11 +11514,11 @@ class VideoHandler {
       translateAPIErrors: votStorage.get("translateAPIErrors", 1, true),
       translationService: votStorage.get(
         "translationService",
-        config/* defaultTranslationService */.mE,
+        defaultTranslationService,
       ),
-      detectService: votStorage.get("detectService", config/* defaultDetectService */.K2),
-      m3u8ProxyHost: votStorage.get("m3u8ProxyHost", config/* m3u8ProxyHost */.se),
-      proxyWorkerHost: votStorage.get("proxyWorkerHost", config/* proxyWorkerHost */.Pm),
+      detectService: votStorage.get("detectService", defaultDetectService),
+      m3u8ProxyHost: votStorage.get("m3u8ProxyHost", m3u8ProxyHost),
+      proxyWorkerHost: votStorage.get("proxyWorkerHost", proxyWorkerHost),
       audioBooster: votStorage.get("audioBooster", 0, true),
     };
 
@@ -4854,6 +11549,8 @@ class VideoHandler {
 
     this.initUI();
     this.initUIEvents();
+
+    if (false) {}
 
     const videoHasNoSource =
       !this.video.src && !this.video.currentSrc && !this.video.srcObject;
@@ -4961,7 +11658,7 @@ class VideoHandler {
           ...genOptionsByOBJ(availableLangs, this.videoData.detectedLanguage),
         ],
         fromOnSelectCB: async (e) => {
-          debug/* default */.A.log(
+          utils_debug.log(
             "[fromOnSelectCB] select from language",
             e.target.dataset.votValue,
           );
@@ -4976,10 +11673,10 @@ class VideoHandler {
         toItems: genOptionsByOBJ(actualTTS, this.videoData.responseLanguage),
         toOnSelectCB: async (e) => {
           const newLang = e.target.dataset.votValue;
-          debug/* default */.A.log("[toOnSelectCB] select to language", newLang);
+          utils_debug.log("[toOnSelectCB] select to language", newLang);
           this.data.responseLanguage = this.translateToLang = newLang;
           await votStorage.set("responseLanguage", this.data.responseLanguage);
-          debug/* default */.A.log(
+          utils_debug.log(
             "Response Language value changed. New value: ",
             this.data.responseLanguage,
           );
@@ -5037,7 +11734,7 @@ class VideoHandler {
         }%</strong>`,
         this.data?.defaultVolume ?? 100,
         0,
-        this.data.audioBooster ? config/* maxAudioVolume */.T8 : 100,
+        this.data.audioBooster ? maxAudioVolume : 100,
       );
       this.votVideoTranslationVolumeSlider.container.hidden =
         this.votButton.container.dataset.status !== "success";
@@ -5110,8 +11807,8 @@ class VideoHandler {
         this.votAutoSetVolumeCheckbox.container,
       );
       this.votAutoSetVolumeSlider = ui.createSlider(
-        `<strong>${(this.data?.autoVolume ?? config/* defaultAutoVolume */.JD) * 100}%</strong>`,
-        (this.data?.autoVolume ?? config/* defaultAutoVolume */.JD) * 100,
+        `<strong>${(this.data?.autoVolume ?? defaultAutoVolume) * 100}%</strong>`,
+        (this.data?.autoVolume ?? defaultAutoVolume) * 100,
         0,
         100,
       );
@@ -5155,12 +11852,12 @@ class VideoHandler {
 
       this.votTranslationServiceSelect = ui.createVOTSelect(
         votStorage
-          .syncGet("translationService", config/* defaultTranslationService */.mE)
+          .syncGet("translationService", defaultTranslationService)
           .toUpperCase(),
         localizationProvider.get("VOTTranslationService"),
         genOptionsByOBJ(
           translateServices,
-          votStorage.syncGet("translationService", config/* defaultTranslationService */.mE),
+          votStorage.syncGet("translationService", defaultTranslationService),
         ),
         {
           onSelectCb: async (e) => {
@@ -5183,11 +11880,11 @@ class VideoHandler {
       );
 
       this.votDetectServiceSelect = ui.createVOTSelect(
-        votStorage.syncGet("detectService", config/* defaultDetectService */.K2).toUpperCase(),
+        votStorage.syncGet("detectService", defaultDetectService).toUpperCase(),
         localizationProvider.get("VOTDetectService"),
         genOptionsByOBJ(
           detectServices,
-          votStorage.syncGet("detectService", config/* defaultDetectService */.K2),
+          votStorage.syncGet("detectService", defaultDetectService),
         ),
         {
           onSelectCb: async (e) => {
@@ -5240,7 +11937,7 @@ class VideoHandler {
       this.votM3u8ProxyHostTextfield = ui.createTextfield(
         localizationProvider.get("VOTM3u8ProxyHost"),
         this.data?.m3u8ProxyHost,
-        config/* m3u8ProxyHost */.se,
+        m3u8ProxyHost,
       );
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votM3u8ProxyHostTextfield.container,
@@ -5250,7 +11947,7 @@ class VideoHandler {
       this.votProxyWorkerHostTextfield = ui.createTextfield(
         localizationProvider.get("VOTProxyWorkerHost"),
         this.data?.proxyWorkerHost,
-        config/* proxyWorkerHost */.Pm,
+        proxyWorkerHost,
       );
       this.votProxyWorkerHostTextfield.container.hidden =
         undefined !== "cloudflare";
@@ -5275,6 +11972,7 @@ class VideoHandler {
 
       this.votLanguageSelect = ui.createVOTSelect(
         localizationProvider.get("langs")[
+          // eslint-disable-next-line sonarjs/no-duplicate-string
           votStorage.syncGet("locale-lang-override", "auto")
         ],
         localizationProvider.get("VOTMenuLanguage"),
@@ -5357,19 +12055,19 @@ class VideoHandler {
       this.votButton.translateButton.addEventListener("click", () => {
         (async () => {
           if (this.audio.src) {
-            debug/* default */.A.log("[click translationBtn] audio.src is not empty");
+            utils_debug.log("[click translationBtn] audio.src is not empty");
             this.stopTranslate();
             return;
           }
 
           if (this.hls.url) {
-            debug/* default */.A.log("[click translationBtn] hls is not empty");
+            utils_debug.log("[click translationBtn] hls is not empty");
             this.stopTranslate();
             return;
           }
 
           try {
-            debug/* default */.A.log("[click translationBtn] trying execute translation");
+            utils_debug.log("[click translationBtn] trying execute translation");
 
             if (!this.videoData.videoId) {
               throw new VOTLocalizedError("VOTNoVideoIDFound");
@@ -5515,7 +12213,7 @@ class VideoHandler {
           this.data.autoTranslate = Number(e.target.checked);
           await votStorage.set("autoTranslate", this.data.autoTranslate);
           await this.autoTranslate();
-          debug/* default */.A.log(
+          utils_debug.log(
             "autoTranslate value changed. New value: ",
             this.data.autoTranslate,
           );
@@ -5531,7 +12229,7 @@ class VideoHandler {
               "dontTranslateYourLang",
               this.data.dontTranslateYourLang,
             );
-            debug/* default */.A.log(
+            utils_debug.log(
               "dontTranslateYourLang value changed. New value: ",
               this.data.dontTranslateYourLang,
             );
@@ -5546,7 +12244,7 @@ class VideoHandler {
             "autoSetVolumeYandexStyle",
             this.data.autoSetVolumeYandexStyle,
           );
-          debug/* default */.A.log(
+          utils_debug.log(
             "autoSetVolumeYandexStyle value changed. New value: ",
             this.data.autoSetVolumeYandexStyle,
           );
@@ -5567,7 +12265,7 @@ class VideoHandler {
         (async () => {
           this.data.showVideoSlider = Number(e.target.checked);
           await votStorage.set("showVideoSlider", this.data.showVideoSlider);
-          debug/* default */.A.log(
+          utils_debug.log(
             "showVideoSlider value changed. New value: ",
             this.data.showVideoSlider,
           );
@@ -5581,7 +12279,7 @@ class VideoHandler {
         (async () => {
           this.data.audioBooster = Number(e.target.checked);
           await votStorage.set("audioBooster", this.data.audioBooster);
-          debug/* default */.A.log(
+          utils_debug.log(
             "audioBooster value changed. New value: ",
             this.data.audioBooster,
           );
@@ -5590,7 +12288,7 @@ class VideoHandler {
             this.votVideoTranslationVolumeSlider.input.value;
           this.votVideoTranslationVolumeSlider.input.max = this.data
             .audioBooster
-            ? config/* maxAudioVolume */.T8
+            ? maxAudioVolume
             : 100;
           if (!this.data.audioBooster) {
             this.votVideoTranslationVolumeSlider.input.value =
@@ -5609,7 +12307,7 @@ class VideoHandler {
             expires: new Date().getTime(),
           };
           await votStorage.set("udemyData", this.data.udemyData);
-          debug/* default */.A.log(
+          utils_debug.log(
             "udemyData value changed. New value: ",
             this.data.udemyData,
           );
@@ -5621,7 +12319,7 @@ class VideoHandler {
         (async () => {
           this.data.syncVolume = Number(e.target.checked);
           await votStorage.set("syncVolume", this.data.syncVolume);
-          debug/* default */.A.log(
+          utils_debug.log(
             "syncVolume value changed. New value: ",
             this.data.syncVolume,
           );
@@ -5637,7 +12335,7 @@ class VideoHandler {
               "translateAPIErrors",
               this.data.translateAPIErrors,
             );
-            debug/* default */.A.log(
+            utils_debug.log(
               "translateAPIErrors value changed. New value: ",
               this.data.translateAPIErrors,
             );
@@ -5667,7 +12365,7 @@ class VideoHandler {
           (async () => {
             this.data.highlightWords = Number(e.target.checked);
             await votStorage.set("highlightWords", this.data.highlightWords);
-            debug/* default */.A.log(
+            utils_debug.log(
               "highlightWords value changed. New value: ",
               this.data.highlightWords,
             );
@@ -5680,7 +12378,7 @@ class VideoHandler {
         (async () => {
           this.data.showPiPButton = Number(e.target.checked);
           await votStorage.set("showPiPButton", this.data.showPiPButton);
-          debug/* default */.A.log(
+          utils_debug.log(
             "showPiPButton value changed. New value: ",
             this.data.showPiPButton,
           );
@@ -5695,9 +12393,9 @@ class VideoHandler {
 
       this.votM3u8ProxyHostTextfield.input.addEventListener("change", (e) => {
         (async () => {
-          this.data.m3u8ProxyHost = e.target.value || config/* m3u8ProxyHost */.se;
+          this.data.m3u8ProxyHost = e.target.value || m3u8ProxyHost;
           await votStorage.set("m3u8ProxyHost", this.data.m3u8ProxyHost);
-          debug/* default */.A.log(
+          utils_debug.log(
             "m3u8ProxyHost value changed. New value: ",
             this.data.m3u8ProxyHost,
           );
@@ -5706,9 +12404,9 @@ class VideoHandler {
 
       this.votProxyWorkerHostTextfield.input.addEventListener("change", (e) => {
         (async () => {
-          this.data.proxyWorkerHost = e.target.value || config/* proxyWorkerHost */.Pm;
+          this.data.proxyWorkerHost = e.target.value || proxyWorkerHost;
           await votStorage.set("proxyWorkerHost", this.data.proxyWorkerHost);
-          debug/* default */.A.log(
+          utils_debug.log(
             "proxyWorkerHost value changed. New value: ",
             this.data.proxyWorkerHost,
           );
@@ -5720,7 +12418,7 @@ class VideoHandler {
         (async () => {
           this.data.audioProxy = Number(e.target.checked);
           await votStorage.set("audioProxy", this.data.audioProxy);
-          debug/* default */.A.log(
+          utils_debug.log(
             "audioProxy value changed. New value: ",
             this.data.audioProxy,
           );
@@ -5867,7 +12565,7 @@ class VideoHandler {
       const isSettings = settings.contains(e);
       const isTempDialog = tempDialog?.contains(e) ?? false;
 
-      debug/* default */.A.log(
+      utils_debug.log(
         `[document click] ${isButton} ${isMenu} ${isVideo} ${isSettings} ${isTempDialog}`,
       );
       if (!(!isButton && !isMenu && !isSettings && !isTempDialog)) return;
@@ -5941,7 +12639,7 @@ class VideoHandler {
       if (getVideoId(this.site.host, this.video) === this.videoData.videoId)
         return;
       await this.handleSrcChanged();
-      debug/* default */.A.log("lipsync mode is loadeddata");
+      utils_debug.log("lipsync mode is loadeddata");
       await this.autoTranslate();
     });
 
@@ -5951,7 +12649,7 @@ class VideoHandler {
         getVideoId(this.site.host, this.video) === this.videoData.videoId
       )
         return;
-      debug/* default */.A.log("lipsync mode is emptied");
+      utils_debug.log("lipsync mode is emptied");
       this.videoData = "";
       this.stopTranslation();
     });
@@ -5983,7 +12681,7 @@ class VideoHandler {
   }
 
   async changeSubtitlesLang(subs) {
-    debug/* default */.A.log("[onchange] subtitles", subs);
+    utils_debug.log("[onchange] subtitles", subs);
     this.votSubtitlesSelect.setSelected(subs);
     if (subs === "disabled") {
       this.votSubtitlesSelect.setTitle(
@@ -6056,6 +12754,7 @@ class VideoHandler {
     }
 
     this.subtitlesList = await subtitles_getSubtitles(
+      this.votClient,
       this.site,
       this.videoData.videoId,
       this.videoData.detectedLanguage,
@@ -6251,9 +12950,10 @@ class VideoHandler {
     }
     return videoData;
   }
+
   videoValidator() {
     if (["youtube", "ok.ru", "vk"].includes(this.site.host)) {
-      debug/* default */.A.log("VideoValidator videoData: ", this.videoData);
+      utils_debug.log("VideoValidator videoData: ", this.videoData);
       if (
         this.data.dontTranslateYourLang === 1 &&
         this.videoData.detectedLanguage === this.data.dontTranslateLanguage
@@ -6261,20 +12961,16 @@ class VideoHandler {
         throw new VOTLocalizedError("VOTDisableFromYourLang");
       }
     }
-    // if (this.ytData.isPremiere) {
-    //   throw new VOTLocalizedError("VOTPremiere");
-    // }
-    // if (this.ytData.isLive) {
-    //   throw new VOTLocalizedError("VOTLiveNotSupported");
-    // }
+
     if (!this.videoData.isStream && this.videoData.duration > 14_400) {
       throw new VOTLocalizedError("VOTVideoIsTooLong");
     }
+
     return true;
   }
 
   lipSync(mode = false) {
-    debug/* default */.A.log("lipsync video", this.video);
+    utils_debug.log("lipsync video", this.video);
     if (!this.video) {
       return;
     }
@@ -6282,12 +12978,12 @@ class VideoHandler {
     this.audio.playbackRate = this.video.playbackRate;
 
     if (!mode) {
-      debug/* default */.A.log("lipsync mode is not set");
+      utils_debug.log("lipsync mode is not set");
       return;
     }
 
     if (mode == "play") {
-      debug/* default */.A.log("lipsync mode is play");
+      utils_debug.log("lipsync mode is play");
       const audioPromise = this.audio.play();
       if (audioPromise !== undefined) {
         audioPromise.catch((e) => {
@@ -6315,19 +13011,19 @@ class VideoHandler {
     }
     // video is inactive
     if (["pause", "stop", "waiting"].includes(mode)) {
-      debug/* default */.A.log(`lipsync mode is ${mode}`);
+      utils_debug.log(`lipsync mode is ${mode}`);
       this.audio.pause();
     }
 
     if (mode == "playing") {
-      debug/* default */.A.log("lipsync mode is playing");
+      utils_debug.log("lipsync mode is playing");
       this.audio.play();
     }
   }
 
   // Define a function to handle common events
   handleVideoEvent(event) {
-    debug/* default */.A.log(`video ${event.type}`);
+    utils_debug.log(`video ${event.type}`);
     this.lipSync(event.type);
   }
 
@@ -6344,7 +13040,7 @@ class VideoHandler {
     this.votDownloadButton.hidden = true;
     this.downloadTranslationUrl = null;
     this.transformBtn("none", localizationProvider.get("translateVideo"));
-    debug/* default */.A.log(`Volume on start: ${this.volumeOnStart}`);
+    utils_debug.log(`Volume on start: ${this.volumeOnStart}`);
     if (this.volumeOnStart) {
       this.setVideoVolume(this.volumeOnStart);
     }
@@ -6357,8 +13053,8 @@ class VideoHandler {
   }
 
   async translateExecutor(VIDEO_ID) {
-    debug/* default */.A.log("Run translateFunc", VIDEO_ID);
-    this.translateFunc(
+    utils_debug.log("Run translateFunc", VIDEO_ID);
+    await this.translateFunc(
       VIDEO_ID,
       this.videoData.isStream,
       this.videoData.detectedLanguage,
@@ -6446,7 +13142,7 @@ class VideoHandler {
   }
 
   // Define a function to translate a video and handle the callback
-  translateFunc(
+  async translateFunc(
     VIDEO_ID,
     isStream,
     requestLang,
@@ -6454,152 +13150,109 @@ class VideoHandler {
     translationHelp,
   ) {
     console.log("[VOT] Video Data: ", this.videoData);
-    const videoURL = translationHelp?.url
-      ? translationHelp.url
-      : `${this.site.url}${VIDEO_ID}`;
+    let videoURL = `${this.site.url}${VIDEO_ID}`;
+    if (translationHelp?.url) {
+      videoURL = translationHelp.url;
+      translationHelp = null;
+    }
 
     // fix enabling the old requested voiceover when changing the language to the native language (#414)
-    debug/* default */.A.log("Run videoValidator");
+    utils_debug.log("Run videoValidator");
     this.videoValidator();
 
     if (isStream) {
-      debug/* default */.A.log("Executed stream translation");
-      translateStream(
+      let translateRes = await this.translateStreamImpl(
         videoURL,
+        VIDEO_ID,
         requestLang,
         responseLang,
-        async (success, reqInterval, resOrError) => {
-          debug/* default */.A.log("[exec callback] translateStream callback");
-          if (getVideoId(this.site.host, this.video) !== VIDEO_ID) return;
-          if (!success || !resOrError.translatedInfo) {
-            await this.updateTranslationErrorMsg(resOrError);
-
-            if (reqInterval === 10) {
-              // if wait translating
-              clearTimeout(this.autoRetry);
-              this.autoRetry = setTimeout(
-                () =>
-                  this.translateFunc(
-                    VIDEO_ID,
-                    isStream,
-                    requestLang,
-                    responseLang,
-                    translationHelp,
-                  ),
-                reqInterval * 1000,
-              );
-            }
-
-            return;
-          }
-
-          this.transformBtn(
-            "success",
-            localizationProvider.get("disableTranslate"),
-          );
-
-          console.log(resOrError);
-          const pingId = resOrError.pingId;
-          debug/* default */.A.log(`Stream pingId: ${pingId}`);
-          // if you don't make ping requests, then the translation of the stream dies
-          this.streamPing = setInterval(
-            async () =>
-              await rsp(pingId, (result) =>
-                debug/* default */.A.log("Stream ping result: ", result),
-              ),
-            reqInterval * 1000,
-          );
-
-          debug/* default */.A.log(resOrError.translatedInfo.url);
-          const streamURL = `https://${
-            this.data.m3u8ProxyHost
-          }/?all=yes&origin=${encodeURIComponent(
-            "https://strm.yandex.ru",
-          )}&referer=${encodeURIComponent(
-            "https://strm.yandex.ru",
-          )}&url=${encodeURIComponent(resOrError.translatedInfo.url)}`;
-          debug/* default */.A.log(streamURL);
-
-          if (this.hls) {
-            this.hls.on(Hls.Events.MEDIA_ATTACHED, function () {
-              debug/* default */.A.log("audio and hls.js are now bound together !");
-            });
-            this.hls.on(Hls.Events.MANIFEST_PARSED, function (data) {
-              debug/* default */.A.log(
-                "manifest loaded, found " +
-                  data?.levels?.length +
-                  " quality level",
-              );
-            });
-            this.hls.loadSource(streamURL);
-            this.hls.attachMedia(this.audio);
-            this.hls.on(Hls.Events.ERROR, function (data) {
-              if (data.fatal) {
-                switch (data.type) {
-                  case Hls.ErrorTypes.MEDIA_ERROR:
-                    console.log(
-                      "fatal media error encountered, try to recover",
-                    );
-                    this.hls.recoverMediaError();
-                    break;
-                  case Hls.ErrorTypes.NETWORK_ERROR:
-                    console.error("fatal network error encountered", data);
-                    // All retries and media options have been exhausted.
-                    // Immediately trying to restart loading could cause loop loading.
-                    // Consider modifying loading policies to best fit your asset and network
-                    // conditions (manifestLoadPolicy, playlistLoadPolicy, fragLoadPolicy).
-                    break;
-                  default:
-                    // cannot recover
-                    this.hls.destroy();
-                    break;
-                }
-              }
-            });
-            debug/* default */.A.log(this.hls);
-          } else if (this.audio.canPlayType("application/vnd.apple.mpegurl")) {
-            // safari
-            this.audio.src = streamURL;
-          } else {
-            // browser doesn't support m3u8 (hls unsupported and it's not a safari)
-            throw new VOTLocalizedError("audioFormatNotSupported");
-          }
-
-          if (this.site.host === "youtube") {
-            youtubeUtils.videoSeek(this.video, 10); // 10 is the most successful number for streaming. With it, the audio is not so far behind the original
-          }
-
-          this.volumeOnStart = this.getVideoVolume();
-          if (typeof this.data.defaultVolume === "number") {
-            this.gainNode.gain.value = this.data.defaultVolume / 100;
-          }
-
-          if (
-            typeof this.data.autoSetVolumeYandexStyle === "number" &&
-            this.data.autoSetVolumeYandexStyle
-          ) {
-            this.setVideoVolume(this.data.autoVolume);
-          }
-
-          if (
-            !this.video.src &&
-            !this.video.currentSrc &&
-            !this.video.srcObject
-          ) {
-            this.stopTranslation();
-            return;
-          }
-
-          if (this.video && !this.video.paused) this.lipSync("play");
-          for (const e of videoLipSyncEvents) {
-            this.video.addEventListener(e, this.handleVideoEventBound);
-          }
-
-          this.afterUpdateTranslation(streamURL);
-        },
       );
 
-      return;
+      if (!translateRes) {
+        utils_debug.log("Skip translation");
+        return;
+      }
+
+      this.transformBtn(
+        "success",
+        localizationProvider.get("disableTranslate"),
+      );
+
+      const streamURL = `https://${
+        this.data.m3u8ProxyHost
+      }/?all=yes&origin=${encodeURIComponent(
+        "https://strm.yandex.ru",
+      )}&referer=${encodeURIComponent(
+        "https://strm.yandex.ru",
+      )}&url=${encodeURIComponent(translateRes.result.url)}`;
+
+      if (this.hls) {
+        this.hls.on(Hls.Events.MEDIA_ATTACHED, function () {
+          utils_debug.log("audio and hls.js are now bound together !");
+        });
+        this.hls.on(Hls.Events.MANIFEST_PARSED, function (data) {
+          utils_debug.log(
+            "manifest loaded, found " + data?.levels?.length + " quality level",
+          );
+        });
+        this.hls.loadSource(streamURL);
+        this.hls.attachMedia(this.audio);
+        this.hls.on(Hls.Events.ERROR, function (data) {
+          if (data.fatal) {
+            switch (data.type) {
+              case Hls.ErrorTypes.MEDIA_ERROR:
+                console.log("fatal media error encountered, try to recover");
+                this.hls.recoverMediaError();
+                break;
+              case Hls.ErrorTypes.NETWORK_ERROR:
+                console.error("fatal network error encountered", data);
+                // All retries and media options have been exhausted.
+                // Immediately trying to restart loading could cause loop loading.
+                // Consider modifying loading policies to best fit your asset and network
+                // conditions (manifestLoadPolicy, playlistLoadPolicy, fragLoadPolicy).
+                break;
+              default:
+                // cannot recover
+                this.hls.destroy();
+                break;
+            }
+          }
+        });
+        utils_debug.log(this.hls);
+      } else if (this.audio.canPlayType("application/vnd.apple.mpegurl")) {
+        // safari
+        this.audio.src = streamURL;
+      } else {
+        // browser doesn't support m3u8 (hls unsupported and it isn't a safari)
+        throw new VOTLocalizedError("audioFormatNotSupported");
+      }
+
+      if (this.site.host === "youtube") {
+        youtubeUtils.videoSeek(this.video, 10); // 10 is the most successful number for streaming. With it, the audio is not so far behind the original
+      }
+
+      this.volumeOnStart = this.getVideoVolume();
+      if (typeof this.data.defaultVolume === "number") {
+        this.gainNode.gain.value = this.data.defaultVolume / 100;
+      }
+
+      if (
+        typeof this.data.autoSetVolumeYandexStyle === "number" &&
+        this.data.autoSetVolumeYandexStyle
+      ) {
+        this.setVideoVolume(this.data.autoVolume);
+      }
+
+      if (!this.video.src && !this.video.currentSrc && !this.video.srcObject) {
+        return this.stopTranslation();
+      }
+
+      if (this.video && !this.video.paused) this.lipSync("play");
+      for (const e of videoLipSyncEvents) {
+        this.video.addEventListener(e, this.handleVideoEventBound);
+      }
+
+      return this.afterUpdateTranslation(streamURL);
     }
 
     if (["udemy", "coursera"].includes(this.site.host) && !translationHelp) {
@@ -6616,75 +13269,49 @@ class VideoHandler {
 
     if (cachedTranslation) {
       this.updateTranslation(cachedTranslation.url);
-      debug/* default */.A.log("[translateFunc] A cached translate was received");
+      utils_debug.log("[translateFunc] Cached translation was received");
       return;
     }
 
-    const timeoutDuration = this.subtitlesList.some(
-      (item) => item.source === "yandex",
-    )
-      ? 20_000
-      : 30_000;
-
-    translateVideo(
+    let translateRes = await this.translateVideoImpl(
       videoURL,
+      VIDEO_ID,
       this.videoData.duration,
       requestLang,
       responseLang,
       translationHelp,
-      async (success, urlOrError) => {
-        debug/* default */.A.log("[exec callback] translateVideo callback");
-        if (getVideoId(this.site.host, this.video) !== VIDEO_ID) return;
-        if (!success) {
-          await this.updateTranslationErrorMsg(urlOrError);
-
-          // if the error line contains information that the translation is being performed, then we wait
-          if (
-            urlOrError.includes(localizationProvider.get("translationTake"))
-          ) {
-            clearTimeout(this.autoRetry);
-            this.autoRetry = setTimeout(
-              () =>
-                this.translateFunc(
-                  VIDEO_ID,
-                  isStream,
-                  requestLang,
-                  responseLang,
-                  translationHelp,
-                ),
-              timeoutDuration,
-            );
-          }
-          console.error("[VOT]", urlOrError);
-          return;
-        }
-
-        this.updateTranslation(urlOrError);
-        if (
-          !this.subtitlesList.some(
-            (item) =>
-              item.source === "yandex" &&
-              item.translatedFromLanguage === this.videoData.detectedLanguage &&
-              item.language === this.videoData.responseLanguage,
-          )
-        ) {
-          this.subtitlesList = await subtitles_getSubtitles(
-            this.site,
-            this.videoData.videoId,
-            this.videoData.detectedLanguage,
-          );
-          await this.updateSubtitlesLangSelect();
-        }
-
-        this.videoTranslations.push({
-          videoId: VIDEO_ID,
-          from: requestLang,
-          to: responseLang,
-          url: urlOrError,
-          expires: Date.now() / 1000 + this.videoTranslationTTL,
-        });
-      },
     );
+
+    if (!translateRes) {
+      utils_debug.log("Skip translation");
+      return;
+    }
+
+    this.updateTranslation(translateRes.url);
+    if (
+      !this.subtitlesList.some(
+        (item) =>
+          item.source === "yandex" &&
+          item.translatedFromLanguage === this.videoData.detectedLanguage &&
+          item.language === this.videoData.responseLanguage,
+      )
+    ) {
+      this.subtitlesList = await subtitles_getSubtitles(
+        this.votClient,
+        this.site,
+        this.videoData.videoId,
+        this.videoData.detectedLanguage,
+      );
+      await this.updateSubtitlesLangSelect();
+    }
+
+    this.videoTranslations.push({
+      videoId: VIDEO_ID,
+      from: requestLang,
+      to: responseLang,
+      url: translateRes.url,
+      expires: Date.now() / 1000 + this.videoTranslationTTL,
+    });
   }
 
   // Define a function to stop translation and clean up
@@ -6694,7 +13321,7 @@ class VideoHandler {
   }
 
   async handleSrcChanged() {
-    debug/* default */.A.log("[VideoHandler] src changed", this);
+    utils_debug.log("[VideoHandler] src changed", this);
 
     this.firstPlay = true;
 
@@ -6724,7 +13351,7 @@ class VideoHandler {
   }
 
   async release() {
-    debug/* default */.A.log("[VideoHandler] release");
+    utils_debug.log("[VideoHandler] release");
 
     this.initialized = false;
     this.releaseExtraEvents();
@@ -6797,11 +13424,11 @@ function findContainer(site, video) {
 }
 
 async function src_main() {
-  debug/* default */.A.log("Loading extension...");
+  utils_debug.log("Loading extension...");
 
   await localizationProvider.update();
 
-  debug/* default */.A.log(`Selected menu language: ${localizationProvider.lang}`);
+  utils_debug.log(`Selected menu language: ${localizationProvider.lang}`);
 
   if (
      true &&
@@ -6816,7 +13443,7 @@ async function src_main() {
     );
   }
 
-  debug/* default */.A.log("Extension compatibility passed...");
+  utils_debug.log("Extension compatibility passed...");
 
   videoObserver.onVideoAdded.addListener((video) => {
     for (const site of getSites()) {
@@ -6859,19 +13486,6 @@ async function src_main() {
 src_main().catch((e) => {
   console.error("[VOT]", e);
 });
-
-// if (import.meta.webpackHot) {
-//   import.meta.webpackHot.monkeyReload();
-//   import.meta.webpackHot.dispose(() => {
-//     for (const selector of [
-//       ".vot-menu",
-//       ".vot-segmented-button",
-//       ".vot-subtitles-widget",
-//     ]) {
-//       document.querySelector(selector)?.remove();
-//     }
-//   });
-// }
 
 })();
 
