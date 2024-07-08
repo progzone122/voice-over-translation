@@ -1,5 +1,7 @@
 import { localizationProvider } from "./localization/localizationProvider.js";
 
+const undefinedPhrase = "#UNDEFINED";
+
 export function createHeader(html, level = 4) {
   const header = document.createElement("vot-block");
   header.classList.add("vot-header");
@@ -296,8 +298,7 @@ export function createVOTSelectLabel(text) {
 }
 
 export function createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
-  const onSelectCb = options.onSelectCb || function () {};
-  const labelElement = options.labelElement || "";
+  const { onSelectCb = function () {}, labelElement = "" } = options;
   let selectedItems = [];
 
   const container = document.createElement("vot-block");
@@ -429,14 +430,16 @@ export function createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
 }
 
 export function createVOTLanguageSelect(options) {
-  const fromTitle = options.fromTitle || "#UNDEFINED";
-  const fromDialogTitle = options.fromDialogTitle || "#UNDEFINED";
-  const fromItems = options.fromItems || [];
-  const fromOnSelectCB = options.fromOnSelectCB || function () {};
-  const toTitle = options.toTitle || "#UNDEFINED";
-  const toDialogTitle = options.toDialogTitle || "#UNDEFINED";
-  const toItems = options.toItems || [];
-  const toOnSelectCB = options.toOnSelectCB || function () {};
+  const {
+    fromTitle = undefinedPhrase,
+    fromDialogTitle = undefinedPhrase,
+    fromItems = [],
+    fromOnSelectCB = null,
+    toTitle = undefinedPhrase,
+    toDialogTitle = undefinedPhrase,
+    toItems = [],
+    toOnSelectCB = null,
+  } = options;
 
   const container = document.createElement("vot-block");
   container.classList.add("vot-lang-select");
