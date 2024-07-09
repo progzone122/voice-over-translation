@@ -1,7 +1,11 @@
 import Bowser from "bowser";
 import VOTClient, { VOTWorkerClient } from "vot.js";
+import votConfig from "vot.js/config";
+import { getVideoData, getVideoID } from "vot.js/utils/videoData";
+import sites from "vot.js/sites";
+import { availableLangs, availableTTS } from "vot.js/consts";
 
-import { sitesInvidious, sitesPiped } from "./config/alternativeUrls.js";
+import { sitesInvidious, sitesPiped } from "vot.js/alternativeUrls";
 import {
   defaultAutoVolume,
   defaultDetectService,
@@ -13,11 +17,6 @@ import {
   workerHost,
 } from "./config/config.js";
 import {
-  actualTTS,
-  availableLangs,
-  cfOnlyExtensions,
-} from "./config/constants.js";
-import {
   availableLocales,
   localizationProvider,
 } from "./localization/localizationProvider.js";
@@ -26,7 +25,6 @@ import ui from "./ui.js";
 import { VOTLocalizedError } from "./utils/VOTLocalizedError.js";
 import debug from "./utils/debug.js";
 import {
-  getVideoId,
   GM_fetch,
   initHls,
   isPiPAvailable,
@@ -46,10 +44,7 @@ import youtubeUtils from "./utils/youtubeUtils.js";
 import coursehunterUtils from "./utils/coursehunterUtils.js";
 import courseraUtils from "./utils/courseraUtils.js";
 import udemyUtils from "./utils/udemyUtils.js";
-import bannedvideoUtils from "./utils/bannedvideoUtils.js";
-import weverseUtils from "./utils/weverseUtils.js";
 
-import sites from "./config/sites.js";
 import { VideoObserver } from "./utils/VideoObserver.js";
 import { votStorage } from "./utils/storage.js";
 import {
@@ -61,6 +56,13 @@ import {
 const browserInfo = Bowser.getParser(window.navigator.userAgent).getResult();
 const dontTranslateMusic = false; // Пока не придумал как стоит реализовать
 const sitesChromiumBlocked = [...sitesInvidious, ...sitesPiped];
+const cfOnlyExtensions = [
+  "Violentmonkey",
+  "FireMonkey",
+  "Greasemonkey",
+  "AdGuard",
+  "OrangeMonkey",
+];
 const videoLipSyncEvents = [
   "playing",
   "ratechange",
@@ -105,7 +107,6 @@ class VideoHandler {
 
   timer;
 
-  ytData = "";
   videoData = "";
   firstPlay = true;
   audio = new Audio();
@@ -157,26 +158,26 @@ class VideoHandler {
   }
 
   async translateVideoImpl(
-    url,
-    videoId,
-    duration,
+    videoData,
     requestLang,
     responseLang,
     translationHelp = null,
   ) {
     clearTimeout(this.autoRetry);
     debug.log(
-      `Translate video (url: ${url}, duration: ${duration}, requestLang: ${requestLang}, responseLang: ${responseLang})`,
+      videoData,
+      `Translate video (requestLang: ${requestLang}, responseLang: ${responseLang})`,
     );
 
-    if (getVideoId(this.site.host, this.video) !== videoId) {
+    if (
+      (await getVideoID(this.site, window.location.href)) !== videoData.videoId
+    ) {
       return null;
     }
 
     try {
       const res = await this.votClient.translateVideo({
-        url,
-        duration,
+        videoData,
         requestLang,
         responseLang,
         translationHelp,
@@ -207,9 +208,7 @@ class VideoHandler {
         : 30_000;
       this.autoRetry = setTimeout(async () => {
         const res = await this.translateVideoImpl(
-          url,
-          videoId,
-          duration,
+          videoData,
           requestLang,
           responseLang,
           translationHelp,
@@ -221,19 +220,22 @@ class VideoHandler {
     });
   }
 
-  async translateStreamImpl(url, videoId, requestLang, responseLang) {
+  async translateStreamImpl(videoData, requestLang, responseLang) {
     clearTimeout(this.autoRetry);
     debug.log(
-      `Translate stream (url: ${url}, requestLang: ${requestLang}, responseLang: ${responseLang})`,
+      videoData,
+      `Translate stream (requestLang: ${requestLang}, responseLang: ${responseLang})`,
     );
 
-    if (getVideoId(this.site.host, this.video) !== videoId) {
+    if (
+      (await getVideoID(this.site, window.location.href)) !== videoData.videoId
+    ) {
       return null;
     }
 
     try {
       const res = await this.votClient.translateStream({
-        url,
+        videoData,
         requestLang,
         responseLang,
       });
@@ -245,8 +247,7 @@ class VideoHandler {
         return new Promise((resolve) => {
           this.autoRetry = setTimeout(async () => {
             const res = await this.translateStreamImpl(
-              url,
-              videoId,
+              videoData,
               requestLang,
               responseLang,
             );
@@ -478,14 +479,10 @@ class VideoHandler {
         fromTitle:
           localizationProvider.get("langs")[this.video.detectedLanguage],
         fromDialogTitle: localizationProvider.get("videoLanguage"),
-        fromItems: [
-          {
-            label: localizationProvider.get("langs")["auto"],
-            value: "auto",
-            selected: "",
-          },
-          ...genOptionsByOBJ(availableLangs, this.videoData.detectedLanguage),
-        ],
+        fromItems: genOptionsByOBJ(
+          availableLangs,
+          this.videoData.detectedLanguage,
+        ),
         fromOnSelectCB: async (e) => {
           debug.log(
             "[fromOnSelectCB] select from language",
@@ -499,7 +496,7 @@ class VideoHandler {
         },
         toTitle: localizationProvider.get("langs")[this.video.responseLanguage],
         toDialogTitle: localizationProvider.get("translationLanguage"),
-        toItems: genOptionsByOBJ(actualTTS, this.videoData.responseLanguage),
+        toItems: genOptionsByOBJ(availableTTS, this.videoData.responseLanguage),
         toOnSelectCB: async (e) => {
           const newLang = e.target.dataset.votValue;
           debug.log("[toOnSelectCB] select to language", newLang);
@@ -979,7 +976,7 @@ class VideoHandler {
       });
 
       this.votDownloadSubtitlesButton.addEventListener("click", async () => {
-        const srtContent = jsonToSrt(this.YandexSubtitles);
+        const srtContent = jsonToSrt(this.yandexSubtitles);
         const blob = new Blob([srtContent], { type: "text/plain" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
@@ -1465,17 +1462,21 @@ class VideoHandler {
       if (this.site.host === "rutube" && this.video.src) {
         return;
       }
-      if (getVideoId(this.site.host, this.video) === this.videoData.videoId)
+      if (
+        (await getVideoID(this.site, window.location.href)) ===
+        this.videoData.videoId
+      )
         return;
       await this.handleSrcChanged();
       debug.log("lipsync mode is loadeddata");
       await this.autoTranslate();
     });
 
-    addExtraEventListener(this.video, "emptied", () => {
+    addExtraEventListener(this.video, "emptied", async () => {
       if (
         this.video.src &&
-        getVideoId(this.site.host, this.video) === this.videoData.videoId
+        (await getVideoID(this.site, window.location.href)) ===
+          this.videoData.videoId
       )
         return;
       debug.log("lipsync mode is emptied");
@@ -1518,14 +1519,14 @@ class VideoHandler {
       );
       this.subtitlesWidget.setContent(null);
       this.votDownloadSubtitlesButton.hidden = true;
-      this.YandexSubtitles = null;
+      this.yandexSubtitles = null;
     } else {
       const fetchedSubs = await fetchSubtitles(
         this.subtitlesList.at(parseInt(subs)),
       );
       this.subtitlesWidget.setContent(fetchedSubs);
       this.votDownloadSubtitlesButton.hidden = false;
-      this.YandexSubtitles = fetchedSubs;
+      this.yandexSubtitles = fetchedSubs;
     }
   }
 
@@ -1582,12 +1583,7 @@ class VideoHandler {
       return;
     }
 
-    this.subtitlesList = await getSubtitles(
-      this.votClient,
-      this.site,
-      this.videoData.videoId,
-      this.videoData.detectedLanguage,
-    );
+    this.subtitlesList = await getSubtitles(this.votClient, this.videoData);
     if (!this.subtitlesList) {
       await this.changeSubtitlesLang("disabled");
     } else {
@@ -1683,28 +1679,28 @@ class VideoHandler {
   }
 
   async getVideoData() {
+    // TODO: запатчить чтобы использовался уже существующий service?
+    const { duration, url, videoId, host } = await getVideoData(
+      window.location.href,
+    );
     const videoData = {
-      // ! should be null for ALL websites except coursera and udemy !
-      // else use direct link: `{url: xxx.mp4}`
       translationHelp: null,
-      isStream: false, // by default, we request the translation of the video
-      duration: this.video?.duration || 343, // ! if 0 - we get 400 error
-      videoId: getVideoId(this.site.host, this.video),
+      // by default, we request the translation of the video
+      isStream: false,
+      // ! if 0 - we get 400 error
+      duration: this.video?.duration || duration || votConfig.defaultDuration,
+      videoId,
+      url,
+      host,
       detectedLanguage: this.translateFromLang,
       responseLanguage: this.translateToLang,
     };
 
-    if (!videoData.videoId) {
-      this.ytData = {};
-      return videoData;
-    }
-
     if (this.site.host === "youtube") {
-      this.ytData = await youtubeUtils.getVideoData();
-      videoData.isStream = this.ytData.isLive;
-      if (this.ytData.title) {
-        videoData.detectedLanguage = this.ytData.detectedLanguage;
-        videoData.responseLanguage = this.translateToLang;
+      const youtubeData = await youtubeUtils.getVideoData();
+      videoData.isStream = youtubeData.isLive;
+      if (youtubeData.title) {
+        videoData.detectedLanguage = youtubeData.detectedLanguage;
       }
     } else if (["rutube", "ok.ru", "mail_ru"].includes(this.site.host)) {
       videoData.detectedLanguage = "ru";
@@ -1727,25 +1723,8 @@ class VideoHandler {
         url: coursehunterData.url,
       };
       videoData.duration = coursehunterData.duration || videoData.duration;
-    } else if (this.site.host === "bannedvideo") {
-      const bannedvideoData = await bannedvideoUtils.getVideoData(
-        videoData.videoId,
-      );
-      videoData.translationHelp = {
-        url: bannedvideoData.url,
-      };
-
-      videoData.duration = bannedvideoData.duration || videoData.duration;
-      videoData.isStream = bannedvideoData.live;
     } else if (this.site.host === "weverse") {
-      const weverseData = await weverseUtils.getVideoData();
       videoData.detectedLanguage = "ko";
-      if (weverseData) {
-        videoData.translationHelp = {
-          url: weverseData.url,
-        };
-        videoData.duration = weverseData.duration || videoData.duration;
-      }
     } else if (this.site.host === "udemy") {
       const udemyData = await udemyUtils.getVideoData(
         this.data.udemyData,
@@ -1754,11 +1733,6 @@ class VideoHandler {
       videoData.duration = udemyData.duration || videoData.duration;
       videoData.detectedLanguage = udemyData.detectedLanguage;
       videoData.translationHelp = udemyData.translationHelp;
-    } else if (this.site.host === "bitchute") {
-      // to avoid creating a separate file with the same functionality
-      videoData.translationHelp = {
-        url: videoData.videoId,
-      };
     } else if (
       [
         "bilibili",
@@ -1989,20 +1963,13 @@ class VideoHandler {
     translationHelp,
   ) {
     console.log("[VOT] Video Data: ", this.videoData);
-    let videoURL = `${this.site.url}${VIDEO_ID}`;
-    if (translationHelp?.url) {
-      videoURL = translationHelp.url;
-      translationHelp = null;
-    }
-
     // fix enabling the old requested voiceover when changing the language to the native language (#414)
     debug.log("Run videoValidator");
     this.videoValidator();
 
     if (isStream) {
       let translateRes = await this.translateStreamImpl(
-        videoURL,
-        VIDEO_ID,
+        this.videoData,
         requestLang,
         responseLang,
       );
@@ -2113,14 +2080,13 @@ class VideoHandler {
     }
 
     let translateRes = await this.translateVideoImpl(
-      videoURL,
-      VIDEO_ID,
-      this.videoData.duration,
+      this.videoData,
       requestLang,
       responseLang,
       translationHelp,
     );
 
+    debug.log("[translateRes]", translateRes);
     if (!translateRes) {
       debug.log("Skip translation");
       return;
@@ -2135,12 +2101,7 @@ class VideoHandler {
           item.language === this.videoData.responseLanguage,
       )
     ) {
-      this.subtitlesList = await getSubtitles(
-        this.votClient,
-        this.site,
-        this.videoData.videoId,
-        this.videoData.detectedLanguage,
-      );
+      this.subtitlesList = await getSubtitles(this.votClient, this.videoData);
       await this.updateSubtitlesLangSelect();
     }
 

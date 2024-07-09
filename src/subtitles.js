@@ -191,9 +191,9 @@ export async function fetchSubtitles(subtitlesObject) {
   return subtitles;
 }
 
-export async function getSubtitles(client, site, videoId, requestLang) {
-  const ytSubtitles =
-    site.host === "youtube" ? youtubeUtils.getSubtitles() : [];
+export async function getSubtitles(client, videoData) {
+  const { host, url, requestLang, videoId, duration } = videoData;
+  const ytSubtitles = host === "youtube" ? youtubeUtils.getSubtitles() : [];
   let resolved = false;
   const yaSubtitles = await Promise.race([
     new Promise((resolve) => {
@@ -207,7 +207,12 @@ export async function getSubtitles(client, site, videoId, requestLang) {
     new Promise((resolve) => {
       client
         .getSubtitles({
-          url: `${site.url}${videoId}`,
+          videoData: {
+            host,
+            url,
+            videoId,
+            duration,
+          },
           requestLang,
         })
         .then((res) => {
