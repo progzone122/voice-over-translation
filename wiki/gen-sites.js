@@ -2,7 +2,7 @@ import Bun from "bun";
 
 import * as path from "node:path";
 
-import sites from "../src/config/sites";
+import sites from "vot.js/sites";
 
 const i18n = {
   limitations: {
@@ -387,9 +387,10 @@ async function main() {
     const mdText = genMarkdown(supportedSites, lang)
       .join("\n\n")
       .replace("Nine_gag", "9GAG")
-      .replace("Mail_ru", "Mail.ru")
+      .replace("Mailru", "Mail.ru")
       .replace("Yandexdisk", "Yandex Disk")
       .replace("Googledrive", "Google Drive")
+      .replace("Okru", "OK.ru")
       .replace("Bannedvideo", "Banned.Video")
       .replace(
         "geo.dailymotion.com",
