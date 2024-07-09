@@ -26,7 +26,7 @@
     "husky": "^9.0.11",
     "lint-staged": "^15.2.7",
     "npm-run-all2": "^6.2.2",
-    "oxlint": "^0.5.2",
+    "oxlint": "^0.5.3",
     "sass": "^1.77.6",
     "sass-loader": "^14.2.1",
     "style-loader": "^4.0.0",
@@ -52,8 +52,11 @@
     "gen:wiki": "bun run ./wiki/gen-sites.js"
   },
   "dependencies": {
-    "vot.js": "link:vot.js",
     "bowser": "^2.11.0",
-    "requestidlecallback-polyfill": "^1.0.2"
+    "requestidlecallback-polyfill": "^1.0.2",
+    "vot.js": "^0.3.0"
+  },
+  "patchedDependencies": {
+    "vot.js@0.3.0": "patches/vot.js@0.3.0.patch"
   }
 }
