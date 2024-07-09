@@ -20,7 +20,8 @@ export const votStorage = new (class {
       }
     }
 
-    return toNumber ? Number(val) ?? Number(def) : val ?? def;
+    const result = val ?? def;
+    return toNumber ? Number(result) : result;
   }
 
   async get(name, def = undefined, toNumber = false) {
