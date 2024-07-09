@@ -27,6 +27,8 @@
     "lint-staged": "^15.2.7",
     "npm-run-all2": "^6.2.2",
     "oxlint": "^0.5.3",
+    "patch-package": "^8.0.0",
+    "postinstall-postinstall": "^2.1.0",
     "sass": "^1.77.6",
     "sass-loader": "^14.2.1",
     "style-loader": "^4.0.0",
@@ -49,14 +51,12 @@
     "dev:cloudflare": "webpack serve --node-env development --env build_mode=cloudflare",
     "lint": "npx oxlint --ignore-path=.oxlintignore && npx eslint",
     "prepare": "husky",
-    "gen:wiki": "bun run ./wiki/gen-sites.js"
+    "gen:wiki": "bun run ./wiki/gen-sites.js",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "bowser": "^2.11.0",
     "requestidlecallback-polyfill": "^1.0.2",
-    "vot.js": "^0.3.0"
-  },
-  "patchedDependencies": {
-    "vot.js@0.3.0": "patches/vot.js@0.3.0.patch"
+    "vot.js": "0.4.0"
   }
 }
