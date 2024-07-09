@@ -147,12 +147,5 @@ export default (env) => {
       minimize: build_type === "minify",
       minimizer: [new TerserPlugin()],
     },
-    externalsType: "window",
-    externals: {
-      // ignore UnhandledSchemeError: Reading from "node:crypto" is not handled by plugins (Unhandled scheme)
-
-      // TODO: придумать как убирать лишний импорт Unpkg node:crypto из меты
-      "node:crypto": "crypto",
-    },
   });
 };
