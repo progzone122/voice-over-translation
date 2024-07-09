@@ -156,6 +156,28 @@ npm i
    npm run prepare
    ```
 
+### How to patch vot.js
+
+1. Install Bun.sh in WSL (doesn't work under Windows!)
+2. Install all packages
+
+```bash
+bun install
+```
+
+3. Write it down
+
+```bash
+bun patch vot.js
+```
+
+4. Make the necessary changes to node_modules/vot.js/required file
+5. Save the changes using the command
+
+```bash
+bun patch --commit 'node_modules/vot.js'
+```
+
 ## Customization of appearance:
 
 The extension supports customization of the appearance using Stylus, Stylish and other similar extensions
