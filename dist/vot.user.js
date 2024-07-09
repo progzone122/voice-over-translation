@@ -20,9 +20,9 @@
 // @grant          GM_getValue
 // @grant          GM_xmlhttpRequest
 // @grant          GM_info
+// @require        https://cdn.jsdelivr.net/npm/protobufjs/dist/light/protobuf.min.js
 // @require        https://cdn.jsdelivr.net/npm/hls.js/dist/hls.light.min.js
 // @require        https://gist.githubusercontent.com/ilyhalight/6eb5bb4dffc7ca9e3c57d6933e2452f3/raw/7ab38af2228d0bed13912e503bc8a9ee4b11828d/gm-addstyle-polyfill.js
-// @require        https://unpkg.com/node:crypto
 // @match          *://*.youtube.com/*
 // @match          *://*.youtube-nocookie.com/*
 // @match          *://*.youtubekids.com/*
@@ -556,3113 +556,6 @@ module.exports = function () {
 }
 
 
-/***/ }),
-
-/***/ "../vot.js/node_modules/@protobufjs/aspromise/index.js":
-/***/ ((module) => {
-
-"use strict";
-
-module.exports = asPromise;
-
-/**
- * Callback as used by {@link util.asPromise}.
- * @typedef asPromiseCallback
- * @type {function}
- * @param {Error|null} error Error, if any
- * @param {...*} params Additional arguments
- * @returns {undefined}
- */
-
-/**
- * Returns a promise from a node-style callback function.
- * @memberof util
- * @param {asPromiseCallback} fn Function to call
- * @param {*} ctx Function context
- * @param {...*} params Function arguments
- * @returns {Promise<*>} Promisified function
- */
-function asPromise(fn, ctx/*, varargs */) {
-    var params  = new Array(arguments.length - 1),
-        offset  = 0,
-        index   = 2,
-        pending = true;
-    while (index < arguments.length)
-        params[offset++] = arguments[index++];
-    return new Promise(function executor(resolve, reject) {
-        params[offset] = function callback(err/*, varargs */) {
-            if (pending) {
-                pending = false;
-                if (err)
-                    reject(err);
-                else {
-                    var params = new Array(arguments.length - 1),
-                        offset = 0;
-                    while (offset < params.length)
-                        params[offset++] = arguments[offset];
-                    resolve.apply(null, params);
-                }
-            }
-        };
-        try {
-            fn.apply(ctx || null, params);
-        } catch (err) {
-            if (pending) {
-                pending = false;
-                reject(err);
-            }
-        }
-    });
-}
-
-
-/***/ }),
-
-/***/ "../vot.js/node_modules/@protobufjs/base64/index.js":
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-
-/**
- * A minimal base64 implementation for number arrays.
- * @memberof util
- * @namespace
- */
-var base64 = exports;
-
-/**
- * Calculates the byte length of a base64 encoded string.
- * @param {string} string Base64 encoded string
- * @returns {number} Byte length
- */
-base64.length = function length(string) {
-    var p = string.length;
-    if (!p)
-        return 0;
-    var n = 0;
-    while (--p % 4 > 1 && string.charAt(p) === "=")
-        ++n;
-    return Math.ceil(string.length * 3) / 4 - n;
-};
-
-// Base64 encoding table
-var b64 = new Array(64);
-
-// Base64 decoding table
-var s64 = new Array(123);
-
-// 65..90, 97..122, 48..57, 43, 47
-for (var i = 0; i < 64;)
-    s64[b64[i] = i < 26 ? i + 65 : i < 52 ? i + 71 : i < 62 ? i - 4 : i - 59 | 43] = i++;
-
-/**
- * Encodes a buffer to a base64 encoded string.
- * @param {Uint8Array} buffer Source buffer
- * @param {number} start Source start
- * @param {number} end Source end
- * @returns {string} Base64 encoded string
- */
-base64.encode = function encode(buffer, start, end) {
-    var parts = null,
-        chunk = [];
-    var i = 0, // output index
-        j = 0, // goto index
-        t;     // temporary
-    while (start < end) {
-        var b = buffer[start++];
-        switch (j) {
-            case 0:
-                chunk[i++] = b64[b >> 2];
-                t = (b & 3) << 4;
-                j = 1;
-                break;
-            case 1:
-                chunk[i++] = b64[t | b >> 4];
-                t = (b & 15) << 2;
-                j = 2;
-                break;
-            case 2:
-                chunk[i++] = b64[t | b >> 6];
-                chunk[i++] = b64[b & 63];
-                j = 0;
-                break;
-        }
-        if (i > 8191) {
-            (parts || (parts = [])).push(String.fromCharCode.apply(String, chunk));
-            i = 0;
-        }
-    }
-    if (j) {
-        chunk[i++] = b64[t];
-        chunk[i++] = 61;
-        if (j === 1)
-            chunk[i++] = 61;
-    }
-    if (parts) {
-        if (i)
-            parts.push(String.fromCharCode.apply(String, chunk.slice(0, i)));
-        return parts.join("");
-    }
-    return String.fromCharCode.apply(String, chunk.slice(0, i));
-};
-
-var invalidEncoding = "invalid encoding";
-
-/**
- * Decodes a base64 encoded string to a buffer.
- * @param {string} string Source string
- * @param {Uint8Array} buffer Destination buffer
- * @param {number} offset Destination offset
- * @returns {number} Number of bytes written
- * @throws {Error} If encoding is invalid
- */
-base64.decode = function decode(string, buffer, offset) {
-    var start = offset;
-    var j = 0, // goto index
-        t;     // temporary
-    for (var i = 0; i < string.length;) {
-        var c = string.charCodeAt(i++);
-        if (c === 61 && j > 1)
-            break;
-        if ((c = s64[c]) === undefined)
-            throw Error(invalidEncoding);
-        switch (j) {
-            case 0:
-                t = c;
-                j = 1;
-                break;
-            case 1:
-                buffer[offset++] = t << 2 | (c & 48) >> 4;
-                t = c;
-                j = 2;
-                break;
-            case 2:
-                buffer[offset++] = (t & 15) << 4 | (c & 60) >> 2;
-                t = c;
-                j = 3;
-                break;
-            case 3:
-                buffer[offset++] = (t & 3) << 6 | c;
-                j = 0;
-                break;
-        }
-    }
-    if (j === 1)
-        throw Error(invalidEncoding);
-    return offset - start;
-};
-
-/**
- * Tests if the specified string appears to be base64 encoded.
- * @param {string} string String to test
- * @returns {boolean} `true` if probably base64 encoded, otherwise false
- */
-base64.test = function test(string) {
-    return /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(string);
-};
-
-
-/***/ }),
-
-/***/ "../vot.js/node_modules/@protobufjs/eventemitter/index.js":
-/***/ ((module) => {
-
-"use strict";
-
-module.exports = EventEmitter;
-
-/**
- * Constructs a new event emitter instance.
- * @classdesc A minimal event emitter.
- * @memberof util
- * @constructor
- */
-function EventEmitter() {
-
-    /**
-     * Registered listeners.
-     * @type {Object.<string,*>}
-     * @private
-     */
-    this._listeners = {};
-}
-
-/**
- * Registers an event listener.
- * @param {string} evt Event name
- * @param {function} fn Listener
- * @param {*} [ctx] Listener context
- * @returns {util.EventEmitter} `this`
- */
-EventEmitter.prototype.on = function on(evt, fn, ctx) {
-    (this._listeners[evt] || (this._listeners[evt] = [])).push({
-        fn  : fn,
-        ctx : ctx || this
-    });
-    return this;
-};
-
-/**
- * Removes an event listener or any matching listeners if arguments are omitted.
- * @param {string} [evt] Event name. Removes all listeners if omitted.
- * @param {function} [fn] Listener to remove. Removes all listeners of `evt` if omitted.
- * @returns {util.EventEmitter} `this`
- */
-EventEmitter.prototype.off = function off(evt, fn) {
-    if (evt === undefined)
-        this._listeners = {};
-    else {
-        if (fn === undefined)
-            this._listeners[evt] = [];
-        else {
-            var listeners = this._listeners[evt];
-            for (var i = 0; i < listeners.length;)
-                if (listeners[i].fn === fn)
-                    listeners.splice(i, 1);
-                else
-                    ++i;
-        }
-    }
-    return this;
-};
-
-/**
- * Emits an event by calling its listeners with the specified arguments.
- * @param {string} evt Event name
- * @param {...*} args Arguments
- * @returns {util.EventEmitter} `this`
- */
-EventEmitter.prototype.emit = function emit(evt) {
-    var listeners = this._listeners[evt];
-    if (listeners) {
-        var args = [],
-            i = 1;
-        for (; i < arguments.length;)
-            args.push(arguments[i++]);
-        for (i = 0; i < listeners.length;)
-            listeners[i].fn.apply(listeners[i++].ctx, args);
-    }
-    return this;
-};
-
-
-/***/ }),
-
-/***/ "../vot.js/node_modules/@protobufjs/float/index.js":
-/***/ ((module) => {
-
-"use strict";
-
-
-module.exports = factory(factory);
-
-/**
- * Reads / writes floats / doubles from / to buffers.
- * @name util.float
- * @namespace
- */
-
-/**
- * Writes a 32 bit float to a buffer using little endian byte order.
- * @name util.float.writeFloatLE
- * @function
- * @param {number} val Value to write
- * @param {Uint8Array} buf Target buffer
- * @param {number} pos Target buffer offset
- * @returns {undefined}
- */
-
-/**
- * Writes a 32 bit float to a buffer using big endian byte order.
- * @name util.float.writeFloatBE
- * @function
- * @param {number} val Value to write
- * @param {Uint8Array} buf Target buffer
- * @param {number} pos Target buffer offset
- * @returns {undefined}
- */
-
-/**
- * Reads a 32 bit float from a buffer using little endian byte order.
- * @name util.float.readFloatLE
- * @function
- * @param {Uint8Array} buf Source buffer
- * @param {number} pos Source buffer offset
- * @returns {number} Value read
- */
-
-/**
- * Reads a 32 bit float from a buffer using big endian byte order.
- * @name util.float.readFloatBE
- * @function
- * @param {Uint8Array} buf Source buffer
- * @param {number} pos Source buffer offset
- * @returns {number} Value read
- */
-
-/**
- * Writes a 64 bit double to a buffer using little endian byte order.
- * @name util.float.writeDoubleLE
- * @function
- * @param {number} val Value to write
- * @param {Uint8Array} buf Target buffer
- * @param {number} pos Target buffer offset
- * @returns {undefined}
- */
-
-/**
- * Writes a 64 bit double to a buffer using big endian byte order.
- * @name util.float.writeDoubleBE
- * @function
- * @param {number} val Value to write
- * @param {Uint8Array} buf Target buffer
- * @param {number} pos Target buffer offset
- * @returns {undefined}
- */
-
-/**
- * Reads a 64 bit double from a buffer using little endian byte order.
- * @name util.float.readDoubleLE
- * @function
- * @param {Uint8Array} buf Source buffer
- * @param {number} pos Source buffer offset
- * @returns {number} Value read
- */
-
-/**
- * Reads a 64 bit double from a buffer using big endian byte order.
- * @name util.float.readDoubleBE
- * @function
- * @param {Uint8Array} buf Source buffer
- * @param {number} pos Source buffer offset
- * @returns {number} Value read
- */
-
-// Factory function for the purpose of node-based testing in modified global environments
-function factory(exports) {
-
-    // float: typed array
-    if (typeof Float32Array !== "undefined") (function() {
-
-        var f32 = new Float32Array([ -0 ]),
-            f8b = new Uint8Array(f32.buffer),
-            le  = f8b[3] === 128;
-
-        function writeFloat_f32_cpy(val, buf, pos) {
-            f32[0] = val;
-            buf[pos    ] = f8b[0];
-            buf[pos + 1] = f8b[1];
-            buf[pos + 2] = f8b[2];
-            buf[pos + 3] = f8b[3];
-        }
-
-        function writeFloat_f32_rev(val, buf, pos) {
-            f32[0] = val;
-            buf[pos    ] = f8b[3];
-            buf[pos + 1] = f8b[2];
-            buf[pos + 2] = f8b[1];
-            buf[pos + 3] = f8b[0];
-        }
-
-        /* istanbul ignore next */
-        exports.writeFloatLE = le ? writeFloat_f32_cpy : writeFloat_f32_rev;
-        /* istanbul ignore next */
-        exports.writeFloatBE = le ? writeFloat_f32_rev : writeFloat_f32_cpy;
-
-        function readFloat_f32_cpy(buf, pos) {
-            f8b[0] = buf[pos    ];
-            f8b[1] = buf[pos + 1];
-            f8b[2] = buf[pos + 2];
-            f8b[3] = buf[pos + 3];
-            return f32[0];
-        }
-
-        function readFloat_f32_rev(buf, pos) {
-            f8b[3] = buf[pos    ];
-            f8b[2] = buf[pos + 1];
-            f8b[1] = buf[pos + 2];
-            f8b[0] = buf[pos + 3];
-            return f32[0];
-        }
-
-        /* istanbul ignore next */
-        exports.readFloatLE = le ? readFloat_f32_cpy : readFloat_f32_rev;
-        /* istanbul ignore next */
-        exports.readFloatBE = le ? readFloat_f32_rev : readFloat_f32_cpy;
-
-    // float: ieee754
-    })(); else (function() {
-
-        function writeFloat_ieee754(writeUint, val, buf, pos) {
-            var sign = val < 0 ? 1 : 0;
-            if (sign)
-                val = -val;
-            if (val === 0)
-                writeUint(1 / val > 0 ? /* positive */ 0 : /* negative 0 */ 2147483648, buf, pos);
-            else if (isNaN(val))
-                writeUint(2143289344, buf, pos);
-            else if (val > 3.4028234663852886e+38) // +-Infinity
-                writeUint((sign << 31 | 2139095040) >>> 0, buf, pos);
-            else if (val < 1.1754943508222875e-38) // denormal
-                writeUint((sign << 31 | Math.round(val / 1.401298464324817e-45)) >>> 0, buf, pos);
-            else {
-                var exponent = Math.floor(Math.log(val) / Math.LN2),
-                    mantissa = Math.round(val * Math.pow(2, -exponent) * 8388608) & 8388607;
-                writeUint((sign << 31 | exponent + 127 << 23 | mantissa) >>> 0, buf, pos);
-            }
-        }
-
-        exports.writeFloatLE = writeFloat_ieee754.bind(null, writeUintLE);
-        exports.writeFloatBE = writeFloat_ieee754.bind(null, writeUintBE);
-
-        function readFloat_ieee754(readUint, buf, pos) {
-            var uint = readUint(buf, pos),
-                sign = (uint >> 31) * 2 + 1,
-                exponent = uint >>> 23 & 255,
-                mantissa = uint & 8388607;
-            return exponent === 255
-                ? mantissa
-                ? NaN
-                : sign * Infinity
-                : exponent === 0 // denormal
-                ? sign * 1.401298464324817e-45 * mantissa
-                : sign * Math.pow(2, exponent - 150) * (mantissa + 8388608);
-        }
-
-        exports.readFloatLE = readFloat_ieee754.bind(null, readUintLE);
-        exports.readFloatBE = readFloat_ieee754.bind(null, readUintBE);
-
-    })();
-
-    // double: typed array
-    if (typeof Float64Array !== "undefined") (function() {
-
-        var f64 = new Float64Array([-0]),
-            f8b = new Uint8Array(f64.buffer),
-            le  = f8b[7] === 128;
-
-        function writeDouble_f64_cpy(val, buf, pos) {
-            f64[0] = val;
-            buf[pos    ] = f8b[0];
-            buf[pos + 1] = f8b[1];
-            buf[pos + 2] = f8b[2];
-            buf[pos + 3] = f8b[3];
-            buf[pos + 4] = f8b[4];
-            buf[pos + 5] = f8b[5];
-            buf[pos + 6] = f8b[6];
-            buf[pos + 7] = f8b[7];
-        }
-
-        function writeDouble_f64_rev(val, buf, pos) {
-            f64[0] = val;
-            buf[pos    ] = f8b[7];
-            buf[pos + 1] = f8b[6];
-            buf[pos + 2] = f8b[5];
-            buf[pos + 3] = f8b[4];
-            buf[pos + 4] = f8b[3];
-            buf[pos + 5] = f8b[2];
-            buf[pos + 6] = f8b[1];
-            buf[pos + 7] = f8b[0];
-        }
-
-        /* istanbul ignore next */
-        exports.writeDoubleLE = le ? writeDouble_f64_cpy : writeDouble_f64_rev;
-        /* istanbul ignore next */
-        exports.writeDoubleBE = le ? writeDouble_f64_rev : writeDouble_f64_cpy;
-
-        function readDouble_f64_cpy(buf, pos) {
-            f8b[0] = buf[pos    ];
-            f8b[1] = buf[pos + 1];
-            f8b[2] = buf[pos + 2];
-            f8b[3] = buf[pos + 3];
-            f8b[4] = buf[pos + 4];
-            f8b[5] = buf[pos + 5];
-            f8b[6] = buf[pos + 6];
-            f8b[7] = buf[pos + 7];
-            return f64[0];
-        }
-
-        function readDouble_f64_rev(buf, pos) {
-            f8b[7] = buf[pos    ];
-            f8b[6] = buf[pos + 1];
-            f8b[5] = buf[pos + 2];
-            f8b[4] = buf[pos + 3];
-            f8b[3] = buf[pos + 4];
-            f8b[2] = buf[pos + 5];
-            f8b[1] = buf[pos + 6];
-            f8b[0] = buf[pos + 7];
-            return f64[0];
-        }
-
-        /* istanbul ignore next */
-        exports.readDoubleLE = le ? readDouble_f64_cpy : readDouble_f64_rev;
-        /* istanbul ignore next */
-        exports.readDoubleBE = le ? readDouble_f64_rev : readDouble_f64_cpy;
-
-    // double: ieee754
-    })(); else (function() {
-
-        function writeDouble_ieee754(writeUint, off0, off1, val, buf, pos) {
-            var sign = val < 0 ? 1 : 0;
-            if (sign)
-                val = -val;
-            if (val === 0) {
-                writeUint(0, buf, pos + off0);
-                writeUint(1 / val > 0 ? /* positive */ 0 : /* negative 0 */ 2147483648, buf, pos + off1);
-            } else if (isNaN(val)) {
-                writeUint(0, buf, pos + off0);
-                writeUint(2146959360, buf, pos + off1);
-            } else if (val > 1.7976931348623157e+308) { // +-Infinity
-                writeUint(0, buf, pos + off0);
-                writeUint((sign << 31 | 2146435072) >>> 0, buf, pos + off1);
-            } else {
-                var mantissa;
-                if (val < 2.2250738585072014e-308) { // denormal
-                    mantissa = val / 5e-324;
-                    writeUint(mantissa >>> 0, buf, pos + off0);
-                    writeUint((sign << 31 | mantissa / 4294967296) >>> 0, buf, pos + off1);
-                } else {
-                    var exponent = Math.floor(Math.log(val) / Math.LN2);
-                    if (exponent === 1024)
-                        exponent = 1023;
-                    mantissa = val * Math.pow(2, -exponent);
-                    writeUint(mantissa * 4503599627370496 >>> 0, buf, pos + off0);
-                    writeUint((sign << 31 | exponent + 1023 << 20 | mantissa * 1048576 & 1048575) >>> 0, buf, pos + off1);
-                }
-            }
-        }
-
-        exports.writeDoubleLE = writeDouble_ieee754.bind(null, writeUintLE, 0, 4);
-        exports.writeDoubleBE = writeDouble_ieee754.bind(null, writeUintBE, 4, 0);
-
-        function readDouble_ieee754(readUint, off0, off1, buf, pos) {
-            var lo = readUint(buf, pos + off0),
-                hi = readUint(buf, pos + off1);
-            var sign = (hi >> 31) * 2 + 1,
-                exponent = hi >>> 20 & 2047,
-                mantissa = 4294967296 * (hi & 1048575) + lo;
-            return exponent === 2047
-                ? mantissa
-                ? NaN
-                : sign * Infinity
-                : exponent === 0 // denormal
-                ? sign * 5e-324 * mantissa
-                : sign * Math.pow(2, exponent - 1075) * (mantissa + 4503599627370496);
-        }
-
-        exports.readDoubleLE = readDouble_ieee754.bind(null, readUintLE, 0, 4);
-        exports.readDoubleBE = readDouble_ieee754.bind(null, readUintBE, 4, 0);
-
-    })();
-
-    return exports;
-}
-
-// uint helpers
-
-function writeUintLE(val, buf, pos) {
-    buf[pos    ] =  val        & 255;
-    buf[pos + 1] =  val >>> 8  & 255;
-    buf[pos + 2] =  val >>> 16 & 255;
-    buf[pos + 3] =  val >>> 24;
-}
-
-function writeUintBE(val, buf, pos) {
-    buf[pos    ] =  val >>> 24;
-    buf[pos + 1] =  val >>> 16 & 255;
-    buf[pos + 2] =  val >>> 8  & 255;
-    buf[pos + 3] =  val        & 255;
-}
-
-function readUintLE(buf, pos) {
-    return (buf[pos    ]
-          | buf[pos + 1] << 8
-          | buf[pos + 2] << 16
-          | buf[pos + 3] << 24) >>> 0;
-}
-
-function readUintBE(buf, pos) {
-    return (buf[pos    ] << 24
-          | buf[pos + 1] << 16
-          | buf[pos + 2] << 8
-          | buf[pos + 3]) >>> 0;
-}
-
-
-/***/ }),
-
-/***/ "../vot.js/node_modules/@protobufjs/inquire/index.js":
-/***/ ((module) => {
-
-"use strict";
-
-module.exports = inquire;
-
-/**
- * Requires a module only if available.
- * @memberof util
- * @param {string} moduleName Module to require
- * @returns {?Object} Required module if available and not empty, otherwise `null`
- */
-function inquire(moduleName) {
-    try {
-        var mod = eval("quire".replace(/^/,"re"))(moduleName); // eslint-disable-line no-eval
-        if (mod && (mod.length || Object.keys(mod).length))
-            return mod;
-    } catch (e) {} // eslint-disable-line no-empty
-    return null;
-}
-
-
-/***/ }),
-
-/***/ "../vot.js/node_modules/@protobufjs/pool/index.js":
-/***/ ((module) => {
-
-"use strict";
-
-module.exports = pool;
-
-/**
- * An allocator as used by {@link util.pool}.
- * @typedef PoolAllocator
- * @type {function}
- * @param {number} size Buffer size
- * @returns {Uint8Array} Buffer
- */
-
-/**
- * A slicer as used by {@link util.pool}.
- * @typedef PoolSlicer
- * @type {function}
- * @param {number} start Start offset
- * @param {number} end End offset
- * @returns {Uint8Array} Buffer slice
- * @this {Uint8Array}
- */
-
-/**
- * A general purpose buffer pool.
- * @memberof util
- * @function
- * @param {PoolAllocator} alloc Allocator
- * @param {PoolSlicer} slice Slicer
- * @param {number} [size=8192] Slab size
- * @returns {PoolAllocator} Pooled allocator
- */
-function pool(alloc, slice, size) {
-    var SIZE   = size || 8192;
-    var MAX    = SIZE >>> 1;
-    var slab   = null;
-    var offset = SIZE;
-    return function pool_alloc(size) {
-        if (size < 1 || size > MAX)
-            return alloc(size);
-        if (offset + size > SIZE) {
-            slab = alloc(SIZE);
-            offset = 0;
-        }
-        var buf = slice.call(slab, offset, offset += size);
-        if (offset & 7) // align to 32 bit
-            offset = (offset | 7) + 1;
-        return buf;
-    };
-}
-
-
-/***/ }),
-
-/***/ "../vot.js/node_modules/@protobufjs/utf8/index.js":
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-
-/**
- * A minimal UTF8 implementation for number arrays.
- * @memberof util
- * @namespace
- */
-var utf8 = exports;
-
-/**
- * Calculates the UTF8 byte length of a string.
- * @param {string} string String
- * @returns {number} Byte length
- */
-utf8.length = function utf8_length(string) {
-    var len = 0,
-        c = 0;
-    for (var i = 0; i < string.length; ++i) {
-        c = string.charCodeAt(i);
-        if (c < 128)
-            len += 1;
-        else if (c < 2048)
-            len += 2;
-        else if ((c & 0xFC00) === 0xD800 && (string.charCodeAt(i + 1) & 0xFC00) === 0xDC00) {
-            ++i;
-            len += 4;
-        } else
-            len += 3;
-    }
-    return len;
-};
-
-/**
- * Reads UTF8 bytes as a string.
- * @param {Uint8Array} buffer Source buffer
- * @param {number} start Source start
- * @param {number} end Source end
- * @returns {string} String read
- */
-utf8.read = function utf8_read(buffer, start, end) {
-    var len = end - start;
-    if (len < 1)
-        return "";
-    var parts = null,
-        chunk = [],
-        i = 0, // char offset
-        t;     // temporary
-    while (start < end) {
-        t = buffer[start++];
-        if (t < 128)
-            chunk[i++] = t;
-        else if (t > 191 && t < 224)
-            chunk[i++] = (t & 31) << 6 | buffer[start++] & 63;
-        else if (t > 239 && t < 365) {
-            t = ((t & 7) << 18 | (buffer[start++] & 63) << 12 | (buffer[start++] & 63) << 6 | buffer[start++] & 63) - 0x10000;
-            chunk[i++] = 0xD800 + (t >> 10);
-            chunk[i++] = 0xDC00 + (t & 1023);
-        } else
-            chunk[i++] = (t & 15) << 12 | (buffer[start++] & 63) << 6 | buffer[start++] & 63;
-        if (i > 8191) {
-            (parts || (parts = [])).push(String.fromCharCode.apply(String, chunk));
-            i = 0;
-        }
-    }
-    if (parts) {
-        if (i)
-            parts.push(String.fromCharCode.apply(String, chunk.slice(0, i)));
-        return parts.join("");
-    }
-    return String.fromCharCode.apply(String, chunk.slice(0, i));
-};
-
-/**
- * Writes a string as UTF8 bytes.
- * @param {string} string Source string
- * @param {Uint8Array} buffer Destination buffer
- * @param {number} offset Destination offset
- * @returns {number} Bytes written
- */
-utf8.write = function utf8_write(string, buffer, offset) {
-    var start = offset,
-        c1, // character 1
-        c2; // character 2
-    for (var i = 0; i < string.length; ++i) {
-        c1 = string.charCodeAt(i);
-        if (c1 < 128) {
-            buffer[offset++] = c1;
-        } else if (c1 < 2048) {
-            buffer[offset++] = c1 >> 6       | 192;
-            buffer[offset++] = c1       & 63 | 128;
-        } else if ((c1 & 0xFC00) === 0xD800 && ((c2 = string.charCodeAt(i + 1)) & 0xFC00) === 0xDC00) {
-            c1 = 0x10000 + ((c1 & 0x03FF) << 10) + (c2 & 0x03FF);
-            ++i;
-            buffer[offset++] = c1 >> 18      | 240;
-            buffer[offset++] = c1 >> 12 & 63 | 128;
-            buffer[offset++] = c1 >> 6  & 63 | 128;
-            buffer[offset++] = c1       & 63 | 128;
-        } else {
-            buffer[offset++] = c1 >> 12      | 224;
-            buffer[offset++] = c1 >> 6  & 63 | 128;
-            buffer[offset++] = c1       & 63 | 128;
-        }
-    }
-    return offset - start;
-};
-
-
-/***/ }),
-
-/***/ "../vot.js/node_modules/dom-parser/dist/index.js":
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.parseFromString = void 0;
-const Dom_1 = __webpack_require__("../vot.js/node_modules/dom-parser/dist/lib/Dom.js");
-function parseFromString(html) {
-    return new Dom_1.Dom(html);
-}
-exports.parseFromString = parseFromString;
-__exportStar(__webpack_require__("../vot.js/node_modules/dom-parser/dist/lib/Dom.js"), exports);
-__exportStar(__webpack_require__("../vot.js/node_modules/dom-parser/dist/lib/Node.js"), exports);
-
-
-/***/ }),
-
-/***/ "../vot.js/node_modules/dom-parser/dist/lib/Dom.js":
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Dom = void 0;
-const Node_1 = __webpack_require__("../vot.js/node_modules/dom-parser/dist/lib/Node.js");
-const NodeAttribute_1 = __webpack_require__("../vot.js/node_modules/dom-parser/dist/lib/NodeAttribute.js");
-const tagRegExp = /(<\/?(?:[a-z][a-z0-9]*:)?[a-z][a-z0-9-_.]*?[a-z0-9]*\s*(?:\s+[a-z0-9-_:]+(?:=(?:(?:'[\s\S]*?')|(?:"[\s\S]*?")))?)*\s*\/?>)|([^<]|<(?![a-z/]))*/gi;
-const attrRegExp = /\s[a-z0-9-_:]+\b(\s*=\s*('|")[\s\S]*?\2)?/gi;
-const splitAttrRegExp = /(\s[a-z0-9-_:]+\b\s*)(?:=(\s*('|")[\s\S]*?\3))?/gi;
-const startTagExp = /^<[a-z]/;
-const selfCloseTagExp = /\/>$/;
-const closeTagExp = /^<\//;
-const textNodeExp = /^[^<]/;
-const nodeNameExp = /<\/?((?:([a-z][a-z0-9]*):)?(?:[a-z](?:[a-z0-9-_.]*[a-z0-9])?))/i;
-const attributeQuotesExp = /^('|")|('|")$/g;
-const noClosingTagsExp = /^(?:area|base|br|col|command|embed|hr|img|input|link|meta|param|source)/i;
-class Dom {
-    constructor(rawHTML) {
-        this.rawHTML = rawHTML;
-    }
-    find(conditionFn, findFirst) {
-        const result = find(this.rawHTML, conditionFn, findFirst);
-        return findFirst ? result[0] || null : result;
-    }
-    getElementsByClassName(className) {
-        const expr = new RegExp(`^(.*?\\s)?${className}(\\s.*?)?$`);
-        return this.find((node) => Boolean(node.attributes.length && expr.test(node.getAttribute('class') || '')));
-    }
-    getElementsByTagName(tagName) {
-        return this.find((node) => node.nodeName.toUpperCase() === tagName.toUpperCase());
-    }
-    getElementById(id) {
-        return this.find((node) => node.getAttribute('id') === id, true);
-    }
-    getElementsByName(name) {
-        return this.find((node) => node.getAttribute('name') === name);
-    }
-    getElementsByAttribute(attributeName, attributeValue) {
-        return this.find((node) => node.getAttribute(attributeName) === attributeValue);
-    }
-}
-exports.Dom = Dom;
-// private
-function find(html, conditionFn, onlyFirst = false) {
-    const generator = domGenerator(html);
-    const result = [];
-    for (const node of generator) {
-        if (node && conditionFn(node)) {
-            result.push(node);
-            if (onlyFirst) {
-                return result;
-            }
-        }
-    }
-    return result;
-}
-function* domGenerator(html) {
-    const tags = getAllTags(html);
-    let cursor = null;
-    for (let i = 0, l = tags.length; i < l; i++) {
-        const tag = tags[i];
-        const node = createNode(tag, cursor);
-        cursor = node || cursor;
-        if (isElementComposed(cursor, tag)) {
-            yield cursor;
-            cursor = cursor.parentNode;
-        }
-    }
-    while (cursor) {
-        yield cursor;
-        cursor = cursor.parentNode;
-    }
-}
-function isElementComposed(element, tag) {
-    if (!tag) {
-        return false;
-    }
-    const isCloseTag = closeTagExp.test(tag);
-    const [, nodeName] = tag.match(nodeNameExp) || [];
-    const isElementClosedByTag = isCloseTag && element.nodeName === nodeName;
-    return isElementClosedByTag || element.isSelfCloseTag || element.nodeType === Node_1.NodeType.text;
-}
-function getAllTags(html) {
-    return html.match(tagRegExp) || [];
-}
-function createNode(tag, parentNode) {
-    const isTextNode = textNodeExp.test(tag);
-    const isStartTag = startTagExp.test(tag);
-    if (isTextNode) {
-        return createTextNode(tag, parentNode);
-    }
-    if (isStartTag) {
-        return createElementNode(tag, parentNode);
-    }
-    return null;
-}
-function createElementNode(tag, parentNode) {
-    var _a;
-    const [, nodeName, namespace] = tag.match(nodeNameExp) || [];
-    const selfCloseTag = selfCloseTagExp.test(tag) || noClosingTagsExp.test(nodeName);
-    const attributes = parseAttributes(tag);
-    const elementNode = new Node_1.Node({
-        nodeType: Node_1.NodeType.element,
-        nodeName,
-        namespace,
-        attributes,
-        childNodes: [],
-        parentNode,
-        selfCloseTag,
-    });
-    (_a = parentNode === null || parentNode === void 0 ? void 0 : parentNode.childNodes) === null || _a === void 0 ? void 0 : _a.push(elementNode);
-    return elementNode;
-}
-function parseAttributes(tag) {
-    return (tag.match(attrRegExp) || []).map((attributeString) => {
-        splitAttrRegExp.lastIndex = 0;
-        const exec = splitAttrRegExp.exec(attributeString) || [];
-        const [, name = '', value = ''] = exec;
-        return new NodeAttribute_1.NodeAttribute({
-            name: name.trim(),
-            value: value.trim().replace(attributeQuotesExp, ''),
-        });
-    });
-}
-function createTextNode(text, parentNode) {
-    var _a;
-    const textNode = new Node_1.Node({
-        nodeType: Node_1.NodeType.text,
-        nodeName: '#text',
-        text,
-        parentNode,
-    });
-    (_a = parentNode === null || parentNode === void 0 ? void 0 : parentNode.childNodes) === null || _a === void 0 ? void 0 : _a.push(textNode);
-    return textNode;
-}
-
-
-/***/ }),
-
-/***/ "../vot.js/node_modules/dom-parser/dist/lib/Node.js":
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-// https://developer.mozilla.org/en-US/docs/Web/API/Node
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Node = exports.NodeType = void 0;
-var NodeType;
-(function (NodeType) {
-    NodeType[NodeType["element"] = 1] = "element";
-    NodeType[NodeType["text"] = 3] = "text";
-})(NodeType || (exports.NodeType = NodeType = {}));
-class Node {
-    constructor({ nodeType, namespace, selfCloseTag, text, nodeName, childNodes, parentNode, attributes, }) {
-        this.namespace = namespace || null;
-        this.nodeType = nodeType;
-        this.isSelfCloseTag = Boolean(selfCloseTag);
-        this.text = text || null;
-        this.nodeName = nodeType === NodeType.element ? nodeName : '#text';
-        this.childNodes = childNodes || [];
-        this.parentNode = parentNode;
-        this.attributes = attributes || [];
-    }
-    get firstChild() {
-        return this.childNodes[0] || null;
-    }
-    get lastChild() {
-        return this.childNodes[this.childNodes.length - 1] || null;
-    }
-    get innerHTML() {
-        return this.childNodes.reduce((html, node) => html + (node.nodeType === NodeType.text ? node.text : node.outerHTML), '');
-    }
-    get outerHTML() {
-        if (this.nodeType === NodeType.text) {
-            return this.textContent;
-        }
-        const attributesString = stringifyAttributes(this.attributes);
-        const openTag = `<${this.nodeName}${attributesString.length ? ' ' : ''}${attributesString}${this.isSelfCloseTag ? '/' : ''}>`;
-        if (this.isSelfCloseTag) {
-            return openTag;
-        }
-        const childs = this.childNodes.map((child) => child.outerHTML).join('');
-        const closeTag = `</${this.nodeName}>`;
-        return [openTag, childs, closeTag].join('');
-    }
-    get textContent() {
-        if (this.nodeType === NodeType.text) {
-            return this.text;
-        }
-        return this.childNodes
-            .map((node) => node.textContent)
-            .join('')
-            .replace(/\x20+/g, ' ');
-    }
-    getAttribute(name) {
-        const attribute = this.attributes.find((a) => a.name === name);
-        return attribute ? attribute.value : null;
-    }
-    getElementsByTagName(tagName) {
-        return searchElements(this, (elem) => elem.nodeName.toUpperCase() === tagName.toUpperCase());
-    }
-    getElementsByClassName(className) {
-        const expr = new RegExp(`^(.*?\\s)?${className}(\\s.*?)?$`);
-        return searchElements(this, (node) => Boolean(node.attributes.length && expr.test(node.getAttribute('class') || '')));
-    }
-    getElementsByName(name) {
-        return searchElements(this, (node) => Boolean(node.attributes.length && node.getAttribute('name') === name));
-    }
-    getElementById(id) {
-        return searchElement(this, (node) => Boolean(node.attributes.length && node.getAttribute('id') === id));
-    }
-}
-exports.Node = Node;
-Node.ELEMENT_NODE = NodeType.element;
-Node.TEXT_NODE = NodeType.text;
-// private
-function searchElements(root, conditionFn) {
-    if (root.nodeType === NodeType.text) {
-        return [];
-    }
-    return root.childNodes.reduce((accumulator, childNode) => {
-        if (childNode.nodeType !== NodeType.text && conditionFn(childNode)) {
-            return [...accumulator, childNode, ...searchElements(childNode, conditionFn)];
-        }
-        return [...accumulator, ...searchElements(childNode, conditionFn)];
-    }, []);
-}
-function searchElement(root, conditionFn) {
-    for (let i = 0, l = root.childNodes.length; i < l; i++) {
-        const childNode = root.childNodes[i];
-        if (conditionFn(childNode)) {
-            return childNode;
-        }
-        const node = searchElement(childNode, conditionFn);
-        if (node) {
-            return node;
-        }
-    }
-    return null;
-}
-function stringifyAttributes(attributes) {
-    return attributes.map((elem) => elem.name + (elem.value ? `="${elem.value}"` : '')).join(' ');
-}
-
-
-/***/ }),
-
-/***/ "../vot.js/node_modules/dom-parser/dist/lib/NodeAttribute.js":
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.NodeAttribute = void 0;
-class NodeAttribute {
-    constructor({ name, value }) {
-        this.name = name;
-        this.value = value;
-    }
-}
-exports.NodeAttribute = NodeAttribute;
-
-
-/***/ }),
-
-/***/ "../vot.js/node_modules/protobufjs/minimal.js":
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-"use strict";
-// minimal library entry point.
-
-
-module.exports = __webpack_require__("../vot.js/node_modules/protobufjs/src/index-minimal.js");
-
-
-/***/ }),
-
-/***/ "../vot.js/node_modules/protobufjs/src/index-minimal.js":
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-
-var protobuf = exports;
-
-/**
- * Build type, one of `"full"`, `"light"` or `"minimal"`.
- * @name build
- * @type {string}
- * @const
- */
-protobuf.build = "minimal";
-
-// Serialization
-protobuf.Writer       = __webpack_require__("../vot.js/node_modules/protobufjs/src/writer.js");
-protobuf.BufferWriter = __webpack_require__("../vot.js/node_modules/protobufjs/src/writer_buffer.js");
-protobuf.Reader       = __webpack_require__("../vot.js/node_modules/protobufjs/src/reader.js");
-protobuf.BufferReader = __webpack_require__("../vot.js/node_modules/protobufjs/src/reader_buffer.js");
-
-// Utility
-protobuf.util         = __webpack_require__("../vot.js/node_modules/protobufjs/src/util/minimal.js");
-protobuf.rpc          = __webpack_require__("../vot.js/node_modules/protobufjs/src/rpc.js");
-protobuf.roots        = __webpack_require__("../vot.js/node_modules/protobufjs/src/roots.js");
-protobuf.configure    = configure;
-
-/* istanbul ignore next */
-/**
- * Reconfigures the library according to the environment.
- * @returns {undefined}
- */
-function configure() {
-    protobuf.util._configure();
-    protobuf.Writer._configure(protobuf.BufferWriter);
-    protobuf.Reader._configure(protobuf.BufferReader);
-}
-
-// Set up buffer utility according to the environment
-configure();
-
-
-/***/ }),
-
-/***/ "../vot.js/node_modules/protobufjs/src/reader.js":
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-"use strict";
-
-module.exports = Reader;
-
-var util      = __webpack_require__("../vot.js/node_modules/protobufjs/src/util/minimal.js");
-
-var BufferReader; // cyclic
-
-var LongBits  = util.LongBits,
-    utf8      = util.utf8;
-
-/* istanbul ignore next */
-function indexOutOfRange(reader, writeLength) {
-    return RangeError("index out of range: " + reader.pos + " + " + (writeLength || 1) + " > " + reader.len);
-}
-
-/**
- * Constructs a new reader instance using the specified buffer.
- * @classdesc Wire format reader using `Uint8Array` if available, otherwise `Array`.
- * @constructor
- * @param {Uint8Array} buffer Buffer to read from
- */
-function Reader(buffer) {
-
-    /**
-     * Read buffer.
-     * @type {Uint8Array}
-     */
-    this.buf = buffer;
-
-    /**
-     * Read buffer position.
-     * @type {number}
-     */
-    this.pos = 0;
-
-    /**
-     * Read buffer length.
-     * @type {number}
-     */
-    this.len = buffer.length;
-}
-
-var create_array = typeof Uint8Array !== "undefined"
-    ? function create_typed_array(buffer) {
-        if (buffer instanceof Uint8Array || Array.isArray(buffer))
-            return new Reader(buffer);
-        throw Error("illegal buffer");
-    }
-    /* istanbul ignore next */
-    : function create_array(buffer) {
-        if (Array.isArray(buffer))
-            return new Reader(buffer);
-        throw Error("illegal buffer");
-    };
-
-var create = function create() {
-    return util.Buffer
-        ? function create_buffer_setup(buffer) {
-            return (Reader.create = function create_buffer(buffer) {
-                return util.Buffer.isBuffer(buffer)
-                    ? new BufferReader(buffer)
-                    /* istanbul ignore next */
-                    : create_array(buffer);
-            })(buffer);
-        }
-        /* istanbul ignore next */
-        : create_array;
-};
-
-/**
- * Creates a new reader using the specified buffer.
- * @function
- * @param {Uint8Array|Buffer} buffer Buffer to read from
- * @returns {Reader|BufferReader} A {@link BufferReader} if `buffer` is a Buffer, otherwise a {@link Reader}
- * @throws {Error} If `buffer` is not a valid buffer
- */
-Reader.create = create();
-
-Reader.prototype._slice = util.Array.prototype.subarray || /* istanbul ignore next */ util.Array.prototype.slice;
-
-/**
- * Reads a varint as an unsigned 32 bit value.
- * @function
- * @returns {number} Value read
- */
-Reader.prototype.uint32 = (function read_uint32_setup() {
-    var value = 4294967295; // optimizer type-hint, tends to deopt otherwise (?!)
-    return function read_uint32() {
-        value = (         this.buf[this.pos] & 127       ) >>> 0; if (this.buf[this.pos++] < 128) return value;
-        value = (value | (this.buf[this.pos] & 127) <<  7) >>> 0; if (this.buf[this.pos++] < 128) return value;
-        value = (value | (this.buf[this.pos] & 127) << 14) >>> 0; if (this.buf[this.pos++] < 128) return value;
-        value = (value | (this.buf[this.pos] & 127) << 21) >>> 0; if (this.buf[this.pos++] < 128) return value;
-        value = (value | (this.buf[this.pos] &  15) << 28) >>> 0; if (this.buf[this.pos++] < 128) return value;
-
-        /* istanbul ignore if */
-        if ((this.pos += 5) > this.len) {
-            this.pos = this.len;
-            throw indexOutOfRange(this, 10);
-        }
-        return value;
-    };
-})();
-
-/**
- * Reads a varint as a signed 32 bit value.
- * @returns {number} Value read
- */
-Reader.prototype.int32 = function read_int32() {
-    return this.uint32() | 0;
-};
-
-/**
- * Reads a zig-zag encoded varint as a signed 32 bit value.
- * @returns {number} Value read
- */
-Reader.prototype.sint32 = function read_sint32() {
-    var value = this.uint32();
-    return value >>> 1 ^ -(value & 1) | 0;
-};
-
-/* eslint-disable no-invalid-this */
-
-function readLongVarint() {
-    // tends to deopt with local vars for octet etc.
-    var bits = new LongBits(0, 0);
-    var i = 0;
-    if (this.len - this.pos > 4) { // fast route (lo)
-        for (; i < 4; ++i) {
-            // 1st..4th
-            bits.lo = (bits.lo | (this.buf[this.pos] & 127) << i * 7) >>> 0;
-            if (this.buf[this.pos++] < 128)
-                return bits;
-        }
-        // 5th
-        bits.lo = (bits.lo | (this.buf[this.pos] & 127) << 28) >>> 0;
-        bits.hi = (bits.hi | (this.buf[this.pos] & 127) >>  4) >>> 0;
-        if (this.buf[this.pos++] < 128)
-            return bits;
-        i = 0;
-    } else {
-        for (; i < 3; ++i) {
-            /* istanbul ignore if */
-            if (this.pos >= this.len)
-                throw indexOutOfRange(this);
-            // 1st..3th
-            bits.lo = (bits.lo | (this.buf[this.pos] & 127) << i * 7) >>> 0;
-            if (this.buf[this.pos++] < 128)
-                return bits;
-        }
-        // 4th
-        bits.lo = (bits.lo | (this.buf[this.pos++] & 127) << i * 7) >>> 0;
-        return bits;
-    }
-    if (this.len - this.pos > 4) { // fast route (hi)
-        for (; i < 5; ++i) {
-            // 6th..10th
-            bits.hi = (bits.hi | (this.buf[this.pos] & 127) << i * 7 + 3) >>> 0;
-            if (this.buf[this.pos++] < 128)
-                return bits;
-        }
-    } else {
-        for (; i < 5; ++i) {
-            /* istanbul ignore if */
-            if (this.pos >= this.len)
-                throw indexOutOfRange(this);
-            // 6th..10th
-            bits.hi = (bits.hi | (this.buf[this.pos] & 127) << i * 7 + 3) >>> 0;
-            if (this.buf[this.pos++] < 128)
-                return bits;
-        }
-    }
-    /* istanbul ignore next */
-    throw Error("invalid varint encoding");
-}
-
-/* eslint-enable no-invalid-this */
-
-/**
- * Reads a varint as a signed 64 bit value.
- * @name Reader#int64
- * @function
- * @returns {Long} Value read
- */
-
-/**
- * Reads a varint as an unsigned 64 bit value.
- * @name Reader#uint64
- * @function
- * @returns {Long} Value read
- */
-
-/**
- * Reads a zig-zag encoded varint as a signed 64 bit value.
- * @name Reader#sint64
- * @function
- * @returns {Long} Value read
- */
-
-/**
- * Reads a varint as a boolean.
- * @returns {boolean} Value read
- */
-Reader.prototype.bool = function read_bool() {
-    return this.uint32() !== 0;
-};
-
-function readFixed32_end(buf, end) { // note that this uses `end`, not `pos`
-    return (buf[end - 4]
-          | buf[end - 3] << 8
-          | buf[end - 2] << 16
-          | buf[end - 1] << 24) >>> 0;
-}
-
-/**
- * Reads fixed 32 bits as an unsigned 32 bit integer.
- * @returns {number} Value read
- */
-Reader.prototype.fixed32 = function read_fixed32() {
-
-    /* istanbul ignore if */
-    if (this.pos + 4 > this.len)
-        throw indexOutOfRange(this, 4);
-
-    return readFixed32_end(this.buf, this.pos += 4);
-};
-
-/**
- * Reads fixed 32 bits as a signed 32 bit integer.
- * @returns {number} Value read
- */
-Reader.prototype.sfixed32 = function read_sfixed32() {
-
-    /* istanbul ignore if */
-    if (this.pos + 4 > this.len)
-        throw indexOutOfRange(this, 4);
-
-    return readFixed32_end(this.buf, this.pos += 4) | 0;
-};
-
-/* eslint-disable no-invalid-this */
-
-function readFixed64(/* this: Reader */) {
-
-    /* istanbul ignore if */
-    if (this.pos + 8 > this.len)
-        throw indexOutOfRange(this, 8);
-
-    return new LongBits(readFixed32_end(this.buf, this.pos += 4), readFixed32_end(this.buf, this.pos += 4));
-}
-
-/* eslint-enable no-invalid-this */
-
-/**
- * Reads fixed 64 bits.
- * @name Reader#fixed64
- * @function
- * @returns {Long} Value read
- */
-
-/**
- * Reads zig-zag encoded fixed 64 bits.
- * @name Reader#sfixed64
- * @function
- * @returns {Long} Value read
- */
-
-/**
- * Reads a float (32 bit) as a number.
- * @function
- * @returns {number} Value read
- */
-Reader.prototype.float = function read_float() {
-
-    /* istanbul ignore if */
-    if (this.pos + 4 > this.len)
-        throw indexOutOfRange(this, 4);
-
-    var value = util.float.readFloatLE(this.buf, this.pos);
-    this.pos += 4;
-    return value;
-};
-
-/**
- * Reads a double (64 bit float) as a number.
- * @function
- * @returns {number} Value read
- */
-Reader.prototype.double = function read_double() {
-
-    /* istanbul ignore if */
-    if (this.pos + 8 > this.len)
-        throw indexOutOfRange(this, 4);
-
-    var value = util.float.readDoubleLE(this.buf, this.pos);
-    this.pos += 8;
-    return value;
-};
-
-/**
- * Reads a sequence of bytes preceeded by its length as a varint.
- * @returns {Uint8Array} Value read
- */
-Reader.prototype.bytes = function read_bytes() {
-    var length = this.uint32(),
-        start  = this.pos,
-        end    = this.pos + length;
-
-    /* istanbul ignore if */
-    if (end > this.len)
-        throw indexOutOfRange(this, length);
-
-    this.pos += length;
-    if (Array.isArray(this.buf)) // plain array
-        return this.buf.slice(start, end);
-
-    if (start === end) { // fix for IE 10/Win8 and others' subarray returning array of size 1
-        var nativeBuffer = util.Buffer;
-        return nativeBuffer
-            ? nativeBuffer.alloc(0)
-            : new this.buf.constructor(0);
-    }
-    return this._slice.call(this.buf, start, end);
-};
-
-/**
- * Reads a string preceeded by its byte length as a varint.
- * @returns {string} Value read
- */
-Reader.prototype.string = function read_string() {
-    var bytes = this.bytes();
-    return utf8.read(bytes, 0, bytes.length);
-};
-
-/**
- * Skips the specified number of bytes if specified, otherwise skips a varint.
- * @param {number} [length] Length if known, otherwise a varint is assumed
- * @returns {Reader} `this`
- */
-Reader.prototype.skip = function skip(length) {
-    if (typeof length === "number") {
-        /* istanbul ignore if */
-        if (this.pos + length > this.len)
-            throw indexOutOfRange(this, length);
-        this.pos += length;
-    } else {
-        do {
-            /* istanbul ignore if */
-            if (this.pos >= this.len)
-                throw indexOutOfRange(this);
-        } while (this.buf[this.pos++] & 128);
-    }
-    return this;
-};
-
-/**
- * Skips the next element of the specified wire type.
- * @param {number} wireType Wire type received
- * @returns {Reader} `this`
- */
-Reader.prototype.skipType = function(wireType) {
-    switch (wireType) {
-        case 0:
-            this.skip();
-            break;
-        case 1:
-            this.skip(8);
-            break;
-        case 2:
-            this.skip(this.uint32());
-            break;
-        case 3:
-            while ((wireType = this.uint32() & 7) !== 4) {
-                this.skipType(wireType);
-            }
-            break;
-        case 5:
-            this.skip(4);
-            break;
-
-        /* istanbul ignore next */
-        default:
-            throw Error("invalid wire type " + wireType + " at offset " + this.pos);
-    }
-    return this;
-};
-
-Reader._configure = function(BufferReader_) {
-    BufferReader = BufferReader_;
-    Reader.create = create();
-    BufferReader._configure();
-
-    var fn = util.Long ? "toLong" : /* istanbul ignore next */ "toNumber";
-    util.merge(Reader.prototype, {
-
-        int64: function read_int64() {
-            return readLongVarint.call(this)[fn](false);
-        },
-
-        uint64: function read_uint64() {
-            return readLongVarint.call(this)[fn](true);
-        },
-
-        sint64: function read_sint64() {
-            return readLongVarint.call(this).zzDecode()[fn](false);
-        },
-
-        fixed64: function read_fixed64() {
-            return readFixed64.call(this)[fn](true);
-        },
-
-        sfixed64: function read_sfixed64() {
-            return readFixed64.call(this)[fn](false);
-        }
-
-    });
-};
-
-
-/***/ }),
-
-/***/ "../vot.js/node_modules/protobufjs/src/reader_buffer.js":
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-"use strict";
-
-module.exports = BufferReader;
-
-// extends Reader
-var Reader = __webpack_require__("../vot.js/node_modules/protobufjs/src/reader.js");
-(BufferReader.prototype = Object.create(Reader.prototype)).constructor = BufferReader;
-
-var util = __webpack_require__("../vot.js/node_modules/protobufjs/src/util/minimal.js");
-
-/**
- * Constructs a new buffer reader instance.
- * @classdesc Wire format reader using node buffers.
- * @extends Reader
- * @constructor
- * @param {Buffer} buffer Buffer to read from
- */
-function BufferReader(buffer) {
-    Reader.call(this, buffer);
-
-    /**
-     * Read buffer.
-     * @name BufferReader#buf
-     * @type {Buffer}
-     */
-}
-
-BufferReader._configure = function () {
-    /* istanbul ignore else */
-    if (util.Buffer)
-        BufferReader.prototype._slice = util.Buffer.prototype.slice;
-};
-
-
-/**
- * @override
- */
-BufferReader.prototype.string = function read_string_buffer() {
-    var len = this.uint32(); // modifies pos
-    return this.buf.utf8Slice
-        ? this.buf.utf8Slice(this.pos, this.pos = Math.min(this.pos + len, this.len))
-        : this.buf.toString("utf-8", this.pos, this.pos = Math.min(this.pos + len, this.len));
-};
-
-/**
- * Reads a sequence of bytes preceeded by its length as a varint.
- * @name BufferReader#bytes
- * @function
- * @returns {Buffer} Value read
- */
-
-BufferReader._configure();
-
-
-/***/ }),
-
-/***/ "../vot.js/node_modules/protobufjs/src/roots.js":
-/***/ ((module) => {
-
-"use strict";
-
-module.exports = {};
-
-/**
- * Named roots.
- * This is where pbjs stores generated structures (the option `-r, --root` specifies a name).
- * Can also be used manually to make roots available across modules.
- * @name roots
- * @type {Object.<string,Root>}
- * @example
- * // pbjs -r myroot -o compiled.js ...
- *
- * // in another module:
- * require("./compiled.js");
- *
- * // in any subsequent module:
- * var root = protobuf.roots["myroot"];
- */
-
-
-/***/ }),
-
-/***/ "../vot.js/node_modules/protobufjs/src/rpc.js":
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-
-
-/**
- * Streaming RPC helpers.
- * @namespace
- */
-var rpc = exports;
-
-/**
- * RPC implementation passed to {@link Service#create} performing a service request on network level, i.e. by utilizing http requests or websockets.
- * @typedef RPCImpl
- * @type {function}
- * @param {Method|rpc.ServiceMethod<Message<{}>,Message<{}>>} method Reflected or static method being called
- * @param {Uint8Array} requestData Request data
- * @param {RPCImplCallback} callback Callback function
- * @returns {undefined}
- * @example
- * function rpcImpl(method, requestData, callback) {
- *     if (protobuf.util.lcFirst(method.name) !== "myMethod") // compatible with static code
- *         throw Error("no such method");
- *     asynchronouslyObtainAResponse(requestData, function(err, responseData) {
- *         callback(err, responseData);
- *     });
- * }
- */
-
-/**
- * Node-style callback as used by {@link RPCImpl}.
- * @typedef RPCImplCallback
- * @type {function}
- * @param {Error|null} error Error, if any, otherwise `null`
- * @param {Uint8Array|null} [response] Response data or `null` to signal end of stream, if there hasn't been an error
- * @returns {undefined}
- */
-
-rpc.Service = __webpack_require__("../vot.js/node_modules/protobufjs/src/rpc/service.js");
-
-
-/***/ }),
-
-/***/ "../vot.js/node_modules/protobufjs/src/rpc/service.js":
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-"use strict";
-
-module.exports = Service;
-
-var util = __webpack_require__("../vot.js/node_modules/protobufjs/src/util/minimal.js");
-
-// Extends EventEmitter
-(Service.prototype = Object.create(util.EventEmitter.prototype)).constructor = Service;
-
-/**
- * A service method callback as used by {@link rpc.ServiceMethod|ServiceMethod}.
- *
- * Differs from {@link RPCImplCallback} in that it is an actual callback of a service method which may not return `response = null`.
- * @typedef rpc.ServiceMethodCallback
- * @template TRes extends Message<TRes>
- * @type {function}
- * @param {Error|null} error Error, if any
- * @param {TRes} [response] Response message
- * @returns {undefined}
- */
-
-/**
- * A service method part of a {@link rpc.Service} as created by {@link Service.create}.
- * @typedef rpc.ServiceMethod
- * @template TReq extends Message<TReq>
- * @template TRes extends Message<TRes>
- * @type {function}
- * @param {TReq|Properties<TReq>} request Request message or plain object
- * @param {rpc.ServiceMethodCallback<TRes>} [callback] Node-style callback called with the error, if any, and the response message
- * @returns {Promise<Message<TRes>>} Promise if `callback` has been omitted, otherwise `undefined`
- */
-
-/**
- * Constructs a new RPC service instance.
- * @classdesc An RPC service as returned by {@link Service#create}.
- * @exports rpc.Service
- * @extends util.EventEmitter
- * @constructor
- * @param {RPCImpl} rpcImpl RPC implementation
- * @param {boolean} [requestDelimited=false] Whether requests are length-delimited
- * @param {boolean} [responseDelimited=false] Whether responses are length-delimited
- */
-function Service(rpcImpl, requestDelimited, responseDelimited) {
-
-    if (typeof rpcImpl !== "function")
-        throw TypeError("rpcImpl must be a function");
-
-    util.EventEmitter.call(this);
-
-    /**
-     * RPC implementation. Becomes `null` once the service is ended.
-     * @type {RPCImpl|null}
-     */
-    this.rpcImpl = rpcImpl;
-
-    /**
-     * Whether requests are length-delimited.
-     * @type {boolean}
-     */
-    this.requestDelimited = Boolean(requestDelimited);
-
-    /**
-     * Whether responses are length-delimited.
-     * @type {boolean}
-     */
-    this.responseDelimited = Boolean(responseDelimited);
-}
-
-/**
- * Calls a service method through {@link rpc.Service#rpcImpl|rpcImpl}.
- * @param {Method|rpc.ServiceMethod<TReq,TRes>} method Reflected or static method
- * @param {Constructor<TReq>} requestCtor Request constructor
- * @param {Constructor<TRes>} responseCtor Response constructor
- * @param {TReq|Properties<TReq>} request Request message or plain object
- * @param {rpc.ServiceMethodCallback<TRes>} callback Service callback
- * @returns {undefined}
- * @template TReq extends Message<TReq>
- * @template TRes extends Message<TRes>
- */
-Service.prototype.rpcCall = function rpcCall(method, requestCtor, responseCtor, request, callback) {
-
-    if (!request)
-        throw TypeError("request must be specified");
-
-    var self = this;
-    if (!callback)
-        return util.asPromise(rpcCall, self, method, requestCtor, responseCtor, request);
-
-    if (!self.rpcImpl) {
-        setTimeout(function() { callback(Error("already ended")); }, 0);
-        return undefined;
-    }
-
-    try {
-        return self.rpcImpl(
-            method,
-            requestCtor[self.requestDelimited ? "encodeDelimited" : "encode"](request).finish(),
-            function rpcCallback(err, response) {
-
-                if (err) {
-                    self.emit("error", err, method);
-                    return callback(err);
-                }
-
-                if (response === null) {
-                    self.end(/* endedByRPC */ true);
-                    return undefined;
-                }
-
-                if (!(response instanceof responseCtor)) {
-                    try {
-                        response = responseCtor[self.responseDelimited ? "decodeDelimited" : "decode"](response);
-                    } catch (err) {
-                        self.emit("error", err, method);
-                        return callback(err);
-                    }
-                }
-
-                self.emit("data", response, method);
-                return callback(null, response);
-            }
-        );
-    } catch (err) {
-        self.emit("error", err, method);
-        setTimeout(function() { callback(err); }, 0);
-        return undefined;
-    }
-};
-
-/**
- * Ends this service and emits the `end` event.
- * @param {boolean} [endedByRPC=false] Whether the service has been ended by the RPC implementation.
- * @returns {rpc.Service} `this`
- */
-Service.prototype.end = function end(endedByRPC) {
-    if (this.rpcImpl) {
-        if (!endedByRPC) // signal end to rpcImpl
-            this.rpcImpl(null, null, null);
-        this.rpcImpl = null;
-        this.emit("end").off();
-    }
-    return this;
-};
-
-
-/***/ }),
-
-/***/ "../vot.js/node_modules/protobufjs/src/util/longbits.js":
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-"use strict";
-
-module.exports = LongBits;
-
-var util = __webpack_require__("../vot.js/node_modules/protobufjs/src/util/minimal.js");
-
-/**
- * Constructs new long bits.
- * @classdesc Helper class for working with the low and high bits of a 64 bit value.
- * @memberof util
- * @constructor
- * @param {number} lo Low 32 bits, unsigned
- * @param {number} hi High 32 bits, unsigned
- */
-function LongBits(lo, hi) {
-
-    // note that the casts below are theoretically unnecessary as of today, but older statically
-    // generated converter code might still call the ctor with signed 32bits. kept for compat.
-
-    /**
-     * Low bits.
-     * @type {number}
-     */
-    this.lo = lo >>> 0;
-
-    /**
-     * High bits.
-     * @type {number}
-     */
-    this.hi = hi >>> 0;
-}
-
-/**
- * Zero bits.
- * @memberof util.LongBits
- * @type {util.LongBits}
- */
-var zero = LongBits.zero = new LongBits(0, 0);
-
-zero.toNumber = function() { return 0; };
-zero.zzEncode = zero.zzDecode = function() { return this; };
-zero.length = function() { return 1; };
-
-/**
- * Zero hash.
- * @memberof util.LongBits
- * @type {string}
- */
-var zeroHash = LongBits.zeroHash = "\0\0\0\0\0\0\0\0";
-
-/**
- * Constructs new long bits from the specified number.
- * @param {number} value Value
- * @returns {util.LongBits} Instance
- */
-LongBits.fromNumber = function fromNumber(value) {
-    if (value === 0)
-        return zero;
-    var sign = value < 0;
-    if (sign)
-        value = -value;
-    var lo = value >>> 0,
-        hi = (value - lo) / 4294967296 >>> 0;
-    if (sign) {
-        hi = ~hi >>> 0;
-        lo = ~lo >>> 0;
-        if (++lo > 4294967295) {
-            lo = 0;
-            if (++hi > 4294967295)
-                hi = 0;
-        }
-    }
-    return new LongBits(lo, hi);
-};
-
-/**
- * Constructs new long bits from a number, long or string.
- * @param {Long|number|string} value Value
- * @returns {util.LongBits} Instance
- */
-LongBits.from = function from(value) {
-    if (typeof value === "number")
-        return LongBits.fromNumber(value);
-    if (util.isString(value)) {
-        /* istanbul ignore else */
-        if (util.Long)
-            value = util.Long.fromString(value);
-        else
-            return LongBits.fromNumber(parseInt(value, 10));
-    }
-    return value.low || value.high ? new LongBits(value.low >>> 0, value.high >>> 0) : zero;
-};
-
-/**
- * Converts this long bits to a possibly unsafe JavaScript number.
- * @param {boolean} [unsigned=false] Whether unsigned or not
- * @returns {number} Possibly unsafe number
- */
-LongBits.prototype.toNumber = function toNumber(unsigned) {
-    if (!unsigned && this.hi >>> 31) {
-        var lo = ~this.lo + 1 >>> 0,
-            hi = ~this.hi     >>> 0;
-        if (!lo)
-            hi = hi + 1 >>> 0;
-        return -(lo + hi * 4294967296);
-    }
-    return this.lo + this.hi * 4294967296;
-};
-
-/**
- * Converts this long bits to a long.
- * @param {boolean} [unsigned=false] Whether unsigned or not
- * @returns {Long} Long
- */
-LongBits.prototype.toLong = function toLong(unsigned) {
-    return util.Long
-        ? new util.Long(this.lo | 0, this.hi | 0, Boolean(unsigned))
-        /* istanbul ignore next */
-        : { low: this.lo | 0, high: this.hi | 0, unsigned: Boolean(unsigned) };
-};
-
-var charCodeAt = String.prototype.charCodeAt;
-
-/**
- * Constructs new long bits from the specified 8 characters long hash.
- * @param {string} hash Hash
- * @returns {util.LongBits} Bits
- */
-LongBits.fromHash = function fromHash(hash) {
-    if (hash === zeroHash)
-        return zero;
-    return new LongBits(
-        ( charCodeAt.call(hash, 0)
-        | charCodeAt.call(hash, 1) << 8
-        | charCodeAt.call(hash, 2) << 16
-        | charCodeAt.call(hash, 3) << 24) >>> 0
-    ,
-        ( charCodeAt.call(hash, 4)
-        | charCodeAt.call(hash, 5) << 8
-        | charCodeAt.call(hash, 6) << 16
-        | charCodeAt.call(hash, 7) << 24) >>> 0
-    );
-};
-
-/**
- * Converts this long bits to a 8 characters long hash.
- * @returns {string} Hash
- */
-LongBits.prototype.toHash = function toHash() {
-    return String.fromCharCode(
-        this.lo        & 255,
-        this.lo >>> 8  & 255,
-        this.lo >>> 16 & 255,
-        this.lo >>> 24      ,
-        this.hi        & 255,
-        this.hi >>> 8  & 255,
-        this.hi >>> 16 & 255,
-        this.hi >>> 24
-    );
-};
-
-/**
- * Zig-zag encodes this long bits.
- * @returns {util.LongBits} `this`
- */
-LongBits.prototype.zzEncode = function zzEncode() {
-    var mask =   this.hi >> 31;
-    this.hi  = ((this.hi << 1 | this.lo >>> 31) ^ mask) >>> 0;
-    this.lo  = ( this.lo << 1                   ^ mask) >>> 0;
-    return this;
-};
-
-/**
- * Zig-zag decodes this long bits.
- * @returns {util.LongBits} `this`
- */
-LongBits.prototype.zzDecode = function zzDecode() {
-    var mask = -(this.lo & 1);
-    this.lo  = ((this.lo >>> 1 | this.hi << 31) ^ mask) >>> 0;
-    this.hi  = ( this.hi >>> 1                  ^ mask) >>> 0;
-    return this;
-};
-
-/**
- * Calculates the length of this longbits when encoded as a varint.
- * @returns {number} Length
- */
-LongBits.prototype.length = function length() {
-    var part0 =  this.lo,
-        part1 = (this.lo >>> 28 | this.hi << 4) >>> 0,
-        part2 =  this.hi >>> 24;
-    return part2 === 0
-         ? part1 === 0
-           ? part0 < 16384
-             ? part0 < 128 ? 1 : 2
-             : part0 < 2097152 ? 3 : 4
-           : part1 < 16384
-             ? part1 < 128 ? 5 : 6
-             : part1 < 2097152 ? 7 : 8
-         : part2 < 128 ? 9 : 10;
-};
-
-
-/***/ }),
-
-/***/ "../vot.js/node_modules/protobufjs/src/util/minimal.js":
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-var util = exports;
-
-// used to return a Promise where callback is omitted
-util.asPromise = __webpack_require__("../vot.js/node_modules/@protobufjs/aspromise/index.js");
-
-// converts to / from base64 encoded strings
-util.base64 = __webpack_require__("../vot.js/node_modules/@protobufjs/base64/index.js");
-
-// base class of rpc.Service
-util.EventEmitter = __webpack_require__("../vot.js/node_modules/@protobufjs/eventemitter/index.js");
-
-// float handling accross browsers
-util.float = __webpack_require__("../vot.js/node_modules/@protobufjs/float/index.js");
-
-// requires modules optionally and hides the call from bundlers
-util.inquire = __webpack_require__("../vot.js/node_modules/@protobufjs/inquire/index.js");
-
-// converts to / from utf8 encoded strings
-util.utf8 = __webpack_require__("../vot.js/node_modules/@protobufjs/utf8/index.js");
-
-// provides a node-like buffer pool in the browser
-util.pool = __webpack_require__("../vot.js/node_modules/@protobufjs/pool/index.js");
-
-// utility to work with the low and high bits of a 64 bit value
-util.LongBits = __webpack_require__("../vot.js/node_modules/protobufjs/src/util/longbits.js");
-
-/**
- * Whether running within node or not.
- * @memberof util
- * @type {boolean}
- */
-util.isNode = Boolean(typeof __webpack_require__.g !== "undefined"
-                   && __webpack_require__.g
-                   && __webpack_require__.g.process
-                   && __webpack_require__.g.process.versions
-                   && __webpack_require__.g.process.versions.node);
-
-/**
- * Global object reference.
- * @memberof util
- * @type {Object}
- */
-util.global = util.isNode && __webpack_require__.g
-           || typeof window !== "undefined" && window
-           || typeof self   !== "undefined" && self
-           || this; // eslint-disable-line no-invalid-this
-
-/**
- * An immuable empty array.
- * @memberof util
- * @type {Array.<*>}
- * @const
- */
-util.emptyArray = Object.freeze ? Object.freeze([]) : /* istanbul ignore next */ []; // used on prototypes
-
-/**
- * An immutable empty object.
- * @type {Object}
- * @const
- */
-util.emptyObject = Object.freeze ? Object.freeze({}) : /* istanbul ignore next */ {}; // used on prototypes
-
-/**
- * Tests if the specified value is an integer.
- * @function
- * @param {*} value Value to test
- * @returns {boolean} `true` if the value is an integer
- */
-util.isInteger = Number.isInteger || /* istanbul ignore next */ function isInteger(value) {
-    return typeof value === "number" && isFinite(value) && Math.floor(value) === value;
-};
-
-/**
- * Tests if the specified value is a string.
- * @param {*} value Value to test
- * @returns {boolean} `true` if the value is a string
- */
-util.isString = function isString(value) {
-    return typeof value === "string" || value instanceof String;
-};
-
-/**
- * Tests if the specified value is a non-null object.
- * @param {*} value Value to test
- * @returns {boolean} `true` if the value is a non-null object
- */
-util.isObject = function isObject(value) {
-    return value && typeof value === "object";
-};
-
-/**
- * Checks if a property on a message is considered to be present.
- * This is an alias of {@link util.isSet}.
- * @function
- * @param {Object} obj Plain object or message instance
- * @param {string} prop Property name
- * @returns {boolean} `true` if considered to be present, otherwise `false`
- */
-util.isset =
-
-/**
- * Checks if a property on a message is considered to be present.
- * @param {Object} obj Plain object or message instance
- * @param {string} prop Property name
- * @returns {boolean} `true` if considered to be present, otherwise `false`
- */
-util.isSet = function isSet(obj, prop) {
-    var value = obj[prop];
-    if (value != null && obj.hasOwnProperty(prop)) // eslint-disable-line eqeqeq, no-prototype-builtins
-        return typeof value !== "object" || (Array.isArray(value) ? value.length : Object.keys(value).length) > 0;
-    return false;
-};
-
-/**
- * Any compatible Buffer instance.
- * This is a minimal stand-alone definition of a Buffer instance. The actual type is that exported by node's typings.
- * @interface Buffer
- * @extends Uint8Array
- */
-
-/**
- * Node's Buffer class if available.
- * @type {Constructor<Buffer>}
- */
-util.Buffer = (function() {
-    try {
-        var Buffer = util.inquire("buffer").Buffer;
-        // refuse to use non-node buffers if not explicitly assigned (perf reasons):
-        return Buffer.prototype.utf8Write ? Buffer : /* istanbul ignore next */ null;
-    } catch (e) {
-        /* istanbul ignore next */
-        return null;
-    }
-})();
-
-// Internal alias of or polyfull for Buffer.from.
-util._Buffer_from = null;
-
-// Internal alias of or polyfill for Buffer.allocUnsafe.
-util._Buffer_allocUnsafe = null;
-
-/**
- * Creates a new buffer of whatever type supported by the environment.
- * @param {number|number[]} [sizeOrArray=0] Buffer size or number array
- * @returns {Uint8Array|Buffer} Buffer
- */
-util.newBuffer = function newBuffer(sizeOrArray) {
-    /* istanbul ignore next */
-    return typeof sizeOrArray === "number"
-        ? util.Buffer
-            ? util._Buffer_allocUnsafe(sizeOrArray)
-            : new util.Array(sizeOrArray)
-        : util.Buffer
-            ? util._Buffer_from(sizeOrArray)
-            : typeof Uint8Array === "undefined"
-                ? sizeOrArray
-                : new Uint8Array(sizeOrArray);
-};
-
-/**
- * Array implementation used in the browser. `Uint8Array` if supported, otherwise `Array`.
- * @type {Constructor<Uint8Array>}
- */
-util.Array = typeof Uint8Array !== "undefined" ? Uint8Array /* istanbul ignore next */ : Array;
-
-/**
- * Any compatible Long instance.
- * This is a minimal stand-alone definition of a Long instance. The actual type is that exported by long.js.
- * @interface Long
- * @property {number} low Low bits
- * @property {number} high High bits
- * @property {boolean} unsigned Whether unsigned or not
- */
-
-/**
- * Long.js's Long class if available.
- * @type {Constructor<Long>}
- */
-util.Long = /* istanbul ignore next */ util.global.dcodeIO && /* istanbul ignore next */ util.global.dcodeIO.Long
-         || /* istanbul ignore next */ util.global.Long
-         || util.inquire("long");
-
-/**
- * Regular expression used to verify 2 bit (`bool`) map keys.
- * @type {RegExp}
- * @const
- */
-util.key2Re = /^true|false|0|1$/;
-
-/**
- * Regular expression used to verify 32 bit (`int32` etc.) map keys.
- * @type {RegExp}
- * @const
- */
-util.key32Re = /^-?(?:0|[1-9][0-9]*)$/;
-
-/**
- * Regular expression used to verify 64 bit (`int64` etc.) map keys.
- * @type {RegExp}
- * @const
- */
-util.key64Re = /^(?:[\\x00-\\xff]{8}|-?(?:0|[1-9][0-9]*))$/;
-
-/**
- * Converts a number or long to an 8 characters long hash string.
- * @param {Long|number} value Value to convert
- * @returns {string} Hash
- */
-util.longToHash = function longToHash(value) {
-    return value
-        ? util.LongBits.from(value).toHash()
-        : util.LongBits.zeroHash;
-};
-
-/**
- * Converts an 8 characters long hash string to a long or number.
- * @param {string} hash Hash
- * @param {boolean} [unsigned=false] Whether unsigned or not
- * @returns {Long|number} Original value
- */
-util.longFromHash = function longFromHash(hash, unsigned) {
-    var bits = util.LongBits.fromHash(hash);
-    if (util.Long)
-        return util.Long.fromBits(bits.lo, bits.hi, unsigned);
-    return bits.toNumber(Boolean(unsigned));
-};
-
-/**
- * Merges the properties of the source object into the destination object.
- * @memberof util
- * @param {Object.<string,*>} dst Destination object
- * @param {Object.<string,*>} src Source object
- * @param {boolean} [ifNotSet=false] Merges only if the key is not already set
- * @returns {Object.<string,*>} Destination object
- */
-function merge(dst, src, ifNotSet) { // used by converters
-    for (var keys = Object.keys(src), i = 0; i < keys.length; ++i)
-        if (dst[keys[i]] === undefined || !ifNotSet)
-            dst[keys[i]] = src[keys[i]];
-    return dst;
-}
-
-util.merge = merge;
-
-/**
- * Converts the first character of a string to lower case.
- * @param {string} str String to convert
- * @returns {string} Converted string
- */
-util.lcFirst = function lcFirst(str) {
-    return str.charAt(0).toLowerCase() + str.substring(1);
-};
-
-/**
- * Creates a custom error constructor.
- * @memberof util
- * @param {string} name Error name
- * @returns {Constructor<Error>} Custom error constructor
- */
-function newError(name) {
-
-    function CustomError(message, properties) {
-
-        if (!(this instanceof CustomError))
-            return new CustomError(message, properties);
-
-        // Error.call(this, message);
-        // ^ just returns a new error instance because the ctor can be called as a function
-
-        Object.defineProperty(this, "message", { get: function() { return message; } });
-
-        /* istanbul ignore next */
-        if (Error.captureStackTrace) // node
-            Error.captureStackTrace(this, CustomError);
-        else
-            Object.defineProperty(this, "stack", { value: new Error().stack || "" });
-
-        if (properties)
-            merge(this, properties);
-    }
-
-    CustomError.prototype = Object.create(Error.prototype, {
-        constructor: {
-            value: CustomError,
-            writable: true,
-            enumerable: false,
-            configurable: true,
-        },
-        name: {
-            get: function get() { return name; },
-            set: undefined,
-            enumerable: false,
-            // configurable: false would accurately preserve the behavior of
-            // the original, but I'm guessing that was not intentional.
-            // For an actual error subclass, this property would
-            // be configurable.
-            configurable: true,
-        },
-        toString: {
-            value: function value() { return this.name + ": " + this.message; },
-            writable: true,
-            enumerable: false,
-            configurable: true,
-        },
-    });
-
-    return CustomError;
-}
-
-util.newError = newError;
-
-/**
- * Constructs a new protocol error.
- * @classdesc Error subclass indicating a protocol specifc error.
- * @memberof util
- * @extends Error
- * @template T extends Message<T>
- * @constructor
- * @param {string} message Error message
- * @param {Object.<string,*>} [properties] Additional properties
- * @example
- * try {
- *     MyMessage.decode(someBuffer); // throws if required fields are missing
- * } catch (e) {
- *     if (e instanceof ProtocolError && e.instance)
- *         console.log("decoded so far: " + JSON.stringify(e.instance));
- * }
- */
-util.ProtocolError = newError("ProtocolError");
-
-/**
- * So far decoded message instance.
- * @name util.ProtocolError#instance
- * @type {Message<T>}
- */
-
-/**
- * A OneOf getter as returned by {@link util.oneOfGetter}.
- * @typedef OneOfGetter
- * @type {function}
- * @returns {string|undefined} Set field name, if any
- */
-
-/**
- * Builds a getter for a oneof's present field name.
- * @param {string[]} fieldNames Field names
- * @returns {OneOfGetter} Unbound getter
- */
-util.oneOfGetter = function getOneOf(fieldNames) {
-    var fieldMap = {};
-    for (var i = 0; i < fieldNames.length; ++i)
-        fieldMap[fieldNames[i]] = 1;
-
-    /**
-     * @returns {string|undefined} Set field name, if any
-     * @this Object
-     * @ignore
-     */
-    return function() { // eslint-disable-line consistent-return
-        for (var keys = Object.keys(this), i = keys.length - 1; i > -1; --i)
-            if (fieldMap[keys[i]] === 1 && this[keys[i]] !== undefined && this[keys[i]] !== null)
-                return keys[i];
-    };
-};
-
-/**
- * A OneOf setter as returned by {@link util.oneOfSetter}.
- * @typedef OneOfSetter
- * @type {function}
- * @param {string|undefined} value Field name
- * @returns {undefined}
- */
-
-/**
- * Builds a setter for a oneof's present field name.
- * @param {string[]} fieldNames Field names
- * @returns {OneOfSetter} Unbound setter
- */
-util.oneOfSetter = function setOneOf(fieldNames) {
-
-    /**
-     * @param {string} name Field name
-     * @returns {undefined}
-     * @this Object
-     * @ignore
-     */
-    return function(name) {
-        for (var i = 0; i < fieldNames.length; ++i)
-            if (fieldNames[i] !== name)
-                delete this[fieldNames[i]];
-    };
-};
-
-/**
- * Default conversion options used for {@link Message#toJSON} implementations.
- *
- * These options are close to proto3's JSON mapping with the exception that internal types like Any are handled just like messages. More precisely:
- *
- * - Longs become strings
- * - Enums become string keys
- * - Bytes become base64 encoded strings
- * - (Sub-)Messages become plain objects
- * - Maps become plain objects with all string keys
- * - Repeated fields become arrays
- * - NaN and Infinity for float and double fields become strings
- *
- * @type {IConversionOptions}
- * @see https://developers.google.com/protocol-buffers/docs/proto3?hl=en#json
- */
-util.toJSONOptions = {
-    longs: String,
-    enums: String,
-    bytes: String,
-    json: true
-};
-
-// Sets up buffer utility according to the environment (called in index-minimal)
-util._configure = function() {
-    var Buffer = util.Buffer;
-    /* istanbul ignore if */
-    if (!Buffer) {
-        util._Buffer_from = util._Buffer_allocUnsafe = null;
-        return;
-    }
-    // because node 4.x buffers are incompatible & immutable
-    // see: https://github.com/dcodeIO/protobuf.js/pull/665
-    util._Buffer_from = Buffer.from !== Uint8Array.from && Buffer.from ||
-        /* istanbul ignore next */
-        function Buffer_from(value, encoding) {
-            return new Buffer(value, encoding);
-        };
-    util._Buffer_allocUnsafe = Buffer.allocUnsafe ||
-        /* istanbul ignore next */
-        function Buffer_allocUnsafe(size) {
-            return new Buffer(size);
-        };
-};
-
-
-/***/ }),
-
-/***/ "../vot.js/node_modules/protobufjs/src/writer.js":
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-"use strict";
-
-module.exports = Writer;
-
-var util      = __webpack_require__("../vot.js/node_modules/protobufjs/src/util/minimal.js");
-
-var BufferWriter; // cyclic
-
-var LongBits  = util.LongBits,
-    base64    = util.base64,
-    utf8      = util.utf8;
-
-/**
- * Constructs a new writer operation instance.
- * @classdesc Scheduled writer operation.
- * @constructor
- * @param {function(*, Uint8Array, number)} fn Function to call
- * @param {number} len Value byte length
- * @param {*} val Value to write
- * @ignore
- */
-function Op(fn, len, val) {
-
-    /**
-     * Function to call.
-     * @type {function(Uint8Array, number, *)}
-     */
-    this.fn = fn;
-
-    /**
-     * Value byte length.
-     * @type {number}
-     */
-    this.len = len;
-
-    /**
-     * Next operation.
-     * @type {Writer.Op|undefined}
-     */
-    this.next = undefined;
-
-    /**
-     * Value to write.
-     * @type {*}
-     */
-    this.val = val; // type varies
-}
-
-/* istanbul ignore next */
-function noop() {} // eslint-disable-line no-empty-function
-
-/**
- * Constructs a new writer state instance.
- * @classdesc Copied writer state.
- * @memberof Writer
- * @constructor
- * @param {Writer} writer Writer to copy state from
- * @ignore
- */
-function State(writer) {
-
-    /**
-     * Current head.
-     * @type {Writer.Op}
-     */
-    this.head = writer.head;
-
-    /**
-     * Current tail.
-     * @type {Writer.Op}
-     */
-    this.tail = writer.tail;
-
-    /**
-     * Current buffer length.
-     * @type {number}
-     */
-    this.len = writer.len;
-
-    /**
-     * Next state.
-     * @type {State|null}
-     */
-    this.next = writer.states;
-}
-
-/**
- * Constructs a new writer instance.
- * @classdesc Wire format writer using `Uint8Array` if available, otherwise `Array`.
- * @constructor
- */
-function Writer() {
-
-    /**
-     * Current length.
-     * @type {number}
-     */
-    this.len = 0;
-
-    /**
-     * Operations head.
-     * @type {Object}
-     */
-    this.head = new Op(noop, 0, 0);
-
-    /**
-     * Operations tail
-     * @type {Object}
-     */
-    this.tail = this.head;
-
-    /**
-     * Linked forked states.
-     * @type {Object|null}
-     */
-    this.states = null;
-
-    // When a value is written, the writer calculates its byte length and puts it into a linked
-    // list of operations to perform when finish() is called. This both allows us to allocate
-    // buffers of the exact required size and reduces the amount of work we have to do compared
-    // to first calculating over objects and then encoding over objects. In our case, the encoding
-    // part is just a linked list walk calling operations with already prepared values.
-}
-
-var create = function create() {
-    return util.Buffer
-        ? function create_buffer_setup() {
-            return (Writer.create = function create_buffer() {
-                return new BufferWriter();
-            })();
-        }
-        /* istanbul ignore next */
-        : function create_array() {
-            return new Writer();
-        };
-};
-
-/**
- * Creates a new writer.
- * @function
- * @returns {BufferWriter|Writer} A {@link BufferWriter} when Buffers are supported, otherwise a {@link Writer}
- */
-Writer.create = create();
-
-/**
- * Allocates a buffer of the specified size.
- * @param {number} size Buffer size
- * @returns {Uint8Array} Buffer
- */
-Writer.alloc = function alloc(size) {
-    return new util.Array(size);
-};
-
-// Use Uint8Array buffer pool in the browser, just like node does with buffers
-/* istanbul ignore else */
-if (util.Array !== Array)
-    Writer.alloc = util.pool(Writer.alloc, util.Array.prototype.subarray);
-
-/**
- * Pushes a new operation to the queue.
- * @param {function(Uint8Array, number, *)} fn Function to call
- * @param {number} len Value byte length
- * @param {number} val Value to write
- * @returns {Writer} `this`
- * @private
- */
-Writer.prototype._push = function push(fn, len, val) {
-    this.tail = this.tail.next = new Op(fn, len, val);
-    this.len += len;
-    return this;
-};
-
-function writeByte(val, buf, pos) {
-    buf[pos] = val & 255;
-}
-
-function writeVarint32(val, buf, pos) {
-    while (val > 127) {
-        buf[pos++] = val & 127 | 128;
-        val >>>= 7;
-    }
-    buf[pos] = val;
-}
-
-/**
- * Constructs a new varint writer operation instance.
- * @classdesc Scheduled varint writer operation.
- * @extends Op
- * @constructor
- * @param {number} len Value byte length
- * @param {number} val Value to write
- * @ignore
- */
-function VarintOp(len, val) {
-    this.len = len;
-    this.next = undefined;
-    this.val = val;
-}
-
-VarintOp.prototype = Object.create(Op.prototype);
-VarintOp.prototype.fn = writeVarint32;
-
-/**
- * Writes an unsigned 32 bit value as a varint.
- * @param {number} value Value to write
- * @returns {Writer} `this`
- */
-Writer.prototype.uint32 = function write_uint32(value) {
-    // here, the call to this.push has been inlined and a varint specific Op subclass is used.
-    // uint32 is by far the most frequently used operation and benefits significantly from this.
-    this.len += (this.tail = this.tail.next = new VarintOp(
-        (value = value >>> 0)
-                < 128       ? 1
-        : value < 16384     ? 2
-        : value < 2097152   ? 3
-        : value < 268435456 ? 4
-        :                     5,
-    value)).len;
-    return this;
-};
-
-/**
- * Writes a signed 32 bit value as a varint.
- * @function
- * @param {number} value Value to write
- * @returns {Writer} `this`
- */
-Writer.prototype.int32 = function write_int32(value) {
-    return value < 0
-        ? this._push(writeVarint64, 10, LongBits.fromNumber(value)) // 10 bytes per spec
-        : this.uint32(value);
-};
-
-/**
- * Writes a 32 bit value as a varint, zig-zag encoded.
- * @param {number} value Value to write
- * @returns {Writer} `this`
- */
-Writer.prototype.sint32 = function write_sint32(value) {
-    return this.uint32((value << 1 ^ value >> 31) >>> 0);
-};
-
-function writeVarint64(val, buf, pos) {
-    while (val.hi) {
-        buf[pos++] = val.lo & 127 | 128;
-        val.lo = (val.lo >>> 7 | val.hi << 25) >>> 0;
-        val.hi >>>= 7;
-    }
-    while (val.lo > 127) {
-        buf[pos++] = val.lo & 127 | 128;
-        val.lo = val.lo >>> 7;
-    }
-    buf[pos++] = val.lo;
-}
-
-/**
- * Writes an unsigned 64 bit value as a varint.
- * @param {Long|number|string} value Value to write
- * @returns {Writer} `this`
- * @throws {TypeError} If `value` is a string and no long library is present.
- */
-Writer.prototype.uint64 = function write_uint64(value) {
-    var bits = LongBits.from(value);
-    return this._push(writeVarint64, bits.length(), bits);
-};
-
-/**
- * Writes a signed 64 bit value as a varint.
- * @function
- * @param {Long|number|string} value Value to write
- * @returns {Writer} `this`
- * @throws {TypeError} If `value` is a string and no long library is present.
- */
-Writer.prototype.int64 = Writer.prototype.uint64;
-
-/**
- * Writes a signed 64 bit value as a varint, zig-zag encoded.
- * @param {Long|number|string} value Value to write
- * @returns {Writer} `this`
- * @throws {TypeError} If `value` is a string and no long library is present.
- */
-Writer.prototype.sint64 = function write_sint64(value) {
-    var bits = LongBits.from(value).zzEncode();
-    return this._push(writeVarint64, bits.length(), bits);
-};
-
-/**
- * Writes a boolish value as a varint.
- * @param {boolean} value Value to write
- * @returns {Writer} `this`
- */
-Writer.prototype.bool = function write_bool(value) {
-    return this._push(writeByte, 1, value ? 1 : 0);
-};
-
-function writeFixed32(val, buf, pos) {
-    buf[pos    ] =  val         & 255;
-    buf[pos + 1] =  val >>> 8   & 255;
-    buf[pos + 2] =  val >>> 16  & 255;
-    buf[pos + 3] =  val >>> 24;
-}
-
-/**
- * Writes an unsigned 32 bit value as fixed 32 bits.
- * @param {number} value Value to write
- * @returns {Writer} `this`
- */
-Writer.prototype.fixed32 = function write_fixed32(value) {
-    return this._push(writeFixed32, 4, value >>> 0);
-};
-
-/**
- * Writes a signed 32 bit value as fixed 32 bits.
- * @function
- * @param {number} value Value to write
- * @returns {Writer} `this`
- */
-Writer.prototype.sfixed32 = Writer.prototype.fixed32;
-
-/**
- * Writes an unsigned 64 bit value as fixed 64 bits.
- * @param {Long|number|string} value Value to write
- * @returns {Writer} `this`
- * @throws {TypeError} If `value` is a string and no long library is present.
- */
-Writer.prototype.fixed64 = function write_fixed64(value) {
-    var bits = LongBits.from(value);
-    return this._push(writeFixed32, 4, bits.lo)._push(writeFixed32, 4, bits.hi);
-};
-
-/**
- * Writes a signed 64 bit value as fixed 64 bits.
- * @function
- * @param {Long|number|string} value Value to write
- * @returns {Writer} `this`
- * @throws {TypeError} If `value` is a string and no long library is present.
- */
-Writer.prototype.sfixed64 = Writer.prototype.fixed64;
-
-/**
- * Writes a float (32 bit).
- * @function
- * @param {number} value Value to write
- * @returns {Writer} `this`
- */
-Writer.prototype.float = function write_float(value) {
-    return this._push(util.float.writeFloatLE, 4, value);
-};
-
-/**
- * Writes a double (64 bit float).
- * @function
- * @param {number} value Value to write
- * @returns {Writer} `this`
- */
-Writer.prototype.double = function write_double(value) {
-    return this._push(util.float.writeDoubleLE, 8, value);
-};
-
-var writeBytes = util.Array.prototype.set
-    ? function writeBytes_set(val, buf, pos) {
-        buf.set(val, pos); // also works for plain array values
-    }
-    /* istanbul ignore next */
-    : function writeBytes_for(val, buf, pos) {
-        for (var i = 0; i < val.length; ++i)
-            buf[pos + i] = val[i];
-    };
-
-/**
- * Writes a sequence of bytes.
- * @param {Uint8Array|string} value Buffer or base64 encoded string to write
- * @returns {Writer} `this`
- */
-Writer.prototype.bytes = function write_bytes(value) {
-    var len = value.length >>> 0;
-    if (!len)
-        return this._push(writeByte, 1, 0);
-    if (util.isString(value)) {
-        var buf = Writer.alloc(len = base64.length(value));
-        base64.decode(value, buf, 0);
-        value = buf;
-    }
-    return this.uint32(len)._push(writeBytes, len, value);
-};
-
-/**
- * Writes a string.
- * @param {string} value Value to write
- * @returns {Writer} `this`
- */
-Writer.prototype.string = function write_string(value) {
-    var len = utf8.length(value);
-    return len
-        ? this.uint32(len)._push(utf8.write, len, value)
-        : this._push(writeByte, 1, 0);
-};
-
-/**
- * Forks this writer's state by pushing it to a stack.
- * Calling {@link Writer#reset|reset} or {@link Writer#ldelim|ldelim} resets the writer to the previous state.
- * @returns {Writer} `this`
- */
-Writer.prototype.fork = function fork() {
-    this.states = new State(this);
-    this.head = this.tail = new Op(noop, 0, 0);
-    this.len = 0;
-    return this;
-};
-
-/**
- * Resets this instance to the last state.
- * @returns {Writer} `this`
- */
-Writer.prototype.reset = function reset() {
-    if (this.states) {
-        this.head   = this.states.head;
-        this.tail   = this.states.tail;
-        this.len    = this.states.len;
-        this.states = this.states.next;
-    } else {
-        this.head = this.tail = new Op(noop, 0, 0);
-        this.len  = 0;
-    }
-    return this;
-};
-
-/**
- * Resets to the last state and appends the fork state's current write length as a varint followed by its operations.
- * @returns {Writer} `this`
- */
-Writer.prototype.ldelim = function ldelim() {
-    var head = this.head,
-        tail = this.tail,
-        len  = this.len;
-    this.reset().uint32(len);
-    if (len) {
-        this.tail.next = head.next; // skip noop
-        this.tail = tail;
-        this.len += len;
-    }
-    return this;
-};
-
-/**
- * Finishes the write operation.
- * @returns {Uint8Array} Finished buffer
- */
-Writer.prototype.finish = function finish() {
-    var head = this.head.next, // skip noop
-        buf  = this.constructor.alloc(this.len),
-        pos  = 0;
-    while (head) {
-        head.fn(head.val, buf, pos);
-        pos += head.len;
-        head = head.next;
-    }
-    // this.head = this.tail = null;
-    return buf;
-};
-
-Writer._configure = function(BufferWriter_) {
-    BufferWriter = BufferWriter_;
-    Writer.create = create();
-    BufferWriter._configure();
-};
-
-
-/***/ }),
-
-/***/ "../vot.js/node_modules/protobufjs/src/writer_buffer.js":
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-"use strict";
-
-module.exports = BufferWriter;
-
-// extends Writer
-var Writer = __webpack_require__("../vot.js/node_modules/protobufjs/src/writer.js");
-(BufferWriter.prototype = Object.create(Writer.prototype)).constructor = BufferWriter;
-
-var util = __webpack_require__("../vot.js/node_modules/protobufjs/src/util/minimal.js");
-
-/**
- * Constructs a new buffer writer instance.
- * @classdesc Wire format writer using node buffers.
- * @extends Writer
- * @constructor
- */
-function BufferWriter() {
-    Writer.call(this);
-}
-
-BufferWriter._configure = function () {
-    /**
-     * Allocates a buffer of the specified size.
-     * @function
-     * @param {number} size Buffer size
-     * @returns {Buffer} Buffer
-     */
-    BufferWriter.alloc = util._Buffer_allocUnsafe;
-
-    BufferWriter.writeBytesBuffer = util.Buffer && util.Buffer.prototype instanceof Uint8Array && util.Buffer.prototype.set.name === "set"
-        ? function writeBytesBuffer_set(val, buf, pos) {
-          buf.set(val, pos); // faster than copy (requires node >= 4 where Buffers extend Uint8Array and set is properly inherited)
-          // also works for plain array values
-        }
-        /* istanbul ignore next */
-        : function writeBytesBuffer_copy(val, buf, pos) {
-          if (val.copy) // Buffer values
-            val.copy(buf, pos, 0, val.length);
-          else for (var i = 0; i < val.length;) // plain array values
-            buf[pos++] = val[i++];
-        };
-};
-
-
-/**
- * @override
- */
-BufferWriter.prototype.bytes = function write_bytes_buffer(value) {
-    if (util.isString(value))
-        value = util._Buffer_from(value, "base64");
-    var len = value.length >>> 0;
-    this.uint32(len);
-    if (len)
-        this._push(BufferWriter.writeBytesBuffer, len, value);
-    return this;
-};
-
-function writeStringBuffer(val, buf, pos) {
-    if (val.length < 40) // plain js is faster for short strings (probably due to redundant assertions)
-        util.utf8.write(val, buf, pos);
-    else if (buf.utf8Write)
-        buf.utf8Write(val, pos);
-    else
-        buf.write(val, pos);
-}
-
-/**
- * @override
- */
-BufferWriter.prototype.string = function write_string_buffer(value) {
-    var len = util.Buffer.byteLength(value);
-    this.uint32(len);
-    if (len)
-        this._push(writeStringBuffer, len, value);
-    return this;
-};
-
-
-/**
- * Finishes the write operation.
- * @name BufferWriter#finish
- * @function
- * @returns {Buffer} Finished buffer
- */
-
-BufferWriter._configure();
-
-
 /***/ })
 
 /******/ 	});
@@ -3716,18 +609,6 @@ BufferWriter._configure();
 /******/ 		};
 /******/ 	})();
 /******/ 	
-/******/ 	/* webpack/runtime/global */
-/******/ 	(() => {
-/******/ 		__webpack_require__.g = (function() {
-/******/ 			if (typeof globalThis === 'object') return globalThis;
-/******/ 			try {
-/******/ 				return this || new Function('return this')();
-/******/ 			} catch (e) {
-/******/ 				if (typeof window === 'object') return window;
-/******/ 			}
-/******/ 		})();
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
@@ -3746,1480 +627,8 @@ var __webpack_exports__ = {};
 
 // EXTERNAL MODULE: ./node_modules/bowser/es5.js
 var es5 = __webpack_require__("./node_modules/bowser/es5.js");
-;// CONCATENATED MODULE: ../vot.js/node_modules/long/index.js
-/**
- * @license
- * Copyright 2009 The Closure Library Authors
- * Copyright 2020 Daniel Wirtz / The long.js Authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
-// WebAssembly optimizations to do native i64 multiplication and divide
-var wasm = null;
-try {
-  wasm = new WebAssembly.Instance(new WebAssembly.Module(new Uint8Array([
-    0, 97, 115, 109, 1, 0, 0, 0, 1, 13, 2, 96, 0, 1, 127, 96, 4, 127, 127, 127, 127, 1, 127, 3, 7, 6, 0, 1, 1, 1, 1, 1, 6, 6, 1, 127, 1, 65, 0, 11, 7, 50, 6, 3, 109, 117, 108, 0, 1, 5, 100, 105, 118, 95, 115, 0, 2, 5, 100, 105, 118, 95, 117, 0, 3, 5, 114, 101, 109, 95, 115, 0, 4, 5, 114, 101, 109, 95, 117, 0, 5, 8, 103, 101, 116, 95, 104, 105, 103, 104, 0, 0, 10, 191, 1, 6, 4, 0, 35, 0, 11, 36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173, 32, 3, 173, 66, 32, 134, 132, 126, 34, 4, 66, 32, 135, 167, 36, 0, 32, 4, 167, 11, 36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173, 32, 3, 173, 66, 32, 134, 132, 127, 34, 4, 66, 32, 135, 167, 36, 0, 32, 4, 167, 11, 36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173, 32, 3, 173, 66, 32, 134, 132, 128, 34, 4, 66, 32, 135, 167, 36, 0, 32, 4, 167, 11, 36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173, 32, 3, 173, 66, 32, 134, 132, 129, 34, 4, 66, 32, 135, 167, 36, 0, 32, 4, 167, 11, 36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173, 32, 3, 173, 66, 32, 134, 132, 130, 34, 4, 66, 32, 135, 167, 36, 0, 32, 4, 167, 11
-  ])), {}).exports;
-} catch (e) {
-  // no wasm support :(
-}
-
-/**
- * Constructs a 64 bit two's-complement integer, given its low and high 32 bit values as *signed* integers.
- *  See the from* functions below for more convenient ways of constructing Longs.
- * @exports Long
- * @class A Long class for representing a 64 bit two's-complement integer value.
- * @param {number} low The low (signed) 32 bits of the long
- * @param {number} high The high (signed) 32 bits of the long
- * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
- * @constructor
- */
-function Long(low, high, unsigned) {
-
-  /**
-   * The low 32 bits as a signed value.
-   * @type {number}
-   */
-  this.low = low | 0;
-
-  /**
-   * The high 32 bits as a signed value.
-   * @type {number}
-   */
-  this.high = high | 0;
-
-  /**
-   * Whether unsigned or not.
-   * @type {boolean}
-   */
-  this.unsigned = !!unsigned;
-}
-
-// The internal representation of a long is the two given signed, 32-bit values.
-// We use 32-bit pieces because these are the size of integers on which
-// Javascript performs bit-operations.  For operations like addition and
-// multiplication, we split each number into 16 bit pieces, which can easily be
-// multiplied within Javascript's floating-point representation without overflow
-// or change in sign.
-//
-// In the algorithms below, we frequently reduce the negative case to the
-// positive case by negating the input(s) and then post-processing the result.
-// Note that we must ALWAYS check specially whether those values are MIN_VALUE
-// (-2^63) because -MIN_VALUE == MIN_VALUE (since 2^63 cannot be represented as
-// a positive number, it overflows back into a negative).  Not handling this
-// case would often result in infinite recursion.
-//
-// Common constant values ZERO, ONE, NEG_ONE, etc. are defined below the from*
-// methods on which they depend.
-
-/**
- * An indicator used to reliably determine if an object is a Long or not.
- * @type {boolean}
- * @const
- * @private
- */
-Long.prototype.__isLong__;
-
-Object.defineProperty(Long.prototype, "__isLong__", { value: true });
-
-/**
- * @function
- * @param {*} obj Object
- * @returns {boolean}
- * @inner
- */
-function isLong(obj) {
-  return (obj && obj["__isLong__"]) === true;
-}
-
-/**
- * @function
- * @param {*} value number
- * @returns {number}
- * @inner
- */
-function ctz32(value) {
-  var c = Math.clz32(value & -value);
-  return value ? 31 - c : c;
-}
-
-/**
- * Tests if the specified object is a Long.
- * @function
- * @param {*} obj Object
- * @returns {boolean}
- */
-Long.isLong = isLong;
-
-/**
- * A cache of the Long representations of small integer values.
- * @type {!Object}
- * @inner
- */
-var INT_CACHE = {};
-
-/**
- * A cache of the Long representations of small unsigned integer values.
- * @type {!Object}
- * @inner
- */
-var UINT_CACHE = {};
-
-/**
- * @param {number} value
- * @param {boolean=} unsigned
- * @returns {!Long}
- * @inner
- */
-function fromInt(value, unsigned) {
-  var obj, cachedObj, cache;
-  if (unsigned) {
-    value >>>= 0;
-    if (cache = (0 <= value && value < 256)) {
-      cachedObj = UINT_CACHE[value];
-      if (cachedObj)
-        return cachedObj;
-    }
-    obj = fromBits(value, 0, true);
-    if (cache)
-      UINT_CACHE[value] = obj;
-    return obj;
-  } else {
-    value |= 0;
-    if (cache = (-128 <= value && value < 128)) {
-      cachedObj = INT_CACHE[value];
-      if (cachedObj)
-        return cachedObj;
-    }
-    obj = fromBits(value, value < 0 ? -1 : 0, false);
-    if (cache)
-      INT_CACHE[value] = obj;
-    return obj;
-  }
-}
-
-/**
- * Returns a Long representing the given 32 bit integer value.
- * @function
- * @param {number} value The 32 bit integer in question
- * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
- * @returns {!Long} The corresponding Long value
- */
-Long.fromInt = fromInt;
-
-/**
- * @param {number} value
- * @param {boolean=} unsigned
- * @returns {!Long}
- * @inner
- */
-function fromNumber(value, unsigned) {
-  if (isNaN(value))
-    return unsigned ? UZERO : ZERO;
-  if (unsigned) {
-    if (value < 0)
-      return UZERO;
-    if (value >= TWO_PWR_64_DBL)
-      return MAX_UNSIGNED_VALUE;
-  } else {
-    if (value <= -TWO_PWR_63_DBL)
-      return MIN_VALUE;
-    if (value + 1 >= TWO_PWR_63_DBL)
-      return MAX_VALUE;
-  }
-  if (value < 0)
-    return fromNumber(-value, unsigned).neg();
-  return fromBits((value % TWO_PWR_32_DBL) | 0, (value / TWO_PWR_32_DBL) | 0, unsigned);
-}
-
-/**
- * Returns a Long representing the given value, provided that it is a finite number. Otherwise, zero is returned.
- * @function
- * @param {number} value The number in question
- * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
- * @returns {!Long} The corresponding Long value
- */
-Long.fromNumber = fromNumber;
-
-/**
- * @param {number} lowBits
- * @param {number} highBits
- * @param {boolean=} unsigned
- * @returns {!Long}
- * @inner
- */
-function fromBits(lowBits, highBits, unsigned) {
-  return new Long(lowBits, highBits, unsigned);
-}
-
-/**
- * Returns a Long representing the 64 bit integer that comes by concatenating the given low and high bits. Each is
- *  assumed to use 32 bits.
- * @function
- * @param {number} lowBits The low 32 bits
- * @param {number} highBits The high 32 bits
- * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
- * @returns {!Long} The corresponding Long value
- */
-Long.fromBits = fromBits;
-
-/**
- * @function
- * @param {number} base
- * @param {number} exponent
- * @returns {number}
- * @inner
- */
-var pow_dbl = Math.pow; // Used 4 times (4*8 to 15+4)
-
-/**
- * @param {string} str
- * @param {(boolean|number)=} unsigned
- * @param {number=} radix
- * @returns {!Long}
- * @inner
- */
-function fromString(str, unsigned, radix) {
-  if (str.length === 0)
-    throw Error('empty string');
-  if (typeof unsigned === 'number') {
-    // For goog.math.long compatibility
-    radix = unsigned;
-    unsigned = false;
-  } else {
-    unsigned = !!unsigned;
-  }
-  if (str === "NaN" || str === "Infinity" || str === "+Infinity" || str === "-Infinity")
-    return unsigned ? UZERO : ZERO;
-  radix = radix || 10;
-  if (radix < 2 || 36 < radix)
-    throw RangeError('radix');
-
-  var p;
-  if ((p = str.indexOf('-')) > 0)
-    throw Error('interior hyphen');
-  else if (p === 0) {
-    return fromString(str.substring(1), unsigned, radix).neg();
-  }
-
-  // Do several (8) digits each time through the loop, so as to
-  // minimize the calls to the very expensive emulated div.
-  var radixToPower = fromNumber(pow_dbl(radix, 8));
-
-  var result = ZERO;
-  for (var i = 0; i < str.length; i += 8) {
-    var size = Math.min(8, str.length - i),
-      value = parseInt(str.substring(i, i + size), radix);
-    if (size < 8) {
-      var power = fromNumber(pow_dbl(radix, size));
-      result = result.mul(power).add(fromNumber(value));
-    } else {
-      result = result.mul(radixToPower);
-      result = result.add(fromNumber(value));
-    }
-  }
-  result.unsigned = unsigned;
-  return result;
-}
-
-/**
- * Returns a Long representation of the given string, written using the specified radix.
- * @function
- * @param {string} str The textual representation of the Long
- * @param {(boolean|number)=} unsigned Whether unsigned or not, defaults to signed
- * @param {number=} radix The radix in which the text is written (2-36), defaults to 10
- * @returns {!Long} The corresponding Long value
- */
-Long.fromString = fromString;
-
-/**
- * @function
- * @param {!Long|number|string|!{low: number, high: number, unsigned: boolean}} val
- * @param {boolean=} unsigned
- * @returns {!Long}
- * @inner
- */
-function fromValue(val, unsigned) {
-  if (typeof val === 'number')
-    return fromNumber(val, unsigned);
-  if (typeof val === 'string')
-    return fromString(val, unsigned);
-  // Throws for non-objects, converts non-instanceof Long:
-  return fromBits(val.low, val.high, typeof unsigned === 'boolean' ? unsigned : val.unsigned);
-}
-
-/**
- * Converts the specified value to a Long using the appropriate from* function for its type.
- * @function
- * @param {!Long|number|string|!{low: number, high: number, unsigned: boolean}} val Value
- * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
- * @returns {!Long}
- */
-Long.fromValue = fromValue;
-
-// NOTE: the compiler should inline these constant values below and then remove these variables, so there should be
-// no runtime penalty for these.
-
-/**
- * @type {number}
- * @const
- * @inner
- */
-var TWO_PWR_16_DBL = 1 << 16;
-
-/**
- * @type {number}
- * @const
- * @inner
- */
-var TWO_PWR_24_DBL = 1 << 24;
-
-/**
- * @type {number}
- * @const
- * @inner
- */
-var TWO_PWR_32_DBL = TWO_PWR_16_DBL * TWO_PWR_16_DBL;
-
-/**
- * @type {number}
- * @const
- * @inner
- */
-var TWO_PWR_64_DBL = TWO_PWR_32_DBL * TWO_PWR_32_DBL;
-
-/**
- * @type {number}
- * @const
- * @inner
- */
-var TWO_PWR_63_DBL = TWO_PWR_64_DBL / 2;
-
-/**
- * @type {!Long}
- * @const
- * @inner
- */
-var TWO_PWR_24 = fromInt(TWO_PWR_24_DBL);
-
-/**
- * @type {!Long}
- * @inner
- */
-var ZERO = fromInt(0);
-
-/**
- * Signed zero.
- * @type {!Long}
- */
-Long.ZERO = ZERO;
-
-/**
- * @type {!Long}
- * @inner
- */
-var UZERO = fromInt(0, true);
-
-/**
- * Unsigned zero.
- * @type {!Long}
- */
-Long.UZERO = UZERO;
-
-/**
- * @type {!Long}
- * @inner
- */
-var ONE = fromInt(1);
-
-/**
- * Signed one.
- * @type {!Long}
- */
-Long.ONE = ONE;
-
-/**
- * @type {!Long}
- * @inner
- */
-var UONE = fromInt(1, true);
-
-/**
- * Unsigned one.
- * @type {!Long}
- */
-Long.UONE = UONE;
-
-/**
- * @type {!Long}
- * @inner
- */
-var NEG_ONE = fromInt(-1);
-
-/**
- * Signed negative one.
- * @type {!Long}
- */
-Long.NEG_ONE = NEG_ONE;
-
-/**
- * @type {!Long}
- * @inner
- */
-var MAX_VALUE = fromBits(0xFFFFFFFF | 0, 0x7FFFFFFF | 0, false);
-
-/**
- * Maximum signed value.
- * @type {!Long}
- */
-Long.MAX_VALUE = MAX_VALUE;
-
-/**
- * @type {!Long}
- * @inner
- */
-var MAX_UNSIGNED_VALUE = fromBits(0xFFFFFFFF | 0, 0xFFFFFFFF | 0, true);
-
-/**
- * Maximum unsigned value.
- * @type {!Long}
- */
-Long.MAX_UNSIGNED_VALUE = MAX_UNSIGNED_VALUE;
-
-/**
- * @type {!Long}
- * @inner
- */
-var MIN_VALUE = fromBits(0, 0x80000000 | 0, false);
-
-/**
- * Minimum signed value.
- * @type {!Long}
- */
-Long.MIN_VALUE = MIN_VALUE;
-
-/**
- * @alias Long.prototype
- * @inner
- */
-var LongPrototype = Long.prototype;
-
-/**
- * Converts the Long to a 32 bit integer, assuming it is a 32 bit integer.
- * @this {!Long}
- * @returns {number}
- */
-LongPrototype.toInt = function toInt() {
-  return this.unsigned ? this.low >>> 0 : this.low;
-};
-
-/**
- * Converts the Long to a the nearest floating-point representation of this value (double, 53 bit mantissa).
- * @this {!Long}
- * @returns {number}
- */
-LongPrototype.toNumber = function toNumber() {
-  if (this.unsigned)
-    return ((this.high >>> 0) * TWO_PWR_32_DBL) + (this.low >>> 0);
-  return this.high * TWO_PWR_32_DBL + (this.low >>> 0);
-};
-
-/**
- * Converts the Long to a string written in the specified radix.
- * @this {!Long}
- * @param {number=} radix Radix (2-36), defaults to 10
- * @returns {string}
- * @override
- * @throws {RangeError} If `radix` is out of range
- */
-LongPrototype.toString = function toString(radix) {
-  radix = radix || 10;
-  if (radix < 2 || 36 < radix)
-    throw RangeError('radix');
-  if (this.isZero())
-    return '0';
-  if (this.isNegative()) { // Unsigned Longs are never negative
-    if (this.eq(MIN_VALUE)) {
-      // We need to change the Long value before it can be negated, so we remove
-      // the bottom-most digit in this base and then recurse to do the rest.
-      var radixLong = fromNumber(radix),
-        div = this.div(radixLong),
-        rem1 = div.mul(radixLong).sub(this);
-      return div.toString(radix) + rem1.toInt().toString(radix);
-    } else
-      return '-' + this.neg().toString(radix);
-  }
-
-  // Do several (6) digits each time through the loop, so as to
-  // minimize the calls to the very expensive emulated div.
-  var radixToPower = fromNumber(pow_dbl(radix, 6), this.unsigned),
-    rem = this;
-  var result = '';
-  while (true) {
-    var remDiv = rem.div(radixToPower),
-      intval = rem.sub(remDiv.mul(radixToPower)).toInt() >>> 0,
-      digits = intval.toString(radix);
-    rem = remDiv;
-    if (rem.isZero())
-      return digits + result;
-    else {
-      while (digits.length < 6)
-        digits = '0' + digits;
-      result = '' + digits + result;
-    }
-  }
-};
-
-/**
- * Gets the high 32 bits as a signed integer.
- * @this {!Long}
- * @returns {number} Signed high bits
- */
-LongPrototype.getHighBits = function getHighBits() {
-  return this.high;
-};
-
-/**
- * Gets the high 32 bits as an unsigned integer.
- * @this {!Long}
- * @returns {number} Unsigned high bits
- */
-LongPrototype.getHighBitsUnsigned = function getHighBitsUnsigned() {
-  return this.high >>> 0;
-};
-
-/**
- * Gets the low 32 bits as a signed integer.
- * @this {!Long}
- * @returns {number} Signed low bits
- */
-LongPrototype.getLowBits = function getLowBits() {
-  return this.low;
-};
-
-/**
- * Gets the low 32 bits as an unsigned integer.
- * @this {!Long}
- * @returns {number} Unsigned low bits
- */
-LongPrototype.getLowBitsUnsigned = function getLowBitsUnsigned() {
-  return this.low >>> 0;
-};
-
-/**
- * Gets the number of bits needed to represent the absolute value of this Long.
- * @this {!Long}
- * @returns {number}
- */
-LongPrototype.getNumBitsAbs = function getNumBitsAbs() {
-  if (this.isNegative()) // Unsigned Longs are never negative
-    return this.eq(MIN_VALUE) ? 64 : this.neg().getNumBitsAbs();
-  var val = this.high != 0 ? this.high : this.low;
-  for (var bit = 31; bit > 0; bit--)
-    if ((val & (1 << bit)) != 0)
-      break;
-  return this.high != 0 ? bit + 33 : bit + 1;
-};
-
-/**
- * Tests if this Long's value equals zero.
- * @this {!Long}
- * @returns {boolean}
- */
-LongPrototype.isZero = function isZero() {
-  return this.high === 0 && this.low === 0;
-};
-
-/**
- * Tests if this Long's value equals zero. This is an alias of {@link Long#isZero}.
- * @returns {boolean}
- */
-LongPrototype.eqz = LongPrototype.isZero;
-
-/**
- * Tests if this Long's value is negative.
- * @this {!Long}
- * @returns {boolean}
- */
-LongPrototype.isNegative = function isNegative() {
-  return !this.unsigned && this.high < 0;
-};
-
-/**
- * Tests if this Long's value is positive or zero.
- * @this {!Long}
- * @returns {boolean}
- */
-LongPrototype.isPositive = function isPositive() {
-  return this.unsigned || this.high >= 0;
-};
-
-/**
- * Tests if this Long's value is odd.
- * @this {!Long}
- * @returns {boolean}
- */
-LongPrototype.isOdd = function isOdd() {
-  return (this.low & 1) === 1;
-};
-
-/**
- * Tests if this Long's value is even.
- * @this {!Long}
- * @returns {boolean}
- */
-LongPrototype.isEven = function isEven() {
-  return (this.low & 1) === 0;
-};
-
-/**
- * Tests if this Long's value equals the specified's.
- * @this {!Long}
- * @param {!Long|number|string} other Other value
- * @returns {boolean}
- */
-LongPrototype.equals = function equals(other) {
-  if (!isLong(other))
-    other = fromValue(other);
-  if (this.unsigned !== other.unsigned && (this.high >>> 31) === 1 && (other.high >>> 31) === 1)
-    return false;
-  return this.high === other.high && this.low === other.low;
-};
-
-/**
- * Tests if this Long's value equals the specified's. This is an alias of {@link Long#equals}.
- * @function
- * @param {!Long|number|string} other Other value
- * @returns {boolean}
- */
-LongPrototype.eq = LongPrototype.equals;
-
-/**
- * Tests if this Long's value differs from the specified's.
- * @this {!Long}
- * @param {!Long|number|string} other Other value
- * @returns {boolean}
- */
-LongPrototype.notEquals = function notEquals(other) {
-  return !this.eq(/* validates */ other);
-};
-
-/**
- * Tests if this Long's value differs from the specified's. This is an alias of {@link Long#notEquals}.
- * @function
- * @param {!Long|number|string} other Other value
- * @returns {boolean}
- */
-LongPrototype.neq = LongPrototype.notEquals;
-
-/**
- * Tests if this Long's value differs from the specified's. This is an alias of {@link Long#notEquals}.
- * @function
- * @param {!Long|number|string} other Other value
- * @returns {boolean}
- */
-LongPrototype.ne = LongPrototype.notEquals;
-
-/**
- * Tests if this Long's value is less than the specified's.
- * @this {!Long}
- * @param {!Long|number|string} other Other value
- * @returns {boolean}
- */
-LongPrototype.lessThan = function lessThan(other) {
-  return this.comp(/* validates */ other) < 0;
-};
-
-/**
- * Tests if this Long's value is less than the specified's. This is an alias of {@link Long#lessThan}.
- * @function
- * @param {!Long|number|string} other Other value
- * @returns {boolean}
- */
-LongPrototype.lt = LongPrototype.lessThan;
-
-/**
- * Tests if this Long's value is less than or equal the specified's.
- * @this {!Long}
- * @param {!Long|number|string} other Other value
- * @returns {boolean}
- */
-LongPrototype.lessThanOrEqual = function lessThanOrEqual(other) {
-  return this.comp(/* validates */ other) <= 0;
-};
-
-/**
- * Tests if this Long's value is less than or equal the specified's. This is an alias of {@link Long#lessThanOrEqual}.
- * @function
- * @param {!Long|number|string} other Other value
- * @returns {boolean}
- */
-LongPrototype.lte = LongPrototype.lessThanOrEqual;
-
-/**
- * Tests if this Long's value is less than or equal the specified's. This is an alias of {@link Long#lessThanOrEqual}.
- * @function
- * @param {!Long|number|string} other Other value
- * @returns {boolean}
- */
-LongPrototype.le = LongPrototype.lessThanOrEqual;
-
-/**
- * Tests if this Long's value is greater than the specified's.
- * @this {!Long}
- * @param {!Long|number|string} other Other value
- * @returns {boolean}
- */
-LongPrototype.greaterThan = function greaterThan(other) {
-  return this.comp(/* validates */ other) > 0;
-};
-
-/**
- * Tests if this Long's value is greater than the specified's. This is an alias of {@link Long#greaterThan}.
- * @function
- * @param {!Long|number|string} other Other value
- * @returns {boolean}
- */
-LongPrototype.gt = LongPrototype.greaterThan;
-
-/**
- * Tests if this Long's value is greater than or equal the specified's.
- * @this {!Long}
- * @param {!Long|number|string} other Other value
- * @returns {boolean}
- */
-LongPrototype.greaterThanOrEqual = function greaterThanOrEqual(other) {
-  return this.comp(/* validates */ other) >= 0;
-};
-
-/**
- * Tests if this Long's value is greater than or equal the specified's. This is an alias of {@link Long#greaterThanOrEqual}.
- * @function
- * @param {!Long|number|string} other Other value
- * @returns {boolean}
- */
-LongPrototype.gte = LongPrototype.greaterThanOrEqual;
-
-/**
- * Tests if this Long's value is greater than or equal the specified's. This is an alias of {@link Long#greaterThanOrEqual}.
- * @function
- * @param {!Long|number|string} other Other value
- * @returns {boolean}
- */
-LongPrototype.ge = LongPrototype.greaterThanOrEqual;
-
-/**
- * Compares this Long's value with the specified's.
- * @this {!Long}
- * @param {!Long|number|string} other Other value
- * @returns {number} 0 if they are the same, 1 if the this is greater and -1
- *  if the given one is greater
- */
-LongPrototype.compare = function compare(other) {
-  if (!isLong(other))
-    other = fromValue(other);
-  if (this.eq(other))
-    return 0;
-  var thisNeg = this.isNegative(),
-    otherNeg = other.isNegative();
-  if (thisNeg && !otherNeg)
-    return -1;
-  if (!thisNeg && otherNeg)
-    return 1;
-  // At this point the sign bits are the same
-  if (!this.unsigned)
-    return this.sub(other).isNegative() ? -1 : 1;
-  // Both are positive if at least one is unsigned
-  return (other.high >>> 0) > (this.high >>> 0) || (other.high === this.high && (other.low >>> 0) > (this.low >>> 0)) ? -1 : 1;
-};
-
-/**
- * Compares this Long's value with the specified's. This is an alias of {@link Long#compare}.
- * @function
- * @param {!Long|number|string} other Other value
- * @returns {number} 0 if they are the same, 1 if the this is greater and -1
- *  if the given one is greater
- */
-LongPrototype.comp = LongPrototype.compare;
-
-/**
- * Negates this Long's value.
- * @this {!Long}
- * @returns {!Long} Negated Long
- */
-LongPrototype.negate = function negate() {
-  if (!this.unsigned && this.eq(MIN_VALUE))
-    return MIN_VALUE;
-  return this.not().add(ONE);
-};
-
-/**
- * Negates this Long's value. This is an alias of {@link Long#negate}.
- * @function
- * @returns {!Long} Negated Long
- */
-LongPrototype.neg = LongPrototype.negate;
-
-/**
- * Returns the sum of this and the specified Long.
- * @this {!Long}
- * @param {!Long|number|string} addend Addend
- * @returns {!Long} Sum
- */
-LongPrototype.add = function add(addend) {
-  if (!isLong(addend))
-    addend = fromValue(addend);
-
-  // Divide each number into 4 chunks of 16 bits, and then sum the chunks.
-
-  var a48 = this.high >>> 16;
-  var a32 = this.high & 0xFFFF;
-  var a16 = this.low >>> 16;
-  var a00 = this.low & 0xFFFF;
-
-  var b48 = addend.high >>> 16;
-  var b32 = addend.high & 0xFFFF;
-  var b16 = addend.low >>> 16;
-  var b00 = addend.low & 0xFFFF;
-
-  var c48 = 0, c32 = 0, c16 = 0, c00 = 0;
-  c00 += a00 + b00;
-  c16 += c00 >>> 16;
-  c00 &= 0xFFFF;
-  c16 += a16 + b16;
-  c32 += c16 >>> 16;
-  c16 &= 0xFFFF;
-  c32 += a32 + b32;
-  c48 += c32 >>> 16;
-  c32 &= 0xFFFF;
-  c48 += a48 + b48;
-  c48 &= 0xFFFF;
-  return fromBits((c16 << 16) | c00, (c48 << 16) | c32, this.unsigned);
-};
-
-/**
- * Returns the difference of this and the specified Long.
- * @this {!Long}
- * @param {!Long|number|string} subtrahend Subtrahend
- * @returns {!Long} Difference
- */
-LongPrototype.subtract = function subtract(subtrahend) {
-  if (!isLong(subtrahend))
-    subtrahend = fromValue(subtrahend);
-  return this.add(subtrahend.neg());
-};
-
-/**
- * Returns the difference of this and the specified Long. This is an alias of {@link Long#subtract}.
- * @function
- * @param {!Long|number|string} subtrahend Subtrahend
- * @returns {!Long} Difference
- */
-LongPrototype.sub = LongPrototype.subtract;
-
-/**
- * Returns the product of this and the specified Long.
- * @this {!Long}
- * @param {!Long|number|string} multiplier Multiplier
- * @returns {!Long} Product
- */
-LongPrototype.multiply = function multiply(multiplier) {
-  if (this.isZero())
-    return this;
-  if (!isLong(multiplier))
-    multiplier = fromValue(multiplier);
-
-  // use wasm support if present
-  if (wasm) {
-    var low = wasm["mul"](this.low,
-      this.high,
-      multiplier.low,
-      multiplier.high);
-    return fromBits(low, wasm["get_high"](), this.unsigned);
-  }
-
-  if (multiplier.isZero())
-    return this.unsigned ? UZERO : ZERO;
-  if (this.eq(MIN_VALUE))
-    return multiplier.isOdd() ? MIN_VALUE : ZERO;
-  if (multiplier.eq(MIN_VALUE))
-    return this.isOdd() ? MIN_VALUE : ZERO;
-
-  if (this.isNegative()) {
-    if (multiplier.isNegative())
-      return this.neg().mul(multiplier.neg());
-    else
-      return this.neg().mul(multiplier).neg();
-  } else if (multiplier.isNegative())
-    return this.mul(multiplier.neg()).neg();
-
-  // If both longs are small, use float multiplication
-  if (this.lt(TWO_PWR_24) && multiplier.lt(TWO_PWR_24))
-    return fromNumber(this.toNumber() * multiplier.toNumber(), this.unsigned);
-
-  // Divide each long into 4 chunks of 16 bits, and then add up 4x4 products.
-  // We can skip products that would overflow.
-
-  var a48 = this.high >>> 16;
-  var a32 = this.high & 0xFFFF;
-  var a16 = this.low >>> 16;
-  var a00 = this.low & 0xFFFF;
-
-  var b48 = multiplier.high >>> 16;
-  var b32 = multiplier.high & 0xFFFF;
-  var b16 = multiplier.low >>> 16;
-  var b00 = multiplier.low & 0xFFFF;
-
-  var c48 = 0, c32 = 0, c16 = 0, c00 = 0;
-  c00 += a00 * b00;
-  c16 += c00 >>> 16;
-  c00 &= 0xFFFF;
-  c16 += a16 * b00;
-  c32 += c16 >>> 16;
-  c16 &= 0xFFFF;
-  c16 += a00 * b16;
-  c32 += c16 >>> 16;
-  c16 &= 0xFFFF;
-  c32 += a32 * b00;
-  c48 += c32 >>> 16;
-  c32 &= 0xFFFF;
-  c32 += a16 * b16;
-  c48 += c32 >>> 16;
-  c32 &= 0xFFFF;
-  c32 += a00 * b32;
-  c48 += c32 >>> 16;
-  c32 &= 0xFFFF;
-  c48 += a48 * b00 + a32 * b16 + a16 * b32 + a00 * b48;
-  c48 &= 0xFFFF;
-  return fromBits((c16 << 16) | c00, (c48 << 16) | c32, this.unsigned);
-};
-
-/**
- * Returns the product of this and the specified Long. This is an alias of {@link Long#multiply}.
- * @function
- * @param {!Long|number|string} multiplier Multiplier
- * @returns {!Long} Product
- */
-LongPrototype.mul = LongPrototype.multiply;
-
-/**
- * Returns this Long divided by the specified. The result is signed if this Long is signed or
- *  unsigned if this Long is unsigned.
- * @this {!Long}
- * @param {!Long|number|string} divisor Divisor
- * @returns {!Long} Quotient
- */
-LongPrototype.divide = function divide(divisor) {
-  if (!isLong(divisor))
-    divisor = fromValue(divisor);
-  if (divisor.isZero())
-    throw Error('division by zero');
-
-  // use wasm support if present
-  if (wasm) {
-    // guard against signed division overflow: the largest
-    // negative number / -1 would be 1 larger than the largest
-    // positive number, due to two's complement.
-    if (!this.unsigned &&
-      this.high === -0x80000000 &&
-      divisor.low === -1 && divisor.high === -1) {
-      // be consistent with non-wasm code path
-      return this;
-    }
-    var low = (this.unsigned ? wasm["div_u"] : wasm["div_s"])(
-      this.low,
-      this.high,
-      divisor.low,
-      divisor.high
-    );
-    return fromBits(low, wasm["get_high"](), this.unsigned);
-  }
-
-  if (this.isZero())
-    return this.unsigned ? UZERO : ZERO;
-  var approx, rem, res;
-  if (!this.unsigned) {
-    // This section is only relevant for signed longs and is derived from the
-    // closure library as a whole.
-    if (this.eq(MIN_VALUE)) {
-      if (divisor.eq(ONE) || divisor.eq(NEG_ONE))
-        return MIN_VALUE;  // recall that -MIN_VALUE == MIN_VALUE
-      else if (divisor.eq(MIN_VALUE))
-        return ONE;
-      else {
-        // At this point, we have |other| >= 2, so |this/other| < |MIN_VALUE|.
-        var halfThis = this.shr(1);
-        approx = halfThis.div(divisor).shl(1);
-        if (approx.eq(ZERO)) {
-          return divisor.isNegative() ? ONE : NEG_ONE;
-        } else {
-          rem = this.sub(divisor.mul(approx));
-          res = approx.add(rem.div(divisor));
-          return res;
-        }
-      }
-    } else if (divisor.eq(MIN_VALUE))
-      return this.unsigned ? UZERO : ZERO;
-    if (this.isNegative()) {
-      if (divisor.isNegative())
-        return this.neg().div(divisor.neg());
-      return this.neg().div(divisor).neg();
-    } else if (divisor.isNegative())
-      return this.div(divisor.neg()).neg();
-    res = ZERO;
-  } else {
-    // The algorithm below has not been made for unsigned longs. It's therefore
-    // required to take special care of the MSB prior to running it.
-    if (!divisor.unsigned)
-      divisor = divisor.toUnsigned();
-    if (divisor.gt(this))
-      return UZERO;
-    if (divisor.gt(this.shru(1))) // 15 >>> 1 = 7 ; with divisor = 8 ; true
-      return UONE;
-    res = UZERO;
-  }
-
-  // Repeat the following until the remainder is less than other:  find a
-  // floating-point that approximates remainder / other *from below*, add this
-  // into the result, and subtract it from the remainder.  It is critical that
-  // the approximate value is less than or equal to the real value so that the
-  // remainder never becomes negative.
-  rem = this;
-  while (rem.gte(divisor)) {
-    // Approximate the result of division. This may be a little greater or
-    // smaller than the actual value.
-    approx = Math.max(1, Math.floor(rem.toNumber() / divisor.toNumber()));
-
-    // We will tweak the approximate result by changing it in the 48-th digit or
-    // the smallest non-fractional digit, whichever is larger.
-    var log2 = Math.ceil(Math.log(approx) / Math.LN2),
-      delta = (log2 <= 48) ? 1 : pow_dbl(2, log2 - 48),
-
-      // Decrease the approximation until it is smaller than the remainder.  Note
-      // that if it is too large, the product overflows and is negative.
-      approxRes = fromNumber(approx),
-      approxRem = approxRes.mul(divisor);
-    while (approxRem.isNegative() || approxRem.gt(rem)) {
-      approx -= delta;
-      approxRes = fromNumber(approx, this.unsigned);
-      approxRem = approxRes.mul(divisor);
-    }
-
-    // We know the answer can't be zero... and actually, zero would cause
-    // infinite recursion since we would make no progress.
-    if (approxRes.isZero())
-      approxRes = ONE;
-
-    res = res.add(approxRes);
-    rem = rem.sub(approxRem);
-  }
-  return res;
-};
-
-/**
- * Returns this Long divided by the specified. This is an alias of {@link Long#divide}.
- * @function
- * @param {!Long|number|string} divisor Divisor
- * @returns {!Long} Quotient
- */
-LongPrototype.div = LongPrototype.divide;
-
-/**
- * Returns this Long modulo the specified.
- * @this {!Long}
- * @param {!Long|number|string} divisor Divisor
- * @returns {!Long} Remainder
- */
-LongPrototype.modulo = function modulo(divisor) {
-  if (!isLong(divisor))
-    divisor = fromValue(divisor);
-
-  // use wasm support if present
-  if (wasm) {
-    var low = (this.unsigned ? wasm["rem_u"] : wasm["rem_s"])(
-      this.low,
-      this.high,
-      divisor.low,
-      divisor.high
-    );
-    return fromBits(low, wasm["get_high"](), this.unsigned);
-  }
-
-  return this.sub(this.div(divisor).mul(divisor));
-};
-
-/**
- * Returns this Long modulo the specified. This is an alias of {@link Long#modulo}.
- * @function
- * @param {!Long|number|string} divisor Divisor
- * @returns {!Long} Remainder
- */
-LongPrototype.mod = LongPrototype.modulo;
-
-/**
- * Returns this Long modulo the specified. This is an alias of {@link Long#modulo}.
- * @function
- * @param {!Long|number|string} divisor Divisor
- * @returns {!Long} Remainder
- */
-LongPrototype.rem = LongPrototype.modulo;
-
-/**
- * Returns the bitwise NOT of this Long.
- * @this {!Long}
- * @returns {!Long}
- */
-LongPrototype.not = function not() {
-  return fromBits(~this.low, ~this.high, this.unsigned);
-};
-
-/**
- * Returns count leading zeros of this Long.
- * @this {!Long}
- * @returns {!number}
- */
-LongPrototype.countLeadingZeros = function countLeadingZeros() {
-  return this.high ? Math.clz32(this.high) : Math.clz32(this.low) + 32;
-};
-
-/**
- * Returns count leading zeros. This is an alias of {@link Long#countLeadingZeros}.
- * @function
- * @param {!Long}
- * @returns {!number}
- */
-LongPrototype.clz = LongPrototype.countLeadingZeros;
-
-/**
- * Returns count trailing zeros of this Long.
- * @this {!Long}
- * @returns {!number}
- */
-LongPrototype.countTrailingZeros = function countTrailingZeros() {
-  return this.low ? ctz32(this.low) : ctz32(this.high) + 32;
-};
-
-/**
- * Returns count trailing zeros. This is an alias of {@link Long#countTrailingZeros}.
- * @function
- * @param {!Long}
- * @returns {!number}
- */
-LongPrototype.ctz = LongPrototype.countTrailingZeros;
-
-/**
- * Returns the bitwise AND of this Long and the specified.
- * @this {!Long}
- * @param {!Long|number|string} other Other Long
- * @returns {!Long}
- */
-LongPrototype.and = function and(other) {
-  if (!isLong(other))
-    other = fromValue(other);
-  return fromBits(this.low & other.low, this.high & other.high, this.unsigned);
-};
-
-/**
- * Returns the bitwise OR of this Long and the specified.
- * @this {!Long}
- * @param {!Long|number|string} other Other Long
- * @returns {!Long}
- */
-LongPrototype.or = function or(other) {
-  if (!isLong(other))
-    other = fromValue(other);
-  return fromBits(this.low | other.low, this.high | other.high, this.unsigned);
-};
-
-/**
- * Returns the bitwise XOR of this Long and the given one.
- * @this {!Long}
- * @param {!Long|number|string} other Other Long
- * @returns {!Long}
- */
-LongPrototype.xor = function xor(other) {
-  if (!isLong(other))
-    other = fromValue(other);
-  return fromBits(this.low ^ other.low, this.high ^ other.high, this.unsigned);
-};
-
-/**
- * Returns this Long with bits shifted to the left by the given amount.
- * @this {!Long}
- * @param {number|!Long} numBits Number of bits
- * @returns {!Long} Shifted Long
- */
-LongPrototype.shiftLeft = function shiftLeft(numBits) {
-  if (isLong(numBits))
-    numBits = numBits.toInt();
-  if ((numBits &= 63) === 0)
-    return this;
-  else if (numBits < 32)
-    return fromBits(this.low << numBits, (this.high << numBits) | (this.low >>> (32 - numBits)), this.unsigned);
-  else
-    return fromBits(0, this.low << (numBits - 32), this.unsigned);
-};
-
-/**
- * Returns this Long with bits shifted to the left by the given amount. This is an alias of {@link Long#shiftLeft}.
- * @function
- * @param {number|!Long} numBits Number of bits
- * @returns {!Long} Shifted Long
- */
-LongPrototype.shl = LongPrototype.shiftLeft;
-
-/**
- * Returns this Long with bits arithmetically shifted to the right by the given amount.
- * @this {!Long}
- * @param {number|!Long} numBits Number of bits
- * @returns {!Long} Shifted Long
- */
-LongPrototype.shiftRight = function shiftRight(numBits) {
-  if (isLong(numBits))
-    numBits = numBits.toInt();
-  if ((numBits &= 63) === 0)
-    return this;
-  else if (numBits < 32)
-    return fromBits((this.low >>> numBits) | (this.high << (32 - numBits)), this.high >> numBits, this.unsigned);
-  else
-    return fromBits(this.high >> (numBits - 32), this.high >= 0 ? 0 : -1, this.unsigned);
-};
-
-/**
- * Returns this Long with bits arithmetically shifted to the right by the given amount. This is an alias of {@link Long#shiftRight}.
- * @function
- * @param {number|!Long} numBits Number of bits
- * @returns {!Long} Shifted Long
- */
-LongPrototype.shr = LongPrototype.shiftRight;
-
-/**
- * Returns this Long with bits logically shifted to the right by the given amount.
- * @this {!Long}
- * @param {number|!Long} numBits Number of bits
- * @returns {!Long} Shifted Long
- */
-LongPrototype.shiftRightUnsigned = function shiftRightUnsigned(numBits) {
-  if (isLong(numBits)) numBits = numBits.toInt();
-  if ((numBits &= 63) === 0) return this;
-  if (numBits < 32) return fromBits((this.low >>> numBits) | (this.high << (32 - numBits)), this.high >>> numBits, this.unsigned);
-  if (numBits === 32) return fromBits(this.high, 0, this.unsigned);
-  return fromBits(this.high >>> (numBits - 32), 0, this.unsigned);
-};
-
-/**
- * Returns this Long with bits logically shifted to the right by the given amount. This is an alias of {@link Long#shiftRightUnsigned}.
- * @function
- * @param {number|!Long} numBits Number of bits
- * @returns {!Long} Shifted Long
- */
-LongPrototype.shru = LongPrototype.shiftRightUnsigned;
-
-/**
- * Returns this Long with bits logically shifted to the right by the given amount. This is an alias of {@link Long#shiftRightUnsigned}.
- * @function
- * @param {number|!Long} numBits Number of bits
- * @returns {!Long} Shifted Long
- */
-LongPrototype.shr_u = LongPrototype.shiftRightUnsigned;
-
-/**
- * Returns this Long with bits rotated to the left by the given amount.
- * @this {!Long}
- * @param {number|!Long} numBits Number of bits
- * @returns {!Long} Rotated Long
- */
-LongPrototype.rotateLeft = function rotateLeft(numBits) {
-  var b;
-  if (isLong(numBits)) numBits = numBits.toInt();
-  if ((numBits &= 63) === 0) return this;
-  if (numBits === 32) return fromBits(this.high, this.low, this.unsigned);
-  if (numBits < 32) {
-    b = (32 - numBits);
-    return fromBits(((this.low << numBits) | (this.high >>> b)), ((this.high << numBits) | (this.low >>> b)), this.unsigned);
-  }
-  numBits -= 32;
-  b = (32 - numBits);
-  return fromBits(((this.high << numBits) | (this.low >>> b)), ((this.low << numBits) | (this.high >>> b)), this.unsigned);
-}
-/**
- * Returns this Long with bits rotated to the left by the given amount. This is an alias of {@link Long#rotateLeft}.
- * @function
- * @param {number|!Long} numBits Number of bits
- * @returns {!Long} Rotated Long
- */
-LongPrototype.rotl = LongPrototype.rotateLeft;
-
-/**
- * Returns this Long with bits rotated to the right by the given amount.
- * @this {!Long}
- * @param {number|!Long} numBits Number of bits
- * @returns {!Long} Rotated Long
- */
-LongPrototype.rotateRight = function rotateRight(numBits) {
-  var b;
-  if (isLong(numBits)) numBits = numBits.toInt();
-  if ((numBits &= 63) === 0) return this;
-  if (numBits === 32) return fromBits(this.high, this.low, this.unsigned);
-  if (numBits < 32) {
-    b = (32 - numBits);
-    return fromBits(((this.high << b) | (this.low >>> numBits)), ((this.low << b) | (this.high >>> numBits)), this.unsigned);
-  }
-  numBits -= 32;
-  b = (32 - numBits);
-  return fromBits(((this.low << b) | (this.high >>> numBits)), ((this.high << b) | (this.low >>> numBits)), this.unsigned);
-}
-/**
- * Returns this Long with bits rotated to the right by the given amount. This is an alias of {@link Long#rotateRight}.
- * @function
- * @param {number|!Long} numBits Number of bits
- * @returns {!Long} Rotated Long
- */
-LongPrototype.rotr = LongPrototype.rotateRight;
-
-/**
- * Converts this Long to signed.
- * @this {!Long}
- * @returns {!Long} Signed long
- */
-LongPrototype.toSigned = function toSigned() {
-  if (!this.unsigned)
-    return this;
-  return fromBits(this.low, this.high, false);
-};
-
-/**
- * Converts this Long to unsigned.
- * @this {!Long}
- * @returns {!Long} Unsigned long
- */
-LongPrototype.toUnsigned = function toUnsigned() {
-  if (this.unsigned)
-    return this;
-  return fromBits(this.low, this.high, true);
-};
-
-/**
- * Converts this Long to its byte representation.
- * @param {boolean=} le Whether little or big endian, defaults to big endian
- * @this {!Long}
- * @returns {!Array.<number>} Byte representation
- */
-LongPrototype.toBytes = function toBytes(le) {
-  return le ? this.toBytesLE() : this.toBytesBE();
-};
-
-/**
- * Converts this Long to its little endian byte representation.
- * @this {!Long}
- * @returns {!Array.<number>} Little endian byte representation
- */
-LongPrototype.toBytesLE = function toBytesLE() {
-  var hi = this.high,
-    lo = this.low;
-  return [
-    lo & 0xff,
-    lo >>> 8 & 0xff,
-    lo >>> 16 & 0xff,
-    lo >>> 24,
-    hi & 0xff,
-    hi >>> 8 & 0xff,
-    hi >>> 16 & 0xff,
-    hi >>> 24
-  ];
-};
-
-/**
- * Converts this Long to its big endian byte representation.
- * @this {!Long}
- * @returns {!Array.<number>} Big endian byte representation
- */
-LongPrototype.toBytesBE = function toBytesBE() {
-  var hi = this.high,
-    lo = this.low;
-  return [
-    hi >>> 24,
-    hi >>> 16 & 0xff,
-    hi >>> 8 & 0xff,
-    hi & 0xff,
-    lo >>> 24,
-    lo >>> 16 & 0xff,
-    lo >>> 8 & 0xff,
-    lo & 0xff
-  ];
-};
-
-/**
- * Creates a Long from its byte representation.
- * @param {!Array.<number>} bytes Byte representation
- * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
- * @param {boolean=} le Whether little or big endian, defaults to big endian
- * @returns {Long} The corresponding Long value
- */
-Long.fromBytes = function fromBytes(bytes, unsigned, le) {
-  return le ? Long.fromBytesLE(bytes, unsigned) : Long.fromBytesBE(bytes, unsigned);
-};
-
-/**
- * Creates a Long from its little endian byte representation.
- * @param {!Array.<number>} bytes Little endian byte representation
- * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
- * @returns {Long} The corresponding Long value
- */
-Long.fromBytesLE = function fromBytesLE(bytes, unsigned) {
-  return new Long(
-    bytes[0] |
-    bytes[1] << 8 |
-    bytes[2] << 16 |
-    bytes[3] << 24,
-    bytes[4] |
-    bytes[5] << 8 |
-    bytes[6] << 16 |
-    bytes[7] << 24,
-    unsigned
-  );
-};
-
-/**
- * Creates a Long from its big endian byte representation.
- * @param {!Array.<number>} bytes Big endian byte representation
- * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
- * @returns {Long} The corresponding Long value
- */
-Long.fromBytesBE = function fromBytesBE(bytes, unsigned) {
-  return new Long(
-    bytes[4] << 24 |
-    bytes[5] << 16 |
-    bytes[6] << 8 |
-    bytes[7],
-    bytes[0] << 24 |
-    bytes[1] << 16 |
-    bytes[2] << 8 |
-    bytes[3],
-    unsigned
-  );
-};
-
-/* harmony default export */ const node_modules_long = (Long);
-
-// EXTERNAL MODULE: ../vot.js/node_modules/protobufjs/minimal.js
-var minimal = __webpack_require__("../vot.js/node_modules/protobufjs/minimal.js");
-;// CONCATENATED MODULE: ../vot.js/dist/protos/yandex.js
-
-
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/protos/yandex.js
+const _m0 = protobuf;
 const protobufPackage = "";
 var StreamInterval;
 (function (StreamInterval) {
@@ -5262,7 +671,7 @@ function createBaseVideoTranslationHelpObject() {
     return { target: "", targetUrl: "" };
 }
 const VideoTranslationHelpObject = {
-    encode(message, writer = minimal.Writer.create()) {
+    encode(message, writer = _m0.Writer.create()) {
         if (message.target !== "") {
             writer.uint32(10).string(message.target);
         }
@@ -5272,7 +681,7 @@ const VideoTranslationHelpObject = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof minimal.Reader ? input : minimal.Reader.create(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseVideoTranslationHelpObject();
         while (reader.pos < end) {
@@ -5342,7 +751,7 @@ function createBaseVideoTranslationRequest() {
     };
 }
 const VideoTranslationRequest = {
-    encode(message, writer = minimal.Writer.create()) {
+    encode(message, writer = _m0.Writer.create()) {
         if (message.url !== "") {
             writer.uint32(26).string(message.url);
         }
@@ -5385,7 +794,7 @@ const VideoTranslationRequest = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof minimal.Reader ? input : minimal.Reader.create(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseVideoTranslationRequest();
         while (reader.pos < end) {
@@ -5573,7 +982,7 @@ function createBaseVideoTranslationResponse() {
     };
 }
 const VideoTranslationResponse = {
-    encode(message, writer = minimal.Writer.create()) {
+    encode(message, writer = _m0.Writer.create()) {
         if (message.url !== undefined) {
             writer.uint32(10).string(message.url);
         }
@@ -5601,7 +1010,7 @@ const VideoTranslationResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof minimal.Reader ? input : minimal.Reader.create(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseVideoTranslationResponse();
         while (reader.pos < end) {
@@ -5723,7 +1132,7 @@ function createBaseSubtitlesObject() {
     return { language: "", url: "", unknown0: 0, translatedLanguage: "", translatedUrl: "", unknown1: 0, unknown2: 0 };
 }
 const SubtitlesObject = {
-    encode(message, writer = minimal.Writer.create()) {
+    encode(message, writer = _m0.Writer.create()) {
         if (message.language !== "") {
             writer.uint32(10).string(message.language);
         }
@@ -5748,7 +1157,7 @@ const SubtitlesObject = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof minimal.Reader ? input : minimal.Reader.create(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseSubtitlesObject();
         while (reader.pos < end) {
@@ -5859,7 +1268,7 @@ function createBaseSubtitlesRequest() {
     return { url: "", language: "" };
 }
 const SubtitlesRequest = {
-    encode(message, writer = minimal.Writer.create()) {
+    encode(message, writer = _m0.Writer.create()) {
         if (message.url !== "") {
             writer.uint32(10).string(message.url);
         }
@@ -5869,7 +1278,7 @@ const SubtitlesRequest = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof minimal.Reader ? input : minimal.Reader.create(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseSubtitlesRequest();
         while (reader.pos < end) {
@@ -5925,7 +1334,7 @@ function createBaseSubtitlesResponse() {
     return { waiting: false, subtitles: [] };
 }
 const SubtitlesResponse = {
-    encode(message, writer = minimal.Writer.create()) {
+    encode(message, writer = _m0.Writer.create()) {
         if (message.waiting !== false) {
             writer.uint32(8).bool(message.waiting);
         }
@@ -5935,7 +1344,7 @@ const SubtitlesResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof minimal.Reader ? input : minimal.Reader.create(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseSubtitlesResponse();
         while (reader.pos < end) {
@@ -5990,20 +1399,20 @@ const SubtitlesResponse = {
     },
 };
 function createBaseStreamTranslationObject() {
-    return { url: "", timestamp: 0 };
+    return { url: "", timestamp: "" };
 }
 const StreamTranslationObject = {
-    encode(message, writer = minimal.Writer.create()) {
+    encode(message, writer = _m0.Writer.create()) {
         if (message.url !== "") {
             writer.uint32(10).string(message.url);
         }
-        if (message.timestamp !== 0) {
-            writer.uint32(16).int64(message.timestamp);
+        if (message.timestamp !== "") {
+            writer.uint32(18).string(message.timestamp);
         }
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof minimal.Reader ? input : minimal.Reader.create(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseStreamTranslationObject();
         while (reader.pos < end) {
@@ -6016,10 +1425,10 @@ const StreamTranslationObject = {
                     message.url = reader.string();
                     continue;
                 case 2:
-                    if (tag !== 16) {
+                    if (tag !== 18) {
                         break;
                     }
-                    message.timestamp = longToNumber(reader.int64());
+                    message.timestamp = reader.string();
                     continue;
             }
             if ((tag & 7) === 4 || tag === 0) {
@@ -6032,7 +1441,7 @@ const StreamTranslationObject = {
     fromJSON(object) {
         return {
             url: isSet(object.url) ? globalThis.String(object.url) : "",
-            timestamp: isSet(object.timestamp) ? globalThis.Number(object.timestamp) : 0,
+            timestamp: isSet(object.timestamp) ? globalThis.String(object.timestamp) : "",
         };
     },
     toJSON(message) {
@@ -6040,8 +1449,8 @@ const StreamTranslationObject = {
         if (message.url !== "") {
             obj.url = message.url;
         }
-        if (message.timestamp !== 0) {
-            obj.timestamp = Math.round(message.timestamp);
+        if (message.timestamp !== "") {
+            obj.timestamp = message.timestamp;
         }
         return obj;
     },
@@ -6051,7 +1460,7 @@ const StreamTranslationObject = {
     fromPartial(object) {
         const message = createBaseStreamTranslationObject();
         message.url = object.url ?? "";
-        message.timestamp = object.timestamp ?? 0;
+        message.timestamp = object.timestamp ?? "";
         return message;
     },
 };
@@ -6059,7 +1468,7 @@ function createBaseStreamTranslationRequest() {
     return { url: "", language: "", responseLanguage: "" };
 }
 const StreamTranslationRequest = {
-    encode(message, writer = minimal.Writer.create()) {
+    encode(message, writer = _m0.Writer.create()) {
         if (message.url !== "") {
             writer.uint32(10).string(message.url);
         }
@@ -6072,7 +1481,7 @@ const StreamTranslationRequest = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof minimal.Reader ? input : minimal.Reader.create(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseStreamTranslationRequest();
         while (reader.pos < end) {
@@ -6139,7 +1548,7 @@ function createBaseStreamTranslationResponse() {
     return { interval: 0, translatedInfo: undefined, pingId: undefined };
 }
 const StreamTranslationResponse = {
-    encode(message, writer = minimal.Writer.create()) {
+    encode(message, writer = _m0.Writer.create()) {
         if (message.interval !== 0) {
             writer.uint32(8).int32(message.interval);
         }
@@ -6152,7 +1561,7 @@ const StreamTranslationResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof minimal.Reader ? input : minimal.Reader.create(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseStreamTranslationResponse();
         while (reader.pos < end) {
@@ -6223,14 +1632,14 @@ function createBaseStreamPingRequest() {
     return { pingId: 0 };
 }
 const StreamPingRequest = {
-    encode(message, writer = minimal.Writer.create()) {
+    encode(message, writer = _m0.Writer.create()) {
         if (message.pingId !== 0) {
             writer.uint32(8).int32(message.pingId);
         }
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof minimal.Reader ? input : minimal.Reader.create(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseStreamPingRequest();
         while (reader.pos < end) {
@@ -6273,7 +1682,7 @@ function createBaseYandexSessionRequest() {
     return { uuid: "", module: "" };
 }
 const YandexSessionRequest = {
-    encode(message, writer = minimal.Writer.create()) {
+    encode(message, writer = _m0.Writer.create()) {
         if (message.uuid !== "") {
             writer.uint32(10).string(message.uuid);
         }
@@ -6283,7 +1692,7 @@ const YandexSessionRequest = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof minimal.Reader ? input : minimal.Reader.create(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseYandexSessionRequest();
         while (reader.pos < end) {
@@ -6339,7 +1748,7 @@ function createBaseYandexSessionResponse() {
     return { secretKey: "", expires: 0 };
 }
 const YandexSessionResponse = {
-    encode(message, writer = minimal.Writer.create()) {
+    encode(message, writer = _m0.Writer.create()) {
         if (message.secretKey !== "") {
             writer.uint32(10).string(message.secretKey);
         }
@@ -6349,7 +1758,7 @@ const YandexSessionResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof minimal.Reader ? input : minimal.Reader.create(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseYandexSessionResponse();
         while (reader.pos < end) {
@@ -6401,24 +1810,11 @@ const YandexSessionResponse = {
         return message;
     },
 };
-function longToNumber(long) {
-    if (long.gt(globalThis.Number.MAX_SAFE_INTEGER)) {
-        throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
-    }
-    if (long.lt(globalThis.Number.MIN_SAFE_INTEGER)) {
-        throw new globalThis.Error("Value is smaller than Number.MIN_SAFE_INTEGER");
-    }
-    return long.toNumber();
-}
-if (minimal.util.Long !== node_modules_long) {
-    minimal.util.Long = node_modules_long;
-    minimal.configure();
-}
 function isSet(value) {
     return value !== null && value !== undefined;
 }
 
-;// CONCATENATED MODULE: ../vot.js/dist/protobuf.js
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/protobuf.js
 
 const yandexProtobuf = {
     encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp) {
@@ -6475,7 +1871,7 @@ const yandexProtobuf = {
     },
 };
 
-;// CONCATENATED MODULE: ../vot.js/dist/config/config.js
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/config/config.js
 /* harmony default export */ const config = ({
     host: "api.browser.yandex.ru",
     hostVOT: "https://vot-api.toil.cc/v1",
@@ -6485,17 +1881,14 @@ const yandexProtobuf = {
     defaultDuration: 343,
 });
 
-;// CONCATENATED MODULE: ../vot.js/package.json
-const package_namespaceObject = {"rE":"1.0.0"};
-;// CONCATENATED MODULE: external "crypto"
-const external_crypto_namespaceObject = crypto;
-;// CONCATENATED MODULE: ../vot.js/dist/secure.js
-
+;// CONCATENATED MODULE: ./node_modules/vot.js/package.json
+const package_namespaceObject = {"rE":"0.4.0"};
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/secure.js
 
 const utf8Encoder = new TextEncoder();
 async function signHMAC(hashName, hmac, data) {
-    const key = await external_crypto_namespaceObject.subtle.importKey("raw", utf8Encoder.encode(hmac), { name: "HMAC", hash: { name: hashName } }, false, ["sign", "verify"]);
-    return await external_crypto_namespaceObject.subtle.sign("HMAC", key, data);
+    const key = await crypto.subtle.importKey("raw", utf8Encoder.encode(hmac), { name: "HMAC", hash: { name: hashName } }, false, ["sign", "verify"]);
+    return await crypto.subtle.sign("HMAC", key, data);
 }
 async function getSignature(body) {
     const signature = await signHMAC("SHA-256", config.hmac, body);
@@ -6522,7 +1915,7 @@ async function getHmacSha1(hmacKey, salt) {
     }
 }
 
-;// CONCATENATED MODULE: ../vot.js/dist/types/yandex.js
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/types/yandex.js
 var VideoService;
 (function (VideoService) {
     VideoService["custom"] = "custom";
@@ -6548,11 +1941,14 @@ var VideoService;
     VideoService["mail_ru"] = "mailru";
     VideoService["mailru"] = "mailru";
     VideoService["bitchute"] = "bitchute";
+    VideoService["coursera"] = "coursera";
+    VideoService["udemy"] = "udemy";
     VideoService["eporner"] = "eporner";
     VideoService["peertube"] = "peertube";
     VideoService["dailymotion"] = "dailymotion";
     VideoService["trovo"] = "trovo";
     VideoService["yandexdisk"] = "yandexdisk";
+    VideoService["coursehunter"] = "coursehunter";
     VideoService["ok_ru"] = "okru";
     VideoService["okru"] = "okru";
     VideoService["googledrive"] = "googledrive";
@@ -6576,7 +1972,7 @@ var VideoTranslationStatus;
     VideoTranslationStatus[VideoTranslationStatus["LONG_WAITING_2"] = 6] = "LONG_WAITING_2";
 })(VideoTranslationStatus || (VideoTranslationStatus = {}));
 
-;// CONCATENATED MODULE: ../vot.js/dist/utils/utils.js
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/utils/utils.js
 
 async function fetchWithTimeout(url, options = {
     headers: {
@@ -6597,7 +1993,7 @@ function getTimestamp() {
     return Math.floor(Date.now() / 1000);
 }
 
-;// CONCATENATED MODULE: ../vot.js/dist/config/alternativeUrls.js
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/config/alternativeUrls.js
 const sitesInvidious = [
     "invidious.snopyta.org",
     "yewtu.be",
@@ -6673,34 +2069,68 @@ const sitesPeertube = [
 ];
 
 
-;// CONCATENATED MODULE: ../vot.js/dist/config/sites.js
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/config/sites.js
 
 
 /* harmony default export */ const sites = ([
     {
+        additionalData: "mobile",
         host: VideoService.youtube,
         url: "https://youtu.be/",
-        match: /^((www.|m.)?youtube(-nocookie|kids)?.com)|(youtu.be)$/,
+        match: /^m.youtube.com$/,
+        selector: "shorts-video #player",
+    },
+    {
+        additionalData: "mobile",
+        host: VideoService.youtube,
+        url: "https://youtu.be/",
+        match: /^m.youtube.com$/,
+        selector: ".player-container",
+    },
+    {
+        host: VideoService.youtube,
+        url: "https://youtu.be/",
+        match: /^(www.)?youtube(-nocookie|kids)?.com$/,
+        selector: ".html5-video-container:not(#inline-player *)",
     },
     {
         host: VideoService.invidious,
         url: "https://youtu.be/",
         match: sitesInvidious,
+        selector: "#player",
     },
     {
         host: VideoService.piped,
         url: "https://youtu.be/",
         match: sitesPiped,
+        selector: ".shaka-video-container",
+    },
+    {
+        additionalData: "mobile",
+        host: VideoService.vk,
+        url: "https://vk.com/video?z=",
+        match: /^m.vk.(com|ru)$/,
+        selector: "vk-video-player",
+        shadowRoot: true,
+    },
+    {
+        additionalData: "clips",
+        host: VideoService.vk,
+        url: "https://vk.com/video?z=",
+        match: /^(www.|m.)?vk.(com|ru)$/,
+        selector: 'div[data-testid="clipcontainer-video"]',
     },
     {
         host: VideoService.vk,
         url: "https://vk.com/video?z=",
         match: /^(www.|m.)?vk.(com|ru)$/,
+        selector: ".videoplayer_media"
     },
     {
         host: VideoService.nine_gag,
         url: "https://9gag.com/gag/",
         match: /^9gag.com$/,
+        selector: ".video-post",
     },
     {
         host: VideoService.twitch,
@@ -6711,139 +2141,221 @@ const sitesPeertube = [
             /^clips.twitch.tv$/,
             /^player.twitch.tv$/,
         ],
+        selector: ".video-ref, main > div > section > div > div > div",
     },
     {
         host: VideoService.proxitok,
         url: "https://www.tiktok.com/",
         match: sitesProxiTok,
+        selector: ".column.has-text-centered",
     },
     {
         host: VideoService.tiktok,
         url: "https://www.tiktok.com/",
         match: /^(www.)?tiktok.com$/,
+        selector: null
     },
     {
         host: VideoService.vimeo,
         url: "https://vimeo.com/",
         match: /^vimeo.com$/,
+        selector: ".player",
     },
     {
+        additionalData: "embed",
         host: VideoService.vimeo,
         url: "https://player.vimeo.com/",
         match: /^player.vimeo.com$/,
+        selector: ".player",
     },
     {
         host: VideoService.xvideos,
         url: "https://www.xvideos.com/",
         match: /^(www.)?(xvideos|xv-ru).com$/,
+        selector: ".video-bg-pic",
     },
     {
         host: VideoService.pornhub,
         url: "https://rt.pornhub.com/view_video.php?viewkey=",
         match: /^[a-z]+.pornhub.com$/,
+        selector: ".mainPlayerDiv > .video-element-wrapper-js > div",
+    },
+    {
+        additionalData: "embed",
+        host: VideoService.pornhub,
+        url: "https://rt.pornhub.com/view_video.php?viewkey=",
+        match: (url) =>
+            url.host.includes("pornhub.com") && url.pathname.startsWith("/embed/"),
+        selector: "#player",
     },
     {
         host: VideoService.twitter,
         url: "https://twitter.com/i/status/",
         match: /^twitter.com$/,
+        selector: 'div[data-testid="videoComponent"] > div:nth-child(1) > div',
     },
     {
         host: VideoService.rumble,
         url: "https://rumble.com/",
         match: /^rumble.com$/,
+        selector: "#videoPlayer > .videoPlayer-Rumble-cls > div",
     },
     {
         host: VideoService.facebook,
         url: "https://facebook.com/",
-        match: (url) => url.host.includes("facebook.com") &&
-            (url.pathname.includes("/videos/") || url.pathname.includes("/reel/")),
+        match: (url) =>
+            url.host.includes("facebook.com") && url.pathname.includes("/videos/"),
+        selector: 'div[role="main"] div[data-pagelet$="video" i]',
+    },
+    {
+        additionalData: "reels",
+        host: VideoService.facebook,
+        url: "https://facebook.com/",
+        match: (url) =>
+            url.host.includes("facebook.com") && url.pathname.includes("/reel/"),
+        selector: 'div[role="main"]',
     },
     {
         host: VideoService.rutube,
         url: "https://rutube.ru/video/",
         match: /^rutube.ru$/,
+        selector: ".video-player > div > div > div:nth-child(2)",
+    },
+    {
+        additionalData: "embed",
+        host: VideoService.rutube,
+        url: "https://rutube.ru/video/",
+        match: /^rutube.ru$/,
+        selector: "#app > div > div",
     },
     {
         host: VideoService.bilibili,
         url: "https://www.bilibili.com/video/",
         match: /^(www|m|player).bilibili.com$/,
+        selector: ".bpx-player-video-wrap",
+    },
+    // Добавляет лишние видео в обработчик
+    {
+        additionalData: "old", // /blackboard/webplayer/embed-old.html
+        host: VideoService.bilibili,
+        url: "https://www.bilibili.com/video/",
+        match: /^(www|m).bilibili.com$/,
+        selector: null,
     },
     {
         host: VideoService.mailru,
         url: "https://my.mail.ru/",
         match: /^my.mail.ru$/,
+        selector: "#b-video-wrapper",
     },
     {
         host: VideoService.bitchute,
         url: "https://www.bitchute.com/video/",
         match: /^(www.)?bitchute.com$/,
+        selector: ".video-js",
+    },
+    {
+        // ONLY IF YOU LOGINED TO COURSERA /learn/NAME/lecture/XXXX
+        host: VideoService.coursera,
+        url: "https://www.coursera.org/",
+        match: /coursera.org$/,
+        selector: ".vjs-v6",
+        needExtraData: true,
+    },
+    {
+        // ONLY IF YOU LOGINED TO UDEMY /course/NAME/learn/lecture/XXXX
+        host: VideoService.udemy,
+        url: "https://www.udemy.com/",
+        match: /udemy.com$/,
+        selector:
+            'div[data-purpose="curriculum-item-viewer-content"] > section > div > div > div > div:nth-of-type(2)',
+        needExtraData: true,
     },
     {
         host: VideoService.eporner,
         url: "https://www.eporner.com/",
         match: /^(www.)?eporner.com$/,
+        selector: ".vjs-v7",
     },
     {
         host: VideoService.peertube,
         url: "stub",
         match: sitesPeertube,
+        selector: ".vjs-v7",
     },
     {
         host: VideoService.dailymotion,
         url: "https://dai.ly/",
-        match: /^(www.)?dailymotion.com|dai.ly$/,
+        match: /^geo.dailymotion.com$/,
+        selector: ".player",
     },
     {
         host: VideoService.trovo,
         url: "https://trovo.live/s/",
         match: /^trovo.live$/,
+        selector: ".player-video",
     },
     {
         host: VideoService.yandexdisk,
         url: "https://yadi.sk/i/",
-        match: /^disk.yandex.ru|yadi.sk$/,
+        match: /^disk.yandex.ru$/,
+        selector: ".video-player__player > div:nth-child(1)",
+    },
+    {
+        host: VideoService.coursehunter,
+        url: "https://coursehunter.net/course/",
+        match: /^coursehunter.net$/,
+        selector: "#oframeplayer > pjsdiv:nth-of-type(1)",
     },
     {
         host: VideoService.okru,
         url: "https://ok.ru/video/",
         match: /^ok.ru$/,
+        selector: ".html5-vpl_vid",
     },
     {
         host: VideoService.googledrive,
         url: "https://drive.google.com/file/d/",
-        match: /^drive.google.com$/,
+        match: /^youtube.googleapis.com$/,
+        selector: ".html5-video-container",
     },
     {
         host: VideoService.bannedvideo,
         url: "https://madmaxworld.tv/watch?id=",
         match: /^(www.)?banned.video|madmaxworld.tv$/,
-        rawResult: true,
+        selector: ".vjs-v7",
+        needExtraData: true,
     },
     {
         host: VideoService.weverse,
         url: "https://weverse.io/",
         match: /^weverse.io$/,
+        selector: ".webplayer-internal-source-wrapper",
         needExtraData: true,
     },
     {
         host: VideoService.newgrounds,
         url: "https://www.newgrounds.com/",
         match: /^(www.)?newgrounds.com$/,
+        selector: ".ng-video-player",
     },
     {
         host: VideoService.egghead,
         url: "https://egghead.io/",
         match: /^egghead.io$/,
+        selector: ".cueplayer-react-video-holder",
     },
     {
         host: VideoService.youku,
         url: "https://v.youku.com/",
         match: /^v.youku.com$/,
+        selector: "#ykPlayer",
     },
     {
         host: VideoService.archive,
         url: "https://archive.org/details/",
         match: /^archive.org$/,
+        selector: ".jw-media",
     },
     {
         host: VideoService.kodik,
@@ -6855,6 +2367,8 @@ const sitesPeertube = [
         host: VideoService.patreon,
         url: "stub",
         match: /^(www.)?patreon.com$/,
+        selector:
+            'div[data-tag="post-card"] div[elevation="subtle"] > div > div > div > div',
         needExtraData: true,
     },
     {
@@ -6871,10 +2385,7 @@ const sitesPeertube = [
     },
 ]);
 
-// EXTERNAL MODULE: ../vot.js/node_modules/dom-parser/dist/index.js
-var dist = __webpack_require__("../vot.js/node_modules/dom-parser/dist/index.js");
-;// CONCATENATED MODULE: ../vot.js/dist/utils/helper.js
-
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/utils/helper.js
 
 
 
@@ -7045,7 +2556,8 @@ class KodikHelper {
             });
             const content = await res.text();
             const [videoType, videoId, hash] = videoPath.split("/").filter((a) => a);
-            const doc = (0,dist.parseFromString)(content);
+            const parser = new DOMParser()
+            const doc = parser.parseFromString(content, "text/html")
             const secureScript = Array.from(doc.getElementsByTagName("script")).filter((s) => s.innerHTML.includes(`videoId = "${videoId}"`));
             if (!secureScript.length) {
                 throw new VideoHelperError("Failed to find secure script");
@@ -7165,15 +2677,65 @@ class RedditHelper {
         };
     }
 }
+class BannedVideoHelper {
+    async getVideoInfo(videoId) {
+        try {
+            const res = await fetchWithTimeout(`https://api.banned.video/graphql`, {
+                method: "POST",
+                body: JSON.stringify({
+                    operationName: "GetVideo",
+                    query: `query GetVideo($id: String!) {
+            getVideo(id: $id) {
+              title
+              description: summary
+              duration: videoDuration
+              videoUrl: directUrl
+              isStream: live
+            }
+          }`,
+                    variables: {
+                        id: videoId,
+                    },
+                }),
+                headers: {
+                    "User-Agent": "bannedVideoFrontEnd",
+                    "apollographql-client-name": "banned-web",
+                    "apollographql-client-version": "1.3",
+                    "content-type": "application/json",
+                },
+            });
+            return (await res.json());
+        }
+        catch (err) {
+            console.error(`Failed to get bannedvideo video info by videoId: ${videoId}.`, err.message);
+            return false;
+        }
+    }
+    async getVideoData(videoId) {
+        const videoInfo = await this.getVideoInfo(videoId);
+        if (!videoInfo) {
+            return false;
+        }
+        const { videoUrl, duration, isStream, description, title } = videoInfo.data.getVideo;
+        return {
+            url: videoUrl,
+            duration,
+            isStream,
+            title,
+            description,
+        };
+    }
+}
 class VideoHelper {
     static [VideoService.mailru] = new MailRuHelper();
     static [VideoService.weverse] = new WeverseHelper();
     static [VideoService.kodik] = new KodikHelper();
     static [VideoService.patreon] = new PatreonHelper();
     static [VideoService.reddit] = new RedditHelper();
+    static [VideoService.bannedvideo] = new BannedVideoHelper();
 }
 
-;// CONCATENATED MODULE: ../vot.js/dist/utils/videoData.js
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/utils/videoData.js
 
 
 
@@ -7326,6 +2888,8 @@ async function getVideoID(service, videoURL) {
         }
         case VideoService.bitchute:
             return /(video|embed)\/([^/]+)/.exec(url.pathname)?.[2];
+        case VideoService.coursera:
+            return /learn\/([^/]+)\/lecture\/([^/]+)/.exec(url.pathname)?.[0]; // <-- COURSE PASSING (IF YOU LOGINED TO COURSERA)
         case VideoService.eporner:
             return /video-([^/]+)\/([^/]+)/.exec(url.pathname)?.[0];
         case VideoService.peertube:
@@ -7354,10 +2918,7 @@ async function getVideoID(service, videoURL) {
         case VideoService.googledrive:
             return /\/file\/d\/([^/]+)/.exec(url.pathname)?.[1];
         case VideoService.bannedvideo: {
-            const videoId = url.searchParams.get("id");
-            const res = await fetchWithTimeout(`${service.url}${videoId}`);
-            const content = await res.text();
-            return /https:\/\/download.assets.video\/videos\/([^.]+).mp4/.exec(content)?.[0];
+            return url.searchParams.get("id");
         }
         case VideoService.weverse:
             return /([^/]+)\/(live|media)\/([^/]+)/.exec(url.pathname)?.[3];
@@ -7417,14 +2978,13 @@ async function getVideoData(url) {
         throw new VideoDataError(`Failed to get video raw url for ${service.host}`);
     }
     return {
-        url: result.url,
+        ...result,
         videoId,
         host: service.host,
-        duration: result.duration,
     };
 }
 
-;// CONCATENATED MODULE: ../vot.js/dist/utils/vot.js
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/utils/vot.js
 
 function convertVOT(service, videoId, url) {
     if (service === VideoService.patreon) {
@@ -7439,7 +2999,7 @@ function convertVOT(service, videoId, url) {
     };
 }
 
-;// CONCATENATED MODULE: ../vot.js/dist/client.js
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/client.js
 
 
 
@@ -7488,7 +3048,7 @@ class VOTClient {
         "Sec-Fetch-Mode": "no-cors",
     };
     headersVOT = {
-        "User-Agent": `vot-cli/${version}`,
+        "User-Agent": `vot.js/${version}`,
         "Content-Type": "application/json",
         Pragma: "no-cache",
         "Cache-Control": "no-cache",
@@ -7574,7 +3134,8 @@ class VOTClient {
         };
         return this.sessions[module];
     }
-    async translateVideoYAImpl({ url, duration = config.defaultDuration, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, }) {
+    async translateVideoYAImpl({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, }) {
+        const { url, duration = config.defaultDuration } = videoData;
         const { secretKey, uuid } = await this.getSession("video-translation");
         const body = yandexProtobuf.encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp);
         const sign = await getSignature(body);
@@ -7651,11 +3212,11 @@ class VOTClient {
                 };
         }
     }
-    async translateVideo({ url, duration = config.defaultDuration, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, }) {
-        const { url: videoUrl, videoId, host, duration: videoDuration, } = await this.getVideoDataFn(url);
-        return this.isCustomFormat(videoUrl)
+    async translateVideo({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, }) {
+        const { url, videoId, host } = videoData;
+        return this.isCustomFormat(url)
             ? await this.translateVideoVOTImpl({
-                url: videoUrl,
+                url,
                 videoId,
                 service: host,
                 requestLang,
@@ -7663,21 +3224,20 @@ class VOTClient {
                 headers,
             })
             : await this.translateVideoYAImpl({
-                url: videoUrl,
-                duration: videoDuration ?? duration,
+                videoData,
                 requestLang,
                 responseLang,
                 translationHelp,
                 headers,
             });
     }
-    async getSubtitles({ url, requestLang = this.requestLang, headers = {}, }) {
-        const { url: videoUrl } = await this.getVideoDataFn(url);
-        if (this.isCustomFormat(videoUrl)) {
+    async getSubtitles({ videoData, requestLang = this.requestLang, headers = {}, }) {
+        const { url } = videoData;
+        if (this.isCustomFormat(url)) {
             throw new VOTJSError("Unsupported video URL for getting subtitles");
         }
         const { secretKey, uuid } = await this.getSession("video-translation");
-        const body = yandexProtobuf.encodeSubtitlesRequest(videoUrl, requestLang);
+        const body = yandexProtobuf.encodeSubtitlesRequest(url, requestLang);
         const sign = await getSignature(body);
         const pathname = "/video-subtitles/get-subtitles";
         const res = await this.request(pathname, body, {
@@ -7707,13 +3267,13 @@ class VOTClient {
         }
         return true;
     }
-    async translateStream({ url, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
-        const { url: videoUrl } = await this.getVideoDataFn(url);
-        if (this.isCustomFormat(videoUrl)) {
+    async translateStream({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
+        const { url } = videoData;
+        if (this.isCustomFormat(url)) {
             throw new VOTJSError("Unsupported video URL for getting stream translation");
         }
         const { secretKey, uuid } = await this.getSession("video-translation");
-        const body = yandexProtobuf.encodeStreamRequest(videoUrl, requestLang, responseLang);
+        const body = yandexProtobuf.encodeStreamRequest(url, requestLang, responseLang);
         const sign = await getSignature(body);
         const pathname = "/stream-translation/translate-stream";
         const res = await this.request(pathname, body, {
@@ -7795,7 +3355,7 @@ class VOTWorkerClient extends (/* unused pure expression or super */ null && (VO
     }
 }
 
-;// CONCATENATED MODULE: ../vot.js/dist/index.js
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/index.js
 
 
 
@@ -7807,90 +3367,23 @@ class VOTWorkerClient extends (/* unused pure expression or super */ null && (VO
 
 
 
-
-
-
-;// CONCATENATED MODULE: ./src/config/alternativeUrls.js
-// Sites host Invidious. I tested the performance only on invidious.kevin.rocks, youtu.be and inv.vern.cc
-const alternativeUrls_sitesInvidious = [
-  "invidious.snopyta.org",
-  "yewtu.be",
-  "invidious.kavin.rocks",
-  "vid.puffyan.us",
-  "invidious.namazso.eu",
-  "inv.riverside.rocks",
-  "yt.artemislena.eu",
-  "invidious.flokinet.to",
-  "invidious.esmailelbob.xyz",
-  "y.com.sb",
-  "invidious.nerdvpn.de",
-  "inv.vern.cc",
-  "invidious.slipfox.xyz",
-  "invidio.xamh.de",
-  "invidious.dhusch.de",
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/consts.js
+const availableLangs = [
+    "auto",
+    "ru",
+    "en",
+    "zh",
+    "ko",
+    "lt",
+    "lv",
+    "ar",
+    "fr",
+    "it",
+    "es",
+    "de",
+    "ja",
 ];
-
-// Sites host Piped. I tested the performance only on piped.video
-const alternativeUrls_sitesPiped = [
-  "piped.video",
-  "piped.tokhmi.xyz",
-  "piped.moomoo.me",
-  "piped.syncpundit.io",
-  "piped.mha.fi",
-  "watch.whatever.social",
-  "piped.garudalinux.org",
-  "efy.piped.pages.dev",
-  "watch.leptons.xyz",
-  "piped.lunar.icu",
-  "yt.dc09.ru",
-  "piped.mint.lgbt",
-  "il.ax",
-  "piped.privacy.com.de",
-  "piped.esmailelbob.xyz",
-  "piped.projectsegfau.lt",
-  "piped.in.projectsegfau.lt",
-  "piped.us.projectsegfau.lt",
-  "piped.privacydev.net",
-  "piped.palveluntarjoaja.eu",
-  "piped.smnz.de",
-  "piped.adminforge.de",
-  "piped.qdi.fi",
-  "piped.hostux.net",
-  "piped.chauvet.pro",
-  "piped.jotoma.de",
-  "piped.pfcd.me",
-  "piped.frontendfriendly.xyz",
-];
-
-const alternativeUrls_sitesProxiTok = [
-  "proxitok.pabloferreiro.es",
-  "proxitok.pussthecat.org",
-  "tok.habedieeh.re",
-  "proxitok.esmailelbob.xyz",
-  "proxitok.privacydev.net",
-  "tok.artemislena.eu",
-  "tok.adminforge.de",
-  "tik.hostux.net", // maybe instance doesn't working
-  "tt.vern.cc",
-  "cringe.whatever.social",
-  "proxitok.lunar.icu",
-  "proxitok.privacy.com.de", // maybe instance doesn't working
-];
-
-// Sites host Peertube. I tested the performance only on dalek.zone and tube.shanti.cafe
-const alternativeUrls_sitesPeertube = [
-  "peertube.1312.media",
-  "tube.shanti.cafe",
-  "bee-tube.fr",
-  "video.sadmin.io",
-  "dalek.zone",
-  "review.peertube.biz",
-  "peervideo.club",
-  "tube.la-dina.net",
-  "peertube.tmp.rcp.tf",
-  "peertube.su",
-];
-
+const availableTTS = ["ru", "en", "kk"];
 
 
 ;// CONCATENATED MODULE: ./src/config/config.js
@@ -7920,25 +3413,6 @@ const translateUrls = {
 
 
 ;// CONCATENATED MODULE: ./src/config/constants.js
-// available languages for translation
-const availableLangs = [
-  "ru",
-  "en",
-  "zh",
-  "ko",
-  "lt",
-  "lv",
-  "ar",
-  "fr",
-  "it",
-  "es",
-  "de",
-  "ja",
-];
-
-// up-to-date list of TTS working languages
-const actualTTS = ["ru", "en", "kk"];
-
 const cfOnlyExtensions = [
   "Violentmonkey",
   "FireMonkey",
@@ -7987,7 +3461,8 @@ const votStorage = new (class {
       }
     }
 
-    return toNumber ? Number(val) ?? Number(def) : val ?? def;
+    const result = val ?? def;
+    return toNumber ? Number(result) : result;
   }
 
   async get(name, def = undefined, toNumber = false) {
@@ -8068,687 +3543,12 @@ const votStorage = new (class {
   }
 })();
 
-;// CONCATENATED MODULE: ./src/utils/translateApis.js
-
-
-
-const HTTP_TIMEOUT = 3000;
-
-async function translateApis_fetchWithTimeout(url, options = {}) {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), HTTP_TIMEOUT);
-
-  try {
-    return await fetch(url, {
-      ...options,
-      signal: controller.signal,
-    });
-  } catch (error) {
-    console.error("Fetch timed-out. Error:", error);
-    return error;
-  } finally {
-    clearTimeout(timeoutId);
-  }
-}
-
-const YandexTranslateAPI = {
-  async translate(text, lang) {
-    // Limit: 10k symbols
-    //
-    // Lang examples:
-    // en-ru, uk-ru, ru-en...
-    // ru, en (instead of auto-ru, auto-en)
-
-    try {
-      const response = await translateApis_fetchWithTimeout(
-        `${translateUrls.yandex}?${new URLSearchParams({
-          text,
-          lang,
-        })}`,
-      );
-
-      if (response instanceof Error) {
-        throw response;
-      }
-
-      const content = await response.json();
-
-      if (content.code !== 200) {
-        throw content.message;
-      }
-
-      return content.text[0];
-    } catch (error) {
-      console.error("Error translating text:", error);
-      return text;
-    }
-  },
-
-  async detect(text) {
-    // Limit: 10k symbols
-    try {
-      const response = await translateApis_fetchWithTimeout(
-        `${detectUrls.yandex}?${new URLSearchParams({
-          text,
-        })}`,
-      );
-
-      if (response instanceof Error) {
-        throw response;
-      }
-
-      const content = await response.json();
-      if (content.code !== 200) {
-        throw content.message;
-      }
-
-      return content.lang ?? "en";
-    } catch (error) {
-      console.error("Error getting lang from text:", error);
-      return "en";
-    }
-  },
-};
-
-const RustServerAPI = {
-  async detect(text) {
-    try {
-      const response = await fetch(detectUrls.rustServer, {
-        method: "POST",
-        body: text,
-      });
-
-      if (response instanceof Error) {
-        throw response;
-      }
-
-      return await response.text();
-    } catch (error) {
-      console.error("Error getting lang from text:", error);
-      return "en";
-    }
-  },
-};
-
-const DeeplServerAPI = {
-  async translate(text, fromLang = "auto", toLang = "ru") {
-    try {
-      const response = await translateApis_fetchWithTimeout(translateUrls.deepl, {
-        method: "POST",
-        headers: {
-          "content-type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams({
-          text,
-          source_lang: fromLang,
-          target_lang: toLang,
-        }),
-      });
-
-      if (response instanceof Error) {
-        throw response;
-      }
-
-      const content = await response.json();
-
-      if (content.code !== 200) {
-        throw content.message;
-      }
-
-      return content.data;
-    } catch (error) {
-      console.error("Error translating text:", error);
-      return text;
-    }
-  },
-};
-
-async function translate(text, fromLang = "", toLang = "ru") {
-  const service = await votStorage.get(
-    "translationService",
-    defaultTranslationService,
-  );
-  switch (service) {
-    case "yandex": {
-      const langPair = fromLang && toLang ? `${fromLang}-${toLang}` : toLang;
-      return await YandexTranslateAPI.translate(text, langPair);
-    }
-    case "deepl": {
-      return await DeeplServerAPI.translate(text, fromLang, toLang);
-    }
-    default:
-      return text;
-  }
-}
-
-async function detect(text) {
-  const service = await votStorage.get("detectService", defaultDetectService);
-  switch (service) {
-    case "yandex":
-      return await YandexTranslateAPI.detect(text);
-    case "rust-server":
-      return await RustServerAPI.detect(text);
-    default:
-      return "en";
-  }
-}
-
-const translateServices = Object.keys(translateUrls);
-const detectServices = Object.keys(detectUrls).map((k) =>
-  k === "rustServer" ? "rust-server" : k,
-);
-
-
-
-;// CONCATENATED MODULE: ./src/utils/youtubeUtils.js
-
-
-
-
-
-// Get the language code from the response or the text
-async function getLanguage(player, response, title, description) {
-  if (
-    !window.location.hostname.includes("m.youtube.com") &&
-    player?.getAudioTrack
-  ) {
-    // ! Experimental ! get lang from selected audio track if availabled
-    const audioTracks = player.getAudioTrack();
-    const trackInfo = audioTracks?.getLanguageInfo(); // get selected track info (id === "und" if tracks are not available)
-    if (trackInfo?.id !== "und") {
-      return langTo6391(trackInfo.id.split(".")[0]);
-    }
-  }
-
-  // TODO: If the audio tracks will work fine, transfer the receipt of captions to the audioTracks variable
-  // Check if there is an automatic caption track in the response
-  const captionTracks =
-    response?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
-  if (captionTracks?.length) {
-    const autoCaption = captionTracks.find((caption) => caption.kind === "asr");
-    if (autoCaption && autoCaption.languageCode) {
-      return langTo6391(autoCaption.languageCode);
-    }
-  }
-
-  // If there is no caption track, use detect to get the language code from the description
-
-  const text = cleanText(title, description);
-
-  utils_debug.log(`Detecting language text: ${text}`);
-
-  return detect(text);
-}
-
-function isMobile() {
-  return /^m\.youtube\.com$/.test(window.location.hostname);
-}
-
-function getPlayer() {
-  if (window.location.pathname.startsWith("/shorts/")) {
-    return isMobile()
-      ? document.querySelector("#movie_player")
-      : document.querySelector("#shorts-player");
-  }
-
-  return document.querySelector("#movie_player");
-}
-
-function getPlayerResponse() {
-  const player = getPlayer();
-  if (player?.getPlayerResponse)
-    return player?.getPlayerResponse?.call() ?? null;
-  return player?.data?.playerResponse ?? null;
-}
-
-function getPlayerData() {
-  const player = getPlayer();
-  if (player?.getVideoData) return player?.getVideoData?.call() ?? null;
-  return player?.data?.playerResponse?.videoDetails ?? null;
-}
-
-function getVideoVolume() {
-  const player = getPlayer();
-  if (player?.getVolume) {
-    return player.getVolume.call() / 100;
-  }
-
-  return 1;
-}
-
-function setVideoVolume(volume) {
-  const player = getPlayer();
-  if (player?.setVolume) {
-    player.setVolume(Math.round(volume * 100));
-    return true;
-  }
-}
-
-function isMuted() {
-  const player = getPlayer();
-  if (player?.isMuted) {
-    return player.isMuted.call();
-  }
-
-  return false;
-}
-
-function videoSeek(video, time) {
-  // * TIME IN MS
-  utils_debug.log("videoSeek", time);
-  const preTime =
-    getPlayer()?.getProgressState()?.seekableEnd || video.currentTime;
-  const finalTime = preTime - time; // we always throw it to the end of the stream - time
-  video.currentTime = finalTime;
-}
-
-function isMusic() {
-  // Нужно доработать логику
-  const channelName = getPlayerData().author,
-    titleStr = getPlayerData().title.toUpperCase(),
-    titleWordsList = titleStr.match(/\w+/g),
-    playerData = document.body.querySelector("ytd-watch-flexy")?.playerData;
-
-  return (
-    [
-      titleStr,
-      document.URL,
-      channelName,
-      playerData?.microformat?.playerMicroformatRenderer.category,
-      playerData?.title,
-    ].some((i) => i?.toUpperCase().includes("MUSIC")) ||
-    document.body.querySelector(
-      "#upload-info #channel-name .badge-style-type-verified-artist",
-    ) ||
-    (channelName &&
-      /(VEVO|Topic|Records|RECORDS|Recordings|AMV)$/.test(channelName)) ||
-    (channelName &&
-      /(MUSIC|ROCK|SOUNDS|SONGS)/.test(channelName.toUpperCase())) ||
-    (titleWordsList?.length &&
-      [
-        "🎵",
-        "♫",
-        "SONG",
-        "SONGS",
-        "SOUNDTRACK",
-        "LYRIC",
-        "LYRICS",
-        "AMBIENT",
-        "MIX",
-        "VEVO",
-        "CLIP",
-        "KARAOKE",
-        "OPENING",
-        "COVER",
-        "COVERED",
-        "VOCAL",
-        "INSTRUMENTAL",
-        "ORCHESTRAL",
-        "DUBSTEP",
-        "DJ",
-        "DNB",
-        "BASS",
-        "BEAT",
-        "ALBUM",
-        "PLAYLIST",
-        "DUBSTEP",
-        "CHILL",
-        "RELAX",
-        "CLASSIC",
-        "CINEMATIC",
-      ].some((i) => titleWordsList.includes(i))) ||
-    [
-      "OFFICIAL VIDEO",
-      "OFFICIAL AUDIO",
-      "FEAT.",
-      "FT.",
-      "LIVE RADIO",
-      "DANCE VER",
-      "HIP HOP",
-      "ROCK N ROLL",
-      "HOUR VER",
-      "HOURS VER",
-      "INTRO THEME",
-    ].some((i) => titleStr.includes(i)) ||
-    (titleWordsList?.length &&
-      [
-        "OP",
-        "ED",
-        "MV",
-        "OST",
-        "NCS",
-        "BGM",
-        "EDM",
-        "GMV",
-        "AMV",
-        "MMD",
-        "MAD",
-      ].some((i) => titleWordsList.includes(i)))
-  );
-}
-
-function getSubtitles() {
-  const response = getPlayerResponse();
-  let captionTracks =
-    response?.captions?.playerCaptionsTracklistRenderer?.captionTracks ?? [];
-  captionTracks = captionTracks.reduce((result, captionTrack) => {
-    if ("languageCode" in captionTrack) {
-      const language = captionTrack?.languageCode
-        ? langTo6391(captionTrack?.languageCode)
-        : undefined;
-      const url = captionTrack?.url || captionTrack?.baseUrl;
-      language &&
-        url &&
-        result.push({
-          source: "youtube",
-          language,
-          isAutoGenerated: captionTrack?.kind === "asr",
-          url: `${
-            url.startsWith("http") ? url : `${window.location.origin}/${url}`
-          }&fmt=json3`,
-        });
-    }
-    return result;
-  }, []);
-  utils_debug.log("youtube subtitles:", captionTracks);
-  return captionTracks;
-}
-
-// Get the video data from the player
-async function youtubeUtils_getVideoData() {
-  const player = getPlayer();
-  const response = getPlayerResponse(); // null in /embed
-  const data = getPlayerData();
-  const { title } = data ?? {};
-  const { shortDescription: description, isLive } =
-    response?.videoDetails ?? {};
-  let detectedLanguage = title
-    ? await getLanguage(player, response, title, description)
-    : "en";
-  detectedLanguage = availableLangs.includes(detectedLanguage)
-    ? detectedLanguage
-    : "en";
-  const videoData = {
-    isLive: !!isLive,
-    title,
-    description,
-    detectedLanguage,
-  };
-  utils_debug.log("youtube video data:", videoData);
-  console.log("[VOT] Detected language: ", videoData.detectedLanguage);
-  return videoData;
-}
-
-/* harmony default export */ const youtubeUtils = ({
-  isMobile,
-  getPlayer,
-  getPlayerResponse,
-  getPlayerData,
-  getVideoVolume,
-  getSubtitles,
-  getVideoData: youtubeUtils_getVideoData,
-  setVideoVolume,
-  videoSeek,
-  isMuted,
-  isMusic,
-});
-
 ;// CONCATENATED MODULE: ./src/utils/utils.js
-
 
 
 
 const userlang = navigator.language || navigator.userLanguage;
 const lang = userlang?.substr(0, 2)?.toLowerCase() ?? "en";
-
-const getVideoId = (service, video) => {
-  let url = new URL(window.location.href);
-
-  switch (service) {
-    case "piped":
-    case "invidious":
-    case "youtube": {
-      if (url.searchParams.has("enablejsapi")) {
-        const videoUrl = youtubeUtils.getPlayer().getVideoUrl();
-        url = new URL(videoUrl);
-      }
-
-      return (
-        /(?:watch|embed|shorts|live)\/([^/]+)/.exec(url.pathname)?.[1] ||
-        url.searchParams.get("v")
-      );
-    }
-    case "vk": {
-      const pathID = /^\/(video|clip)-?\d{8,9}_\d{9}$/.exec(url.pathname);
-      const paramZ = url.searchParams.get("z");
-      const paramOID = url.searchParams.get("oid");
-      const paramID = url.searchParams.get("id");
-      if (pathID) {
-        return pathID[0].slice(1);
-      } else if (paramZ) {
-        return paramZ.split("/")[0];
-      } else if (paramOID && paramID) {
-        return `video-${Math.abs(parseInt(paramOID))}_${paramID}`;
-      }
-
-      return null;
-    }
-    case "nine_gag":
-    case "9gag":
-    case "gag":
-      return /gag\/([^/]+)/.exec(url.pathname)?.[1];
-    case "twitch": {
-      const clipPath = /([^/]+)\/(?:clip)\/([^/]+)/.exec(url.pathname);
-      if (/^m\.twitch\.tv$/.test(url.hostname)) {
-        return /videos\/([^/]+)/.exec(url.href)?.[0] || url.pathname.slice(1);
-      } else if (/^player\.twitch\.tv$/.test(url.hostname)) {
-        return `videos/${url.searchParams.get("video")}`;
-      } else if (/^clips\.twitch\.tv$/.test(url.hostname)) {
-        // https://clips.twitch.tv/clipId
-        const schema = document.querySelector(
-          "script[type='application/ld+json']",
-        );
-        const pathname = url.pathname.slice(1);
-        if (!schema) {
-          // иногда из-за не прогрузов твича это не работает, но пусть лучше будет (можно переделать все в async и ждать элемента, но нужно ли это ради 1 сайта)
-          // ссылки вида https://clips.twitch.tv/embed?clip=clipId грузятся нормально
-          const isEmbed = pathname === "embed";
-          const channelLink = document.querySelector(
-            isEmbed
-              ? ".tw-link[data-test-selector='stream-info-card-component__stream-avatar-link']"
-              : ".clips-player a:not([class])",
-          );
-
-          if (!channelLink) {
-            return;
-          }
-
-          const channelName = channelLink.href.replace(
-            "https://www.twitch.tv/",
-            "",
-          );
-
-          return `${channelName}/clip/${isEmbed ? url.searchParams.get("clip") : pathname}`;
-        }
-
-        const schemaJSON = JSON.parse(schema.innerText);
-        const channelLink = schemaJSON["@graph"].find(
-          (obj) => obj["@type"] === "VideoObject",
-        )?.creator.url;
-
-        const channelName = channelLink.replace("https://www.twitch.tv/", "");
-        return `${channelName}/clip/${pathname}`;
-      } else if (clipPath) {
-        return clipPath[0];
-      }
-
-      return /(?:videos)\/([^/]+)/.exec(url.pathname)?.[0];
-    }
-    case "proxitok":
-      return /([^/]+)\/video\/([^/]+)/.exec(url.pathname)?.[0];
-    case "tiktok": {
-      let id = /([^/]+)\/video\/([^/]+)/.exec(url.pathname)?.[0];
-      if (!id) {
-        const playerEl = video.closest(".xgplayer-playing, .tiktok-web-player");
-        const itemEl = playerEl?.closest(
-          'div[data-e2e="recommend-list-item-container"]',
-        );
-        const authorEl = itemEl?.querySelector(
-          'a[data-e2e="video-author-avatar"]',
-        );
-        if (playerEl && authorEl) {
-          const videoId = playerEl.id?.match(/^xgwrapper-\d+-(.*)$/)?.at(1);
-          const author = authorEl.href?.match(/.*(@.*)$/)?.at(1);
-          if (videoId && author) {
-            id = `${author}/video/${videoId}`;
-          }
-        }
-      }
-      return id;
-    }
-    case "vimeo": {
-      const appId = url.searchParams.get("app_id");
-      const videoId =
-        /[^/]+\/[^/]+$/.exec(url.pathname)?.[0] ||
-        /[^/]+$/.exec(url.pathname)?.[0];
-
-      return appId ? `${videoId}?app_id=${appId}` : videoId;
-    }
-    case "xvideos":
-      return /[^/]+\/[^/]+$/.exec(url.pathname)?.[0];
-    case "pornhub":
-      return (
-        url.searchParams.get("viewkey") ||
-        /embed\/([^/]+)/.exec(url.pathname)?.[1]
-      );
-    case "twitter":
-      return /status\/([^/]+)/.exec(url.pathname)?.[1];
-    case "udemy":
-    case "rumble":
-    case "facebook":
-      return url.pathname.slice(1);
-    case "rutube":
-      return /(?:video|embed)\/([^/]+)/.exec(url.pathname)?.[1];
-    case "coub":
-      return (
-        /(?:view|embed)\/([^/]+)/.exec(url.pathname)?.[1] ||
-        document.querySelector(".coub.active")?.dataset?.permalink
-      );
-    case "bilibili": {
-      const bvid = url.searchParams.get("bvid");
-      if (bvid) {
-        return bvid;
-      }
-
-      let vid = /video\/([^/]+)/.exec(url.pathname)?.[1];
-      if (vid && url.searchParams.get("p") !== null) {
-        vid += `/?p=${url.searchParams.get("p")}`;
-      }
-
-      return vid;
-    }
-    case "mail_ru": {
-      const pathname = url.pathname;
-      if (pathname.startsWith("/v/") || pathname.startsWith("/mail/")) {
-        return pathname.slice(1);
-      }
-
-      const videoId = /video\/embed\/([^/]+)/.exec(pathname)?.[1];
-      if (!videoId) {
-        return null;
-      }
-
-      const referer = document.querySelector(".b-video-controls__mymail-link");
-      if (!referer) {
-        return false;
-      }
-
-      return referer?.href.split("my.mail.ru")?.[1];
-    }
-    case "bitchute": {
-      if (video.src?.startsWith("blob:") || !video.src?.includes(".mp4")) {
-        return null;
-      }
-
-      return video.src;
-      // doesn't want to translate using a bitchute link
-      // return /([^/]+)\/([^/]+).mp4/.exec(videoUrl.pathname)?.[2];
-    }
-    case "coursera":
-      // ! LINK SHOULD BE LIKE THIS https://www.coursera.org/learn/learning-how-to-learn/lecture/75EsZ
-      // return url.pathname.match(/lecture\/([^/]+)\/([^/]+)/)?.[1]; // <--- COURSE PREVIEW
-      return /learn\/([^/]+)\/lecture\/([^/]+)/.exec(url.pathname)?.[0]; // <--- COURSE PASSING (IF YOU LOGINED TO COURSERA)
-    case "eporner":
-      // ! LINK SHOULD BE LIKE THIS eporner.com/video-XXXXXXXXX/isdfsd-dfjsdfjsdf-dsfsdf-dsfsda-dsad-ddsd
-      return /video-([^/]+)\/([^/]+)/.exec(url.pathname)?.[0];
-    case "peertube":
-      return /\/w\/([^/]+)/.exec(url.pathname)?.[0];
-    case "dailymotion": {
-      // we work in the context of the player
-      // geo.dailymotion.com
-      const plainPlayerConfig = Array.from(
-        document.querySelectorAll("*"),
-      ).filter((s) => s.innerHTML.trim().includes(".m3u8"));
-      try {
-        let videoUrl = plainPlayerConfig[1].lastChild.src;
-        return /\/video\/(\w+)\.m3u8/.exec(videoUrl)?.[1];
-      } catch (e) {
-        console.error("[VOT]", e);
-        return false;
-      }
-    }
-    case "trovo": {
-      const vid = url.searchParams.get("vid");
-      if (!vid) {
-        return null;
-      }
-
-      const path = /([^/]+)\/(\d+)/.exec(url.pathname)?.[0];
-      if (!path) {
-        return null;
-      }
-
-      return `${path}?vid=${vid}`;
-    }
-    case "yandexdisk":
-      return /\/i\/([^/]+)/.exec(url.pathname)?.[1];
-    case "coursehunter": {
-      const courseId = /\/course\/([^/]+)/.exec(url.pathname)?.[1];
-      return courseId ? courseId + url.search : false;
-    }
-    case "ok.ru": {
-      return /\/video\/(\d+)/.exec(url.pathname)?.[1];
-    }
-    case "googledrive":
-      return url.searchParams.get("docid");
-    case "bannedvideo":
-      return url.searchParams.get("id");
-    case "weverse":
-      return /([^/]+)\/(live|media)\/([^/]+)/.exec(url.pathname)?.[0];
-    case "newgrounds":
-      return /([^/]+)\/(view)\/([^/]+)/.exec(url.pathname)?.[0];
-    case "egghead":
-      return url.pathname.slice(1);
-    case "youku":
-      return /v_show\/id_[\w=]+/.exec(url.pathname)?.[0];
-    case "archive":
-      return /(details|embed)\/([^/]+)/.exec(url.pathname)?.[2];
-    // case "sibnet": {
-    //   const videoId = url.searchParams.get("videoid");
-    //   if (videoId) {
-    //     return `video${videoId}`;
-    //   }
-
-    //   return /video([^/]+)/.exec(url.pathname)?.[0];
-    // }
-    case "patreon":
-      return /posts\/([^/]+)/.exec(url.pathname)?.[0];
-    case "directlink":
-      return url.pathname + url.search;
-    default:
-      return false;
-  }
-};
 
 function secsToStrTime(secs) {
   const minutes = Math.floor(secs / 60);
@@ -9631,6 +4431,432 @@ function syncVolume(element, sliderVolume, otherSliderVolume, tempVolume) {
 
 
 
+;// CONCATENATED MODULE: ./src/utils/translateApis.js
+
+
+
+const HTTP_TIMEOUT = 3000;
+
+async function translateApis_fetchWithTimeout(url, options = {}) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), HTTP_TIMEOUT);
+
+  try {
+    return await fetch(url, {
+      ...options,
+      signal: controller.signal,
+    });
+  } catch (error) {
+    console.error("Fetch timed-out. Error:", error);
+    return error;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
+const YandexTranslateAPI = {
+  async translate(text, lang) {
+    // Limit: 10k symbols
+    //
+    // Lang examples:
+    // en-ru, uk-ru, ru-en...
+    // ru, en (instead of auto-ru, auto-en)
+
+    try {
+      const response = await translateApis_fetchWithTimeout(
+        `${translateUrls.yandex}?${new URLSearchParams({
+          text,
+          lang,
+        })}`,
+      );
+
+      if (response instanceof Error) {
+        throw response;
+      }
+
+      const content = await response.json();
+
+      if (content.code !== 200) {
+        throw content.message;
+      }
+
+      return content.text[0];
+    } catch (error) {
+      console.error("Error translating text:", error);
+      return text;
+    }
+  },
+
+  async detect(text) {
+    // Limit: 10k symbols
+    try {
+      const response = await translateApis_fetchWithTimeout(
+        `${detectUrls.yandex}?${new URLSearchParams({
+          text,
+        })}`,
+      );
+
+      if (response instanceof Error) {
+        throw response;
+      }
+
+      const content = await response.json();
+      if (content.code !== 200) {
+        throw content.message;
+      }
+
+      return content.lang ?? "en";
+    } catch (error) {
+      console.error("Error getting lang from text:", error);
+      return "en";
+    }
+  },
+};
+
+const RustServerAPI = {
+  async detect(text) {
+    try {
+      const response = await fetch(detectUrls.rustServer, {
+        method: "POST",
+        body: text,
+      });
+
+      if (response instanceof Error) {
+        throw response;
+      }
+
+      return await response.text();
+    } catch (error) {
+      console.error("Error getting lang from text:", error);
+      return "en";
+    }
+  },
+};
+
+const DeeplServerAPI = {
+  async translate(text, fromLang = "auto", toLang = "ru") {
+    try {
+      const response = await translateApis_fetchWithTimeout(translateUrls.deepl, {
+        method: "POST",
+        headers: {
+          "content-type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          text,
+          source_lang: fromLang,
+          target_lang: toLang,
+        }),
+      });
+
+      if (response instanceof Error) {
+        throw response;
+      }
+
+      const content = await response.json();
+
+      if (content.code !== 200) {
+        throw content.message;
+      }
+
+      return content.data;
+    } catch (error) {
+      console.error("Error translating text:", error);
+      return text;
+    }
+  },
+};
+
+async function translate(text, fromLang = "", toLang = "ru") {
+  const service = await votStorage.get(
+    "translationService",
+    defaultTranslationService,
+  );
+  switch (service) {
+    case "yandex": {
+      const langPair = fromLang && toLang ? `${fromLang}-${toLang}` : toLang;
+      return await YandexTranslateAPI.translate(text, langPair);
+    }
+    case "deepl": {
+      return await DeeplServerAPI.translate(text, fromLang, toLang);
+    }
+    default:
+      return text;
+  }
+}
+
+async function detect(text) {
+  const service = await votStorage.get("detectService", defaultDetectService);
+  switch (service) {
+    case "yandex":
+      return await YandexTranslateAPI.detect(text);
+    case "rust-server":
+      return await RustServerAPI.detect(text);
+    default:
+      return "en";
+  }
+}
+
+const translateServices = Object.keys(translateUrls);
+const detectServices = Object.keys(detectUrls).map((k) =>
+  k === "rustServer" ? "rust-server" : k,
+);
+
+
+
+;// CONCATENATED MODULE: ./src/utils/youtubeUtils.js
+
+
+
+
+
+
+// Get the language code from the response or the text
+async function getLanguage(player, response, title, description) {
+  if (
+    !window.location.hostname.includes("m.youtube.com") &&
+    player?.getAudioTrack
+  ) {
+    // ! Experimental ! get lang from selected audio track if availabled
+    const audioTracks = player.getAudioTrack();
+    const trackInfo = audioTracks?.getLanguageInfo(); // get selected track info (id === "und" if tracks are not available)
+    if (trackInfo?.id !== "und") {
+      return langTo6391(trackInfo.id.split(".")[0]);
+    }
+  }
+
+  // TODO: If the audio tracks will work fine, transfer the receipt of captions to the audioTracks variable
+  // Check if there is an automatic caption track in the response
+  const captionTracks =
+    response?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
+  if (captionTracks?.length) {
+    const autoCaption = captionTracks.find((caption) => caption.kind === "asr");
+    if (autoCaption && autoCaption.languageCode) {
+      return langTo6391(autoCaption.languageCode);
+    }
+  }
+
+  // If there is no caption track, use detect to get the language code from the description
+
+  const text = cleanText(title, description);
+
+  utils_debug.log(`Detecting language text: ${text}`);
+
+  return detect(text);
+}
+
+function isMobile() {
+  return /^m\.youtube\.com$/.test(window.location.hostname);
+}
+
+function getPlayer() {
+  if (window.location.pathname.startsWith("/shorts/")) {
+    return isMobile()
+      ? document.querySelector("#movie_player")
+      : document.querySelector("#shorts-player");
+  }
+
+  return document.querySelector("#movie_player");
+}
+
+function getPlayerResponse() {
+  const player = getPlayer();
+  if (player?.getPlayerResponse)
+    return player?.getPlayerResponse?.call() ?? null;
+  return player?.data?.playerResponse ?? null;
+}
+
+function getPlayerData() {
+  const player = getPlayer();
+  if (player?.getVideoData) return player?.getVideoData?.call() ?? null;
+  return player?.data?.playerResponse?.videoDetails ?? null;
+}
+
+function getVideoVolume() {
+  const player = getPlayer();
+  if (player?.getVolume) {
+    return player.getVolume.call() / 100;
+  }
+
+  return 1;
+}
+
+function setVideoVolume(volume) {
+  const player = getPlayer();
+  if (player?.setVolume) {
+    player.setVolume(Math.round(volume * 100));
+    return true;
+  }
+}
+
+function isMuted() {
+  const player = getPlayer();
+  if (player?.isMuted) {
+    return player.isMuted.call();
+  }
+
+  return false;
+}
+
+function videoSeek(video, time) {
+  // * TIME IN MS
+  utils_debug.log("videoSeek", time);
+  const preTime =
+    getPlayer()?.getProgressState()?.seekableEnd || video.currentTime;
+  const finalTime = preTime - time; // we always throw it to the end of the stream - time
+  video.currentTime = finalTime;
+}
+
+function isMusic() {
+  // Нужно доработать логику
+  const channelName = getPlayerData().author,
+    titleStr = getPlayerData().title.toUpperCase(),
+    titleWordsList = titleStr.match(/\w+/g),
+    playerData = document.body.querySelector("ytd-watch-flexy")?.playerData;
+
+  return (
+    [
+      titleStr,
+      document.URL,
+      channelName,
+      playerData?.microformat?.playerMicroformatRenderer.category,
+      playerData?.title,
+    ].some((i) => i?.toUpperCase().includes("MUSIC")) ||
+    document.body.querySelector(
+      "#upload-info #channel-name .badge-style-type-verified-artist",
+    ) ||
+    (channelName &&
+      /(VEVO|Topic|Records|RECORDS|Recordings|AMV)$/.test(channelName)) ||
+    (channelName &&
+      /(MUSIC|ROCK|SOUNDS|SONGS)/.test(channelName.toUpperCase())) ||
+    (titleWordsList?.length &&
+      [
+        "🎵",
+        "♫",
+        "SONG",
+        "SONGS",
+        "SOUNDTRACK",
+        "LYRIC",
+        "LYRICS",
+        "AMBIENT",
+        "MIX",
+        "VEVO",
+        "CLIP",
+        "KARAOKE",
+        "OPENING",
+        "COVER",
+        "COVERED",
+        "VOCAL",
+        "INSTRUMENTAL",
+        "ORCHESTRAL",
+        "DUBSTEP",
+        "DJ",
+        "DNB",
+        "BASS",
+        "BEAT",
+        "ALBUM",
+        "PLAYLIST",
+        "DUBSTEP",
+        "CHILL",
+        "RELAX",
+        "CLASSIC",
+        "CINEMATIC",
+      ].some((i) => titleWordsList.includes(i))) ||
+    [
+      "OFFICIAL VIDEO",
+      "OFFICIAL AUDIO",
+      "FEAT.",
+      "FT.",
+      "LIVE RADIO",
+      "DANCE VER",
+      "HIP HOP",
+      "ROCK N ROLL",
+      "HOUR VER",
+      "HOURS VER",
+      "INTRO THEME",
+    ].some((i) => titleStr.includes(i)) ||
+    (titleWordsList?.length &&
+      [
+        "OP",
+        "ED",
+        "MV",
+        "OST",
+        "NCS",
+        "BGM",
+        "EDM",
+        "GMV",
+        "AMV",
+        "MMD",
+        "MAD",
+      ].some((i) => titleWordsList.includes(i)))
+  );
+}
+
+function getSubtitles() {
+  const response = getPlayerResponse();
+  let captionTracks =
+    response?.captions?.playerCaptionsTracklistRenderer?.captionTracks ?? [];
+  captionTracks = captionTracks.reduce((result, captionTrack) => {
+    if ("languageCode" in captionTrack) {
+      const language = captionTrack?.languageCode
+        ? langTo6391(captionTrack?.languageCode)
+        : undefined;
+      const url = captionTrack?.url || captionTrack?.baseUrl;
+      language &&
+        url &&
+        result.push({
+          source: "youtube",
+          language,
+          isAutoGenerated: captionTrack?.kind === "asr",
+          url: `${
+            url.startsWith("http") ? url : `${window.location.origin}/${url}`
+          }&fmt=json3`,
+        });
+    }
+    return result;
+  }, []);
+  utils_debug.log("youtube subtitles:", captionTracks);
+  return captionTracks;
+}
+
+// Get the video data from the player
+async function youtubeUtils_getVideoData() {
+  const player = getPlayer();
+  const response = getPlayerResponse(); // null in /embed
+  const data = getPlayerData();
+  const { title } = data ?? {};
+  const { shortDescription: description, isLive } =
+    response?.videoDetails ?? {};
+  let detectedLanguage = title
+    ? await getLanguage(player, response, title, description)
+    : "en";
+  detectedLanguage = availableLangs.includes(detectedLanguage)
+    ? detectedLanguage
+    : "en";
+  const videoData = {
+    isLive: !!isLive,
+    title,
+    description,
+    detectedLanguage,
+  };
+  utils_debug.log("youtube video data:", videoData);
+  console.log("[VOT] Detected language: ", videoData.detectedLanguage);
+  return videoData;
+}
+
+/* harmony default export */ const youtubeUtils = ({
+  isMobile,
+  getPlayer,
+  getPlayerResponse,
+  getPlayerData,
+  getVideoVolume,
+  getSubtitles,
+  getVideoData: youtubeUtils_getVideoData,
+  setVideoVolume,
+  videoSeek,
+  isMuted,
+  isMusic,
+});
+
 ;// CONCATENATED MODULE: ./src/subtitles.js
 
 
@@ -9825,9 +5051,9 @@ async function fetchSubtitles(subtitlesObject) {
   return subtitles;
 }
 
-async function subtitles_getSubtitles(client, site, videoId, requestLang) {
-  const ytSubtitles =
-    site.host === "youtube" ? youtubeUtils.getSubtitles() : [];
+async function subtitles_getSubtitles(client, videoData) {
+  const { host, url, requestLang, videoId, duration } = videoData;
+  const ytSubtitles = host === "youtube" ? youtubeUtils.getSubtitles() : [];
   let resolved = false;
   const yaSubtitles = await Promise.race([
     new Promise((resolve) => {
@@ -9841,7 +5067,12 @@ async function subtitles_getSubtitles(client, site, videoId, requestLang) {
     new Promise((resolve) => {
       client
         .getSubtitles({
-          url: `${site.url}${videoId}`,
+          videoData: {
+            host,
+            url,
+            videoId,
+            duration,
+          },
           requestLang,
         })
         .then((res) => {
@@ -10162,6 +5393,7 @@ async function coursehunterUtils_getVideoData() {
 
 
 
+
 async function courseraUtils_getCourseData(courseId) {
   const response = await fetch(
     `https://www.coursera.org/api/onDemandCourses.v1/${courseId}`,
@@ -10267,6 +5499,7 @@ async function courseraUtils_getVideoData(responseLang = "en") {
 });
 
 ;// CONCATENATED MODULE: ./src/utils/udemyUtils.js
+
 
 
 
@@ -10447,584 +5680,6 @@ async function udemyUtils_getVideoData(udemyData, responseLang = "en") {
   getLectureData,
 });
 
-;// CONCATENATED MODULE: ./src/utils/bannedvideoUtils.js
-
-
-async function getVideoInfo(videoId) {
-  return await fetch(`https://api.banned.video/graphql`, {
-    method: "POST",
-    body: JSON.stringify({
-      operationName: "GetVideo",
-      query: `query GetVideo($id: String!) {
-          getVideo(id: $id) {
-            ...DisplayVideoFields
-            videoUrl: directUrl
-            live
-          }
-        }
-
-        fragment DisplayVideoFields on Video {
-          title
-          description: summary
-          duration: videoDuration
-        }`,
-      variables: {
-        id: videoId,
-      },
-    }),
-    headers: {
-      "User-Agent": "bannedVideoFrontEnd",
-      "apollographql-client-name": "banned-web",
-      "apollographql-client-version": "1.3",
-      "content-type": "application/json",
-    },
-  })
-    .then((res) => res.json())
-    .catch((err) => {
-      console.error(err);
-      return {
-        data: {
-          getVideo: {},
-        },
-      };
-    });
-}
-
-async function bannedvideoUtils_getVideoData(videoId) {
-  const videoData = await getVideoInfo(videoId);
-
-  utils_debug.log("banned.video video data:", videoData);
-
-  const { videoUrl, duration, live, description, title } =
-    videoData.data.getVideo;
-
-  // TODO: Add detect language from title + description
-
-  return {
-    url: videoUrl,
-    duration,
-    live,
-    title,
-    description,
-  };
-}
-
-/* harmony default export */ const bannedvideoUtils = ({
-  getVideoData: bannedvideoUtils_getVideoData,
-});
-
-;// CONCATENATED MODULE: ./src/utils/crypto.js
-async function crypto_getHmacSha1(hmacKey, salt) {
-  try {
-    const utf8Encoder = new TextEncoder("utf-8");
-    salt = utf8Encoder.encode(salt);
-    const key = await window.crypto.subtle.importKey(
-      "raw",
-      utf8Encoder.encode(hmacKey),
-      { name: "HMAC", hash: { name: "SHA-1" } },
-      false,
-      ["sign", "verify"],
-    );
-    const signature = await window.crypto.subtle.sign("HMAC", key, salt);
-    return btoa(String.fromCharCode(...new Uint8Array(signature)));
-  } catch (err) {
-    console.error(err);
-    return false;
-  }
-}
-
-;// CONCATENATED MODULE: ./src/utils/weverseUtils.js
-
-
-
-const API_ORIGIN = "https://global.apis.naver.com/weverse/wevweb"; // find as REACT_APP_API_GW_ORIGIN in main.<hash>.js
-const API_APP_ID = "be4d79eb8fc7bd008ee82c8ec4ff6fd4"; // find as REACT_APP_API_APP_ID in main.<hash>.js
-const API_HMAC_KEY = "1b9cb6378d959b45714bec49971ade22e6e24e42"; // find as c.active near `createHmac('sha1'...`  in main.<hash>.js
-
-async function createHash(pathname) {
-  // pathname example: /post/v1.0/post-3-142049908/preview?fieldSet=postForPreview...
-  const timestamp = Date.now();
-
-  // example salt is /video/v1.1/vod/67134/inKey?gcc=RU&appId=be4d79eb8fc7bd008ee82c8ec4ff6fd4&language=en&os=WEB&platform=WEB&wpf=pc1707527163588
-  let salt = pathname.substring(0, Math.min(255, pathname.length)) + timestamp;
-
-  const sign = await crypto_getHmacSha1(API_HMAC_KEY, salt);
-
-  return {
-    wmsgpad: timestamp,
-    wmd: sign,
-  };
-}
-
-function getURLData() {
-  return {
-    appId: API_APP_ID,
-    language: "en",
-    os: "WEB",
-    platform: "WEB",
-    wpf: "pc",
-  };
-}
-
-async function getVideoPreview(postId) {
-  const pathname =
-    `/post/v1.0/post-${postId}/preview?` +
-    new URLSearchParams({
-      fieldSet: "postForPreview",
-      ...getURLData(),
-    }); // ! DON'T EDIT ME
-
-  const hash = await createHash(pathname);
-
-  try {
-    const res = await fetch(
-      API_ORIGIN + pathname + "&" + new URLSearchParams(hash),
-    );
-
-    return await res.json();
-  } catch (err) {
-    console.error(err);
-    return false;
-  }
-}
-
-async function getVideoInKey(videoId) {
-  const pathname =
-    `/video/v1.1/vod/${videoId}/inKey?` +
-    new URLSearchParams({
-      gcc: "RU",
-      ...getURLData(),
-    }); // ! DON'T EDIT ME
-  const hash = await createHash(pathname);
-
-  try {
-    const res = await fetch(
-      API_ORIGIN + pathname + "&" + new URLSearchParams(hash),
-      {
-        method: "POST",
-      },
-    );
-
-    return await res.json();
-  } catch (err) {
-    console.error(err);
-    return false;
-  }
-}
-
-async function weverseUtils_getVideoInfo(infraVideoId, inkey, serviceId) {
-  const timestamp = Date.now();
-  try {
-    const res = await fetch(
-      `https://global.apis.naver.com/rmcnmv/rmcnmv/vod/play/v2.0/${infraVideoId}?` +
-        new URLSearchParams({
-          key: inkey,
-          sid: serviceId,
-          nonce: timestamp,
-          devt: "html5_pc",
-          prv: "N",
-          aup: "N",
-          stpb: "N",
-          cpl: "en",
-          env: "prod",
-          lc: "en",
-          adi: JSON.stringify([
-            {
-              adSystem: null,
-            },
-          ]),
-          adu: "/",
-        }),
-    );
-
-    return await res.json();
-  } catch (err) {
-    console.error(err);
-    return false;
-  }
-}
-
-function extractVideoInfo(videoList) {
-  return videoList.find(
-    (video) => video.useP2P === false && video.source.includes(".mp4"),
-  );
-}
-
-async function weverseUtils_getVideoData() {
-  // ! When translating using a regular link (like this https://weverse.io/aespa/live/3-142049908),
-  // ! we will get an error, so we have to do this
-
-  const postId = /([^/]+)\/(live|media)\/([^/]+)/.exec(
-    new URL(window.location).pathname,
-  )?.[3];
-
-  const videoPreview = await getVideoPreview(postId);
-  if (!videoPreview) {
-    return undefined;
-  }
-
-  utils_debug.log("weverse video preview data:", videoPreview);
-
-  const { videoId, serviceId, infraVideoId } = videoPreview.extension.video;
-  if (!(videoId && serviceId && infraVideoId)) {
-    return false;
-  }
-
-  const inkeyData = await getVideoInKey(videoId);
-  utils_debug.log("weverse video inKey data:", videoPreview);
-  if (!inkeyData) {
-    return false;
-  }
-
-  const videoInfo = await weverseUtils_getVideoInfo(
-    infraVideoId,
-    inkeyData.inKey,
-    serviceId,
-  );
-  utils_debug.log("weverse video info:", videoInfo);
-
-  const videoItem = extractVideoInfo(videoInfo.videos.list);
-  if (!videoItem) {
-    return false;
-  }
-
-  return {
-    url: videoItem.source,
-    duration: videoItem.duration,
-  };
-}
-
-/* harmony default export */ const weverseUtils = ({
-  getVideoData: weverseUtils_getVideoData,
-});
-
-;// CONCATENATED MODULE: ./src/config/sites.js
-/* eslint-disable sonarjs/no-duplicate-string */
-
-
-const sites_sites = () => {
-  return [
-    {
-      additionalData: "mobile",
-      host: "youtube",
-      url: "https://youtu.be/",
-      match: /^m.youtube.com$/,
-      selector: "shorts-video #player",
-    },
-    {
-      additionalData: "mobile",
-      host: "youtube",
-      url: "https://youtu.be/",
-      match: /^m.youtube.com$/,
-      selector: ".player-container",
-    },
-    {
-      host: "youtube",
-      url: "https://youtu.be/",
-      match: /^(www.)?youtube(-nocookie|kids)?.com$/,
-      selector: ".html5-video-container:not(#inline-player *)",
-    },
-    {
-      host: "tiktok",
-      url: "https://www.tiktok.com/",
-      match: /^(www.)?tiktok.com$/,
-      selector: null,
-    },
-    {
-      host: "proxitok",
-      url: "https://www.tiktok.com/",
-      match: alternativeUrls_sitesProxiTok,
-      selector: ".column.has-text-centered",
-    },
-    {
-      host: "twitch",
-      url: "https://twitch.tv/",
-      match: [
-        /^m.twitch.tv$/,
-        /^www.twitch.tv$/,
-        /^clips.twitch.tv$/,
-        /^player.twitch.tv$/,
-      ],
-      selector: ".video-ref, main > div > section > div > div > div",
-    },
-    {
-      host: "xvideos",
-      url: "https://www.xvideos.com/",
-      match: /^www.(xvideos|xv-ru).com$/,
-      selector: ".video-bg-pic",
-    },
-    {
-      host: "pornhub",
-      url: "https://rt.pornhub.com/view_video.php?viewkey=",
-      match: /^[a-z]+.pornhub.com$/,
-      selector: ".mainPlayerDiv > .video-element-wrapper-js > div",
-    },
-    {
-      additionalData: "embed",
-      host: "pornhub",
-      url: "https://rt.pornhub.com/view_video.php?viewkey=",
-      match: (url) =>
-        url.host.includes("pornhub.com") && url.pathname.startsWith("/embed/"),
-      selector: "#player",
-    },
-    {
-      additionalData: "mobile",
-      host: "vk",
-      url: "https://vk.com/video?z=",
-      match: /^m.vk.(com|ru)$/,
-      selector: "vk-video-player",
-      shadowRoot: true,
-    },
-    {
-      additionalData: "clips",
-      host: "vk",
-      url: "https://vk.com/video?z=",
-      match: /^(www.|m.)?vk.(com|ru)$/,
-      selector: 'div[data-testid="clipcontainer-video"]',
-    },
-    {
-      host: "vk",
-      url: "https://vk.com/video?z=",
-      match: /^(www.|m.)?vk.(com|ru)$/,
-      selector: ".videoplayer_media",
-    },
-    {
-      host: "vimeo",
-      url: "https://vimeo.com/",
-      match: /^vimeo.com$/,
-      selector: ".player",
-    },
-    {
-      additionalData: "embed",
-      host: "vimeo",
-      url: "https://player.vimeo.com/",
-      match: /^player.vimeo.com$/,
-      selector: ".player",
-    },
-    {
-      host: "ok.ru",
-      url: "https://ok.ru/video/",
-      match: /^ok.ru$/,
-      selector: ".html5-vpl_vid",
-    },
-    {
-      host: "nine_gag",
-      url: "https://9gag.com/gag/",
-      match: /^9gag.com$/,
-      selector: ".video-post",
-    },
-    // {
-    //   host: "coub",
-    //   url: "https://coub.com/view/",
-    //   match: /^coub.com$/,
-    //   selector: ".viewer__player",
-    // },
-    {
-      host: "bitchute",
-      url: "https://www.bitchute.com/video/",
-      match: /^(www.)?bitchute.com$/,
-      selector: ".video-js",
-    },
-    {
-      host: "rutube",
-      url: "https://rutube.ru/video/",
-      match: /^rutube.ru$/,
-      selector: ".video-player > div > div > div:nth-child(2)",
-    },
-    {
-      additionalData: "embed",
-      host: "rutube",
-      url: "https://rutube.ru/video/",
-      match: /^rutube.ru$/,
-      selector: "#app > div > div",
-    },
-    {
-      host: "bilibili",
-      url: "https://www.bilibili.com/video/",
-      match: /^(www|m|player).bilibili.com$/,
-      selector: ".bpx-player-video-wrap",
-    },
-    // Добавляет лишние видео в обработчик
-    {
-      additionalData: "old", // /blackboard/webplayer/embed-old.html
-      host: "bilibili",
-      url: "https://www.bilibili.com/video/",
-      match: /^(www|m).bilibili.com$/,
-      selector: null,
-    },
-    {
-      host: "twitter",
-      url: "https://twitter.com/i/status/",
-      match: /^twitter.com$/,
-      selector: 'div[data-testid="videoComponent"] > div:nth-child(1) > div',
-    },
-    {
-      host: "mail_ru",
-      url: "https://my.mail.ru/",
-      match: /^my.mail.ru$/,
-      selector: "#b-video-wrapper",
-    },
-    {
-      // ONLY IF YOU LOGINED TO COURSERA /learn/NAME/lecture/XXXX
-      host: "coursera",
-      url: "https://www.coursera.org/",
-      match: /coursera.org$/,
-      selector: ".vjs-v6",
-    },
-    {
-      // ONLY IF YOU LOGINED TO UDEMY /course/NAME/learn/lecture/XXXX
-      host: "udemy",
-      url: "https://www.udemy.com/",
-      match: /udemy.com$/,
-      selector:
-        'div[data-purpose="curriculum-item-viewer-content"] > section > div > div > div > div:nth-of-type(2)',
-    },
-    {
-      // Sites host Invidious. I tested the performance only on invidious.kevin.rocks, youtu.be and inv.vern.cc
-      host: "invidious",
-      url: "https://youtu.be/",
-      match: alternativeUrls_sitesInvidious,
-      selector: "#player",
-    },
-    {
-      // Sites host Piped. I tested the performance only on piped.video
-      host: "piped",
-      url: "https://youtu.be/",
-      match: alternativeUrls_sitesPiped,
-      selector: ".shaka-video-container",
-    },
-    {
-      host: "rumble",
-      url: "https://rumble.com/",
-      match: /^rumble.com$/,
-      selector: "#videoPlayer > .videoPlayer-Rumble-cls > div",
-    },
-    {
-      host: "eporner",
-      url: "https://www.eporner.com/",
-      match: /^(www.)?eporner.com$/,
-      selector: ".vjs-v7",
-    },
-    {
-      host: "peertube",
-      url: "stub", // This is a stub. The present value is set using window.location.origin. Check "src/index.js:videoObserver.onVideoAdded.addListener" to get more info
-      match: alternativeUrls_sitesPeertube,
-      selector: ".vjs-v7",
-    },
-    {
-      host: "dailymotion",
-      url: "https://dai.ly/", // This is a stub. The present value is set using window.location.origin. Check "src/index.js:videoObserver.onVideoAdded.addListener" to get more info
-      match: /^geo.dailymotion.com$/,
-      selector: ".player",
-    },
-    {
-      host: "trovo",
-      url: "https://trovo.live/s/",
-      match: /^trovo.live$/,
-      selector: ".player-video",
-    },
-    {
-      host: "yandexdisk",
-      url: "https://yadi.sk/i/",
-      match: /^disk.yandex.ru$/,
-      selector: ".video-player__player > div:nth-child(1)",
-    },
-    {
-      host: "coursehunter",
-      url: "https://coursehunter.net/course/",
-      match: /^coursehunter.net$/,
-      selector: "#oframeplayer > pjsdiv:nth-of-type(1)",
-    },
-    {
-      host: "googledrive",
-      url: "https://drive.google.com/file/d/",
-      match: /^youtube.googleapis.com$/,
-      selector: ".html5-video-container",
-    },
-    {
-      host: "bannedvideo",
-      url: "https://banned.video/watch?id=",
-      match: /^(www.)?banned.video$/,
-      selector: ".vjs-v7",
-    },
-    {
-      host: "facebook",
-      url: "https://facebook.com/",
-      match: (url) =>
-        url.host.includes("facebook.com") && url.pathname.includes("/videos/"),
-      selector: 'div[role="main"] div[data-pagelet$="video" i]',
-    },
-    {
-      additionalData: "reels",
-      host: "facebook",
-      url: "https://facebook.com/",
-      match: (url) =>
-        url.host.includes("facebook.com") && url.pathname.includes("/reel/"),
-      selector: 'div[role="main"]',
-    },
-    {
-      host: "weverse",
-      url: "https://weverse.io/",
-      match: /^weverse.io$/,
-      selector: ".webplayer-internal-source-wrapper",
-    },
-    {
-      host: "newgrounds",
-      url: "https://www.newgrounds.com/",
-      match: /^www.newgrounds.com$/,
-      selector: ".ng-video-player",
-    },
-    {
-      // TODO: Добавить поддержку tips (сделать через m3u8 т.к. обычная ссылка не принимается) и платных курсов
-      host: "egghead",
-      url: "https://egghead.io/",
-      match: /^egghead.io$/,
-      selector: ".cueplayer-react-video-holder",
-    },
-    {
-      host: "youku",
-      url: "https://v.youku.com/",
-      match: /^v.youku.com$/,
-      selector: "#ykPlayer",
-    },
-    {
-      host: "archive",
-      url: "https://archive.org/details/",
-      match: /^archive.org$/,
-      selector: ".jw-media",
-    },
-    {
-      host: "directlink",
-      url: "stub", // This is a stub. The present value is set using window.location.origin. Check "src/index.js:videoObserver.onVideoAdded.addListener" to get more info
-      match: (url) => /([^.]+).mp4/.test(url.pathname),
-      selector: null,
-    },
-    {
-      host: "patreon",
-      url: "https://www.patreon.com/",
-      match: /^www.patreon.com$/,
-      selector:
-        'div[data-tag="post-card"] div[elevation="subtle"] > div > div > div > div',
-    },
-    // пока рано
-    // {
-    //   host: "sibnet",
-    //   url: "https://video.sibnet.ru/",
-    //   match: /^video.sibnet.ru$/,
-    //   selector: ".video-js", // #video_html5_wrapper
-    // },
-    // Нужно куда-то заливать данные о плейлисте
-    // {
-    //   host: "epicgames",
-    //   url: "https://dev.epicgames.com/community/learning/tutorials/",
-    //   match: /^dev.epicgames.com$/,
-    //   selector: "#vjs_video_3",
-    // },
-  ];
-};
-
-/* harmony default export */ const config_sites = (sites_sites());
-
 // EXTERNAL MODULE: ./node_modules/requestidlecallback-polyfill/index.js
 var requestidlecallback_polyfill = __webpack_require__("./node_modules/requestidlecallback-polyfill/index.js");
 ;// CONCATENATED MODULE: ./src/utils/EventImpl.js
@@ -11032,9 +5687,11 @@ class EventImpl {
   constructor() {
     this.listeners = new Set();
   }
+
   hasListener(e) {
     return this.listeners.has(e);
   }
+
   dispatchToListener(handler, ...args) {
     try {
       handler(...args);
@@ -11042,18 +5699,21 @@ class EventImpl {
       console.error("[VOT]", exception);
     }
   }
+
   addListener(handler) {
     if (this.hasListener(handler)) {
       throw new Error("[VOT] The listener has already been added.");
     }
     this.listeners.add(handler);
   }
+
   removeListener(handler) {
     if (!this.hasListener(handler)) {
       throw new Error("[VOT] The listener has not been added yet.");
     }
     this.listeners.delete(handler);
   }
+
   dispatch(...args) {
     for (const handler of Array.from(this.listeners)) {
       this.dispatchToListener(handler, ...args);
@@ -11231,9 +5891,10 @@ class VideoObserver {
 
 
 
+
 const browserInfo = es5.getParser(window.navigator.userAgent).getResult();
 const dontTranslateMusic = false; // Пока не придумал как стоит реализовать
-const sitesChromiumBlocked = [...alternativeUrls_sitesInvidious, ...alternativeUrls_sitesPiped];
+const sitesChromiumBlocked = [...sitesInvidious, ...sitesPiped];
 const videoLipSyncEvents = [
   "playing",
   "ratechange",
@@ -11278,7 +5939,6 @@ class VideoHandler {
 
   timer;
 
-  ytData = "";
   videoData = "";
   firstPlay = true;
   audio = new Audio();
@@ -11330,26 +5990,26 @@ class VideoHandler {
   }
 
   async translateVideoImpl(
-    url,
-    videoId,
-    duration,
+    videoData,
     requestLang,
     responseLang,
     translationHelp = null,
   ) {
     clearTimeout(this.autoRetry);
     utils_debug.log(
-      `Translate video (url: ${url}, duration: ${duration}, requestLang: ${requestLang}, responseLang: ${responseLang})`,
+      videoData,
+      `Translate video (requestLang: ${requestLang}, responseLang: ${responseLang})`,
     );
 
-    if (getVideoId(this.site.host, this.video) !== videoId) {
+    if (
+      (await getVideoID(this.site, window.location.href)) !== videoData.videoId
+    ) {
       return null;
     }
 
     try {
       const res = await this.votClient.translateVideo({
-        url,
-        duration,
+        videoData,
         requestLang,
         responseLang,
         translationHelp,
@@ -11380,9 +6040,7 @@ class VideoHandler {
         : 30_000;
       this.autoRetry = setTimeout(async () => {
         const res = await this.translateVideoImpl(
-          url,
-          videoId,
-          duration,
+          videoData,
           requestLang,
           responseLang,
           translationHelp,
@@ -11394,19 +6052,23 @@ class VideoHandler {
     });
   }
 
-  async translateStreamImpl(url, videoId, requestLang, responseLang) {
+  async translateStreamImpl(videoData, requestLang, responseLang) {
     clearTimeout(this.autoRetry);
     utils_debug.log(
-      `Translate stream (url: ${url}, requestLang: ${requestLang}, responseLang: ${responseLang})`,
+      videoData,
+      `Translate stream (requestLang: ${requestLang}, responseLang: ${responseLang})`,
     );
 
-    if (getVideoId(this.site.host, this.video) !== videoId) {
+    console.log("TEST", await getVideoID(this.site, window.location.href), videoData.videoId)
+    if (
+      (await getVideoID(this.site, window.location.href)) !== videoData.videoId
+    ) {
       return null;
     }
 
     try {
       const res = await this.votClient.translateStream({
-        url,
+        videoData,
         requestLang,
         responseLang,
       });
@@ -11418,8 +6080,7 @@ class VideoHandler {
         return new Promise((resolve) => {
           this.autoRetry = setTimeout(async () => {
             const res = await this.translateStreamImpl(
-              url,
-              videoId,
+              videoData,
               requestLang,
               responseLang,
             );
@@ -11649,14 +6310,7 @@ class VideoHandler {
         fromTitle:
           localizationProvider.get("langs")[this.video.detectedLanguage],
         fromDialogTitle: localizationProvider.get("videoLanguage"),
-        fromItems: [
-          {
-            label: localizationProvider.get("langs")["auto"],
-            value: "auto",
-            selected: "",
-          },
-          ...genOptionsByOBJ(availableLangs, this.videoData.detectedLanguage),
-        ],
+        fromItems: genOptionsByOBJ(availableLangs, this.videoData.detectedLanguage),
         fromOnSelectCB: async (e) => {
           utils_debug.log(
             "[fromOnSelectCB] select from language",
@@ -11670,7 +6324,7 @@ class VideoHandler {
         },
         toTitle: localizationProvider.get("langs")[this.video.responseLanguage],
         toDialogTitle: localizationProvider.get("translationLanguage"),
-        toItems: genOptionsByOBJ(actualTTS, this.videoData.responseLanguage),
+        toItems: genOptionsByOBJ(availableTTS, this.videoData.responseLanguage),
         toOnSelectCB: async (e) => {
           const newLang = e.target.dataset.votValue;
           utils_debug.log("[toOnSelectCB] select to language", newLang);
@@ -12150,7 +6804,7 @@ class VideoHandler {
       });
 
       this.votDownloadSubtitlesButton.addEventListener("click", async () => {
-        const srtContent = jsonToSrt(this.YandexSubtitles);
+        const srtContent = jsonToSrt(this.yandexSubtitles);
         const blob = new Blob([srtContent], { type: "text/plain" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
@@ -12636,17 +7290,21 @@ class VideoHandler {
       if (this.site.host === "rutube" && this.video.src) {
         return;
       }
-      if (getVideoId(this.site.host, this.video) === this.videoData.videoId)
+      if (
+        (await getVideoID(this.site, window.location.href)) ===
+        this.videoData.videoId
+      )
         return;
       await this.handleSrcChanged();
       utils_debug.log("lipsync mode is loadeddata");
       await this.autoTranslate();
     });
 
-    addExtraEventListener(this.video, "emptied", () => {
+    addExtraEventListener(this.video, "emptied", async () => {
       if (
         this.video.src &&
-        getVideoId(this.site.host, this.video) === this.videoData.videoId
+        (await getVideoID(this.site, window.location.href)) ===
+          this.videoData.videoId
       )
         return;
       utils_debug.log("lipsync mode is emptied");
@@ -12689,14 +7347,14 @@ class VideoHandler {
       );
       this.subtitlesWidget.setContent(null);
       this.votDownloadSubtitlesButton.hidden = true;
-      this.YandexSubtitles = null;
+      this.yandexSubtitles = null;
     } else {
       const fetchedSubs = await fetchSubtitles(
         this.subtitlesList.at(parseInt(subs)),
       );
       this.subtitlesWidget.setContent(fetchedSubs);
       this.votDownloadSubtitlesButton.hidden = false;
-      this.YandexSubtitles = fetchedSubs;
+      this.yandexSubtitles = fetchedSubs;
     }
   }
 
@@ -12753,12 +7411,7 @@ class VideoHandler {
       return;
     }
 
-    this.subtitlesList = await subtitles_getSubtitles(
-      this.votClient,
-      this.site,
-      this.videoData.videoId,
-      this.videoData.detectedLanguage,
-    );
+    this.subtitlesList = await subtitles_getSubtitles(this.votClient, this.videoData);
     if (!this.subtitlesList) {
       await this.changeSubtitlesLang("disabled");
     } else {
@@ -12854,28 +7507,28 @@ class VideoHandler {
   }
 
   async getVideoData() {
+    // TODO: запатчить чтобы использовался уже существующий service?
+    const { duration, url, videoId, host } = await getVideoData(
+      window.location.href,
+    );
     const videoData = {
-      // ! should be null for ALL websites except coursera and udemy !
-      // else use direct link: `{url: xxx.mp4}`
       translationHelp: null,
-      isStream: false, // by default, we request the translation of the video
-      duration: this.video?.duration || 343, // ! if 0 - we get 400 error
-      videoId: getVideoId(this.site.host, this.video),
+      // by default, we request the translation of the video
+      isStream: false,
+      // ! if 0 - we get 400 error
+      duration: this.video?.duration || duration || config.defaultDuration,
+      videoId,
+      url,
+      host,
       detectedLanguage: this.translateFromLang,
       responseLanguage: this.translateToLang,
     };
 
-    if (!videoData.videoId) {
-      this.ytData = {};
-      return videoData;
-    }
-
     if (this.site.host === "youtube") {
-      this.ytData = await youtubeUtils.getVideoData();
-      videoData.isStream = this.ytData.isLive;
-      if (this.ytData.title) {
-        videoData.detectedLanguage = this.ytData.detectedLanguage;
-        videoData.responseLanguage = this.translateToLang;
+      const youtubeData = await youtubeUtils.getVideoData();
+      videoData.isStream = youtubeData.isLive;
+      if (youtubeData.title) {
+        videoData.detectedLanguage = youtubeData.detectedLanguage;
       }
     } else if (["rutube", "ok.ru", "mail_ru"].includes(this.site.host)) {
       videoData.detectedLanguage = "ru";
@@ -12898,25 +7551,8 @@ class VideoHandler {
         url: coursehunterData.url,
       };
       videoData.duration = coursehunterData.duration || videoData.duration;
-    } else if (this.site.host === "bannedvideo") {
-      const bannedvideoData = await bannedvideoUtils.getVideoData(
-        videoData.videoId,
-      );
-      videoData.translationHelp = {
-        url: bannedvideoData.url,
-      };
-
-      videoData.duration = bannedvideoData.duration || videoData.duration;
-      videoData.isStream = bannedvideoData.live;
     } else if (this.site.host === "weverse") {
-      const weverseData = await weverseUtils.getVideoData();
       videoData.detectedLanguage = "ko";
-      if (weverseData) {
-        videoData.translationHelp = {
-          url: weverseData.url,
-        };
-        videoData.duration = weverseData.duration || videoData.duration;
-      }
     } else if (this.site.host === "udemy") {
       const udemyData = await udemyUtils.getVideoData(
         this.data.udemyData,
@@ -12925,11 +7561,6 @@ class VideoHandler {
       videoData.duration = udemyData.duration || videoData.duration;
       videoData.detectedLanguage = udemyData.detectedLanguage;
       videoData.translationHelp = udemyData.translationHelp;
-    } else if (this.site.host === "bitchute") {
-      // to avoid creating a separate file with the same functionality
-      videoData.translationHelp = {
-        url: videoData.videoId,
-      };
     } else if (
       [
         "bilibili",
@@ -13150,20 +7781,13 @@ class VideoHandler {
     translationHelp,
   ) {
     console.log("[VOT] Video Data: ", this.videoData);
-    let videoURL = `${this.site.url}${VIDEO_ID}`;
-    if (translationHelp?.url) {
-      videoURL = translationHelp.url;
-      translationHelp = null;
-    }
-
     // fix enabling the old requested voiceover when changing the language to the native language (#414)
     utils_debug.log("Run videoValidator");
     this.videoValidator();
 
     if (isStream) {
       let translateRes = await this.translateStreamImpl(
-        videoURL,
-        VIDEO_ID,
+        this.videoData,
         requestLang,
         responseLang,
       );
@@ -13274,14 +7898,13 @@ class VideoHandler {
     }
 
     let translateRes = await this.translateVideoImpl(
-      videoURL,
-      VIDEO_ID,
-      this.videoData.duration,
+      this.videoData,
       requestLang,
       responseLang,
       translationHelp,
     );
 
+    utils_debug.log("[translateRes]", translateRes);
     if (!translateRes) {
       utils_debug.log("Skip translation");
       return;
@@ -13296,12 +7919,7 @@ class VideoHandler {
           item.language === this.videoData.responseLanguage,
       )
     ) {
-      this.subtitlesList = await subtitles_getSubtitles(
-        this.votClient,
-        this.site,
-        this.videoData.videoId,
-        this.videoData.detectedLanguage,
-      );
+      this.subtitlesList = await subtitles_getSubtitles(this.votClient, this.videoData);
       await this.updateSubtitlesLangSelect();
     }
 
@@ -13376,7 +7994,7 @@ function getSites() {
     return false;
   };
 
-  return config_sites.filter((e) => {
+  return sites.filter((e) => {
     return (
       (Array.isArray(e.match) ? e.match.some(isMathes) : isMathes(e.match)) &&
       e.host &&
