@@ -158,25 +158,22 @@ npm i
 
 ### How to patch vot.js
 
-1. Install Bun.sh in WSL (doesn't work under Windows!)
-2. Install all packages
+1. Make the necessary changes to node_modules/vot.js/the required file
+2. Save the changes using:
+
+NPM (not tested, but it should work):
 
 ```bash
-bun install
+npx patch-package vot.js
 ```
 
-3. Write it down
+Bun:
 
 ```bash
-bun patch vot.js
+bunx patch-package --use-yarn vot.js
 ```
 
-4. Make the necessary changes to node_modules/vot.js/required file
-5. Save the changes using the command
-
-```bash
-bun patch --commit 'node_modules/vot.js'
-```
+Do not use patches from the `bun patch` or from any npm packages. They will be incompatible with the patch-package, and may also break when updating the package.
 
 ## Customization of appearance:
 
