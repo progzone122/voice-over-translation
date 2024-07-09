@@ -1,5 +1,6 @@
+import { availableLangs } from "vot.js/consts";
+
 import debug from "./debug.js";
-import { availableLangs } from "../config/constants.js";
 import { langTo6391 } from "./utils.js";
 
 async function getCourseData(courseId) {
