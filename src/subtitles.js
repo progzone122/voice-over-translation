@@ -197,69 +197,60 @@ export async function fetchSubtitles(subtitlesObject) {
 export async function getSubtitles(site, videoId, requestLang) {
   const ytSubtitles =
     site.host === "youtube" ? youtubeUtils.getSubtitles() : [];
-  let resolved = false;
-  const yaSubtitles = await Promise.race([
-    new Promise((resolve) => {
-      setTimeout(() => {
-        if (!resolved) {
-          console.error("[VOT] Failed get yandex subtitles. Reason: timeout");
-          resolve([]);
-        }
-      }, 5000);
-    }),
-    new Promise((resolve) => {
-      requestVideoSubtitles(
+
+  const fetchYandexSubtitles = async () => {
+    try {
+      const result = await requestVideoSubtitles(
         `${site.url}${videoId}`,
         requestLang,
-        (success, response) => {
-          debug.log("[exec callback] Requesting video subtitles", videoId);
-
-          if (!success) {
-            console.error("[VOT] Failed get yandex subtitles");
-            resolved = true;
-            resolve([]);
-          }
-
-          const subtitlesResponse =
-            yandexProtobuf.decodeSubtitlesResponse(response);
-          console.log("[VOT] Subtitles response: ", subtitlesResponse);
-
-          let subtitles = subtitlesResponse.subtitles ?? [];
-          subtitles = subtitles.reduce((result, yaSubtitlesObject) => {
-            if (
-              yaSubtitlesObject.language &&
-              !result.find((e) => {
-                if (
-                  e.source === "yandex" &&
-                  e.language === yaSubtitlesObject.language &&
-                  !e.translatedFromLanguage
-                ) {
-                  return e;
-                }
-              })
-            ) {
-              result.push({
-                source: "yandex",
-                language: yaSubtitlesObject.language,
-                url: yaSubtitlesObject.url,
-              });
-            }
-            if (yaSubtitlesObject.translatedLanguage) {
-              result.push({
-                source: "yandex",
-                language: yaSubtitlesObject.translatedLanguage,
-                translatedFromLanguage: yaSubtitlesObject.language,
-                url: yaSubtitlesObject.translatedUrl,
-              });
-            }
-            return result;
-          }, []);
-          resolved = true;
-          resolve(subtitles);
-        },
       );
-    }),
-  ]);
+      debug.log("[exec] Requesting video subtitles", videoId);
+
+      if (!result.success) {
+        console.error("[VOT] Failed to get Yandex subtitles");
+        return [];
+      }
+
+      const subtitlesResponse = yandexProtobuf.decodeSubtitlesResponse(
+        result.response,
+      );
+      console.log("[VOT] Subtitles response: ", subtitlesResponse);
+
+      let subtitles = subtitlesResponse.subtitles ?? [];
+      return subtitles.reduce((result, yaSubtitlesObject) => {
+        if (
+          yaSubtitlesObject.language &&
+          !result.find(
+            (e) =>
+              e.source === "yandex" &&
+              e.language === yaSubtitlesObject.language &&
+              !e.translatedFromLanguage,
+          )
+        ) {
+          result.push({
+            source: "yandex",
+            language: yaSubtitlesObject.language,
+            url: yaSubtitlesObject.url,
+          });
+        }
+        if (yaSubtitlesObject.translatedLanguage) {
+          result.push({
+            source: "yandex",
+            language: yaSubtitlesObject.translatedLanguage,
+            translatedFromLanguage: yaSubtitlesObject.language,
+            url: yaSubtitlesObject.translatedUrl,
+          });
+        }
+        return result;
+      }, []);
+    } catch (error) {
+      console.error("[VOT] Error fetching Yandex subtitles:", error);
+      return [];
+    }
+  };
+
+  const yaSubtitles = await fetchYandexSubtitles();
+
   const subtitles = [...yaSubtitles, ...ytSubtitles].sort((a, b) => {
     if (a.source !== b.source) {
       // sort by source
@@ -296,6 +287,7 @@ export async function getSubtitles(site, videoId, requestLang) {
     }
     return 0;
   });
+
   console.log("[VOT] subtitles list", subtitles);
   return subtitles;
 }

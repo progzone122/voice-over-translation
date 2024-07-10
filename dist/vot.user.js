@@ -638,15 +638,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-async function yandexRequest(path, body, headers, callback) {
-  try {
-    _utils_debug_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .A.log("yandexRequest:", path);
-    // Create a fetch options object with headers and body
-    const options = {
-      url: `https://${_config_config_js__WEBPACK_IMPORTED_MODULE_0__/* .workerHost */ .rl}${path}`,
-      method: "POST",
-      headers: {
-        ...{
+function yandexRequest(path, body, headers) {
+  return new Promise((resolve, reject) => {
+    try {
+      _utils_debug_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .A.log("yandexRequest:", path);
+      // Create a fetch options object with headers and body
+      const options = {
+        url: `https://${_config_config_js__WEBPACK_IMPORTED_MODULE_0__/* .workerHost */ .rl}${path}`,
+        method: "POST",
+        headers: {
           Accept: "application/x-protobuf",
           "Accept-Language": "en",
           "Content-Type": "application/x-protobuf",
@@ -657,30 +657,32 @@ async function yandexRequest(path, body, headers, callback) {
           "sec-ch-ua": null,
           "sec-ch-ua-mobile": null,
           "sec-ch-ua-platform": null,
+          ...headers,
         },
-        ...headers,
-      },
-      binary: true,
-      data: new Blob([body]),
-      responseType: "arraybuffer",
-    };
-    // Send the request using GM_xmlhttpRequest
-    GM_xmlhttpRequest({
-      ...options,
-      onload: (http) => {
-        _utils_debug_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .A.log("yandexRequest:", http.status, http);
-        callback(http.status === 200, http.response);
-      },
-      onerror: (error) => {
-        console.error("[VOT]", error);
-        callback(false);
-      },
-    });
-  } catch (exception) {
-    console.error("[VOT]", exception);
-    // Handle errors
-    callback(false);
-  }
+        binary: true,
+        data: new Blob([body]),
+        responseType: "arraybuffer",
+        onload: (http) => {
+          _utils_debug_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .A.log("yandexRequest:", http.status, http);
+          if (http.status === 200) {
+            resolve(http.response);
+          } else {
+            reject(new Error(`HTTP error! status: ${http.status}`));
+          }
+        },
+        onerror: (error) => {
+          console.error("[VOT]", error);
+          reject(error);
+        },
+      };
+
+      // Send the request using GM_xmlhttpRequest
+      GM_xmlhttpRequest(options);
+    } catch (exception) {
+      console.error("[VOT]", exception);
+      reject(exception);
+    }
+  });
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (yandexRequest);
@@ -2823,12 +2825,7 @@ async function requestStreamPing(pingId, callback) {
 
 
 // Request stream translation from Yandex API
-async function requestStreamTranslation(
-  url,
-  requestLang,
-  responseLang,
-  callback,
-) {
+async function requestStreamTranslation(url, requestLang, responseLang) {
   try {
     debug/* default */.A.log("requestStreamTranslation");
     // ! CURRENT CLOUDFLARE WORKER DOESN'T SUPPORT STREAM TRANSLATIONS
@@ -2836,25 +2833,28 @@ async function requestStreamTranslation(
     const yandexRequest = yar.default;
     debug/* default */.A.log("Inited yandexRequest...");
     // Initialize variables
+
     const body = yandexProtobuf.encodeStreamRequest(
       url,
       requestLang,
       responseLang,
     );
     // Send the request
-    await yandexRequest(
+
+    const response = await yandexRequest(
       "/stream-translation/translate-stream",
       body,
       {
         "Vtrans-Signature": await getSignature(body),
         "Sec-Vtrans-Token": getUUID(),
       },
-      callback,
     );
-  } catch (exception) {
-    console.error("[VOT]", exception);
+
+    return { success: true, response };
+  } catch (error) {
     // Handle errors
-    callback(false);
+    console.error("[VOT]", error);
+    return { success: false, error: error.message };
   }
 }
 
@@ -2873,7 +2873,6 @@ async function requestVideoTranslation(
   requestLang,
   responseLang,
   translationHelp,
-  callback,
 ) {
   try {
     debug/* default */.A.log("requestVideoTranslation");
@@ -2881,6 +2880,7 @@ async function requestVideoTranslation(
     const yandexRequest = yar.default;
     debug/* default */.A.log("Inited yandexRequest...");
     // Initialize variables
+
     const body = yandexProtobuf.encodeTranslationRequest(
       url,
       duration,
@@ -2889,21 +2889,23 @@ async function requestVideoTranslation(
       translationHelp,
     );
     // Send the request
-    await yandexRequest(
-      // "/stream-translation/whitelist-stream",
-      // "/stream-translation/translate-stream",
+
+    const headers = {
+      "Vtrans-Signature": await getSignature(body),
+      "Sec-Vtrans-Token": getUUID(),
+    };
+
+    const response = await yandexRequest(
       "/video-translation/translate",
       body,
-      {
-        "Vtrans-Signature": await getSignature(body),
-        "Sec-Vtrans-Token": getUUID(),
-      },
-      callback,
+      headers,
     );
-  } catch (exception) {
-    console.error("[VOT]", exception);
+
+    return { success: true, response };
+  } catch (error) {
     // Handle errors
-    callback(false);
+    console.error("[VOT]", error);
+    return { success: false, error: error.message };
   }
 }
 
@@ -2916,28 +2918,31 @@ async function requestVideoTranslation(
 
 
 // Request video subtitles from Yandex API
-async function requestVideoSubtitles(url, requestLang, callback) {
+async function requestVideoSubtitles(url, requestLang) {
   try {
     debug/* default */.A.log("requestVideoSubtitles");
     const yar = await Promise.resolve(/* import() */).then(__webpack_require__.bind(__webpack_require__, "./src/yandexRequest.js"));
     const yandexRequest = yar.default;
     debug/* default */.A.log("Inited yandexRequest...");
     // Initialize variables
+
     const body = yandexProtobuf.encodeSubtitlesRequest(url, requestLang);
     // Send the request
-    await yandexRequest(
+
+    const response = await yandexRequest(
       "/video-subtitles/get-subtitles",
       body,
       {
         "Vsubs-Signature": await getSignature(body),
         "Sec-Vsubs-Token": getUUID(),
       },
-      callback,
     );
-  } catch (exception) {
-    console.error("[VOT]", exception);
+
+    return { success: true, response };
+  } catch (error) {
     // Handle errors
-    callback(false);
+    console.error("[VOT]", error);
+    return { success: false, error: error.message };
   }
 }
 
@@ -3143,69 +3148,60 @@ async function fetchSubtitles(subtitlesObject) {
 async function subtitles_getSubtitles(site, videoId, requestLang) {
   const ytSubtitles =
     site.host === "youtube" ? youtubeUtils.getSubtitles() : [];
-  let resolved = false;
-  const yaSubtitles = await Promise.race([
-    new Promise((resolve) => {
-      setTimeout(() => {
-        if (!resolved) {
-          console.error("[VOT] Failed get yandex subtitles. Reason: timeout");
-          resolve([]);
-        }
-      }, 5000);
-    }),
-    new Promise((resolve) => {
-      rvs(
+
+  const fetchYandexSubtitles = async () => {
+    try {
+      const result = await rvs(
         `${site.url}${videoId}`,
         requestLang,
-        (success, response) => {
-          debug/* default */.A.log("[exec callback] Requesting video subtitles", videoId);
-
-          if (!success) {
-            console.error("[VOT] Failed get yandex subtitles");
-            resolved = true;
-            resolve([]);
-          }
-
-          const subtitlesResponse =
-            yandexProtobuf.decodeSubtitlesResponse(response);
-          console.log("[VOT] Subtitles response: ", subtitlesResponse);
-
-          let subtitles = subtitlesResponse.subtitles ?? [];
-          subtitles = subtitles.reduce((result, yaSubtitlesObject) => {
-            if (
-              yaSubtitlesObject.language &&
-              !result.find((e) => {
-                if (
-                  e.source === "yandex" &&
-                  e.language === yaSubtitlesObject.language &&
-                  !e.translatedFromLanguage
-                ) {
-                  return e;
-                }
-              })
-            ) {
-              result.push({
-                source: "yandex",
-                language: yaSubtitlesObject.language,
-                url: yaSubtitlesObject.url,
-              });
-            }
-            if (yaSubtitlesObject.translatedLanguage) {
-              result.push({
-                source: "yandex",
-                language: yaSubtitlesObject.translatedLanguage,
-                translatedFromLanguage: yaSubtitlesObject.language,
-                url: yaSubtitlesObject.translatedUrl,
-              });
-            }
-            return result;
-          }, []);
-          resolved = true;
-          resolve(subtitles);
-        },
       );
-    }),
-  ]);
+      debug/* default */.A.log("[exec] Requesting video subtitles", videoId);
+
+      if (!result.success) {
+        console.error("[VOT] Failed to get Yandex subtitles");
+        return [];
+      }
+
+      const subtitlesResponse = yandexProtobuf.decodeSubtitlesResponse(
+        result.response,
+      );
+      console.log("[VOT] Subtitles response: ", subtitlesResponse);
+
+      let subtitles = subtitlesResponse.subtitles ?? [];
+      return subtitles.reduce((result, yaSubtitlesObject) => {
+        if (
+          yaSubtitlesObject.language &&
+          !result.find(
+            (e) =>
+              e.source === "yandex" &&
+              e.language === yaSubtitlesObject.language &&
+              !e.translatedFromLanguage,
+          )
+        ) {
+          result.push({
+            source: "yandex",
+            language: yaSubtitlesObject.language,
+            url: yaSubtitlesObject.url,
+          });
+        }
+        if (yaSubtitlesObject.translatedLanguage) {
+          result.push({
+            source: "yandex",
+            language: yaSubtitlesObject.translatedLanguage,
+            translatedFromLanguage: yaSubtitlesObject.language,
+            url: yaSubtitlesObject.translatedUrl,
+          });
+        }
+        return result;
+      }, []);
+    } catch (error) {
+      console.error("[VOT] Error fetching Yandex subtitles:", error);
+      return [];
+    }
+  };
+
+  const yaSubtitles = await fetchYandexSubtitles();
+
   const subtitles = [...yaSubtitles, ...ytSubtitles].sort((a, b) => {
     if (a.source !== b.source) {
       // sort by source
@@ -3242,6 +3238,7 @@ async function subtitles_getSubtitles(site, videoId, requestLang) {
     }
     return 0;
   });
+
   console.log("[VOT] subtitles list", subtitles);
   return subtitles;
 }
@@ -4573,15 +4570,12 @@ function genOptionsByOBJ(obj, conditionString) {
   }));
 }
 
-if (false) { var translationPanding; }
-
-function translateVideo(
+async function translateVideo(
   url,
   duration,
   requestLang,
   responseLang,
   translationHelp,
-  callback,
 ) {
   debug/* default */.A.log(
     `Translate video (url: ${url}, duration: ${duration}, requestLang: ${requestLang}, responseLang: ${responseLang})`,
@@ -4589,122 +4583,103 @@ function translateVideo(
 
   debug/* default */.A.log("translationHelp:", translationHelp);
 
-  if (false) {}
+  try {
+    const result = await rvt(
+      url,
+      duration,
+      requestLang,
+      responseLang,
+      translationHelp,
+    );
 
-  translationPanding = true;
+    if (!result.success) {
+      throw new Error(localizationProvider.get("requestTranslationFailed"));
+    }
 
-  rvt(
-    url,
-    duration,
-    requestLang,
-    responseLang,
-    translationHelp,
-    (success, response) => {
-      translationPanding = false;
+    const translateResponse = yandexProtobuf.decodeTranslationResponse(
+      result.response,
+    );
+    console.log("[VOT] Translation response: ", translateResponse);
 
-      debug/* default */.A.log("[exec callback] Requesting video translation");
-      if (!success) {
-        callback(false, localizationProvider.get("requestTranslationFailed"));
-        return;
-      }
+    switch (translateResponse.status) {
+      case 0:
+        throw new Error(translateResponse.message);
+      case 1:
+      case 5:
+        // status 5 (dzen)
+        // Отдает частичный контент т.е. аудио не для всего видео, а только для части (~10min)
+        // так же возвращается оставшееся время перевода (remainingTime) через которое нужно сделать повторный запрос,
+        // в котором будет возвращено полное аудио перевода и status 1.
+        // Если включена часть видео без перевода, то пишет "Эта часть видео еще не переведена"
+        return (
+          translateResponse.url || localizationProvider.get("audioNotReceived")
+        );
+      case 2:
+        throw new Error(
+          translateResponse.remainingTime
+            ? secsToStrTime(translateResponse.remainingTime)
+            : localizationProvider.get("translationTakeFewMinutes"),
+        );
+      case 3:
+      case 6:
+        /*
+          status: 3
+          Иногда, в ответе приходит статус код 3, но видео всё, так же, ожидает перевода.
+          В конечном итоге, это занимает слишком много времени,
+          как-будто сервер не понимает, что данное видео уже недавно было переведено
+          и заместо возвращения готовой ссылки на перевод начинает переводить видео заново
+          при чём у него это получается за очень длительное время.
 
-      const translateResponse =
-        yandexProtobuf.decodeTranslationResponse(response);
-      console.log("[VOT] Translation response: ", translateResponse);
-
-      switch (translateResponse.status) {
-        case 0:
-          callback(false, translateResponse.message);
-          break;
-        case 1:
-        case 5:
-          // status 5 (dzen)
-          // Отдает частичный контент т.е. аудио не для всего видео, а только для части (~10min)
-          // так же возвращается оставшееся время перевода (remainingTime) через которое нужно сделать повторный запрос,
-          // в котором будет возвращено полное аудио перевода и status 1.
-          // Если включена часть видео без перевода, то пишет "Эта часть видео еще не переведена"
-          callback(
-            !!translateResponse.url,
-            translateResponse.url ||
-              localizationProvider.get("audioNotReceived"),
-          );
-          break;
-        case 2:
-          callback(
-            false,
-            translateResponse.remainingTime
-              ? secsToStrTime(translateResponse.remainingTime)
-              : localizationProvider.get("translationTakeFewMinutes"),
-          );
-          break;
-        case 3:
-        case 6:
-          /*
-            status: 3
-            Иногда, в ответе приходит статус код 3, но видео всё, так же, ожидает перевода.
-            В конечном итоге, это занимает слишком много времени,
-            как-будто сервер не понимает, что данное видео уже недавно было переведено
-            и заместо возвращения готовой ссылки на перевод начинает переводить видео заново
-            при чём у него это получается за очень длительное время.
-
-            status: 6
-            Случайно встретил 6 статус код при котором видео так же продолжается перевод,
-            но после него ничего сверхъестественного не происходит.
-            Он появляется при первом запросе с 17=1, но не исключено,
-            что может появится и просто так
-          */
-          callback(false, localizationProvider.get("videoBeingTranslated"));
-          break;
-      }
-    },
-  );
+          status: 6
+          Случайно встретил 6 статус код при котором видео так же продолжается перевод,
+          но после него ничего сверхъестественного не происходит.
+          Он появляется при первом запросе с 17=1, но не исключено,
+          что может появится и просто так
+        */
+        throw new Error(localizationProvider.get("videoBeingTranslated"));
+      default:
+        throw new Error("Unknown translation response status");
+    }
+  } catch (error) {
+    debug/* default */.A.log("[VOT] Translation error:", error);
+    throw error;
+  }
 }
 
-function translateStream(url, requestLang, responseLang, callback) {
+async function translateStream(url, requestLang, responseLang) {
   debug/* default */.A.log(
     `Translate stream (url: ${url}, requestLang: ${requestLang}, responseLang: ${responseLang})`,
   );
 
-  rst(
-    url,
-    requestLang,
-    responseLang,
-    (success, response) => {
-      debug/* default */.A.log("[exec callback] Requesting stream translation");
-      if (!success) {
-        callback(false, localizationProvider.get("requestTranslationFailed"));
-        return;
-      }
+  try {
+    const result = await rst(
+      url,
+      requestLang,
+      responseLang,
+    );
 
-      const streamResponse = yandexProtobuf.decodeStreamResponse(response);
-      console.log("[VOT] Stream Translation response: ", streamResponse);
+    if (!result.success) {
+      throw new Error(localizationProvider.get("requestTranslationFailed"));
+    }
 
-      switch (streamResponse.interval) {
-        case 10:
-          callback(
-            false,
-            streamResponse.interval,
-            localizationProvider.get("translationTakeFewMinutes"),
-          );
-          break;
-        case 20:
-          callback(
-            true,
-            streamResponse.interval,
-            streamResponse || localizationProvider.get("audioNotReceived"),
-          );
-          break;
-        case 0:
-          // stream removed or ended
-          callback(
-            false,
-            streamResponse.interval,
-            localizationProvider.get("streamNoConnectionToServer"),
-          );
-          break;
-      }
-    },
-  );
+    const streamResponse = yandexProtobuf.decodeStreamResponse(result.response);
+    console.log("[VOT] Stream Translation response: ", streamResponse);
+
+    switch (streamResponse.interval) {
+      case 10:
+        throw new Error(localizationProvider.get("translationTakeFewMinutes"));
+      case 20:
+        return streamResponse || localizationProvider.get("audioNotReceived");
+      case 0:
+        // stream removed or ended
+        throw new Error(localizationProvider.get("streamNoConnectionToServer"));
+      default:
+        throw new Error("Unknown stream response interval");
+    }
+  } catch (error) {
+    debug/* default */.A.log("[VOT] Stream translation error:", error);
+    throw error;
+  }
 }
 
 class VideoHandler {
@@ -5933,7 +5908,7 @@ class VideoHandler {
       this.container.style.height = "100%";
     }
 
-    addExtraEventListener(this.video, "canplaythrough", async () => {
+    addExtraEventListener(this.video, "canplay", async () => {
       // Временное решение
       if (this.site.host === "rutube" && this.video.src) {
         return;
@@ -6358,7 +6333,7 @@ class VideoHandler {
 
   async translateExecutor(VIDEO_ID) {
     debug/* default */.A.log("Run translateFunc", VIDEO_ID);
-    this.translateFunc(
+    await this.translateFunc(
       VIDEO_ID,
       this.videoData.isStream,
       this.videoData.detectedLanguage,
@@ -6445,8 +6420,7 @@ class VideoHandler {
     this.afterUpdateTranslation(audioUrl);
   }
 
-  // Define a function to translate a video and handle the callback
-  translateFunc(
+  async translateFunc(
     VIDEO_ID,
     isStream,
     requestLang,
@@ -6464,140 +6438,91 @@ class VideoHandler {
 
     if (isStream) {
       debug/* default */.A.log("Executed stream translation");
-      translateStream(
-        videoURL,
-        requestLang,
-        responseLang,
-        async (success, reqInterval, resOrError) => {
-          debug/* default */.A.log("[exec callback] translateStream callback");
-          if (getVideoId(this.site.host, this.video) !== VIDEO_ID) return;
-          if (!success || !resOrError.translatedInfo) {
-            await this.updateTranslationErrorMsg(resOrError);
+      try {
+        const result = await translateStream(
+          videoURL,
+          requestLang,
+          responseLang,
+        );
+        debug/* default */.A.log("[exec] translateStream result");
 
-            if (reqInterval === 10) {
-              // if wait translating
-              clearTimeout(this.autoRetry);
-              this.autoRetry = setTimeout(
-                () =>
-                  this.translateFunc(
-                    VIDEO_ID,
-                    isStream,
-                    requestLang,
-                    responseLang,
-                    translationHelp,
-                  ),
-                reqInterval * 1000,
-              );
-            }
+        if (getVideoId(this.site.host, this.video) !== VIDEO_ID) return;
 
-            return;
+        if (!result || !result.translatedInfo) {
+          await this.updateTranslationErrorMsg(result);
+
+          if (result && result.interval === 10) {
+            // if wait translating
+            clearTimeout(this.autoRetry);
+            this.autoRetry = setTimeout(
+              () =>
+                this.translateFunc(
+                  VIDEO_ID,
+                  isStream,
+                  requestLang,
+                  responseLang,
+                  translationHelp,
+                ),
+              result.interval * 1000,
+            );
           }
 
-          this.transformBtn(
-            "success",
-            localizationProvider.get("disableTranslate"),
-          );
+          return;
+        }
 
-          console.log(resOrError);
-          const pingId = resOrError.pingId;
-          debug/* default */.A.log(`Stream pingId: ${pingId}`);
-          // if you don't make ping requests, then the translation of the stream dies
-          this.streamPing = setInterval(
-            async () =>
-              await rsp(pingId, (result) =>
-                debug/* default */.A.log("Stream ping result: ", result),
-              ),
-            reqInterval * 1000,
-          );
+        this.transformBtn(
+          "success",
+          localizationProvider.get("disableTranslate"),
+        );
 
-          debug/* default */.A.log(resOrError.translatedInfo.url);
-          const streamURL = `https://${
-            this.data.m3u8ProxyHost
-          }/?all=yes&origin=${encodeURIComponent(
-            "https://strm.yandex.ru",
-          )}&referer=${encodeURIComponent(
-            "https://strm.yandex.ru",
-          )}&url=${encodeURIComponent(resOrError.translatedInfo.url)}`;
-          debug/* default */.A.log(streamURL);
+        console.log(result);
+        const pingId = result.pingId;
+        debug/* default */.A.log(`Stream pingId: ${pingId}`);
+        // if you don't make ping requests, then the translation of the stream dies
+        this.streamPing = setInterval(async () => {
+          const pingResult = await rsp(pingId);
+          debug/* default */.A.log("Stream ping result: ", pingResult);
+        }, result.interval * 1000);
 
-          if (this.hls) {
-            this.hls.on(Hls.Events.MEDIA_ATTACHED, function () {
-              debug/* default */.A.log("audio and hls.js are now bound together !");
-            });
-            this.hls.on(Hls.Events.MANIFEST_PARSED, function (data) {
-              debug/* default */.A.log(
-                "manifest loaded, found " +
-                  data?.levels?.length +
-                  " quality level",
-              );
-            });
-            this.hls.loadSource(streamURL);
-            this.hls.attachMedia(this.audio);
-            this.hls.on(Hls.Events.ERROR, function (data) {
-              if (data.fatal) {
-                switch (data.type) {
-                  case Hls.ErrorTypes.MEDIA_ERROR:
-                    console.log(
-                      "fatal media error encountered, try to recover",
-                    );
-                    this.hls.recoverMediaError();
-                    break;
-                  case Hls.ErrorTypes.NETWORK_ERROR:
-                    console.error("fatal network error encountered", data);
-                    // All retries and media options have been exhausted.
-                    // Immediately trying to restart loading could cause loop loading.
-                    // Consider modifying loading policies to best fit your asset and network
-                    // conditions (manifestLoadPolicy, playlistLoadPolicy, fragLoadPolicy).
-                    break;
-                  default:
-                    // cannot recover
-                    this.hls.destroy();
-                    break;
-                }
-              }
-            });
-            debug/* default */.A.log(this.hls);
-          } else if (this.audio.canPlayType("application/vnd.apple.mpegurl")) {
-            // safari
-            this.audio.src = streamURL;
-          } else {
-            // browser doesn't support m3u8 (hls unsupported and it's not a safari)
-            throw new VOTLocalizedError("audioFormatNotSupported");
-          }
+        debug/* default */.A.log(result.translatedInfo.url);
+        const streamURL = `https://${this.data.m3u8ProxyHost}/?all=yes&origin=${encodeURIComponent("https://strm.yandex.ru")}&referer=${encodeURIComponent("https://strm.yandex.ru")}&url=${encodeURIComponent(result.translatedInfo.url)}`;
+        debug/* default */.A.log(streamURL);
 
-          if (this.site.host === "youtube") {
-            youtubeUtils.videoSeek(this.video, 10); // 10 is the most successful number for streaming. With it, the audio is not so far behind the original
-          }
+        if (this.hls) {
+          this.setupHLS(streamURL);
+        } else if (this.audio.canPlayType("application/vnd.apple.mpegurl")) {
+          // safari
+          this.audio.src = streamURL;
+        } else {
+          // browser doesn't support m3u8 (hls unsupported and it's not a safari)
+          throw new VOTLocalizedError("audioFormatNotSupported");
+        }
 
-          this.volumeOnStart = this.getVideoVolume();
-          if (typeof this.data.defaultVolume === "number") {
-            this.gainNode.gain.value = this.data.defaultVolume / 100;
-          }
+        if (this.site.host === "youtube") {
+          youtubeUtils.videoSeek(this.video, 10); // 10 is the most successful number for streaming. With it, the audio is not so far behind the original
+        }
 
-          if (
-            typeof this.data.autoSetVolumeYandexStyle === "number" &&
-            this.data.autoSetVolumeYandexStyle
-          ) {
-            this.setVideoVolume(this.data.autoVolume);
-          }
+        this.setupAudioSettings();
 
-          if (
-            !this.video.src &&
-            !this.video.currentSrc &&
-            !this.video.srcObject
-          ) {
-            this.stopTranslation();
-            return;
-          }
+        if (
+          !this.video.src &&
+          !this.video.currentSrc &&
+          !this.video.srcObject
+        ) {
+          this.stopTranslation();
+          return;
+        }
 
-          if (this.video && !this.video.paused) this.lipSync("play");
-          for (const e of videoLipSyncEvents) {
-            this.video.addEventListener(e, this.handleVideoEventBound);
-          }
+        if (this.video && !this.video.paused) this.lipSync("play");
+        for (const e of videoLipSyncEvents) {
+          this.video.addEventListener(e, this.handleVideoEventBound);
+        }
 
-          this.afterUpdateTranslation(streamURL);
-        },
-      );
+        this.afterUpdateTranslation(streamURL);
+      } catch (error) {
+        console.error("[VOT] Stream translation error:", error);
+        await this.updateTranslationErrorMsg(error.message);
+      }
 
       return;
     }
@@ -6626,65 +6551,112 @@ class VideoHandler {
       ? 20_000
       : 30_000;
 
-    translateVideo(
-      videoURL,
-      this.videoData.duration,
-      requestLang,
-      responseLang,
-      translationHelp,
-      async (success, urlOrError) => {
-        debug/* default */.A.log("[exec callback] translateVideo callback");
-        if (getVideoId(this.site.host, this.video) !== VIDEO_ID) return;
-        if (!success) {
-          await this.updateTranslationErrorMsg(urlOrError);
+    try {
+      const urlOrError = await translateVideo(
+        videoURL,
+        this.videoData.duration,
+        requestLang,
+        responseLang,
+        translationHelp,
+      );
 
-          // if the error line contains information that the translation is being performed, then we wait
-          if (
-            urlOrError.includes(localizationProvider.get("translationTake"))
-          ) {
-            clearTimeout(this.autoRetry);
-            this.autoRetry = setTimeout(
-              () =>
-                this.translateFunc(
-                  VIDEO_ID,
-                  isStream,
-                  requestLang,
-                  responseLang,
-                  translationHelp,
-                ),
-              timeoutDuration,
-            );
-          }
-          console.error("[VOT]", urlOrError);
-          return;
+      debug/* default */.A.log("[exec] translateVideo result");
+      if (getVideoId(this.site.host, this.video) !== VIDEO_ID) return;
+
+      this.updateTranslation(urlOrError);
+      if (
+        !this.subtitlesList.some(
+          (item) =>
+            item.source === "yandex" &&
+            item.translatedFromLanguage === this.videoData.detectedLanguage &&
+            item.language === this.videoData.responseLanguage,
+        )
+      ) {
+        this.subtitlesList = await subtitles_getSubtitles(
+          this.site,
+          this.videoData.videoId,
+          this.videoData.detectedLanguage,
+        );
+        await this.updateSubtitlesLangSelect();
+      }
+
+      this.videoTranslations.push({
+        videoId: VIDEO_ID,
+        from: requestLang,
+        to: responseLang,
+        url: urlOrError,
+        expires: Date.now() / 1000 + this.videoTranslationTTL,
+      });
+    } catch (error) {
+      console.error("[VOT] Video translation error:", error);
+      await this.updateTranslationErrorMsg(error.message);
+
+      // if the error message contains information that the translation is being performed, then we wait
+      if (error.message.includes(localizationProvider.get("translationTake"))) {
+        clearTimeout(this.autoRetry);
+        this.autoRetry = setTimeout(
+          () =>
+            this.translateFunc(
+              VIDEO_ID,
+              isStream,
+              requestLang,
+              responseLang,
+              translationHelp,
+            ),
+          timeoutDuration,
+        );
+      }
+    }
+  }
+
+  // Вспомогательные методы
+  setupHLS(streamURL) {
+    this.hls.on(Hls.Events.MEDIA_ATTACHED, function () {
+      debug/* default */.A.log("audio and hls.js are now bound together !");
+    });
+    this.hls.on(Hls.Events.MANIFEST_PARSED, function (data) {
+      debug/* default */.A.log(
+        "manifest loaded, found " + data?.levels?.length + " quality level",
+      );
+    });
+    this.hls.loadSource(streamURL);
+    this.hls.attachMedia(this.audio);
+    this.hls.on(Hls.Events.ERROR, function (data) {
+      if (data.fatal) {
+        switch (data.type) {
+          case Hls.ErrorTypes.MEDIA_ERROR:
+            console.log("fatal media error encountered, try to recover");
+            this.hls.recoverMediaError();
+            break;
+          case Hls.ErrorTypes.NETWORK_ERROR:
+            console.error("fatal network error encountered", data);
+            // All retries and media options have been exhausted.
+            // Immediately trying to restart loading could cause loop loading.
+            // Consider modifying loading policies to best fit your asset and network
+            // conditions (manifestLoadPolicy, playlistLoadPolicy, fragLoadPolicy).
+            break;
+          default:
+            // cannot recover
+            this.hls.destroy();
+            break;
         }
+      }
+    });
+    debug/* default */.A.log(this.hls);
+  }
 
-        this.updateTranslation(urlOrError);
-        if (
-          !this.subtitlesList.some(
-            (item) =>
-              item.source === "yandex" &&
-              item.translatedFromLanguage === this.videoData.detectedLanguage &&
-              item.language === this.videoData.responseLanguage,
-          )
-        ) {
-          this.subtitlesList = await subtitles_getSubtitles(
-            this.site,
-            this.videoData.videoId,
-            this.videoData.detectedLanguage,
-          );
-          await this.updateSubtitlesLangSelect();
-        }
+  setupAudioSettings() {
+    this.volumeOnStart = this.getVideoVolume();
+    if (typeof this.data.defaultVolume === "number") {
+      this.gainNode.gain.value = this.data.defaultVolume / 100;
+    }
 
-        this.videoTranslations.push({
-          videoId: VIDEO_ID,
-          from: requestLang,
-          to: responseLang,
-          url: urlOrError,
-          expires: Date.now() / 1000 + this.videoTranslationTTL,
-        });
-      },
-    );
+    if (
+      typeof this.data.autoSetVolumeYandexStyle === "number" &&
+      this.data.autoSetVolumeYandexStyle
+    ) {
+      this.setVideoVolume(this.data.autoVolume);
+    }
   }
 
   // Define a function to stop translation and clean up

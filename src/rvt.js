@@ -10,7 +10,6 @@ async function requestVideoTranslation(
   requestLang,
   responseLang,
   translationHelp,
-  callback,
 ) {
   try {
     debug.log("requestVideoTranslation");
@@ -20,6 +19,7 @@ async function requestVideoTranslation(
     const yandexRequest = yar.default;
     debug.log("Inited yandexRequest...");
     // Initialize variables
+
     const body = yandexProtobuf.encodeTranslationRequest(
       url,
       duration,
@@ -28,21 +28,23 @@ async function requestVideoTranslation(
       translationHelp,
     );
     // Send the request
-    await yandexRequest(
-      // "/stream-translation/whitelist-stream",
-      // "/stream-translation/translate-stream",
+
+    const headers = {
+      "Vtrans-Signature": await getSignature(body),
+      "Sec-Vtrans-Token": getUUID(),
+    };
+
+    const response = await yandexRequest(
       "/video-translation/translate",
       body,
-      {
-        "Vtrans-Signature": await getSignature(body),
-        "Sec-Vtrans-Token": getUUID(),
-      },
-      callback,
+      headers,
     );
-  } catch (exception) {
-    console.error("[VOT]", exception);
+
+    return { success: true, response };
+  } catch (error) {
     // Handle errors
-    callback(false);
+    console.error("[VOT]", error);
+    return { success: false, error: error.message };
   }
 }
 

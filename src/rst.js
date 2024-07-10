@@ -4,12 +4,7 @@ import { yandexProtobuf } from "./yandexProtobuf.js";
 import debug from "./utils/debug.js";
 
 // Request stream translation from Yandex API
-async function requestStreamTranslation(
-  url,
-  requestLang,
-  responseLang,
-  callback,
-) {
+async function requestStreamTranslation(url, requestLang, responseLang) {
   try {
     debug.log("requestStreamTranslation");
     // ! CURRENT CLOUDFLARE WORKER DOESN'T SUPPORT STREAM TRANSLATIONS
@@ -19,25 +14,28 @@ async function requestStreamTranslation(
     const yandexRequest = yar.default;
     debug.log("Inited yandexRequest...");
     // Initialize variables
+
     const body = yandexProtobuf.encodeStreamRequest(
       url,
       requestLang,
       responseLang,
     );
     // Send the request
-    await yandexRequest(
+
+    const response = await yandexRequest(
       "/stream-translation/translate-stream",
       body,
       {
         "Vtrans-Signature": await getSignature(body),
         "Sec-Vtrans-Token": getUUID(),
       },
-      callback,
     );
-  } catch (exception) {
-    console.error("[VOT]", exception);
+
+    return { success: true, response };
+  } catch (error) {
     // Handle errors
-    callback(false);
+    console.error("[VOT]", error);
+    return { success: false, error: error.message };
   }
 }
 
