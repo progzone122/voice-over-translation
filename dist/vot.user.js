@@ -1882,7 +1882,7 @@ const yandexProtobuf = {
 });
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/package.json
-const package_namespaceObject = {"rE":"0.4.0"};
+const package_namespaceObject = {"rE":"0.5.0"};
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/secure.js
 
 const utf8Encoder = new TextEncoder();
@@ -3034,6 +3034,10 @@ class VOTClient {
     componentVersion = config.componentVersion;
     paths = {
         videoTranslation: "/video-translation/translate",
+        videoSubtitles: "/video-subtitles/get-subtitles",
+        streamPing: "/stream-translation/ping-stream",
+        streamTranslation: "/stream-translation/translate-stream",
+        createSession: "/session/create",
     };
     isCustomFormat(url) {
         return /\.(m3u8|m4(a|v)|mpd)/.exec(url);
@@ -3239,11 +3243,10 @@ class VOTClient {
         const { secretKey, uuid } = await this.getSession("video-translation");
         const body = yandexProtobuf.encodeSubtitlesRequest(url, requestLang);
         const sign = await getSignature(body);
-        const pathname = "/video-subtitles/get-subtitles";
-        const res = await this.request(pathname, body, {
+        const res = await this.request(this.paths.videoSubtitles, body, {
             "Vsubs-Signature": await getSignature(body),
             "Sec-Vsubs-Sk": secretKey,
-            "Sec-Vsubs-Token": `${sign}:${uuid}:${pathname}:${this.componentVersion}`,
+            "Sec-Vsubs-Token": `${sign}:${uuid}:${this.paths.videoSubtitles}:${this.componentVersion}`,
             ...headers,
         });
         if (!res.success) {
@@ -3255,11 +3258,10 @@ class VOTClient {
         const { secretKey, uuid } = await this.getSession("video-translation");
         const body = yandexProtobuf.encodeStreamPingRequest(pingId);
         const sign = await getSignature(body);
-        const pathname = "/stream-translation/ping-stream";
-        const res = await this.request(pathname, body, {
+        const res = await this.request(this.paths.streamPing, body, {
             "Vtrans-Signature": await getSignature(body),
             "Sec-Vtrans-Sk": secretKey,
-            "Sec-Vtrans-Token": `${sign}:${uuid}:${pathname}:${this.componentVersion}`,
+            "Sec-Vtrans-Token": `${sign}:${uuid}:${this.paths.streamPing}:${this.componentVersion}`,
             ...headers,
         });
         if (!res.success) {
@@ -3275,11 +3277,10 @@ class VOTClient {
         const { secretKey, uuid } = await this.getSession("video-translation");
         const body = yandexProtobuf.encodeStreamRequest(url, requestLang, responseLang);
         const sign = await getSignature(body);
-        const pathname = "/stream-translation/translate-stream";
-        const res = await this.request(pathname, body, {
+        const res = await this.request(this.paths.streamTranslation, body, {
             "Vtrans-Signature": await getSignature(body),
             "Sec-Vtrans-Sk": secretKey,
-            "Sec-Vtrans-Token": `${sign}:${uuid}:${pathname}:${this.componentVersion}`,
+            "Sec-Vtrans-Token": `${sign}:${uuid}:${this.paths.streamTranslation}:${this.componentVersion}`,
             ...headers,
         });
         if (!res.success) {
@@ -3313,7 +3314,7 @@ class VOTClient {
     async createSession(module) {
         const uuid = getUUID();
         const body = yandexProtobuf.encodeYandexSessionRequest(uuid, module);
-        const res = await this.request("/session/create", body, {
+        const res = await this.request(this.paths.createSession, body, {
             "Vtrans-Signature": await getSignature(body),
         });
         if (!res.success) {
@@ -3386,6 +3387,32 @@ const availableLangs = [
 const availableTTS = ["ru", "en", "kk"];
 
 
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/utils/subs.js
+function convertToSrtTimeFormat(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    const milliseconds = Math.floor((seconds % 1) * 1000);
+    return `${hours.toString().padStart(2, "0")}:${minutes
+        .toString()
+        .padStart(2, "0")}:${remainingSeconds
+        .toString()
+        .padStart(2, "0")},${milliseconds.toString().padStart(3, "0")}`;
+}
+function convertSubs(data, output = "srt") {
+    const subs = data.subtitles
+        .map((sub, idx) => {
+        const startTime = sub.startMs / 1000.0;
+        const endTime = (sub.startMs + sub.durationMs) / 1000.0;
+        const result = output === "srt" ? `${idx + 1}\n` : "";
+        return (result +
+            `${convertToSrtTimeFormat(startTime)} --> ${convertToSrtTimeFormat(endTime)}\n${sub.text}\n\n`);
+    })
+        .join("")
+        .trim();
+    return output === "vtt" ? `WEBVTT\n\n${subs}` : subs;
+}
+
 ;// CONCATENATED MODULE: ./src/config/config.js
 // CONFIGURATION
 const workerHost = "api.browser.yandex.ru";
@@ -3409,17 +3436,6 @@ const translateUrls = {
   yandex: "https://translate.toil.cc/translate",
   deepl: "https://translate-deepl.toil.cc/translate",
 };
-
-
-
-;// CONCATENATED MODULE: ./src/config/constants.js
-const cfOnlyExtensions = [
-  "Violentmonkey",
-  "FireMonkey",
-  "Greasemonkey",
-  "AdGuard",
-  "OrangeMonkey",
-];
 
 
 
@@ -4990,31 +5006,6 @@ function formatYoutubeSubtitles(subtitles) {
   return result;
 }
 
-function convertToSrtTimeFormat(seconds) {
-  let hours = Math.floor(seconds / 3600);
-  let minutes = Math.floor((seconds % 3600) / 60);
-  let remainingSeconds = Math.floor(seconds % 60);
-  let milliseconds = Math.floor((seconds % 1) * 1000);
-
-  return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")},${milliseconds.toString().padStart(3, "0")}`;
-}
-
-function jsonToSrt(jsonData) {
-  let srtContent = "";
-  let index = 1;
-  for (const entry of jsonData.subtitles) {
-    let startTime = entry.startMs / 1000.0;
-    let endTime = (entry.startMs + entry.durationMs) / 1000.0;
-
-    srtContent += `${index}\n`;
-    srtContent += `${convertToSrtTimeFormat(startTime)} --> ${convertToSrtTimeFormat(endTime)}\n`;
-    srtContent += `${entry.text}\n\n`;
-    index++;
-  }
-
-  return srtContent.trim();
-}
-
 async function fetchSubtitles(subtitlesObject) {
   const timeoutPromise = new Promise((resolve) =>
     setTimeout(
@@ -5895,6 +5886,13 @@ class VideoObserver {
 const browserInfo = es5.getParser(window.navigator.userAgent).getResult();
 const dontTranslateMusic = false; // Пока не придумал как стоит реализовать
 const sitesChromiumBlocked = [...sitesInvidious, ...sitesPiped];
+const cfOnlyExtensions = [
+  "Violentmonkey",
+  "FireMonkey",
+  "Greasemonkey",
+  "AdGuard",
+  "OrangeMonkey",
+];
 const videoLipSyncEvents = [
   "playing",
   "ratechange",
@@ -6059,7 +6057,6 @@ class VideoHandler {
       `Translate stream (requestLang: ${requestLang}, responseLang: ${responseLang})`,
     );
 
-    console.log("TEST", await getVideoID(this.site, window.location.href), videoData.videoId)
     if (
       (await getVideoID(this.site, window.location.href)) !== videoData.videoId
     ) {
@@ -6310,7 +6307,10 @@ class VideoHandler {
         fromTitle:
           localizationProvider.get("langs")[this.video.detectedLanguage],
         fromDialogTitle: localizationProvider.get("videoLanguage"),
-        fromItems: genOptionsByOBJ(availableLangs, this.videoData.detectedLanguage),
+        fromItems: genOptionsByOBJ(
+          availableLangs,
+          this.videoData.detectedLanguage,
+        ),
         fromOnSelectCB: async (e) => {
           utils_debug.log(
             "[fromOnSelectCB] select from language",
@@ -6804,7 +6804,7 @@ class VideoHandler {
       });
 
       this.votDownloadSubtitlesButton.addEventListener("click", async () => {
-        const srtContent = jsonToSrt(this.yandexSubtitles);
+        const srtContent = convertSubs(this.yandexSubtitles, "srt");
         const blob = new Blob([srtContent], { type: "text/plain" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");

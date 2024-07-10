@@ -4,6 +4,7 @@ import votConfig from "vot.js/config";
 import { getVideoData, getVideoID } from "vot.js/utils/videoData";
 import sites from "vot.js/sites";
 import { availableLangs, availableTTS } from "vot.js/consts";
+import { convertSubs } from "vot.js/utils/subs";
 
 import { sitesInvidious, sitesPiped } from "vot.js/alternativeUrls";
 import {
@@ -33,12 +34,7 @@ import {
 } from "./utils/utils.js";
 import { syncVolume } from "./utils/volume.js";
 
-import {
-  SubtitlesWidget,
-  fetchSubtitles,
-  getSubtitles,
-  jsonToSrt,
-} from "./subtitles.js";
+import { SubtitlesWidget, fetchSubtitles, getSubtitles } from "./subtitles.js";
 
 import youtubeUtils from "./utils/youtubeUtils.js";
 import coursehunterUtils from "./utils/coursehunterUtils.js";
@@ -976,7 +972,7 @@ class VideoHandler {
       });
 
       this.votDownloadSubtitlesButton.addEventListener("click", async () => {
-        const srtContent = jsonToSrt(this.yandexSubtitles);
+        const srtContent = convertSubs(this.yandexSubtitles, "srt");
         const blob = new Blob([srtContent], { type: "text/plain" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");

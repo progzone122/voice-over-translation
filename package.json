@@ -57,6 +57,6 @@
   "dependencies": {
     "bowser": "^2.11.0",
     "requestidlecallback-polyfill": "^1.0.2",
-    "vot.js": "0.4.0"
+    "vot.js": "0.5.0"
   }
 }
