@@ -611,10 +611,19 @@
 
 - `(www.)?reddit.com`
 
-## Custom
+Доступные пути:
+
+- /r/SUB_REDDIT/comments/VIDEO_ID/VIDEO_NAME
+
+Ограничения:
+
+- Нет субтитров
+- Для работы необходимо полностью удалить [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) со страницы
+
+## Direct link to MP4
 
 Статус: [✅] Работает
 
 Доступные (под)домены:
 
-- `undefined`
+- `any`

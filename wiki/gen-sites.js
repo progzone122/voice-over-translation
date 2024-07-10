@@ -49,6 +49,10 @@ const i18n = {
     ru: "Для работы необходимо добавить скрипт в [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ)",
     en: "To work, you need to add a script to the [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ)",
   },
+  needRemoveCSP: {
+    ru: "Для работы необходимо полностью удалить [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) со страницы",
+    en: "To work, you must completely remove [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) with pages",
+  },
   cantTranslatePHPremium: {
     ru: "Недоступен перевод для PH Premium",
     en: "Translation is not available for PH Premium",
@@ -225,6 +229,10 @@ const siteData = {
     paths: ["/posts/POST_ID"],
     limits: [i18n.noSubtitles],
   },
+  reddit: {
+    paths: ["/r/SUB_REDDIT/comments/VIDEO_ID/VIDEO_NAME"],
+    limits: [i18n.noSubtitles, i18n.needRemoveCSP],
+  },
   directlink: {
     paths: ["/*.mp4"],
     limits: [i18n.noLocalLinks],
@@ -375,7 +383,7 @@ async function main() {
 
     return {
       host,
-      match: host === "directlink" ? "any" : site.match,
+      match: host === "custom" ? "any" : site.match,
       status: extra ? extraData[host].status : "✅",
       statusPhrase: extra ? extraData[host].statusPhrase : i18n.working,
       additionalData: site.additionalData,
@@ -391,6 +399,7 @@ async function main() {
       .replace("Yandexdisk", "Yandex Disk")
       .replace("Googledrive", "Google Drive")
       .replace("Okru", "OK.ru")
+      .replace("Custom", "Direct link to MP4")
       .replace("Bannedvideo", "Banned.Video")
       .replace(
         "geo.dailymotion.com",

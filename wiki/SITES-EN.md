@@ -611,10 +611,19 @@ Available (sub)domains:
 
 - `(www.)?reddit.com`
 
-## Custom
+Available paths:
+
+- /r/SUB_REDDIT/comments/VIDEO_ID/VIDEO_NAME
+
+Limitations:
+
+- There are no subtitles
+- To work, you must completely remove [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) with pages
+
+## Direct link to MP4
 
 Status: [✅] Working
 
 Available (sub)domains:
 
-- `undefined`
+- `any`
