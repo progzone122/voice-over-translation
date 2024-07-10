@@ -192,7 +192,7 @@ class VideoHandler {
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
-      await this.updateTranslationErrorMsg(err.res?.message ?? err.message);
+      await this.updateTranslationErrorMsg(err.data?.message ?? err);
       return null;
     }
 
@@ -276,7 +276,7 @@ class VideoHandler {
       return res;
     } catch (err) {
       console.error("[VOT] Failed to translate stream", err);
-      await this.updateTranslationErrorMsg(err.res?.message ?? err.message);
+      await this.updateTranslationErrorMsg(err.data?.message ?? err);
       return null;
     }
   }

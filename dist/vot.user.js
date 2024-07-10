@@ -3006,444 +3006,6 @@ function convertVOT(service, videoId, url) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/client.js
-
-
-
-
-
-
-
-
-
-const { /* version */ "rE": version } = package_namespaceObject;
-class VOTJSError extends Error {
-    data;
-    constructor(message, data = undefined) {
-        super(message);
-        this.data = data;
-        this.name = "VOTJSError";
-        this.message = message;
-    }
-}
-class VOTClient {
-    host;
-    hostVOT;
-    schema;
-    schemaVOT;
-    fetch;
-    fetchOpts;
-    getVideoDataFn;
-    sessions = {};
-    requestLang;
-    responseLang;
-    userAgent = config.userAgent;
-    componentVersion = config.componentVersion;
-    paths = {
-        videoTranslation: "/video-translation/translate",
-        videoSubtitles: "/video-subtitles/get-subtitles",
-        streamPing: "/stream-translation/ping-stream",
-        streamTranslation: "/stream-translation/translate-stream",
-        createSession: "/session/create",
-    };
-    isCustomFormat(url) {
-        return /\.(m3u8|m4(a|v)|mpd)/.exec(url);
-    }
-    headers = {
-        "User-Agent": this.userAgent,
-        Accept: "application/x-protobuf",
-        "Accept-Language": "en",
-        "Content-Type": "application/x-protobuf",
-        Pragma: "no-cache",
-        "Cache-Control": "no-cache",
-        "Sec-Fetch-Mode": "no-cors",
-    };
-    headersVOT = {
-        "User-Agent": `vot.js/${version}`,
-        "Content-Type": "application/json",
-        Pragma: "no-cache",
-        "Cache-Control": "no-cache",
-    };
-    constructor({ host = config.host, hostVOT = config.hostVOT, fetchFn = fetchWithTimeout, fetchOpts = {}, getVideoDataFn = getVideoData, requestLang = "en", responseLang = "ru", headers = {}, } = {}) {
-        const schemaRe = /(http(s)?):\/\//;
-        const schema = schemaRe.exec(host)?.[1];
-        this.host = schema ? host.replace(`${schema}://`, "") : host;
-        this.schema = schema ?? "https";
-        const schemaVOT = schemaRe.exec(hostVOT)?.[1];
-        this.hostVOT = schemaVOT ? hostVOT.replace(`${schemaVOT}://`, "") : hostVOT;
-        this.schemaVOT = schemaVOT ?? "https";
-        this.fetch = fetchFn;
-        this.fetchOpts = fetchOpts;
-        this.getVideoDataFn = getVideoDataFn;
-        this.requestLang = requestLang;
-        this.responseLang = responseLang;
-        this.headers = { ...this.headers, ...headers };
-    }
-    getOpts(body, headers = {}) {
-        return {
-            method: "POST",
-            headers: {
-                ...this.headers,
-                ...headers,
-            },
-            body,
-            ...this.fetchOpts,
-        };
-    }
-    async request(path, body, headers = {}) {
-        const options = this.getOpts(new Blob([body]), headers);
-        try {
-            const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
-            const data = await res.arrayBuffer();
-            return {
-                success: res.status === 200,
-                data,
-            };
-        }
-        catch (err) {
-            console.error("[vot.js]", err.message);
-            return {
-                success: false,
-                data: null,
-            };
-        }
-    }
-    async requestVOT(path, body, headers = {}) {
-        const options = this.getOpts(JSON.stringify(body), {
-            ...this.headersVOT,
-            ...headers,
-        });
-        try {
-            console.log(`${this.schemaVOT}://${this.hostVOT}${path}`);
-            const res = await this.fetch(`${this.schemaVOT}://${this.hostVOT}${path}`, options);
-            const data = (await res.json());
-            return {
-                success: res.status === 200,
-                data,
-            };
-        }
-        catch (err) {
-            console.error("[vot.js]", err.message);
-            return {
-                success: false,
-                data: null,
-            };
-        }
-    }
-    async getSession(module) {
-        const timestamp = getTimestamp();
-        const session = this.sessions[module];
-        if (session && session.timestamp + session.expires > timestamp) {
-            return session;
-        }
-        const { secretKey, expires, uuid } = await this.createSession(module);
-        this.sessions[module] = {
-            secretKey,
-            expires,
-            timestamp,
-            uuid,
-        };
-        return this.sessions[module];
-    }
-    async translateVideoYAImpl({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, }) {
-        const { url, duration = config.defaultDuration } = videoData;
-        const { secretKey, uuid } = await this.getSession("video-translation");
-        const body = yandexProtobuf.encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp);
-        const sign = await getSignature(body);
-        const res = await this.request(this.paths.videoTranslation, body, {
-            "Vtrans-Signature": sign,
-            "Sec-Vtrans-Sk": secretKey,
-            "Sec-Vtrans-Token": `${sign}:${uuid}:${this.paths.videoTranslation}:${this.componentVersion}`,
-            ...headers,
-        });
-        if (!res.success) {
-            throw new VOTJSError("Failed to request video translation", res);
-        }
-        const translationData = yandexProtobuf.decodeTranslationResponse(res.data);
-        switch (translationData.status) {
-            case VideoTranslationStatus.FAILED:
-                throw new VOTJSError("Yandex couldn't translate video", translationData);
-            case VideoTranslationStatus.FINISHED:
-            case VideoTranslationStatus.PART_CONTENT:
-                if (!translationData.url) {
-                    throw new VOTJSError("Audio link wasn't received from Yandex response", translationData);
-                }
-                return {
-                    translated: true,
-                    url: translationData.url,
-                    remainingTime: translationData.remainingTime ?? -1,
-                };
-            case VideoTranslationStatus.WAITING:
-                return {
-                    translated: false,
-                    remainingTime: translationData.remainingTime,
-                };
-            case VideoTranslationStatus.LONG_WAITING:
-            case VideoTranslationStatus.LONG_WAITING_2:
-                return {
-                    translated: false,
-                    remainingTime: translationData.remainingTime ?? -1,
-                };
-            default:
-                console.error("[vot.js] Unknown response", translationData);
-                throw new VOTJSError("Unknown response from Yandex", translationData);
-        }
-    }
-    async translateVideoVOTImpl({ url, videoId, service, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
-        const votData = convertVOT(service, videoId, url);
-        const res = await this.requestVOT(this.paths.videoTranslation, {
-            provider: "yandex",
-            service: votData.service,
-            videoId: votData.videoId,
-            fromLang: requestLang,
-            toLang: responseLang,
-            rawVideo: url,
-        }, headers);
-        if (!res.success) {
-            throw new VOTJSError("Failed to request video translation", res);
-        }
-        const translationData = res.data;
-        switch (translationData.status) {
-            case "failed":
-                throw new VOTJSError("Yandex couldn't translate video", translationData);
-            case "success":
-                if (!translationData.translatedUrl) {
-                    throw new VOTJSError("Audio link wasn't received from VOT response", translationData);
-                }
-                return {
-                    translated: true,
-                    url: translationData.translatedUrl,
-                    remainingTime: -1,
-                };
-            case "waiting":
-                return {
-                    translated: false,
-                    remainingTime: translationData.remainingTime,
-                    message: translationData.message,
-                };
-        }
-    }
-    async translateVideo({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, }) {
-        const { url, videoId, host } = videoData;
-        return this.isCustomFormat(url)
-            ? await this.translateVideoVOTImpl({
-                url,
-                videoId,
-                service: host,
-                requestLang,
-                responseLang,
-                headers,
-            })
-            : await this.translateVideoYAImpl({
-                videoData,
-                requestLang,
-                responseLang,
-                translationHelp,
-                headers,
-            });
-    }
-    async getSubtitles({ videoData, requestLang = this.requestLang, headers = {}, }) {
-        const { url } = videoData;
-        if (this.isCustomFormat(url)) {
-            throw new VOTJSError("Unsupported video URL for getting subtitles");
-        }
-        const { secretKey, uuid } = await this.getSession("video-translation");
-        const body = yandexProtobuf.encodeSubtitlesRequest(url, requestLang);
-        const sign = await getSignature(body);
-        const res = await this.request(this.paths.videoSubtitles, body, {
-            "Vsubs-Signature": await getSignature(body),
-            "Sec-Vsubs-Sk": secretKey,
-            "Sec-Vsubs-Token": `${sign}:${uuid}:${this.paths.videoSubtitles}:${this.componentVersion}`,
-            ...headers,
-        });
-        if (!res.success) {
-            throw new VOTJSError("Failed to request video subtitles", res);
-        }
-        return yandexProtobuf.decodeSubtitlesResponse(res.data);
-    }
-    async pingStream({ pingId, headers = {} }) {
-        const { secretKey, uuid } = await this.getSession("video-translation");
-        const body = yandexProtobuf.encodeStreamPingRequest(pingId);
-        const sign = await getSignature(body);
-        const res = await this.request(this.paths.streamPing, body, {
-            "Vtrans-Signature": await getSignature(body),
-            "Sec-Vtrans-Sk": secretKey,
-            "Sec-Vtrans-Token": `${sign}:${uuid}:${this.paths.streamPing}:${this.componentVersion}`,
-            ...headers,
-        });
-        if (!res.success) {
-            throw new VOTJSError("Failed to request stream ping", res);
-        }
-        return true;
-    }
-    async translateStream({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
-        const { url } = videoData;
-        if (this.isCustomFormat(url)) {
-            throw new VOTJSError("Unsupported video URL for getting stream translation");
-        }
-        const { secretKey, uuid } = await this.getSession("video-translation");
-        const body = yandexProtobuf.encodeStreamRequest(url, requestLang, responseLang);
-        const sign = await getSignature(body);
-        const res = await this.request(this.paths.streamTranslation, body, {
-            "Vtrans-Signature": await getSignature(body),
-            "Sec-Vtrans-Sk": secretKey,
-            "Sec-Vtrans-Token": `${sign}:${uuid}:${this.paths.streamTranslation}:${this.componentVersion}`,
-            ...headers,
-        });
-        if (!res.success) {
-            throw new VOTJSError("Failed to request stream translation", res);
-        }
-        const translateResponse = yandexProtobuf.decodeStreamResponse(res.data);
-        const interval = translateResponse.interval;
-        switch (interval) {
-            case StreamInterval.NO_CONNECTION:
-            case StreamInterval.TRANSLATING:
-                return {
-                    translated: false,
-                    interval,
-                    message: interval === StreamInterval.NO_CONNECTION
-                        ? "streamNoConnectionToServer"
-                        : "translationTakeFewMinutes",
-                };
-            case StreamInterval.STREAMING: {
-                return {
-                    translated: true,
-                    interval,
-                    pingId: translateResponse.pingId,
-                    result: translateResponse.translatedInfo,
-                };
-            }
-            default:
-                console.error("[vot.js] Unknown response", translateResponse);
-                throw new VOTJSError("Unknown response from Yandex", translateResponse);
-        }
-    }
-    async createSession(module) {
-        const uuid = getUUID();
-        const body = yandexProtobuf.encodeYandexSessionRequest(uuid, module);
-        const res = await this.request(this.paths.createSession, body, {
-            "Vtrans-Signature": await getSignature(body),
-        });
-        if (!res.success) {
-            throw new VOTJSError("Failed to request create session", res);
-        }
-        const subtitlesResponse = yandexProtobuf.decodeYandexSessionResponse(res.data);
-        return {
-            ...subtitlesResponse,
-            uuid,
-        };
-    }
-}
-class VOTWorkerClient extends (/* unused pure expression or super */ null && (VOTClient)) {
-    async request(path, body, headers = {}) {
-        const options = this.getOpts(JSON.stringify({
-            headers: {
-                ...this.headers,
-                ...headers,
-            },
-            body: Array.from(body),
-        }), {
-            "Content-Type": "application/json",
-        });
-        try {
-            const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
-            const data = await res.arrayBuffer();
-            return {
-                success: res.status === 200,
-                data,
-            };
-        }
-        catch (err) {
-            console.error("[vot.js]", err.message);
-            return {
-                success: false,
-                data: null,
-            };
-        }
-    }
-}
-
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/index.js
-
-
-
-
-
-
-
-
-
-
-
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/consts.js
-const availableLangs = [
-    "auto",
-    "ru",
-    "en",
-    "zh",
-    "ko",
-    "lt",
-    "lv",
-    "ar",
-    "fr",
-    "it",
-    "es",
-    "de",
-    "ja",
-];
-const availableTTS = ["ru", "en", "kk"];
-
-
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/utils/subs.js
-function convertToSrtTimeFormat(seconds) {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-    const milliseconds = Math.floor((seconds % 1) * 1000);
-    return `${hours.toString().padStart(2, "0")}:${minutes
-        .toString()
-        .padStart(2, "0")}:${remainingSeconds
-        .toString()
-        .padStart(2, "0")},${milliseconds.toString().padStart(3, "0")}`;
-}
-function convertSubs(data, output = "srt") {
-    const subs = data.subtitles
-        .map((sub, idx) => {
-        const startTime = sub.startMs / 1000.0;
-        const endTime = (sub.startMs + sub.durationMs) / 1000.0;
-        const result = output === "srt" ? `${idx + 1}\n` : "";
-        return (result +
-            `${convertToSrtTimeFormat(startTime)} --> ${convertToSrtTimeFormat(endTime)}\n${sub.text}\n\n`);
-    })
-        .join("")
-        .trim();
-    return output === "vtt" ? `WEBVTT\n\n${subs}` : subs;
-}
-
-;// CONCATENATED MODULE: ./src/config/config.js
-// CONFIGURATION
-const workerHost = "api.browser.yandex.ru";
-const m3u8ProxyHost = "m3u8-proxy.toil.cc"; // used for streaming
-const proxyWorkerHost = "vot-worker.toil.cc"; // used for cloudflare version
-const votBackendUrl = "https://vot-api.toil.cc/v1";
-
-const defaultAutoVolume = 0.15; // 0.0 - 1.0 (0% - 100%) - default volume of the video with the translation
-const maxAudioVolume = 900;
-const defaultTranslationService = "yandex";
-const defaultDetectService = "yandex";
-
-const detectUrls = {
-  yandex: "https://translate.toil.cc/detect",
-  rustServer: "https://rust-server-531j.onrender.com/detect",
-};
-
-const translateUrls = {
-  yandex: "https://translate.toil.cc/translate",
-  deepl: "https://translate-deepl.toil.cc/translate",
-};
-
-
-
 ;// CONCATENATED MODULE: ./src/localization/locales/en.json
 const en_namespaceObject = /*#__PURE__*/JSON.parse('{"__version__":4,"recommended":"recommended","translateVideo":"Translate video","disableTranslate":"Turn off","translationSettings":"Translation settings","subtitlesSettings":"Subtitles settings","about":"About extension","resetSettings":"Reset settings","videoBeingTranslated":"The video is being translated","videoLanguage":"Video language","translationLanguage":"Translation language","translationTake":"The translation will take","translationTakeMoreThanHour":"The translation will take more than an hour","translationTakeAboutMinute":"The translation will take about a minute","translationTakeFewMinutes":"The translation will take a few minutes","translationTakeApproximatelyMinutes":"The translation will take approximately {0} minutes","translationTakeApproximatelyMinute":"The translation will take approximately {0} minutes","unSupportedExtensionError":"Error! {0} is not supported by this version of the extension!\\n\\nPlease use the cloudflare version of the VOT extension.","requestTranslationFailed":"Failed to request video translation","audioNotReceived":"Audio link not received","grantPermissionToAutoPlay":"Grant permission to autoplay","neededAdditionalExtension":"An additional extension is needed to support this site","audioFormatNotSupported":"The audio format is not supported","VOTAutoTranslate":"Translate on open","VOTDontTranslateYourLang":"Do not translate from my language","VOTVolume":"Video volume","VOTVolumeTranslation":"Translation Volume","VOTAutoSetVolume":"Reduce video volume to ","VOTShowVideoSlider":"Video volume slider","VOTSyncVolume":"Link translation and video volume","VOTAudioProxy":"Proxy received audio","VOTDisableFromYourLang":"You have disabled the translation of the video in your language","VOTLiveNotSupported":"Translation of live streams is not supported","VOTPremiere":"Wait for the premiere to end before translating","VOTVideoIsTooLong":"Video is too long","VOTNoVideoIDFound":"No video ID found","VOTSubtitles":"Subtitles","VOTSubtitlesDisabled":"Disabled","VOTSubtitlesMaxLength":"Subtitles max length","VOTHighlightWords":"Highlight words","VOTTranslatedFrom":"translated from","VOTAutogenerated":"autogenerated","VOTSettings":"VOT Settings","VOTMenuLanguage":"Menu language","VOTAuthors":"Authors","VOTVersion":"Version","VOTLoader":"Loader","VOTBrowser":"Browser","VOTShowPiPButton":"Show PiP button","langs":{"auto":"Auto","af":"Afrikaans","ak":"Akan","sq":"Albanian","am":"Amharic","ar":"Arabic","hy":"Armenian","as":"Assamese","ay":"Aymara","az":"Azerbaijani","bn":"Bangla","eu":"Basque","be":"Belarusian","bho":"Bhojpuri","bs":"Bosnian","bg":"Bulgarian","my":"Burmese","ca":"Catalan","ceb":"Cebuano","zh":"Chinese","zh-Hans":"Chinese (Simplified)","zh-Hant":"Chinese (Traditional)","co":"Corsican","hr":"Croatian","cs":"Czech","da":"Danish","dv":"Divehi","nl":"Dutch","en":"English","eo":"Esperanto","et":"Estonian","ee":"Ewe","fil":"Filipino","fi":"Finnish","fr":"French","gl":"Galician","lg":"Ganda","ka":"Georgian","de":"German","el":"Greek","gn":"Guarani","gu":"Gujarati","ht":"Haitian Creole","ha":"Hausa","haw":"Hawaiian","iw":"Hebrew","hi":"Hindi","hmn":"Hmong","hu":"Hungarian","is":"Icelandic","ig":"Igbo","id":"Indonesian","ga":"Irish","it":"Italian","ja":"Japanese","jv":"Javanese","kn":"Kannada","kk":"Kazakh","km":"Khmer","rw":"Kinyarwanda","ko":"Korean","kri":"Krio","ku":"Kurdish","ky":"Kyrgyz","lo":"Lao","la":"Latin","lv":"Latvian","ln":"Lingala","lt":"Lithuanian","lb":"Luxembourgish","mk":"Macedonian","mg":"Malagasy","ms":"Malay","ml":"Malayalam","mt":"Maltese","mi":"Māori","mr":"Marathi","mn":"Mongolian","ne":"Nepali","nso":"Northern Sotho","no":"Norwegian","ny":"Nyanja","or":"Odia","om":"Oromo","ps":"Pashto","fa":"Persian","pl":"Polish","pt":"Portuguese","pa":"Punjabi","qu":"Quechua","ro":"Romanian","ru":"Russian","sm":"Samoan","sa":"Sanskrit","gd":"Scottish Gaelic","sr":"Serbian","sn":"Shona","sd":"Sindhi","si":"Sinhala","sk":"Slovak","sl":"Slovenian","so":"Somali","st":"Southern Sotho","es":"Spanish","su":"Sundanese","sw":"Swahili","sv":"Swedish","tg":"Tajik","ta":"Tamil","tt":"Tatar","te":"Telugu","th":"Thai","ti":"Tigrinya","ts":"Tsonga","tr":"Turkish","tk":"Turkmen","uk":"Ukrainian","ur":"Urdu","ug":"Uyghur","uz":"Uzbek","vi":"Vietnamese","cy":"Welsh","fy":"Western Frisian","xh":"Xhosa","yi":"Yiddish","yo":"Yoruba","zu":"Zulu"},"udemyAccessTokenExpired":"Your entered Udemy Access Token has expired","udemyModuleArgsNotFound":"Could not get udemy module data due to the fact that ModuleArgs was not found","VOTTranslationHelpNull":"Could not get the data required for the translate","enterUdemyAccessToken":"Enter Udemy Access Token","VOTUdemyData":"Udemy Data","streamNoConnectionToServer":"There is no connection to the server","searchField":"Search...","VOTTranslateAPIErrors":"Translate errors from the API","VOTTranslationService":"Translation Service","VOTDetectService":"Detect Service","VOTTranslatingError":"Translating the error","VOTProxyWorkerHost":"Enter the proxy worker address","VOTM3u8ProxyHost":"Enter the address of the m3u8 proxy worker","proxySettings":"Proxy Settings","translationTakeApproximatelyMinute2":"The translation will take approximately {0} minutes","VOTAudioBooster":"Extended translation volume increase"}');
 ;// CONCATENATED MODULE: ./src/utils/debug.js
@@ -3873,6 +3435,460 @@ const localizationProvider = new (class {
     );
   }
 })();
+
+;// CONCATENATED MODULE: ./src/utils/VOTLocalizedError.js
+
+
+class VOTLocalizedError extends Error {
+  constructor(message) {
+    super(localizationProvider.getDefault(message));
+    this.name = "VOTLocalizedError";
+    this.unlocalizedMessage = message;
+    this.localizedMessage = localizationProvider.get(message);
+  }
+}
+
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/client.js
+
+
+
+
+
+
+
+
+
+
+
+
+const { /* version */ "rE": version } = package_namespaceObject;
+class VOTJSError extends Error {
+    data;
+    constructor(message, data = undefined) {
+        super(message);
+        this.data = data;
+        this.name = "VOTJSError";
+        this.message = message;
+    }
+}
+class VOTClient {
+    host;
+    hostVOT;
+    schema;
+    schemaVOT;
+    fetch;
+    fetchOpts;
+    getVideoDataFn;
+    sessions = {};
+    requestLang;
+    responseLang;
+    userAgent = config.userAgent;
+    componentVersion = config.componentVersion;
+    paths = {
+        videoTranslation: "/video-translation/translate",
+        videoSubtitles: "/video-subtitles/get-subtitles",
+        streamPing: "/stream-translation/ping-stream",
+        streamTranslation: "/stream-translation/translate-stream",
+        createSession: "/session/create",
+    };
+    isCustomFormat(url) {
+        return /\.(m3u8|m4(a|v)|mpd)/.exec(url);
+    }
+    headers = {
+        "User-Agent": this.userAgent,
+        Accept: "application/x-protobuf",
+        "Accept-Language": "en",
+        "Content-Type": "application/x-protobuf",
+        Pragma: "no-cache",
+        "Cache-Control": "no-cache",
+        "Sec-Fetch-Mode": "no-cors",
+    };
+    headersVOT = {
+        "User-Agent": `vot.js/${version}`,
+        "Content-Type": "application/json",
+        Pragma: "no-cache",
+        "Cache-Control": "no-cache",
+    };
+    constructor({ host = config.host, hostVOT = config.hostVOT, fetchFn = fetchWithTimeout, fetchOpts = {}, getVideoDataFn = getVideoData, requestLang = "en", responseLang = "ru", headers = {}, } = {}) {
+        const schemaRe = /(http(s)?):\/\//;
+        const schema = schemaRe.exec(host)?.[1];
+        this.host = schema ? host.replace(`${schema}://`, "") : host;
+        this.schema = schema ?? "https";
+        const schemaVOT = schemaRe.exec(hostVOT)?.[1];
+        this.hostVOT = schemaVOT ? hostVOT.replace(`${schemaVOT}://`, "") : hostVOT;
+        this.schemaVOT = schemaVOT ?? "https";
+        this.fetch = fetchFn;
+        this.fetchOpts = fetchOpts;
+        this.getVideoDataFn = getVideoDataFn;
+        this.requestLang = requestLang;
+        this.responseLang = responseLang;
+        this.headers = { ...this.headers, ...headers };
+    }
+    getOpts(body, headers = {}) {
+        return {
+            method: "POST",
+            headers: {
+                ...this.headers,
+                ...headers,
+            },
+            body,
+            ...this.fetchOpts,
+        };
+    }
+    async request(path, body, headers = {}) {
+        const options = this.getOpts(new Blob([body]), headers);
+        try {
+            const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
+            const data = await res.arrayBuffer();
+            return {
+                success: res.status === 200,
+                data,
+            };
+        }
+        catch (err) {
+            console.error("[vot.js]", err.message);
+            return {
+                success: false,
+                data: null,
+            };
+        }
+    }
+    async requestVOT(path, body, headers = {}) {
+        const options = this.getOpts(JSON.stringify(body), {
+            ...this.headersVOT,
+            ...headers,
+        });
+        try {
+            console.log(`${this.schemaVOT}://${this.hostVOT}${path}`);
+            const res = await this.fetch(`${this.schemaVOT}://${this.hostVOT}${path}`, options);
+            const data = (await res.json());
+            return {
+                success: res.status === 200,
+                data,
+            };
+        }
+        catch (err) {
+            console.error("[vot.js]", err.message);
+            return {
+                success: false,
+                data: null,
+            };
+        }
+    }
+    async getSession(module) {
+        const timestamp = getTimestamp();
+        const session = this.sessions[module];
+        if (session && session.timestamp + session.expires > timestamp) {
+            return session;
+        }
+        const { secretKey, expires, uuid } = await this.createSession(module);
+        this.sessions[module] = {
+            secretKey,
+            expires,
+            timestamp,
+            uuid,
+        };
+        return this.sessions[module];
+    }
+    async translateVideoYAImpl({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, }) {
+        const { url, duration = config.defaultDuration } = videoData;
+        const { secretKey, uuid } = await this.getSession("video-translation");
+        const body = yandexProtobuf.encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp);
+        const sign = await getSignature(body);
+        const res = await this.request(this.paths.videoTranslation, body, {
+            "Vtrans-Signature": sign,
+            "Sec-Vtrans-Sk": secretKey,
+            "Sec-Vtrans-Token": `${sign}:${uuid}:${this.paths.videoTranslation}:${this.componentVersion}`,
+            ...headers,
+        });
+        if (!res.success) {
+            throw new VOTLocalizedError("requestTranslationFailed");
+        }
+        const translationData = yandexProtobuf.decodeTranslationResponse(res.data);
+        switch (translationData.status) {
+            case VideoTranslationStatus.FAILED: {
+                throw translationData?.message ? new VOTJSError("Yandex couldn't translate video", translationData) : new VOTLocalizedError("requestTranslationFailed");
+            }
+            case VideoTranslationStatus.FINISHED:
+            case VideoTranslationStatus.PART_CONTENT:
+                if (!translationData.url) {
+                    throw new VOTLocalizedError("audioNotReceived");
+                }
+                return {
+                    translated: true,
+                    url: translationData.url,
+                    remainingTime: translationData.remainingTime ?? -1,
+                };
+            case VideoTranslationStatus.WAITING:
+                return {
+                    translated: false,
+                    remainingTime: translationData.remainingTime,
+                };
+            case VideoTranslationStatus.LONG_WAITING:
+            case VideoTranslationStatus.LONG_WAITING_2:
+                return {
+                    translated: false,
+                    remainingTime: translationData.remainingTime ?? -1,
+                };
+            default:
+                console.error("[vot.js] Unknown response", translationData);
+                throw new VOTJSError("Unknown response from Yandex", translationData);
+        }
+    }
+    async translateVideoVOTImpl({ url, videoId, service, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
+        const votData = convertVOT(service, videoId, url);
+        const res = await this.requestVOT(this.paths.videoTranslation, {
+            provider: "yandex",
+            service: votData.service,
+            videoId: votData.videoId,
+            fromLang: requestLang,
+            toLang: responseLang,
+            rawVideo: url,
+        }, headers);
+        if (!res.success) {
+            throw new VOTLocalizedError("requestTranslationFailed", res);
+        }
+        const translationData = res.data;
+        switch (translationData.status) {
+            case "failed":
+                throw new VOTJSError("Yandex couldn't translate video", translationData);
+            case "success":
+                if (!translationData.translatedUrl) {
+                    throw new VOTLocalizedError("audioNotReceived");
+                }
+                return {
+                    translated: true,
+                    url: translationData.translatedUrl,
+                    remainingTime: -1,
+                };
+            case "waiting":
+                return {
+                    translated: false,
+                    remainingTime: translationData.remainingTime,
+                    message: translationData.message,
+                };
+        }
+    }
+    async translateVideo({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, }) {
+        const { url, videoId, host } = videoData;
+        return this.isCustomFormat(url)
+            ? await this.translateVideoVOTImpl({
+                url,
+                videoId,
+                service: host,
+                requestLang,
+                responseLang,
+                headers,
+            })
+            : await this.translateVideoYAImpl({
+                videoData,
+                requestLang,
+                responseLang,
+                translationHelp,
+                headers,
+            });
+    }
+    async getSubtitles({ videoData, requestLang = this.requestLang, headers = {}, }) {
+        const { url } = videoData;
+        if (this.isCustomFormat(url)) {
+            throw new VOTJSError("Unsupported video URL for getting subtitles");
+        }
+        const { secretKey, uuid } = await this.getSession("video-translation");
+        const body = yandexProtobuf.encodeSubtitlesRequest(url, requestLang);
+        const sign = await getSignature(body);
+        const res = await this.request(this.paths.videoSubtitles, body, {
+            "Vsubs-Signature": await getSignature(body),
+            "Sec-Vsubs-Sk": secretKey,
+            "Sec-Vsubs-Token": `${sign}:${uuid}:${this.paths.videoSubtitles}:${this.componentVersion}`,
+            ...headers,
+        });
+        if (!res.success) {
+            throw new VOTJSError("Failed to request video subtitles", res);
+        }
+        return yandexProtobuf.decodeSubtitlesResponse(res.data);
+    }
+    async pingStream({ pingId, headers = {} }) {
+        const { secretKey, uuid } = await this.getSession("video-translation");
+        const body = yandexProtobuf.encodeStreamPingRequest(pingId);
+        const sign = await getSignature(body);
+        const res = await this.request(this.paths.streamPing, body, {
+            "Vtrans-Signature": await getSignature(body),
+            "Sec-Vtrans-Sk": secretKey,
+            "Sec-Vtrans-Token": `${sign}:${uuid}:${this.paths.streamPing}:${this.componentVersion}`,
+            ...headers,
+        });
+        if (!res.success) {
+            throw new VOTJSError("Failed to request stream ping", res);
+        }
+        return true;
+    }
+    async translateStream({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
+        const { url } = videoData;
+        if (this.isCustomFormat(url)) {
+            throw new VOTJSError("Unsupported video URL for getting stream translation");
+        }
+        const { secretKey, uuid } = await this.getSession("video-translation");
+        const body = yandexProtobuf.encodeStreamRequest(url, requestLang, responseLang);
+        const sign = await getSignature(body);
+        const res = await this.request(this.paths.streamTranslation, body, {
+            "Vtrans-Signature": await getSignature(body),
+            "Sec-Vtrans-Sk": secretKey,
+            "Sec-Vtrans-Token": `${sign}:${uuid}:${this.paths.streamTranslation}:${this.componentVersion}`,
+            ...headers,
+        });
+        if (!res.success) {
+            throw new VOTJSError("Failed to request stream translation", res);
+        }
+        const translateResponse = yandexProtobuf.decodeStreamResponse(res.data);
+        const interval = translateResponse.interval;
+        switch (interval) {
+            case StreamInterval.NO_CONNECTION:
+            case StreamInterval.TRANSLATING:
+                return {
+                    translated: false,
+                    interval,
+                    message: interval === StreamInterval.NO_CONNECTION
+                        ? "streamNoConnectionToServer"
+                        : "translationTakeFewMinutes",
+                };
+            case StreamInterval.STREAMING: {
+                return {
+                    translated: true,
+                    interval,
+                    pingId: translateResponse.pingId,
+                    result: translateResponse.translatedInfo,
+                };
+            }
+            default:
+                console.error("[vot.js] Unknown response", translateResponse);
+                throw new VOTJSError("Unknown response from Yandex", translateResponse);
+        }
+    }
+    async createSession(module) {
+        const uuid = getUUID();
+        const body = yandexProtobuf.encodeYandexSessionRequest(uuid, module);
+        const res = await this.request(this.paths.createSession, body, {
+            "Vtrans-Signature": await getSignature(body),
+        });
+        if (!res.success) {
+            throw new VOTJSError("Failed to request create session", res);
+        }
+        const subtitlesResponse = yandexProtobuf.decodeYandexSessionResponse(res.data);
+        return {
+            ...subtitlesResponse,
+            uuid,
+        };
+    }
+}
+class VOTWorkerClient extends (/* unused pure expression or super */ null && (VOTClient)) {
+    async request(path, body, headers = {}) {
+        const options = this.getOpts(JSON.stringify({
+            headers: {
+                ...this.headers,
+                ...headers,
+            },
+            body: Array.from(body),
+        }), {
+            "Content-Type": "application/json",
+        });
+        try {
+            const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
+            const data = await res.arrayBuffer();
+            return {
+                success: res.status === 200,
+                data,
+            };
+        }
+        catch (err) {
+            console.error("[vot.js]", err.message);
+            return {
+                success: false,
+                data: null,
+            };
+        }
+    }
+}
+
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/index.js
+
+
+
+
+
+
+
+
+
+
+
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/consts.js
+const availableLangs = [
+    "auto",
+    "ru",
+    "en",
+    "zh",
+    "ko",
+    "lt",
+    "lv",
+    "ar",
+    "fr",
+    "it",
+    "es",
+    "de",
+    "ja",
+];
+const availableTTS = ["ru", "en", "kk"];
+
+
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/utils/subs.js
+function convertToSrtTimeFormat(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    const milliseconds = Math.floor((seconds % 1) * 1000);
+    return `${hours.toString().padStart(2, "0")}:${minutes
+        .toString()
+        .padStart(2, "0")}:${remainingSeconds
+        .toString()
+        .padStart(2, "0")},${milliseconds.toString().padStart(3, "0")}`;
+}
+function convertSubs(data, output = "srt") {
+    const subs = data.subtitles
+        .map((sub, idx) => {
+        const startTime = sub.startMs / 1000.0;
+        const endTime = (sub.startMs + sub.durationMs) / 1000.0;
+        const result = output === "srt" ? `${idx + 1}\n` : "";
+        return (result +
+            `${convertToSrtTimeFormat(startTime)} --> ${convertToSrtTimeFormat(endTime)}\n${sub.text}\n\n`);
+    })
+        .join("")
+        .trim();
+    return output === "vtt" ? `WEBVTT\n\n${subs}` : subs;
+}
+
+;// CONCATENATED MODULE: ./src/config/config.js
+// CONFIGURATION
+const workerHost = "api.browser.yandex.ru";
+const m3u8ProxyHost = "m3u8-proxy.toil.cc"; // used for streaming
+const proxyWorkerHost = "vot-worker.toil.cc"; // used for cloudflare version
+const votBackendUrl = "https://vot-api.toil.cc/v1";
+
+const defaultAutoVolume = 0.15; // 0.0 - 1.0 (0% - 100%) - default volume of the video with the translation
+const maxAudioVolume = 900;
+const defaultTranslationService = "yandex";
+const defaultDetectService = "yandex";
+
+const detectUrls = {
+  yandex: "https://translate.toil.cc/detect",
+  rustServer: "https://rust-server-531j.onrender.com/detect",
+};
+
+const translateUrls = {
+  yandex: "https://translate.toil.cc/translate",
+  deepl: "https://translate-deepl.toil.cc/translate",
+};
+
+
 
 // EXTERNAL MODULE: ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js
 var injectStylesIntoStyleTag = __webpack_require__("./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
@@ -4408,18 +4424,6 @@ function createVOTLanguageSelect(options) {
   createVOTLanguageSelect,
   updateSlider,
 });
-
-;// CONCATENATED MODULE: ./src/utils/VOTLocalizedError.js
-
-
-class VOTLocalizedError extends Error {
-  constructor(message) {
-    super(localizationProvider.getDefault(message));
-    this.name = "VOTLocalizedError";
-    this.unlocalizedMessage = message;
-    this.localizedMessage = localizationProvider.get(message);
-  }
-}
 
 ;// CONCATENATED MODULE: ./src/utils/volume.js
 // element - audio / video element
@@ -6067,7 +6071,7 @@ class VideoHandler {
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
-      await this.updateTranslationErrorMsg(err.res?.message ?? err.message);
+      await this.updateTranslationErrorMsg(err.data?.message ?? err);
       return null;
     }
 
@@ -6151,7 +6155,7 @@ class VideoHandler {
       return res;
     } catch (err) {
       console.error("[VOT] Failed to translate stream", err);
-      await this.updateTranslationErrorMsg(err.res?.message ?? err.message);
+      await this.updateTranslationErrorMsg(err.data?.message ?? err);
       return null;
     }
   }
