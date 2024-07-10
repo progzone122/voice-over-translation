@@ -109,6 +109,10 @@
     "*://*.youku.com/*",
     "*://*.archive.org/*",
     "*://*.patreon.com/*",
+    "*://*.reddit.com/*",
+    "*://*.kodik.info/*",
+    "*://*.kodik.biz/*",
+    "*://*.kodik.cc/*",
     "*://*/*.mp4*"
   ],
   "exclude": ["file://*/*.mp4*"],

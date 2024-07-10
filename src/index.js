@@ -1410,6 +1410,8 @@ class VideoHandler {
       eContainer = document.querySelector('div[data-testid="videoPlayer"]');
     } else if (this.site.host === "yandexdisk") {
       eContainer = document.querySelector(".video-player__player");
+    } else if (this.site.host === "reddit") {
+      eContainer = document.querySelector("shreddit-post");
     } else {
       eContainer = this.container;
     }
@@ -2194,29 +2196,29 @@ function findContainer(site, video) {
     return container && container.shadowRoot
       ? container.parentElement
       : container;
-  } else {
-    const browserVersion = browserInfo.browser.version.split(".")[0];
-    if (
-      site.selector?.includes(":not") &&
-      site.selector?.includes("*") &&
-      browserVersion &&
-      ((browserInfo.browser.name === "Chrome" && Number(browserVersion) < 88) ||
-        (browserInfo.browser.name === "Firefox" && Number(browserVersion) < 84))
-    ) {
-      const selector = site.selector.split(" *")[0];
-      return selector
-        ? Array.from(document.querySelectorAll(selector)).find((e) =>
-            e.contains(video),
-          )
-        : video.parentElement;
-    } else {
-      return site.selector
-        ? Array.from(document.querySelectorAll(site.selector)).find((e) =>
-            e.contains(video),
-          )
-        : video.parentElement;
-    }
   }
+
+  const browserVersion = browserInfo.browser.version.split(".")[0];
+  if (
+    site.selector?.includes(":not") &&
+    site.selector?.includes("*") &&
+    browserVersion &&
+    ((browserInfo.browser.name === "Chrome" && Number(browserVersion) < 88) ||
+      (browserInfo.browser.name === "Firefox" && Number(browserVersion) < 84))
+  ) {
+    const selector = site.selector.split(" *")[0];
+    return selector
+      ? Array.from(document.querySelectorAll(selector)).find((e) =>
+          e.contains(video),
+        )
+      : video.parentElement;
+  }
+
+  return site.selector
+    ? Array.from(document.querySelectorAll(site.selector)).find((e) =>
+        e.contains(video),
+      )
+    : video.parentElement;
 }
 
 async function main() {

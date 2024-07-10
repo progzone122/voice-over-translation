@@ -96,7 +96,7 @@ export class VideoObserver {
       childList: true,
       subtree: true,
     });
-    const videos = document.querySelectorAll("video");
+    const videos = this.getAllVideoEls();
     for (let i = 0; i < videos.length; i++) {
       this.checkAndHandleVideo(videos[i]);
     }
@@ -105,6 +105,42 @@ export class VideoObserver {
   disable() {
     this.observer.disconnect();
     this.intersectionObserver.disconnect();
+  }
+
+  getAllVideoEls() {
+    const videos = document.querySelectorAll("video");
+    if (videos.length) {
+      return videos;
+    }
+
+    // Use it only if we don't find videos
+    // It takes a long time to complete
+    const els = document.querySelectorAll("*");
+    const videoElements = new Set();
+    function traverseShadowRoot(root) {
+      if (!root) return;
+      root.querySelectorAll("video").forEach((video) => {
+        if (videoElements.has(video)) {
+          return;
+        }
+        videoElements.add(video);
+      });
+
+      root.querySelectorAll("*").forEach((element) => {
+        if (element.shadowRoot) {
+          traverseShadowRoot(element.shadowRoot);
+        }
+      });
+    }
+
+    for (let i = 0; i < els.length; i++) {
+      const el = els[i];
+      if (el.shadowRoot) {
+        traverseShadowRoot(el);
+      }
+    }
+
+    return Array.from(videoElements);
   }
 
   checkAndHandleVideo(video) {
