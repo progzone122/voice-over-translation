@@ -1,5 +1,5 @@
 diff --git a/node_modules/vot.js/dist/config/sites.js b/node_modules/vot.js/dist/config/sites.js
-index 72d31bf..5b07eae 100644
+index 72d31bf..91d89ec 100644
 --- a/node_modules/vot.js/dist/config/sites.js
 +++ b/node_modules/vot.js/dist/config/sites.js
 @@ -2,29 +2,63 @@ import { VideoService } from "../types/yandex.js";
@@ -67,7 +67,7 @@ index 72d31bf..5b07eae 100644
      },
      {
          host: VideoService.twitch,
-@@ -35,139 +69,221 @@ export default [
+@@ -35,156 +69,243 @@ export default [
              /^clips.twitch.tv$/,
              /^player.twitch.tv$/,
          ],
@@ -294,12 +294,25 @@ index 72d31bf..5b07eae 100644
      },
      {
          host: VideoService.kodik,
-@@ -179,6 +295,8 @@ export default [
+         url: "stub",
+         match: /^kodik.(info|biz|cc)$/,
++        selector: ".fp-player",
+         needExtraData: true,
+     },
+     {
          host: VideoService.patreon,
          url: "stub",
          match: /^(www.)?patreon.com$/,
 +        selector:
 +            'div[data-tag="post-card"] div[elevation="subtle"] > div > div > div > div',
+         needExtraData: true,
+     },
+     {
+         host: VideoService.reddit,
+         url: "stub",
+         match: /^(www.)?reddit.com$/,
++        selector: "shreddit-player",
++        shadowRoot: true,
          needExtraData: true,
      },
      {
@@ -371,7 +384,7 @@ index c19a055..dced47d 100644
      VideoService["okru"] = "okru";
      VideoService["googledrive"] = "googledrive";
 diff --git a/node_modules/vot.js/dist/utils/helper.js b/node_modules/vot.js/dist/utils/helper.js
-index dc32c97..d2d638b 100644
+index dc32c97..ca263b0 100644
 --- a/node_modules/vot.js/dist/utils/helper.js
 +++ b/node_modules/vot.js/dist/utils/helper.js
 @@ -1,4 +1,3 @@
@@ -379,6 +392,15 @@ index dc32c97..d2d638b 100644
  import { getHmacSha1 } from "../secure.js";
  import { fetchWithTimeout } from "./utils.js";
  import config from "../config/config.js";
+@@ -156,7 +155,7 @@ export class WeverseHelper {
+     }
+ }
+ export class KodikHelper {
+-    API_ORIGIN = "https://kodik.biz";
++    API_ORIGIN = window.location.origin;
+     async getSecureData(videoPath) {
+         try {
+             const url = this.API_ORIGIN + videoPath;
 @@ -169,7 +168,8 @@ export class KodikHelper {
              });
              const content = await res.text();
