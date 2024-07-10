@@ -80,10 +80,6 @@ function genOptionsByOBJ(obj, conditionString) {
   }));
 }
 
-if (BUILD_MODE === "cloudflare") {
-  var translationPanding = false;
-}
-
 function translateVideo(
   url,
   duration,
@@ -98,13 +94,6 @@ function translateVideo(
 
   debug.log("translationHelp:", translationHelp);
 
-  if (BUILD_MODE === "cloudflare" && translationPanding) {
-    debug.log("translationPanding return");
-    return;
-  }
-
-  translationPanding = true;
-
   requestVideoTranslation(
     url,
     duration,
@@ -112,8 +101,6 @@ function translateVideo(
     responseLang,
     translationHelp,
     (success, response) => {
-      translationPanding = false;
-
       debug.log("[exec callback] Requesting video translation");
       if (!success) {
         callback(false, localizationProvider.get("requestTranslationFailed"));
