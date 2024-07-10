@@ -22,3 +22,5 @@
 | WIP    | Добавить получение данных для COURSEHUNTER                               |
 
 - проверить другие сайты
+
+DOCS: https://foswly.github.io/vot.js/
