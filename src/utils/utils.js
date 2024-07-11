@@ -102,17 +102,19 @@ async function GM_fetch(url, opts = {}) {
           resolve(
             new Response(resp.response, {
               status: resp.status,
+              // chrome \n and ":", firefox \r\n and ": " (Only in GM_xmlhttpRequest)
               // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/getAllResponseHeaders#examples
               headers: Object.fromEntries(
                 resp.responseHeaders
                   .trim()
-                  .split("\r\n")
+                  .split("\n")
                   .map((line) => {
-                    let parts = line.split(": ");
+                    let parts = line.split(":");
                     if (parts?.[0] === "set-cookie") {
                       return;
                     }
-                    return [parts.shift(), parts.join(": ")];
+
+                    return [parts.shift(), parts.join(":")];
                   })
                   .filter((key) => key),
               ),
