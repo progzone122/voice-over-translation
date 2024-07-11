@@ -2670,11 +2670,8 @@ class PatreonHelper {
     }
 }
 class RedditHelper {
-    async getVideoData(videoId) {
-        const res = await fetchWithTimeout(`https://www.reddit.com/r/${videoId}`);
-        const content = await res.text();
-        const contentUrl = /https:\/\/v\.redd\.it\/([^/]+)\/HLSPlaylist\.m3u8\?([^"]+)/
-            .exec(content)?.[0]
+    async getVideoData() {
+        const contentUrl = document.querySelector("source[type='application/vnd.apple.mpegURL']")?.src
             ?.replaceAll("&amp;", "&");
         if (!contentUrl) {
             return undefined;
@@ -3231,20 +3228,22 @@ async function GM_fetch(url, opts = {}) {
           resolve(
             new Response(resp.response, {
               status: resp.status,
+              // chrome \n and ":", firefox \r\n and ": " (Only in GM_xmlhttpRequest)
               // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/getAllResponseHeaders#examples
               headers: Object.fromEntries(
                 resp.responseHeaders
                   .trim()
-                  .split("\r\n")
+                  .split("\n")
                   .map((line) => {
-                    let parts = line.split(": ");
+                    let parts = line.split(":")
                     if (parts?.[0] === "set-cookie") {
                       return;
                     }
-                    return [parts.shift(), parts.join(": ")];
+
+                    return [parts.shift(), parts.join(":")];
                   })
                   .filter((key) => key),
-              ),
+              )
             }),
           );
         },
@@ -3606,9 +3605,8 @@ class VOTClient {
         }
         const translationData = yandexProtobuf.decodeTranslationResponse(res.data);
         switch (translationData.status) {
-            case VideoTranslationStatus.FAILED: {
+            case VideoTranslationStatus.FAILED:
                 throw translationData?.message ? new VOTJSError("Yandex couldn't translate video", translationData) : new VOTLocalizedError("requestTranslationFailed");
-            }
             case VideoTranslationStatus.FINISHED:
             case VideoTranslationStatus.PART_CONTENT:
                 if (!translationData.url) {
