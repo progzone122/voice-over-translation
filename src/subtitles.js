@@ -176,7 +176,6 @@ export async function getSubtitles(client, videoData) {
 
     if (res.waiting) {
       console.error("[VOT] Failed to get yandex subtitles");
-      return [];
     }
 
     // Обработка субтитров
