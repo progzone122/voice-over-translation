@@ -75,27 +75,6 @@ function genOptionsByOBJ(obj, conditionString) {
   }));
 }
 
-const votOpts = {
-  headers:
-    BUILD_MODE === "cloudflare"
-      ? {}
-      : {
-          "sec-ch-ua": null,
-          "sec-ch-ua-mobile": null,
-          "sec-ch-ua-platform": null,
-          // "sec-ch-ua-model": null,
-          // "sec-ch-ua-platform-version": null,
-          // "sec-ch-ua-wow64": null,
-          // "sec-ch-ua-arch": null,
-          // "sec-ch-ua-bitness": null,
-          // "sec-ch-ua-full-version": null,
-          // "sec-ch-ua-full-version-list": null,
-        },
-  fetchFn: GM_fetch,
-  hostVOT: votBackendUrl,
-  host: BUILD_MODE === "cloudflare" ? proxyWorkerHost : workerHost,
-};
-
 class VideoHandler {
   // translate properties
   translateFromLang = "en"; // default language of video
@@ -110,9 +89,7 @@ class VideoHandler {
   gainNode = this.audioContext.createGain();
 
   hls = initHls(); // debug enabled only in dev mode
-  votClient = new (BUILD_MODE === "cloudflare" ? VOTWorkerClient : VOTClient)(
-    votOpts,
-  );
+  votClient;
 
   videoTranslations = [];
   videoTranslationTTL = 7200;
@@ -122,6 +99,7 @@ class VideoHandler {
 
   autoRetry;
   streamPing;
+  votOpts;
   volumeOnStart;
   tempOriginalVolume; // temp video volume for syncing
   tempVolume; // temp translation volume for syncing
@@ -135,6 +113,13 @@ class VideoHandler {
   // button move
   dragging;
 
+  /**
+   * Constructor function for VideoHandler class.
+   *
+   * @param {Object} video - The video element to handle.
+   * @param {Object} container - The container element for the video.
+   * @param {Object} site - The site object associated with the video.
+   */
   constructor(video, container, site) {
     debug.log(
       "[VideoHandler] add video:",
@@ -153,6 +138,15 @@ class VideoHandler {
     this.init();
   }
 
+  /**
+   * Translate a video based on the specified languages.
+   *
+   * @param {Object} videoData - The data of the video to be translated.
+   * @param {string} requestLang - The language code for the requested translation.
+   * @param {string} responseLang - The language code for the desired translated output.
+   * @param {Object} [translationHelp=null] - Additional translation help data (optional).
+   * @return {Promise} A Promise that resolves to the translated video data.
+   */
   async translateVideoImpl(
     videoData,
     requestLang,
@@ -216,6 +210,14 @@ class VideoHandler {
     });
   }
 
+  /**
+   * Translate a video stream based on the specified languages.
+   *
+   * @param {Object} videoData - The data of the video stream to be translated.
+   * @param {string} requestLang - The language code for the requested translation.
+   * @param {string} responseLang - The language code for the desired translated output.
+   * @return {Promise} A Promise that resolves to the translated video stream data.
+   */
   async translateStreamImpl(videoData, requestLang, responseLang) {
     clearTimeout(this.autoRetry);
     debug.log(
@@ -309,11 +311,11 @@ class VideoHandler {
     }
   }
 
+  /**
+   * Initializes the VideoHandler class by setting up data promises, fetching data, initializing UI elements, and setting up event listeners.
+   */
   async init() {
     if (this.initialized) return;
-
-    const audioProxyDefault =
-      lang === "uk" && BUILD_MODE === "cloudflare" ? 1 : 0;
 
     const dataPromises = {
       autoTranslate: votStorage.get("autoTranslate", 0, true),
@@ -333,7 +335,7 @@ class VideoHandler {
       responseLanguage: votStorage.get("responseLanguage", lang),
       defaultVolume: votStorage.get("defaultVolume", 100, true),
       udemyData: votStorage.get("udemyData", { accessToken: "", expires: 0 }),
-      audioProxy: votStorage.get("audioProxy", audioProxyDefault, true),
+      audioProxy: votStorage.get("audioProxy", 0, true),
       showPiPButton: votStorage.get("showPiPButton", 0, true),
       translateAPIErrors: votStorage.get("translateAPIErrors", 1, true),
       translationService: votStorage.get(
@@ -342,6 +344,7 @@ class VideoHandler {
       ),
       detectService: votStorage.get("detectService", defaultDetectService),
       m3u8ProxyHost: votStorage.get("m3u8ProxyHost", m3u8ProxyHost),
+      translateProxyEnabled: votStorage.get("translateProxyEnabled", 0, true),
       proxyWorkerHost: votStorage.get("proxyWorkerHost", proxyWorkerHost),
       audioBooster: votStorage.get("audioBooster", 0, true),
     };
@@ -356,6 +359,46 @@ class VideoHandler {
     );
 
     console.log("[db] data from db: ", this.data);
+
+    if (
+      this.data.translateProxyEnabled === 0 &&
+      GM_info?.scriptHandler &&
+      cfOnlyExtensions.includes(GM_info.scriptHandler)
+    ) {
+      this.data.translateProxyEnabled = 1;
+      await votStorage.set("translateProxyEnabled", 1);
+      debug.log("translateProxyEnabled", this.data.translateProxyEnabled);
+    }
+
+    debug.log("Extension compatibility passed...");
+
+    this.votOpts = {
+      headers:
+        this.data.translateProxyEnabled === 1
+          ? {}
+          : {
+              "sec-ch-ua": null,
+              "sec-ch-ua-mobile": null,
+              "sec-ch-ua-platform": null,
+              // "sec-ch-ua-model": null,
+              // "sec-ch-ua-platform-version": null,
+              // "sec-ch-ua-wow64": null,
+              // "sec-ch-ua-arch": null,
+              // "sec-ch-ua-bitness": null,
+              // "sec-ch-ua-full-version": null,
+              // "sec-ch-ua-full-version-list": null,
+            },
+      fetchFn: GM_fetch,
+      hostVOT: votBackendUrl,
+      host:
+        this.data.translateProxyEnabled === 1
+          ? this.data.proxyWorkerHost
+          : workerHost,
+    };
+
+    this.votClient = new (
+      this.data.translateProxyEnabled === 1 ? VOTWorkerClient : VOTClient
+    )(this.votOpts);
 
     this.subtitlesWidget = new SubtitlesWidget(
       this.video,
@@ -373,10 +416,6 @@ class VideoHandler {
 
     this.initUI();
     this.initUIEvents();
-
-    if (BUILD_MODE === "cloudflare") {
-      this.votClient.host = this.data.proxyWorkerHost;
-    }
 
     const videoHasNoSource =
       !this.video.src && !this.video.currentSrc && !this.video.srcObject;
@@ -774,7 +813,7 @@ class VideoHandler {
         proxyWorkerHost,
       );
       this.votProxyWorkerHostTextfield.container.hidden =
-        BUILD_MODE !== "cloudflare";
+        this.data.translateProxyEnabled !== 1;
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votProxyWorkerHostTextfield.container,
       );
@@ -784,7 +823,8 @@ class VideoHandler {
         localizationProvider.get("VOTAudioProxy"),
         this.data?.audioProxy ?? false,
       );
-      this.votAudioProxyCheckbox.container.hidden = BUILD_MODE !== "cloudflare";
+      this.votAudioProxyCheckbox.container.hidden =
+        this.data.translateProxyEnabled !== 1;
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votAudioProxyCheckbox.container,
       );
@@ -832,9 +872,7 @@ class VideoHandler {
 
       this.votVersionInfo = ui.createInformation(
         `${localizationProvider.get("VOTVersion")}:`,
-        BUILD_MODE === "cloudflare"
-          ? `cloudflare ${GM_info.script.version}`
-          : GM_info.script.version,
+        GM_info.script.version,
       );
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votVersionInfo.container,
@@ -1521,12 +1559,11 @@ class VideoHandler {
       this.votDownloadSubtitlesButton.hidden = true;
       this.yandexSubtitles = null;
     } else {
-      const fetchedSubs = await fetchSubtitles(
+      this.yandexSubtitles = await fetchSubtitles(
         this.subtitlesList.at(parseInt(subs)),
       );
-      this.subtitlesWidget.setContent(fetchedSubs);
+      this.subtitlesWidget.setContent(this.yandexSubtitles);
       this.votDownloadSubtitlesButton.hidden = false;
-      this.yandexSubtitles = fetchedSubs;
     }
   }
 
@@ -1583,7 +1620,20 @@ class VideoHandler {
       return;
     }
 
-    this.subtitlesList = await getSubtitles(this.votClient, this.videoData);
+    try {
+      this.subtitlesList = await getSubtitles(this.votClient, this.videoData);
+    } catch (err) {
+      debug.log("Error with yandex server, try auto-fix...", err);
+      this.votOpts = {
+        fetchFn: GM_fetch,
+        hostVOT: votBackendUrl,
+        host: this.data.proxyWorkerHost,
+      };
+      this.votClient = new VOTWorkerClient(this.votOpts);
+      this.subtitlesList = await getSubtitles(this.votClient, this.videoData);
+      await votStorage.set("translateProxyEnabled", 1);
+    }
+
     if (!this.subtitlesList) {
       await this.changeSubtitlesLang("disabled");
     } else {
@@ -1678,6 +1728,13 @@ class VideoHandler {
     this.tempVolume = fromType === "translation" ? newVolume : finalValue;
   }
 
+  /**
+   * Asynchronously retrieves video data from the current page's URL.
+   * If the video is hosted on YouTube, it also retrieves additional data.
+   *
+   * @return {Promise<Object>} An object containing the video's duration, URL, video ID, host,
+   * detected language, response language, and translation help.
+   */
   async getVideoData() {
     // TODO: запатчить чтобы использовался уже существующий service?
     const { duration, url, videoId, host } = await getVideoData(
@@ -1772,6 +1829,12 @@ class VideoHandler {
     return true;
   }
 
+  /**
+   * Synchronizes the lip sync of the video and audio elements.
+   *
+   * @param {boolean} [mode=false] - The lip sync mode.
+   * @return {void}
+   */
   lipSync(mode = false) {
     debug.log("lipsync video", this.video);
     if (!this.video) {
@@ -1912,7 +1975,7 @@ class VideoHandler {
 
     // cf version only
     if (
-      BUILD_MODE === "cloudflare" &&
+      //this.data.translateProxyEnabled === 1 &&
       this.data.audioProxy === 1 &&
       audioUrl.startsWith("https://vtrans.s3-private.mds.yandex.net/tts/prod/")
     ) {
@@ -1982,7 +2045,6 @@ class VideoHandler {
       )}&referer=${encodeURIComponent(
         "https://strm.yandex.ru",
       )}&url=${encodeURIComponent(translateRes.result.url)}`;
-
       if (this.hls) {
         this.setupHLS(streamURL);
       } else if (this.audio.canPlayType("application/vnd.apple.mpegurl")) {
@@ -2042,6 +2104,7 @@ class VideoHandler {
     }
 
     this.updateTranslation(translateRes.url);
+
     if (
       !this.subtitlesList.some(
         (item) =>
@@ -2160,6 +2223,11 @@ class VideoHandler {
   }
 }
 
+/**
+ * Retrieves sites based on specific matches on the hostname.
+ *
+ * @return {Array} Filtered array of sites based on matching criteria.
+ */
 function getSites() {
   const hostname = window.location.hostname;
   const currentURL = new URL(window.location);
@@ -2187,6 +2255,13 @@ function getSites() {
 const videoObserver = new VideoObserver();
 const videosWrappers = new WeakMap();
 
+/**
+ * Finds the container element for a given video element and site object.
+ *
+ * @param {Object} site - The site object.
+ * @param {Object} video - The video element.
+ * @return {Object|null} The container element or null if not found.
+ */
 function findContainer(site, video) {
   if (site.shadowRoot) {
     let container = site.selector
@@ -2228,25 +2303,6 @@ async function main() {
   await localizationProvider.update();
 
   debug.log(`Selected menu language: ${localizationProvider.lang}`);
-
-  if (
-    BUILD_MODE !== "cloudflare" &&
-    GM_info?.scriptHandler &&
-    cfOnlyExtensions.includes(GM_info.scriptHandler)
-  ) {
-    console.error(
-      `[VOT] ${localizationProvider
-        .getDefault("unSupportedExtensionError")
-        .replace("{0}", GM_info.scriptHandler)}`,
-    );
-    return alert(
-      `[VOT] ${localizationProvider
-        .get("unSupportedExtensionError")
-        .replace("{0}", GM_info.scriptHandler)}`,
-    );
-  }
-
-  debug.log("Extension compatibility passed...");
 
   videoObserver.onVideoAdded.addListener((video) => {
     for (const site of getSites()) {

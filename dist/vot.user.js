@@ -3208,53 +3208,55 @@ function cleanText(title, description) {
 }
 
 async function GM_fetch(url, opts = {}) {
+  const { timeout = 15000, ...fetchOptions } = opts;
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeout);
+
   try {
     if (url.includes("api.browser.yandex.ru")) {
       throw new Error("Preventing yandex cors");
     }
 
-    return await fetch(url, opts);
+    const response = await fetch(url, { signal: controller.signal, ...fetchOptions });
+    clearTimeout(timeoutId);
+    return response;
   } catch (err) {
     // Если fetch завершился ошибкой, используем GM_xmlhttpRequest
     // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
     utils_debug.log("GM_fetch preventing cors by GM_xmlhttpRequest", err.message);
     return new Promise((resolve, reject) => {
+      clearTimeout(timeoutId);
       GM_xmlhttpRequest({
-        method: "GET",
+        method: fetchOptions.method || "GET",
         url: url,
         responseType: "blob",
-        ...opts,
-        data: opts.body,
+        ...fetchOptions,
+        data: fetchOptions.body,
+        timeout: timeout,
         onload: (resp) => {
-          resolve(
-            new Response(resp.response, {
-              status: resp.status,
-              // chrome \n and ":", firefox \r\n and ": " (Only in GM_xmlhttpRequest)
-              // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/getAllResponseHeaders#examples
-              headers: Object.fromEntries(
-                resp.responseHeaders
-                  .trim()
-                  .split("\n")
-                  .map((line) => {
-                    let parts = line.split(":");
-                    if (parts?.[0] === "set-cookie") {
-                      return;
-                    }
-
-                    return [parts.shift(), parts.join(":")];
-                  })
-                  .filter((key) => key),
-              ),
-            }),
+          // chrome \n and ":", firefox \r\n and ": " (Only in GM_xmlhttpRequest)
+          // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/getAllResponseHeaders#examples
+          const headers = Object.fromEntries(
+            resp.responseHeaders
+              .trim()
+              .split(/\r?\n/)
+              .map(line => line.split(/: (.+)/))
+              .filter(([key]) => key && /^[\w-]+$/.test(key))
           );
+
+          resolve(new Response(resp.response, {
+            status: resp.status,
+            headers: headers,
+          }));
         },
-        ontimeout: () => reject(new Error("fetch timeout")),
+        ontimeout: () => reject(new Error("Timeout")),
         onerror: (error) => reject(error),
-        onabort: () => reject(new Error("fetch abort")),
+        onabort: () => reject(new Error("AbortError")),
       });
     });
   }
 }
+
 
 
 
@@ -3779,7 +3781,7 @@ class VOTClient {
         };
     }
 }
-class VOTWorkerClient extends (/* unused pure expression or super */ null && (VOTClient)) {
+class VOTWorkerClient extends VOTClient {
     async request(path, body, headers = {}) {
         const options = this.getOpts(JSON.stringify({
             headers: {
@@ -4459,24 +4461,6 @@ function syncVolume(element, sliderVolume, otherSliderVolume, tempVolume) {
 
 
 
-const HTTP_TIMEOUT = 3000;
-
-async function translateApis_fetchWithTimeout(url, options = {}) {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), HTTP_TIMEOUT);
-
-  try {
-    return await fetch(url, {
-      ...options,
-      signal: controller.signal,
-    });
-  } catch (error) {
-    console.error("Fetch timed-out. Error:", error);
-    return error;
-  } finally {
-    clearTimeout(timeoutId);
-  }
-}
 
 const YandexTranslateAPI = {
   async translate(text, lang) {
@@ -4487,11 +4471,11 @@ const YandexTranslateAPI = {
     // ru, en (instead of auto-ru, auto-en)
 
     try {
-      const response = await translateApis_fetchWithTimeout(
+      const response = await GM_fetch(
         `${translateUrls.yandex}?${new URLSearchParams({
           text,
           lang,
-        })}`,
+        })}`, {timeout: 3000}
       );
 
       if (response instanceof Error) {
@@ -4514,10 +4498,10 @@ const YandexTranslateAPI = {
   async detect(text) {
     // Limit: 10k symbols
     try {
-      const response = await translateApis_fetchWithTimeout(
+      const response = await GM_fetch(
         `${detectUrls.yandex}?${new URLSearchParams({
           text,
-        })}`,
+        })}`, {timeout: 3000}
       );
 
       if (response instanceof Error) {
@@ -4540,10 +4524,10 @@ const YandexTranslateAPI = {
 const RustServerAPI = {
   async detect(text) {
     try {
-      const response = await fetch(detectUrls.rustServer, {
+      const response = await GM_fetch(detectUrls.rustServer, {
         method: "POST",
         body: text,
-      });
+      }, {timeout: 3000});
 
       if (response instanceof Error) {
         throw response;
@@ -4560,7 +4544,7 @@ const RustServerAPI = {
 const DeeplServerAPI = {
   async translate(text, fromLang = "auto", toLang = "ru") {
     try {
-      const response = await translateApis_fetchWithTimeout(translateUrls.deepl, {
+      const response = await GM_fetch(translateUrls.deepl, {
         method: "POST",
         headers: {
           "content-type": "application/x-www-form-urlencoded",
@@ -4570,7 +4554,7 @@ const DeeplServerAPI = {
           source_lang: fromLang,
           target_lang: toLang,
         }),
-      });
+      }, {timeout: 3000});
 
       if (response instanceof Error) {
         throw response;
@@ -4993,7 +4977,7 @@ function formatYoutubeSubtitles(subtitles) {
     if (!subtitles.events[i].segs) continue;
     const text = subtitles.events[i].segs
       .map((e) => e.utf8.replace(/^( +| +)$/g, ""))
-      .join(" ");
+      .join("");
     let durationMs = subtitles.events[i].dDurationMs;
     if (
       subtitles.events[i + 1] &&
@@ -5015,23 +4999,12 @@ function formatYoutubeSubtitles(subtitles) {
 }
 
 async function fetchSubtitles(subtitlesObject) {
-  const timeoutPromise = new Promise((resolve) =>
-    setTimeout(
-      () =>
-        resolve({
-          containsTokens: false,
-          subtitles: [],
-        }),
-      5000,
-    ),
-  );
-
   const fetchPromise = (async () => {
     try {
-      const response = await GM_fetch(subtitlesObject.url);
+      const response = await GM_fetch(subtitlesObject.url, { timeout: 5000 });
       return await response.json();
     } catch (error) {
-      console.error("[VOT] Failed to fetch subtitles. Reason:", error);
+      console.error("[VOT] Failed to fetch subtitles.", error);
       return {
         containsTokens: false,
         subtitles: [],
@@ -5039,7 +5012,7 @@ async function fetchSubtitles(subtitlesObject) {
     }
   })();
 
-  let subtitles = await Promise.race([timeoutPromise, fetchPromise]);
+  let subtitles = await fetchPromise;
 
   if (subtitlesObject.source === "youtube") {
     subtitles = formatYoutubeSubtitles(subtitles);
@@ -5053,110 +5026,92 @@ async function fetchSubtitles(subtitlesObject) {
 async function subtitles_getSubtitles(client, videoData) {
   const { host, url, requestLang, videoId, duration } = videoData;
   const ytSubtitles = host === "youtube" ? youtubeUtils.getSubtitles() : [];
-  let resolved = false;
-  const yaSubtitles = await Promise.race([
-    new Promise((resolve) => {
-      setTimeout(() => {
-        if (!resolved) {
-          console.error("[VOT] Failed get yandex subtitles. Reason: timeout");
-          resolve([]);
-        }
-      }, 5000);
-    }),
-    new Promise((resolve) => {
-      client
-        .getSubtitles({
-          videoData: {
-            host,
-            url,
-            videoId,
-            duration,
-          },
-          requestLang,
-        })
-        .then((res) => {
-          console.log("[VOT] Subtitles response: ", res);
-          if (res.waiting) {
-            console.error("[VOT] Failed get yandex subtitles");
-            resolved = true;
-            resolve([]);
-          }
 
-          let subtitles = res.subtitles ?? [];
-          subtitles = subtitles.reduce((result, yaSubtitlesObject) => {
-            if (
-              yaSubtitlesObject.language &&
-              !result.find((e) => {
-                if (
-                  e.source === "yandex" &&
-                  e.language === yaSubtitlesObject.language &&
-                  !e.translatedFromLanguage
-                ) {
-                  return e;
-                }
-              })
-            ) {
-              result.push({
-                source: "yandex",
-                language: yaSubtitlesObject.language,
-                url: yaSubtitlesObject.url,
-              });
-            }
-            if (yaSubtitlesObject.translatedLanguage) {
-              result.push({
-                source: "yandex",
-                language: yaSubtitlesObject.translatedLanguage,
-                translatedFromLanguage: yaSubtitlesObject.language,
-                url: yaSubtitlesObject.translatedUrl,
-              });
-            }
-            return result;
-          }, []);
-          resolved = true;
-          resolve(subtitles);
+  const timeoutPromise = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error("Timeout")), 5000),
+  );
+
+  try {
+    const res = await Promise.race([
+      client.getSubtitles({
+        videoData: { host, url, videoId, duration },
+        requestLang,
+      }),
+      timeoutPromise,
+    ]);
+
+    console.log("[VOT] Subtitles response: ", res);
+
+    if (res.waiting) {
+      console.error("[VOT] Failed to get yandex subtitles");
+      return [];
+    }
+
+    // Обработка субтитров
+    let subtitles = res.subtitles ?? [];
+    subtitles = subtitles.reduce((result, yaSubtitlesObject) => {
+      if (
+        yaSubtitlesObject.language &&
+        !result.find(
+          (e) =>
+            e.source === "yandex" &&
+            e.language === yaSubtitlesObject.language &&
+            !e.translatedFromLanguage,
+        )
+      ) {
+        result.push({
+          source: "yandex",
+          language: yaSubtitlesObject.language,
+          url: yaSubtitlesObject.url,
         });
-    }),
-  ]);
+      }
+      if (yaSubtitlesObject.translatedLanguage) {
+        result.push({
+          source: "yandex",
+          language: yaSubtitlesObject.translatedLanguage,
+          translatedFromLanguage: yaSubtitlesObject.language,
+          url: yaSubtitlesObject.translatedUrl,
+        });
+      }
+      return result;
+    }, []);
 
-  const subtitles = [...yaSubtitles, ...ytSubtitles].sort((a, b) => {
-    if (a.source !== b.source) {
-      // sort by source
-      return a.source === "yandex" ? -1 : 1;
-    }
-    if (
-      a.language !== b.language &&
-      (a.language === lang || b.language === lang)
-    ) {
-      // sort by user language
-      return a.language === lang ? -1 : 1;
-    }
-    if (a.source === "yandex") {
-      // sort by translation
-      if (a.translatedFromLanguage !== b.translatedFromLanguage) {
-        // sort by translatedFromLanguage
-        if (!a.translatedFromLanguage || !b.translatedFromLanguage) {
-          // sort by isTranslated
-          if (a.language === b.language) {
-            return a.translatedFromLanguage ? 1 : -1;
+    return [...subtitles, ...ytSubtitles].sort((a, b) => {
+      if (a.source !== b.source) return a.source === "yandex" ? -1 : 1;
+      if (
+        a.language !== b.language &&
+        (a.language === lang || b.language === lang)
+      )
+        return a.language === lang ? -1 : 1;
+      if (a.source === "yandex") {
+        // sort by translation
+        if (a.translatedFromLanguage !== b.translatedFromLanguage) {
+          // sort by translatedFromLanguage
+          if (!a.translatedFromLanguage || !b.translatedFromLanguage) {
+            // sort by isTranslated
+            if (a.language === b.language)
+              return a.translatedFromLanguage ? 1 : -1;
+            return !a.translatedFromLanguage ? 1 : -1;
           }
-          return !a.translatedFromLanguage ? 1 : -1;
+          return a.translatedFromLanguage === requestLang ? -1 : 1;
         }
-        return a.translatedFromLanguage === requestLang ? -1 : 1;
-      }
-      if (!a.translatedFromLanguage) {
         // sort non translated by language
-        return a.language === requestLang ? -1 : 1;
+        if (!a.translatedFromLanguage)
+          return a.language === requestLang ? -1 : 1;
       }
-    }
-    if (a.source === "youtube" && a.isAutoGenerated !== b.isAutoGenerated) {
       // sort by isAutoGenerated
-      return a.isAutoGenerated ? 1 : -1;
+      if (a.source === "youtube" && a.isAutoGenerated !== b.isAutoGenerated)
+        return a.isAutoGenerated ? 1 : -1;
+      return 0;
+    });
+  } catch (error) {
+    if (error.message === "Timeout") {
+      console.error("[VOT] Failed to get yandex subtitles. Reason: timeout");
+    } else {
+      console.error("[VOT] Error in getSubtitles function", error);
     }
-    return 0;
-  });
-
-  console.log("[VOT] subtitles list", subtitles);
-  return subtitles;
+    throw error;
+  }
 }
 
 class SubtitlesWidget {
@@ -5954,27 +5909,6 @@ function genOptionsByOBJ(obj, conditionString) {
   }));
 }
 
-const votOpts = {
-  headers:
-     false
-      ? 0
-      : {
-          "sec-ch-ua": null,
-          "sec-ch-ua-mobile": null,
-          "sec-ch-ua-platform": null,
-          // "sec-ch-ua-model": null,
-          // "sec-ch-ua-platform-version": null,
-          // "sec-ch-ua-wow64": null,
-          // "sec-ch-ua-arch": null,
-          // "sec-ch-ua-bitness": null,
-          // "sec-ch-ua-full-version": null,
-          // "sec-ch-ua-full-version-list": null,
-        },
-  fetchFn: GM_fetch,
-  hostVOT: votBackendUrl,
-  host:  false ? 0 : workerHost,
-};
-
 class VideoHandler {
   // translate properties
   translateFromLang = "en"; // default language of video
@@ -5989,9 +5923,7 @@ class VideoHandler {
   gainNode = this.audioContext.createGain();
 
   hls = initHls(); // debug enabled only in dev mode
-  votClient = new ( false ? 0 : VOTClient)(
-    votOpts,
-  );
+  votClient;
 
   videoTranslations = [];
   videoTranslationTTL = 7200;
@@ -6001,6 +5933,7 @@ class VideoHandler {
 
   autoRetry;
   streamPing;
+  votOpts;
   volumeOnStart;
   tempOriginalVolume; // temp video volume for syncing
   tempVolume; // temp translation volume for syncing
@@ -6014,6 +5947,13 @@ class VideoHandler {
   // button move
   dragging;
 
+  /**
+   * Constructor function for VideoHandler class.
+   *
+   * @param {Object} video - The video element to handle.
+   * @param {Object} container - The container element for the video.
+   * @param {Object} site - The site object associated with the video.
+   */
   constructor(video, container, site) {
     utils_debug.log(
       "[VideoHandler] add video:",
@@ -6032,6 +5972,15 @@ class VideoHandler {
     this.init();
   }
 
+  /**
+   * Translate a video based on the specified languages.
+   *
+   * @param {Object} videoData - The data of the video to be translated.
+   * @param {string} requestLang - The language code for the requested translation.
+   * @param {string} responseLang - The language code for the desired translated output.
+   * @param {Object} [translationHelp=null] - Additional translation help data (optional).
+   * @return {Promise} A Promise that resolves to the translated video data.
+   */
   async translateVideoImpl(
     videoData,
     requestLang,
@@ -6095,6 +6044,14 @@ class VideoHandler {
     });
   }
 
+  /**
+   * Translate a video stream based on the specified languages.
+   *
+   * @param {Object} videoData - The data of the video stream to be translated.
+   * @param {string} requestLang - The language code for the requested translation.
+   * @param {string} responseLang - The language code for the desired translated output.
+   * @return {Promise} A Promise that resolves to the translated video stream data.
+   */
   async translateStreamImpl(videoData, requestLang, responseLang) {
     clearTimeout(this.autoRetry);
     utils_debug.log(
@@ -6188,11 +6145,11 @@ class VideoHandler {
     }
   }
 
+  /**
+   * Initializes the VideoHandler class by setting up data promises, fetching data, initializing UI elements, and setting up event listeners.
+   */
   async init() {
     if (this.initialized) return;
-
-    const audioProxyDefault =
-      lang === "uk" && undefined === "cloudflare" ? 0 : 0;
 
     const dataPromises = {
       autoTranslate: votStorage.get("autoTranslate", 0, true),
@@ -6212,7 +6169,7 @@ class VideoHandler {
       responseLanguage: votStorage.get("responseLanguage", lang),
       defaultVolume: votStorage.get("defaultVolume", 100, true),
       udemyData: votStorage.get("udemyData", { accessToken: "", expires: 0 }),
-      audioProxy: votStorage.get("audioProxy", audioProxyDefault, true),
+      audioProxy: votStorage.get("audioProxy", 0, true),
       showPiPButton: votStorage.get("showPiPButton", 0, true),
       translateAPIErrors: votStorage.get("translateAPIErrors", 1, true),
       translationService: votStorage.get(
@@ -6221,6 +6178,7 @@ class VideoHandler {
       ),
       detectService: votStorage.get("detectService", defaultDetectService),
       m3u8ProxyHost: votStorage.get("m3u8ProxyHost", m3u8ProxyHost),
+      translateProxyEnabled: votStorage.get("translateProxyEnabled", 0, true),
       proxyWorkerHost: votStorage.get("proxyWorkerHost", proxyWorkerHost),
       audioBooster: votStorage.get("audioBooster", 0, true),
     };
@@ -6235,6 +6193,46 @@ class VideoHandler {
     );
 
     console.log("[db] data from db: ", this.data);
+
+    if (
+      this.data.translateProxyEnabled === 0 &&
+      GM_info?.scriptHandler &&
+      cfOnlyExtensions.includes(GM_info.scriptHandler)
+    ) {
+      this.data.translateProxyEnabled = 1;
+      await votStorage.set("translateProxyEnabled", 1);
+      utils_debug.log("translateProxyEnabled", this.data.translateProxyEnabled);
+    }
+
+    utils_debug.log("Extension compatibility passed...");
+
+    this.votOpts = {
+      headers:
+        this.data.translateProxyEnabled === 1
+          ? {}
+          : {
+              "sec-ch-ua": null,
+              "sec-ch-ua-mobile": null,
+              "sec-ch-ua-platform": null,
+              // "sec-ch-ua-model": null,
+              // "sec-ch-ua-platform-version": null,
+              // "sec-ch-ua-wow64": null,
+              // "sec-ch-ua-arch": null,
+              // "sec-ch-ua-bitness": null,
+              // "sec-ch-ua-full-version": null,
+              // "sec-ch-ua-full-version-list": null,
+            },
+      fetchFn: GM_fetch,
+      hostVOT: votBackendUrl,
+      host:
+        this.data.translateProxyEnabled === 1
+          ? this.data.proxyWorkerHost
+          : workerHost,
+    };
+
+    this.votClient = new (
+      this.data.translateProxyEnabled === 1 ? VOTWorkerClient : VOTClient
+    )(this.votOpts);
 
     this.subtitlesWidget = new SubtitlesWidget(
       this.video,
@@ -6252,8 +6250,6 @@ class VideoHandler {
 
     this.initUI();
     this.initUIEvents();
-
-    if (false) {}
 
     const videoHasNoSource =
       !this.video.src && !this.video.currentSrc && !this.video.srcObject;
@@ -6651,7 +6647,7 @@ class VideoHandler {
         proxyWorkerHost,
       );
       this.votProxyWorkerHostTextfield.container.hidden =
-        undefined !== "cloudflare";
+        this.data.translateProxyEnabled !== 1;
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votProxyWorkerHostTextfield.container,
       );
@@ -6661,7 +6657,8 @@ class VideoHandler {
         localizationProvider.get("VOTAudioProxy"),
         this.data?.audioProxy ?? false,
       );
-      this.votAudioProxyCheckbox.container.hidden = undefined !== "cloudflare";
+      this.votAudioProxyCheckbox.container.hidden =
+        this.data.translateProxyEnabled !== 1;
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votAudioProxyCheckbox.container,
       );
@@ -6709,9 +6706,7 @@ class VideoHandler {
 
       this.votVersionInfo = ui.createInformation(
         `${localizationProvider.get("VOTVersion")}:`,
-         false
-          ? 0
-          : GM_info.script.version,
+        GM_info.script.version,
       );
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votVersionInfo.container,
@@ -7400,12 +7395,11 @@ class VideoHandler {
       this.votDownloadSubtitlesButton.hidden = true;
       this.yandexSubtitles = null;
     } else {
-      const fetchedSubs = await fetchSubtitles(
+      this.yandexSubtitles = await fetchSubtitles(
         this.subtitlesList.at(parseInt(subs)),
       );
-      this.subtitlesWidget.setContent(fetchedSubs);
+      this.subtitlesWidget.setContent(this.yandexSubtitles);
       this.votDownloadSubtitlesButton.hidden = false;
-      this.yandexSubtitles = fetchedSubs;
     }
   }
 
@@ -7462,7 +7456,20 @@ class VideoHandler {
       return;
     }
 
-    this.subtitlesList = await subtitles_getSubtitles(this.votClient, this.videoData);
+    try {
+      this.subtitlesList = await subtitles_getSubtitles(this.votClient, this.videoData);
+    } catch (err) {
+      utils_debug.log("Error with yandex server, try auto-fix...", err);
+      this.votOpts = {
+        fetchFn: GM_fetch,
+        hostVOT: votBackendUrl,
+        host: this.data.proxyWorkerHost,
+      };
+      this.votClient = new VOTWorkerClient(this.votOpts);
+      this.subtitlesList = await subtitles_getSubtitles(this.votClient, this.videoData);
+      await votStorage.set("translateProxyEnabled", 1);
+    }
+
     if (!this.subtitlesList) {
       await this.changeSubtitlesLang("disabled");
     } else {
@@ -7558,6 +7565,13 @@ class VideoHandler {
     this.tempVolume = fromType === "translation" ? newVolume : finalValue;
   }
 
+  /**
+   * Asynchronously retrieves video data from the current page's URL.
+   * If the video is hosted on YouTube, it also retrieves additional data.
+   *
+   * @return {Promise<Object>} An object containing the video's duration, URL, video ID, host,
+   * detected language, response language, and translation help.
+   */
   async getVideoData() {
     // TODO: запатчить чтобы использовался уже существующий service?
     const { duration, url, videoId, host } = await getVideoData(
@@ -7652,6 +7666,12 @@ class VideoHandler {
     return true;
   }
 
+  /**
+   * Synchronizes the lip sync of the video and audio elements.
+   *
+   * @param {boolean} [mode=false] - The lip sync mode.
+   * @return {void}
+   */
   lipSync(mode = false) {
     utils_debug.log("lipsync video", this.video);
     if (!this.video) {
@@ -7792,8 +7812,18 @@ class VideoHandler {
 
     // cf version only
     if (
-      false
-    ) {}
+      //this.data.translateProxyEnabled === 1 &&
+      this.data.audioProxy === 1 &&
+      audioUrl.startsWith("https://vtrans.s3-private.mds.yandex.net/tts/prod/")
+    ) {
+      const audioPath = audioUrl.replace(
+        "https://vtrans.s3-private.mds.yandex.net/tts/prod/",
+        "",
+      );
+      const proxiedAudioUrl = `https://${this.data.proxyWorkerHost}/video-translation/audio-proxy/${audioPath}`;
+      console.log(`[VOT] Audio proxied via ${proxiedAudioUrl}`);
+      this.audio.src = proxiedAudioUrl;
+    }
 
     this.setupAudioSettings();
     switch (this.site.host) {
@@ -7852,7 +7882,6 @@ class VideoHandler {
       )}&referer=${encodeURIComponent(
         "https://strm.yandex.ru",
       )}&url=${encodeURIComponent(translateRes.result.url)}`;
-
       if (this.hls) {
         this.setupHLS(streamURL);
       } else if (this.audio.canPlayType("application/vnd.apple.mpegurl")) {
@@ -7912,6 +7941,7 @@ class VideoHandler {
     }
 
     this.updateTranslation(translateRes.url);
+
     if (
       !this.subtitlesList.some(
         (item) =>
@@ -8030,6 +8060,11 @@ class VideoHandler {
   }
 }
 
+/**
+ * Retrieves sites based on specific matches on the hostname.
+ *
+ * @return {Array} Filtered array of sites based on matching criteria.
+ */
 function getSites() {
   const hostname = window.location.hostname;
   const currentURL = new URL(window.location);
@@ -8057,6 +8092,13 @@ function getSites() {
 const videoObserver = new VideoObserver();
 const videosWrappers = new WeakMap();
 
+/**
+ * Finds the container element for a given video element and site object.
+ *
+ * @param {Object} site - The site object.
+ * @param {Object} video - The video element.
+ * @return {Object|null} The container element or null if not found.
+ */
 function findContainer(site, video) {
   if (site.shadowRoot) {
     let container = site.selector
@@ -8098,25 +8140,6 @@ async function src_main() {
   await localizationProvider.update();
 
   utils_debug.log(`Selected menu language: ${localizationProvider.lang}`);
-
-  if (
-     true &&
-    GM_info?.scriptHandler &&
-    cfOnlyExtensions.includes(GM_info.scriptHandler)
-  ) {
-    console.error(
-      `[VOT] ${localizationProvider
-        .getDefault("unSupportedExtensionError")
-        .replace("{0}", GM_info.scriptHandler)}`,
-    );
-    return alert(
-      `[VOT] ${localizationProvider
-        .get("unSupportedExtensionError")
-        .replace("{0}", GM_info.scriptHandler)}`,
-    );
-  }
-
-  utils_debug.log("Extension compatibility passed...");
 
   videoObserver.onVideoAdded.addListener((video) => {
     for (const site of getSites()) {
