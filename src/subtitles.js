@@ -270,6 +270,7 @@ export async function getSubtitles(client, videoData) {
     }
     return 0;
   });
+
   console.log("[VOT] subtitles list", subtitles);
   return subtitles;
 }

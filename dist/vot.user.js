@@ -77,6 +77,7 @@
 // @match          *://*.vimeo.com/*
 // @match          *://*.9gag.com/*
 // @match          *://*.twitter.com/*
+// @match          *://*.x.com/*
 // @match          *://*.facebook.com/*
 // @match          *://*.rutube.ru/*
 // @match          *://*.bilibili.com/*
@@ -3235,7 +3236,7 @@ async function GM_fetch(url, opts = {}) {
                   .trim()
                   .split("\n")
                   .map((line) => {
-                    let parts = line.split(":")
+                    let parts = line.split(":");
                     if (parts?.[0] === "set-cookie") {
                       return;
                     }
@@ -3243,7 +3244,7 @@ async function GM_fetch(url, opts = {}) {
                     return [parts.shift(), parts.join(":")];
                   })
                   .filter((key) => key),
-              )
+              ),
             }),
           );
         },
@@ -5153,6 +5154,7 @@ async function subtitles_getSubtitles(client, videoData) {
     }
     return 0;
   });
+
   console.log("[VOT] subtitles list", subtitles);
   return subtitles;
 }
@@ -6504,7 +6506,9 @@ class VideoHandler {
         this.votAutoSetVolumeCheckbox.container,
       );
       this.votAutoSetVolumeSlider = ui.createSlider(
-        `<strong>${(this.data?.autoVolume ?? defaultAutoVolume) * 100}%</strong>`,
+        `<strong>${
+          (this.data?.autoVolume ?? defaultAutoVolume) * 100
+        }%</strong>`,
         (this.data?.autoVolume ?? defaultAutoVolume) * 100,
         0,
         100,
@@ -6824,8 +6828,8 @@ class VideoHandler {
               ? percentX <= 44
                 ? "left"
                 : percentX >= 66
-                  ? "right"
-                  : "default"
+                ? "right"
+                : "default"
               : "default";
           this.votButton.container.dataset.direction =
             this.data.buttonPos === "default" ? "row" : "column";
@@ -6868,8 +6872,9 @@ class VideoHandler {
 
       this.votVideoVolumeSlider.input.addEventListener("input", (e) => {
         const value = Number(e.target.value);
-        this.votVideoVolumeSlider.label.querySelector("strong").innerHTML =
-          `${value}%`;
+        this.votVideoVolumeSlider.label.querySelector(
+          "strong",
+        ).innerHTML = `${value}%`;
         this.setVideoVolume(value / 100);
         if (this.data.syncVolume) {
           this.syncVolumeWrapper("video", value);
@@ -6953,8 +6958,9 @@ class VideoHandler {
           const presetAutoVolume = Number(e.target.value);
           this.data.autoVolume = (presetAutoVolume / 100).toFixed(2);
           await votStorage.set("autoVolume", this.data.autoVolume);
-          this.votAutoSetVolumeSlider.label.querySelector("strong").innerHTML =
-            `${presetAutoVolume}%`;
+          this.votAutoSetVolumeSlider.label.querySelector(
+            "strong",
+          ).innerHTML = `${presetAutoVolume}%`;
         })();
       });
 
@@ -7330,7 +7336,7 @@ class VideoHandler {
       this.container.style.height = "100%";
     }
 
-    addExtraEventListener(this.video, "canplaythrough", async () => {
+    addExtraEventListener(this.video, "canplay", async () => {
       // Временное решение
       if (this.site.host === "rutube" && this.video.src) {
         return;
@@ -7497,8 +7503,9 @@ class VideoHandler {
     const newSlidersVolume = Math.round(videoVolume);
 
     this.votVideoVolumeSlider.input.value = newSlidersVolume;
-    this.votVideoVolumeSlider.label.querySelector("strong").innerHTML =
-      `${newSlidersVolume}%`;
+    this.votVideoVolumeSlider.label.querySelector(
+      "strong",
+    ).innerHTML = `${newSlidersVolume}%`;
     ui.updateSlider(this.votVideoVolumeSlider.input);
 
     if (this.data.syncVolume === 1) {
@@ -7768,8 +7775,9 @@ class VideoHandler {
 
     if (this.data.autoSetVolumeYandexStyle === 1) {
       this.votVideoVolumeSlider.input.value = this.data.autoVolume * 100;
-      this.votVideoVolumeSlider.label.querySelector("strong").innerHTML =
-        `${this.data.autoVolume * 100}%`;
+      this.votVideoVolumeSlider.label.querySelector("strong").innerHTML = `${
+        this.data.autoVolume * 100
+      }%`;
       ui.updateSlider(this.votVideoVolumeSlider.input);
     }
 
@@ -7787,17 +7795,7 @@ class VideoHandler {
       false
     ) {}
 
-    this.volumeOnStart = this.getVideoVolume();
-    if (typeof this.data.defaultVolume === "number") {
-      this.gainNode.gain.value = this.data.defaultVolume / 100;
-    }
-    if (
-      typeof this.data.autoSetVolumeYandexStyle === "number" &&
-      this.data.autoSetVolumeYandexStyle
-    ) {
-      this.setVideoVolume(this.data.autoVolume);
-    }
-
+    this.setupAudioSettings();
     switch (this.site.host) {
       case "twitter":
         document
@@ -7856,38 +7854,7 @@ class VideoHandler {
       )}&url=${encodeURIComponent(translateRes.result.url)}`;
 
       if (this.hls) {
-        this.hls.on(Hls.Events.MEDIA_ATTACHED, function () {
-          utils_debug.log("audio and hls.js are now bound together !");
-        });
-        this.hls.on(Hls.Events.MANIFEST_PARSED, function (data) {
-          utils_debug.log(
-            "manifest loaded, found " + data?.levels?.length + " quality level",
-          );
-        });
-        this.hls.loadSource(streamURL);
-        this.hls.attachMedia(this.audio);
-        this.hls.on(Hls.Events.ERROR, function (data) {
-          if (data.fatal) {
-            switch (data.type) {
-              case Hls.ErrorTypes.MEDIA_ERROR:
-                console.log("fatal media error encountered, try to recover");
-                this.hls.recoverMediaError();
-                break;
-              case Hls.ErrorTypes.NETWORK_ERROR:
-                console.error("fatal network error encountered", data);
-                // All retries and media options have been exhausted.
-                // Immediately trying to restart loading could cause loop loading.
-                // Consider modifying loading policies to best fit your asset and network
-                // conditions (manifestLoadPolicy, playlistLoadPolicy, fragLoadPolicy).
-                break;
-              default:
-                // cannot recover
-                this.hls.destroy();
-                break;
-            }
-          }
-        });
-        utils_debug.log(this.hls);
+        this.setupHLS(streamURL);
       } else if (this.audio.canPlayType("application/vnd.apple.mpegurl")) {
         // safari
         this.audio.src = streamURL;
@@ -7900,18 +7867,7 @@ class VideoHandler {
         youtubeUtils.videoSeek(this.video, 10); // 10 is the most successful number for streaming. With it, the audio is not so far behind the original
       }
 
-      this.volumeOnStart = this.getVideoVolume();
-      if (typeof this.data.defaultVolume === "number") {
-        this.gainNode.gain.value = this.data.defaultVolume / 100;
-      }
-
-      if (
-        typeof this.data.autoSetVolumeYandexStyle === "number" &&
-        this.data.autoSetVolumeYandexStyle
-      ) {
-        this.setVideoVolume(this.data.autoVolume);
-      }
-
+      this.setupAudioSettings();
       if (!this.video.src && !this.video.currentSrc && !this.video.srcObject) {
         return this.stopTranslation();
       }
@@ -7975,6 +7931,56 @@ class VideoHandler {
       url: translateRes.url,
       expires: Date.now() / 1000 + this.videoTranslationTTL,
     });
+  }
+
+  // Вспомогательные методы
+  setupHLS(streamURL) {
+    this.hls.on(Hls.Events.MEDIA_ATTACHED, function () {
+      utils_debug.log("audio and hls.js are now bound together !");
+    });
+    this.hls.on(Hls.Events.MANIFEST_PARSED, function (data) {
+      utils_debug.log(
+        "manifest loaded, found " + data?.levels?.length + " quality level",
+      );
+    });
+    this.hls.loadSource(streamURL);
+    this.hls.attachMedia(this.audio);
+    this.hls.on(Hls.Events.ERROR, function (data) {
+      if (data.fatal) {
+        switch (data.type) {
+          case Hls.ErrorTypes.MEDIA_ERROR:
+            console.log("fatal media error encountered, try to recover");
+            this.hls.recoverMediaError();
+            break;
+          case Hls.ErrorTypes.NETWORK_ERROR:
+            console.error("fatal network error encountered", data);
+            // All retries and media options have been exhausted.
+            // Immediately trying to restart loading could cause loop loading.
+            // Consider modifying loading policies to best fit your asset and network
+            // conditions (manifestLoadPolicy, playlistLoadPolicy, fragLoadPolicy).
+            break;
+          default:
+            // cannot recover
+            this.hls.destroy();
+            break;
+        }
+      }
+    });
+    utils_debug.log(this.hls);
+  }
+
+  setupAudioSettings() {
+    this.volumeOnStart = this.getVideoVolume();
+    if (typeof this.data.defaultVolume === "number") {
+      this.gainNode.gain.value = this.data.defaultVolume / 100;
+    }
+
+    if (
+      typeof this.data.autoSetVolumeYandexStyle === "number" &&
+      this.data.autoSetVolumeYandexStyle
+    ) {
+      this.setVideoVolume(this.data.autoVolume);
+    }
   }
 
   // Define a function to stop translation and clean up
@@ -8099,10 +8105,14 @@ async function src_main() {
     cfOnlyExtensions.includes(GM_info.scriptHandler)
   ) {
     console.error(
-      `[VOT] ${localizationProvider.getDefault("unSupportedExtensionError").replace("{0}", GM_info.scriptHandler)}`,
+      `[VOT] ${localizationProvider
+        .getDefault("unSupportedExtensionError")
+        .replace("{0}", GM_info.scriptHandler)}`,
     );
     return alert(
-      `[VOT] ${localizationProvider.get("unSupportedExtensionError").replace("{0}", GM_info.scriptHandler)}`,
+      `[VOT] ${localizationProvider
+        .get("unSupportedExtensionError")
+        .replace("{0}", GM_info.scriptHandler)}`,
     );
   }
 

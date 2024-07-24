@@ -64,6 +64,7 @@
     "*://*.vimeo.com/*",
     "*://*.9gag.com/*",
     "*://*.twitter.com/*",
+    "*://*.x.com/*",
     "*://*.facebook.com/*",
     "*://*.rutube.ru/*",
     "*://*.bilibili.com/*",
