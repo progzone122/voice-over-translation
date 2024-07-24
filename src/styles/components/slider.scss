@@ -1,8 +1,4 @@
 .vot-slider {
-  &[hidden] {
-    display: none !important;
-  }
-
   --vot-safari-helper1: rgba(
     var(--vot-primary-rgb, 33, 150, 243),
     0.04
@@ -33,6 +29,10 @@
   font-size: 16px !important;
   line-height: 1.5 !important;
   text-align: start !important;
+
+  &[hidden] {
+    display: none !important;
+  }
 }
 
 /* Input */

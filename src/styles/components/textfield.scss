@@ -1,8 +1,4 @@
 .vot-textfield {
-  &[hidden] {
-    display: none !important;
-  }
-
   --vot-helper-theme: rgb(
     var(--vot-theme-rgb, var(--vot-primary-rgb, 33, 150, 243))
   ) !important;
@@ -29,6 +25,10 @@
   font-size: 16px !important;
   line-height: 1.5 !important;
   text-align: start !important;
+
+  &[hidden] {
+    display: none !important;
+  }
 
   & > input,
   & > textarea {
