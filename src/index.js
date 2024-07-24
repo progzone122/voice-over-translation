@@ -6,7 +6,6 @@ import sites from "vot.js/sites";
 import { availableLangs, availableTTS } from "vot.js/consts";
 import { convertSubs } from "vot.js/utils/subs";
 
-import { sitesInvidious, sitesPiped } from "vot.js/alternativeUrls";
 import {
   defaultAutoVolume,
   defaultDetectService,
@@ -51,7 +50,6 @@ import {
 
 const browserInfo = Bowser.getParser(window.navigator.userAgent).getResult();
 const dontTranslateMusic = false; // Пока не придумал как стоит реализовать
-const sitesChromiumBlocked = [...sitesInvidious, ...sitesPiped];
 const cfOnlyExtensions = [
   "Violentmonkey",
   "FireMonkey",
@@ -1845,7 +1843,7 @@ class VideoHandler {
       debug.log("lipsync mode is play");
       const audioPromise = this.audio.play();
       if (audioPromise !== undefined) {
-        audioPromise.catch((e) => {
+        audioPromise.catch(async (e) => {
           console.error("[VOT]", e);
           if (e.name === "NotAllowedError") {
             this.transformBtn(
@@ -1854,15 +1852,9 @@ class VideoHandler {
             );
             throw new VOTLocalizedError("grantPermissionToAutoPlay");
           } else if (e.name === "NotSupportedError") {
-            this.transformBtn(
-              "error",
-              sitesChromiumBlocked.includes(window.location.hostname)
-                ? localizationProvider.get("neededAdditionalExtension")
-                : localizationProvider.get("audioFormatNotSupported"),
-            );
-            throw sitesChromiumBlocked.includes(window.location.hostname)
-              ? new VOTLocalizedError("neededAdditionalExtension")
-              : new VOTLocalizedError("audioFormatNotSupported");
+            this.data.audioProxy = 1;
+            await votStorage.set("audioProxy", 1);
+            await this.updateTranslation(this.audio.src);
           }
         });
       }
@@ -1961,9 +1953,40 @@ class VideoHandler {
   }
 
   // update translation audio src
-  updateTranslation(audioUrl) {
-    // ! Don't use this function for streams
-    this.audio.src = audioUrl;
+  async updateTranslation(audioUrl) {
+    try {
+      const response = await GM_fetch(audioUrl, { method: 'HEAD', timeout: 5000});
+      debug.log("Test audio response", response);
+    
+      if (response.status === 404) {
+        debug.log("Yandex returned not valid audio, trying to fix...");
+        let translateRes = await this.translateVideoImpl(
+          this.videoData,
+          this.videoData.detectedLanguage = "auto",
+          this.videoData.responseLanguage,
+          this.videoData.translationHelp
+        );
+    
+        this.setSelectMenuValues(
+          this.videoData.detectedLanguage,
+          this.videoData.responseLanguage,
+        );
+        this.audio.src = translateRes.url;
+        debug.log("Fixed audio audioUrl", this.audio.src);
+      } else {
+        debug.log("Valid audioUrl", this.audio.src);
+        // ! Don't use this function for streams
+        this.audio.src = audioUrl;
+      }
+    } catch (err) {
+      if (err.message === 'Timeout') {
+        debug.log("Request timed out. Handling timeout error...");
+        this.data.audioProxy = 1;
+        await votStorage.set("audioProxy", 1);
+      } else {
+        debug.log("Test audio error:", err);
+      }
+    }    
 
     // cf version only
     if (
@@ -1975,9 +1998,9 @@ class VideoHandler {
         "https://vtrans.s3-private.mds.yandex.net/tts/prod/",
         "",
       );
-      const proxiedAudioUrl = `https://${this.data.proxyWorkerHost}/video-translation/audio-proxy/${audioPath}`;
-      console.log(`[VOT] Audio proxied via ${proxiedAudioUrl}`);
-      this.audio.src = proxiedAudioUrl;
+      audioUrl = `https://${this.data.proxyWorkerHost}/video-translation/audio-proxy/${audioPath}`;
+      console.log(`[VOT] Audio proxied via ${audioUrl}`);
+      this.audio.src = audioUrl;
     }
 
     this.volumeOnStart = this.getVideoVolume();
@@ -2129,7 +2152,7 @@ class VideoHandler {
     );
 
     if (cachedTranslation) {
-      this.updateTranslation(cachedTranslation.url);
+      await this.updateTranslation(cachedTranslation.url);
       debug.log("[translateFunc] Cached translation was received");
       return;
     }
@@ -2147,7 +2170,7 @@ class VideoHandler {
       return;
     }
 
-    this.updateTranslation(translateRes.url);
+    await this.updateTranslation(translateRes.url);
 
     if (
       !this.subtitlesList.some(
