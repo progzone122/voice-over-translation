@@ -1963,18 +1963,21 @@ class VideoHandler {
   // update translation audio src
   async updateTranslation(audioUrl) {
     try {
-      const response = await GM_fetch(audioUrl, { method: 'HEAD', timeout: 5000});
+      const response = await GM_fetch(audioUrl, {
+        method: "HEAD",
+        timeout: 5000,
+      });
       debug.log("Test audio response", response);
-    
+
       if (response.status === 404) {
         debug.log("Yandex returned not valid audio, trying to fix...");
         let translateRes = await this.translateVideoImpl(
           this.videoData,
-          this.videoData.detectedLanguage = "auto",
+          (this.videoData.detectedLanguage = "auto"),
           this.videoData.responseLanguage,
-          this.videoData.translationHelp
+          this.videoData.translationHelp,
         );
-    
+
         this.setSelectMenuValues(
           this.videoData.detectedLanguage,
           this.videoData.responseLanguage,
@@ -1987,14 +1990,14 @@ class VideoHandler {
         this.audio.src = audioUrl;
       }
     } catch (err) {
-      if (err.message === 'Timeout') {
+      if (err.message === "Timeout") {
         debug.log("Request timed out. Handling timeout error...");
         this.data.audioProxy = 1;
         await votStorage.set("audioProxy", 1);
       } else {
         debug.log("Test audio error:", err);
       }
-    }    
+    }
 
     // cf version only
     if (
