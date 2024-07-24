@@ -109,7 +109,7 @@ function formatYoutubeSubtitles(subtitles) {
     if (!subtitles.events[i].segs) continue;
     const text = subtitles.events[i].segs
       .map((e) => e.utf8.replace(/^( +| +)$/g, ""))
-      .join(" ");
+      .join("");
     let durationMs = subtitles.events[i].dDurationMs;
     if (
       subtitles.events[i + 1] &&
@@ -131,23 +131,12 @@ function formatYoutubeSubtitles(subtitles) {
 }
 
 export async function fetchSubtitles(subtitlesObject) {
-  const timeoutPromise = new Promise((resolve) =>
-    setTimeout(
-      () =>
-        resolve({
-          containsTokens: false,
-          subtitles: [],
-        }),
-      5000,
-    ),
-  );
-
   const fetchPromise = (async () => {
     try {
-      const response = await GM_fetch(subtitlesObject.url);
+      const response = await GM_fetch(subtitlesObject.url, {timeout: 5000});
       return await response.json();
     } catch (error) {
-      console.error("[VOT] Failed to fetch subtitles. Reason:", error);
+      console.error("[VOT] Failed to fetch subtitles.", error);
       return {
         containsTokens: false,
         subtitles: [],
@@ -155,7 +144,7 @@ export async function fetchSubtitles(subtitlesObject) {
     }
   })();
 
-  let subtitles = await Promise.race([timeoutPromise, fetchPromise]);
+  let subtitles = await fetchPromise;
 
   if (subtitlesObject.source === "youtube") {
     subtitles = formatYoutubeSubtitles(subtitles);
@@ -169,109 +158,82 @@ export async function fetchSubtitles(subtitlesObject) {
 export async function getSubtitles(client, videoData) {
   const { host, url, requestLang, videoId, duration } = videoData;
   const ytSubtitles = host === "youtube" ? youtubeUtils.getSubtitles() : [];
-  let resolved = false;
-  const yaSubtitles = await Promise.race([
-    new Promise((resolve) => {
-      setTimeout(() => {
-        if (!resolved) {
-          console.error("[VOT] Failed get yandex subtitles. Reason: timeout");
-          resolve([]);
-        }
-      }, 5000);
-    }),
-    new Promise((resolve) => {
-      client
-        .getSubtitles({
-          videoData: {
-            host,
-            url,
-            videoId,
-            duration,
-          },
-          requestLang,
-        })
-        .then((res) => {
-          console.log("[VOT] Subtitles response: ", res);
-          if (res.waiting) {
-            console.error("[VOT] Failed get yandex subtitles");
-            resolved = true;
-            resolve([]);
-          }
 
-          let subtitles = res.subtitles ?? [];
-          subtitles = subtitles.reduce((result, yaSubtitlesObject) => {
-            if (
-              yaSubtitlesObject.language &&
-              !result.find((e) => {
-                if (
-                  e.source === "yandex" &&
-                  e.language === yaSubtitlesObject.language &&
-                  !e.translatedFromLanguage
-                ) {
-                  return e;
-                }
-              })
-            ) {
-              result.push({
-                source: "yandex",
-                language: yaSubtitlesObject.language,
-                url: yaSubtitlesObject.url,
-              });
-            }
-            if (yaSubtitlesObject.translatedLanguage) {
-              result.push({
-                source: "yandex",
-                language: yaSubtitlesObject.translatedLanguage,
-                translatedFromLanguage: yaSubtitlesObject.language,
-                url: yaSubtitlesObject.translatedUrl,
-              });
-            }
-            return result;
-          }, []);
-          resolved = true;
-          resolve(subtitles);
+  const timeoutPromise = new Promise((_, reject) => 
+    setTimeout(() => reject(new Error('Timeout')), 5000)
+  );
+
+  try {
+    const res = await Promise.race([
+      client.getSubtitles({
+        videoData: { host, url, videoId, duration },
+        requestLang
+      }),
+      timeoutPromise
+    ]);
+
+    console.log("[VOT] Subtitles response: ", res);
+
+    if (res.waiting) {
+      console.error("[VOT] Failed to get yandex subtitles");
+      return [];
+    }
+
+    // Обработка субтитров
+    let subtitles = res.subtitles ?? [];
+    subtitles = subtitles.reduce((result, yaSubtitlesObject) => {
+      if (
+        yaSubtitlesObject.language &&
+        !result.find((e) => e.source === "yandex" && e.language === yaSubtitlesObject.language && !e.translatedFromLanguage)
+      ) {
+        result.push({
+          source: "yandex",
+          language: yaSubtitlesObject.language,
+          url: yaSubtitlesObject.url,
         });
-    }),
-  ]);
+      }
+      if (yaSubtitlesObject.translatedLanguage) {
+        result.push({
+          source: "yandex",
+          language: yaSubtitlesObject.translatedLanguage,
+          translatedFromLanguage: yaSubtitlesObject.language,
+          url: yaSubtitlesObject.translatedUrl,
+        });
+      }
+      return result;
+    }, []);
 
-  const subtitles = [...yaSubtitles, ...ytSubtitles].sort((a, b) => {
-    if (a.source !== b.source) {
-      // sort by source
-      return a.source === "yandex" ? -1 : 1;
-    }
-    if (
-      a.language !== b.language &&
-      (a.language === lang || b.language === lang)
-    ) {
-      // sort by user language
-      return a.language === lang ? -1 : 1;
-    }
-    if (a.source === "yandex") {
-      // sort by translation
-      if (a.translatedFromLanguage !== b.translatedFromLanguage) {
-        // sort by translatedFromLanguage
-        if (!a.translatedFromLanguage || !b.translatedFromLanguage) {
-          // sort by isTranslated
-          if (a.language === b.language) {
-            return a.translatedFromLanguage ? 1 : -1;
+    return [...subtitles, ...ytSubtitles].sort((a, b) => {
+      if (a.source !== b.source) return a.source === "yandex" ? -1 : 1;
+      if (a.language !== b.language && (a.language === lang || b.language === lang))
+        return a.language === lang ? -1 : 1;
+      if (a.source === "yandex") {
+        // sort by translation
+        if (a.translatedFromLanguage !== b.translatedFromLanguage) {
+          // sort by translatedFromLanguage
+          if (!a.translatedFromLanguage || !b.translatedFromLanguage) {
+            // sort by isTranslated
+            if (a.language === b.language) return a.translatedFromLanguage ? 1 : -1;
+            return !a.translatedFromLanguage ? 1 : -1;
           }
-          return !a.translatedFromLanguage ? 1 : -1;
+          return a.translatedFromLanguage === requestLang ? -1 : 1;
         }
-        return a.translatedFromLanguage === requestLang ? -1 : 1;
-      }
-      if (!a.translatedFromLanguage) {
         // sort non translated by language
-        return a.language === requestLang ? -1 : 1;
+        if (!a.translatedFromLanguage) return a.language === requestLang ? -1 : 1;
       }
-    }
-    if (a.source === "youtube" && a.isAutoGenerated !== b.isAutoGenerated) {
       // sort by isAutoGenerated
-      return a.isAutoGenerated ? 1 : -1;
+      if (a.source === "youtube" && a.isAutoGenerated !== b.isAutoGenerated)
+        return a.isAutoGenerated ? 1 : -1;
+      return 0;
+    });
+  } catch (error) {
+    if (error.message === 'Timeout') {
+      console.error("[VOT] Failed to get yandex subtitles. Reason: timeout");
+    } else {
+      console.error("[VOT] Error in getSubtitles function", error);
     }
-    return 0;
-  });
-  console.log("[VOT] subtitles list", subtitles);
-  return subtitles;
+    throw error;
+  }
 }
 
 export class SubtitlesWidget {

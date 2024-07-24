@@ -29,16 +29,16 @@ function getHeaders(lang) {
 }
 
 export default (env) => {
-  const build_mode = env.build_mode;
+  //const build_mode = env.build_mode;
   const build_type = env.build_type;
-  console.log("build mode: ", build_mode);
+  //console.log("build mode: ", build_mode);
   console.log("build type: ", build_type);
 
   function getFilename() {
     let name = "vot";
-    if (build_mode === "cloudflare") {
-      name += "-cloudflare";
-    }
+    // if (build_mode === "cloudflare") {
+    //   name += "-cloudflare";
+    // }
 
     if (build_type === "minify") {
       name += "-min";
@@ -47,11 +47,11 @@ export default (env) => {
     return name + ".user.js";
   }
 
-  function getNameByBuildMode(name) {
-    return build_mode === "cloudflare"
-      ? name.replace("[VOT]", "[VOT Cloudflare]")
-      : name;
-  }
+  // function getNameByBuildMode(name) {
+  //   return build_mode === "cloudflare"
+  //     ? name.replace("[VOT]", "[VOT Cloudflare]")
+  //     : name;
+  // }
 
   return monkey({
     mode: dev ? "development" : "production",
@@ -81,10 +81,10 @@ export default (env) => {
           meta.namespace = extFileName;
           meta.updateURL = meta.downloadURL = finalURL;
 
-          if (build_mode === "cloudflare") {
-            meta.name = meta.name.replace("[VOT]", "[VOT Cloudflare]");
-            meta["inject-into"] = "page";
-          }
+          // if (build_mode === "cloudflare") {
+          //   meta.name = meta.name.replace("[VOT]", "[VOT Cloudflare]");
+          //   meta["inject-into"] = "page";
+          // }
 
           const files = fs.readdirSync(
             path.resolve(__dirname, "src", "locales"),
@@ -102,7 +102,7 @@ export default (env) => {
             const localeHeaders = getHeaders(file);
             const lang = file.substring(0, 2);
 
-            meta.name[lang] = getNameByBuildMode(localeHeaders.name);
+            meta.name[lang] = localeHeaders.name;
             meta.description[lang] = localeHeaders.description;
           }
 
@@ -118,7 +118,7 @@ export default (env) => {
         maxChunks: 1,
       }),
       new webpack.DefinePlugin({
-        BUILD_MODE: JSON.stringify(build_mode),
+        // BUILD_MODE: JSON.stringify(build_mode),
         // DEBUG_MODE: dev,
         DEBUG_MODE: true,
         IS_BETA_VERSION: isBeta,
