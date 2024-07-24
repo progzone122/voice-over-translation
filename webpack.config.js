@@ -9,6 +9,13 @@ import { styleLoaderInsertStyleElement } from "webpack-monkey/lib/client/css.js"
 import ESLintPlugin from "eslint-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
 
+import {
+  sitesInvidious,
+  sitesPiped,
+  sitesProxiTok,
+  sitesPeertube,
+} from "vot.js/alternativeUrls";
+
 const repo =
   "https://raw.githubusercontent.com/ilyhalight/voice-over-translation";
 const dev = process.env.NODE_ENV === "development";
@@ -45,6 +52,18 @@ export default (env) => {
     }
 
     return name + ".user.js";
+  }
+
+  function altUrlsToMatch() {
+    // autogenerating match list by alternative urls sites
+    return [sitesInvidious, sitesPiped, sitesProxiTok, sitesPeertube]
+      .map((sites) =>
+        sites.map((site) => {
+          const isSubdomain = site.match(/\./g)?.length > 1;
+          return `*://${isSubdomain ? "" : "*."}${site}/*`;
+        }),
+      )
+      .flat();
   }
 
   // function getNameByBuildMode(name) {
@@ -105,6 +124,10 @@ export default (env) => {
             meta.name[lang] = localeHeaders.name;
             meta.description[lang] = localeHeaders.description;
           }
+
+          meta.match = Array.from(
+            new Set([...meta.match, ...altUrlsToMatch()]),
+          );
 
           return meta;
         },
