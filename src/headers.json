@@ -50,6 +50,7 @@
     "*://*.kodik.info/*",
     "*://*.kodik.biz/*",
     "*://*.kodik.cc/*",
+    "*://*.kick.com/*",
     "*://*/*.mp4*"
   ],
   "exclude": ["file://*/*.mp4*"],
