@@ -1,8 +1,7 @@
 import Bowser from "bowser";
 import VOTClient, { VOTWorkerClient } from "vot.js";
 import votConfig from "vot.js/config";
-import { getVideoData, getVideoID } from "vot.js/utils/videoData";
-import sites from "vot.js/sites";
+import { getVideoData, getVideoID, getService } from "vot.js/utils/videoData";
 import { availableLangs, availableTTS } from "vot.js/consts";
 import { convertSubs } from "vot.js/utils/subs";
 
@@ -157,9 +156,7 @@ class VideoHandler {
       `Translate video (requestLang: ${requestLang}, responseLang: ${responseLang})`,
     );
 
-    if (
-      (await getVideoID(this.site, window.location.href)) !== videoData.videoId
-    ) {
+    if ((await getVideoID(this.site, this.video)) !== videoData.videoId) {
       return null;
     }
 
@@ -223,9 +220,7 @@ class VideoHandler {
       `Translate stream (requestLang: ${requestLang}, responseLang: ${responseLang})`,
     );
 
-    if (
-      (await getVideoID(this.site, window.location.href)) !== videoData.videoId
-    ) {
+    if ((await getVideoID(this.site, this.video)) !== videoData.videoId) {
       return null;
     }
 
@@ -1498,10 +1493,7 @@ class VideoHandler {
       if (this.site.host === "rutube" && this.video.src) {
         return;
       }
-      if (
-        (await getVideoID(this.site, window.location.href)) ===
-        this.videoData.videoId
-      )
+      if ((await getVideoID(this.site, this.video)) === this.videoData.videoId)
         return;
       await this.handleSrcChanged();
       debug.log("lipsync mode is loadeddata");
@@ -1511,8 +1503,7 @@ class VideoHandler {
     addExtraEventListener(this.video, "emptied", async () => {
       if (
         this.video.src &&
-        (await getVideoID(this.site, window.location.href)) ===
-          this.videoData.videoId
+        (await getVideoID(this.site, this.video)) === this.videoData.videoId
       )
         return;
       debug.log("lipsync mode is emptied");
@@ -1734,9 +1725,9 @@ class VideoHandler {
    * detected language, response language, and translation help.
    */
   async getVideoData() {
-    // TODO: запатчить чтобы использовался уже существующий service?
     const { duration, url, videoId, host } = await getVideoData(
-      window.location.href,
+      this.site,
+      this.video,
     );
     const videoData = {
       translationHelp: null,
@@ -2249,35 +2240,6 @@ class VideoHandler {
   }
 }
 
-/**
- * Retrieves sites based on specific matches on the hostname.
- *
- * @return {Array} Filtered array of sites based on matching criteria.
- */
-function getSites() {
-  const hostname = window.location.hostname;
-  const currentURL = new URL(window.location);
-
-  const isMathes = (match) => {
-    if (match instanceof RegExp) {
-      return match.test(hostname);
-    } else if (typeof match === "string") {
-      return hostname.includes(match);
-    } else if (typeof match === "function") {
-      return match(currentURL);
-    }
-    return false;
-  };
-
-  return sites.filter((e) => {
-    return (
-      (Array.isArray(e.match) ? e.match.some(isMathes) : isMathes(e.match)) &&
-      e.host &&
-      e.url
-    );
-  });
-}
-
 const videoObserver = new VideoObserver();
 const videosWrappers = new WeakMap();
 
@@ -2331,7 +2293,7 @@ async function main() {
   debug.log(`Selected menu language: ${localizationProvider.lang}`);
 
   videoObserver.onVideoAdded.addListener((video) => {
-    for (const site of getSites()) {
+    for (const site of getService()) {
       if (!site) continue;
 
       let container = findContainer(site, video);

@@ -2753,18 +2753,10 @@ class VideoDataError extends Error {
         this.message = message;
     }
 }
-function getService(videoUrl) {
-    if (videoUrl.startsWith("file://"))
-        return false;
-    let enteredURL;
-    try {
-        enteredURL = new URL(videoUrl);
-    }
-    catch (e) {
-        console.error(`Invalid URL: ${videoUrl}. Have you forgotten https?`);
-        return false;
-    }
-    const hostname = enteredURL.hostname;
+function getService() {
+    const hostname = window.location.hostname;
+    const enteredURL = new URL(window.location);
+
     const isMathes = (match) => {
         if (match instanceof RegExp) {
             return match.test(hostname);
@@ -2777,14 +2769,14 @@ function getService(videoUrl) {
         }
         return false;
     };
-    return sites.find((e) => {
+    return sites.filter((e) => {
         return ((Array.isArray(e.match) ? e.match.some(isMathes) : isMathes(e.match)) &&
             e.host &&
             e.url);
     });
 }
-async function getVideoID(service, videoURL) {
-    const url = new URL(videoURL);
+async function getVideoID(service, video) {
+    const url = new URL(window.location.href);
     switch (service.host) {
         case VideoService.custom:
             return url.href;
@@ -2811,6 +2803,12 @@ async function getVideoID(service, videoURL) {
             else if (paramOID && paramID) {
                 return `video-${Math.abs(parseInt(paramOID))}_${paramID}`;
             }
+
+            const videoBox = video.parentElement?.closest(".video_box_wrap");
+            if (videoBox) {
+                return videoBox.id.replace("video_box_wrap", "video");
+            }
+
             return null;
         }
         case VideoService.nine_gag:
@@ -2967,12 +2965,8 @@ async function getVideoID(service, videoURL) {
             return undefined;
     }
 }
-async function getVideoData(url) {
-    const service = getService(url);
-    if (!service) {
-        throw new VideoDataError(`URL: "${url}" is unknown service`);
-    }
-    const videoId = await getVideoID(service, url);
+async function getVideoData(service, video) {
+    const videoId = await getVideoID(service, video);
     if (!videoId) {
         throw new VideoDataError(`Entered unsupported link: "${url}"`);
     }
@@ -5910,7 +5904,6 @@ class VideoObserver {
 
 
 
-
 const browserInfo = es5.getParser(window.navigator.userAgent).getResult();
 const dontTranslateMusic = false; // Пока не придумал как стоит реализовать
 const cfOnlyExtensions = [
@@ -6020,9 +6013,7 @@ class VideoHandler {
       `Translate video (requestLang: ${requestLang}, responseLang: ${responseLang})`,
     );
 
-    if (
-      (await getVideoID(this.site, window.location.href)) !== videoData.videoId
-    ) {
+    if ((await getVideoID(this.site, this.video)) !== videoData.videoId) {
       return null;
     }
 
@@ -6086,9 +6077,7 @@ class VideoHandler {
       `Translate stream (requestLang: ${requestLang}, responseLang: ${responseLang})`,
     );
 
-    if (
-      (await getVideoID(this.site, window.location.href)) !== videoData.videoId
-    ) {
+    if ((await getVideoID(this.site, this.video)) !== videoData.videoId) {
       return null;
     }
 
@@ -6850,8 +6839,8 @@ class VideoHandler {
               ? percentX <= 44
                 ? "left"
                 : percentX >= 66
-                  ? "right"
-                  : "default"
+                ? "right"
+                : "default"
               : "default";
           this.votButton.container.dataset.direction =
             this.data.buttonPos === "default" ? "row" : "column";
@@ -6894,8 +6883,9 @@ class VideoHandler {
 
       this.votVideoVolumeSlider.input.addEventListener("input", (e) => {
         const value = Number(e.target.value);
-        this.votVideoVolumeSlider.label.querySelector("strong").innerHTML =
-          `${value}%`;
+        this.votVideoVolumeSlider.label.querySelector(
+          "strong",
+        ).innerHTML = `${value}%`;
         this.setVideoVolume(value / 100);
         if (this.data.syncVolume) {
           this.syncVolumeWrapper("video", value);
@@ -6979,8 +6969,9 @@ class VideoHandler {
           const presetAutoVolume = Number(e.target.value);
           this.data.autoVolume = (presetAutoVolume / 100).toFixed(2);
           await votStorage.set("autoVolume", this.data.autoVolume);
-          this.votAutoSetVolumeSlider.label.querySelector("strong").innerHTML =
-            `${presetAutoVolume}%`;
+          this.votAutoSetVolumeSlider.label.querySelector(
+            "strong",
+          ).innerHTML = `${presetAutoVolume}%`;
         })();
       });
 
@@ -7361,10 +7352,7 @@ class VideoHandler {
       if (this.site.host === "rutube" && this.video.src) {
         return;
       }
-      if (
-        (await getVideoID(this.site, window.location.href)) ===
-        this.videoData.videoId
-      )
+      if ((await getVideoID(this.site, this.video)) === this.videoData.videoId)
         return;
       await this.handleSrcChanged();
       utils_debug.log("lipsync mode is loadeddata");
@@ -7374,8 +7362,7 @@ class VideoHandler {
     addExtraEventListener(this.video, "emptied", async () => {
       if (
         this.video.src &&
-        (await getVideoID(this.site, window.location.href)) ===
-          this.videoData.videoId
+        (await getVideoID(this.site, this.video)) === this.videoData.videoId
       )
         return;
       utils_debug.log("lipsync mode is emptied");
@@ -7535,8 +7522,9 @@ class VideoHandler {
     const newSlidersVolume = Math.round(videoVolume);
 
     this.votVideoVolumeSlider.input.value = newSlidersVolume;
-    this.votVideoVolumeSlider.label.querySelector("strong").innerHTML =
-      `${newSlidersVolume}%`;
+    this.votVideoVolumeSlider.label.querySelector(
+      "strong",
+    ).innerHTML = `${newSlidersVolume}%`;
     ui.updateSlider(this.votVideoVolumeSlider.input);
 
     if (this.data.syncVolume === 1) {
@@ -7597,9 +7585,9 @@ class VideoHandler {
    * detected language, response language, and translation help.
    */
   async getVideoData() {
-    // TODO: запатчить чтобы использовался уже существующий service?
     const { duration, url, videoId, host } = await getVideoData(
-      window.location.href,
+      this.site,
+      this.video,
     );
     const videoData = {
       translationHelp: null,
@@ -8112,35 +8100,6 @@ class VideoHandler {
   }
 }
 
-/**
- * Retrieves sites based on specific matches on the hostname.
- *
- * @return {Array} Filtered array of sites based on matching criteria.
- */
-function getSites() {
-  const hostname = window.location.hostname;
-  const currentURL = new URL(window.location);
-
-  const isMathes = (match) => {
-    if (match instanceof RegExp) {
-      return match.test(hostname);
-    } else if (typeof match === "string") {
-      return hostname.includes(match);
-    } else if (typeof match === "function") {
-      return match(currentURL);
-    }
-    return false;
-  };
-
-  return sites.filter((e) => {
-    return (
-      (Array.isArray(e.match) ? e.match.some(isMathes) : isMathes(e.match)) &&
-      e.host &&
-      e.url
-    );
-  });
-}
-
 const videoObserver = new VideoObserver();
 const videosWrappers = new WeakMap();
 
@@ -8194,7 +8153,7 @@ async function src_main() {
   utils_debug.log(`Selected menu language: ${localizationProvider.lang}`);
 
   videoObserver.onVideoAdded.addListener((video) => {
-    for (const site of getSites()) {
+    for (const site of getService()) {
       if (!site) continue;
 
       let container = findContainer(site, video);
