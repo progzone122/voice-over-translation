@@ -90,6 +90,7 @@ class VideoHandler {
 
   videoTranslations = [];
   videoTranslationTTL = 7200;
+  cachedTranslation;
 
   downloadTranslationUrl = null;
   downloadSubtitlesUrl = null;
@@ -1849,10 +1850,6 @@ class VideoHandler {
               localizationProvider.get("grantPermissionToAutoPlay"),
             );
             throw new VOTLocalizedError("grantPermissionToAutoPlay");
-          } else if (e.name === "NotSupportedError") {
-            this.data.audioProxy = 1;
-            await votStorage.set("audioProxy", 1);
-            await this.updateTranslation(this.audio.src);
           }
         });
       }
@@ -1953,56 +1950,70 @@ class VideoHandler {
 
   // update translation audio src
   async updateTranslation(audioUrl) {
-    try {
-      const response = await GM_fetch(audioUrl, {
-        method: "HEAD",
-        timeout: 5000,
-      });
-      debug.log("Test audio response", response);
-
-      if (response.status === 404) {
-        debug.log("Yandex returned not valid audio, trying to fix...");
-        let translateRes = await this.translateVideoImpl(
-          this.videoData,
-          (this.videoData.detectedLanguage = "auto"),
-          this.videoData.responseLanguage,
-          this.videoData.translationHelp,
-        );
-
-        this.setSelectMenuValues(
-          this.videoData.detectedLanguage,
-          this.videoData.responseLanguage,
-        );
-        this.audio.src = translateRes.url;
-        debug.log("Fixed audio audioUrl", this.audio.src);
-      } else {
-        debug.log("Valid audioUrl", this.audio.src);
-        // ! Don't use this function for streams
-        this.audio.src = audioUrl;
+    //debug.log("cachedTranslation", this.cachedTranslation?.url, this.audio.currentSrc);
+    if (this.cachedTranslation?.url === this.audio.currentSrc) {
+      debug.log("[translateFunc] Audio src is the same");
+      this.audio.src = audioUrl;
+    } else {
+      try {
+        const response = await GM_fetch(audioUrl, { method: 'HEAD', timeout: 5000 });
+        debug.log("Test audio response", response);
+        if (response.status === 404) {
+          debug.log("Yandex returned not valid audio, trying to fix...");
+          let translateRes = await this.translateVideoImpl(
+            this.videoData,
+            this.videoData.detectedLanguage = "auto",
+            this.videoData.responseLanguage,
+            this.videoData.translationHelp
+          );
+          this.setSelectMenuValues(
+            this.videoData.detectedLanguage,
+            this.videoData.responseLanguage,
+          );
+          audioUrl = translateRes.url;
+          debug.log("Fixed audio audioUrl", audioUrl);
+        } else {
+          debug.log("Valid audioUrl", audioUrl);
+        }
+      } catch (err) {
+        if (err.message === 'Timeout') {
+          debug.log("Request timed out. Handling timeout error...");
+          this.data.audioProxy = 1;
+          await votStorage.set("audioProxy", 1);
+        } else {
+          debug.log("Test audio error:", err);
+        }
       }
-    } catch (err) {
-      if (err.message === "Timeout") {
-        debug.log("Request timed out. Handling timeout error...");
-        this.data.audioProxy = 1;
-        await votStorage.set("audioProxy", 1);
-      } else {
-        debug.log("Test audio error:", err);
+  
+      this.audio.src = audioUrl;
+      try {
+        await this.audio.play();
+      } catch (e) {
+        console.error("[VOT]", e);
+        if (e.name === "NotSupportedError") {
+          this.data.audioProxy = 1;
+          await votStorage.set("audioProxy", 1);
+        }
       }
     }
 
-    // cf version only
     if (
-      //this.data.translateProxyEnabled === 1 &&
       this.data.audioProxy === 1 &&
       audioUrl.startsWith("https://vtrans.s3-private.mds.yandex.net/tts/prod/")
     ) {
       const audioPath = audioUrl.replace(
         "https://vtrans.s3-private.mds.yandex.net/tts/prod/",
-        "",
+        ""
       );
       audioUrl = `https://${this.data.proxyWorkerHost}/video-translation/audio-proxy/${audioPath}`;
       console.log(`[VOT] Audio proxied via ${audioUrl}`);
-      this.audio.src = audioUrl;
+    }
+  
+    // ! Don't use this function for streams
+    this.audio.src = audioUrl;
+
+    if (!this.volumeOnStart) {
+      this.volumeOnStart = this.getVideoVolume();
     }
 
     this.setupAudioSettings();
@@ -2093,7 +2104,7 @@ class VideoHandler {
       throw new VOTLocalizedError("VOTTranslationHelpNull");
     }
 
-    const cachedTranslation = this.videoTranslations.find(
+    this.cachedTranslation = this.videoTranslations.find(
       (t) =>
         t.videoId === VIDEO_ID &&
         t.expires > Date.now() / 1000 &&
@@ -2101,8 +2112,8 @@ class VideoHandler {
         t.to === responseLang,
     );
 
-    if (cachedTranslation) {
-      await this.updateTranslation(cachedTranslation.url);
+    if (this.cachedTranslation) {
+      await this.updateTranslation(this.cachedTranslation.url);
       debug.log("[translateFunc] Cached translation was received");
       return;
     }
@@ -2180,7 +2191,6 @@ class VideoHandler {
   }
 
   setupAudioSettings() {
-    this.volumeOnStart = this.getVideoVolume();
     if (typeof this.data.defaultVolume === "number") {
       this.gainNode.gain.value = this.data.defaultVolume / 100;
     }
