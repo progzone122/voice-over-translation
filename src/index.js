@@ -2011,16 +2011,6 @@ class VideoHandler {
   
     // ! Don't use this function for streams
     this.audio.src = audioUrl;
-  
-    if (!this.cachedTranslation) {
-      this.videoTranslations.push({
-        videoId: this.videoData.videoId,
-        from: this.videoData.detectedLanguage,
-        to: this.videoData.responseLanguage,
-        url: audioUrl,
-        expires: Date.now() / 1000 + this.videoTranslationTTL,
-      });
-    }
 
     if (!this.volumeOnStart) {
       this.volumeOnStart = this.getVideoVolume();
