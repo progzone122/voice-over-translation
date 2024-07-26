@@ -274,34 +274,51 @@ export class SubtitlesWidget {
   }
 
   bindEvents() {
-    document.addEventListener("mousedown", this.onMouseDown.bind(this));
-    document.addEventListener("mouseup", () => this.dragging.active = false);
-    document.addEventListener("mousemove", this.onMouseMove.bind(this));
-    window.addEventListener("resize", this.updateContainerRect.bind(this));
-    document.addEventListener("fullscreenchange", this.onFullscreenChange.bind(this));
-    this.video?.addEventListener("timeupdate", this.debounce(this.update.bind(this), 100));
+    this.onMouseDownBound = this.onMouseDown.bind(this);
+    this.onMouseUpBound = this.onMouseUp.bind(this);
+    this.onMouseMoveBound = this.onMouseMove.bind(this);
+    this.onResizeBound = this.updateContainerRect.bind(this);
+    this.onFullscreenChangeBound = this.onFullscreenChange.bind(this);
+    this.onTimeUpdateBound = this.debounce(this.update.bind(this), 100);
+
+    document.addEventListener("mousedown", this.onMouseDownBound);
+    document.addEventListener("mouseup", this.onMouseUpBound);
+    document.addEventListener("mousemove", this.onMouseMoveBound);
+    window.addEventListener("resize", this.onResizeBound);
+    document.addEventListener("fullscreenchange", this.onFullscreenChangeBound);
+    this.video?.addEventListener("timeupdate", this.onTimeUpdateBound);
   }
 
   onMouseDown(e) {
     if (this.subtitlesContainer.contains(e.target)) {
       const rect = this.subtitlesContainer.getBoundingClientRect();
+      const containerRect = this.container.getBoundingClientRect();
       this.dragging = {
         active: true,
         offset: {
           x: e.clientX - rect.left,
           y: e.clientY - rect.top
+        },
+        containerOffset: {
+          x: containerRect.left,
+          y: containerRect.top
         }
       };
     }
+  }
+
+  onMouseUp() {
+    this.dragging.active = false;
   }
 
   onMouseMove(e) {
     if (this.dragging.active) {
       e.preventDefault();
       const { width, height } = this.container.getBoundingClientRect();
+      const containerOffset = this.dragging.containerOffset;
       this.position = {
-        left: ((e.clientX - this.dragging.offset.x) / width) * 100,
-        top: ((e.clientY - this.dragging.offset.y) / height) * 100
+        left: ((e.clientX - this.dragging.offset.x - containerOffset.x) / width) * 100,
+        top: ((e.clientY - this.dragging.offset.y - containerOffset.y) / height) * 100
       };
       this.applySubtitlePosition();
     }
@@ -424,12 +441,12 @@ export class SubtitlesWidget {
   }
 
   release() {
-    document.removeEventListener("mousedown", this.onMouseDown);
-    document.removeEventListener("mouseup", () => this.dragging.active = false);
-    document.removeEventListener("mousemove", this.onMouseMove);
-    window.removeEventListener("resize", this.updateContainerRect);
-    document.removeEventListener("fullscreenchange", this.onFullscreenChange);
-    this.video?.removeEventListener("timeupdate", this.update);
+    document.removeEventListener("mousedown", this.onMouseDownBound);
+    document.removeEventListener("mouseup", this.onMouseUpBound);
+    document.removeEventListener("mousemove", this.onMouseMoveBound);
+    window.removeEventListener("resize", this.onResizeBound);
+    document.removeEventListener("fullscreenchange", this.onFullscreenChangeBound);
+    this.video?.removeEventListener("timeupdate", this.onTimeUpdateBound);
     this.subtitlesContainer.remove();
   }
 }
