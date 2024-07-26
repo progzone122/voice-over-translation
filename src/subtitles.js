@@ -277,13 +277,11 @@ export class SubtitlesWidget {
     this.onMouseDownBound = this.onMouseDown.bind(this);
     this.onMouseUpBound = this.onMouseUp.bind(this);
     this.onMouseMoveBound = this.onMouseMove.bind(this);
-    this.onFullscreenChangeBound = this.onFullscreenChange.bind(this);
     this.onTimeUpdateBound = this.debounce(this.update.bind(this), 100);
 
     document.addEventListener("mousedown", this.onMouseDownBound);
     document.addEventListener("mouseup", this.onMouseUpBound);
     document.addEventListener("mousemove", this.onMouseMoveBound);
-    document.addEventListener("fullscreenchange", this.onFullscreenChangeBound);
     this.video?.addEventListener("timeupdate", this.onTimeUpdateBound);
 
     this.resizeObserver = new ResizeObserver(this.onResize.bind(this));
@@ -323,13 +321,6 @@ export class SubtitlesWidget {
       };
       this.applySubtitlePosition();
     }
-  }
-
-  onFullscreenChange() {
-    setTimeout(() => {
-      this.updateContainerRect();
-      this.applySubtitlePosition();
-    }, 100);
   }
 
   onResize() {
@@ -449,7 +440,6 @@ export class SubtitlesWidget {
     document.removeEventListener("mousedown", this.onMouseDownBound);
     document.removeEventListener("mouseup", this.onMouseUpBound);
     document.removeEventListener("mousemove", this.onMouseMoveBound);
-    document.removeEventListener("fullscreenchange", this.onFullscreenChangeBound);
     this.video?.removeEventListener("timeupdate", this.onTimeUpdateBound);
     this.resizeObserver.disconnect();
     this.subtitlesContainer.remove();
