@@ -1884,7 +1884,7 @@ const yandexProtobuf = {
 });
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/package.json
-const package_namespaceObject = {"rE":"0.6.0"};
+const package_namespaceObject = {"rE":"0.6.1"};
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/secure.js
 
 const utf8Encoder = new TextEncoder();
@@ -2754,9 +2754,10 @@ class VideoDataError extends Error {
     }
 }
 function getService() {
+    if (/(http(s)?:\/\/)(127\.0\.0\.1|localhost)/.exec(window.location.href))
+        return [];
     const hostname = window.location.hostname;
     const enteredURL = new URL(window.location);
-
     const isMathes = (match) => {
         if (match instanceof RegExp) {
             return match.test(hostname);
@@ -5947,6 +5948,7 @@ class VideoHandler {
 
   videoTranslations = [];
   videoTranslationTTL = 7200;
+  cachedTranslation;
 
   downloadTranslationUrl = null;
   downloadSubtitlesUrl = null;
@@ -6839,8 +6841,8 @@ class VideoHandler {
               ? percentX <= 44
                 ? "left"
                 : percentX >= 66
-                ? "right"
-                : "default"
+                  ? "right"
+                  : "default"
               : "default";
           this.votButton.container.dataset.direction =
             this.data.buttonPos === "default" ? "row" : "column";
@@ -6883,9 +6885,8 @@ class VideoHandler {
 
       this.votVideoVolumeSlider.input.addEventListener("input", (e) => {
         const value = Number(e.target.value);
-        this.votVideoVolumeSlider.label.querySelector(
-          "strong",
-        ).innerHTML = `${value}%`;
+        this.votVideoVolumeSlider.label.querySelector("strong").innerHTML =
+          `${value}%`;
         this.setVideoVolume(value / 100);
         if (this.data.syncVolume) {
           this.syncVolumeWrapper("video", value);
@@ -6969,9 +6970,8 @@ class VideoHandler {
           const presetAutoVolume = Number(e.target.value);
           this.data.autoVolume = (presetAutoVolume / 100).toFixed(2);
           await votStorage.set("autoVolume", this.data.autoVolume);
-          this.votAutoSetVolumeSlider.label.querySelector(
-            "strong",
-          ).innerHTML = `${presetAutoVolume}%`;
+          this.votAutoSetVolumeSlider.label.querySelector("strong").innerHTML =
+            `${presetAutoVolume}%`;
         })();
       });
 
@@ -7522,9 +7522,8 @@ class VideoHandler {
     const newSlidersVolume = Math.round(videoVolume);
 
     this.votVideoVolumeSlider.input.value = newSlidersVolume;
-    this.votVideoVolumeSlider.label.querySelector(
-      "strong",
-    ).innerHTML = `${newSlidersVolume}%`;
+    this.votVideoVolumeSlider.label.querySelector("strong").innerHTML =
+      `${newSlidersVolume}%`;
     ui.updateSlider(this.votVideoVolumeSlider.input);
 
     if (this.data.syncVolume === 1) {
@@ -7709,10 +7708,6 @@ class VideoHandler {
               localizationProvider.get("grantPermissionToAutoPlay"),
             );
             throw new VOTLocalizedError("grantPermissionToAutoPlay");
-          } else if (e.name === "NotSupportedError") {
-            this.data.audioProxy = 1;
-            await votStorage.set("audioProxy", 1);
-            await this.updateTranslation(this.audio.src);
           }
         });
       }
@@ -7813,56 +7808,70 @@ class VideoHandler {
 
   // update translation audio src
   async updateTranslation(audioUrl) {
-    try {
-      const response = await GM_fetch(audioUrl, {
-        method: "HEAD",
-        timeout: 5000,
-      });
-      utils_debug.log("Test audio response", response);
-
-      if (response.status === 404) {
-        utils_debug.log("Yandex returned not valid audio, trying to fix...");
-        let translateRes = await this.translateVideoImpl(
-          this.videoData,
-          (this.videoData.detectedLanguage = "auto"),
-          this.videoData.responseLanguage,
-          this.videoData.translationHelp,
-        );
-
-        this.setSelectMenuValues(
-          this.videoData.detectedLanguage,
-          this.videoData.responseLanguage,
-        );
-        this.audio.src = translateRes.url;
-        utils_debug.log("Fixed audio audioUrl", this.audio.src);
-      } else {
-        utils_debug.log("Valid audioUrl", this.audio.src);
-        // ! Don't use this function for streams
-        this.audio.src = audioUrl;
+    //debug.log("cachedTranslation", this.cachedTranslation?.url, this.audio.currentSrc);
+    if (this.cachedTranslation?.url === this.audio.currentSrc) {
+      utils_debug.log("[translateFunc] Audio src is the same");
+      this.audio.src = audioUrl;
+    } else {
+      try {
+        const response = await GM_fetch(audioUrl, { method: 'HEAD', timeout: 5000 });
+        utils_debug.log("Test audio response", response);
+        if (response.status === 404) {
+          utils_debug.log("Yandex returned not valid audio, trying to fix...");
+          let translateRes = await this.translateVideoImpl(
+            this.videoData,
+            this.videoData.detectedLanguage = "auto",
+            this.videoData.responseLanguage,
+            this.videoData.translationHelp
+          );
+          this.setSelectMenuValues(
+            this.videoData.detectedLanguage,
+            this.videoData.responseLanguage,
+          );
+          audioUrl = translateRes.url;
+          utils_debug.log("Fixed audio audioUrl", audioUrl);
+        } else {
+          utils_debug.log("Valid audioUrl", audioUrl);
+        }
+      } catch (err) {
+        if (err.message === 'Timeout') {
+          utils_debug.log("Request timed out. Handling timeout error...");
+          this.data.audioProxy = 1;
+          await votStorage.set("audioProxy", 1);
+        } else {
+          utils_debug.log("Test audio error:", err);
+        }
       }
-    } catch (err) {
-      if (err.message === "Timeout") {
-        utils_debug.log("Request timed out. Handling timeout error...");
-        this.data.audioProxy = 1;
-        await votStorage.set("audioProxy", 1);
-      } else {
-        utils_debug.log("Test audio error:", err);
+  
+      this.audio.src = audioUrl;
+      try {
+        await this.audio.play();
+      } catch (e) {
+        console.error("[VOT]", e);
+        if (e.name === "NotSupportedError") {
+          this.data.audioProxy = 1;
+          await votStorage.set("audioProxy", 1);
+        }
       }
     }
 
-    // cf version only
     if (
-      //this.data.translateProxyEnabled === 1 &&
       this.data.audioProxy === 1 &&
       audioUrl.startsWith("https://vtrans.s3-private.mds.yandex.net/tts/prod/")
     ) {
       const audioPath = audioUrl.replace(
         "https://vtrans.s3-private.mds.yandex.net/tts/prod/",
-        "",
+        ""
       );
       audioUrl = `https://${this.data.proxyWorkerHost}/video-translation/audio-proxy/${audioPath}`;
       console.log(`[VOT] Audio proxied via ${audioUrl}`);
-      this.audio.src = audioUrl;
+    }
+  
+    // ! Don't use this function for streams
+    this.audio.src = audioUrl;
+
+    if (!this.volumeOnStart) {
+      this.volumeOnStart = this.getVideoVolume();
     }
 
     this.setupAudioSettings();
@@ -7953,7 +7962,7 @@ class VideoHandler {
       throw new VOTLocalizedError("VOTTranslationHelpNull");
     }
 
-    const cachedTranslation = this.videoTranslations.find(
+    this.cachedTranslation = this.videoTranslations.find(
       (t) =>
         t.videoId === VIDEO_ID &&
         t.expires > Date.now() / 1000 &&
@@ -7961,8 +7970,8 @@ class VideoHandler {
         t.to === responseLang,
     );
 
-    if (cachedTranslation) {
-      await this.updateTranslation(cachedTranslation.url);
+    if (this.cachedTranslation) {
+      await this.updateTranslation(this.cachedTranslation.url);
       utils_debug.log("[translateFunc] Cached translation was received");
       return;
     }
@@ -8040,7 +8049,6 @@ class VideoHandler {
   }
 
   setupAudioSettings() {
-    this.volumeOnStart = this.getVideoVolume();
     if (typeof this.data.defaultVolume === "number") {
       this.gainNode.gain.value = this.data.defaultVolume / 100;
     }

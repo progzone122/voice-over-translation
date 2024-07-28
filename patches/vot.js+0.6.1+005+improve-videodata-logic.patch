@@ -1,13 +1,13 @@
 diff --git a/node_modules/vot.js/dist/utils/videoData.js b/node_modules/vot.js/dist/utils/videoData.js
-index 33a2bda..0cd0415 100644
+index 650af5d..41efc93 100644
 --- a/node_modules/vot.js/dist/utils/videoData.js
 +++ b/node_modules/vot.js/dist/utils/videoData.js
-@@ -9,18 +9,10 @@ class VideoDataError extends Error {
+@@ -9,18 +9,11 @@ class VideoDataError extends Error {
          this.message = message;
      }
  }
 -export function getService(videoUrl) {
--    if (videoUrl.startsWith("file://"))
+-    if (/(file:\/\/|(http(s)?:\/\/)(127\.0\.0\.1|localhost))/.exec(videoUrl))
 -        return false;
 -    let enteredURL;
 -    try {
@@ -19,13 +19,14 @@ index 33a2bda..0cd0415 100644
 -    }
 -    const hostname = enteredURL.hostname;
 +export function getService() {
++    if (/(http(s)?:\/\/)(127\.0\.0\.1|localhost)/.exec(window.location.href))
++        return [];
 +    const hostname = window.location.hostname;
 +    const enteredURL = new URL(window.location);
-+
      const isMathes = (match) => {
          if (match instanceof RegExp) {
              return match.test(hostname);
-@@ -33,14 +25,14 @@ export function getService(videoUrl) {
+@@ -33,14 +26,14 @@ export function getService(videoUrl) {
          }
          return false;
      };
@@ -43,7 +44,7 @@ index 33a2bda..0cd0415 100644
      switch (service.host) {
          case VideoService.custom:
              return url.href;
-@@ -67,6 +59,12 @@ export async function getVideoID(service, videoURL) {
+@@ -67,6 +60,12 @@ export async function getVideoID(service, videoURL) {
              else if (paramOID && paramID) {
                  return `video-${Math.abs(parseInt(paramOID))}_${paramID}`;
              }
@@ -56,7 +57,7 @@ index 33a2bda..0cd0415 100644
              return null;
          }
          case VideoService.nine_gag:
-@@ -223,12 +221,8 @@ export async function getVideoID(service, videoURL) {
+@@ -223,12 +222,8 @@ export async function getVideoID(service, videoURL) {
              return undefined;
      }
  }
