@@ -26,11 +26,11 @@
     "husky": "^9.1.1",
     "lint-staged": "^15.2.7",
     "npm-run-all2": "^6.2.2",
-    "oxlint": "^0.5.3",
+    "oxlint": "0.6.1",
     "patch-package": "^8.0.0",
     "postinstall-postinstall": "^2.1.0",
     "sass": "^1.77.8",
-    "sass-loader": "^14.2.1",
+    "sass-loader": "16.0.0",
     "style-loader": "^4.0.0",
     "tslib": "^2.6.3",
     "webpack": "^5.93.0",
@@ -53,6 +53,7 @@
   },
   "dependencies": {
     "bowser": "^2.11.0",
-    "requestidlecallback-polyfill": "^1.0.2"
+    "requestidlecallback-polyfill": "^1.0.2",
+    "vot.js": "^0.7.0"
   }
 }

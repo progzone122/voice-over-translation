@@ -1884,7 +1884,7 @@ const yandexProtobuf = {
 });
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/package.json
-const package_namespaceObject = {"rE":"0.6.1"};
+const package_namespaceObject = {"rE":"0.7.0"};
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/secure.js
 
 const utf8Encoder = new TextEncoder();
@@ -2160,7 +2160,6 @@ const sitesPeertube = [
         selector: ".player",
     },
     {
-        additionalData: "embed",
         host: VideoService.vimeo,
         url: "https://player.vimeo.com/",
         match: /^player.vimeo.com$/,
@@ -2208,7 +2207,7 @@ const sitesPeertube = [
     {
         additionalData: "reels",
         host: VideoService.facebook,
-        url: "https://facebook.com/",
+    url: "https://facebook.com/",
         match: (url) =>
             url.host.includes("facebook.com") && url.pathname.includes("/reel/"),
         selector: 'div[role="main"]',
@@ -2381,8 +2380,9 @@ const sitesPeertube = [
     {
         host: VideoService.kick,
         url: "https://kick.com/",
-        selector: ".vjs-v8",
         match: /^kick.com$/,
+        selector: ".vjs-v8",
+        needExtraData: true,
     },
     {
         host: VideoService.custom,
@@ -2393,6 +2393,7 @@ const sitesPeertube = [
 ]);
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/utils/helper.js
+
 
 
 
@@ -2732,6 +2733,35 @@ class BannedVideoHelper {
         };
     }
 }
+class KickHelper {
+    async getClipInfo(clipId) {
+        try {
+            const res = await fetchWithTimeout(`https://kick.com/api/v2/clips/${clipId}`);
+            return (await res.json());
+        }
+        catch (err) {
+            console.error(`Failed to get kick clip info by clipId: ${clipId}.`, err.message);
+            return false;
+        }
+    }
+    async getVideoData(videoId) {
+        if (!videoId.startsWith("clip_")) {
+            return {
+                url: sites.find((s) => s.host === VideoService.kick).url + videoId,
+            };
+        }
+        const clipInfo = await this.getClipInfo(videoId);
+        if (!clipInfo) {
+            return false;
+        }
+        const { clip_url, duration, title } = clipInfo.clip;
+        return {
+            url: clip_url,
+            duration,
+            title,
+        };
+    }
+}
 class VideoHelper {
     static [VideoService.mailru] = new MailRuHelper();
     static [VideoService.weverse] = new WeverseHelper();
@@ -2739,6 +2769,7 @@ class VideoHelper {
     static [VideoService.patreon] = new PatreonHelper();
     static [VideoService.reddit] = new RedditHelper();
     static [VideoService.bannedvideo] = new BannedVideoHelper();
+    static [VideoService.kick] = new KickHelper();
 }
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/utils/videoData.js
@@ -2960,7 +2991,7 @@ async function getVideoID(service, video) {
             if (videoId) {
                 return videoId;
             }
-            return undefined;
+            return url.searchParams.get("clip");
         }
         default:
             return undefined;
@@ -3824,14 +3855,19 @@ class VOTWorkerClient extends VOTClient {
     }
 }
 
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/types/index.js
+
+
+
+
+
+
+
+
+
+
+
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/index.js
-
-
-
-
-
-
-
 
 
 

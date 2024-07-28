@@ -1,5 +1,5 @@
 diff --git a/node_modules/vot.js/dist/utils/videoData.js b/node_modules/vot.js/dist/utils/videoData.js
-index 650af5d..41efc93 100644
+index 9ab1c62..2532b39 100644
 --- a/node_modules/vot.js/dist/utils/videoData.js
 +++ b/node_modules/vot.js/dist/utils/videoData.js
 @@ -9,18 +9,11 @@ class VideoDataError extends Error {
