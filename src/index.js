@@ -2149,7 +2149,7 @@ class VideoHandler {
       videoId: VIDEO_ID,
       from: requestLang,
       to: responseLang,
-      url: translateRes.url,
+      url: this.downloadTranslationUrl,
       expires: Date.now() / 1000 + this.videoTranslationTTL,
     });
   }
