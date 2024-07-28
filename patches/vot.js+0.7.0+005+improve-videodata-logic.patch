@@ -1,3 +1,25 @@
+diff --git a/node_modules/vot.js/dist/client.js b/node_modules/vot.js/dist/client.js
+index ffa6115..903b604 100644
+--- a/node_modules/vot.js/dist/client.js
++++ b/node_modules/vot.js/dist/client.js
+@@ -237,7 +237,7 @@ export default class VOTClient {
+     async getSubtitles({ videoData, requestLang = this.requestLang, headers = {}, }) {
+         const { url } = videoData;
+         if (this.isCustomFormat(url)) {
+-            throw new VOTJSError("Unsupported video URL for getting subtitles");
++            throw new VOTLocalizedError("Unsupported video URL for getting subtitles"); // add translation
+         }
+         const { secretKey, uuid } = await this.getSession("video-translation");
+         const body = yandexProtobuf.encodeSubtitlesRequest(url, requestLang);
+@@ -271,7 +271,7 @@ export default class VOTClient {
+     async translateStream({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
+         const { url } = videoData;
+         if (this.isCustomFormat(url)) {
+-            throw new VOTJSError("Unsupported video URL for getting stream translation");
++            throw new VOTLocalizedError("Unsupported video URL for getting stream translation"); // add translation
+         }
+         const { secretKey, uuid } = await this.getSession("video-translation");
+         const body = yandexProtobuf.encodeStreamRequest(url, requestLang, responseLang);
 diff --git a/node_modules/vot.js/dist/utils/videoData.js b/node_modules/vot.js/dist/utils/videoData.js
 index 9ab1c62..2532b39 100644
 --- a/node_modules/vot.js/dist/utils/videoData.js

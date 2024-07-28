@@ -3738,7 +3738,7 @@ class VOTClient {
     async getSubtitles({ videoData, requestLang = this.requestLang, headers = {}, }) {
         const { url } = videoData;
         if (this.isCustomFormat(url)) {
-            throw new VOTJSError("Unsupported video URL for getting subtitles");
+            throw new VOTLocalizedError("Unsupported video URL for getting subtitles"); // add translation
         }
         const { secretKey, uuid } = await this.getSession("video-translation");
         const body = yandexProtobuf.encodeSubtitlesRequest(url, requestLang);
@@ -3772,7 +3772,7 @@ class VOTClient {
     async translateStream({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
         const { url } = videoData;
         if (this.isCustomFormat(url)) {
-            throw new VOTJSError("Unsupported video URL for getting stream translation");
+            throw new VOTLocalizedError("Unsupported video URL for getting stream translation"); // add translation
         }
         const { secretKey, uuid } = await this.getSession("video-translation");
         const body = yandexProtobuf.encodeStreamRequest(url, requestLang, responseLang);
@@ -5172,8 +5172,7 @@ async function subtitles_getSubtitles(client, videoData) {
       console.error("[VOT] Error in getSubtitles function", error);
     }
     // на сайтах, где нет сабов всегда красит кнопку
-    // throw error;
-    return [];
+    throw error;
   }
 }
 
@@ -5947,6 +5946,7 @@ class VideoObserver {
 }
 
 ;// CONCATENATED MODULE: ./src/index.js
+
 
 
 
@@ -8068,6 +8068,12 @@ class VideoHandler {
     await this.updateTranslation(translateRes.url);
 
     if (
+      ![
+        VideoService.kick,
+        VideoService.reddit,
+        VideoService.patreon,
+        VideoService.kodik,
+      ].includes(this.site.host) &&
       !this.subtitlesList.some(
         (item) =>
           item.source === "yandex" &&

@@ -242,8 +242,7 @@ export async function getSubtitles(client, videoData) {
       console.error("[VOT] Error in getSubtitles function", error);
     }
     // на сайтах, где нет сабов всегда красит кнопку
-    // throw error;
-    return [];
+    throw error;
   }
 }
 

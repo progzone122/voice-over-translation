@@ -2,6 +2,7 @@ import Bowser from "bowser";
 import VOTClient, { VOTWorkerClient } from "vot.js";
 import votConfig from "vot.js/config";
 import { getVideoData, getVideoID, getService } from "vot.js/utils/videoData";
+import { YandexType } from "vot.js/types";
 import { availableLangs, availableTTS } from "vot.js/consts";
 import { convertSubs } from "vot.js/utils/subs";
 
@@ -2138,6 +2139,12 @@ class VideoHandler {
     await this.updateTranslation(translateRes.url);
 
     if (
+      ![
+        YandexType.VideoService.kick,
+        YandexType.VideoService.reddit,
+        YandexType.VideoService.patreon,
+        YandexType.VideoService.kodik,
+      ].includes(this.site.host) &&
       !this.subtitlesList.some(
         (item) =>
           item.source === "yandex" &&
