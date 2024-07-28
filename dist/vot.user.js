@@ -5171,26 +5171,31 @@ async function subtitles_getSubtitles(client, videoData) {
     } else {
       console.error("[VOT] Error in getSubtitles function", error);
     }
-    throw error;
+    // на сайтах, где нет сабов всегда красит кнопку
+    // throw error;
+    return [];
   }
 }
 
 class SubtitlesWidget {
   constructor(video, container, site) {
     this.video = video;
-    this.container = site.host === "youtube" && site.additionalData !== "mobile" ? container.parentElement : container;
+    this.container =
+      site.host === "youtube" && site.additionalData !== "mobile"
+        ? container.parentElement
+        : container;
     this.site = site;
-    
+
     this.subtitlesContainer = this.createSubtitlesContainer();
     this.position = { left: 25, top: 75 };
     this.dragging = { active: false, offset: { x: 0, y: 0 } };
-    
+
     this.subtitles = null;
     this.lastContent = null;
     this.highlightWords = false;
     this.maxLength = 300;
     this.maxLengthRegexp = /.{1,300}(?:\s|$)/g;
-    
+
     this.bindEvents();
     this.updateContainerRect();
     this.applySubtitlePosition();
@@ -5226,12 +5231,12 @@ class SubtitlesWidget {
         active: true,
         offset: {
           x: e.clientX - rect.left,
-          y: e.clientY - rect.top
+          y: e.clientY - rect.top,
         },
         containerOffset: {
           x: containerRect.left,
-          y: containerRect.top
-        }
+          y: containerRect.top,
+        },
       };
     }
   }
@@ -5246,8 +5251,12 @@ class SubtitlesWidget {
       const { width, height } = this.container.getBoundingClientRect();
       const containerOffset = this.dragging.containerOffset;
       this.position = {
-        left: ((e.clientX - this.dragging.offset.x - containerOffset.x) / width) * 100,
-        top: ((e.clientY - this.dragging.offset.y - containerOffset.y) / height) * 100
+        left:
+          ((e.clientX - this.dragging.offset.x - containerOffset.x) / width) *
+          100,
+        top:
+          ((e.clientY - this.dragging.offset.y - containerOffset.y) / height) *
+          100,
       };
       this.applySubtitlePosition();
     }
@@ -5255,7 +5264,7 @@ class SubtitlesWidget {
 
   onResize() {
     this.updateContainerRect();
-  }  
+  }
 
   updateContainerRect() {
     this.containerRect = this.container.getBoundingClientRect();
@@ -5265,9 +5274,9 @@ class SubtitlesWidget {
   applySubtitlePosition() {
     const { width, height } = this.containerRect;
     const { offsetWidth, offsetHeight } = this.subtitlesContainer;
-    
-    const maxLeft = (width - offsetWidth) / width * 100;
-    const maxTop = (height - offsetHeight) / height * 100;
+
+    const maxLeft = ((width - offsetWidth) / width) * 100;
+    const maxTop = ((height - offsetHeight) / height) * 100;
 
     this.position.left = Math.max(0, Math.min(this.position.left, maxLeft));
     this.position.top = Math.max(0, Math.min(this.position.top, maxTop));
@@ -5303,7 +5312,9 @@ class SubtitlesWidget {
     if (!this.video || !this.subtitles) return;
 
     const time = this.video.currentTime * 1000;
-    const line = this.subtitles.subtitles?.findLast(e => e.startMs < time && time < e.startMs + e.durationMs);
+    const line = this.subtitles.subtitles?.findLast(
+      (e) => e.startMs < time && time < e.startMs + e.durationMs,
+    );
 
     if (!line) {
       this.subtitlesContainer.innerHTML = "";
@@ -5315,7 +5326,10 @@ class SubtitlesWidget {
 
     if (content !== this.lastContent) {
       this.lastContent = content;
-      this.subtitlesContainer.innerHTML = `<vot-block class="vot-subtitles">${content.replace("\\n", "<br>")}</vot-block>`;
+      this.subtitlesContainer.innerHTML = `<vot-block class="vot-subtitles">${content.replace(
+        "\\n",
+        "<br>",
+      )}</vot-block>`;
     }
   }
 
@@ -5340,7 +5354,13 @@ class SubtitlesWidget {
     if (chunkTokens.length) chunks.push(this.trimChunk(chunkTokens));
 
     const time = this.video.currentTime * 1000;
-    return chunks.find(chunk => chunk[0].startMs < time && time < chunk.at(-1).startMs + chunk.at(-1).durationMs) || chunks[0];
+    return (
+      chunks.find(
+        (chunk) =>
+          chunk[0].startMs < time &&
+          time < chunk.at(-1).startMs + chunk.at(-1).durationMs,
+      ) || chunks[0]
+    );
   }
 
   trimChunk(tokens) {
@@ -5350,12 +5370,16 @@ class SubtitlesWidget {
   }
 
   renderTokens(tokens, time) {
-    return tokens.map(token => {
-      const passed = this.highlightWords && 
-        (time > token.startMs + token.durationMs / 2 || 
-         (time > token.startMs - 100 && token.startMs + token.durationMs / 2 - time < 275));
-      return `<span ${passed ? 'class="passed"' : ''}>${token.text}</span>`;
-    }).join('');
+    return tokens
+      .map((token) => {
+        const passed =
+          this.highlightWords &&
+          (time > token.startMs + token.durationMs / 2 ||
+            (time > token.startMs - 100 &&
+              token.startMs + token.durationMs / 2 - time < 275));
+        return `<span ${passed ? 'class="passed"' : ""}>${token.text}</span>`;
+      })
+      .join("");
   }
 
   debounce(func, wait) {
@@ -5375,6 +5399,7 @@ class SubtitlesWidget {
     this.subtitlesContainer.remove();
   }
 }
+
 ;// CONCATENATED MODULE: ./src/utils/coursehunterUtils.js
 
 
@@ -6340,7 +6365,8 @@ class VideoHandler {
     this.votButton.container.dataset.status = status;
     this.votButton.container.dataset.translating =
       status === "error"
-        ? text.includes(localizationProvider.get("translationTake"))
+        ? text.includes(localizationProvider.get("translationTake")) ||
+          text === "Подготавливаем перевод"
         : false;
     this.votButton.label.innerHTML = text;
     this.votButton.container.title = status === "error" ? text : "";
@@ -6885,8 +6911,8 @@ class VideoHandler {
               ? percentX <= 44
                 ? "left"
                 : percentX >= 66
-                  ? "right"
-                  : "default"
+                ? "right"
+                : "default"
               : "default";
           this.votButton.container.dataset.direction =
             this.data.buttonPos === "default" ? "row" : "column";
@@ -6929,8 +6955,9 @@ class VideoHandler {
 
       this.votVideoVolumeSlider.input.addEventListener("input", (e) => {
         const value = Number(e.target.value);
-        this.votVideoVolumeSlider.label.querySelector("strong").innerHTML =
-          `${value}%`;
+        this.votVideoVolumeSlider.label.querySelector(
+          "strong",
+        ).innerHTML = `${value}%`;
         this.setVideoVolume(value / 100);
         if (this.data.syncVolume) {
           this.syncVolumeWrapper("video", value);
@@ -7014,8 +7041,9 @@ class VideoHandler {
           const presetAutoVolume = Number(e.target.value);
           this.data.autoVolume = (presetAutoVolume / 100).toFixed(2);
           await votStorage.set("autoVolume", this.data.autoVolume);
-          this.votAutoSetVolumeSlider.label.querySelector("strong").innerHTML =
-            `${presetAutoVolume}%`;
+          this.votAutoSetVolumeSlider.label.querySelector(
+            "strong",
+          ).innerHTML = `${presetAutoVolume}%`;
         })();
       });
 
@@ -7566,8 +7594,9 @@ class VideoHandler {
     const newSlidersVolume = Math.round(videoVolume);
 
     this.votVideoVolumeSlider.input.value = newSlidersVolume;
-    this.votVideoVolumeSlider.label.querySelector("strong").innerHTML =
-      `${newSlidersVolume}%`;
+    this.votVideoVolumeSlider.label.querySelector(
+      "strong",
+    ).innerHTML = `${newSlidersVolume}%`;
     ui.updateSlider(this.votVideoVolumeSlider.input);
 
     if (this.data.syncVolume === 1) {
@@ -7858,15 +7887,18 @@ class VideoHandler {
       this.audio.src = audioUrl;
     } else {
       try {
-        const response = await GM_fetch(audioUrl, { method: 'HEAD', timeout: 5000 });
+        const response = await GM_fetch(audioUrl, {
+          method: "HEAD",
+          timeout: 5000,
+        });
         utils_debug.log("Test audio response", response);
         if (response.status === 404) {
           utils_debug.log("Yandex returned not valid audio, trying to fix...");
           let translateRes = await this.translateVideoImpl(
             this.videoData,
-            this.videoData.detectedLanguage = "auto",
+            (this.videoData.detectedLanguage = "auto"),
             this.videoData.responseLanguage,
-            this.videoData.translationHelp
+            this.videoData.translationHelp,
           );
           this.setSelectMenuValues(
             this.videoData.detectedLanguage,
@@ -7878,7 +7910,7 @@ class VideoHandler {
           utils_debug.log("Valid audioUrl", audioUrl);
         }
       } catch (err) {
-        if (err.message === 'Timeout') {
+        if (err.message === "Timeout") {
           utils_debug.log("Request timed out. Handling timeout error...");
           this.data.audioProxy = 1;
           await votStorage.set("audioProxy", 1);
@@ -7886,7 +7918,7 @@ class VideoHandler {
           utils_debug.log("Test audio error:", err);
         }
       }
-  
+
       this.audio.src = audioUrl;
       try {
         await this.audio.play();
@@ -7905,12 +7937,12 @@ class VideoHandler {
     ) {
       const audioPath = audioUrl.replace(
         "https://vtrans.s3-private.mds.yandex.net/tts/prod/",
-        ""
+        "",
       );
       audioUrl = `https://${this.data.proxyWorkerHost}/video-translation/audio-proxy/${audioPath}`;
       console.log(`[VOT] Audio proxied via ${audioUrl}`);
     }
-  
+
     // ! Don't use this function for streams
     this.audio.src = audioUrl;
 

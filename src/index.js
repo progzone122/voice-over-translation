@@ -438,7 +438,8 @@ class VideoHandler {
     this.votButton.container.dataset.status = status;
     this.votButton.container.dataset.translating =
       status === "error"
-        ? text.includes(localizationProvider.get("translationTake"))
+        ? text.includes(localizationProvider.get("translationTake")) ||
+          text === "Подготавливаем перевод"
         : false;
     this.votButton.label.innerHTML = text;
     this.votButton.container.title = status === "error" ? text : "";
@@ -1956,15 +1957,18 @@ class VideoHandler {
       this.audio.src = audioUrl;
     } else {
       try {
-        const response = await GM_fetch(audioUrl, { method: 'HEAD', timeout: 5000 });
+        const response = await GM_fetch(audioUrl, {
+          method: "HEAD",
+          timeout: 5000,
+        });
         debug.log("Test audio response", response);
         if (response.status === 404) {
           debug.log("Yandex returned not valid audio, trying to fix...");
           let translateRes = await this.translateVideoImpl(
             this.videoData,
-            this.videoData.detectedLanguage = "auto",
+            (this.videoData.detectedLanguage = "auto"),
             this.videoData.responseLanguage,
-            this.videoData.translationHelp
+            this.videoData.translationHelp,
           );
           this.setSelectMenuValues(
             this.videoData.detectedLanguage,
@@ -1976,7 +1980,7 @@ class VideoHandler {
           debug.log("Valid audioUrl", audioUrl);
         }
       } catch (err) {
-        if (err.message === 'Timeout') {
+        if (err.message === "Timeout") {
           debug.log("Request timed out. Handling timeout error...");
           this.data.audioProxy = 1;
           await votStorage.set("audioProxy", 1);
@@ -1984,7 +1988,7 @@ class VideoHandler {
           debug.log("Test audio error:", err);
         }
       }
-  
+
       this.audio.src = audioUrl;
       try {
         await this.audio.play();
@@ -2003,12 +2007,12 @@ class VideoHandler {
     ) {
       const audioPath = audioUrl.replace(
         "https://vtrans.s3-private.mds.yandex.net/tts/prod/",
-        ""
+        "",
       );
       audioUrl = `https://${this.data.proxyWorkerHost}/video-translation/audio-proxy/${audioPath}`;
       console.log(`[VOT] Audio proxied via ${audioUrl}`);
     }
-  
+
     // ! Don't use this function for streams
     this.audio.src = audioUrl;
 

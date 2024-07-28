@@ -241,26 +241,31 @@ export async function getSubtitles(client, videoData) {
     } else {
       console.error("[VOT] Error in getSubtitles function", error);
     }
-    throw error;
+    // на сайтах, где нет сабов всегда красит кнопку
+    // throw error;
+    return [];
   }
 }
 
 export class SubtitlesWidget {
   constructor(video, container, site) {
     this.video = video;
-    this.container = site.host === "youtube" && site.additionalData !== "mobile" ? container.parentElement : container;
+    this.container =
+      site.host === "youtube" && site.additionalData !== "mobile"
+        ? container.parentElement
+        : container;
     this.site = site;
-    
+
     this.subtitlesContainer = this.createSubtitlesContainer();
     this.position = { left: 25, top: 75 };
     this.dragging = { active: false, offset: { x: 0, y: 0 } };
-    
+
     this.subtitles = null;
     this.lastContent = null;
     this.highlightWords = false;
     this.maxLength = 300;
     this.maxLengthRegexp = /.{1,300}(?:\s|$)/g;
-    
+
     this.bindEvents();
     this.updateContainerRect();
     this.applySubtitlePosition();
@@ -296,12 +301,12 @@ export class SubtitlesWidget {
         active: true,
         offset: {
           x: e.clientX - rect.left,
-          y: e.clientY - rect.top
+          y: e.clientY - rect.top,
         },
         containerOffset: {
           x: containerRect.left,
-          y: containerRect.top
-        }
+          y: containerRect.top,
+        },
       };
     }
   }
@@ -316,8 +321,12 @@ export class SubtitlesWidget {
       const { width, height } = this.container.getBoundingClientRect();
       const containerOffset = this.dragging.containerOffset;
       this.position = {
-        left: ((e.clientX - this.dragging.offset.x - containerOffset.x) / width) * 100,
-        top: ((e.clientY - this.dragging.offset.y - containerOffset.y) / height) * 100
+        left:
+          ((e.clientX - this.dragging.offset.x - containerOffset.x) / width) *
+          100,
+        top:
+          ((e.clientY - this.dragging.offset.y - containerOffset.y) / height) *
+          100,
       };
       this.applySubtitlePosition();
     }
@@ -325,7 +334,7 @@ export class SubtitlesWidget {
 
   onResize() {
     this.updateContainerRect();
-  }  
+  }
 
   updateContainerRect() {
     this.containerRect = this.container.getBoundingClientRect();
@@ -335,9 +344,9 @@ export class SubtitlesWidget {
   applySubtitlePosition() {
     const { width, height } = this.containerRect;
     const { offsetWidth, offsetHeight } = this.subtitlesContainer;
-    
-    const maxLeft = (width - offsetWidth) / width * 100;
-    const maxTop = (height - offsetHeight) / height * 100;
+
+    const maxLeft = ((width - offsetWidth) / width) * 100;
+    const maxTop = ((height - offsetHeight) / height) * 100;
 
     this.position.left = Math.max(0, Math.min(this.position.left, maxLeft));
     this.position.top = Math.max(0, Math.min(this.position.top, maxTop));
@@ -373,7 +382,9 @@ export class SubtitlesWidget {
     if (!this.video || !this.subtitles) return;
 
     const time = this.video.currentTime * 1000;
-    const line = this.subtitles.subtitles?.findLast(e => e.startMs < time && time < e.startMs + e.durationMs);
+    const line = this.subtitles.subtitles?.findLast(
+      (e) => e.startMs < time && time < e.startMs + e.durationMs,
+    );
 
     if (!line) {
       this.subtitlesContainer.innerHTML = "";
@@ -385,7 +396,10 @@ export class SubtitlesWidget {
 
     if (content !== this.lastContent) {
       this.lastContent = content;
-      this.subtitlesContainer.innerHTML = `<vot-block class="vot-subtitles">${content.replace("\\n", "<br>")}</vot-block>`;
+      this.subtitlesContainer.innerHTML = `<vot-block class="vot-subtitles">${content.replace(
+        "\\n",
+        "<br>",
+      )}</vot-block>`;
     }
   }
 
@@ -410,7 +424,13 @@ export class SubtitlesWidget {
     if (chunkTokens.length) chunks.push(this.trimChunk(chunkTokens));
 
     const time = this.video.currentTime * 1000;
-    return chunks.find(chunk => chunk[0].startMs < time && time < chunk.at(-1).startMs + chunk.at(-1).durationMs) || chunks[0];
+    return (
+      chunks.find(
+        (chunk) =>
+          chunk[0].startMs < time &&
+          time < chunk.at(-1).startMs + chunk.at(-1).durationMs,
+      ) || chunks[0]
+    );
   }
 
   trimChunk(tokens) {
@@ -420,12 +440,16 @@ export class SubtitlesWidget {
   }
 
   renderTokens(tokens, time) {
-    return tokens.map(token => {
-      const passed = this.highlightWords && 
-        (time > token.startMs + token.durationMs / 2 || 
-         (time > token.startMs - 100 && token.startMs + token.durationMs / 2 - time < 275));
-      return `<span ${passed ? 'class="passed"' : ''}>${token.text}</span>`;
-    }).join('');
+    return tokens
+      .map((token) => {
+        const passed =
+          this.highlightWords &&
+          (time > token.startMs + token.durationMs / 2 ||
+            (time > token.startMs - 100 &&
+              token.startMs + token.durationMs / 2 - time < 275));
+        return `<span ${passed ? 'class="passed"' : ""}>${token.text}</span>`;
+      })
+      .join("");
   }
 
   debounce(func, wait) {
