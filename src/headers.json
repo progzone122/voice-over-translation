@@ -62,6 +62,7 @@
   "connect": [
     "yandex.ru",
     "yandex.net",
+    "timeweb.cloud",
     "raw.githubusercontent.com",
     "toil.cc",
     "deno.dev",

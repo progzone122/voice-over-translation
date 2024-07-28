@@ -128,6 +128,7 @@
 // @exclude        file://*/*.mp4*
 // @connect        yandex.ru
 // @connect        yandex.net
+// @connect        timeweb.cloud
 // @connect        raw.githubusercontent.com
 // @connect        toil.cc
 // @connect        deno.dev
