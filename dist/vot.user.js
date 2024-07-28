@@ -5139,104 +5139,104 @@ async function subtitles_getSubtitles(client, videoData) {
 }
 
 class SubtitlesWidget {
-  dragging = false;
-  subtitlesContainerRect = null;
-  containerRect = null;
-  offsetX = null;
-  offsetY = null;
-
-  lastContent = null;
-  highlightWords = false;
-  subtitles = null;
-  maxLength = 300;
-  maxLengthRegexp = /.{1,300}(?:\s|$)/g;
-
   constructor(video, container, site) {
-    this.site = site;
     this.video = video;
-    if (this.site.host === "youtube" && this.site.additionalData !== "mobile") {
-      this.container = container.parentElement;
-    } else {
-      this.container = container;
-    }
+    this.container = site.host === "youtube" && site.additionalData !== "mobile" ? container.parentElement : container;
+    this.site = site;
+    
+    this.subtitlesContainer = this.createSubtitlesContainer();
+    this.position = { left: 25, top: 75 };
+    this.dragging = { active: false, offset: { x: 0, y: 0 } };
+    
+    this.subtitles = null;
+    this.lastContent = null;
+    this.highlightWords = false;
+    this.maxLength = 300;
+    this.maxLengthRegexp = /.{1,300}(?:\s|$)/g;
+    
+    this.bindEvents();
+    this.updateContainerRect();
+    this.applySubtitlePosition();
+  }
 
-    this.votSubtitlesContainer = document.createElement("vot-block");
-    this.votSubtitlesContainer.classList.add("vot-subtitles-widget");
-    this.container.appendChild(this.votSubtitlesContainer);
+  createSubtitlesContainer() {
+    const container = document.createElement("vot-block");
+    container.classList.add("vot-subtitles-widget");
+    this.container.appendChild(container);
+    return container;
+  }
 
+  bindEvents() {
     this.onMouseDownBound = this.onMouseDown.bind(this);
     this.onMouseUpBound = this.onMouseUp.bind(this);
     this.onMouseMoveBound = this.onMouseMove.bind(this);
-    this.onTimeUpdateBound = this.onTimeUpdate.bind(this);
+    this.onTimeUpdateBound = this.debounce(this.update.bind(this), 100);
 
     document.addEventListener("mousedown", this.onMouseDownBound);
     document.addEventListener("mouseup", this.onMouseUpBound);
     document.addEventListener("mousemove", this.onMouseMoveBound);
-
     this.video?.addEventListener("timeupdate", this.onTimeUpdateBound);
-  }
 
-  release() {
-    this.video?.removeEventListener("timeupdate", this.onTimeUpdateBound);
-
-    document.removeEventListener("mousedown", this.onMouseDownBound);
-    document.removeEventListener("mouseup", this.onMouseUpBound);
-    document.removeEventListener("mousemove", this.onMouseMoveBound);
-
-    this.votSubtitlesContainer.remove();
+    this.resizeObserver = new ResizeObserver(this.onResize.bind(this));
+    this.resizeObserver.observe(this.container);
   }
 
   onMouseDown(e) {
-    if (this.votSubtitlesContainer.contains(e.target)) {
-      this.subtitlesContainerRect =
-        this.votSubtitlesContainer.getBoundingClientRect();
-      this.containerRect = this.container.getBoundingClientRect();
-      this.offsetX = e.clientX - this.subtitlesContainerRect.x;
-      this.offsetY = e.clientY - this.subtitlesContainerRect.y;
-      this.dragging = true;
+    if (this.subtitlesContainer.contains(e.target)) {
+      const rect = this.subtitlesContainer.getBoundingClientRect();
+      const containerRect = this.container.getBoundingClientRect();
+      this.dragging = {
+        active: true,
+        offset: {
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top
+        },
+        containerOffset: {
+          x: containerRect.left,
+          y: containerRect.top
+        }
+      };
     }
   }
 
   onMouseUp() {
-    this.dragging = false;
+    this.dragging.active = false;
   }
 
   onMouseMove(e) {
-    if (this.dragging) {
+    if (this.dragging.active) {
       e.preventDefault();
-      const x = e.clientX - this.offsetX;
-      const y = e.clientY - this.offsetY;
-      const top = y >= this.containerRect.top;
-      const bottom =
-        y + this.subtitlesContainerRect.height <= this.containerRect.bottom;
-      const left = x >= this.containerRect.left;
-      const right =
-        x + this.subtitlesContainerRect.width <= this.containerRect.right;
-
-      if (top && bottom) {
-        this.votSubtitlesContainer.style.top = `${y - this.containerRect.y}px`;
-      } else if (!top) {
-        this.votSubtitlesContainer.style.top = `${0}px`;
-      } else {
-        this.votSubtitlesContainer.style.top = `${
-          this.containerRect.height - this.subtitlesContainerRect.height
-        }px`;
-      }
-
-      if (left && right) {
-        this.votSubtitlesContainer.style.left = `${x - this.containerRect.x}px`;
-      } else if (!left) {
-        this.votSubtitlesContainer.style.left = `${0}px`;
-      } else {
-        this.votSubtitlesContainer.style.left = `${
-          this.containerRect.width - this.subtitlesContainerRect.width
-        }px`;
-      }
+      const { width, height } = this.container.getBoundingClientRect();
+      const containerOffset = this.dragging.containerOffset;
+      this.position = {
+        left: ((e.clientX - this.dragging.offset.x - containerOffset.x) / width) * 100,
+        top: ((e.clientY - this.dragging.offset.y - containerOffset.y) / height) * 100
+      };
+      this.applySubtitlePosition();
     }
   }
 
-  onTimeUpdate() {
-    this.update();
+  onResize() {
+    this.updateContainerRect();
+  }  
+
+  updateContainerRect() {
+    this.containerRect = this.container.getBoundingClientRect();
+    this.applySubtitlePosition();
+  }
+
+  applySubtitlePosition() {
+    const { width, height } = this.containerRect;
+    const { offsetWidth, offsetHeight } = this.subtitlesContainer;
+    
+    const maxLeft = (width - offsetWidth) / width * 100;
+    const maxTop = (height - offsetHeight) / height * 100;
+
+    this.position.left = Math.max(0, Math.min(this.position.left, maxLeft));
+    this.position.top = Math.max(0, Math.min(this.position.top, maxTop));
+
+    this.subtitlesContainer.style.left = `${this.position.left}%`;
+    this.subtitlesContainer.style.top = `${this.position.top}%`;
   }
 
   setContent(subtitles) {
@@ -5245,7 +5245,7 @@ class SubtitlesWidget {
       this.update();
     } else {
       this.subtitles = null;
-      this.votSubtitlesContainer.innerHTML = "";
+      this.subtitlesContainer.innerHTML = "";
     }
   }
 
@@ -5258,79 +5258,86 @@ class SubtitlesWidget {
   }
 
   setHighlightWords(value) {
-    if (this.highlightWords !== !!value) {
-      this.highlightWords = !!value;
-      this.update();
-    }
+    this.highlightWords = Boolean(value);
+    this.update();
   }
 
   update() {
-    if (!this.video) return;
+    if (!this.video || !this.subtitles) return;
 
-    let content = "";
-    let highlightWords = this.highlightWords && this.subtitles?.containsTokens;
     const time = this.video.currentTime * 1000;
-    const line = this.subtitles?.subtitles?.findLast((e) => {
-      return e.startMs < time && time < e.startMs + e.durationMs;
-    });
-    if (line) {
-      let { tokens } = line;
-      if (tokens.at(-1).alignRange.end > this.maxLength) {
-        let chunks = [];
-        let chunkStartIndex = 0;
-        let chunkEndIndex = 0;
-        let length = 0;
-        for (let i = 0; i < tokens.length + 1; i++) {
-          length += tokens[i]?.text?.length ?? 0;
-          if (!tokens[i] || length > this.maxLength) {
-            let t = tokens.slice(chunkStartIndex, chunkEndIndex + 1);
-            if (t.at(0) && t.at(0).text === " ") t = t.slice(1);
-            if (t.at(-1) && t.at(-1).text === " ") t = t.slice(0, t.length - 1);
-            chunks.push({
-              startMs: tokens[chunkStartIndex].startMs,
-              durationMs:
-                tokens[chunkEndIndex].startMs +
-                tokens[chunkEndIndex].durationMs -
-                tokens[chunkStartIndex].startMs,
-              tokens: t,
-            });
-            chunkStartIndex = i;
-            length = 0;
-          }
-          chunkEndIndex = i;
-        }
-        for (let index = 0; index < chunks.length; index++) {
-          const chunk = chunks[index];
-          if (chunk.startMs < time && time < chunk.startMs + chunk.durationMs) {
-            tokens = chunk.tokens;
-            break;
-          }
-        }
-      }
-      for (let i = 0; i < tokens.length; i++) {
-        const token = tokens[i];
-        const passedMs = token.startMs + token.durationMs / 2;
-        content += `<span ${
-          highlightWords &&
-          (time > passedMs ||
-            (time > token.startMs - 100 && passedMs - time < 275))
-            ? 'class="passed"'
-            : ""
-        }>${token.text}</span>`;
-      }
+    const line = this.subtitles.subtitles?.findLast(e => e.startMs < time && time < e.startMs + e.durationMs);
+
+    if (!line) {
+      this.subtitlesContainer.innerHTML = "";
+      return;
     }
+
+    let tokens = this.processTokens(line.tokens);
+    const content = this.renderTokens(tokens, time);
+
     if (content !== this.lastContent) {
       this.lastContent = content;
-      this.votSubtitlesContainer.innerHTML = content
-        ? `<vot-block class="vot-subtitles">${content.replace(
-            "\\n",
-            "<br>",
-          )}</vot-block>`
-        : "";
+      this.subtitlesContainer.innerHTML = `<vot-block class="vot-subtitles">${content.replace("\\n", "<br>")}</vot-block>`;
     }
   }
-}
 
+  processTokens(tokens) {
+    if (tokens.at(-1).alignRange.end <= this.maxLength) return tokens;
+
+    let chunks = [];
+    let chunkTokens = [];
+    let length = 0;
+
+    for (const token of tokens) {
+      length += token.text.length;
+      chunkTokens.push(token);
+
+      if (length > this.maxLength) {
+        chunks.push(this.trimChunk(chunkTokens));
+        chunkTokens = [];
+        length = 0;
+      }
+    }
+
+    if (chunkTokens.length) chunks.push(this.trimChunk(chunkTokens));
+
+    const time = this.video.currentTime * 1000;
+    return chunks.find(chunk => chunk[0].startMs < time && time < chunk.at(-1).startMs + chunk.at(-1).durationMs) || chunks[0];
+  }
+
+  trimChunk(tokens) {
+    if (tokens[0].text === " ") tokens.shift();
+    if (tokens.at(-1).text === " ") tokens.pop();
+    return tokens;
+  }
+
+  renderTokens(tokens, time) {
+    return tokens.map(token => {
+      const passed = this.highlightWords && 
+        (time > token.startMs + token.durationMs / 2 || 
+         (time > token.startMs - 100 && token.startMs + token.durationMs / 2 - time < 275));
+      return `<span ${passed ? 'class="passed"' : ''}>${token.text}</span>`;
+    }).join('');
+  }
+
+  debounce(func, wait) {
+    let timeout;
+    return (...args) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+  }
+
+  release() {
+    document.removeEventListener("mousedown", this.onMouseDownBound);
+    document.removeEventListener("mouseup", this.onMouseUpBound);
+    document.removeEventListener("mousemove", this.onMouseMoveBound);
+    this.video?.removeEventListener("timeupdate", this.onTimeUpdateBound);
+    this.resizeObserver.disconnect();
+    this.subtitlesContainer.remove();
+  }
+}
 ;// CONCATENATED MODULE: ./src/utils/coursehunterUtils.js
 
 
@@ -8007,7 +8014,7 @@ class VideoHandler {
       videoId: VIDEO_ID,
       from: requestLang,
       to: responseLang,
-      url: translateRes.url,
+      url: this.downloadTranslationUrl,
       expires: Date.now() / 1000 + this.videoTranslationTTL,
     });
   }
