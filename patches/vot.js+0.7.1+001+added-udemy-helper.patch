@@ -1,0 +1,182 @@
+diff --git a/node_modules/vot.js/dist/types/helpers/udemy.d.ts b/node_modules/vot.js/dist/types/helpers/udemy.d.ts
+new file mode 100644
+index 0000000..db6f0d4
+--- /dev/null
++++ b/node_modules/vot.js/dist/types/helpers/udemy.d.ts
+@@ -0,0 +1,37 @@
++import { ISODate } from "../utils.js";
++
++export type Caption = {
++  _class: "caption";
++  asset_id: number;
++  created: ISODate;
++  file_name: string;
++  id: number;
++  locale_id: string;
++  source: string;
++  status: number;
++  title: string;
++  url: string;
++  video_label: string;
++};
++
++export type MediaSource = {
++  label: string;
++  src: string;
++  type: string;
++};
++
++export type Asset = {
++  _class: "asset";
++  captions: Caption[];
++  id: number;
++  length: number;
++  media_sources: MediaSource[];
++}
++
++export type Lecture = {
++  _class: "lecture";
++  asset: Asset[];
++  description: string;
++  id: number;
++  title: string;
++}
+\ No newline at end of file
+diff --git a/node_modules/vot.js/dist/types/helpers/udemy.js b/node_modules/vot.js/dist/types/helpers/udemy.js
+new file mode 100644
+index 0000000..693da49
+--- /dev/null
++++ b/node_modules/vot.js/dist/types/helpers/udemy.js
+@@ -0,0 +1 @@
++export {}
+\ No newline at end of file
+diff --git a/node_modules/vot.js/dist/utils/helper.d.ts b/node_modules/vot.js/dist/utils/helper.d.ts
+index 83d49d9..552609e 100644
+--- a/node_modules/vot.js/dist/utils/helper.d.ts
++++ b/node_modules/vot.js/dist/utils/helper.d.ts
+@@ -4,6 +4,7 @@ import * as Kodik from "../types/helpers/kodik.js";
+ import * as Patreon from "../types/helpers/patreon.js";
+ import * as BannedVideo from "../types/helpers/bannedvideo.js";
+ import * as Kick from "../types/helpers/kick.js";
++import * as Udemy from "../types/helpers/udemy.js";
+ import { VideoService } from "../types/yandex.js";
+ export declare class MailRuHelper {
+     getVideoData(videoId: string): Promise<MailRu.VideoInfo | undefined>;
+@@ -80,6 +81,20 @@ export declare class KickHelper {
+         title: string;
+     }>;
+ }
++export declare class UdemyHelper {
++    getModuleData(): {
++        courseId?: number;
++    }
++    getLectureId(): null | string;
++    getLectureData(courseId: number|string, lectureId: number|string): Promise<Udemy.Lecture>
++    findVideoUrl(sources: Udemy.MediaSource[]): Promise<string|null>
++    getVideoData(): Promise<false | {
++        url: string;
++        duration: number;
++        title: string;
++        description: string;
++    }>;
++}
+ export default class VideoHelper {
+     static [VideoService.mailru]: MailRuHelper;
+     static [VideoService.weverse]: WeverseHelper;
+@@ -88,5 +103,6 @@ export default class VideoHelper {
+     static [VideoService.reddit]: RedditHelper;
+     static [VideoService.bannedvideo]: BannedVideoHelper;
+     static [VideoService.kick]: KickHelper;
++    static [VideoService.udemy]: UdemyHelper;
+ }
+ //# sourceMappingURL=helper.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/vot.js/dist/utils/helper.js b/node_modules/vot.js/dist/utils/helper.js
+index 2bb4ff2..c95c143 100644
+--- a/node_modules/vot.js/dist/utils/helper.js
++++ b/node_modules/vot.js/dist/utils/helper.js
+@@ -3,6 +3,9 @@ import sites from "../config/sites.js";
+ import { fetchWithTimeout } from "./utils.js";
+ import config from "../config/config.js";
+ import { VideoService } from "../types/yandex.js";
++import { localizationProvider } from "../../../../src/localization/localizationProvider.js";
++import debug from "../../../../src/utils/debug.js";
++import { GM_fetch } from "../../../../src/utils/utils.js";
+ class VideoHelperError extends Error {
+     constructor(message) {
+         super(message);
+@@ -367,6 +370,68 @@ export class KickHelper {
+         };
+     }
+ }
++export class UdemyHelper {
++    API_ORIGIN = "https://www.udemy.com/api-2.0";
++
++    getModuleData() {
++        const moduleArgs = document.querySelector(
++            ".ud-app-loader[data-module-id='course-taking']",
++        )?.dataset?.moduleArgs;
++        if (!moduleArgs) {
++            console.error(localizationProvider.get("udemyModuleArgsNotFound"));
++            return {};
++        }
++        return JSON.parse(moduleArgs);
++    }
++
++    getLectureId() {
++        return /learn\/lecture\/([^/]+)/.exec(window.location.pathname)?.[1];
++    }
++
++    async getLectureData(courseId, lectureId) {
++        const res = await GM_fetch(
++            `${this.API_ORIGIN}/users/me/subscribed-courses/${courseId}/lectures/${lectureId}/?` +
++            new URLSearchParams({
++                "fields[lecture]": "title,description,asset",
++                "fields[asset]": "length,media_sources,captions",
++            })
++        );
++        return await res.json();
++    }
++
++    findVideoUrl(sources) {
++        return sources.find((src) => src.type === "video/mp4")?.src;
++    }
++
++    async getVideoData() {
++        const { courseId } = this.getModuleData();
++        if (!courseId) {
++            return false;
++        }
++
++        const lectureId = this.getLectureId();
++        debug.log(`[Udemy] courseId: ${courseId}, lectureId: ${lectureId}`)
++        if (!lectureId) {
++            return false;
++        }
++
++        const { title, description, asset } = await this.getLectureData(courseId, lectureId);
++        const { length: duration, media_sources } = asset;
++
++        const url = this.findVideoUrl(media_sources);
++        if (!url) {
++            console.log("Failed to find .mp4 video file in media_sources", media_sources);
++            return false;
++        }
++
++        return {
++            url,
++            duration,
++            title,
++            description,
++        };
++    }
++}
+ export default class VideoHelper {
+     static [VideoService.mailru] = new MailRuHelper();
+     static [VideoService.weverse] = new WeverseHelper();
+@@ -375,4 +440,5 @@ export default class VideoHelper {
+     static [VideoService.reddit] = new RedditHelper();
+     static [VideoService.bannedvideo] = new BannedVideoHelper();
+     static [VideoService.kick] = new KickHelper();
++    static [VideoService.udemy] = new UdemyHelper();
+ }

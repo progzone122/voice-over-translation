@@ -38,7 +38,6 @@ import { SubtitlesWidget, fetchSubtitles, getSubtitles } from "./subtitles.js";
 import youtubeUtils from "./utils/youtubeUtils.js";
 import coursehunterUtils from "./utils/coursehunterUtils.js";
 import courseraUtils from "./utils/courseraUtils.js";
-import udemyUtils from "./utils/udemyUtils.js";
 
 import { VideoObserver } from "./utils/VideoObserver.js";
 import { votStorage } from "./utils/storage.js";
@@ -329,7 +328,6 @@ class VideoHandler {
       highlightWords: votStorage.get("highlightWords", 0, true),
       responseLanguage: votStorage.get("responseLanguage", lang),
       defaultVolume: votStorage.get("defaultVolume", 100, true),
-      udemyData: votStorage.get("udemyData", { accessToken: "", expires: 0 }),
       audioProxy: votStorage.get("audioProxy", 0, true),
       showPiPButton: votStorage.get("showPiPButton", 0, true),
       translateAPIErrors: votStorage.get("translateAPIErrors", 1, true),
@@ -714,16 +712,6 @@ class VideoHandler {
       );
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votAudioBoosterCheckbox.container,
-      );
-
-      // udemy only
-      this.votUdemyDataTextfield = ui.createTextfield(
-        localizationProvider.get("VOTUdemyData"),
-        this.data?.udemyData?.accessToken ?? "",
-      );
-      this.votUdemyDataTextfield.container.hidden = this.site.host !== "udemy";
-      this.votSettingsDialog.bodyContainer.appendChild(
-        this.votUdemyDataTextfield.container,
       );
 
       this.votSyncVolumeCheckbox = ui.createCheckbox(
@@ -1180,21 +1168,6 @@ class VideoHandler {
               new Event("input"),
             );
           }
-        })();
-      });
-
-      this.votUdemyDataTextfield.input.addEventListener("change", (e) => {
-        (async () => {
-          this.data.udemyData = {
-            accessToken: e.target.value,
-            expires: new Date().getTime(),
-          };
-          await votStorage.set("udemyData", this.data.udemyData);
-          debug.log(
-            "udemyData value changed. New value: ",
-            this.data.udemyData,
-          );
-          window.location.reload();
         })();
       });
 
@@ -1753,12 +1726,10 @@ class VideoHandler {
    * detected language, response language, and translation help.
    */
   async getVideoData() {
-    const { duration, url, videoId, host } = await getVideoData(
-      this.site,
-      this.video,
-    );
+    const { duration, url, videoId, host, translationHelp, detectedLanguage } =
+      await getVideoData(this.site, this.video);
     const videoData = {
-      translationHelp: null,
+      translationHelp: translationHelp ?? null,
       // by default, we request the translation of the video
       isStream: false,
       // ! if 0 - we get 400 error
@@ -1766,7 +1737,7 @@ class VideoHandler {
       videoId,
       url,
       host,
-      detectedLanguage: this.translateFromLang,
+      detectedLanguage: detectedLanguage ?? this.translateFromLang,
       responseLanguage: this.translateToLang,
     };
 
@@ -1799,14 +1770,6 @@ class VideoHandler {
       videoData.duration = coursehunterData.duration || videoData.duration;
     } else if (this.site.host === "weverse") {
       videoData.detectedLanguage = "ko";
-    } else if (this.site.host === "udemy") {
-      const udemyData = await udemyUtils.getVideoData(
-        this.data.udemyData,
-        this.translateToLang,
-      );
-      videoData.duration = udemyData.duration || videoData.duration;
-      videoData.detectedLanguage = udemyData.detectedLanguage;
-      videoData.translationHelp = udemyData.translationHelp;
     } else if (
       [
         "bilibili",
@@ -2130,7 +2093,7 @@ class VideoHandler {
       return this.afterUpdateTranslation(streamURL);
     }
 
-    if (["udemy", "coursera"].includes(this.site.host) && !translationHelp) {
+    if (["coursera"].includes(this.site.host) && !translationHelp) {
       throw new VOTLocalizedError("VOTTranslationHelpNull");
     }
 

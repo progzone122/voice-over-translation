@@ -1,0 +1,158 @@
+diff --git a/node_modules/vot.js/dist/types/helpers/udemy.d.ts b/node_modules/vot.js/dist/types/helpers/udemy.d.ts
+index db6f0d4..1be4a49 100644
+--- a/node_modules/vot.js/dist/types/helpers/udemy.d.ts
++++ b/node_modules/vot.js/dist/types/helpers/udemy.d.ts
+@@ -35,3 +35,17 @@ export type Lecture = {
+   id: number;
+   title: string;
+ }
++
++export type Locale = {
++  _class: "locale";
++  english_title: string;
++  locale: string;
++  simple_english_title: string
++​​  title: string;
++}
++
++export type Course = {
++  _class: "course";
++  id: number;
++  locale: Locale;
++}
+\ No newline at end of file
+diff --git a/node_modules/vot.js/dist/utils/helper.d.ts b/node_modules/vot.js/dist/utils/helper.d.ts
+index 552609e..c0fb605 100644
+--- a/node_modules/vot.js/dist/utils/helper.d.ts
++++ b/node_modules/vot.js/dist/utils/helper.d.ts
+@@ -5,7 +5,7 @@ import * as Patreon from "../types/helpers/patreon.js";
+ import * as BannedVideo from "../types/helpers/bannedvideo.js";
+ import * as Kick from "../types/helpers/kick.js";
+ import * as Udemy from "../types/helpers/udemy.js";
+-import { VideoService } from "../types/yandex.js";
++import { VideoService, RequestLang, TranslationHelp } from "../types/yandex.js";
+ export declare class MailRuHelper {
+     getVideoData(videoId: string): Promise<MailRu.VideoInfo | undefined>;
+ }
+@@ -86,13 +86,17 @@ export declare class UdemyHelper {
+         courseId?: number;
+     }
+     getLectureId(): null | string;
+-    getLectureData(courseId: number|string, lectureId: number|string): Promise<Udemy.Lecture>
+-    findVideoUrl(sources: Udemy.MediaSource[]): Promise<string|null>
+-    getVideoData(): Promise<false | {
++    getLectureData(courseId: number|string, lectureId: number|string): Promise<Udemy.Lecture>;
++    getCourseLang(courseId: number|string): Promise<Udemy.Course>;
++    findVideoUrl(sources: Udemy.MediaSource[]): string|null;
++    findSubtitleUrl(captions: Udemy.Caption[], detectedLanguage: RequestLang): string|null;
++    getVideoData(videoId: string): Promise<false | {
+         url: string;
+         duration: number;
+         title: string;
+         description: string;
++        translationHelp: TranslationHelp[] | null;
++        detectedLanguage?: RequestLang
+     }>;
+ }
+ export default class VideoHelper {
+diff --git a/node_modules/vot.js/dist/utils/helper.js b/node_modules/vot.js/dist/utils/helper.js
+index c95c143..585e7af 100644
+--- a/node_modules/vot.js/dist/utils/helper.js
++++ b/node_modules/vot.js/dist/utils/helper.js
+@@ -5,7 +5,8 @@ import config from "../config/config.js";
+ import { VideoService } from "../types/yandex.js";
+ import { localizationProvider } from "../../../../src/localization/localizationProvider.js";
+ import debug from "../../../../src/utils/debug.js";
+-import { GM_fetch } from "../../../../src/utils/utils.js";
++import { GM_fetch, langTo6391 } from "../../../../src/utils/utils.js";
++import { availableLangs } from "vot.js/consts";
+ class VideoHelperError extends Error {
+     constructor(message) {
+         super(message);
+@@ -399,11 +400,35 @@ export class UdemyHelper {
+         return await res.json();
+     }
+ 
++    async getCourseLang(courseId) {
++        const res = await GM_fetch(
++            `${this.API_ORIGIN}/users/me/subscribed-courses/${courseId}?` +
++            new URLSearchParams({
++                "fields[course]": "locale",
++            })
++        );
++        return await res.json();
++    }
++
+     findVideoUrl(sources) {
+-        return sources.find((src) => src.type === "video/mp4")?.src;
++        return sources?.find((src) => src.type === "video/mp4")?.src;
+     }
+ 
+-    async getVideoData() {
++    findSubtitleUrl(captions, detectedLanguage) {
++        let subtitle = captions?.find(
++            (caption) => langTo6391(caption.locale_id) === detectedLanguage,
++        );
++
++        if (!subtitle) {
++            subtitle = captions?.find(
++                (caption) => langTo6391(caption.locale_id) === "en",
++            ) || captions?.[0];
++        }
++
++        return subtitle?.url;
++    }
++
++    async getVideoData(videoId) {
+         const { courseId } = this.getModuleData();
+         if (!courseId) {
+             return false;
+@@ -416,16 +441,44 @@ export class UdemyHelper {
+         }
+ 
+         const { title, description, asset } = await this.getLectureData(courseId, lectureId);
+-        const { length: duration, media_sources } = asset;
++        const { length: duration, media_sources, captions } = asset;
+ 
+-        const url = this.findVideoUrl(media_sources);
+-        if (!url) {
++        const videoUrl = this.findVideoUrl(media_sources);
++        if (!videoUrl) {
+             console.log("Failed to find .mp4 video file in media_sources", media_sources);
+             return false;
+         }
+ 
++        const courseLangData = await this.getCourseLang(courseId);
++        let { locale: { locale } } = courseLangData;
++        locale = locale ? langTo6391(locale) : "en";
++        if (!availableLangs.includes(locale)) {
++            locale = "en";
++        }
++
++        const subtitleUrl = this.findSubtitleUrl(captions, locale);
++        if (!subtitleUrl) {
++            console.log("Failed to find subtitle file in captions", captions)
++        }
++
+         return {
+-            url,
++            ...subtitleUrl ? {
++                url: sites.find((s) => s.host === VideoService.udemy).url + videoId,
++                translationHelp: [
++                    {
++                        target: "subtitles_file_url",
++                        targetUrl: subtitleUrl,
++                    },
++                    {
++                        target: "video_file_url",
++                        targetUrl: videoUrl,
++                    },
++                ],
++                detectedLanguage: locale,
++            } : {
++                url: videoUrl,
++                translationHelp: null,
++            },
+             duration,
+             title,
+             description,
