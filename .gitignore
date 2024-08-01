@@ -1,3 +1,5 @@
+dist/test-ui.user.js
+
 src/localization/locales/generate_phrase.py
 src/localization/locales/regenerate_locales.py
 src/localization/locales/remove_phrase.py

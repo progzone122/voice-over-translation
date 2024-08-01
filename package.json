@@ -20,6 +20,7 @@
     "bun-types": "^1.1.20",
     "css-loader": "^7.1.2",
     "eslint": "^9.7.0",
+    "eslint-plugin-github": "^5.0.1",
     "eslint-plugin-oxlint": "^0.5.0",
     "eslint-plugin-sonarjs": "^1.0.4",
     "eslint-webpack-plugin": "^4.2.0",
@@ -39,9 +40,9 @@
     "webpack-monkey": "^0.2.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build:default": "webpack build -c webpack.config.js",
-    "build:default-min": "webpack build -c webpack.config.js --env build_type=minify",
+    "test": "webpack build -c .webpack/config.test.js",
+    "build:default": "webpack build -c .webpack/webpack.config.js",
+    "build:default-min": "webpack build -c .webpack/webpack.config.js --env build_type=minify",
     "build": "run-p build:default",
     "build:min": "run-p build:default-min",
     "build:all": "run-p build build:min",
@@ -53,7 +54,8 @@
   },
   "dependencies": {
     "bowser": "^2.11.0",
+    "lit": "^3.1.4",
     "requestidlecallback-polyfill": "^1.0.2",
-    "vot.js": "^0.7.0"
+    "vot.js": "^0.7.1"
   }
 }
