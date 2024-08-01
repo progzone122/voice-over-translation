@@ -20,7 +20,7 @@ const repo =
   "https://raw.githubusercontent.com/ilyhalight/voice-over-translation";
 const dev = process.env.NODE_ENV === "development";
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.resolve(path.dirname(__filename), "..");
 let isBeta = getHeaders().version.includes("beta");
 
 console.log("development mode: ", dev);
@@ -90,7 +90,7 @@ export default (env) => {
     monkey: {
       debug: dev,
       meta: {
-        resolve: "headers.json",
+        resolve: path.resolve(__dirname, "src", "headers.json"),
         transform({ meta }) {
           const extFileName = getFilename().slice(0, -8);
           const finalURL = `${repo}/${
