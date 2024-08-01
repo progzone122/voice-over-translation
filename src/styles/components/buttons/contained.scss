@@ -102,7 +102,7 @@
     }
   }
 
-  &:disabled {
+  &[disabled="true"] {
     background-color: rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.12);
     color: rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38);
     box-shadow: none;

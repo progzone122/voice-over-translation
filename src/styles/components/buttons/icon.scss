@@ -84,7 +84,7 @@
     }
   }
 
-  &:disabled {
+  &[disabled="true"] {
     background-color: transparent;
     color: rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38);
     fill: rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38);
