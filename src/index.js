@@ -433,6 +433,12 @@ class VideoHandler {
     this.initialized = true;
   }
 
+  /**
+   * Set translation button status and text
+   *
+   * @param {"none"|"success"|"error"} status - button status
+   * @param {string} text - visible button text
+   */
   transformBtn(status = "none", text) {
     this.votButton.container.dataset.status = status;
     this.votButton.container.dataset.translating =
@@ -450,8 +456,8 @@ class VideoHandler {
       this.votButton = ui.createVOTButton(
         localizationProvider.get("translateVideo"),
       );
-      // use an additional check because sometimes this.video.clientWidth = 0
 
+      // use an additional check because sometimes this.video.clientWidth = 0
       if (
         this.data?.buttonPos &&
         this.data?.buttonPos !== "default" &&
@@ -1911,8 +1917,9 @@ class VideoHandler {
       !errorMessage.includes(translationTake) &&
       lang !== "ru"
     ) {
-      const translatedMessage = await translate(errorMessage, "ru", lang);
+      // adds a stub text until a text translation is received to avoid a long delay with long text
       this.transformBtn("error", VOTTranslatingError);
+      const translatedMessage = await translate(errorMessage, "ru", lang);
       this.transformBtn("error", translatedMessage);
     } else {
       this.transformBtn("error", errorMessage);
