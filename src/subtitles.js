@@ -1,3 +1,5 @@
+import { html, render, nothing } from "lit-html";
+
 import youtubeUtils from "./utils/youtubeUtils.js";
 import { lang, GM_fetch } from "./utils/utils.js";
 
@@ -360,7 +362,7 @@ export class SubtitlesWidget {
       this.update();
     } else {
       this.subtitles = null;
-      this.subtitlesContainer.innerHTML = "";
+      render(null, this.subtitlesContainer);
     }
   }
 
@@ -386,19 +388,19 @@ export class SubtitlesWidget {
     );
 
     if (!line) {
-      this.subtitlesContainer.innerHTML = "";
+      render(null, this.subtitlesContainer);
       return;
     }
 
     let tokens = this.processTokens(line.tokens);
     const content = this.renderTokens(tokens, time);
-
-    if (content !== this.lastContent) {
-      this.lastContent = content;
-      this.subtitlesContainer.innerHTML = `<vot-block class="vot-subtitles">${content.replace(
-        "\\n",
-        "<br>",
-      )}</vot-block>`;
+    const stringContent = JSON.stringify(content);
+    if (stringContent !== this.lastContent) {
+      this.lastContent = stringContent;
+      render(
+        html`<vot-block class="vot-subtitles">${content}</vot-block>`,
+        this.subtitlesContainer,
+      );
     }
   }
 
@@ -439,16 +441,16 @@ export class SubtitlesWidget {
   }
 
   renderTokens(tokens, time) {
-    return tokens
-      .map((token) => {
-        const passed =
-          this.highlightWords &&
-          (time > token.startMs + token.durationMs / 2 ||
-            (time > token.startMs - 100 &&
-              token.startMs + token.durationMs / 2 - time < 275));
-        return `<span ${passed ? 'class="passed"' : ""}>${token.text}</span>`;
-      })
-      .join("");
+    return tokens.map((token) => {
+      const passed =
+        this.highlightWords &&
+        (time > token.startMs + token.durationMs / 2 ||
+          (time > token.startMs - 100 &&
+            token.startMs + token.durationMs / 2 - time < 275));
+      return html`<span class="${passed ? "passed" : nothing}"
+        >${token.text.replace("\\n", "<br>")}</span
+      >`;
+    });
   }
 
   debounce(func, wait) {

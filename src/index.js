@@ -5,6 +5,7 @@ import { getVideoData, getVideoID, getService } from "vot.js/utils/videoData";
 import { YandexType } from "vot.js/types";
 import { availableLangs, availableTTS } from "vot.js/consts";
 import { convertSubs } from "vot.js/utils/subs";
+import { svg, html } from "lit-html";
 
 import {
   defaultAutoVolume,
@@ -20,7 +21,6 @@ import {
   availableLocales,
   localizationProvider,
 } from "./localization/localizationProvider.js";
-import "./styles/main.scss";
 import ui from "./ui.js";
 import { VOTLocalizedError } from "./utils/VOTLocalizedError.js";
 import debug from "./utils/debug.js";
@@ -442,7 +442,7 @@ class VideoHandler {
         ? text.includes(localizationProvider.get("translationTake")) ||
           text === "Подготавливаем перевод"
         : false;
-    this.votButton.label.innerHTML = text;
+    this.votButton.label.textContent = text;
     this.votButton.container.title = status === "error" ? text : "";
   }
 
@@ -490,19 +490,46 @@ class VideoHandler {
       this.container.appendChild(this.votMenu.container);
 
       this.votDownloadButton = ui.createIconButton(
-        `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="100%" viewBox="0 -960 960 960"><path d="M480-337q-8 0-15-2.5t-13-8.5L308-492q-12-12-11.5-28t11.5-28q12-12 28.5-12.5T365-549l75 75v-286q0-17 11.5-28.5T480-800q17 0 28.5 11.5T520-760v286l75-75q12-12 28.5-11.5T652-548q11 12 11.5 28T652-492L508-348q-6 6-13 8.5t-15 2.5ZM240-160q-33 0-56.5-23.5T160-240v-80q0-17 11.5-28.5T200-360q17 0 28.5 11.5T240-320v80h480v-80q0-17 11.5-28.5T760-360q17 0 28.5 11.5T800-320v80q0 33-23.5 56.5T720-160H240Z"/></svg>`,
+        svg`<svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="100%"
+          viewBox="0 -960 960 960"
+        >
+          <path
+            d="M480-337q-8 0-15-2.5t-13-8.5L308-492q-12-12-11.5-28t11.5-28q12-12 28.5-12.5T365-549l75 75v-286q0-17 11.5-28.5T480-800q17 0 28.5 11.5T520-760v286l75-75q12-12 28.5-11.5T652-548q11 12 11.5 28T652-492L508-348q-6 6-13 8.5t-15 2.5ZM240-160q-33 0-56.5-23.5T160-240v-80q0-17 11.5-28.5T200-360q17 0 28.5 11.5T240-320v80h480v-80q0-17 11.5-28.5T760-360q17 0 28.5 11.5T800-320v80q0 33-23.5 56.5T720-160H240Z"
+          />
+        </svg>`,
       );
       this.votDownloadButton.hidden = true;
       this.votMenu.headerContainer.appendChild(this.votDownloadButton);
 
       this.votDownloadSubtitlesButton = ui.createIconButton(
-        `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="100%" viewBox="0 0 24 24"><path d="M4 20q-.825 0-1.413-.588T2 18V6q0-.825.588-1.413T4 4h16q.825 0 1.413.588T22 6v12q0 .825-.588 1.413T20 20H4Zm2-4h8v-2H6v2Zm10 0h2v-2h-2v2ZM6 12h2v-2H6v2Zm4 0h8v-2h-8v2Z"/></svg>`,
+        svg`<svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="100%"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M4 20q-.825 0-1.413-.588T2 18V6q0-.825.588-1.413T4 4h16q.825 0 1.413.588T22 6v12q0 .825-.588 1.413T20 20H4Zm2-4h8v-2H6v2Zm10 0h2v-2h-2v2ZM6 12h2v-2H6v2Zm4 0h8v-2h-8v2Z"
+          />
+        </svg>`,
       );
       this.votDownloadSubtitlesButton.hidden = true;
       this.votMenu.headerContainer.appendChild(this.votDownloadSubtitlesButton);
 
       this.votSettingsButton = ui.createIconButton(
-        `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="100%" viewBox="0 -960 960 960"><path d="M555-80H405q-15 0-26-10t-13-25l-12-93q-13-5-24.5-12T307-235l-87 36q-14 5-28 1t-22-17L96-344q-8-13-5-28t15-24l75-57q-1-7-1-13.5v-27q0-6.5 1-13.5l-75-57q-12-9-15-24t5-28l74-129q7-14 21.5-17.5T220-761l87 36q11-8 23-15t24-12l12-93q2-15 13-25t26-10h150q15 0 26 10t13 25l12 93q13 5 24.5 12t22.5 15l87-36q14-5 28-1t22 17l74 129q8 13 5 28t-15 24l-75 57q1 7 1 13.5v27q0 6.5-2 13.5l75 57q12 9 15 24t-5 28l-74 128q-8 13-22.5 17.5T738-199l-85-36q-11 8-23 15t-24 12l-12 93q-2 15-13 25t-26 10Zm-73-260q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm0-80q-25 0-42.5-17.5T422-480q0-25 17.5-42.5T482-540q25 0 42.5 17.5T542-480q0 25-17.5 42.5T482-420Zm-2-60Zm-40 320h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Z"/></svg>`,
+        svg`<svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="100%"
+          viewBox="0 -960 960 960"
+        >
+          <path
+            d="M555-80H405q-15 0-26-10t-13-25l-12-93q-13-5-24.5-12T307-235l-87 36q-14 5-28 1t-22-17L96-344q-8-13-5-28t15-24l75-57q-1-7-1-13.5v-27q0-6.5 1-13.5l-75-57q-12-9-15-24t5-28l74-129q7-14 21.5-17.5T220-761l87 36q11-8 23-15t24-12l12-93q2-15 13-25t26-10h150q15 0 26 10t13 25l12 93q13 5 24.5 12t22.5 15l87-36q14-5 28-1t22 17l74 129q8 13 5 28t-15 24l-75 57q1 7 1 13.5v27q0 6.5-2 13.5l75 57q12 9 15 24t-5 28l-74 128q-8 13-22.5 17.5T738-199l-85-36q-11 8-23 15t-24 12l-12 93q-2 15-13 25t-26 10Zm-73-260q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm0-80q-25 0-42.5-17.5T422-480q0-25 17.5-42.5T482-540q25 0 42.5 17.5T542-480q0 25-17.5 42.5T482-420Zm-2-60Zm-40 320h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Z"
+          />
+        </svg>`,
       );
       this.votMenu.headerContainer.appendChild(this.votSettingsButton);
 
@@ -573,9 +600,8 @@ class VideoHandler {
       this.votMenu.bodyContainer.appendChild(this.votSubtitlesSelect.container);
 
       this.votVideoVolumeSlider = ui.createSlider(
-        `${localizationProvider.get("VOTVolume")}: <strong>${
-          this.getVideoVolume() * 100
-        }%</strong>`,
+        html`${localizationProvider.get("VOTVolume")}:
+          <strong>${this.getVideoVolume() * 100}%</strong>`,
         this.getVideoVolume() * 100,
       );
       this.votVideoVolumeSlider.container.hidden =
@@ -586,9 +612,8 @@ class VideoHandler {
       );
 
       this.votVideoTranslationVolumeSlider = ui.createSlider(
-        `${localizationProvider.get("VOTVolumeTranslation")}: <strong>${
-          this.data?.defaultVolume ?? 100
-        }%</strong>`,
+        html`${localizationProvider.get("VOTVolumeTranslation")}:
+          <strong>${this.data?.defaultVolume ?? 100}%</strong>`,
         this.data?.defaultVolume ?? 100,
         0,
         this.data.audioBooster ? maxAudioVolume : 100,
@@ -664,9 +689,9 @@ class VideoHandler {
         this.votAutoSetVolumeCheckbox.container,
       );
       this.votAutoSetVolumeSlider = ui.createSlider(
-        `<strong>${
-          (this.data?.autoVolume ?? defaultAutoVolume) * 100
-        }%</strong>`,
+        html`<strong
+          >${(this.data?.autoVolume ?? defaultAutoVolume) * 100}%</strong
+        >`,
         (this.data?.autoVolume ?? defaultAutoVolume) * 100,
         0,
         100,
@@ -767,9 +792,8 @@ class VideoHandler {
       this.votSettingsDialog.bodyContainer.appendChild(this.votSubtitlesHeader);
 
       this.votSubtitlesMaxLengthSlider = ui.createSlider(
-        `${localizationProvider.get("VOTSubtitlesMaxLength")}: <strong>${
-          this.data?.subtitlesMaxLength ?? 300
-        }</strong>`,
+        html`${localizationProvider.get("VOTSubtitlesMaxLength")}:
+          <strong>${this.data?.subtitlesMaxLength ?? 300}</strong>`,
         this.data?.subtitlesMaxLength ?? 300,
         50,
         300,
@@ -1029,7 +1053,7 @@ class VideoHandler {
 
       this.votVideoVolumeSlider.input.addEventListener("input", (e) => {
         const value = Number(e.target.value);
-        this.votVideoVolumeSlider.label.querySelector("strong").innerHTML =
+        this.votVideoVolumeSlider.label.querySelector("strong").textContent =
           `${value}%`;
         this.setVideoVolume(value / 100);
         if (this.data.syncVolume) {
@@ -1045,7 +1069,7 @@ class VideoHandler {
             await votStorage.set("defaultVolume", this.data.defaultVolume);
             this.votVideoTranslationVolumeSlider.label.querySelector(
               "strong",
-            ).innerHTML = `${this.data.defaultVolume}%`;
+            ).textContent = `${this.data.defaultVolume}%`;
             this.gainNode.gain.value = this.data.defaultVolume / 100;
             if (!this.data.syncVolume) {
               return;
@@ -1114,8 +1138,9 @@ class VideoHandler {
           const presetAutoVolume = Number(e.target.value);
           this.data.autoVolume = (presetAutoVolume / 100).toFixed(2);
           await votStorage.set("autoVolume", this.data.autoVolume);
-          this.votAutoSetVolumeSlider.label.querySelector("strong").innerHTML =
-            `${presetAutoVolume}%`;
+          this.votAutoSetVolumeSlider.label.querySelector(
+            "strong",
+          ).textContent = `${presetAutoVolume}%`;
         })();
       });
 
@@ -1212,7 +1237,7 @@ class VideoHandler {
           );
           this.votSubtitlesMaxLengthSlider.label.querySelector(
             "strong",
-          ).innerHTML = `${this.data.subtitlesMaxLength}`;
+          ).textContent = `${this.data.subtitlesMaxLength}`;
           this.subtitlesWidget.setMaxLength(this.data.subtitlesMaxLength);
         })();
       });
@@ -1666,7 +1691,7 @@ class VideoHandler {
     const newSlidersVolume = Math.round(videoVolume);
 
     this.votVideoVolumeSlider.input.value = newSlidersVolume;
-    this.votVideoVolumeSlider.label.querySelector("strong").innerHTML =
+    this.votVideoVolumeSlider.label.querySelector("strong").textContent =
       `${newSlidersVolume}%`;
     ui.updateSlider(this.votVideoVolumeSlider.input);
 
@@ -1711,7 +1736,7 @@ class VideoHandler {
     );
 
     slider.input.value = finalValue;
-    slider.label.querySelector("strong").innerHTML = `${finalValue}%`;
+    slider.label.querySelector("strong").textContent = `${finalValue}%`;
     ui.updateSlider(slider.input);
 
     // Update the temp variables for future syncing
@@ -1940,7 +1965,7 @@ class VideoHandler {
 
     if (this.data.autoSetVolumeYandexStyle === 1) {
       this.votVideoVolumeSlider.input.value = this.data.autoVolume * 100;
-      this.votVideoVolumeSlider.label.querySelector("strong").innerHTML = `${
+      this.votVideoVolumeSlider.label.querySelector("strong").textContent = `${
         this.data.autoVolume * 100
       }%`;
       ui.updateSlider(this.votVideoVolumeSlider.input);
