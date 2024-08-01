@@ -2,6 +2,7 @@ import js from "@eslint/js";
 import globals from "globals";
 import oxlint from "eslint-plugin-oxlint";
 import sonarjs from "eslint-plugin-sonarjs";
+import github from "eslint-plugin-github";
 
 export default [
   {
@@ -10,10 +11,19 @@ export default [
   js.configs.recommended,
   sonarjs.configs.recommended,
   {
+    plugins: {
+      github: github,
+    },
     rules: {
       "no-control-regex": 0,
       "no-async-promise-executor": 0,
       "sonarjs/max-switch-cases": 0,
+      "github/no-innerText": "error",
+      "github/no-inner-html": "error",
+      "github/no-useless-passive": "error",
+      "github/prefer-observers": "error",
+      "github/require-passive-events": "error",
+      // "github/unescaped-html-literal": "error",
     },
     languageOptions: {
       ecmaVersion: "latest",
