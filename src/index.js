@@ -36,8 +36,6 @@ import { syncVolume } from "./utils/volume.js";
 import { SubtitlesWidget, fetchSubtitles, getSubtitles } from "./subtitles.js";
 
 import youtubeUtils from "./utils/youtubeUtils.js";
-import coursehunterUtils from "./utils/coursehunterUtils.js";
-import courseraUtils from "./utils/courseraUtils.js";
 
 import { VideoObserver } from "./utils/VideoObserver.js";
 import { votStorage } from "./utils/storage.js";
@@ -1760,20 +1758,6 @@ class VideoHandler {
     } else if (this.site.host === "vk") {
       const trackLang = document.getElementsByTagName("track")?.[0]?.srclang;
       videoData.detectedLanguage = trackLang || "auto";
-    } else if (this.site.host === "coursera") {
-      const courseraData = await courseraUtils.getVideoData(
-        this.translateToLang,
-      );
-      videoData.duration = courseraData.duration || videoData.duration; // courseraData.duration sometimes it can be equal to NaN
-      videoData.detectedLanguage = courseraData.detectedLanguage;
-      videoData.translationHelp = courseraData.translationHelp;
-    } else if (this.site.host === "coursehunter") {
-      const coursehunterData = await coursehunterUtils.getVideoData();
-      videoData.translationHelp = {
-        // use direct link
-        url: coursehunterData.url,
-      };
-      videoData.duration = coursehunterData.duration || videoData.duration;
     } else if (this.site.host === "weverse") {
       videoData.detectedLanguage = "ko";
     } else if (
@@ -2098,10 +2082,6 @@ class VideoHandler {
       }
 
       return this.afterUpdateTranslation(streamURL);
-    }
-
-    if (["coursera"].includes(this.site.host) && !translationHelp) {
-      throw new VOTLocalizedError("VOTTranslationHelpNull");
     }
 
     this.cachedTranslation = this.videoTranslations.find(

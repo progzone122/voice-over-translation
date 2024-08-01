@@ -2304,6 +2304,7 @@ const sitesPeertube = [
         url: "https://coursehunter.net/course/",
         match: /^coursehunter.net$/,
         selector: "#oframeplayer > pjsdiv:nth-of-type(1)",
+        needExtraData: true,
     },
     {
         host: VideoService.okru,
@@ -3304,13 +3305,13 @@ class UdemyHelper {
         }
 
         const courseLangData = await this.getCourseLang(courseId);
-        let { locale: { locale } } = courseLangData;
-        locale = locale ? langTo6391(locale) : "en";
-        if (!availableLangs.includes(locale)) {
-            locale = "en";
+        let { locale: { locale: courseLang } } = courseLangData;
+        courseLang = courseLang ? langTo6391(courseLang) : "en";
+        if (!availableLangs.includes(courseLang)) {
+            courseLang = "en";
         }
 
-        const subtitleUrl = this.findSubtitleUrl(captions, locale);
+        const subtitleUrl = this.findSubtitleUrl(captions, courseLang);
         if (!subtitleUrl) {
             console.log("Failed to find subtitle file in captions", captions)
         }
@@ -3328,7 +3329,7 @@ class UdemyHelper {
                         targetUrl: videoUrl,
                     },
                 ],
-                detectedLanguage: locale,
+                detectedLanguage: courseLang,
             } : {
                 url: videoUrl,
                 translationHelp: null,
@@ -3336,6 +3337,117 @@ class UdemyHelper {
             duration,
             title,
             description,
+        };
+    }
+}
+class CoursehunterHelper {
+    API_ORIGIN = "https://coursehunter.net/api/v1";
+
+    async getLessonsData(courseId) {
+        const response = await GM_fetch(
+            `${this.API_ORIGIN}/course/${courseId}/lessons`,
+        );
+        return await response.json();
+    }
+
+    async getVideoData() {
+        const courseId = window.course_id ?? +document.querySelector('input[name="course_id"]')?.value;
+        const lessonsData = window.lessons ?? (await this.getLessonsData(courseId));
+        const lessonId = +document.querySelector(".lessons-item_active")?.dataset?.index || 1;
+        const currentLesson = lessonsData?.[lessonId - 1];
+        const { file: videoUrl, duration, title } = currentLesson;
+        if (!videoUrl) {
+            return false;
+        }
+
+        return {
+            url: videoUrl,
+            duration,
+            title
+        };
+    }
+}
+class CourseraHelper {
+    API_ORIGIN = "https://www.coursera.org/api";
+
+    async getCourseData(courseId) {
+        const response = await GM_fetch(
+            `${this.API_ORIGIN}/onDemandCourses.v1/${courseId}`,
+        );
+        const resJSON = await response.json();
+        return resJSON?.elements?.[0];
+    }
+
+    getPlayer() {
+        return document.querySelector(".vjs-v6");
+    }
+
+    getPlayerData() {
+        return this.getPlayer()?.player;
+    }
+
+    findVideoUrl(sources) {
+        return sources?.find((src) => src.type === "video/mp4")?.src;
+    }
+
+    findSubtitleUrl(captions, detectedLanguage) {
+        let subtitle = captions?.find(
+            (caption) => langTo6391(caption.srclang) === detectedLanguage,
+        );
+
+        if (!subtitle) {
+            subtitle = captions?.find(
+                (caption) => langTo6391(caption.srclang) === "en",
+            ) || captions?.[0];
+        }
+
+        return subtitle?.src;
+    }
+
+    async getVideoData(videoId) {
+        const data = this.getPlayerData();
+
+        const { duration } = data?.cache_ || {};
+        const { courseId, tracks, sources } = data?.options_ || {};
+
+        const videoUrl = this.findVideoUrl(sources);
+        if (!videoUrl) {
+            console.log("Failed to find .mp4 video file in sources", sources);
+            return false;
+        }
+
+        const { primaryLanguageCodes } = await this.getCourseData(courseId);
+        let courseLang = primaryLanguageCodes?.[0];
+        courseLang = courseLang ? langTo6391(courseLang) : "en";
+
+        if (!availableLangs.includes(courseLang)) {
+            courseLang = "en";
+        }
+
+        const subtitleUrl = this.findSubtitleUrl(tracks, courseLang);
+        if (!subtitleUrl) {
+            console.log("Failed to find subtitle file in tracks", tracks)
+        }
+
+        return {
+            ...subtitleUrl ? {
+                url: sites.find((s) => s.host === VideoService.coursera).url + videoId,
+                translationHelp: [
+                    {
+                        target: "subtitles_file_url",
+                        targetUrl: subtitleUrl,
+                    },
+                    {
+                        target: "video_file_url",
+                        targetUrl: videoUrl,
+                    },
+                ],
+                detectedLanguage: courseLang,
+            } : {
+                url: videoUrl,
+                translationHelp: null,
+            },
+            duration,
         };
     }
 }
@@ -3348,6 +3460,8 @@ class VideoHelper {
     static [VideoService.bannedvideo] = new BannedVideoHelper();
     static [VideoService.kick] = new KickHelper();
     static [VideoService.udemy] = new UdemyHelper();
+    static [VideoService.coursehunter] = new CoursehunterHelper();
+    static [VideoService.coursera] = new CourseraHelper();
 }
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/utils/videoData.js
@@ -3537,6 +3651,10 @@ async function getVideoID(service, video) {
         }
         case VideoService.yandexdisk:
             return /\/i\/([^/]+)/.exec(url.pathname)?.[1];
+        case VideoService.coursehunter: {
+            const courseId = /\/course\/([^/]+)/.exec(url.pathname)?.[1];
+            return courseId ? courseId + url.search : false;
+        }
         case VideoService.okru: {
             return /\/video\/(\d+)/.exec(url.pathname)?.[1];
         }
@@ -5763,152 +5881,6 @@ class SubtitlesWidget {
   }
 }
 
-;// CONCATENATED MODULE: ./src/utils/coursehunterUtils.js
-
-
-async function getCourseData(courseId) {
-  const response = await fetch(
-    `https://coursehunter.net/api/v1/course/${courseId}/lessons`,
-  );
-  return await response.json();
-}
-
-async function coursehunterUtils_getVideoData() {
-  const courseId =
-    window.course_id ??
-    document.querySelector('input[name="course_id"]')?.value;
-
-  const courseData = window.lessons ?? (await getCourseData(courseId));
-
-  const lessonId = parseInt(
-    document.querySelector(".lessons-item_active")?.dataset?.index ?? 1,
-  );
-
-  const lessonData = courseData?.[lessonId - 1];
-
-  const { file: videoUrl, duration } = lessonData;
-
-  utils_debug.log("coursehunter course data:", courseData);
-  return {
-    url: videoUrl,
-    duration,
-  };
-}
-
-/* harmony default export */ const coursehunterUtils = ({
-  getVideoData: coursehunterUtils_getVideoData,
-});
-
-;// CONCATENATED MODULE: ./src/utils/courseraUtils.js
-
-
-
-
-
-async function courseraUtils_getCourseData(courseId) {
-  const response = await fetch(
-    `https://www.coursera.org/api/onDemandCourses.v1/${courseId}`,
-  );
-  const resJSON = await response.json();
-  return resJSON?.elements?.[0];
-}
-
-function getSubtitlesFileURL(captions, detectedLanguage, responseLang) {
-  let subtitle = captions?.find(
-    (caption) => langTo6391(caption.srclang) === detectedLanguage,
-  );
-
-  if (!subtitle) {
-    subtitle =
-      captions?.find(
-        (caption) => langTo6391(caption.srclang) === responseLang,
-      ) || captions?.[0];
-  }
-
-  return subtitle?.src;
-}
-
-function getVideoFileURL(sources) {
-  // const source = sources?.find((src) => src.type === "video/webm" || src.type === "video/mp4",
-  const source = sources?.find((src) => src.type === "video/mp4");
-
-  return source?.src;
-}
-
-function courseraUtils_getPlayerData() {
-  return courseraUtils_getPlayer()?.player;
-}
-
-function courseraUtils_getPlayer() {
-  return document.querySelector(".vjs-v6");
-}
-
-// Get the video data from the player
-async function courseraUtils_getVideoData(responseLang = "en") {
-  let translationHelp = null;
-  const data = courseraUtils_getPlayerData();
-
-  const { duration } = data?.cache_ || {};
-  const { courseId, tracks, sources } = data?.options_ || {};
-
-  const videoURL = getVideoFileURL(sources);
-  const courseData = await courseraUtils_getCourseData(courseId);
-
-  let detectedLanguage = courseData?.primaryLanguageCodes?.[0];
-  detectedLanguage = detectedLanguage ? langTo6391(detectedLanguage) : "en";
-
-  if (!availableLangs.includes(detectedLanguage)) {
-    detectedLanguage = "en";
-  }
-
-  const subtitlesURL = getSubtitlesFileURL(
-    tracks,
-    detectedLanguage,
-    responseLang,
-  );
-  console.log(`videoURL: ${videoURL}, subtitlesURL: ${subtitlesURL}`);
-
-  if (subtitlesURL && videoURL) {
-    translationHelp = [
-      {
-        target: "video_file_url",
-        targetUrl: videoURL,
-      },
-      {
-        target: "subtitles_file_url",
-        targetUrl: `https://www.coursera.org${subtitlesURL}`,
-      },
-    ];
-  } else if (videoURL && !subtitlesURL) {
-    console.warn(
-      "[VOT] Subtitles files not found. Using the link only to the video file.",
-    );
-    translationHelp = {
-      url: videoURL,
-    };
-  } else {
-    console.error(
-      `Failed to find subtitlesURL or videoURL. videoURL: ${videoURL}, subtitlesURL: ${subtitlesURL}`,
-    );
-  }
-
-  const videoData = {
-    duration,
-    detectedLanguage,
-    translationHelp,
-  };
-
-  utils_debug.log("coursera video data:", videoData);
-  console.log("[VOT] Detected language: ", videoData.detectedLanguage);
-  return videoData;
-}
-
-/* harmony default export */ const courseraUtils = ({
-  getPlayer: courseraUtils_getPlayer,
-  getPlayerData: courseraUtils_getPlayerData,
-  getVideoData: courseraUtils_getVideoData,
-});
-
 // EXTERNAL MODULE: ./node_modules/requestidlecallback-polyfill/index.js
 var requestidlecallback_polyfill = __webpack_require__("./node_modules/requestidlecallback-polyfill/index.js");
 ;// CONCATENATED MODULE: ./src/utils/EventImpl.js
@@ -6128,8 +6100,6 @@ class VideoObserver {
 }
 
 ;// CONCATENATED MODULE: ./src/index.js
-
-
 
 
 
@@ -7868,20 +7838,6 @@ class VideoHandler {
     } else if (this.site.host === "vk") {
       const trackLang = document.getElementsByTagName("track")?.[0]?.srclang;
       videoData.detectedLanguage = trackLang || "auto";
-    } else if (this.site.host === "coursera") {
-      const courseraData = await courseraUtils.getVideoData(
-        this.translateToLang,
-      );
-      videoData.duration = courseraData.duration || videoData.duration; // courseraData.duration sometimes it can be equal to NaN
-      videoData.detectedLanguage = courseraData.detectedLanguage;
-      videoData.translationHelp = courseraData.translationHelp;
-    } else if (this.site.host === "coursehunter") {
-      const coursehunterData = await coursehunterUtils.getVideoData();
-      videoData.translationHelp = {
-        // use direct link
-        url: coursehunterData.url,
-      };
-      videoData.duration = coursehunterData.duration || videoData.duration;
     } else if (this.site.host === "weverse") {
       videoData.detectedLanguage = "ko";
     } else if (
@@ -8206,10 +8162,6 @@ class VideoHandler {
       }
 
       return this.afterUpdateTranslation(streamURL);
-    }
-
-    if (["coursera"].includes(this.site.host) && !translationHelp) {
-      throw new VOTLocalizedError("VOTTranslationHelpNull");
     }
 
     this.cachedTranslation = this.videoTranslations.find(
