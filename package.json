@@ -46,6 +46,7 @@
     "build": "run-p build:default",
     "build:min": "run-p build:default-min",
     "build:all": "run-p build build:min",
+    "build:bun": "bun run build:all",
     "dev": "webpack serve --node-env development",
     "lint": "npx oxlint --ignore-path=.oxlintignore && npx eslint",
     "prepare": "husky",
