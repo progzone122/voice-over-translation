@@ -3305,7 +3305,7 @@ class UdemyHelper {
         }
 
         const courseLangData = await this.getCourseLang(courseId);
-        let { locale: { courseLang } } = courseLangData;
+        let { locale: { locale: courseLang } } = courseLangData;
         courseLang = courseLang ? langTo6391(courseLang) : "en";
         if (!availableLangs.includes(courseLang)) {
             courseLang = "en";

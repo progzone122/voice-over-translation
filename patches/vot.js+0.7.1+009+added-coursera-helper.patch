@@ -127,7 +127,7 @@ index 57c4ebb..7144a63 100644
  //# sourceMappingURL=helper.d.ts.map
 \ No newline at end of file
 diff --git a/node_modules/vot.js/dist/utils/helper.js b/node_modules/vot.js/dist/utils/helper.js
-index 09ccc3a..d5520c3 100644
+index 09ccc3a..4e9f4ff 100644
 --- a/node_modules/vot.js/dist/utils/helper.js
 +++ b/node_modules/vot.js/dist/utils/helper.js
 @@ -1,7 +1,7 @@
@@ -147,7 +147,7 @@ index 09ccc3a..d5520c3 100644
 -        locale = locale ? langTo6391(locale) : "en";
 -        if (!availableLangs.includes(locale)) {
 -            locale = "en";
-+        let { locale: { courseLang } } = courseLangData;
++        let { locale: { locale: courseLang } } = courseLangData;
 +        courseLang = courseLang ? langTo6391(courseLang) : "en";
 +        if (!availableLangs.includes(courseLang)) {
 +            courseLang = "en";
