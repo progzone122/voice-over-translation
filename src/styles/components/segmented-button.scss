@@ -130,8 +130,8 @@
     fill: #f28b82;
   }
 
-  &[data-translating="true"] {
-    #vot-translating-icon {
+  &[data-loading="true"] {
+    #vot-loading-icon {
       display: block !important;
     }
 

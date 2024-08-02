@@ -439,13 +439,22 @@ class VideoHandler {
    */
   transformBtn(status = "none", text) {
     this.votButton.container.dataset.status = status;
-    this.votButton.container.dataset.translating =
-      status === "error"
-        ? text.includes(localizationProvider.get("translationTake")) ||
-          text === "Подготавливаем перевод"
-        : false;
+    const isLoading =
+      status === "error" &&
+      (text.includes(localizationProvider.get("translationTake")) ||
+        text === "Подготавливаем перевод");
+    this.setLoadingBtn(isLoading);
     this.votButton.label.textContent = text;
     this.votButton.container.title = status === "error" ? text : "";
+  }
+
+  /**
+   * Set loading icon to translation button
+   *
+   * @param {boolean} loading
+   */
+  setLoadingBtn(loading = false) {
+    this.votButton.container.dataset.loading = loading;
   }
 
   initUI() {
@@ -1891,7 +1900,6 @@ class VideoHandler {
 
   async updateTranslationErrorMsg(errorMessage) {
     const translationTake = localizationProvider.get("translationTake");
-    const VOTTranslatingError = localizationProvider.get("VOTTranslatingError");
     const lang = localizationProvider.lang;
 
     if (errorMessage?.name === "VOTLocalizedError") {
@@ -1902,7 +1910,7 @@ class VideoHandler {
       lang !== "ru"
     ) {
       // adds a stub text until a text translation is received to avoid a long delay with long text
-      this.transformBtn("error", VOTTranslatingError);
+      this.setLoadingBtn(true);
       const translatedMessage = await translate(errorMessage, "ru", lang);
       this.transformBtn("error", translatedMessage);
     } else {
@@ -2032,6 +2040,7 @@ class VideoHandler {
     // fix enabling the old requested voiceover when changing the language to the native language (#414)
     debug.log("Run videoValidator");
     this.videoValidator();
+    this.setLoadingBtn(true);
 
     if (isStream) {
       let translateRes = await this.translateStreamImpl(

@@ -187,6 +187,6 @@
   "VOTProxyWorkerHost": "Введите адрес worker прокси-сервера",
   "VOTM3u8ProxyHost": "Введите адрес m3u8 прокси-сервера",
   "proxySettings": "Настройки прокси-сервера",
-  "translationTakeApproximatelyMinute2": "Перевод займет примерно {0} минуту",
+  "translationTakeApproximatelyMinute2": "Перевод займёт примерно {0} минуту",
   "VOTAudioBooster": "Расширенное увеличение громкости перевода"
 }
