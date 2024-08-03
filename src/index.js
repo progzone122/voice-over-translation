@@ -44,6 +44,7 @@ import {
   translate,
   translateServices,
 } from "./utils/translateApis.js";
+import { sitesInvidious, sitesPiped } from "vot.js/alternativeUrls";
 
 const browserInfo = Bowser.getParser(window.navigator.userAgent).getResult();
 const dontTranslateMusic = false; // Пока не придумал как стоит реализовать
@@ -1983,6 +1984,14 @@ class VideoHandler {
       } catch (e) {
         console.error("[VOT]", e);
         if (e.name === "NotSupportedError") {
+          if (
+            [...sitesInvidious, ...sitesPiped].includes(
+              window.location.hostname,
+            )
+          ) {
+            // add localize phrase or find how to fix it without remove csp
+            throw new VOTLocalizedError("Media CSP error");
+          }
           this.data.audioProxy = 1;
           await votStorage.set("audioProxy", 1);
         }
