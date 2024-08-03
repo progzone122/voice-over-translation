@@ -57,7 +57,7 @@
   &-container {
     visibility: visible;
     position: absolute;
-    z-index: 10000;
+    z-index: 2147483647;
 
     &[hidden] {
       display: block !important;
