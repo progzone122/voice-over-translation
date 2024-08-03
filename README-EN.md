@@ -233,19 +233,18 @@ To activate the script in Tampermonkey (MV3), you must [enable "Developer Mode"]
 
 ## Tested in the following extensions for user scripts:
 
-| Status                                                                                                                 | Browser | Extension                                                                          |
-| ---------------------------------------------------------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------- |
-| ⠀✅                                                                                                                    | Any     | Tampermonkey Legacy (MV2)                                                          |
-| ⠀✅                                                                                                                    | Opera   | Tampermonkey Opera                                                                 |
-| ⠀✅                                                                                                                    | Chrome  | Tampermonkey (MV3)                                                                 |
-| ⠀[⚠️ Download](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot-cloudflare.user.js) | Safari  | Userscripts                                                                        |
-| ⠀[⚠️ Download](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot-cloudflare.user.js) | Any     | Violetmonkey                                                                       |
-| ⠀[⚠️ Download](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot-cloudflare.user.js) | Any     | [AdGuard Usercripts](https://kb.adguard.com/en/general/userscripts#supported-apps) |
-| ⠀[⚠️ Download](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot-cloudflare.user.js) | Firefox | Firemonkey                                                                         |
-| ⠀[⚠️ Download](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot-cloudflare.user.js) | Any     | Greasemonkey                                                                       |
-| ⠀[⚠️ Download](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot-cloudflare.user.js) | Any     | OrangeMonkey                                                                       |
-
-⚠️ - They are not priority extensions. These extensions, due to the "cloudflare" version of the user script, do not have cross-site synchronization of settings, and are also (practically) not tested before the release of a new version of the user script.
+| Status                                                                                                                                 | Browser | Extension                                                                          |
+| -------------------------------------------------------------------------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------- |
+| ⠀✅                                                                                                                                    | Any     | Tampermonkey Legacy (MV2)                                                          |
+| ⠀✅                                                                                                                                    | Opera   | Tampermonkey Opera                                                                 |
+| ⠀✅                                                                                                                                    | Chrome  | Tampermonkey (MV3)                                                                 |
+| ⠀❔                                                                                                                                    | Safari  | Userscripts                                                                        |
+| ⠀✅                                                                                                                                    | Any     | Violetmonkey                                                                       |
+| ⠀❔                                                                                                                                    | Any     | [AdGuard Usercripts](https://kb.adguard.com/en/general/userscripts#supported-apps) |
+| ⠀[Install guide](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ#how-to-use-the-extension-with-firemonkey)      | Firefox | Firemonkey                                                                         |
+| ⠀✅                                                                                                                                    | Firefox | Greasemonkey                                                                       |
+| ⠀⚠️ requestIdleCallback is full of errors, but it works                                                                                | Any     | OrangeMonkey                                                                       |
+| ⠀[Install guide](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ#how-to-use-the-extension-with-user-js-and-css) | Any     | User Javascript and CSS                                                            |
 
 ![example btn](https://github.com/ilyhalight/voice-over-translation/blob/master/img/example_en.png "btn")
 

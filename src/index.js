@@ -1903,6 +1903,9 @@ class VideoHandler {
 
     if (errorMessage?.name === "VOTLocalizedError") {
       this.transformBtn("error", errorMessage.localizedMessage);
+    } else if (errorMessage instanceof Error) {
+      // to prevent pass Error as text
+      this.transformBtn("error", errorMessage?.message);
     } else if (
       this.data.translateAPIErrors === 1 &&
       !errorMessage.includes(translationTake) &&

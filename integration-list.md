@@ -6,6 +6,13 @@
 | ⠀✅    | Работа в Chrome                                                          |
 | ⠀✅    | Работа в Arc                                                             |
 | ⠀✅    | Работа в Brave                                                           |
+| ⠀✅    | Работа в Opera GX                                                        |
+| ⠀✅    | Работа в расширение Tampermonkey                                         |
+| ⠀✅    | Работа в расширение User Javascript and CSS                              |
+| ⠀⚠️    | Работа в расширение OrangeMonkey                                         |
+| ⠀✅    | Работа в расширение GreaseMonkey                                         |
+| ⠀✅    | Работа в расширение FireMonkey                                           |
+| ⠀✅    | Работа в расширение VioletMonkey                                         |
 | ⠀✅    | Субтитры (везде)                                                         |
 | ⠀✅    | Перевод YouTube                                                          |
 | ⠀✅    | Перевод Weverse                                                          |
