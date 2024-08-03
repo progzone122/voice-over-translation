@@ -325,6 +325,8 @@ class VideoHandler {
       syncVolume: votStorage.get("syncVolume", 0, true),
       subtitlesMaxLength: votStorage.get("subtitlesMaxLength", 300, true),
       highlightWords: votStorage.get("highlightWords", 0, true),
+      subtitlesFontSize: votStorage.get("subtitlesFontSize", 20, true),
+      subtitlesOpacity: votStorage.get("subtitlesOpacity", 20, true),
       responseLanguage: votStorage.get("responseLanguage", lang),
       defaultVolume: votStorage.get("defaultVolume", 100, true),
       audioProxy: votStorage.get("audioProxy", 0, true),
@@ -399,6 +401,8 @@ class VideoHandler {
     );
     this.subtitlesWidget.setMaxLength(this.data.subtitlesMaxLength);
     this.subtitlesWidget.setHighlightWords(this.data.highlightWords);
+    this.subtitlesWidget.setFontSize(this.data.subtitlesFontSize);
+    this.subtitlesWidget.setOpacity(this.data.subtitlesOpacity);
 
     // audio booster
     this.audio.crossOrigin = "anonymous";
@@ -793,23 +797,11 @@ class VideoHandler {
       );
       this.votSettingsDialog.bodyContainer.appendChild(this.votSubtitlesHeader);
 
-      this.votSubtitlesMaxLengthSlider = ui.createSlider(
-        html`${localizationProvider.get("VOTSubtitlesMaxLength")}:
-          <strong>${this.data?.subtitlesMaxLength ?? 300}</strong>`,
-        this.data?.subtitlesMaxLength ?? 300,
-        50,
-        300,
+      this.votSubtitlesDetails = ui.createDetails(
+        localizationProvider.get("VOTSubtitlesDesign"),
       );
       this.votSettingsDialog.bodyContainer.appendChild(
-        this.votSubtitlesMaxLengthSlider.container,
-      );
-
-      this.votSubtitlesHighlightWordsCheckbox = ui.createCheckbox(
-        localizationProvider.get("VOTHighlightWords"),
-        this.data?.highlightWords ?? false,
-      );
-      this.votSettingsDialog.bodyContainer.appendChild(
-        this.votSubtitlesHighlightWordsCheckbox.container,
+        this.votSubtitlesDetails.container,
       );
 
       // PROXY
@@ -1213,34 +1205,125 @@ class VideoHandler {
 
       // SUBTITLES
 
-      this.votSubtitlesMaxLengthSlider.input.addEventListener("input", (e) => {
-        (async () => {
-          this.data.subtitlesMaxLength = Number(e.target.value);
-          await votStorage.set(
-            "subtitlesMaxLength",
-            this.data.subtitlesMaxLength,
-          );
-          this.votSubtitlesMaxLengthSlider.label.querySelector(
-            "strong",
-          ).textContent = `${this.data.subtitlesMaxLength}`;
-          this.subtitlesWidget.setMaxLength(this.data.subtitlesMaxLength);
-        })();
+      this.votSubtitlesDetails.container.addEventListener("click", () => {
+        this.votSubtitlesDialog = ui.createDialog(
+          localizationProvider.get("VOTSubtitlesDesign"),
+        );
+        this.votSubtitlesDialog.container.classList.add("vot-dialog-temp");
+        this.votSubtitlesDialog.container.hidden = false;
+        // remove the modal so that they do not accumulate
+        this.votSubtitlesDialog.backdrop.onclick =
+          this.votSubtitlesDialog.closeButton.onclick = () => {
+            this.votSubtitlesDialog.container.remove();
+          };
+
+        // subtitles elements
+        this.votSubtitlesHighlightWordsCheckbox = ui.createCheckbox(
+          localizationProvider.get("VOTHighlightWords"),
+          this.data?.highlightWords ?? false,
+        );
+        this.votSubtitlesDialog.bodyContainer.appendChild(
+          this.votSubtitlesHighlightWordsCheckbox.container,
+        );
+
+        this.votSubtitlesMaxLengthSlider = ui.createSlider(
+          html`${localizationProvider.get("VOTSubtitlesMaxLength")}:
+            <strong>${this.data?.subtitlesMaxLength ?? 300}</strong>`,
+          this.data?.subtitlesMaxLength ?? 300,
+          50,
+          300,
+        );
+        this.votSubtitlesDialog.bodyContainer.appendChild(
+          this.votSubtitlesMaxLengthSlider.container,
+        );
+
+        this.votSubtitlesFontSizeSlider = ui.createSlider(
+          html`${localizationProvider.get("VOTSubtitlesFontSize")}:
+            <strong>${this.data?.subtitlesFontSize ?? 20}</strong>`,
+          this.data?.subtitlesFontSize ?? 20,
+          8,
+          50,
+        );
+        this.votSubtitlesDialog.bodyContainer.appendChild(
+          this.votSubtitlesFontSizeSlider.container,
+        );
+
+        this.votSubtitlesOpacitySlider = ui.createSlider(
+          html`${localizationProvider.get("VOTSubtitlesOpacity")}:
+            <strong>${this.data?.subtitlesOpacity ?? 20}</strong>`,
+          this.data?.subtitlesOpacity ?? 20,
+          0,
+          100,
+        );
+        this.votSubtitlesDialog.bodyContainer.appendChild(
+          this.votSubtitlesOpacitySlider.container,
+        );
+
+        // subtitles events
+        this.votSubtitlesHighlightWordsCheckbox.input.addEventListener(
+          "change",
+          (e) => {
+            (async () => {
+              this.data.highlightWords = Number(e.target.checked);
+              await votStorage.set("highlightWords", this.data.highlightWords);
+              debug.log(
+                "highlightWords value changed. New value: ",
+                this.data.highlightWords,
+              );
+              this.subtitlesWidget.setHighlightWords(this.data.highlightWords);
+            })();
+          },
+        );
+
+        this.votSubtitlesMaxLengthSlider.input.addEventListener(
+          "input",
+          (e) => {
+            (async () => {
+              this.data.subtitlesMaxLength = Number(e.target.value);
+              await votStorage.set(
+                "subtitlesMaxLength",
+                this.data.subtitlesMaxLength,
+              );
+              this.votSubtitlesMaxLengthSlider.label.querySelector(
+                "strong",
+              ).textContent = `${this.data.subtitlesMaxLength}`;
+              this.subtitlesWidget.setMaxLength(this.data.subtitlesMaxLength);
+            })();
+          },
+        );
+
+        this.votSubtitlesFontSizeSlider.input.addEventListener("input", (e) => {
+          (async () => {
+            this.data.subtitlesFontSize = Number(e.target.value);
+            await votStorage.set(
+              "subtitlesFontSize",
+              this.data.subtitlesFontSize,
+            );
+            this.votSubtitlesFontSizeSlider.label.querySelector(
+              "strong",
+            ).textContent = `${this.data.subtitlesFontSize}`;
+            this.subtitlesWidget.setFontSize(this.data.subtitlesFontSize);
+          })();
+        });
+
+        this.votSubtitlesOpacitySlider.input.addEventListener("input", (e) => {
+          (async () => {
+            this.data.subtitlesOpacity = Number(e.target.value);
+            await votStorage.set(
+              "subtitlesOpacity",
+              this.data.subtitlesOpacity,
+            );
+            this.votSubtitlesOpacitySlider.label.querySelector(
+              "strong",
+            ).textContent = `${this.data.subtitlesOpacity}`;
+            this.subtitlesWidget.setOpacity(this.data.subtitlesOpacity);
+          })();
+        });
+
+        document.documentElement.appendChild(this.votSubtitlesDialog.container);
       });
 
-      this.votSubtitlesHighlightWordsCheckbox.input.addEventListener(
-        "change",
-        (e) => {
-          (async () => {
-            this.data.highlightWords = Number(e.target.checked);
-            await votStorage.set("highlightWords", this.data.highlightWords);
-            debug.log(
-              "highlightWords value changed. New value: ",
-              this.data.highlightWords,
-            );
-            this.subtitlesWidget.setHighlightWords(this.data.highlightWords);
-          })();
-        },
-      );
+      // OTHER
 
       this.votShowPiPButtonCheckbox.input.addEventListener("change", (e) => {
         (async () => {
@@ -1990,8 +2073,7 @@ class VideoHandler {
               window.location.hostname,
             )
           ) {
-            // add localize phrase or find how to fix it without remove csp
-            throw new VOTLocalizedError("Media CSP error");
+            throw new VOTLocalizedError("VOTMediaCSPError");
           }
           this.data.audioProxy = 1;
           await votStorage.set("audioProxy", 1);

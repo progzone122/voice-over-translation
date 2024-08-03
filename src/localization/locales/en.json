@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "Enter the address of the m3u8 proxy worker",
   "proxySettings": "Proxy Settings",
   "translationTakeApproximatelyMinute2": "The translation will take approximately {0} minutes",
-  "VOTAudioBooster": "Extended translation volume increase"
+  "VOTAudioBooster": "Extended translation volume increase",
+  "VOTMediaCSPError": "Failed to load audio (media csp error)",
+  "VOTSubtitlesDesign": "Subtitles design",
+  "VOTSubtitlesFontSize": "Font size of subtitles",
+  "VOTSubtitlesOpacity": "Transparency of the subtitle background"
 }

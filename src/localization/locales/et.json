@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "Sisestage m3u8 puhverserveri töötaja aadress",
   "proxySettings": "Puhverserveri Seaded",
   "translationTakeApproximatelyMinute2": "Tõlge võtab umbes {0} minutit",
-  "VOTAudioBooster": "Laiendatud tõlke mahu suurenemine"
+  "VOTAudioBooster": "Laiendatud tõlke mahu suurenemine",
+  "VOTMediaCSPError": "Heli laadimine nurjus (media csp viga)",
+  "VOTSubtitlesDesign": "Subtiitrite kujundus",
+  "VOTSubtitlesFontSize": "Subtiitrite fondi suurus",
+  "VOTSubtitlesOpacity": "Subtiitrite tausta läbipaistvus"
 }

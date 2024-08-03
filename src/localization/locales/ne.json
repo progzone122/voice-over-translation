@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "M3u8 प्रोक्सी कार्यकर्ताको ठेगाना प्रविष्ट गर्नुहोस्",
   "proxySettings": "प्रोक्सी सेटिङ",
   "translationTakeApproximatelyMinute2": "अनुवाद लगभग {0} मिनेट लाग्नेछ",
-  "VOTAudioBooster": "विस्तारित अनुवाद मात्रा वृद्धि"
+  "VOTAudioBooster": "विस्तारित अनुवाद मात्रा वृद्धि",
+  "VOTMediaCSPError": "अडियो लोड गर्न असफल भयो (मिडिया सीएसपी त्रुटि)",
+  "VOTSubtitlesDesign": "उपशीर्षक डिजाइन",
+  "VOTSubtitlesFontSize": "उपशीर्षकहरूको फन्ट साइज",
+  "VOTSubtitlesOpacity": "उपशीर्षक पृष्ठभूमिको पारदर्शिता"
 }

@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "M3u8 прокси ажилтны хаягийг оруулна уу",
   "proxySettings": "Прокси Тохиргоо",
   "translationTakeApproximatelyMinute2": "Орчуулга нь ойролцоогоор {0} минут болно",
-  "VOTAudioBooster": "Өргөтгөсөн орчуулгын хэмжээ нэмэгдэх"
+  "VOTAudioBooster": "Өргөтгөсөн орчуулгын хэмжээ нэмэгдэх",
+  "VOTMediaCSPError": "Аудио ачаалж чадаагүй (медиа csp алдаа)",
+  "VOTSubtitlesDesign": "Хадмалтай дизайн",
+  "VOTSubtitlesFontSize": "Хадмалтай үсгийн хэмжээ",
+  "VOTSubtitlesOpacity": "Subtitle background-ийн ил тод байдал"
 }

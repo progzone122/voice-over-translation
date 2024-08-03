@@ -200,7 +200,6 @@ Example of changing styles:
   --vot-surface-rgb: 32, 33, 36;
   --vot-onsurface-rgb: 227, 227, 227;
 
-  --vot-subtitles-background: rgba(var(--vot-surface-rgb, 46, 47, 52), 0.8);
   --vot-subtitles-color: rgb(var(--vot-onsurface-rgb, 227, 227, 227));
   --vot-subtitles-passed-color: rgb(var(--vot-primary-rgb, 33, 150, 243));
 }
@@ -208,24 +207,24 @@ Example of changing styles:
 
 ## The extension has been tested in the following browsers:
 
-| Status | Browser                   | Browser Version                   | Platform                | Extension                                                          |
-| ------ | ------------------------- | --------------------------------- | ----------------------- | ------------------------------------------------------------------ |
-| ⠀✅    | Firefox Developer Edition | v106 — v128, 64 bit               | Windows                 | Tampermonkey (MV2)                                                 |
-| ⠀✅    | Firefox                   | v116.0.2                          | Windows, Linux, Android | Tampermonkey (MV2), Violetmonkey                                   |
-| ⠀✅    | Firefox Nightly           | v118.0a1                          | Windows, Android        | Tampermonkey (MV2)                                                 |
-| ⠀✅    | LibreWolf                 | v100.0.2-1                        | Windows                 | Tampermonkey (MV2)                                                 |
-| ⠀✅    | Brave                     | v106.0.5249.91                    | Windows                 | Tampermonkey (MV2)                                                 |
-| ⠀✅    | MS Edge                   | v106.0.1370.34                    | Windows, Linux          | Tampermonkey (MV2)                                                 |
-| ⠀✅    | Cent Browser              | v4.3.9.248, 32 bit                | Windows                 | Tampermonkey (MV2)                                                 |
-| ⠀✅    | Cent Browser Beta         | v5.0.1002.182, 64 bit             | Windows                 | Tampermonkey (MV2)                                                 |
-| ⠀✅    | Google Chrome             | v106 — 126                        | Windows, MacOS, Linux   | Tampermonkey (MV2), Tampermonkey (MV3), Violetmonkey, OrangeMonkey |
-| ⠀✅    | Opera GX                  | LVL4 (core: 91) - LVL5 (core 109) | Windows                 | Tampermonkey Opera                                                 |
-| ⠀✅    | Opera                     | v92.0.4561.43                     | Windows                 | Tampermonkey Opera                                                 |
-| ⠀✅    | Vivaldi                   | 5.7.2921.63                       | Windows, Linux          | Tampermonkey (MV2)                                                 |
-| ⠀✅    | Safari                    | v15.6.1                           | MacOS, iOS              | Userscripts                                                        |
-| ⠀✅    | Kiwi Browser              | v116.0.5845.61                    | Android                 | Tampermonkey (MV2)                                                 |
-| ⠀✅    | Yandex Browser            | v24.4-24.6                        | Windows                 | Tampermonkey (MV2), Tampermonkey (MV3)                             |
-| ⠀✅    | Arc                       | v1.6.1                            | Windows                 | Tampermonkey (MV3)                                                 |
+| Status | Browser                   | Browser Version                   | Platform                | Extension                                                                                   |
+| ------ | ------------------------- | --------------------------------- | ----------------------- | ------------------------------------------------------------------------------------------- |
+| ⠀✅    | Firefox Developer Edition | v106 — v129, 64 bit               | Windows                 | Tampermonkey (MV2), FireMonkey, VioletMonkey, Greasemonkey                                  |
+| ⠀✅    | Firefox                   | v116.0.2                          | Windows, Linux, Android | Tampermonkey (MV2), Violetmonkey                                                            |
+| ⠀✅    | Firefox Nightly           | v118.0a1                          | Windows, Android        | Tampermonkey (MV2)                                                                          |
+| ⠀✅    | LibreWolf                 | v100.0.2-1                        | Windows                 | Tampermonkey (MV2)                                                                          |
+| ⠀✅    | Brave                     | v1.46 - v1.68.134                 | Windows                 | Tampermonkey (MV2)                                                                          |
+| ⠀✅    | MS Edge                   | v106.0.1370.34                    | Windows, Linux          | Tampermonkey (MV2)                                                                          |
+| ⠀✅    | Cent Browser              | v4.3.9.248, 32 bit                | Windows                 | Tampermonkey (MV2)                                                                          |
+| ⠀✅    | Cent Browser Beta         | v5.0.1002.182, 64 bit             | Windows                 | Tampermonkey (MV2)                                                                          |
+| ⠀✅    | Google Chrome             | v106 — v127                       | Windows, MacOS, Linux   | Tampermonkey (MV2), Tampermonkey (MV3), Violetmonkey, OrangeMonkey, User Javascript and CSS |
+| ⠀✅    | Opera GX                  | LVL4 (core: 91) - LVL5 (core 109) | Windows                 | Tampermonkey Opera                                                                          |
+| ⠀✅    | Opera                     | v92.0.4561.43                     | Windows                 | Tampermonkey Opera                                                                          |
+| ⠀✅    | Vivaldi                   | 5.7.2921.63                       | Windows, Linux          | Tampermonkey (MV2)                                                                          |
+| ⠀✅    | Safari                    | v15.6.1                           | MacOS, iOS              | Userscripts                                                                                 |
+| ⠀✅    | Kiwi Browser              | v116.0.5845.61                    | Android                 | Tampermonkey (MV2)                                                                          |
+| ⠀✅    | Yandex Browser            | v24.4-24.6                        | Windows                 | Tampermonkey (MV2), Tampermonkey (MV3)                                                      |
+| ⠀✅    | Arc                       | v1.6.1                            | Windows                 | Tampermonkey (MV3)                                                                          |
 
 Working with the modern version of Tampermonkey (MV3) has not been tested in most browsers. If there are problems, it is recommended to use Tampermonkey Legacy (MV2)
 
@@ -243,7 +242,7 @@ To activate the script in Tampermonkey (MV3), you must [enable "Developer Mode"]
 | ⠀❔                                                                                                                                    | Any     | [AdGuard Usercripts](https://kb.adguard.com/en/general/userscripts#supported-apps) |
 | ⠀[Install guide](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ#how-to-use-the-extension-with-firemonkey)      | Firefox | Firemonkey                                                                         |
 | ⠀✅                                                                                                                                    | Firefox | Greasemonkey                                                                       |
-| ⠀⚠️ requestIdleCallback is full of errors, but it works                                                                                | Any     | OrangeMonkey                                                                       |
+| ⚠️ requestIdleCallback is full of errors, but it works                                                                                 | Any     | OrangeMonkey                                                                       |
 | ⠀[Install guide](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ#how-to-use-the-extension-with-user-js-and-css) | Any     | User Javascript and CSS                                                            |
 
 ![example btn](https://github.com/ilyhalight/voice-over-translation/blob/master/img/example_en.png "btn")

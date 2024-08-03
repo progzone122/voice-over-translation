@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "Immettere l'indirizzo del proxy worker m3u8",
   "proxySettings": "Impostazioni proxy",
   "translationTakeApproximatelyMinute2": "La traduzione richiederà circa {0} minuti",
-  "VOTAudioBooster": "Aumento del volume di traduzione esteso"
+  "VOTAudioBooster": "Aumento del volume di traduzione esteso",
+  "VOTMediaCSPError": "Caricamento audio non riuscito (errore media csp)",
+  "VOTSubtitlesDesign": "Sottotitoli design",
+  "VOTSubtitlesFontSize": "Dimensione del carattere dei sottotitoli",
+  "VOTSubtitlesOpacity": "Trasparenza dello sfondo dei sottotitoli"
 }

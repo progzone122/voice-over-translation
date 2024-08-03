@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "Vnesite naslov pooblaščenca m3u8",
   "proxySettings": "Nastavitve Posrednika",
   "translationTakeApproximatelyMinute2": "Prevod bo trajal približno {0} minut",
-  "VOTAudioBooster": "Povečanje obsega razširjenega prevajanja"
+  "VOTAudioBooster": "Povečanje obsega razširjenega prevajanja",
+  "VOTMediaCSPError": "Ni bilo mogoče naložiti zvoka (napaka media CSP)",
+  "VOTSubtitlesDesign": "Oblikovanje podnapisov",
+  "VOTSubtitlesFontSize": "Velikost pisave podnapisov",
+  "VOTSubtitlesOpacity": "Preglednost ozadja podnapisov"
 }

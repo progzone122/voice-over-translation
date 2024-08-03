@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "Anna M3U8-valtakirjan työntekijän osoite",
   "proxySettings": "Välityspalvelimen Asetukset",
   "translationTakeApproximatelyMinute2": "Käännös kestää noin {0} minuuttia",
-  "VOTAudioBooster": "Laajennettu käännösmäärä kasvaa"
+  "VOTAudioBooster": "Laajennettu käännösmäärä kasvaa",
+  "VOTMediaCSPError": "Äänen lataaminen epäonnistui (median csp-virhe)",
+  "VOTSubtitlesDesign": "Tekstitysten suunnittelu",
+  "VOTSubtitlesFontSize": "Tekstityksen kirjasinkoko",
+  "VOTSubtitlesOpacity": "Tekstityksen Taustan läpinäkyvyys"
 }

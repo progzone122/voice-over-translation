@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "Indtast adressen på M3U8 fuldmægtig",
   "proxySettings": "Fuldmagtsindstillinger",
   "translationTakeApproximatelyMinute2": "Oversættelsen tager cirka {0} minutter",
-  "VOTAudioBooster": "Udvidet oversættelse volumen stigning"
+  "VOTAudioBooster": "Udvidet oversættelse volumen stigning",
+  "VOTMediaCSPError": "Kunne ikke indlæse lyd (media CSP-fejl)",
+  "VOTSubtitlesDesign": "Undertekster design",
+  "VOTSubtitlesFontSize": "Skriftstørrelse på undertekster",
+  "VOTSubtitlesOpacity": "Gennemsigtighed i undertekstbaggrunden"
 }

@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "أدخل عنوان عامل الوكيل إم 3 يو 8",
   "proxySettings": "إعدادات الوكيل",
   "translationTakeApproximatelyMinute2": "ستستغرق الترجمة حوالي {0} دقيقة",
-  "VOTAudioBooster": "زيادة حجم الترجمة الموسعة"
+  "VOTAudioBooster": "زيادة حجم الترجمة الموسعة",
+  "VOTMediaCSPError": "فشل تحميل الصوت (خطأ في الطاقة الشمسية المركزة في الوسائط)",
+  "VOTSubtitlesDesign": "تصميم الترجمة",
+  "VOTSubtitlesFontSize": "حجم الخط من ترجمات",
+  "VOTSubtitlesOpacity": "شفافية خلفية العنوان الفرعي"
 }

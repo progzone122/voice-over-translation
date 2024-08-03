@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "Zadejte adresu pracovníka proxy m3u8",
   "proxySettings": "Nastavení Serveru Proxy",
   "translationTakeApproximatelyMinute2": "Překlad bude trvat přibližně {0} minut",
-  "VOTAudioBooster": "Rozšíření objemu překladu"
+  "VOTAudioBooster": "Rozšíření objemu překladu",
+  "VOTMediaCSPError": "Nepodařilo se načíst zvuk (chyba media CSP)",
+  "VOTSubtitlesDesign": "Titulky design",
+  "VOTSubtitlesFontSize": "Velikost písma titulků",
+  "VOTSubtitlesOpacity": "Průhlednost pozadí titulků"
 }

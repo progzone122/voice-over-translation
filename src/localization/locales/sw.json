@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "Ingiza anwani ya mfanyakazi wa wakala wa m3u8",
   "proxySettings": "Mipangilio Ya Wakala",
   "translationTakeApproximatelyMinute2": "Tafsiri itachukua takriban {0} dakika",
-  "VOTAudioBooster": "Kuongezeka kwa kiasi cha tafsiri"
+  "VOTAudioBooster": "Kuongezeka kwa kiasi cha tafsiri",
+  "VOTMediaCSPError": "Imeshindwa kupakia sauti (kosa la media csp)",
+  "VOTSubtitlesDesign": "Subtitles kubuni",
+  "VOTSubtitlesFontSize": "Ukubwa wa fonti ya manukuu",
+  "VOTSubtitlesOpacity": "Uwazi wa mandharinyuma ya manukuu"
 }

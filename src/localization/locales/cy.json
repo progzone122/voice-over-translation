@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "Rhowch gyfeiriad y gweithiwr dirprwy m3u8",
   "proxySettings": "Gosodiadau Dirprwy",
   "translationTakeApproximatelyMinute2": "Bydd y cyfieithiad yn cymryd oddeutu {0} munud",
-  "VOTAudioBooster": "Cynyddu cyfaint cyfieithu estynedig"
+  "VOTAudioBooster": "Cynyddu cyfaint cyfieithu estynedig",
+  "VOTMediaCSPError": "Methu llwytho sain (gwall csp cyfrwng)",
+  "VOTSubtitlesDesign": "Isdeitlau dylunio",
+  "VOTSubtitlesFontSize": "Maint ffont isdeitlau",
+  "VOTSubtitlesOpacity": "Tryloywder cefndir yr is-deitl"
 }

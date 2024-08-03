@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "Ange adressen till M3U8-proxyarbetaren",
   "proxySettings": "Proxyinställningar",
   "translationTakeApproximatelyMinute2": "Översättningen tar ungefär {0} minuter",
-  "VOTAudioBooster": "Utökad volymökning av översättning"
+  "VOTAudioBooster": "Utökad volymökning av översättning",
+  "VOTMediaCSPError": "Det gick inte att ladda ljud (media csp-fel)",
+  "VOTSubtitlesDesign": "Textning design",
+  "VOTSubtitlesFontSize": "Teckenstorlek på undertexter",
+  "VOTSubtitlesOpacity": "Öppenhet i undertextens bakgrund"
 }

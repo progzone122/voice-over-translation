@@ -264,6 +264,8 @@ export class SubtitlesWidget {
     this.subtitles = null;
     this.lastContent = null;
     this.highlightWords = false;
+    this.fontSize = 20;
+    this.opacity = 0.2;
     this.maxLength = 300;
     this.maxLengthRegexp = /.{1,300}(?:\s|$)/g;
 
@@ -379,6 +381,29 @@ export class SubtitlesWidget {
     this.update();
   }
 
+  setFontSize(size) {
+    this.fontSize = size;
+    const subtitlesEl =
+      this.subtitlesContainer?.querySelector(".vot-subtitles");
+    if (subtitlesEl) {
+      subtitlesEl.style.fontSize = `${this.fontSize}px`;
+    }
+  }
+
+  /**
+   * Set subtitles opacity by percentage where 100 - full transparent, 0 - not transparent
+   *
+   * @param {number} rate - 0-100 percent of opacity
+   */
+  setOpacity(rate) {
+    this.opacity = ((100 - +rate) / 100).toFixed(2);
+    const subtitlesEl =
+      this.subtitlesContainer?.querySelector(".vot-subtitles");
+    if (subtitlesEl) {
+      subtitlesEl.style.setProperty("--vot-subtitles-opacity", this.opacity);
+    }
+  }
+
   update() {
     if (!this.video || !this.subtitles) return;
 
@@ -398,7 +423,12 @@ export class SubtitlesWidget {
     if (stringContent !== this.lastContent) {
       this.lastContent = stringContent;
       render(
-        html`<vot-block class="vot-subtitles">${content}</vot-block>`,
+        html`<vot-block
+          class="vot-subtitles"
+          style="font-size: ${this.fontSize}px; --vot-subtitles-opacity: ${this
+            .opacity}"
+          >${content}</vot-block
+        >`,
         this.subtitlesContainer,
       );
     }

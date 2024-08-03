@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "M3u8 proxy çalışanının adresini girin",
   "proxySettings": "Proxy Ayarları",
   "translationTakeApproximatelyMinute2": "Çeviri yaklaşık {0} dakika sürecektir",
-  "VOTAudioBooster": "Genişletilmiş çeviri hacmi artışı"
+  "VOTAudioBooster": "Genişletilmiş çeviri hacmi artışı",
+  "VOTMediaCSPError": "Ses yüklenemedi (ortam csp hatası)",
+  "VOTSubtitlesDesign": "Altyazı tasarımı",
+  "VOTSubtitlesFontSize": "Altyazıların yazı tipi boyutu",
+  "VOTSubtitlesOpacity": "Altyazı arka planının şeffaflığı"
 }

@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "Введите адрес m3u8 прокси-сервера",
   "proxySettings": "Настройки прокси-сервера",
   "translationTakeApproximatelyMinute2": "Перевод займёт примерно {0} минуту",
-  "VOTAudioBooster": "Расширенное увеличение громкости перевода"
+  "VOTAudioBooster": "Расширенное увеличение громкости перевода",
+  "VOTMediaCSPError": "Не удалось загрузить аудио (ошибка media csp)",
+  "VOTSubtitlesDesign": "Оформление субтитров",
+  "VOTSubtitlesFontSize": "Размер шрифта субтитров",
+  "VOTSubtitlesOpacity": "Прозрачность фона субтитров"
 }

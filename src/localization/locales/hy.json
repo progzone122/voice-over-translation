@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "Մուտքագրեք աշխատանքային m3u8 վստահված անձի հասցեն",
   "proxySettings": "Վստահված սերվերի կարգավորումներ",
   "translationTakeApproximatelyMinute2": "Թարգմանությունը կտեւի մոտավորապես {0} րոպե",
-  "VOTAudioBooster": "Ընդլայնված թարգմանության ծավալի ավելացում"
+  "VOTAudioBooster": "Ընդլայնված թարգմանության ծավալի ավելացում",
+  "VOTMediaCSPError": "Չհաջողվեց բեռնել աուդիո (media csp սխալ)",
+  "VOTSubtitlesDesign": "Ենթագրերի ձևավորում",
+  "VOTSubtitlesFontSize": "Ենթագրերի տառատեսակի չափը",
+  "VOTSubtitlesOpacity": "Ենթագրերի ֆոնի թափանցիկություն"
 }

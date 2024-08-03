@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "ਐਮ 3 ਯੂ 8 ਪ੍ਰੌਕਸੀ ਵਰਕਰ ਦਾ ਪਤਾ ਦਰਜ ਕਰੋ",
   "proxySettings": "ਪਰਾਕਸੀ ਸੈਟਿੰਗ",
   "translationTakeApproximatelyMinute2": "ਅਨੁਵਾਦ ਲਗਭਗ {0} ਮਿੰਟ ਲਵੇਗਾ",
-  "VOTAudioBooster": "ਵਿਸਤ੍ਰਿਤ ਅਨੁਵਾਦ ਵਾਲੀਅਮ ਵਾਧਾ"
+  "VOTAudioBooster": "ਵਿਸਤ੍ਰਿਤ ਅਨੁਵਾਦ ਵਾਲੀਅਮ ਵਾਧਾ",
+  "VOTMediaCSPError": "ਆਡੀਓ ਲੋਡ ਕਰਨ ਲਈ ਫੇਲ੍ਹ (ਮੀਡਿਆ ਸੀਐਸਪੀ ਗਲਤੀ)",
+  "VOTSubtitlesDesign": "ਉਪਸਿਰਲੇਖ ਡਿਜ਼ਾਈਨ",
+  "VOTSubtitlesFontSize": "ਉਪਸਿਰਲੇਖਾਂ ਦਾ ਫੋਂਟ ਸਾਈਜ਼",
+  "VOTSubtitlesOpacity": "ਉਪਸਿਰਲੇਖ ਪਿਛੋਕੜ ਦੀ ਪਾਰਦਰਸ਼ਤਾ"
 }

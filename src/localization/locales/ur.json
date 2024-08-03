@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "M3u8 پراکسی ورکر کا پتہ درج کریں ۔ ",
   "proxySettings": "پراکسی کی ترتیبات",
   "translationTakeApproximatelyMinute2": "ترجمہ میں تقریبا {0} منٹ لگیں گے",
-  "VOTAudioBooster": "توسیع شدہ ترجمہ حجم میں اضافہ"
+  "VOTAudioBooster": "توسیع شدہ ترجمہ حجم میں اضافہ",
+  "VOTMediaCSPError": "آڈیو لوڈ کرنے میں ناکام (میڈیا سی ایس پی کی خرابی)",
+  "VOTSubtitlesDesign": "سب ٹائٹلز ڈیزائن",
+  "VOTSubtitlesFontSize": "سب ٹائٹلز کا فونٹ سائز",
+  "VOTSubtitlesOpacity": "ذیلی عنوان کے پس منظر کی شفافیت"
 }

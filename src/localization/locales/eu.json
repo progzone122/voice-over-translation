@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "Sartu m3u8 ordezkariaren helbidea",
   "proxySettings": "Ordezko Ezarpenak",
   "translationTakeApproximatelyMinute2": "Itzulpenak gutxi gorabehera {0} minutu hartuko ditu",
-  "VOTAudioBooster": "Luzatu itzulpen bolumena handitzea"
+  "VOTAudioBooster": "Luzatu itzulpen bolumena handitzea",
+  "VOTMediaCSPError": "Huts egin du audioa kargatzean (euskarriaren ksp errorea)",
+  "VOTSubtitlesDesign": "Azpitituluen diseinua",
+  "VOTSubtitlesFontSize": "Azpitituluen letra-tamaina",
+  "VOTSubtitlesOpacity": "Azpitituluen atzeko planoaren gardentasuna"
 }

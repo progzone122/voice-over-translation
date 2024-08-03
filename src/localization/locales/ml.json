@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "എം 3 യു 8 പ്രോക്സി തൊഴിലാളിയുടെ വിലാസം നൽകുക",
   "proxySettings": "പ്രോക്സി ക്രമീകരണങ്ങൾ",
   "translationTakeApproximatelyMinute2": "പരിഭാഷ ഏകദേശം {0} മിനിറ്റ് എടുക്കും",
-  "VOTAudioBooster": "വിപുലീകരിച്ച പരിഭാഷ വോള്യം വർദ്ധിപ്പിക്കാൻ"
+  "VOTAudioBooster": "വിപുലീകരിച്ച പരിഭാഷ വോള്യം വർദ്ധിപ്പിക്കാൻ",
+  "VOTMediaCSPError": "ഓഡിയോ ലോഡ് ചെയ്യുന്നതില് പരാജയം (മീഡിയ സിഎസ്പി പിശക്)",
+  "VOTSubtitlesDesign": "സബ്ടൈറ്റിലുകൾ ഡിസൈൻ",
+  "VOTSubtitlesFontSize": "സബ്ടൈറ്റിലുകളുടെ അക്ഷരസഞ്ചയം",
+  "VOTSubtitlesOpacity": "സബ്ടൈറ്റിൽ പശ്ചാത്തലത്തിന്റെ സുതാര്യത"
 }

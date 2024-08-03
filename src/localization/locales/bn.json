@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "এম 3 ইউ 8 প্রক্সি কর্মীর ঠিকানা লিখুন",
   "proxySettings": "প্রক্সি সেটিংস",
   "translationTakeApproximatelyMinute2": "অনুবাদটি প্রায় {0} মিনিট সময় নেবে",
-  "VOTAudioBooster": "বর্ধিত অনুবাদ ভলিউম বৃদ্ধি"
+  "VOTAudioBooster": "বর্ধিত অনুবাদ ভলিউম বৃদ্ধি",
+  "VOTMediaCSPError": "অডিও লোড করতে ব্যর্থ (মিডিয়া সিএসপি ত্রুটি)",
+  "VOTSubtitlesDesign": "সাবটাইটেল ডিজাইন",
+  "VOTSubtitlesFontSize": "সাবটাইটেলের ফন্টের আকার",
+  "VOTSubtitlesOpacity": "সাবটাইটেল পটভূমির স্বচ্ছতা"
 }

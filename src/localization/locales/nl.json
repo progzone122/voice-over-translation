@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "Voer het adres van de m3u8 proxy worker in",
   "proxySettings": "Proxy-Instellingen",
   "translationTakeApproximatelyMinute2": "De vertaling duurt ongeveer {0} minuten",
-  "VOTAudioBooster": "Uitbreiding van het vertaalvolume"
+  "VOTAudioBooster": "Uitbreiding van het vertaalvolume",
+  "VOTMediaCSPError": "Laden van audio is mislukt (media csp-fout)",
+  "VOTSubtitlesDesign": "Ondertitels ontwerp",
+  "VOTSubtitlesFontSize": "Lettergrootte van ondertitels",
+  "VOTSubtitlesOpacity": "Transparantie van de ondertitelingsachtergrond"
 }

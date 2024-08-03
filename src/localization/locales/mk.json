@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "Внесете ја адресата на прокси-работникот м3у8",
   "proxySettings": "Поставки За Прокси",
   "translationTakeApproximatelyMinute2": "Преводот ќе трае приближно {0} минути",
-  "VOTAudioBooster": "Зголемен обем на превод"
+  "VOTAudioBooster": "Зголемен обем на превод",
+  "VOTMediaCSPError": "Не успеа да вчита аудио (грешка во медиумскиот цсп)",
+  "VOTSubtitlesDesign": "Преводи дизајн",
+  "VOTSubtitlesFontSize": "Големина на фонт на преводи",
+  "VOTSubtitlesOpacity": "Транспарентност на позадината на титлот"
 }

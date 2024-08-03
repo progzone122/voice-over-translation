@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "M3u8 işləyən proxy server ünvanını daxil edin",
   "proxySettings": "Proxy server parametrləri",
   "translationTakeApproximatelyMinute2": "Tərcümə təxminən {0} dəqiqə çəkəcək",
-  "VOTAudioBooster": "Genişləndirilmiş tərcümə həcminin artırılması"
+  "VOTAudioBooster": "Genişləndirilmiş tərcümə həcminin artırılması",
+  "VOTMediaCSPError": "Audio yükləyə bilmədi (media csp xətası)",
+  "VOTSubtitlesDesign": "Altyazı dizaynı",
+  "VOTSubtitlesFontSize": "Altyazı şrift ölçüsü",
+  "VOTSubtitlesOpacity": "Altyazı fon şəffaflığı"
 }

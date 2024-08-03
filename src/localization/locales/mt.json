@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "Daħħal l indirizz tal ħaddiem tal prokura m3u8",
   "proxySettings": "Settings Tal-Prokura",
   "translationTakeApproximatelyMinute2": "It-traduzzjoni tieħu madwar {0} minuti",
-  "VOTAudioBooster": "Żieda estiża fil-volum tat-traduzzjoni"
+  "VOTAudioBooster": "Żieda estiża fil-volum tat-traduzzjoni",
+  "VOTMediaCSPError": "Naqas milli jgħabbi l-awdjo (żball tal-psp tal-midja)",
+  "VOTSubtitlesDesign": "Disinn tas-sottotitoli",
+  "VOTSubtitlesFontSize": "Daqs tat-tipa tas-sottotitoli",
+  "VOTSubtitlesOpacity": "Trasparenza tal-isfond tas-sottotitolu"
 }

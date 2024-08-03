@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "Pilih alamat m3u8 pekerja proxy",
   "proxySettings": "Setelan Proxy",
   "translationTakeApproximatelyMinute2": "Terjemahan bakal njupuk kira-kira {0} menit",
-  "VOTAudioBooster": "Tambah volume terjemahan sing ditambahi"
+  "VOTAudioBooster": "Tambah volume terjemahan sing ditambahi",
+  "VOTMediaCSPError": "Gagal kanggo mbukak audio (kesalahan csp media)",
+  "VOTSubtitlesDesign": "Subtitle desain",
+  "VOTSubtitlesFontSize": "Ukuran Font saka subtitles",
+  "VOTSubtitlesOpacity": "Transparansi latar mburi subtitle"
 }

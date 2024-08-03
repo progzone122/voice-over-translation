@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "Unesite adresu radnog opunomoćenika od 93 do 8",
   "proxySettings": "Postavke opunomoćenika",
   "translationTakeApproximatelyMinute2": "Prijevod će trajati približno {0} minuta",
-  "VOTAudioBooster": "Povećanje opsega proširenog prijevoda"
+  "VOTAudioBooster": "Povećanje opsega proširenog prijevoda",
+  "VOTMediaCSPError": "Preuzimanje zvuka nije uspjelo (pogreška u NDR-u)",
+  "VOTSubtitlesDesign": "Dizajn titlova",
+  "VOTSubtitlesFontSize": "Veličina fonta titla",
+  "VOTSubtitlesOpacity": "Transparentnost pozadine titlova"
 }

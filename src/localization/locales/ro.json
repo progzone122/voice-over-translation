@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "Introduceți adresa lucrătorului proxy m3u8",
   "proxySettings": "Setări Proxy",
   "translationTakeApproximatelyMinute2": "Traducerea va dura aproximativ {0} minute",
-  "VOTAudioBooster": "Creșterea extinsă a volumului de traducere"
+  "VOTAudioBooster": "Creșterea extinsă a volumului de traducere",
+  "VOTMediaCSPError": "Nu s-a încărcat audio (eroare media csp)",
+  "VOTSubtitlesDesign": "Design subtitrari",
+  "VOTSubtitlesFontSize": "Dimensiunea fontului subtitrărilor",
+  "VOTSubtitlesOpacity": "Transparența fundalului subtitrării"
 }

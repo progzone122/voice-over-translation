@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "M3u8 proksi-serverining manzilini kiriting",
   "proxySettings": "Proksi Moslamalari",
   "translationTakeApproximatelyMinute2": "Tarjima taxminan {0} daqiqa davom etadi",
-  "VOTAudioBooster": "Kengaytirilgan tarjima hajmini oshirish"
+  "VOTAudioBooster": "Kengaytirilgan tarjima hajmini oshirish",
+  "VOTMediaCSPError": "Ovozni yuklab bo'lmadi (media CSP xatosi)",
+  "VOTSubtitlesDesign": "Subtitrlar dizayni",
+  "VOTSubtitlesFontSize": "Subtitrlarning shrift o'lchami",
+  "VOTSubtitlesOpacity": "Subtitr fonining shaffofligi"
 }

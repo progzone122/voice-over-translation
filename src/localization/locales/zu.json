@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "Faka ikheli le-m3u8 proxy worker",
   "proxySettings": "Izilungiselelo Ze-Proxy",
   "translationTakeApproximatelyMinute2": "Ukuhumusha kuzothatha cishe imizuzu {0}",
-  "VOTAudioBooster": "Ukwanda kwevolumu yokuhumusha okwandisiwe"
+  "VOTAudioBooster": "Ukwanda kwevolumu yokuhumusha okwandisiwe",
+  "VOTMediaCSPError": "Yehlulekile ukulayisha audio (media csp iphutha)",
+  "VOTSubtitlesDesign": "Umklamo wemibhalo engezansi",
+  "VOTSubtitlesFontSize": "Usayizi wefonti yemibhalo engezansi",
+  "VOTSubtitlesOpacity": "Ukungafihli lutho kwesizinda sesihlokwana"
 }

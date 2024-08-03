@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "Írja be az m3u8 proxy munkás címét",
   "proxySettings": "Proxy Beállítások",
   "translationTakeApproximatelyMinute2": "A fordítás körülbelül {0} percet vesz igénybe",
-  "VOTAudioBooster": "Bővített fordítási volumen növekedés"
+  "VOTAudioBooster": "Bővített fordítási volumen növekedés",
+  "VOTMediaCSPError": "Nem sikerült betölteni a hangot (media csp hiba)",
+  "VOTSubtitlesDesign": "Feliratok tervezése",
+  "VOTSubtitlesFontSize": "A feliratok betűmérete",
+  "VOTSubtitlesOpacity": "A felirat hátterének átláthatósága"
 }

@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "输入m3u8代理worker的地址",
   "proxySettings": "代理设置",
   "translationTakeApproximatelyMinute2": "翻译大约需要{0}分钟",
-  "VOTAudioBooster": "扩展翻译量增加"
+  "VOTAudioBooster": "扩展翻译量增加",
+  "VOTMediaCSPError": "加载音频失败（媒体csp错误）",
+  "VOTSubtitlesDesign": "字幕设计",
+  "VOTSubtitlesFontSize": "字幕的字体大小",
+  "VOTSubtitlesOpacity": "字幕背景的透明度"
 }

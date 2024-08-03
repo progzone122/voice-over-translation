@@ -188,5 +188,9 @@
   "VOTM3u8ProxyHost": "ໃສ່ທີ່ຢູ່ຂອງພະນັກງານຕົວແທນ m3u8",
   "proxySettings": "ການຕັ້ງຄ່າຕົວແທນ",
   "translationTakeApproximatelyMinute2": "ການແປພາສາຈະໃຊ້ເວລາປະມານ{0}ນາທີ",
-  "VOTAudioBooster": "ການແປພາສາຂະຫຍາຍປະລິມານເພີ່ມຂຶ້ນ"
+  "VOTAudioBooster": "ການແປພາສາຂະຫຍາຍປະລິມານເພີ່ມຂຶ້ນ",
+  "VOTMediaCSPError": "ລົ້ມເຫລວໃນການໂຫຼດສຽງ(media csp error)",
+  "VOTSubtitlesDesign": "ການອອກແບບຄໍາບັນຍາຍ",
+  "VOTSubtitlesFontSize": "ຂະໜາດຕົວອັກສອນຂອງຄຳບັນຍາຍ",
+  "VOTSubtitlesOpacity": "ຄວາມໂປ່ງໃສຂອງຄວາມເປັນມາ subtitle ໄດ້"
 }
