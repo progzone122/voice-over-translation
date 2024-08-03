@@ -828,25 +828,23 @@ class VideoHandler {
         this.votM3u8ProxyHostTextfield.container,
       );
 
-      // cf version only
       this.votProxyWorkerHostTextfield = ui.createTextfield(
         localizationProvider.get("VOTProxyWorkerHost"),
         this.data?.proxyWorkerHost,
         proxyWorkerHost,
       );
-      this.votProxyWorkerHostTextfield.container.hidden =
-        this.data.translateProxyEnabled !== 1;
+      // this.votProxyWorkerHostTextfield.container.hidden =
+      //   this.data.translateProxyEnabled !== 1;
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votProxyWorkerHostTextfield.container,
       );
 
-      // cf version only
       this.votAudioProxyCheckbox = ui.createCheckbox(
         localizationProvider.get("VOTAudioProxy"),
         this.data?.audioProxy ?? false,
       );
-      this.votAudioProxyCheckbox.container.hidden =
-        this.data.translateProxyEnabled !== 1;
+      // this.votAudioProxyCheckbox.container.hidden =
+      //   this.data.translateProxyEnabled !== 1;
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votAudioProxyCheckbox.container,
       );
