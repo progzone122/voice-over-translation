@@ -96,10 +96,15 @@ const youtubeSiteData = {
   limits: [i18n.noPreviewVideos],
 };
 
+const youtubeAltSiteData = {
+  paths: youtubeSiteData.paths,
+  limits: [...youtubeSiteData.limits, i18n.needRemoveCSP],
+};
+
 const siteData = {
   youtube: youtubeSiteData,
-  invidious: youtubeSiteData,
-  piped: youtubeSiteData,
+  invidious: youtubeAltSiteData,
+  piped: youtubeAltSiteData,
   vk: {
     paths: [
       "/video-xxxxxxxxx_xxxxxxxxx",
@@ -232,6 +237,10 @@ const siteData = {
   reddit: {
     paths: ["/r/SUB_REDDIT/comments/VIDEO_ID/VIDEO_NAME"],
     limits: [i18n.noSubtitles, i18n.needRemoveCSP],
+  },
+  kick: {
+    paths: ["/video/VIDEO_ID", "/NICKNAME?clip=clip_CLIPID"],
+    limits: [i18n.noSubtitles, i18n.noStreams],
   },
   directlink: {
     paths: ["/*.mp4"],

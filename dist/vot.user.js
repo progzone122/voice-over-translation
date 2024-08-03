@@ -3468,7 +3468,6 @@ class VideoHelper {
 
 
 
-
 class VideoDataError extends Error {
     constructor(message) {
         super(message);
@@ -3548,19 +3547,37 @@ async function getVideoID(service, video) {
                 return `videos/${url.searchParams.get("video")}`;
             }
             else if (isClipsDomain) {
+                const schema = document.querySelector(
+                    "script[type='application/ld+json']",
+                );
                 const pathname = url.pathname.slice(1);
-                const isEmbed = pathname === "embed";
-                const res = await fetchWithTimeout(`https://clips.twitch.tv/${isEmbed ? url.searchParams.get("clip") : url.pathname.slice(1)}`, {
-                    headers: {
-                        "User-Agent": "Googlebot/2.1 (+http://www.googlebot.com/bot.html)",
-                    },
-                });
-                const content = await res.text();
-                const channelLink = /"url":"https:\/\/www\.twitch\.tv\/([^"]+)"/.exec(content);
-                if (!channelLink) {
-                    return null;
+                if (schema) {
+                    const schemaJSON = JSON.parse(schema.innerText);
+                    const channelLink = schemaJSON["@graph"].find(
+                    (obj) => obj["@type"] === "VideoObject",
+                    )?.creator.url;
+
+                    const channelName = channelLink.replace("https://www.twitch.tv/", "");
+                    return `${channelName}/clip/${pathname}`;
                 }
-                return `${channelLink[1]}/clip/${isEmbed ? url.searchParams.get("clip") : pathname}`;
+
+                const isEmbed = pathname === "embed";
+                const channelLink = document.querySelector(
+                    isEmbed
+                    ? ".tw-link[data-test-selector='stream-info-card-component__stream-avatar-link']"
+                    : ".clips-player a:not([class])",
+                );
+
+                if (!channelLink) {
+                    return;
+                }
+
+                const channelName = channelLink.href.replace(
+                    "https://www.twitch.tv/",
+                    "",
+                );
+
+                return `${channelName}/clip/${isEmbed ? url.searchParams.get("clip") : pathname}`;
             }
             else if (clipPath) {
                 return clipPath[0];
@@ -6125,6 +6142,7 @@ class VideoObserver {
 
 
 
+
 const browserInfo = es5.getParser(window.navigator.userAgent).getResult();
 const dontTranslateMusic = false; // Пока не придумал как стоит реализовать
 const cfOnlyExtensions = [
@@ -8063,6 +8081,14 @@ class VideoHandler {
       } catch (e) {
         console.error("[VOT]", e);
         if (e.name === "NotSupportedError") {
+          if (
+            [...sitesInvidious, ...sitesPiped].includes(
+              window.location.hostname,
+            )
+          ) {
+            // add localize phrase or find how to fix it without remove csp
+            throw new VOTLocalizedError("Media CSP error");
+          }
           this.data.audioProxy = 1;
           await votStorage.set("audioProxy", 1);
         }

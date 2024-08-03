@@ -27,20 +27,15 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- `invidious.snopyta.org`
 - `yewtu.be`
-- `invidious.kavin.rocks`
-- `vid.puffyan.us`
-- `invidious.namazso.eu`
-- `inv.riverside.rocks`
 - `yt.artemislena.eu`
 - `invidious.flokinet.to`
-- `invidious.esmailelbob.xyz`
-- `y.com.sb`
-- `invidious.nerdvpn.de`
-- `inv.vern.cc`
-- `invidious.slipfox.xyz`
-- `invidio.xamh.de`
+- `iv.melmac.space`
+- `inv.nadeko.net`
+- `inv.tux.pizza`
+- `invidious.private.coffee`
+- `yt.drgnz.club`
+- `vid.puffyan.us`
 - `invidious.dhusch.de`
 
 Available paths:
@@ -54,6 +49,7 @@ Available paths:
 Limitations:
 
 - Doesn't work in the video preview
+- To work, you must completely remove [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) with pages
 
 ## Piped
 
@@ -101,6 +97,7 @@ Available paths:
 Limitations:
 
 - Doesn't work in the video preview
+- To work, you must completely remove [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) with pages
 
 ## Vk
 
@@ -172,7 +169,6 @@ Available (sub)domains:
 - `proxitok.privacydev.net`
 - `tok.artemislena.eu`
 - `tok.adminforge.de`
-- `tik.hostux.net`
 - `tt.vern.cc`
 - `cringe.whatever.social`
 - `proxitok.lunar.icu`
@@ -254,6 +250,7 @@ Status: [⚠️] Works with limitations
 Available (sub)domains:
 
 - `twitter.com`
+- `x.com`
 
 Available paths:
 
@@ -409,6 +406,7 @@ Available (sub)domains:
 - `tube.la-dina.net`
 - `peertube.tmp.rcp.tf`
 - `peertube.su`
+- `video.blender.org`
 
 Available paths:
 
@@ -619,6 +617,24 @@ Limitations:
 
 - There are no subtitles
 - To work, you must completely remove [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) with pages
+
+## Kick
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `kick.com`
+
+Available paths:
+
+- /video/VIDEO_ID
+- /NICKNAME?clip=clip_CLIPID
+
+Limitations:
+
+- There are no subtitles
+- Translation of live broadcasts is not available
 
 ## Direct link to MP4
 
