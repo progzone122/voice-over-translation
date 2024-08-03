@@ -2510,15 +2510,23 @@ const votStorage = new (class {
       "dontTranslateLanguage",
       "dontTranslateYourLang",
       "autoSetVolumeYandexStyle",
+      "autoVolume",
+      "buttonPos",
       "showVideoSlider",
       "syncVolume",
       "subtitlesMaxLength",
       "highlightWords",
       "responseLanguage",
       "defaultVolume",
-      "udemyData",
       "audioProxy",
       "showPiPButton",
+      "translateAPIErrors",
+      "translationService",
+      "detectService",
+      "m3u8ProxyHost",
+      "translateProxyEnabled",
+      "proxyWorkerHost",
+      "audioBooster",
       "locale-version",
       "locale-lang",
       "locale-phrases",
@@ -7377,7 +7385,7 @@ class VideoHandler {
             "proxyWorkerHost value changed. New value: ",
             this.data.proxyWorkerHost,
           );
-          window.location.reload();
+          this.votClient.host = this.data.proxyWorkerHost;
         })();
       });
 

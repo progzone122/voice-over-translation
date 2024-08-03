@@ -1280,7 +1280,7 @@ class VideoHandler {
             "proxyWorkerHost value changed. New value: ",
             this.data.proxyWorkerHost,
           );
-          window.location.reload();
+          this.votClient.host = this.data.proxyWorkerHost;
         })();
       });
 
