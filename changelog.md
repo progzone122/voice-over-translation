@@ -17,6 +17,7 @@
 - Добавлена поддержка VK Clips
 - Добавлена поддержка YouTube Live (https://youtube.com/live/VIDEO_ID) (#657)
 - Добавлена поддержка Bitchute embed
+- Добавлена поддержка Apple Developer
 - Добавлена поддержка русского домена XVideos (`xv-ru.com`)
 - Для работы с Udemy больше не нужно вводить Udemy Access Token
 - Обновлен список поддерживаемых сайтов для Invidious, ProxiTok, Peertube

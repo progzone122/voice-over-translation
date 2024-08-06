@@ -81,6 +81,11 @@ You can see all the restrictions related to site support in [wiki](https://githu
 - **[ProxiTok](https://proxitok.pabloferreiro.es/)**
 - **[Invidious](https://yewtu.be)**
 - **[Piped](https://piped.video)**
+- **[Kodik (player)](https://kodik.cc)**
+- **[Patreon](https://patreon.com)**
+- **[Reddit](https://reddit.com)**
+- **[Kick](https://kick.com)**
+- **[Apple Developer](https://developer.apple.com)**
 - **Any direct web links to `.mp4`**
 
 ⚠️ - Requires additional actions, more in **[Wiki](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-Supported-sites)**
@@ -225,6 +230,7 @@ Example of changing styles:
 | ⠀✅    | Kiwi Browser              | v116.0.5845.61                    | Android                 | Tampermonkey (MV2)                                                                          |
 | ⠀✅    | Yandex Browser            | v24.4-24.6                        | Windows                 | Tampermonkey (MV2), Tampermonkey (MV3)                                                      |
 | ⠀✅    | Arc                       | v1.6.1                            | Windows                 | Tampermonkey (MV3)                                                                          |
+| ⠀✅    | Incognition               | v4.1.1.0 (v125)                   | Windows                 | Tampermonkey (MV3), Tampermonkey (MV2)                                                      |
 
 Working with the modern version of Tampermonkey (MV3) has not been tested in most browsers. If there are problems, it is recommended to use Tampermonkey Legacy (MV2)
 

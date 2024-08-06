@@ -149,11 +149,7 @@ const siteData = {
   },
   udemy: {
     paths: ["/course/NAME/learn/lecture/LECTURE_ID"],
-    limits: [
-      i18n.needSetAccessToken,
-      i18n.needBeLoggedIn,
-      i18n.videoWithoutSubs,
-    ],
+    limits: [i18n.needBeLoggedIn],
   },
   rumble: {
     paths: ["/VIDEO_NAME"],
@@ -241,6 +237,10 @@ const siteData = {
   kick: {
     paths: ["/video/VIDEO_ID", "/NICKNAME?clip=clip_CLIPID"],
     limits: [i18n.noSubtitles, i18n.noStreams],
+  },
+  apple_developer: {
+    paths: ["/videos/play/XXX/XXX"],
+    limits: [i18n.noSubtitles],
   },
   directlink: {
     paths: ["/*.mp4"],

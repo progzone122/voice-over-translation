@@ -374,9 +374,7 @@ Available paths:
 
 Limitations:
 
-- To work, you need to [set an Access Token](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-Where-to-get-Udemy-Access-Token%3F)
 - You must be logged in to the site
-- If the video doesn't have subtitles in your language, then the translation will not be performed
 
 ## Eporner
 
@@ -635,6 +633,14 @@ Limitations:
 
 - There are no subtitles
 - Translation of live broadcasts is not available
+
+## Apple_developer
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `developer.apple.com`
 
 ## Direct link to MP4
 

@@ -82,6 +82,11 @@
 - **[ProxiTok](https://proxitok.pabloferreiro.es/)**
 - **[Invidious](https://yewtu.be)**
 - **[Piped](https://piped.video)**
+- **[Kodik (player)](https://kodik.cc)**
+- **[Patreon](https://patreon.com)**
+- **[Reddit](https://reddit.com)**
+- **[Kick](https://kick.com)**
+- **[Apple Developer](https://developer.apple.com)**
 - **Любые прямые веб-ссылки на `.mp4`**
 
 ⚠️ - Требует дополнительных действий, подробнее в **[Wiki](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-Supported-sites)**
@@ -234,6 +239,7 @@ bunx patch-package --use-yarn vot.js
 | ⠀✅    | Kiwi Browser              | v116.0.5845.61                    | Android                 | Tampermonkey (MV2)                                                                          |
 | ⠀✅    | Yandex Browser            | v24.4-24.6                        | Windows                 | Tampermonkey (MV2), Tampermonkey (MV3)                                                      |
 | ⠀✅    | Arc                       | v1.6.1                            | Windows                 | Tampermonkey (MV3)                                                                          |
+| ⠀✅    | Incognition               | v4.1.1.0 (v125)                   | Windows                 | Tampermonkey (MV3), Tampermonkey (MV2)                                                      |
 
 Работа с современной версией Tampermonkey (MV3) не тестировалась в большинстве браузеров. При наличие проблем рекомендуется использовать Tampermonkey Legacy (MV2)
 
