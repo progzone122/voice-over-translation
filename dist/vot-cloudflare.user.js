@@ -77,6 +77,7 @@
 // @match          *://*.vimeo.com/*
 // @match          *://*.9gag.com/*
 // @match          *://*.twitter.com/*
+// @match          *://*.x.com/*
 // @match          *://*.facebook.com/*
 // @match          *://*.rutube.ru/*
 // @match          *://*.bilibili.com/*
@@ -121,6 +122,11 @@
 // @match          *://*.egghead.io/*
 // @match          *://*.youku.com/*
 // @match          *://*.archive.org/*
+// @match          *://*.patreon.com/*
+// @match          *://*.reddit.com/*
+// @match          *://*.kodik.info/*
+// @match          *://*.kodik.biz/*
+// @match          *://*.kodik.cc/*
 // @match          *://*/*.mp4*
 // @exclude        file://*/*.mp4*
 // @connect        yandex.ru
@@ -131,12 +137,12 @@
 // @connect        onrender.com
 // @connect        workers.dev
 // @namespace      vot-cloudflare
-// @version        1.5.3.1
+// @version        1.6.0-beta.1
 // @icon           https://translate.yandex.ru/icons/favicon.ico
 // @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation/issues
-// @updateURL      https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot-cloudflare.user.js
-// @downloadURL    https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot-cloudflare.user.js
+// @updateURL      https://raw.githubusercontent.com/ilyhalight/voice-over-translation/dev/dist/vot-cloudflare.user.js
+// @downloadURL    https://raw.githubusercontent.com/ilyhalight/voice-over-translation/dev/dist/vot-cloudflare.user.js
 // @supportURL     https://github.com/ilyhalight/voice-over-translation/issues
 // ==/UserScript==
 
@@ -166,7 +172,7 @@
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, `.vot-button{--vot-helper-theme: var( --vot-theme-rgb, var(--vot-primary-rgb, 33, 150, 243) );--vot-helper-ontheme: var( --vot-ontheme-rgb, var(--vot-onprimary-rgb, 255, 255, 255) );position:relative;display:inline-block;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;border:none;border-radius:4px;padding:0 16px;min-width:64px;height:36px;vertical-align:middle;text-align:center;text-overflow:ellipsis;color:rgb(var(--vot-helper-ontheme));background-color:rgb(var(--vot-helper-theme));box-shadow:0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12);font-family:var(--vot-font-family, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);font-size:14px;font-weight:500;line-height:36px;outline:none;cursor:pointer;transition:box-shadow .2s}.vot-button[hidden]{display:none !important}.vot-button::-moz-focus-inner{border:none}.vot-button::before,.vot-button::after{content:"";position:absolute;border-radius:inherit;top:0;right:0;bottom:0;left:0;opacity:0}.vot-button::before{background-color:rgb(var(--vot-helper-ontheme));transition:opacity .2s}.vot-button::after{background:radial-gradient(circle at center, currentColor 1%, transparent 1%) center/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-button:hover{box-shadow:0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12)}.vot-button:hover::before{opacity:.08}.vot-button:active{box-shadow:0 5px 5px -3px rgba(0,0,0,.2),0 8px 10px 1px rgba(0,0,0,.14),0 3px 14px 2px rgba(0,0,0,.12)}.vot-button:active::after{opacity:.32;background-size:100% 100%;transition:background-size 0s}.vot-button:disabled{background-color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.12);color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38);box-shadow:none;cursor:initial}.vot-button:disabled::before,.vot-button:disabled::after{opacity:0}.vot-outlined-button{--vot-helper-theme: var( --vot-theme-rgb, var(--vot-primary-rgb, 33, 150, 243) );position:relative;display:inline-block;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;margin:0;border:solid 1px;border-color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.24);border-radius:4px;padding:0 16px;min-width:64px;height:36px;vertical-align:middle;text-align:center;text-overflow:ellipsis;color:rgb(var(--vot-helper-theme));background-color:rgba(0,0,0,0);font-family:var(--vot-font-family, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);font-size:14px;font-weight:500;line-height:34px;outline:none;cursor:pointer}.vot-outlined-button[hidden]{display:none !important}.vot-outlined-button::-moz-focus-inner{border:none}.vot-outlined-button::before,.vot-outlined-button::after{content:"";position:absolute;border-radius:3px;top:0;right:0;bottom:0;left:0;opacity:0}.vot-outlined-button::before{background-color:rgb(var(--vot-helper-theme));transition:opacity .2s}.vot-outlined-button::after{background:radial-gradient(circle at center, currentColor 1%, transparent 1%) center/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-outlined-button:hover::before{opacity:.04}.vot-outlined-button:active::after{opacity:.16;background-size:100% 100%;transition:background-size 0s}.vot-outlined-button:disabled{background-color:rgba(0,0,0,0);color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38);cursor:initial}.vot-outlined-button:disabled::before,.vot-outlined-button:disabled::after{opacity:0}.vot-text-button{--vot-helper-theme: var( --vot-theme-rgb, var(--vot-primary-rgb, 33, 150, 243) );position:relative;display:inline-block;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;margin:0;border:none;border-radius:4px;padding:0 8px;min-width:64px;height:36px;vertical-align:middle;text-align:center;text-overflow:ellipsis;color:rgb(var(--vot-helper-theme));background-color:rgba(0,0,0,0);font-family:var(--vot-font-family, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);font-size:14px;font-weight:500;line-height:36px;outline:none;cursor:pointer}.vot-text-button[hidden]{display:none !important}.vot-text-button::-moz-focus-inner{border:none}.vot-text-button::before,.vot-text-button::after{content:"";position:absolute;border-radius:inherit;top:0;right:0;bottom:0;left:0;opacity:0}.vot-text-button::before{background-color:rgb(var(--vot-helper-theme));transition:opacity .2s}.vot-text-button::after{background:radial-gradient(circle at center, currentColor 1%, transparent 1%) center/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-text-button:hover::before{opacity:.04}.vot-text-button:active::after{opacity:.16;background-size:100% 100%;transition:background-size 0s}.vot-text-button:disabled{background-color:rgba(0,0,0,0);color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38);cursor:initial}.vot-text-button:disabled::before,.vot-text-button:disabled::after{opacity:0}.vot-icon-button{--vot-helper-onsurface: rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.87);position:relative;display:inline-block;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;margin:0;border:none;border-radius:50%;padding:0;width:36px;height:36px;vertical-align:middle;text-align:center;text-overflow:ellipsis;fill:var(--vot-helper-onsurface);color:var(--vot-helper-onsurface);background-color:rgba(0,0,0,0);font-family:var(--vot-font-family, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);font-size:14px;font-weight:500;line-height:36px;outline:none;cursor:pointer}.vot-icon-button[hidden]{display:none !important}.vot-icon-button::-moz-focus-inner{border:none}.vot-icon-button::before,.vot-icon-button::after{content:"";position:absolute;border-radius:inherit;top:0;right:0;bottom:0;left:0;opacity:0}.vot-icon-button::before{background-color:var(--vot-helper-onsurface);transition:opacity .2s}.vot-icon-button::after{background:radial-gradient(circle at center, currentColor 1%, transparent 1%) center/10000% 10000% no-repeat;transition:opacity .3s,background-size .4s}.vot-icon-button:hover::before{opacity:.04}.vot-icon-button:active::after{opacity:.32;background-size:100% 100%;transition:background-size 0s,opacity 0s}.vot-icon-button:disabled{background-color:rgba(0,0,0,0);color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38);fill:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38);cursor:initial}.vot-icon-button:disabled::before,.vot-icon-button:disabled::after{opacity:0}.vot-textfield{--vot-helper-theme: rgb( var(--vot-theme-rgb, var(--vot-primary-rgb, 33, 150, 243)) ) !important;--vot-helper-safari1: rgba( var(--vot-onsurface-rgb, 0, 0, 0), 0.38 ) !important;--vot-helper-safari2: rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.6) !important;--vot-helper-safari3: rgba( var(--vot-onsurface-rgb, 0, 0, 0), 0.87 ) !important;position:relative !important;display:inline-block;padding-top:6px !important;font-family:var(--vot-font-family, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system) !important;font-size:16px !important;line-height:1.5 !important;text-align:start !important}.vot-textfield[hidden]{display:none !important}.vot-textfield>input,.vot-textfield>textarea{-webkit-box-sizing:border-box !important;-moz-box-sizing:border-box !important;box-sizing:border-box !important;margin:0 !important;border-style:solid !important;border-width:1px !important;border-color:rgba(0,0,0,0) var(--vot-helper-safari2) var(--vot-helper-safari2) !important;border-radius:4px !important;padding:15px 13px 15px !important;width:100% !important;height:inherit !important;color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.87) !important;-webkit-text-fill-color:currentColor !important;background-color:rgba(0,0,0,0) !important;box-shadow:inset 1px 0 rgba(0,0,0,0),inset -1px 0 rgba(0,0,0,0),inset 0 -1px rgba(0,0,0,0) !important;font-family:inherit !important;font-size:inherit !important;line-height:inherit !important;caret-color:var(--vot-helper-theme) !important;transition:border .2s,box-shadow .2s !important}.vot-textfield>input:not(:focus):placeholder-shown,.vot-textfield>textarea:not(:focus):placeholder-shown{border-top-color:var(--vot-helper-safari2) !important}.vot-textfield>input+span,.vot-textfield>textarea+span{position:absolute !important;top:0 !important;left:0 !important;display:flex !important;width:100% !important;max-height:100% !important;color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.6) !important;font-size:75% !important;line-height:15px !important;cursor:text !important;transition:color .2s,font-size .2s,line-height .2s !important;pointer-events:none !important}.vot-textfield>input:not(:focus):placeholder-shown+span,.vot-textfield>textarea:not(:focus):placeholder-shown+span{font-size:inherit !important;line-height:68px !important}.vot-textfield>input+span::before,.vot-textfield>input+span::after,.vot-textfield>textarea+span::before,.vot-textfield>textarea+span::after{content:"" !important;display:block !important;-webkit-box-sizing:border-box !important;-moz-box-sizing:border-box !important;box-sizing:border-box !important;margin-top:6px !important;border-top:solid 1px var(--vot-helper-safari2) !important;min-width:10px !important;height:8px !important;pointer-events:none !important;box-shadow:inset 0 1px rgba(0,0,0,0) !important;transition:border .2s,box-shadow .2s !important}.vot-textfield>input+span::before,.vot-textfield>textarea+span::before{margin-right:4px !important;border-left:solid 1px rgba(0,0,0,0) !important;border-radius:4px 0 !important}.vot-textfield>input+span::after,.vot-textfield>textarea+span::after{flex-grow:1 !important;margin-left:4px !important;border-right:solid 1px rgba(0,0,0,0) !important;border-radius:0 4px !important}.vot-textfield>input:not(:focus):placeholder-shown+span::before,.vot-textfield>input:not(:focus):placeholder-shown+span::after,.vot-textfield>textarea:not(:focus):placeholder-shown+span::before,.vot-textfield>textarea:not(:focus):placeholder-shown+span::after{border-top-color:rgba(0,0,0,0) !important}.vot-textfield:hover>input,.vot-textfield:hover>textarea{border-color:rgba(0,0,0,0) var(--vot-helper-safari3) var(--vot-helper-safari3) !important}.vot-textfield:hover>input+span::before,.vot-textfield:hover>input+span::after,.vot-textfield:hover>textarea+span::before,.vot-textfield:hover>textarea+span::after{border-top-color:var(--vot-helper-safari3) !important}.vot-textfield:hover>input:not(:focus):placeholder-shown,.vot-textfield:hover>textarea:not(:focus):placeholder-shown{border-color:var(--vot-helper-safari3) !important}.vot-textfield>input:focus,.vot-textfield>textarea:focus{border-color:rgba(0,0,0,0) var(--vot-helper-theme) var(--vot-helper-theme) !important;box-shadow:inset 1px 0 var(--vot-helper-theme),inset -1px 0 var(--vot-helper-theme),inset 0 -1px var(--vot-helper-theme) !important;outline:none !important}.vot-textfield>input:focus+span,.vot-textfield>textarea:focus+span{color:var(--vot-helper-theme) !important}.vot-textfield>input:focus+span::before,.vot-textfield>input:focus+span::after,.vot-textfield>textarea:focus+span::before,.vot-textfield>textarea:focus+span::after{border-top-color:var(--vot-helper-theme) !important;box-shadow:inset 0 1px var(--vot-helper-theme) !important}.vot-textfield>input:disabled,.vot-textfield>input:disabled+span,.vot-textfield>textarea:disabled,.vot-textfield>textarea:disabled+span{border-color:rgba(0,0,0,0) var(--vot-helper-safari1) var(--vot-helper-safari1) !important;color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38) !important;pointer-events:none !important}.vot-textfield>input:disabled+span::before,.vot-textfield>input:disabled+span::after,.vot-textfield>textarea:disabled+span::before,.vot-textfield>textarea:disabled+span::after{border-top-color:var(--vot-helper-safari1) !important}.vot-textfield>input:disabled:placeholder-shown,.vot-textfield>input:disabled:placeholder-shown+span,.vot-textfield>textarea:disabled:placeholder-shown,.vot-textfield>textarea:disabled:placeholder-shown+span{border-top-color:var(--vot-helper-safari1) !important}.vot-textfield>input:disabled:placeholder-shown+span::before,.vot-textfield>input:disabled:placeholder-shown+span::after,.vot-textfield>textarea:disabled:placeholder-shown+span::before,.vot-textfield>textarea:disabled:placeholder-shown+span::after{border-top-color:rgba(0,0,0,0) !important}@media not all and (min-resolution: 0.001dpcm){@supports(-webkit-appearance: none){.vot-textfield>input,.vot-textfield>input+span,.vot-textfield>textarea,.vot-textfield>textarea+span,.vot-textfield>input+span::before,.vot-textfield>input+span::after,.vot-textfield>textarea+span::before,.vot-textfield>textarea+span::after{transition-duration:.1s !important}}}.vot-checkbox{--vot-helper-theme: var( --vot-theme-rgb, var(--vot-primary-rgb, 33, 150, 243) );--vot-helper-ontheme: var( --vot-ontheme-rgb, var(--vot-onprimary-rgb, 255, 255, 255) );z-index:0;position:relative;display:inline-block;color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.87);font-family:var(--vot-font-family, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);font-size:16px;line-height:1.5;text-align:start}.vot-checkbox[hidden]{display:none !important}.vot-checkbox>input{appearance:none;-moz-appearance:none;-webkit-appearance:none;z-index:10000;position:absolute;display:block;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;margin:3px 1px;border:solid 2px;background:rgba(0,0,0,0);border-color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.6);border-radius:2px;width:18px;height:18px;outline:none;cursor:pointer;transition:border-color .2s,background-color .2s}.vot-checkbox>input+span{display:inline-block;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;padding-left:30px;width:inherit;cursor:pointer;font-weight:normal}.vot-checkbox>input+span::before{content:"";position:absolute;left:-10px;top:-8px;display:block;border-radius:50%;width:40px;height:40px;background-color:rgb(var(--vot-onsurface-rgb, 0, 0, 0));opacity:0;transform:scale(1);pointer-events:none;transition:opacity .3s,transform .2s}.vot-checkbox>input+span::after{content:"";z-index:10000;display:block;position:absolute;top:3px;left:1px;-webkit-box-sizing:content-box !important;-moz-box-sizing:content-box !important;box-sizing:content-box !important;width:10px;height:5px;border:solid 2px rgba(0,0,0,0);border-right-width:0;border-top-width:0;pointer-events:none;transform:translate(3px, 4px) rotate(-45deg);transition:border-color .2s}.vot-checkbox>input:checked,.vot-checkbox>input:indeterminate{border-color:rgb(var(--vot-helper-theme));background-color:rgb(var(--vot-helper-theme))}.vot-checkbox>input:checked+span::before,.vot-checkbox>input:indeterminate+span::before{background-color:rgb(var(--vot-helper-theme))}.vot-checkbox>input:checked+span::after,.vot-checkbox>input:indeterminate+span::after{border-color:rgb(var(--vot-helper-ontheme, 255, 255, 255))}.vot-checkbox>input:indeterminate+span::after{border-left-width:0;transform:translate(4px, 3px)}.vot-checkbox:hover>input+span::before{opacity:.04}.vot-checkbox:active>input,.vot-checkbox:active:hover>input{border-color:rgb(var(--vot-helper-theme))}.vot-checkbox:active>input:checked{border-color:rgba(0,0,0,0);background-color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.6)}.vot-checkbox:active>input+span::before{opacity:1;transform:scale(0);transition:transform 0s,opacity 0s}.vot-checkbox>input:disabled{border-color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38);cursor:initial}.vot-checkbox>input:disabled:checked,.vot-checkbox>input:disabled:indeterminate{border-color:rgba(0,0,0,0);background-color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38)}.vot-checkbox>input:disabled+span{color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38);cursor:initial}.vot-checkbox>input:disabled+span::before{opacity:0;transform:scale(0)}.vot-slider{--vot-safari-helper1: rgba( var(--vot-primary-rgb, 33, 150, 243), 0.04 ) !important;--vot-safari-helper2: rgba( var(--vot-primary-rgb, 33, 150, 243), 0.12 ) !important;--vot-safari-helper3: rgba( var(--vot-primary-rgb, 33, 150, 243), 0.16 ) !important;--vot-safari-helper4: rgba( var(--vot-primary-rgb, 33, 150, 243), 0.24 ) !important;display:inline-block;width:100% !important;color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.87) !important;font-family:var(--vot-font, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system) !important;font-size:16px !important;line-height:1.5 !important;text-align:start !important}.vot-slider[hidden]{display:none !important}.vot-slider>input{-webkit-appearance:none !important;appearance:none !important;position:relative !important;top:24px !important;display:block !important;margin:0 0 -36px !important;width:100% !important;height:36px !important;background-color:rgba(0,0,0,0) !important;cursor:pointer !important}.vot-slider>input:last-child{position:static !important;margin:0 !important}.vot-slider>span{display:inline-block !important;margin-bottom:36px !important}.vot-slider>input:disabled{cursor:default !important;opacity:.38 !important}.vot-slider>input:disabled+span{color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38) !important}.vot-slider>input::-webkit-slider-runnable-track{margin:17px 0 !important;border-radius:1px !important;width:100% !important;height:2px !important;background-color:rgba(var(--vot-primary-rgb, 33, 150, 243), 0.24) !important}.vot-slider>input::-webkit-slider-thumb{margin:0 !important;appearance:none !important;-webkit-appearance:none !important;border:none !important;border-radius:50% !important;height:2px !important;width:2px !important;background-color:rgb(var(--vot-primary-rgb, 33, 150, 243)) !important;transform:scale(6, 6) !important;transition:box-shadow .2s !important}.vot-slider:hover>input::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--vot-safari-helper1) !important}.vot-slider>input:active::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--vot-safari-helper4) !important}.vot-slider>input:disabled::-webkit-slider-runnable-track{background-color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38) !important}.vot-slider>input:disabled::-webkit-slider-thumb{background-color:rgb(var(--vot-onsurface-rgb, 0, 0, 0)) !important;color:rgb(var(--vot-surface-rgb, 255, 255, 255)) !important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb, 255, 255, 255)) !important;transform:scale(4, 4) !important}.vot-slider>input::-moz-range-track{margin:17px 0 !important;border-radius:1px !important;width:100% !important;height:2px !important;background-color:rgba(var(--vot-primary-rgb, 33, 150, 243), 0.24) !important}.vot-slider>input::-moz-range-thumb{appearance:none !important;-moz-appearance:none !important;border:none !important;border-radius:50% !important;height:2px !important;width:2px !important;background-color:rgb(var(--vot-primary-rgb, 33, 150, 243)) !important;transform:scale(6, 6) !important;transition:box-shadow .2s !important}.vot-slider>input::-moz-range-progress{border-radius:1px !important;height:2px !important;background-color:rgb(var(--vot-primary-rgb, 33, 150, 243)) !important}.vot-slider:hover>input:hover::-moz-range-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb, 33, 150, 243), 0.04) !important}.vot-slider>input:active::-moz-range-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb, 33, 150, 243), 0.24) !important}.vot-slider>input:disabled::-moz-range-track{background-color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38) !important}.vot-slider>input:disabled::-moz-range-progress{background-color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.87) !important}.vot-slider>input:disabled::-moz-range-thumb{background-color:rgb(var(--vot-onsurface-rgb, 0, 0, 0)) !important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb, 255, 255, 255)) !important;transform:scale(4, 4) !important}.vot-slider>input::-moz-focus-outer{border:none !important}.vot-slider>input:focus{outline:none !important}.vot-slider>input::-ms-track{-webkit-box-sizing:border-box !important;-moz-box-sizing:border-box !important;box-sizing:border-box !important;margin:17px 0 !important;border:none !important;border-radius:1px !important;padding:0 17px !important;width:100% !important;height:2px !important;background-color:rgba(0,0,0,0) !important}.vot-slider>input::-ms-fill-lower{border-radius:1px !important;height:2px !important;background-color:rgb(var(--vot-primary-rgb, 33, 150, 243)) !important}.vot-slider>input::-ms-fill-upper{border-radius:1px !important;height:2px !important;background-color:rgba(var(--vot-primary-rgb, 33, 150, 243), 0.24) !important}.vot-slider>input::-ms-thumb{appearance:none !important;margin:0 17px !important;border:none !important;border-radius:50% !important;height:2px !important;width:2px !important;background-color:rgb(var(--vot-primary-rgb, 33, 150, 243)) !important;transform:scale(6, 6) !important;transition:box-shadow .2s !important}.vot-slider:hover>input::-ms-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb, 33, 150, 243), 0.04) !important}.vot-slider>input:active::-ms-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb, 33, 150, 243), 0.24) !important}.vot-slider>input:disabled::-ms-fill-lower{background-color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38) !important}.vot-slider>input:disabled::-ms-fill-upper{background-color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38) !important;opacity:.38 !important}.vot-slider>input:disabled::-ms-thumb{background-color:rgb(var(--vot-onsurface-rgb, 0, 0, 0)) !important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb, 255, 255, 255)) !important;transform:scale(4, 4) !important}.vot-slider>input::before{content:"" !important;display:block !important;position:absolute !important;width:calc(100%*var(--vot-progress, 0)) !important;height:2px !important;top:calc(50% - 1px) !important;background:rgb(var(--vot-primary-rgb, 33, 150, 243)) !important}.vot-select{--vot-helper-theme-rgb: var(--vot-onsurface-rgb, 0, 0, 0) !important;--vot-helper-theme: rgba(var(--vot-helper-theme-rgb), 0.87) !important;--vot-helper-safari1: rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.6) !important;--vot-helper-safari2: rgba( var(--vot-onsurface-rgb, 0, 0, 0), 0.87 ) !important;display:flex;align-items:center;justify-content:space-between;font-family:var(--vot-font-family, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);font-size:14px;font-weight:normal;line-height:1.5;text-align:start;color:var(--vot-helper-theme);fill:var(--vot-helper-theme)}.vot-select[hidden]{display:none !important}.vot-select-label{font-size:16px}.vot-select-outer{display:flex;align-items:center;justify-content:space-between;max-width:120px;width:120px;padding:0 5px;border-style:solid !important;border-width:1px !important;border-color:var(--vot-helper-safari1) !important;border-radius:4px !important;cursor:pointer;transition:border .2s !important}.vot-select-outer:hover{border-color:var(--vot-helper-safari2) !important}.vot-select-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.vot-select-arrow-icon{width:20px;height:32px;display:flex;justify-content:center;align-items:center}.vot-select-content-list{display:flex;flex-direction:column}.vot-select-content-list .vot-select-content-item{padding:5px 10px;border-radius:8px;cursor:pointer}.vot-select-content-list .vot-select-content-item:not([inert]):hover{background-color:#2a2c31}.vot-select-content-list .vot-select-content-item[data-vot-selected=true]{color:rgb(var(--vot-primary-rgb, 33, 150, 243));background-color:rgba(var(--vot-primary-rgb, 33, 150, 243), 0.2)}.vot-select-content-list .vot-select-content-item[data-vot-selected=true]:hover{background-color:rgba(var(--vot-primary-rgb, 33, 150, 243), 0.1) !important}.vot-select-content-list .vot-select-content-item[data-vot-disabled=true]{cursor:default}.vot-select-content-list .vot-select-content-item[hidden]{display:none !important}.vot-header{color:rgba(var(--vot-helper-onsurface-rgb), 0.87);font-family:var(--vot-font-family, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);font-weight:bold;line-height:1.5;text-align:start}.vot-header[hidden]{display:none !important}.vot-header:not(:first-child){padding-top:8px}.vot-header-level-1{font-size:2em}.vot-header-level-2{font-size:1.5em}.vot-header-level-3{font-size:1.17em}.vot-header-level-4{font-size:1em}.vot-header-level-5{font-size:.83em}.vot-header-level-6{font-size:.67em}.vot-info{display:flex;color:rgba(var(--vot-helper-onsurface-rgb), 0.87);font-family:var(--vot-font-family, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);font-size:16px;line-height:1.5;text-align:start}.vot-info[hidden]{display:none !important}.vot-info>:not(:first-child){color:rgba(var(--vot-helper-onsurface-rgb), 0.5);flex:1;margin-left:8px}.vot-lang-select{--vot-helper-theme-rgb: var(--vot-onsurface-rgb, 0, 0, 0);--vot-helper-theme: rgba(var(--vot-helper-theme-rgb), 0.87);display:flex;align-items:center;justify-content:space-between;color:var(--vot-helper-theme);fill:var(--vot-helper-theme)}.vot-lang-select[hidden]{display:none !important}.vot-lang-select-icon{width:32px;height:32px;display:flex;justify-content:center;align-items:center}.vot-segmented-button{--vot-helper-theme-rgb: var(--vot-onsurface-rgb, 0, 0, 0);--vot-helper-theme: rgba(var(--vot-helper-theme-rgb), 0.87);overflow:hidden;position:absolute;left:50%;top:5rem;transform:translate(-50%);user-select:none;display:flex;align-items:center;height:32px;max-width:100vw;background:rgb(var(--vot-surface-rgb, 255, 255, 255));color:var(--vot-helper-theme);fill:var(--vot-helper-theme);border-radius:4px;font-family:var(--vot-font-family, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);font-size:16px;line-height:1.5;cursor:default;transition:opacity .5s;z-index:10000}.vot-segmented-button[hidden]{display:none !important}.vot-segmented-button *{-webkit-box-sizing:border-box !important;-moz-box-sizing:border-box !important;box-sizing:border-box !important}.vot-segmented-button .vot-separator{width:1px;height:50%;background:rgba(var(--vot-helper-theme-rgb), 0.1)}.vot-segmented-button .vot-separator[hidden]{display:none !important}.vot-segmented-button .vot-segment,.vot-segmented-button .vot-segment-only-icon{position:relative;overflow:hidden;display:flex;justify-content:center;align-items:center;height:100%;padding:0 8px;background-color:rgba(0,0,0,0);color:inherit;transition:background-color 100ms ease-in-out;border:none}.vot-segmented-button .vot-segment[hidden],.vot-segmented-button [hidden].vot-segment-only-icon{display:none !important}.vot-segmented-button .vot-segment::before,.vot-segmented-button .vot-segment-only-icon::before,.vot-segmented-button .vot-segment::after,.vot-segmented-button .vot-segment-only-icon::after{content:"";position:absolute;border-radius:inherit;top:0;right:0;bottom:0;left:0;opacity:0}.vot-segmented-button .vot-segment::before,.vot-segmented-button .vot-segment-only-icon::before{background-color:rgb(var(--vot-helper-theme-rgb));transition:opacity .2s}.vot-segmented-button .vot-segment::after,.vot-segmented-button .vot-segment-only-icon::after{background:radial-gradient(circle at center, currentColor 1%, transparent 1%) center/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-segmented-button .vot-segment:hover::before,.vot-segmented-button .vot-segment-only-icon:hover::before{opacity:.04}.vot-segmented-button .vot-segment:active::after,.vot-segmented-button .vot-segment-only-icon:active::after{opacity:.16;background-size:100% 100%;transition:background-size 0s}.vot-segmented-button .vot-segment-only-icon{min-width:32px;padding:0}.vot-segmented-button .vot-segment-label{margin-left:8px;white-space:nowrap}.vot-segmented-button[data-status=success] .vot-translate-button{color:rgb(var(--vot-primary-rgb, 33, 150, 243));fill:rgb(var(--vot-primary-rgb, 33, 150, 243))}.vot-segmented-button[data-status=error] .vot-translate-button{color:#f28b82;fill:#f28b82}.vot-segmented-button[data-translating=true] #vot-translating-icon{display:block !important}.vot-segmented-button[data-translating=true] #vot-translate-icon{display:none !important}.vot-segmented-button[data-direction=column]{flex-direction:column;height:fit-content}.vot-segmented-button[data-direction=column] .vot-segment-label{display:none}.vot-segmented-button[data-direction=column]>.vot-segment-only-icon,.vot-segmented-button[data-direction=column]>.vot-segment{padding:8px}.vot-segmented-button[data-direction=column] .vot-separator{height:1px;width:50%}.vot-segmented-button[data-position=left]{left:50px;top:12.5vh}.vot-segmented-button[data-position=right]{left:auto;right:0;top:12.5vh}.vot-segmented-button svg{width:fit-content}.vot-menu{--vot-helper-surface-rgb: var(--vot-surface-rgb, 255, 255, 255);--vot-helper-surface: rgb(var(--vot-helper-surface-rgb));--vot-helper-onsurface-rgb: var(--vot-onsurface-rgb, 0, 0, 0);--vot-helper-onsurface: rgba(var(--vot-helper-onsurface-rgb), 0.87);overflow:hidden;position:absolute;left:50%;top:calc(5rem + 32px + 16px);user-select:none;background-color:var(--vot-helper-surface);color:var(--vot-helper-onsurface);border-radius:8px;font-family:var(--vot-font-family, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);font-size:16px;line-height:1.5;min-width:300px;cursor:default;z-index:10000;visibility:visible;opacity:1;transform-origin:top;transform:translate(-50%) scale(1);transition:opacity .3s,transform .1s}.vot-menu *{-webkit-box-sizing:border-box !important;-moz-box-sizing:border-box !important;box-sizing:border-box !important}.vot-menu[hidden]{pointer-events:none;display:block !important;visibility:hidden;opacity:0;transform:translate(-50%) scale(0)}.vot-menu-content-wrapper{display:flex;flex-direction:column;min-height:100px;max-height:calc(var(--vot-container-height, 75vh) - (5rem + 32px + 16px)*2);overflow:auto}.vot-menu-header-container{flex-shrink:0;align-items:flex-start;display:flex;min-height:31px}.vot-menu-header-container:empty{padding:0 0 16px 0}.vot-menu-header-container>.vot-icon-button{margin-inline-end:4px;margin-top:4px}.vot-menu-title-container{display:flex;flex:1;font-size:inherit;font-weight:inherit;margin:0;outline:0;text-align:start}.vot-menu-title{flex:1;font-size:16px;line-height:1;padding-bottom:16px;padding-inline-end:16px;padding-inline-start:16px;padding-top:16px}.vot-menu-body-container{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;display:flex;flex-direction:column;min-height:1.375rem;overflow:auto;padding:0 16px;gap:8px;overscroll-behavior:contain;scrollbar-color:rgba(var(--vot-helper-onsurface-rgb), 0.1) var(--vot-helper-surface) !important}.vot-menu-body-container::-webkit-scrollbar,.vot-menu-body-container::-webkit-scrollbar-track{height:12px !important;width:12px !important;background:var(--vot-helper-surface) !important}.vot-menu-body-container::-webkit-scrollbar-thumb{background:rgba(var(--vot-helper-onsurface-rgb), 0.1) !important;-webkit-border-radius:1ex !important;border:5px solid var(--vot-helper-surface) !important}.vot-menu-body-container::-webkit-scrollbar-thumb:hover{border:3px solid var(--vot-helper-surface) !important}.vot-menu-body-container::-webkit-scrollbar-corner{background:var(--vot-helper-surface) !important}.vot-menu-footer-container{flex-shrink:0;display:flex;justify-content:flex-end;padding-bottom:16px;padding-inline-end:16px;padding-inline-start:16px;padding-top:16px}.vot-menu-footer-container:empty{padding:16px 0 0 0}.vot-menu[data-position=left]{left:240px;top:12.5vh}.vot-menu[data-position=right]{right:-80px;left:auto;top:12.5vh}.vot-dialog-container{visibility:visible;position:absolute;z-index:10000}.vot-dialog-container[hidden]{display:block !important;pointer-events:none;visibility:hidden}.vot-dialog-container *{-webkit-box-sizing:border-box !important;-moz-box-sizing:border-box !important;box-sizing:border-box !important}.vot-dialog-backdrop{background-color:rgba(0,0,0,.6);position:fixed;top:0;right:0;bottom:0;left:0;opacity:1;transition:opacity .3s}[hidden]>.vot-dialog-backdrop{pointer-events:none;opacity:0}.vot-dialog{--vot-helper-surface-rgb: var(--vot-surface-rgb, 255, 255, 255);--vot-helper-surface: rgb(var(--vot-helper-surface-rgb));--vot-helper-onsurface-rgb: var(--vot-onsurface-rgb, 0, 0, 0);--vot-helper-onsurface: rgba(var(--vot-helper-onsurface-rgb), 0.87);display:block;position:fixed;top:50%;bottom:50%;max-width:initial;max-height:initial;width:min(var(--vot-dialog-width, 512px),100%);height:fit-content;inset-inline-start:0px;inset-inline-end:0px;inset-block-start:0px;inset-block-end:0px;border-radius:8px;margin:auto;padding:0;background-color:var(--vot-helper-surface);color:var(--vot-helper-onsurface);box-shadow:0 0 16px rgba(0,0,0,.12),0 16px 16px rgba(0,0,0,.24);font-family:var(--vot-font-family, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);font-size:16px;line-height:1.5;user-select:none;visibility:visible;overflow:auto;overflow-y:hidden;opacity:1;transform-origin:center;transform:scale(1);transition:opacity .3s,transform .1s}[hidden]>.vot-dialog{pointer-events:none;opacity:0;transform:scale(0.5);transition:opacity .1s,transform .2s}.vot-dialog-content-wrapper{display:flex;flex-direction:column;max-height:75vh;overflow:auto}.vot-dialog-header-container{flex-shrink:0;align-items:flex-start;display:flex;min-height:31px}.vot-dialog-header-container:empty{padding:0 0 20px 0}.vot-dialog-header-container>.vot-icon-button{margin-inline-end:4px;margin-top:4px}.vot-dialog-title-container{display:flex;flex:1;font-size:inherit;font-weight:inherit;margin:0;outline:0}.vot-dialog-title{flex:1;font-size:115.3846153846%;font-weight:bold;line-height:1;padding-bottom:16px;padding-inline-end:20px;padding-inline-start:20px;padding-top:20px}.vot-dialog-body-container{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;display:flex;flex-direction:column;min-height:1.375rem;overflow:auto;padding:0 20px;gap:16px;overscroll-behavior:contain;scrollbar-color:rgba(var(--vot-helper-onsurface-rgb), 0.1) var(--vot-helper-surface) !important}.vot-dialog-body-container::-webkit-scrollbar,.vot-dialog-body-container::-webkit-scrollbar-track{height:12px !important;width:12px !important;background:var(--vot-helper-surface) !important}.vot-dialog-body-container::-webkit-scrollbar-thumb{background:rgba(var(--vot-helper-onsurface-rgb), 0.1) !important;-webkit-border-radius:1ex !important;border:5px solid var(--vot-helper-surface) !important}.vot-dialog-body-container::-webkit-scrollbar-thumb:hover{border:3px solid var(--vot-helper-surface) !important}.vot-dialog-body-container::-webkit-scrollbar-corner{background:var(--vot-helper-surface) !important}.vot-dialog-footer-container{flex-shrink:0;display:flex;justify-content:flex-end;padding-bottom:16px;padding-inline-end:16px;padding-inline-start:16px;padding-top:16px}.vot-dialog-footer-container:empty{padding:20px 0 0 0}.vot-subtitles-widget{display:flex;justify-content:center;align-items:center;position:absolute;width:50%;max-height:100%;min-height:20%;z-index:10000;left:25%;top:75%;pointer-events:none}.vot-subtitles{position:relative;max-width:100%;max-height:100%;width:max-content;background:var(--vot-subtitles-background, rgba(46, 47, 52, 0.8));color:var(--vot-subtitles-color, rgb(227, 227, 227));border-radius:1rem;pointer-events:all;padding:1rem;font-size:2rem;line-height:normal;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.vot-subtitles span{-webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text}.vot-subtitles .passed{color:var(--vot-subtitles-passed-color, rgb(33, 150, 243))}:root{--vot-font-family: "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system;--vot-primary-rgb: 139, 180, 245;--vot-onprimary-rgb: 32, 33, 36;--vot-surface-rgb: 32, 33, 36;--vot-onsurface-rgb: 227, 227, 227;--vot-subtitles-background: rgba(var(--vot-surface-rgb, 46, 47, 52), 0.8);--vot-subtitles-color: rgb(var(--vot-onsurface-rgb, 227, 227, 227));--vot-subtitles-passed-color: rgb(var(--vot-primary-rgb, 33, 150, 243))}vot-block{display:block}`, ""]);
+___CSS_LOADER_EXPORT___.push([module.id, `.vot-button{--vot-helper-theme: var( --vot-theme-rgb, var(--vot-primary-rgb, 33, 150, 243) );--vot-helper-ontheme: var( --vot-ontheme-rgb, var(--vot-onprimary-rgb, 255, 255, 255) );position:relative;display:inline-block;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;border:none;border-radius:4px;padding:0 16px;min-width:64px;height:36px;vertical-align:middle;text-align:center;text-overflow:ellipsis;color:rgb(var(--vot-helper-ontheme));background-color:rgb(var(--vot-helper-theme));box-shadow:0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12);font-family:var(--vot-font-family, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);font-size:14px;font-weight:500;line-height:36px;outline:none;cursor:pointer;transition:box-shadow .2s}.vot-button[hidden]{display:none !important}.vot-button::-moz-focus-inner{border:none}.vot-button::before,.vot-button::after{content:"";position:absolute;border-radius:inherit;top:0;right:0;bottom:0;left:0;opacity:0}.vot-button::before{background-color:rgb(var(--vot-helper-ontheme));transition:opacity .2s}.vot-button::after{background:radial-gradient(circle at center, currentColor 1%, transparent 1%) center/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-button:hover{box-shadow:0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12)}.vot-button:hover::before{opacity:.08}.vot-button:active{box-shadow:0 5px 5px -3px rgba(0,0,0,.2),0 8px 10px 1px rgba(0,0,0,.14),0 3px 14px 2px rgba(0,0,0,.12)}.vot-button:active::after{opacity:.32;background-size:100% 100%;transition:background-size 0s}.vot-button:disabled{background-color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.12);color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38);box-shadow:none;cursor:initial}.vot-button:disabled::before,.vot-button:disabled::after{opacity:0}.vot-outlined-button{--vot-helper-theme: var( --vot-theme-rgb, var(--vot-primary-rgb, 33, 150, 243) );position:relative;display:inline-block;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;margin:0;border:solid 1px;border-color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.24);border-radius:4px;padding:0 16px;min-width:64px;height:36px;vertical-align:middle;text-align:center;text-overflow:ellipsis;color:rgb(var(--vot-helper-theme));background-color:rgba(0,0,0,0);font-family:var(--vot-font-family, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);font-size:14px;font-weight:500;line-height:34px;outline:none;cursor:pointer}.vot-outlined-button[hidden]{display:none !important}.vot-outlined-button::-moz-focus-inner{border:none}.vot-outlined-button::before,.vot-outlined-button::after{content:"";position:absolute;border-radius:3px;top:0;right:0;bottom:0;left:0;opacity:0}.vot-outlined-button::before{background-color:rgb(var(--vot-helper-theme));transition:opacity .2s}.vot-outlined-button::after{background:radial-gradient(circle at center, currentColor 1%, transparent 1%) center/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-outlined-button:hover::before{opacity:.04}.vot-outlined-button:active::after{opacity:.16;background-size:100% 100%;transition:background-size 0s}.vot-outlined-button:disabled{background-color:rgba(0,0,0,0);color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38);cursor:initial}.vot-outlined-button:disabled::before,.vot-outlined-button:disabled::after{opacity:0}.vot-text-button{--vot-helper-theme: var( --vot-theme-rgb, var(--vot-primary-rgb, 33, 150, 243) );position:relative;display:inline-block;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;margin:0;border:none;border-radius:4px;padding:0 8px;min-width:64px;height:36px;vertical-align:middle;text-align:center;text-overflow:ellipsis;color:rgb(var(--vot-helper-theme));background-color:rgba(0,0,0,0);font-family:var(--vot-font-family, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);font-size:14px;font-weight:500;line-height:36px;outline:none;cursor:pointer}.vot-text-button[hidden]{display:none !important}.vot-text-button::-moz-focus-inner{border:none}.vot-text-button::before,.vot-text-button::after{content:"";position:absolute;border-radius:inherit;top:0;right:0;bottom:0;left:0;opacity:0}.vot-text-button::before{background-color:rgb(var(--vot-helper-theme));transition:opacity .2s}.vot-text-button::after{background:radial-gradient(circle at center, currentColor 1%, transparent 1%) center/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-text-button:hover::before{opacity:.04}.vot-text-button:active::after{opacity:.16;background-size:100% 100%;transition:background-size 0s}.vot-text-button:disabled{background-color:rgba(0,0,0,0);color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38);cursor:initial}.vot-text-button:disabled::before,.vot-text-button:disabled::after{opacity:0}.vot-icon-button{--vot-helper-onsurface: rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.87);position:relative;display:inline-block;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;margin:0;border:none;border-radius:50%;padding:0;width:36px;height:36px;vertical-align:middle;text-align:center;text-overflow:ellipsis;fill:var(--vot-helper-onsurface);color:var(--vot-helper-onsurface);background-color:rgba(0,0,0,0);font-family:var(--vot-font-family, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);font-size:14px;font-weight:500;line-height:36px;outline:none;cursor:pointer}.vot-icon-button[hidden]{display:none !important}.vot-icon-button::-moz-focus-inner{border:none}.vot-icon-button::before,.vot-icon-button::after{content:"";position:absolute;border-radius:inherit;top:0;right:0;bottom:0;left:0;opacity:0}.vot-icon-button::before{background-color:var(--vot-helper-onsurface);transition:opacity .2s}.vot-icon-button::after{background:radial-gradient(circle at center, currentColor 1%, transparent 1%) center/10000% 10000% no-repeat;transition:opacity .3s,background-size .4s}.vot-icon-button:hover::before{opacity:.04}.vot-icon-button:active::after{opacity:.32;background-size:100% 100%;transition:background-size 0s,opacity 0s}.vot-icon-button:disabled{background-color:rgba(0,0,0,0);color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38);fill:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38);cursor:initial}.vot-icon-button:disabled::before,.vot-icon-button:disabled::after{opacity:0}.vot-textfield{--vot-helper-theme: rgb( var(--vot-theme-rgb, var(--vot-primary-rgb, 33, 150, 243)) ) !important;--vot-helper-safari1: rgba( var(--vot-onsurface-rgb, 0, 0, 0), 0.38 ) !important;--vot-helper-safari2: rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.6) !important;--vot-helper-safari3: rgba( var(--vot-onsurface-rgb, 0, 0, 0), 0.87 ) !important;position:relative !important;display:inline-block;padding-top:6px !important;font-family:var(--vot-font-family, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system) !important;font-size:16px !important;line-height:1.5 !important;text-align:start !important}.vot-textfield[hidden]{display:none !important}.vot-textfield>input,.vot-textfield>textarea{-webkit-box-sizing:border-box !important;-moz-box-sizing:border-box !important;box-sizing:border-box !important;margin:0 !important;border-style:solid !important;border-width:1px !important;border-color:rgba(0,0,0,0) var(--vot-helper-safari2) var(--vot-helper-safari2) !important;border-radius:4px !important;padding:15px 13px 15px !important;width:100% !important;height:inherit !important;color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.87) !important;-webkit-text-fill-color:currentColor !important;background-color:rgba(0,0,0,0) !important;box-shadow:inset 1px 0 rgba(0,0,0,0),inset -1px 0 rgba(0,0,0,0),inset 0 -1px rgba(0,0,0,0) !important;font-family:inherit !important;font-size:inherit !important;line-height:inherit !important;caret-color:var(--vot-helper-theme) !important;transition:border .2s,box-shadow .2s !important}.vot-textfield>input:not(:focus):placeholder-shown,.vot-textfield>textarea:not(:focus):placeholder-shown{border-top-color:var(--vot-helper-safari2) !important}.vot-textfield>input+span,.vot-textfield>textarea+span{position:absolute !important;top:0 !important;left:0 !important;display:flex !important;width:100% !important;max-height:100% !important;color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.6) !important;font-size:75% !important;line-height:15px !important;cursor:text !important;transition:color .2s,font-size .2s,line-height .2s !important;pointer-events:none !important}.vot-textfield>input:not(:focus):placeholder-shown+span,.vot-textfield>textarea:not(:focus):placeholder-shown+span{font-size:inherit !important;line-height:68px !important}.vot-textfield>input+span::before,.vot-textfield>input+span::after,.vot-textfield>textarea+span::before,.vot-textfield>textarea+span::after{content:"" !important;display:block !important;-webkit-box-sizing:border-box !important;-moz-box-sizing:border-box !important;box-sizing:border-box !important;margin-top:6px !important;border-top:solid 1px var(--vot-helper-safari2) !important;min-width:10px !important;height:8px !important;pointer-events:none !important;box-shadow:inset 0 1px rgba(0,0,0,0) !important;transition:border .2s,box-shadow .2s !important}.vot-textfield>input+span::before,.vot-textfield>textarea+span::before{margin-right:4px !important;border-left:solid 1px rgba(0,0,0,0) !important;border-radius:4px 0 !important}.vot-textfield>input+span::after,.vot-textfield>textarea+span::after{flex-grow:1 !important;margin-left:4px !important;border-right:solid 1px rgba(0,0,0,0) !important;border-radius:0 4px !important}.vot-textfield>input:not(:focus):placeholder-shown+span::before,.vot-textfield>input:not(:focus):placeholder-shown+span::after,.vot-textfield>textarea:not(:focus):placeholder-shown+span::before,.vot-textfield>textarea:not(:focus):placeholder-shown+span::after{border-top-color:rgba(0,0,0,0) !important}.vot-textfield:hover>input,.vot-textfield:hover>textarea{border-color:rgba(0,0,0,0) var(--vot-helper-safari3) var(--vot-helper-safari3) !important}.vot-textfield:hover>input+span::before,.vot-textfield:hover>input+span::after,.vot-textfield:hover>textarea+span::before,.vot-textfield:hover>textarea+span::after{border-top-color:var(--vot-helper-safari3) !important}.vot-textfield:hover>input:not(:focus):placeholder-shown,.vot-textfield:hover>textarea:not(:focus):placeholder-shown{border-color:var(--vot-helper-safari3) !important}.vot-textfield>input:focus,.vot-textfield>textarea:focus{border-color:rgba(0,0,0,0) var(--vot-helper-theme) var(--vot-helper-theme) !important;box-shadow:inset 1px 0 var(--vot-helper-theme),inset -1px 0 var(--vot-helper-theme),inset 0 -1px var(--vot-helper-theme) !important;outline:none !important}.vot-textfield>input:focus+span,.vot-textfield>textarea:focus+span{color:var(--vot-helper-theme) !important}.vot-textfield>input:focus+span::before,.vot-textfield>input:focus+span::after,.vot-textfield>textarea:focus+span::before,.vot-textfield>textarea:focus+span::after{border-top-color:var(--vot-helper-theme) !important;box-shadow:inset 0 1px var(--vot-helper-theme) !important}.vot-textfield>input:disabled,.vot-textfield>input:disabled+span,.vot-textfield>textarea:disabled,.vot-textfield>textarea:disabled+span{border-color:rgba(0,0,0,0) var(--vot-helper-safari1) var(--vot-helper-safari1) !important;color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38) !important;pointer-events:none !important}.vot-textfield>input:disabled+span::before,.vot-textfield>input:disabled+span::after,.vot-textfield>textarea:disabled+span::before,.vot-textfield>textarea:disabled+span::after{border-top-color:var(--vot-helper-safari1) !important}.vot-textfield>input:disabled:placeholder-shown,.vot-textfield>input:disabled:placeholder-shown+span,.vot-textfield>textarea:disabled:placeholder-shown,.vot-textfield>textarea:disabled:placeholder-shown+span{border-top-color:var(--vot-helper-safari1) !important}.vot-textfield>input:disabled:placeholder-shown+span::before,.vot-textfield>input:disabled:placeholder-shown+span::after,.vot-textfield>textarea:disabled:placeholder-shown+span::before,.vot-textfield>textarea:disabled:placeholder-shown+span::after{border-top-color:rgba(0,0,0,0) !important}@media not all and (min-resolution: 0.001dpcm){@supports(-webkit-appearance: none){.vot-textfield>input,.vot-textfield>input+span,.vot-textfield>textarea,.vot-textfield>textarea+span,.vot-textfield>input+span::before,.vot-textfield>input+span::after,.vot-textfield>textarea+span::before,.vot-textfield>textarea+span::after{transition-duration:.1s !important}}}.vot-checkbox{--vot-helper-theme: var( --vot-theme-rgb, var(--vot-primary-rgb, 33, 150, 243) );--vot-helper-ontheme: var( --vot-ontheme-rgb, var(--vot-onprimary-rgb, 255, 255, 255) );z-index:0;position:relative;display:inline-block;color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.87);font-family:var(--vot-font-family, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);font-size:16px;line-height:1.5;text-align:start}.vot-checkbox[hidden]{display:none !important}.vot-checkbox>input{appearance:none;-moz-appearance:none;-webkit-appearance:none;z-index:10000;position:absolute;display:block;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;margin:3px 1px;border:solid 2px;background:rgba(0,0,0,0);border-color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.6);border-radius:2px;width:18px;height:18px;outline:none;cursor:pointer;transition:border-color .2s,background-color .2s}.vot-checkbox>input+span{display:inline-block;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;padding-left:30px;width:inherit;cursor:pointer;font-weight:normal}.vot-checkbox>input+span::before{content:"";position:absolute;left:-10px;top:-8px;display:block;border-radius:50%;width:40px;height:40px;background-color:rgb(var(--vot-onsurface-rgb, 0, 0, 0));opacity:0;transform:scale(1);pointer-events:none;transition:opacity .3s,transform .2s}.vot-checkbox>input+span::after{content:"";z-index:10000;display:block;position:absolute;top:3px;left:1px;-webkit-box-sizing:content-box !important;-moz-box-sizing:content-box !important;box-sizing:content-box !important;width:10px;height:5px;border:solid 2px rgba(0,0,0,0);border-right-width:0;border-top-width:0;pointer-events:none;transform:translate(3px, 4px) rotate(-45deg);transition:border-color .2s}.vot-checkbox>input:checked,.vot-checkbox>input:indeterminate{border-color:rgb(var(--vot-helper-theme));background-color:rgb(var(--vot-helper-theme))}.vot-checkbox>input:checked+span::before,.vot-checkbox>input:indeterminate+span::before{background-color:rgb(var(--vot-helper-theme))}.vot-checkbox>input:checked+span::after,.vot-checkbox>input:indeterminate+span::after{border-color:rgb(var(--vot-helper-ontheme, 255, 255, 255))}.vot-checkbox>input:indeterminate+span::after{border-left-width:0;transform:translate(4px, 3px)}.vot-checkbox:hover>input+span::before{opacity:.04}.vot-checkbox:active>input,.vot-checkbox:active:hover>input{border-color:rgb(var(--vot-helper-theme))}.vot-checkbox:active>input:checked{border-color:rgba(0,0,0,0);background-color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.6)}.vot-checkbox:active>input+span::before{opacity:1;transform:scale(0);transition:transform 0s,opacity 0s}.vot-checkbox>input:disabled{border-color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38);cursor:initial}.vot-checkbox>input:disabled:checked,.vot-checkbox>input:disabled:indeterminate{border-color:rgba(0,0,0,0);background-color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38)}.vot-checkbox>input:disabled+span{color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38);cursor:initial}.vot-checkbox>input:disabled+span::before{opacity:0;transform:scale(0)}.vot-slider{--vot-safari-helper1: rgba( var(--vot-primary-rgb, 33, 150, 243), 0.04 ) !important;--vot-safari-helper2: rgba( var(--vot-primary-rgb, 33, 150, 243), 0.12 ) !important;--vot-safari-helper3: rgba( var(--vot-primary-rgb, 33, 150, 243), 0.16 ) !important;--vot-safari-helper4: rgba( var(--vot-primary-rgb, 33, 150, 243), 0.24 ) !important;display:inline-block;width:100% !important;color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.87) !important;font-family:var(--vot-font, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system) !important;font-size:16px !important;line-height:1.5 !important;text-align:start !important}.vot-slider[hidden]{display:none !important}.vot-slider>input{-webkit-appearance:none !important;appearance:none !important;position:relative !important;top:24px !important;display:block !important;margin:0 0 -36px !important;width:100% !important;height:36px !important;background-color:rgba(0,0,0,0) !important;cursor:pointer !important}.vot-slider>input:last-child{position:static !important;margin:0 !important}.vot-slider>span{display:inline-block !important;margin-bottom:36px !important}.vot-slider>input:disabled{cursor:default !important;opacity:.38 !important}.vot-slider>input:disabled+span{color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38) !important}.vot-slider>input::-webkit-slider-runnable-track{margin:17px 0 !important;border-radius:1px !important;width:100% !important;height:2px !important;background-color:rgba(var(--vot-primary-rgb, 33, 150, 243), 0.24) !important}.vot-slider>input::-webkit-slider-thumb{margin:0 !important;appearance:none !important;-webkit-appearance:none !important;border:none !important;border-radius:50% !important;height:2px !important;width:2px !important;background-color:rgb(var(--vot-primary-rgb, 33, 150, 243)) !important;transform:scale(6, 6) !important;transition:box-shadow .2s !important}.vot-slider:hover>input::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--vot-safari-helper1) !important}.vot-slider>input:active::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--vot-safari-helper4) !important}.vot-slider>input:disabled::-webkit-slider-runnable-track{background-color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38) !important}.vot-slider>input:disabled::-webkit-slider-thumb{background-color:rgb(var(--vot-onsurface-rgb, 0, 0, 0)) !important;color:rgb(var(--vot-surface-rgb, 255, 255, 255)) !important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb, 255, 255, 255)) !important;transform:scale(4, 4) !important}.vot-slider>input::-moz-range-track{margin:17px 0 !important;border-radius:1px !important;width:100% !important;height:2px !important;background-color:rgba(var(--vot-primary-rgb, 33, 150, 243), 0.24) !important}.vot-slider>input::-moz-range-thumb{appearance:none !important;-moz-appearance:none !important;border:none !important;border-radius:50% !important;height:2px !important;width:2px !important;background-color:rgb(var(--vot-primary-rgb, 33, 150, 243)) !important;transform:scale(6, 6) !important;transition:box-shadow .2s !important}.vot-slider>input::-moz-range-progress{border-radius:1px !important;height:2px !important;background-color:rgb(var(--vot-primary-rgb, 33, 150, 243)) !important}.vot-slider:hover>input:hover::-moz-range-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb, 33, 150, 243), 0.04) !important}.vot-slider>input:active::-moz-range-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb, 33, 150, 243), 0.24) !important}.vot-slider>input:disabled::-moz-range-track{background-color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38) !important}.vot-slider>input:disabled::-moz-range-progress{background-color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.87) !important}.vot-slider>input:disabled::-moz-range-thumb{background-color:rgb(var(--vot-onsurface-rgb, 0, 0, 0)) !important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb, 255, 255, 255)) !important;transform:scale(4, 4) !important}.vot-slider>input::-moz-focus-outer{border:none !important}.vot-slider>input:focus{outline:none !important}.vot-slider>input::-ms-track{-webkit-box-sizing:border-box !important;-moz-box-sizing:border-box !important;box-sizing:border-box !important;margin:17px 0 !important;border:none !important;border-radius:1px !important;padding:0 17px !important;width:100% !important;height:2px !important;background-color:rgba(0,0,0,0) !important}.vot-slider>input::-ms-fill-lower{border-radius:1px !important;height:2px !important;background-color:rgb(var(--vot-primary-rgb, 33, 150, 243)) !important}.vot-slider>input::-ms-fill-upper{border-radius:1px !important;height:2px !important;background-color:rgba(var(--vot-primary-rgb, 33, 150, 243), 0.24) !important}.vot-slider>input::-ms-thumb{appearance:none !important;margin:0 17px !important;border:none !important;border-radius:50% !important;height:2px !important;width:2px !important;background-color:rgb(var(--vot-primary-rgb, 33, 150, 243)) !important;transform:scale(6, 6) !important;transition:box-shadow .2s !important}.vot-slider:hover>input::-ms-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb, 33, 150, 243), 0.04) !important}.vot-slider>input:active::-ms-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb, 33, 150, 243), 0.24) !important}.vot-slider>input:disabled::-ms-fill-lower{background-color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38) !important}.vot-slider>input:disabled::-ms-fill-upper{background-color:rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38) !important;opacity:.38 !important}.vot-slider>input:disabled::-ms-thumb{background-color:rgb(var(--vot-onsurface-rgb, 0, 0, 0)) !important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb, 255, 255, 255)) !important;transform:scale(4, 4) !important}.vot-slider>input::before{content:"" !important;display:block !important;position:absolute !important;width:calc(100%*var(--vot-progress, 0)) !important;height:2px !important;top:calc(50% - 1px) !important;background:rgb(var(--vot-primary-rgb, 33, 150, 243)) !important}.vot-select{--vot-helper-theme-rgb: var(--vot-onsurface-rgb, 0, 0, 0) !important;--vot-helper-theme: rgba(var(--vot-helper-theme-rgb), 0.87) !important;--vot-helper-safari1: rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.6) !important;--vot-helper-safari2: rgba( var(--vot-onsurface-rgb, 0, 0, 0), 0.87 ) !important;display:flex;align-items:center;justify-content:space-between;font-family:var(--vot-font-family, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);font-size:14px;font-weight:normal;line-height:1.5;text-align:start;color:var(--vot-helper-theme);fill:var(--vot-helper-theme)}.vot-select[hidden]{display:none !important}.vot-select-label{font-size:16px}.vot-select-outer{display:flex;align-items:center;justify-content:space-between;max-width:120px;width:120px;padding:0 5px;border-style:solid !important;border-width:1px !important;border-color:var(--vot-helper-safari1) !important;border-radius:4px !important;cursor:pointer;transition:border .2s !important}.vot-select-outer:hover{border-color:var(--vot-helper-safari2) !important}.vot-select-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.vot-select-arrow-icon{width:20px;height:32px;display:flex;justify-content:center;align-items:center}.vot-select-content-list{display:flex;flex-direction:column}.vot-select-content-list .vot-select-content-item{padding:5px 10px;border-radius:8px;cursor:pointer}.vot-select-content-list .vot-select-content-item:not([inert]):hover{background-color:#2a2c31}.vot-select-content-list .vot-select-content-item[data-vot-selected=true]{color:rgb(var(--vot-primary-rgb, 33, 150, 243));background-color:rgba(var(--vot-primary-rgb, 33, 150, 243), 0.2)}.vot-select-content-list .vot-select-content-item[data-vot-selected=true]:hover{background-color:rgba(var(--vot-primary-rgb, 33, 150, 243), 0.1) !important}.vot-select-content-list .vot-select-content-item[data-vot-disabled=true]{cursor:default}.vot-select-content-list .vot-select-content-item[hidden]{display:none !important}.vot-header{color:rgba(var(--vot-helper-onsurface-rgb), 0.87);font-family:var(--vot-font-family, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);font-weight:bold;line-height:1.5;text-align:start}.vot-header[hidden]{display:none !important}.vot-header:not(:first-child){padding-top:8px}.vot-header-level-1{font-size:2em}.vot-header-level-2{font-size:1.5em}.vot-header-level-3{font-size:1.17em}.vot-header-level-4{font-size:1em}.vot-header-level-5{font-size:.83em}.vot-header-level-6{font-size:.67em}.vot-info{display:flex;color:rgba(var(--vot-helper-onsurface-rgb), 0.87);font-family:var(--vot-font-family, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);font-size:16px;line-height:1.5;text-align:start}.vot-info[hidden]{display:none !important}.vot-info>:not(:first-child){color:rgba(var(--vot-helper-onsurface-rgb), 0.5);flex:1;margin-left:8px}.vot-lang-select{--vot-helper-theme-rgb: var(--vot-onsurface-rgb, 0, 0, 0);--vot-helper-theme: rgba(var(--vot-helper-theme-rgb), 0.87);display:flex;align-items:center;justify-content:space-between;color:var(--vot-helper-theme);fill:var(--vot-helper-theme)}.vot-lang-select[hidden]{display:none !important}.vot-lang-select-icon{width:32px;height:32px;display:flex;justify-content:center;align-items:center}.vot-segmented-button{--vot-helper-theme-rgb: var(--vot-onsurface-rgb, 0, 0, 0);--vot-helper-theme: rgba(var(--vot-helper-theme-rgb), 0.87);overflow:hidden;position:absolute;left:50%;top:5rem;transform:translate(-50%);user-select:none;display:flex;align-items:center;height:32px;max-width:100vw;background:rgb(var(--vot-surface-rgb, 255, 255, 255));color:var(--vot-helper-theme);fill:var(--vot-helper-theme);border-radius:4px;font-family:var(--vot-font-family, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);font-size:16px;line-height:1.5;cursor:default;transition:opacity .5s;z-index:10000}.vot-segmented-button[hidden]{display:none !important}.vot-segmented-button *{-webkit-box-sizing:border-box !important;-moz-box-sizing:border-box !important;box-sizing:border-box !important}.vot-segmented-button .vot-separator{width:1px;height:50%;background:rgba(var(--vot-helper-theme-rgb), 0.1)}.vot-segmented-button .vot-separator[hidden]{display:none !important}.vot-segmented-button .vot-segment,.vot-segmented-button .vot-segment-only-icon{position:relative;overflow:hidden;display:flex;justify-content:center;align-items:center;height:100%;padding:0 8px;background-color:rgba(0,0,0,0);color:inherit;transition:background-color 100ms ease-in-out;border:none}.vot-segmented-button .vot-segment[hidden],.vot-segmented-button [hidden].vot-segment-only-icon{display:none !important}.vot-segmented-button .vot-segment::before,.vot-segmented-button .vot-segment-only-icon::before,.vot-segmented-button .vot-segment::after,.vot-segmented-button .vot-segment-only-icon::after{content:"";position:absolute;border-radius:inherit;top:0;right:0;bottom:0;left:0;opacity:0}.vot-segmented-button .vot-segment::before,.vot-segmented-button .vot-segment-only-icon::before{background-color:rgb(var(--vot-helper-theme-rgb));transition:opacity .2s}.vot-segmented-button .vot-segment::after,.vot-segmented-button .vot-segment-only-icon::after{background:radial-gradient(circle at center, currentColor 1%, transparent 1%) center/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-segmented-button .vot-segment:hover::before,.vot-segmented-button .vot-segment-only-icon:hover::before{opacity:.04}.vot-segmented-button .vot-segment:active::after,.vot-segmented-button .vot-segment-only-icon:active::after{opacity:.16;background-size:100% 100%;transition:background-size 0s}.vot-segmented-button .vot-segment-only-icon{min-width:32px;padding:0}.vot-segmented-button .vot-segment-label{margin-left:8px;white-space:nowrap}.vot-segmented-button[data-status=success] .vot-translate-button{color:rgb(var(--vot-primary-rgb, 33, 150, 243));fill:rgb(var(--vot-primary-rgb, 33, 150, 243))}.vot-segmented-button[data-status=error] .vot-translate-button{color:#f28b82;fill:#f28b82}.vot-segmented-button[data-translating=true] #vot-translating-icon{display:block !important}.vot-segmented-button[data-translating=true] #vot-translate-icon{display:none !important}.vot-segmented-button[data-direction=column]{flex-direction:column;height:fit-content}.vot-segmented-button[data-direction=column] .vot-segment-label{display:none}.vot-segmented-button[data-direction=column]>.vot-segment-only-icon,.vot-segmented-button[data-direction=column]>.vot-segment{padding:8px}.vot-segmented-button[data-direction=column] .vot-separator{height:1px;width:50%}.vot-segmented-button[data-position=left]{left:50px;top:12.5vh}.vot-segmented-button[data-position=right]{left:auto;right:0;top:12.5vh}.vot-segmented-button svg{width:fit-content}.vot-menu{--vot-helper-surface-rgb: var(--vot-surface-rgb, 255, 255, 255);--vot-helper-surface: rgb(var(--vot-helper-surface-rgb));--vot-helper-onsurface-rgb: var(--vot-onsurface-rgb, 0, 0, 0);--vot-helper-onsurface: rgba(var(--vot-helper-onsurface-rgb), 0.87);overflow:hidden;position:absolute;left:50%;top:calc(5rem + 32px + 16px);user-select:none;background-color:var(--vot-helper-surface);color:var(--vot-helper-onsurface);border-radius:8px;font-family:var(--vot-font-family, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);font-size:16px;line-height:1.5;min-width:300px;cursor:default;z-index:10000;visibility:visible;opacity:1;transform-origin:top;transform:translate(-50%) scale(1);transition:opacity .3s,transform .1s}.vot-menu *{-webkit-box-sizing:border-box !important;-moz-box-sizing:border-box !important;box-sizing:border-box !important}.vot-menu[hidden]{pointer-events:none;display:block !important;visibility:hidden;opacity:0;transform:translate(-50%) scale(0)}.vot-menu-content-wrapper{display:flex;flex-direction:column;min-height:100px;max-height:calc(var(--vot-container-height, 75vh) - (5rem + 32px + 16px)*2);overflow:auto}.vot-menu-header-container{flex-shrink:0;align-items:flex-start;display:flex;min-height:31px}.vot-menu-header-container:empty{padding:0 0 16px 0}.vot-menu-header-container>.vot-icon-button{margin-inline-end:4px;margin-top:4px}.vot-menu-title-container{display:flex;flex:1;font-size:inherit;font-weight:inherit;margin:0;outline:0;text-align:start}.vot-menu-title{flex:1;font-size:16px;line-height:1;padding-bottom:16px;padding-inline-end:16px;padding-inline-start:16px;padding-top:16px}.vot-menu-body-container{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;display:flex;flex-direction:column;min-height:1.375rem;overflow:auto;padding:0 16px;gap:8px;overscroll-behavior:contain;scrollbar-color:rgba(var(--vot-helper-onsurface-rgb), 0.1) var(--vot-helper-surface) !important}.vot-menu-body-container::-webkit-scrollbar,.vot-menu-body-container::-webkit-scrollbar-track{height:12px !important;width:12px !important;background:var(--vot-helper-surface) !important}.vot-menu-body-container::-webkit-scrollbar-thumb{background:rgba(var(--vot-helper-onsurface-rgb), 0.1) !important;-webkit-border-radius:1ex !important;border:5px solid var(--vot-helper-surface) !important}.vot-menu-body-container::-webkit-scrollbar-thumb:hover{border:3px solid var(--vot-helper-surface) !important}.vot-menu-body-container::-webkit-scrollbar-corner{background:var(--vot-helper-surface) !important}.vot-menu-footer-container{flex-shrink:0;display:flex;justify-content:flex-end;padding-bottom:16px;padding-inline-end:16px;padding-inline-start:16px;padding-top:16px}.vot-menu-footer-container:empty{padding:16px 0 0 0}.vot-menu[data-position=left]{left:240px;top:12.5vh}.vot-menu[data-position=right]{right:-80px;left:auto;top:12.5vh}.vot-dialog-container{visibility:visible;position:absolute;z-index:10000}.vot-dialog-container[hidden]{display:block !important;pointer-events:none;visibility:hidden}.vot-dialog-container *{-webkit-box-sizing:border-box !important;-moz-box-sizing:border-box !important;box-sizing:border-box !important}.vot-dialog-backdrop{background-color:rgba(0,0,0,.6);position:fixed;top:0;right:0;bottom:0;left:0;opacity:1;transition:opacity .3s}[hidden]>.vot-dialog-backdrop{pointer-events:none;opacity:0}.vot-dialog{--vot-helper-surface-rgb: var(--vot-surface-rgb, 255, 255, 255);--vot-helper-surface: rgb(var(--vot-helper-surface-rgb));--vot-helper-onsurface-rgb: var(--vot-onsurface-rgb, 0, 0, 0);--vot-helper-onsurface: rgba(var(--vot-helper-onsurface-rgb), 0.87);display:block;position:fixed;top:50%;bottom:50%;max-width:initial;max-height:initial;width:min(var(--vot-dialog-width, 512px),100%);height:fit-content;inset-inline-start:0px;inset-inline-end:0px;inset-block-start:0px;inset-block-end:0px;border-radius:8px;margin:auto;padding:0;background-color:var(--vot-helper-surface);color:var(--vot-helper-onsurface);box-shadow:0 0 16px rgba(0,0,0,.12),0 16px 16px rgba(0,0,0,.24);font-family:var(--vot-font-family, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);font-size:16px;line-height:1.5;user-select:none;visibility:visible;overflow:auto;overflow-y:hidden;opacity:1;transform-origin:center;transform:scale(1);transition:opacity .3s,transform .1s}[hidden]>.vot-dialog{pointer-events:none;opacity:0;transform:scale(0.5);transition:opacity .1s,transform .2s}.vot-dialog-content-wrapper{display:flex;flex-direction:column;max-height:75vh;overflow:auto}.vot-dialog-header-container{flex-shrink:0;align-items:flex-start;display:flex;min-height:31px}.vot-dialog-header-container:empty{padding:0 0 20px 0}.vot-dialog-header-container>.vot-icon-button{margin-inline-end:4px;margin-top:4px}.vot-dialog-title-container{display:flex;flex:1;font-size:inherit;font-weight:inherit;margin:0;outline:0}.vot-dialog-title{flex:1;font-size:115.3846153846%;font-weight:bold;line-height:1;padding-bottom:16px;padding-inline-end:20px;padding-inline-start:20px;padding-top:20px}.vot-dialog-body-container{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;display:flex;flex-direction:column;min-height:1.375rem;overflow:auto;padding:0 20px;gap:16px;overscroll-behavior:contain;scrollbar-color:rgba(var(--vot-helper-onsurface-rgb), 0.1) var(--vot-helper-surface) !important}.vot-dialog-body-container::-webkit-scrollbar,.vot-dialog-body-container::-webkit-scrollbar-track{height:12px !important;width:12px !important;background:var(--vot-helper-surface) !important}.vot-dialog-body-container::-webkit-scrollbar-thumb{background:rgba(var(--vot-helper-onsurface-rgb), 0.1) !important;-webkit-border-radius:1ex !important;border:5px solid var(--vot-helper-surface) !important}.vot-dialog-body-container::-webkit-scrollbar-thumb:hover{border:3px solid var(--vot-helper-surface) !important}.vot-dialog-body-container::-webkit-scrollbar-corner{background:var(--vot-helper-surface) !important}.vot-dialog-footer-container{flex-shrink:0;display:flex;justify-content:flex-end;padding-bottom:16px;padding-inline-end:16px;padding-inline-start:16px;padding-top:16px}.vot-dialog-footer-container:empty{padding:20px 0 0 0}.vot-subtitles-widget{display:flex;justify-content:center;align-items:center;position:absolute;width:50%;max-height:100%;min-height:20%;z-index:10000;left:25%;top:75%;pointer-events:none}.vot-subtitles{position:relative;max-width:100%;max-height:100%;width:max-content;background:var(--vot-subtitles-background, rgba(46, 47, 52, 0.8));color:var(--vot-subtitles-color, rgb(227, 227, 227));border-radius:1rem;pointer-events:all;padding:1rem;font-size:2rem;line-height:normal;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.vot-subtitles span{-webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text}.vot-subtitles .passed{color:var(--vot-subtitles-passed-color, rgb(33, 150, 243))}:root{--vot-font-family: "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system;--vot-primary-rgb: 139, 180, 245;--vot-onprimary-rgb: 32, 33, 36;--vot-surface-rgb: 32, 33, 36;--vot-onsurface-rgb: 227, 227, 227;--vot-subtitles-background: rgba(var(--vot-surface-rgb, 46, 47, 52), 0.8);--vot-subtitles-color: rgb(var(--vot-onsurface-rgb, 227, 227, 227));--vot-subtitles-passed-color: rgb(var(--vot-primary-rgb, 33, 150, 243))}vot-block{display:block;visibility:visible !important}`, ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -555,304 +561,2455 @@ module.exports = function () {
 }
 
 
-/***/ }),
+/***/ })
 
-/***/ "./src/config/config.js":
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+(() => {
 "use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Cc: () => (/* binding */ yandexUserAgent),
-/* harmony export */   JD: () => (/* binding */ defaultAutoVolume),
-/* harmony export */   K2: () => (/* binding */ defaultDetectService),
-/* harmony export */   Pm: () => (/* binding */ proxyWorkerHost),
-/* harmony export */   QL: () => (/* binding */ detectUrls),
-/* harmony export */   S7: () => (/* binding */ yandexHmacKey),
-/* harmony export */   T8: () => (/* binding */ maxAudioVolume),
-/* harmony export */   mE: () => (/* binding */ defaultTranslationService),
-/* harmony export */   rw: () => (/* binding */ translateUrls),
-/* harmony export */   se: () => (/* binding */ m3u8ProxyHost)
-/* harmony export */ });
-/* unused harmony export workerHost */
-// CONFIGURATION
-const workerHost = "api.browser.yandex.ru";
-const m3u8ProxyHost = "m3u8-proxy.toil.cc"; // used for streaming
-const proxyWorkerHost = "vot-worker.toil.cc"; // used for cloudflare version
-const yandexHmacKey = "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf";
-const yandexUserAgent =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 YaBrowser/24.4.0.0 Safari/537.36";
-const defaultAutoVolume = 0.15; // 0.0 - 1.0 (0% - 100%) - default volume of the video with the translation
-const maxAudioVolume = 900;
-const defaultTranslationService = "yandex";
-const defaultDetectService = "yandex";
 
-const detectUrls = {
-  yandex: "https://translate.toil.cc/detect",
-  rustServer: "https://rust-server-531j.onrender.com/detect",
+// EXTERNAL MODULE: ./node_modules/bowser/es5.js
+var es5 = __webpack_require__("./node_modules/bowser/es5.js");
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/protos/yandex.js
+const _m0 = protobuf;
+const protobufPackage = "";
+var StreamInterval;
+(function (StreamInterval) {
+    StreamInterval[StreamInterval["NO_CONNECTION"] = 0] = "NO_CONNECTION";
+    StreamInterval[StreamInterval["TRANSLATING"] = 10] = "TRANSLATING";
+    StreamInterval[StreamInterval["STREAMING"] = 20] = "STREAMING";
+    StreamInterval[StreamInterval["UNRECOGNIZED"] = -1] = "UNRECOGNIZED";
+})(StreamInterval || (StreamInterval = {}));
+function streamIntervalFromJSON(object) {
+    switch (object) {
+        case 0:
+        case "NO_CONNECTION":
+            return StreamInterval.NO_CONNECTION;
+        case 10:
+        case "TRANSLATING":
+            return StreamInterval.TRANSLATING;
+        case 20:
+        case "STREAMING":
+            return StreamInterval.STREAMING;
+        case -1:
+        case "UNRECOGNIZED":
+        default:
+            return StreamInterval.UNRECOGNIZED;
+    }
+}
+function streamIntervalToJSON(object) {
+    switch (object) {
+        case StreamInterval.NO_CONNECTION:
+            return "NO_CONNECTION";
+        case StreamInterval.TRANSLATING:
+            return "TRANSLATING";
+        case StreamInterval.STREAMING:
+            return "STREAMING";
+        case StreamInterval.UNRECOGNIZED:
+        default:
+            return "UNRECOGNIZED";
+    }
+}
+function createBaseVideoTranslationHelpObject() {
+    return { target: "", targetUrl: "" };
+}
+const VideoTranslationHelpObject = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.target !== "") {
+            writer.uint32(10).string(message.target);
+        }
+        if (message.targetUrl !== "") {
+            writer.uint32(18).string(message.targetUrl);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseVideoTranslationHelpObject();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.target = reader.string();
+                    continue;
+                case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.targetUrl = reader.string();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            target: isSet(object.target) ? globalThis.String(object.target) : "",
+            targetUrl: isSet(object.targetUrl) ? globalThis.String(object.targetUrl) : "",
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.target !== "") {
+            obj.target = message.target;
+        }
+        if (message.targetUrl !== "") {
+            obj.targetUrl = message.targetUrl;
+        }
+        return obj;
+    },
+    create(base) {
+        return VideoTranslationHelpObject.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseVideoTranslationHelpObject();
+        message.target = object.target ?? "";
+        message.targetUrl = object.targetUrl ?? "";
+        return message;
+    },
+};
+function createBaseVideoTranslationRequest() {
+    return {
+        url: "",
+        deviceId: undefined,
+        firstRequest: false,
+        duration: 0,
+        unknown0: 0,
+        language: "",
+        forceSourceLang: false,
+        unknown1: 0,
+        translationHelp: [],
+        responseLanguage: "",
+        unknown2: 0,
+        unknown3: 0,
+        bypassCache: false,
+    };
+}
+const VideoTranslationRequest = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.url !== "") {
+            writer.uint32(26).string(message.url);
+        }
+        if (message.deviceId !== undefined) {
+            writer.uint32(34).string(message.deviceId);
+        }
+        if (message.firstRequest !== false) {
+            writer.uint32(40).bool(message.firstRequest);
+        }
+        if (message.duration !== 0) {
+            writer.uint32(49).double(message.duration);
+        }
+        if (message.unknown0 !== 0) {
+            writer.uint32(56).int32(message.unknown0);
+        }
+        if (message.language !== "") {
+            writer.uint32(66).string(message.language);
+        }
+        if (message.forceSourceLang !== false) {
+            writer.uint32(72).bool(message.forceSourceLang);
+        }
+        if (message.unknown1 !== 0) {
+            writer.uint32(80).int32(message.unknown1);
+        }
+        for (const v of message.translationHelp) {
+            VideoTranslationHelpObject.encode(v, writer.uint32(90).fork()).ldelim();
+        }
+        if (message.responseLanguage !== "") {
+            writer.uint32(114).string(message.responseLanguage);
+        }
+        if (message.unknown2 !== 0) {
+            writer.uint32(120).int32(message.unknown2);
+        }
+        if (message.unknown3 !== 0) {
+            writer.uint32(128).int32(message.unknown3);
+        }
+        if (message.bypassCache !== false) {
+            writer.uint32(136).bool(message.bypassCache);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseVideoTranslationRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
+                    message.url = reader.string();
+                    continue;
+                case 4:
+                    if (tag !== 34) {
+                        break;
+                    }
+                    message.deviceId = reader.string();
+                    continue;
+                case 5:
+                    if (tag !== 40) {
+                        break;
+                    }
+                    message.firstRequest = reader.bool();
+                    continue;
+                case 6:
+                    if (tag !== 49) {
+                        break;
+                    }
+                    message.duration = reader.double();
+                    continue;
+                case 7:
+                    if (tag !== 56) {
+                        break;
+                    }
+                    message.unknown0 = reader.int32();
+                    continue;
+                case 8:
+                    if (tag !== 66) {
+                        break;
+                    }
+                    message.language = reader.string();
+                    continue;
+                case 9:
+                    if (tag !== 72) {
+                        break;
+                    }
+                    message.forceSourceLang = reader.bool();
+                    continue;
+                case 10:
+                    if (tag !== 80) {
+                        break;
+                    }
+                    message.unknown1 = reader.int32();
+                    continue;
+                case 11:
+                    if (tag !== 90) {
+                        break;
+                    }
+                    message.translationHelp.push(VideoTranslationHelpObject.decode(reader, reader.uint32()));
+                    continue;
+                case 14:
+                    if (tag !== 114) {
+                        break;
+                    }
+                    message.responseLanguage = reader.string();
+                    continue;
+                case 15:
+                    if (tag !== 120) {
+                        break;
+                    }
+                    message.unknown2 = reader.int32();
+                    continue;
+                case 16:
+                    if (tag !== 128) {
+                        break;
+                    }
+                    message.unknown3 = reader.int32();
+                    continue;
+                case 17:
+                    if (tag !== 136) {
+                        break;
+                    }
+                    message.bypassCache = reader.bool();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            url: isSet(object.url) ? globalThis.String(object.url) : "",
+            deviceId: isSet(object.deviceId) ? globalThis.String(object.deviceId) : undefined,
+            firstRequest: isSet(object.firstRequest) ? globalThis.Boolean(object.firstRequest) : false,
+            duration: isSet(object.duration) ? globalThis.Number(object.duration) : 0,
+            unknown0: isSet(object.unknown0) ? globalThis.Number(object.unknown0) : 0,
+            language: isSet(object.language) ? globalThis.String(object.language) : "",
+            forceSourceLang: isSet(object.forceSourceLang) ? globalThis.Boolean(object.forceSourceLang) : false,
+            unknown1: isSet(object.unknown1) ? globalThis.Number(object.unknown1) : 0,
+            translationHelp: globalThis.Array.isArray(object?.translationHelp)
+                ? object.translationHelp.map((e) => VideoTranslationHelpObject.fromJSON(e))
+                : [],
+            responseLanguage: isSet(object.responseLanguage) ? globalThis.String(object.responseLanguage) : "",
+            unknown2: isSet(object.unknown2) ? globalThis.Number(object.unknown2) : 0,
+            unknown3: isSet(object.unknown3) ? globalThis.Number(object.unknown3) : 0,
+            bypassCache: isSet(object.bypassCache) ? globalThis.Boolean(object.bypassCache) : false,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.url !== "") {
+            obj.url = message.url;
+        }
+        if (message.deviceId !== undefined) {
+            obj.deviceId = message.deviceId;
+        }
+        if (message.firstRequest !== false) {
+            obj.firstRequest = message.firstRequest;
+        }
+        if (message.duration !== 0) {
+            obj.duration = message.duration;
+        }
+        if (message.unknown0 !== 0) {
+            obj.unknown0 = Math.round(message.unknown0);
+        }
+        if (message.language !== "") {
+            obj.language = message.language;
+        }
+        if (message.forceSourceLang !== false) {
+            obj.forceSourceLang = message.forceSourceLang;
+        }
+        if (message.unknown1 !== 0) {
+            obj.unknown1 = Math.round(message.unknown1);
+        }
+        if (message.translationHelp?.length) {
+            obj.translationHelp = message.translationHelp.map((e) => VideoTranslationHelpObject.toJSON(e));
+        }
+        if (message.responseLanguage !== "") {
+            obj.responseLanguage = message.responseLanguage;
+        }
+        if (message.unknown2 !== 0) {
+            obj.unknown2 = Math.round(message.unknown2);
+        }
+        if (message.unknown3 !== 0) {
+            obj.unknown3 = Math.round(message.unknown3);
+        }
+        if (message.bypassCache !== false) {
+            obj.bypassCache = message.bypassCache;
+        }
+        return obj;
+    },
+    create(base) {
+        return VideoTranslationRequest.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseVideoTranslationRequest();
+        message.url = object.url ?? "";
+        message.deviceId = object.deviceId ?? undefined;
+        message.firstRequest = object.firstRequest ?? false;
+        message.duration = object.duration ?? 0;
+        message.unknown0 = object.unknown0 ?? 0;
+        message.language = object.language ?? "";
+        message.forceSourceLang = object.forceSourceLang ?? false;
+        message.unknown1 = object.unknown1 ?? 0;
+        message.translationHelp = object.translationHelp?.map((e) => VideoTranslationHelpObject.fromPartial(e)) || [];
+        message.responseLanguage = object.responseLanguage ?? "";
+        message.unknown2 = object.unknown2 ?? 0;
+        message.unknown3 = object.unknown3 ?? 0;
+        message.bypassCache = object.bypassCache ?? false;
+        return message;
+    },
+};
+function createBaseVideoTranslationResponse() {
+    return {
+        url: undefined,
+        duration: undefined,
+        status: 0,
+        remainingTime: undefined,
+        unknown0: undefined,
+        translationId: "",
+        language: undefined,
+        message: undefined,
+    };
+}
+const VideoTranslationResponse = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.url !== undefined) {
+            writer.uint32(10).string(message.url);
+        }
+        if (message.duration !== undefined) {
+            writer.uint32(17).double(message.duration);
+        }
+        if (message.status !== 0) {
+            writer.uint32(32).int32(message.status);
+        }
+        if (message.remainingTime !== undefined) {
+            writer.uint32(40).int32(message.remainingTime);
+        }
+        if (message.unknown0 !== undefined) {
+            writer.uint32(48).int32(message.unknown0);
+        }
+        if (message.translationId !== "") {
+            writer.uint32(58).string(message.translationId);
+        }
+        if (message.language !== undefined) {
+            writer.uint32(66).string(message.language);
+        }
+        if (message.message !== undefined) {
+            writer.uint32(74).string(message.message);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseVideoTranslationResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.url = reader.string();
+                    continue;
+                case 2:
+                    if (tag !== 17) {
+                        break;
+                    }
+                    message.duration = reader.double();
+                    continue;
+                case 4:
+                    if (tag !== 32) {
+                        break;
+                    }
+                    message.status = reader.int32();
+                    continue;
+                case 5:
+                    if (tag !== 40) {
+                        break;
+                    }
+                    message.remainingTime = reader.int32();
+                    continue;
+                case 6:
+                    if (tag !== 48) {
+                        break;
+                    }
+                    message.unknown0 = reader.int32();
+                    continue;
+                case 7:
+                    if (tag !== 58) {
+                        break;
+                    }
+                    message.translationId = reader.string();
+                    continue;
+                case 8:
+                    if (tag !== 66) {
+                        break;
+                    }
+                    message.language = reader.string();
+                    continue;
+                case 9:
+                    if (tag !== 74) {
+                        break;
+                    }
+                    message.message = reader.string();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            url: isSet(object.url) ? globalThis.String(object.url) : undefined,
+            duration: isSet(object.duration) ? globalThis.Number(object.duration) : undefined,
+            status: isSet(object.status) ? globalThis.Number(object.status) : 0,
+            remainingTime: isSet(object.remainingTime) ? globalThis.Number(object.remainingTime) : undefined,
+            unknown0: isSet(object.unknown0) ? globalThis.Number(object.unknown0) : undefined,
+            translationId: isSet(object.translationId) ? globalThis.String(object.translationId) : "",
+            language: isSet(object.language) ? globalThis.String(object.language) : undefined,
+            message: isSet(object.message) ? globalThis.String(object.message) : undefined,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.url !== undefined) {
+            obj.url = message.url;
+        }
+        if (message.duration !== undefined) {
+            obj.duration = message.duration;
+        }
+        if (message.status !== 0) {
+            obj.status = Math.round(message.status);
+        }
+        if (message.remainingTime !== undefined) {
+            obj.remainingTime = Math.round(message.remainingTime);
+        }
+        if (message.unknown0 !== undefined) {
+            obj.unknown0 = Math.round(message.unknown0);
+        }
+        if (message.translationId !== "") {
+            obj.translationId = message.translationId;
+        }
+        if (message.language !== undefined) {
+            obj.language = message.language;
+        }
+        if (message.message !== undefined) {
+            obj.message = message.message;
+        }
+        return obj;
+    },
+    create(base) {
+        return VideoTranslationResponse.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseVideoTranslationResponse();
+        message.url = object.url ?? undefined;
+        message.duration = object.duration ?? undefined;
+        message.status = object.status ?? 0;
+        message.remainingTime = object.remainingTime ?? undefined;
+        message.unknown0 = object.unknown0 ?? undefined;
+        message.translationId = object.translationId ?? "";
+        message.language = object.language ?? undefined;
+        message.message = object.message ?? undefined;
+        return message;
+    },
+};
+function createBaseSubtitlesObject() {
+    return { language: "", url: "", unknown0: 0, translatedLanguage: "", translatedUrl: "", unknown1: 0, unknown2: 0 };
+}
+const SubtitlesObject = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.language !== "") {
+            writer.uint32(10).string(message.language);
+        }
+        if (message.url !== "") {
+            writer.uint32(18).string(message.url);
+        }
+        if (message.unknown0 !== 0) {
+            writer.uint32(24).int32(message.unknown0);
+        }
+        if (message.translatedLanguage !== "") {
+            writer.uint32(34).string(message.translatedLanguage);
+        }
+        if (message.translatedUrl !== "") {
+            writer.uint32(42).string(message.translatedUrl);
+        }
+        if (message.unknown1 !== 0) {
+            writer.uint32(48).int32(message.unknown1);
+        }
+        if (message.unknown2 !== 0) {
+            writer.uint32(56).int32(message.unknown2);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseSubtitlesObject();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.language = reader.string();
+                    continue;
+                case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.url = reader.string();
+                    continue;
+                case 3:
+                    if (tag !== 24) {
+                        break;
+                    }
+                    message.unknown0 = reader.int32();
+                    continue;
+                case 4:
+                    if (tag !== 34) {
+                        break;
+                    }
+                    message.translatedLanguage = reader.string();
+                    continue;
+                case 5:
+                    if (tag !== 42) {
+                        break;
+                    }
+                    message.translatedUrl = reader.string();
+                    continue;
+                case 6:
+                    if (tag !== 48) {
+                        break;
+                    }
+                    message.unknown1 = reader.int32();
+                    continue;
+                case 7:
+                    if (tag !== 56) {
+                        break;
+                    }
+                    message.unknown2 = reader.int32();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            language: isSet(object.language) ? globalThis.String(object.language) : "",
+            url: isSet(object.url) ? globalThis.String(object.url) : "",
+            unknown0: isSet(object.unknown0) ? globalThis.Number(object.unknown0) : 0,
+            translatedLanguage: isSet(object.translatedLanguage) ? globalThis.String(object.translatedLanguage) : "",
+            translatedUrl: isSet(object.translatedUrl) ? globalThis.String(object.translatedUrl) : "",
+            unknown1: isSet(object.unknown1) ? globalThis.Number(object.unknown1) : 0,
+            unknown2: isSet(object.unknown2) ? globalThis.Number(object.unknown2) : 0,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.language !== "") {
+            obj.language = message.language;
+        }
+        if (message.url !== "") {
+            obj.url = message.url;
+        }
+        if (message.unknown0 !== 0) {
+            obj.unknown0 = Math.round(message.unknown0);
+        }
+        if (message.translatedLanguage !== "") {
+            obj.translatedLanguage = message.translatedLanguage;
+        }
+        if (message.translatedUrl !== "") {
+            obj.translatedUrl = message.translatedUrl;
+        }
+        if (message.unknown1 !== 0) {
+            obj.unknown1 = Math.round(message.unknown1);
+        }
+        if (message.unknown2 !== 0) {
+            obj.unknown2 = Math.round(message.unknown2);
+        }
+        return obj;
+    },
+    create(base) {
+        return SubtitlesObject.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseSubtitlesObject();
+        message.language = object.language ?? "";
+        message.url = object.url ?? "";
+        message.unknown0 = object.unknown0 ?? 0;
+        message.translatedLanguage = object.translatedLanguage ?? "";
+        message.translatedUrl = object.translatedUrl ?? "";
+        message.unknown1 = object.unknown1 ?? 0;
+        message.unknown2 = object.unknown2 ?? 0;
+        return message;
+    },
+};
+function createBaseSubtitlesRequest() {
+    return { url: "", language: "" };
+}
+const SubtitlesRequest = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.url !== "") {
+            writer.uint32(10).string(message.url);
+        }
+        if (message.language !== "") {
+            writer.uint32(18).string(message.language);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseSubtitlesRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.url = reader.string();
+                    continue;
+                case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.language = reader.string();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            url: isSet(object.url) ? globalThis.String(object.url) : "",
+            language: isSet(object.language) ? globalThis.String(object.language) : "",
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.url !== "") {
+            obj.url = message.url;
+        }
+        if (message.language !== "") {
+            obj.language = message.language;
+        }
+        return obj;
+    },
+    create(base) {
+        return SubtitlesRequest.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseSubtitlesRequest();
+        message.url = object.url ?? "";
+        message.language = object.language ?? "";
+        return message;
+    },
+};
+function createBaseSubtitlesResponse() {
+    return { waiting: false, subtitles: [] };
+}
+const SubtitlesResponse = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.waiting !== false) {
+            writer.uint32(8).bool(message.waiting);
+        }
+        for (const v of message.subtitles) {
+            SubtitlesObject.encode(v, writer.uint32(18).fork()).ldelim();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseSubtitlesResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    if (tag !== 8) {
+                        break;
+                    }
+                    message.waiting = reader.bool();
+                    continue;
+                case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.subtitles.push(SubtitlesObject.decode(reader, reader.uint32()));
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            waiting: isSet(object.waiting) ? globalThis.Boolean(object.waiting) : false,
+            subtitles: globalThis.Array.isArray(object?.subtitles)
+                ? object.subtitles.map((e) => SubtitlesObject.fromJSON(e))
+                : [],
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.waiting !== false) {
+            obj.waiting = message.waiting;
+        }
+        if (message.subtitles?.length) {
+            obj.subtitles = message.subtitles.map((e) => SubtitlesObject.toJSON(e));
+        }
+        return obj;
+    },
+    create(base) {
+        return SubtitlesResponse.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseSubtitlesResponse();
+        message.waiting = object.waiting ?? false;
+        message.subtitles = object.subtitles?.map((e) => SubtitlesObject.fromPartial(e)) || [];
+        return message;
+    },
+};
+function createBaseStreamTranslationObject() {
+    return { url: "", timestamp: "" };
+}
+const StreamTranslationObject = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.url !== "") {
+            writer.uint32(10).string(message.url);
+        }
+        if (message.timestamp !== "") {
+            writer.uint32(18).string(message.timestamp);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseStreamTranslationObject();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.url = reader.string();
+                    continue;
+                case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.timestamp = reader.string();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            url: isSet(object.url) ? globalThis.String(object.url) : "",
+            timestamp: isSet(object.timestamp) ? globalThis.String(object.timestamp) : "",
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.url !== "") {
+            obj.url = message.url;
+        }
+        if (message.timestamp !== "") {
+            obj.timestamp = message.timestamp;
+        }
+        return obj;
+    },
+    create(base) {
+        return StreamTranslationObject.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseStreamTranslationObject();
+        message.url = object.url ?? "";
+        message.timestamp = object.timestamp ?? "";
+        return message;
+    },
+};
+function createBaseStreamTranslationRequest() {
+    return { url: "", language: "", responseLanguage: "" };
+}
+const StreamTranslationRequest = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.url !== "") {
+            writer.uint32(10).string(message.url);
+        }
+        if (message.language !== "") {
+            writer.uint32(18).string(message.language);
+        }
+        if (message.responseLanguage !== "") {
+            writer.uint32(26).string(message.responseLanguage);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseStreamTranslationRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.url = reader.string();
+                    continue;
+                case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.language = reader.string();
+                    continue;
+                case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
+                    message.responseLanguage = reader.string();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            url: isSet(object.url) ? globalThis.String(object.url) : "",
+            language: isSet(object.language) ? globalThis.String(object.language) : "",
+            responseLanguage: isSet(object.responseLanguage) ? globalThis.String(object.responseLanguage) : "",
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.url !== "") {
+            obj.url = message.url;
+        }
+        if (message.language !== "") {
+            obj.language = message.language;
+        }
+        if (message.responseLanguage !== "") {
+            obj.responseLanguage = message.responseLanguage;
+        }
+        return obj;
+    },
+    create(base) {
+        return StreamTranslationRequest.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseStreamTranslationRequest();
+        message.url = object.url ?? "";
+        message.language = object.language ?? "";
+        message.responseLanguage = object.responseLanguage ?? "";
+        return message;
+    },
+};
+function createBaseStreamTranslationResponse() {
+    return { interval: 0, translatedInfo: undefined, pingId: undefined };
+}
+const StreamTranslationResponse = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.interval !== 0) {
+            writer.uint32(8).int32(message.interval);
+        }
+        if (message.translatedInfo !== undefined) {
+            StreamTranslationObject.encode(message.translatedInfo, writer.uint32(18).fork()).ldelim();
+        }
+        if (message.pingId !== undefined) {
+            writer.uint32(24).int32(message.pingId);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseStreamTranslationResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    if (tag !== 8) {
+                        break;
+                    }
+                    message.interval = reader.int32();
+                    continue;
+                case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.translatedInfo = StreamTranslationObject.decode(reader, reader.uint32());
+                    continue;
+                case 3:
+                    if (tag !== 24) {
+                        break;
+                    }
+                    message.pingId = reader.int32();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            interval: isSet(object.interval) ? streamIntervalFromJSON(object.interval) : 0,
+            translatedInfo: isSet(object.translatedInfo)
+                ? StreamTranslationObject.fromJSON(object.translatedInfo)
+                : undefined,
+            pingId: isSet(object.pingId) ? globalThis.Number(object.pingId) : undefined,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.interval !== 0) {
+            obj.interval = streamIntervalToJSON(message.interval);
+        }
+        if (message.translatedInfo !== undefined) {
+            obj.translatedInfo = StreamTranslationObject.toJSON(message.translatedInfo);
+        }
+        if (message.pingId !== undefined) {
+            obj.pingId = Math.round(message.pingId);
+        }
+        return obj;
+    },
+    create(base) {
+        return StreamTranslationResponse.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseStreamTranslationResponse();
+        message.interval = object.interval ?? 0;
+        message.translatedInfo = (object.translatedInfo !== undefined && object.translatedInfo !== null)
+            ? StreamTranslationObject.fromPartial(object.translatedInfo)
+            : undefined;
+        message.pingId = object.pingId ?? undefined;
+        return message;
+    },
+};
+function createBaseStreamPingRequest() {
+    return { pingId: 0 };
+}
+const StreamPingRequest = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.pingId !== 0) {
+            writer.uint32(8).int32(message.pingId);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseStreamPingRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    if (tag !== 8) {
+                        break;
+                    }
+                    message.pingId = reader.int32();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { pingId: isSet(object.pingId) ? globalThis.Number(object.pingId) : 0 };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.pingId !== 0) {
+            obj.pingId = Math.round(message.pingId);
+        }
+        return obj;
+    },
+    create(base) {
+        return StreamPingRequest.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseStreamPingRequest();
+        message.pingId = object.pingId ?? 0;
+        return message;
+    },
+};
+function createBaseYandexSessionRequest() {
+    return { uuid: "", module: "" };
+}
+const YandexSessionRequest = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.uuid !== "") {
+            writer.uint32(10).string(message.uuid);
+        }
+        if (message.module !== "") {
+            writer.uint32(18).string(message.module);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseYandexSessionRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.uuid = reader.string();
+                    continue;
+                case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.module = reader.string();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            uuid: isSet(object.uuid) ? globalThis.String(object.uuid) : "",
+            module: isSet(object.module) ? globalThis.String(object.module) : "",
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.uuid !== "") {
+            obj.uuid = message.uuid;
+        }
+        if (message.module !== "") {
+            obj.module = message.module;
+        }
+        return obj;
+    },
+    create(base) {
+        return YandexSessionRequest.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseYandexSessionRequest();
+        message.uuid = object.uuid ?? "";
+        message.module = object.module ?? "";
+        return message;
+    },
+};
+function createBaseYandexSessionResponse() {
+    return { secretKey: "", expires: 0 };
+}
+const YandexSessionResponse = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.secretKey !== "") {
+            writer.uint32(10).string(message.secretKey);
+        }
+        if (message.expires !== 0) {
+            writer.uint32(16).int32(message.expires);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseYandexSessionResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.secretKey = reader.string();
+                    continue;
+                case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
+                    message.expires = reader.int32();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            secretKey: isSet(object.secretKey) ? globalThis.String(object.secretKey) : "",
+            expires: isSet(object.expires) ? globalThis.Number(object.expires) : 0,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.secretKey !== "") {
+            obj.secretKey = message.secretKey;
+        }
+        if (message.expires !== 0) {
+            obj.expires = Math.round(message.expires);
+        }
+        return obj;
+    },
+    create(base) {
+        return YandexSessionResponse.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseYandexSessionResponse();
+        message.secretKey = object.secretKey ?? "";
+        message.expires = object.expires ?? 0;
+        return message;
+    },
+};
+function isSet(value) {
+    return value !== null && value !== undefined;
+}
+
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/protobuf.js
+
+const yandexProtobuf = {
+    encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp) {
+        return VideoTranslationRequest.encode({
+            url,
+            firstRequest: true,
+            duration,
+            unknown0: 1,
+            language: requestLang,
+            forceSourceLang: false,
+            unknown1: 0,
+            translationHelp: translationHelp ? translationHelp : [],
+            responseLanguage: responseLang,
+            unknown2: 0,
+            unknown3: 1,
+            bypassCache: false,
+        }).finish();
+    },
+    decodeTranslationResponse(response) {
+        return VideoTranslationResponse.decode(new Uint8Array(response));
+    },
+    encodeSubtitlesRequest(url, requestLang) {
+        return SubtitlesRequest.encode({
+            url,
+            language: requestLang,
+        }).finish();
+    },
+    decodeSubtitlesResponse(response) {
+        return SubtitlesResponse.decode(new Uint8Array(response));
+    },
+    encodeStreamPingRequest(pingId) {
+        return StreamPingRequest.encode({
+            pingId,
+        }).finish();
+    },
+    encodeStreamRequest(url, requestLang, responseLang) {
+        return StreamTranslationRequest.encode({
+            url,
+            language: requestLang,
+            responseLanguage: responseLang,
+        }).finish();
+    },
+    decodeStreamResponse(response) {
+        return StreamTranslationResponse.decode(new Uint8Array(response));
+    },
+    encodeYandexSessionRequest(uuid, module) {
+        return YandexSessionRequest.encode({
+            uuid,
+            module,
+        }).finish();
+    },
+    decodeYandexSessionResponse(response) {
+        return YandexSessionResponse.decode(new Uint8Array(response));
+    },
 };
 
-const translateUrls = {
-  yandex: "https://translate.toil.cc/translate",
-  deepl: "https://translate-deepl.toil.cc/translate",
-};
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/config/config.js
+/* harmony default export */ const config = ({
+    host: "api.browser.yandex.ru",
+    hostVOT: "https://vot-api.toil.cc/v1",
+    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 YaBrowser/24.6.0.0 Safari/537.36",
+    componentVersion: "24.6.1.766",
+    hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
+    defaultDuration: 343,
+});
 
+;// CONCATENATED MODULE: ./node_modules/vot.js/package.json
+const package_namespaceObject = {"rE":"0.5.0"};
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/secure.js
 
+const utf8Encoder = new TextEncoder();
+async function signHMAC(hashName, hmac, data) {
+    const key = await crypto.subtle.importKey("raw", utf8Encoder.encode(hmac), { name: "HMAC", hash: { name: hashName } }, false, ["sign", "verify"]);
+    return await crypto.subtle.sign("HMAC", key, data);
+}
+async function getSignature(body) {
+    const signature = await signHMAC("SHA-256", config.hmac, body);
+    return new Uint8Array(signature).reduce((str, byte) => str + byte.toString(16).padStart(2, "0"), "");
+}
+function getUUID() {
+    const hexDigits = "0123456789ABCDEF";
+    let uuid = "";
+    for (let i = 0; i < 32; i++) {
+        const randomDigit = Math.floor(Math.random() * 16);
+        uuid += hexDigits[randomDigit];
+    }
+    return uuid;
+}
+async function getHmacSha1(hmacKey, salt) {
+    try {
+        const hmacSalt = utf8Encoder.encode(salt);
+        const signature = await signHMAC("SHA-1", hmacKey, hmacSalt);
+        return btoa(String.fromCharCode(...new Uint8Array(signature)));
+    }
+    catch (err) {
+        console.error(err);
+        return false;
+    }
+}
 
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/types/yandex.js
+var VideoService;
+(function (VideoService) {
+    VideoService["custom"] = "custom";
+    VideoService["directlink"] = "custom";
+    VideoService["youtube"] = "youtube";
+    VideoService["piped"] = "piped";
+    VideoService["invidious"] = "invidious";
+    VideoService["vk"] = "vk";
+    VideoService["nine_gag"] = "nine_gag";
+    VideoService["gag"] = "nine_gag";
+    VideoService["twitch"] = "twitch";
+    VideoService["proxitok"] = "proxitok";
+    VideoService["tiktok"] = "tiktok";
+    VideoService["vimeo"] = "vimeo";
+    VideoService["xvideos"] = "xvideos";
+    VideoService["pornhub"] = "pornhub";
+    VideoService["twitter"] = "twitter";
+    VideoService["rumble"] = "rumble";
+    VideoService["facebook"] = "facebook";
+    VideoService["rutube"] = "rutube";
+    VideoService["coub"] = "coub";
+    VideoService["bilibili"] = "bilibili";
+    VideoService["mail_ru"] = "mailru";
+    VideoService["mailru"] = "mailru";
+    VideoService["bitchute"] = "bitchute";
+    VideoService["coursera"] = "coursera";
+    VideoService["udemy"] = "udemy";
+    VideoService["eporner"] = "eporner";
+    VideoService["peertube"] = "peertube";
+    VideoService["dailymotion"] = "dailymotion";
+    VideoService["trovo"] = "trovo";
+    VideoService["yandexdisk"] = "yandexdisk";
+    VideoService["coursehunter"] = "coursehunter";
+    VideoService["ok_ru"] = "okru";
+    VideoService["okru"] = "okru";
+    VideoService["googledrive"] = "googledrive";
+    VideoService["bannedvideo"] = "bannedvideo";
+    VideoService["weverse"] = "weverse";
+    VideoService["newgrounds"] = "newgrounds";
+    VideoService["egghead"] = "egghead";
+    VideoService["youku"] = "youku";
+    VideoService["archive"] = "archive";
+    VideoService["kodik"] = "kodik";
+    VideoService["patreon"] = "patreon";
+    VideoService["reddit"] = "reddit";
+})(VideoService || (VideoService = {}));
+var VideoTranslationStatus;
+(function (VideoTranslationStatus) {
+    VideoTranslationStatus[VideoTranslationStatus["FAILED"] = 0] = "FAILED";
+    VideoTranslationStatus[VideoTranslationStatus["FINISHED"] = 1] = "FINISHED";
+    VideoTranslationStatus[VideoTranslationStatus["WAITING"] = 2] = "WAITING";
+    VideoTranslationStatus[VideoTranslationStatus["LONG_WAITING"] = 3] = "LONG_WAITING";
+    VideoTranslationStatus[VideoTranslationStatus["PART_CONTENT"] = 5] = "PART_CONTENT";
+    VideoTranslationStatus[VideoTranslationStatus["LONG_WAITING_2"] = 6] = "LONG_WAITING_2";
+})(VideoTranslationStatus || (VideoTranslationStatus = {}));
 
-/***/ }),
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/utils/utils.js
 
-/***/ "./src/config/constants.js":
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+async function fetchWithTimeout(url, options = {
+    headers: {
+        "User-Agent": config.userAgent,
+    },
+}) {
+    const { timeout = 3000 } = options;
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+    const response = await fetch(url, {
+        ...options,
+        signal: controller.signal,
+    });
+    clearTimeout(id);
+    return response;
+}
+function getTimestamp() {
+    return Math.floor(Date.now() / 1000);
+}
 
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Ww: () => (/* binding */ actualTTS),
-/* harmony export */   xm: () => (/* binding */ availableLangs)
-/* harmony export */ });
-/* unused harmony export cfOnlyExtensions */
-// available languages for translation
-const availableLangs = [
-  "ru",
-  "en",
-  "zh",
-  "ko",
-  "lt",
-  "lv",
-  "ar",
-  "fr",
-  "it",
-  "es",
-  "de",
-  "ja",
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/config/alternativeUrls.js
+const sitesInvidious = [
+    "invidious.snopyta.org",
+    "yewtu.be",
+    "invidious.kavin.rocks",
+    "vid.puffyan.us",
+    "invidious.namazso.eu",
+    "inv.riverside.rocks",
+    "yt.artemislena.eu",
+    "invidious.flokinet.to",
+    "invidious.esmailelbob.xyz",
+    "y.com.sb",
+    "invidious.nerdvpn.de",
+    "inv.vern.cc",
+    "invidious.slipfox.xyz",
+    "invidio.xamh.de",
+    "invidious.dhusch.de",
+];
+const sitesPiped = [
+    "piped.video",
+    "piped.tokhmi.xyz",
+    "piped.moomoo.me",
+    "piped.syncpundit.io",
+    "piped.mha.fi",
+    "watch.whatever.social",
+    "piped.garudalinux.org",
+    "efy.piped.pages.dev",
+    "watch.leptons.xyz",
+    "piped.lunar.icu",
+    "yt.dc09.ru",
+    "piped.mint.lgbt",
+    "il.ax",
+    "piped.privacy.com.de",
+    "piped.esmailelbob.xyz",
+    "piped.projectsegfau.lt",
+    "piped.in.projectsegfau.lt",
+    "piped.us.projectsegfau.lt",
+    "piped.privacydev.net",
+    "piped.palveluntarjoaja.eu",
+    "piped.smnz.de",
+    "piped.adminforge.de",
+    "piped.qdi.fi",
+    "piped.hostux.net",
+    "piped.chauvet.pro",
+    "piped.jotoma.de",
+    "piped.pfcd.me",
+    "piped.frontendfriendly.xyz",
+];
+const sitesProxiTok = [
+    "proxitok.pabloferreiro.es",
+    "proxitok.pussthecat.org",
+    "tok.habedieeh.re",
+    "proxitok.esmailelbob.xyz",
+    "proxitok.privacydev.net",
+    "tok.artemislena.eu",
+    "tok.adminforge.de",
+    "tik.hostux.net",
+    "tt.vern.cc",
+    "cringe.whatever.social",
+    "proxitok.lunar.icu",
+    "proxitok.privacy.com.de",
+];
+const sitesPeertube = [
+    "peertube.1312.media",
+    "tube.shanti.cafe",
+    "bee-tube.fr",
+    "video.sadmin.io",
+    "dalek.zone",
+    "review.peertube.biz",
+    "peervideo.club",
+    "tube.la-dina.net",
+    "peertube.tmp.rcp.tf",
+    "peertube.su",
 ];
 
-// up-to-date list of TTS working languages
-const actualTTS = ["ru", "en", "kk"];
 
-const cfOnlyExtensions = (/* unused pure expression or super */ null && ([
-  "Violentmonkey",
-  "FireMonkey",
-  "Greasemonkey",
-  "AdGuard",
-  "OrangeMonkey",
-]));
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/config/sites.js
 
 
+/* harmony default export */ const sites = ([
+    {
+        additionalData: "mobile",
+        host: VideoService.youtube,
+        url: "https://youtu.be/",
+        match: /^m.youtube.com$/,
+        selector: "shorts-video #player",
+    },
+    {
+        additionalData: "mobile",
+        host: VideoService.youtube,
+        url: "https://youtu.be/",
+        match: /^m.youtube.com$/,
+        selector: ".player-container",
+    },
+    {
+        host: VideoService.youtube,
+        url: "https://youtu.be/",
+        match: /^(www.)?youtube(-nocookie|kids)?.com$/,
+        selector: ".html5-video-container:not(#inline-player *)",
+    },
+    {
+        host: VideoService.invidious,
+        url: "https://youtu.be/",
+        match: sitesInvidious,
+        selector: "#player",
+    },
+    {
+        host: VideoService.piped,
+        url: "https://youtu.be/",
+        match: sitesPiped,
+        selector: ".shaka-video-container",
+    },
+    {
+        additionalData: "mobile",
+        host: VideoService.vk,
+        url: "https://vk.com/video?z=",
+        match: /^m.vk.(com|ru)$/,
+        selector: "vk-video-player",
+        shadowRoot: true,
+    },
+    {
+        additionalData: "clips",
+        host: VideoService.vk,
+        url: "https://vk.com/video?z=",
+        match: /^(www.|m.)?vk.(com|ru)$/,
+        selector: 'div[data-testid="clipcontainer-video"]',
+    },
+    {
+        host: VideoService.vk,
+        url: "https://vk.com/video?z=",
+        match: /^(www.|m.)?vk.(com|ru)$/,
+        selector: ".videoplayer_media"
+    },
+    {
+        host: VideoService.nine_gag,
+        url: "https://9gag.com/gag/",
+        match: /^9gag.com$/,
+        selector: ".video-post",
+    },
+    {
+        host: VideoService.twitch,
+        url: "https://twitch.tv/",
+        match: [
+            /^m.twitch.tv$/,
+            /^(www.)?twitch.tv$/,
+            /^clips.twitch.tv$/,
+            /^player.twitch.tv$/,
+        ],
+        selector: ".video-ref, main > div > section > div > div > div",
+    },
+    {
+        host: VideoService.proxitok,
+        url: "https://www.tiktok.com/",
+        match: sitesProxiTok,
+        selector: ".column.has-text-centered",
+    },
+    {
+        host: VideoService.tiktok,
+        url: "https://www.tiktok.com/",
+        match: /^(www.)?tiktok.com$/,
+        selector: null
+    },
+    {
+        host: VideoService.vimeo,
+        url: "https://vimeo.com/",
+        match: /^vimeo.com$/,
+        selector: ".player",
+    },
+    {
+        additionalData: "embed",
+        host: VideoService.vimeo,
+        url: "https://player.vimeo.com/",
+        match: /^player.vimeo.com$/,
+        selector: ".player",
+    },
+    {
+        host: VideoService.xvideos,
+        url: "https://www.xvideos.com/",
+        match: /^(www.)?(xvideos|xv-ru).com$/,
+        selector: ".video-bg-pic",
+    },
+    {
+        host: VideoService.pornhub,
+        url: "https://rt.pornhub.com/view_video.php?viewkey=",
+        match: /^[a-z]+.pornhub.com$/,
+        selector: ".mainPlayerDiv > .video-element-wrapper-js > div",
+    },
+    {
+        additionalData: "embed",
+        host: VideoService.pornhub,
+        url: "https://rt.pornhub.com/view_video.php?viewkey=",
+        match: (url) =>
+            url.host.includes("pornhub.com") && url.pathname.startsWith("/embed/"),
+        selector: "#player",
+    },
+    {
+        host: VideoService.twitter,
+        url: "https://twitter.com/i/status/",
+        match: /^twitter.com$/,
+        selector: 'div[data-testid="videoComponent"] > div:nth-child(1) > div',
+    },
+    {
+        host: VideoService.rumble,
+        url: "https://rumble.com/",
+        match: /^rumble.com$/,
+        selector: "#videoPlayer > .videoPlayer-Rumble-cls > div",
+    },
+    {
+        host: VideoService.facebook,
+        url: "https://facebook.com/",
+        match: (url) =>
+            url.host.includes("facebook.com") && url.pathname.includes("/videos/"),
+        selector: 'div[role="main"] div[data-pagelet$="video" i]',
+    },
+    {
+        additionalData: "reels",
+        host: VideoService.facebook,
+        url: "https://facebook.com/",
+        match: (url) =>
+            url.host.includes("facebook.com") && url.pathname.includes("/reel/"),
+        selector: 'div[role="main"]',
+    },
+    {
+        host: VideoService.rutube,
+        url: "https://rutube.ru/video/",
+        match: /^rutube.ru$/,
+        selector: ".video-player > div > div > div:nth-child(2)",
+    },
+    {
+        additionalData: "embed",
+        host: VideoService.rutube,
+        url: "https://rutube.ru/video/",
+        match: /^rutube.ru$/,
+        selector: "#app > div > div",
+    },
+    {
+        host: VideoService.bilibili,
+        url: "https://www.bilibili.com/video/",
+        match: /^(www|m|player).bilibili.com$/,
+        selector: ".bpx-player-video-wrap",
+    },
+    // Добавляет лишние видео в обработчик
+    {
+        additionalData: "old", // /blackboard/webplayer/embed-old.html
+        host: VideoService.bilibili,
+        url: "https://www.bilibili.com/video/",
+        match: /^(www|m).bilibili.com$/,
+        selector: null,
+    },
+    {
+        host: VideoService.mailru,
+        url: "https://my.mail.ru/",
+        match: /^my.mail.ru$/,
+        selector: "#b-video-wrapper",
+    },
+    {
+        host: VideoService.bitchute,
+        url: "https://www.bitchute.com/video/",
+        match: /^(www.)?bitchute.com$/,
+        selector: ".video-js",
+    },
+    {
+        // ONLY IF YOU LOGINED TO COURSERA /learn/NAME/lecture/XXXX
+        host: VideoService.coursera,
+        url: "https://www.coursera.org/",
+        match: /coursera.org$/,
+        selector: ".vjs-v6",
+        needExtraData: true,
+    },
+    {
+        // ONLY IF YOU LOGINED TO UDEMY /course/NAME/learn/lecture/XXXX
+        host: VideoService.udemy,
+        url: "https://www.udemy.com/",
+        match: /udemy.com$/,
+        selector:
+            'div[data-purpose="curriculum-item-viewer-content"] > section > div > div > div > div:nth-of-type(2)',
+        needExtraData: true,
+    },
+    {
+        host: VideoService.eporner,
+        url: "https://www.eporner.com/",
+        match: /^(www.)?eporner.com$/,
+        selector: ".vjs-v7",
+    },
+    {
+        host: VideoService.peertube,
+        url: "stub",
+        match: sitesPeertube,
+        selector: ".vjs-v7",
+    },
+    {
+        host: VideoService.dailymotion,
+        url: "https://dai.ly/",
+        match: /^geo.dailymotion.com$/,
+        selector: ".player",
+    },
+    {
+        host: VideoService.trovo,
+        url: "https://trovo.live/s/",
+        match: /^trovo.live$/,
+        selector: ".player-video",
+    },
+    {
+        host: VideoService.yandexdisk,
+        url: "https://yadi.sk/i/",
+        match: /^disk.yandex.ru$/,
+        selector: ".video-player__player > div:nth-child(1)",
+    },
+    {
+        host: VideoService.coursehunter,
+        url: "https://coursehunter.net/course/",
+        match: /^coursehunter.net$/,
+        selector: "#oframeplayer > pjsdiv:nth-of-type(1)",
+    },
+    {
+        host: VideoService.okru,
+        url: "https://ok.ru/video/",
+        match: /^ok.ru$/,
+        selector: ".html5-vpl_vid",
+    },
+    {
+        host: VideoService.googledrive,
+        url: "https://drive.google.com/file/d/",
+        match: /^youtube.googleapis.com$/,
+        selector: ".html5-video-container",
+    },
+    {
+        host: VideoService.bannedvideo,
+        url: "https://madmaxworld.tv/watch?id=",
+        match: /^(www.)?banned.video|madmaxworld.tv$/,
+        selector: ".vjs-v7",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.weverse,
+        url: "https://weverse.io/",
+        match: /^weverse.io$/,
+        selector: ".webplayer-internal-source-wrapper",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.newgrounds,
+        url: "https://www.newgrounds.com/",
+        match: /^(www.)?newgrounds.com$/,
+        selector: ".ng-video-player",
+    },
+    {
+        host: VideoService.egghead,
+        url: "https://egghead.io/",
+        match: /^egghead.io$/,
+        selector: ".cueplayer-react-video-holder",
+    },
+    {
+        host: VideoService.youku,
+        url: "https://v.youku.com/",
+        match: /^v.youku.com$/,
+        selector: "#ykPlayer",
+    },
+    {
+        host: VideoService.archive,
+        url: "https://archive.org/details/",
+        match: /^archive.org$/,
+        selector: ".jw-media",
+    },
+    {
+        host: VideoService.kodik,
+        url: "stub",
+        match: /^kodik.(info|biz|cc)$/,
+        selector: ".fp-player",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.patreon,
+        url: "stub",
+        match: /^(www.)?patreon.com$/,
+        selector:
+            'div[data-tag="post-card"] div[elevation="subtle"] > div > div > div > div',
+        needExtraData: true,
+    },
+    {
+        host: VideoService.reddit,
+        url: "stub",
+        match: /^(www.)?reddit.com$/,
+        selector: "shreddit-player",
+        shadowRoot: true,
+        needExtraData: true,
+    },
+    {
+        host: VideoService.custom,
+        url: "stub",
+        match: (url) => /([^.]+).mp4/.test(url.pathname),
+        rawResult: true,
+    },
+]);
+
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/utils/helper.js
 
 
-/***/ }),
 
-/***/ "./src/localization/localizationProvider.js":
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
+class VideoHelperError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "VideoHelper";
+        this.message = message;
+    }
+}
+class MailRuHelper {
+    async getVideoData(videoId) {
+        try {
+            const res = await fetchWithTimeout(`https://my.mail.ru/+/video/meta/${videoId}?xemail=&ajax_call=1&func_name=&mna=&mnb=&ext=1&_=${new Date().getTime()}`);
+            return (await res.json());
+        }
+        catch (err) {
+            console.error("Failed to get mail.ru video info", err.message);
+            return undefined;
+        }
+    }
+}
+class WeverseHelper {
+    API_ORIGIN = "https://global.apis.naver.com/weverse/wevweb";
+    API_APP_ID = "be4d79eb8fc7bd008ee82c8ec4ff6fd4";
+    API_HMAC_KEY = "1b9cb6378d959b45714bec49971ade22e6e24e42";
+    HEADERS = {
+        Accept: "application/json, text/plain, */*",
+        Origin: "https://weverse.io",
+        Referer: "https://weverse.io/",
+    };
+    getURLData() {
+        return {
+            appId: this.API_APP_ID,
+            language: "en",
+            os: "WEB",
+            platform: "WEB",
+            wpf: "pc",
+        };
+    }
+    async createHash(pathname) {
+        const timestamp = Date.now();
+        const salt = pathname.substring(0, Math.min(255, pathname.length)) + timestamp;
+        const sign = await getHmacSha1(this.API_HMAC_KEY, salt);
+        if (!sign) {
+            throw new VideoHelperError("Failed to get weverse HMAC signature");
+        }
+        return {
+            wmsgpad: timestamp.toString(),
+            wmd: sign,
+        };
+    }
+    async getHashURLParams(pathname) {
+        const hash = await this.createHash(pathname);
+        return new URLSearchParams(hash).toString();
+    }
+    async getPostPreview(postId) {
+        const pathname = `/post/v1.0/post-${postId}/preview?` +
+            new URLSearchParams({
+                fieldSet: "postForPreview",
+                ...this.getURLData(),
+            }).toString();
+        try {
+            const urlParams = await this.getHashURLParams(pathname);
+            const res = await fetchWithTimeout(this.API_ORIGIN + pathname + "&" + urlParams, {
+                headers: this.HEADERS,
+            });
+            return (await res.json());
+        }
+        catch (err) {
+            console.error(`Failed to get weverse post preview by postId: ${postId}`, err.message);
+            return false;
+        }
+    }
+    async getVideoInKey(videoId) {
+        const pathname = `/video/v1.1/vod/${videoId}/inKey?` +
+            new URLSearchParams({
+                gcc: "RU",
+                ...this.getURLData(),
+            }).toString();
+        try {
+            const urlParams = await this.getHashURLParams(pathname);
+            const res = await fetchWithTimeout(this.API_ORIGIN + pathname + "&" + urlParams, {
+                method: "POST",
+                headers: this.HEADERS,
+            });
+            return (await res.json());
+        }
+        catch (err) {
+            console.error(`Failed to get weverse InKey by videoId: ${videoId}`, err.message);
+            return false;
+        }
+    }
+    async getVideoInfo(infraVideoId, inkey, serviceId) {
+        const timestamp = Date.now();
+        try {
+            const urlParams = new URLSearchParams({
+                key: inkey,
+                sid: serviceId,
+                nonce: timestamp.toString(),
+                devt: "html5_pc",
+                prv: "N",
+                aup: "N",
+                stpb: "N",
+                cpl: "en",
+                env: "prod",
+                lc: "en",
+                adi: JSON.stringify([
+                    {
+                        adSystem: null,
+                    },
+                ]),
+                adu: "/",
+            }).toString();
+            const res = await fetchWithTimeout(`https://global.apis.naver.com/rmcnmv/rmcnmv/vod/play/v2.0/${infraVideoId}?` +
+                urlParams, {
+                headers: this.HEADERS,
+            });
+            return (await res.json());
+        }
+        catch (err) {
+            console.error(`Failed to get weverse video info (infraVideoId: ${infraVideoId}, inkey: ${inkey}, serviceId: ${serviceId}`, err.message);
+            return false;
+        }
+    }
+    extractVideoInfo(videoList) {
+        return videoList.find((video) => video.useP2P === false && video.source.includes(".mp4"));
+    }
+    async getVideoData(postId) {
+        const videoPreview = await this.getPostPreview(postId);
+        if (!videoPreview) {
+            return undefined;
+        }
+        const { videoId, serviceId, infraVideoId } = videoPreview.extension.video;
+        if (!(videoId && serviceId && infraVideoId)) {
+            return undefined;
+        }
+        const inkeyData = await this.getVideoInKey(videoId);
+        if (!inkeyData) {
+            return undefined;
+        }
+        const videoInfo = await this.getVideoInfo(infraVideoId, inkeyData.inKey, serviceId);
+        if (!videoInfo) {
+            return undefined;
+        }
+        const videoItem = this.extractVideoInfo(videoInfo.videos.list);
+        if (!videoItem) {
+            return undefined;
+        }
+        return {
+            url: videoItem.source,
+            duration: videoItem.duration,
+        };
+    }
+}
+class KodikHelper {
+    API_ORIGIN = window.location.origin;
+    async getSecureData(videoPath) {
+        try {
+            const url = this.API_ORIGIN + videoPath;
+            const res = await fetchWithTimeout(url, {
+                headers: {
+                    "User-Agent": config.userAgent,
+                    Origin: this.API_ORIGIN,
+                    Referer: this.API_ORIGIN,
+                },
+            });
+            const content = await res.text();
+            const [videoType, videoId, hash] = videoPath.split("/").filter((a) => a);
+            const parser = new DOMParser()
+            const doc = parser.parseFromString(content, "text/html")
+            const secureScript = Array.from(doc.getElementsByTagName("script")).filter((s) => s.innerHTML.includes(`videoId = "${videoId}"`));
+            if (!secureScript.length) {
+                throw new VideoHelperError("Failed to find secure script");
+            }
+            const secureContent = /'{[^']+}'/.exec(secureScript[0].textContent.trim())?.[0];
+            if (!secureContent) {
+                throw new VideoHelperError("Secure json wasn't found in secure script");
+            }
+            const secureJSON = JSON.parse(secureContent.replaceAll("'", ""));
+            return {
+                videoType: videoType,
+                videoId,
+                hash,
+                ...secureJSON,
+            };
+        }
+        catch (err) {
+            console.error(`Failed to get kodik secure data by videoPath: ${videoPath}.`, err.message);
+            return false;
+        }
+    }
+    async getFtor(secureData) {
+        const { videoType, videoId: id, hash, d, d_sign, pd, pd_sign, ref, ref_sign, } = secureData;
+        try {
+            const res = await fetchWithTimeout(this.API_ORIGIN + "/ftor", {
+                method: "POST",
+                headers: {
+                    "User-Agent": config.userAgent,
+                    Origin: this.API_ORIGIN,
+                    Referer: `${this.API_ORIGIN}/${videoType}/${id}/${hash}/360p`,
+                },
+                body: new URLSearchParams({
+                    d,
+                    d_sign,
+                    pd,
+                    pd_sign,
+                    ref: decodeURIComponent(ref),
+                    ref_sign,
+                    bad_user: "false",
+                    cdn_is_working: "true",
+                    info: "{}",
+                    type: videoType,
+                    hash,
+                    id,
+                }),
+            });
+            return (await res.json());
+        }
+        catch (err) {
+            console.error(`Failed to get kodik video data (type: ${videoType}, id: ${id}, hash: ${hash})`, err.message);
+            return false;
+        }
+    }
+    decryptUrl(encryptedUrl) {
+        const decryptedUrl = atob(encryptedUrl.replace(/[a-zA-Z]/g, function (e) {
+            const charCode = e.charCodeAt(0) + 13;
+            return String.fromCharCode((e <= "Z" ? 90 : 122) >= charCode ? charCode : charCode - 26);
+        }));
+        return "https:" + decryptedUrl;
+    }
+    async getVideoData(videoPath) {
+        const secureData = await this.getSecureData(videoPath);
+        if (!secureData) {
+            return undefined;
+        }
+        const videoData = await this.getFtor(secureData);
+        if (!videoData) {
+            return undefined;
+        }
+        const videoDataLinks = Object.entries(videoData.links[videoData.default.toString()]);
+        const videoLink = videoDataLinks.find(([_, data]) => data.type === "application/x-mpegURL")?.[1];
+        if (!videoLink) {
+            return undefined;
+        }
+        return {
+            url: this.decryptUrl(videoLink.src),
+        };
+    }
+}
+class PatreonHelper {
+    async getPosts(postId) {
+        try {
+            const res = await fetchWithTimeout(`https://www.patreon.com/api/posts/${postId}?json-api-use-default-includes=false`);
+            return (await res.json());
+        }
+        catch (err) {
+            console.error(`Failed to get patreon posts by postId: ${postId}.`, err.message);
+            return false;
+        }
+    }
+    async getVideoData(postId) {
+        const postData = await this.getPosts(postId);
+        if (!postData) {
+            return undefined;
+        }
+        const postFileUrl = postData.data.attributes.post_file.url;
+        if (!postFileUrl) {
+            return undefined;
+        }
+        return {
+            url: postFileUrl,
+        };
+    }
+}
+class RedditHelper {
+    async getVideoData() {
+        const contentUrl = document.querySelector("source[type='application/vnd.apple.mpegURL']")?.src
+            ?.replaceAll("&amp;", "&");
+        if (!contentUrl) {
+            return undefined;
+        }
+        return {
+            url: decodeURIComponent(contentUrl),
+        };
+    }
+}
+class BannedVideoHelper {
+    async getVideoInfo(videoId) {
+        try {
+            const res = await fetchWithTimeout(`https://api.banned.video/graphql`, {
+                method: "POST",
+                body: JSON.stringify({
+                    operationName: "GetVideo",
+                    query: `query GetVideo($id: String!) {
+            getVideo(id: $id) {
+              title
+              description: summary
+              duration: videoDuration
+              videoUrl: directUrl
+              isStream: live
+            }
+          }`,
+                    variables: {
+                        id: videoId,
+                    },
+                }),
+                headers: {
+                    "User-Agent": "bannedVideoFrontEnd",
+                    "apollographql-client-name": "banned-web",
+                    "apollographql-client-version": "1.3",
+                    "content-type": "application/json",
+                },
+            });
+            return (await res.json());
+        }
+        catch (err) {
+            console.error(`Failed to get bannedvideo video info by videoId: ${videoId}.`, err.message);
+            return false;
+        }
+    }
+    async getVideoData(videoId) {
+        const videoInfo = await this.getVideoInfo(videoId);
+        if (!videoInfo) {
+            return false;
+        }
+        const { videoUrl, duration, isStream, description, title } = videoInfo.data.getVideo;
+        return {
+            url: videoUrl,
+            duration,
+            isStream,
+            title,
+            description,
+        };
+    }
+}
+class VideoHelper {
+    static [VideoService.mailru] = new MailRuHelper();
+    static [VideoService.weverse] = new WeverseHelper();
+    static [VideoService.kodik] = new KodikHelper();
+    static [VideoService.patreon] = new PatreonHelper();
+    static [VideoService.reddit] = new RedditHelper();
+    static [VideoService.bannedvideo] = new BannedVideoHelper();
+}
 
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, {
-  z: () => (/* binding */ availableLocales),
-  j: () => (/* binding */ localizationProvider)
-});
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/utils/videoData.js
+
+
+
+
+class VideoDataError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "VideoDataError";
+        this.message = message;
+    }
+}
+function getService(videoUrl) {
+    if (videoUrl.startsWith("file://"))
+        return false;
+    let enteredURL;
+    try {
+        enteredURL = new URL(videoUrl);
+    }
+    catch (e) {
+        console.error(`Invalid URL: ${videoUrl}. Have you forgotten https?`);
+        return false;
+    }
+    const hostname = enteredURL.hostname;
+    const isMathes = (match) => {
+        if (match instanceof RegExp) {
+            return match.test(hostname);
+        }
+        else if (typeof match === "string") {
+            return hostname.includes(match);
+        }
+        else if (typeof match === "function") {
+            return match(enteredURL);
+        }
+        return false;
+    };
+    return sites.find((e) => {
+        return ((Array.isArray(e.match) ? e.match.some(isMathes) : isMathes(e.match)) &&
+            e.host &&
+            e.url);
+    });
+}
+async function getVideoID(service, videoURL) {
+    const url = new URL(videoURL);
+    switch (service.host) {
+        case VideoService.custom:
+            return url.href;
+        case VideoService.piped:
+        case VideoService.invidious:
+        case VideoService.youtube:
+            if (url.hostname === "youtu.be") {
+                url.search = `?v=${url.pathname.replace("/", "")}`;
+                url.pathname = "/watch";
+            }
+            return (/(?:watch|embed|shorts|live)\/([^/]+)/.exec(url.pathname)?.[1] ??
+                url.searchParams.get("v"));
+        case VideoService.vk: {
+            const pathID = /^\/(video|clip)-?\d{8,9}_\d{9}$/.exec(url.pathname);
+            const paramZ = url.searchParams.get("z");
+            const paramOID = url.searchParams.get("oid");
+            const paramID = url.searchParams.get("id");
+            if (pathID) {
+                return pathID[0].slice(1);
+            }
+            else if (paramZ) {
+                return paramZ.split("/")[0];
+            }
+            else if (paramOID && paramID) {
+                return `video-${Math.abs(parseInt(paramOID))}_${paramID}`;
+            }
+            return null;
+        }
+        case VideoService.nine_gag:
+        case VideoService.gag:
+            return /gag\/([^/]+)/.exec(url.pathname)?.[1];
+        case VideoService.twitch: {
+            const clipPath = /([^/]+)\/(?:clip)\/([^/]+)/.exec(url.pathname);
+            const isClipsDomain = /^clips\.twitch\.tv$/.test(url.hostname);
+            if (/^m\.twitch\.tv$/.test(url.hostname)) {
+                return /videos\/([^/]+)/.exec(url.href)?.[0] ?? url.pathname.slice(1);
+            }
+            else if (/^player\.twitch\.tv$/.test(url.hostname)) {
+                return `videos/${url.searchParams.get("video")}`;
+            }
+            else if (isClipsDomain) {
+                const pathname = url.pathname.slice(1);
+                const isEmbed = pathname === "embed";
+                const res = await fetchWithTimeout(`https://clips.twitch.tv/${isEmbed ? url.searchParams.get("clip") : url.pathname.slice(1)}`, {
+                    headers: {
+                        "User-Agent": "Googlebot/2.1 (+http://www.googlebot.com/bot.html)",
+                    },
+                });
+                const content = await res.text();
+                const channelLink = /"url":"https:\/\/www\.twitch\.tv\/([^"]+)"/.exec(content);
+                if (!channelLink) {
+                    return null;
+                }
+                return `${channelLink[1]}/clip/${isEmbed ? url.searchParams.get("clip") : pathname}`;
+            }
+            else if (clipPath) {
+                return clipPath[0];
+            }
+            return /(?:videos)\/([^/]+)/.exec(url.pathname)?.[0];
+        }
+        case VideoService.proxitok:
+        case VideoService.tiktok:
+            return /([^/]+)\/video\/([^/]+)/.exec(url.pathname)?.[0];
+        case VideoService.vimeo: {
+            const appId = url.searchParams.get("app_id");
+            const videoId = /[^/]+\/[^/]+$/.exec(url.pathname)?.[0] ??
+                /[^/]+$/.exec(url.pathname)?.[0];
+            return appId ? `${videoId}?app_id=${appId}` : videoId;
+        }
+        case VideoService.xvideos:
+            return /[^/]+\/[^/]+$/.exec(url.pathname)?.[0];
+        case VideoService.pornhub:
+            return (url.searchParams.get("viewkey") ??
+                /embed\/([^/]+)/.exec(url.pathname)?.[1]);
+        case VideoService.twitter:
+            return /status\/([^/]+)/.exec(url.pathname)?.[1];
+        case VideoService.rumble:
+        case VideoService.facebook:
+            return url.pathname.slice(1);
+        case VideoService.rutube:
+            return /(?:video|embed)\/([^/]+)/.exec(url.pathname)?.[1];
+        case VideoService.bilibili: {
+            const bvid = url.searchParams.get("bvid");
+            if (bvid) {
+                return bvid;
+            }
+            let vid = /video\/([^/]+)/.exec(url.pathname)?.[1];
+            if (vid && url.searchParams.get("p") !== null) {
+                vid += `/?p=${url.searchParams.get("p")}`;
+            }
+            return vid;
+        }
+        case VideoService.mailru: {
+            const pathname = url.pathname;
+            if (pathname.startsWith("/v/") || pathname.startsWith("/mail/")) {
+                return pathname.slice(1);
+            }
+            const videoId = /video\/embed\/([^/]+)/.exec(pathname)?.[1];
+            if (!videoId) {
+                return null;
+            }
+            const videoData = await VideoHelper.mailru.getVideoData(videoId);
+            if (!videoData) {
+                return null;
+            }
+            return videoData.meta.url.replace("//my.mail.ru/", "");
+        }
+        case VideoService.bitchute:
+            return /(video|embed)\/([^/]+)/.exec(url.pathname)?.[2];
+        case VideoService.coursera:
+            return /learn\/([^/]+)\/lecture\/([^/]+)/.exec(url.pathname)?.[0]; // <-- COURSE PASSING (IF YOU LOGINED TO COURSERA)
+        case VideoService.eporner:
+            return /video-([^/]+)\/([^/]+)/.exec(url.pathname)?.[0];
+        case VideoService.peertube:
+            return /\/w\/([^/]+)/.exec(url.pathname)?.[0];
+        case VideoService.dailymotion: {
+            return url.hostname === "dai.ly"
+                ? url.pathname.slice(1)
+                : /video\/([^/]+)/.exec(url.pathname)?.[1];
+        }
+        case VideoService.trovo: {
+            const vid = url.searchParams.get("vid");
+            if (!vid) {
+                return null;
+            }
+            const path = /([^/]+)\/([\d]+)/.exec(url.pathname)?.[0];
+            if (!path) {
+                return null;
+            }
+            return `${path}?vid=${vid}`;
+        }
+        case VideoService.yandexdisk:
+            return /\/i\/([^/]+)/.exec(url.pathname)?.[1];
+        case VideoService.okru: {
+            return /\/video\/(\d+)/.exec(url.pathname)?.[1];
+        }
+        case VideoService.googledrive:
+            return /\/file\/d\/([^/]+)/.exec(url.pathname)?.[1];
+        case VideoService.bannedvideo: {
+            return url.searchParams.get("id");
+        }
+        case VideoService.weverse:
+            return /([^/]+)\/(live|media)\/([^/]+)/.exec(url.pathname)?.[3];
+        case VideoService.newgrounds:
+            return /([^/]+)\/(view)\/([^/]+)/.exec(url.pathname)?.[0];
+        case VideoService.egghead:
+            return url.pathname.slice(1);
+        case VideoService.youku:
+            return /v_show\/id_[\w=]+/.exec(url.pathname)?.[0];
+        case VideoService.archive:
+            return /(details|embed)\/([^/]+)/.exec(url.pathname)?.[2];
+        case VideoService.kodik:
+            return /\/(seria|video)\/([^/]+)\/([^/]+)\/([\d]+)p/.exec(url.pathname)?.[0];
+        case VideoService.patreon: {
+            const fullPostId = /posts\/([^/]+)/.exec(url.pathname)?.[1];
+            if (!fullPostId) {
+                return undefined;
+            }
+            return fullPostId.replace(/[^\d.]/g, "");
+        }
+        case VideoService.reddit:
+            return /\/r\/(([^/]+)\/([^/]+)\/([^/]+)\/([^/]+))/.exec(url.pathname)?.[1];
+        default:
+            return undefined;
+    }
+}
+async function getVideoData(url) {
+    const service = getService(url);
+    if (!service) {
+        throw new VideoDataError(`URL: "${url}" is unknown service`);
+    }
+    const videoId = await getVideoID(service, url);
+    if (!videoId) {
+        throw new VideoDataError(`Entered unsupported link: "${url}"`);
+    }
+    if (service.host === VideoService.peertube) {
+        service.url = new URL(url).origin;
+    }
+    if (service.rawResult) {
+        return {
+            url: videoId,
+            videoId,
+            host: service.host,
+            duration: undefined,
+        };
+    }
+    if (!service.needExtraData) {
+        return {
+            url: service.url + videoId,
+            videoId,
+            host: service.host,
+            duration: undefined,
+        };
+    }
+    const result = await VideoHelper[service.host].getVideoData(videoId);
+    if (!result) {
+        throw new VideoDataError(`Failed to get video raw url for ${service.host}`);
+    }
+    return {
+        ...result,
+        videoId,
+        host: service.host,
+    };
+}
+
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/utils/vot.js
+
+function convertVOT(service, videoId, url) {
+    if (service === VideoService.patreon) {
+        return {
+            service: "mux",
+            videoId: new URL(url).pathname.slice(1),
+        };
+    }
+    return {
+        service,
+        videoId,
+    };
+}
 
 ;// CONCATENATED MODULE: ./src/localization/locales/en.json
 const en_namespaceObject = /*#__PURE__*/JSON.parse('{"__version__":4,"recommended":"recommended","translateVideo":"Translate video","disableTranslate":"Turn off","translationSettings":"Translation settings","subtitlesSettings":"Subtitles settings","about":"About extension","resetSettings":"Reset settings","videoBeingTranslated":"The video is being translated","videoLanguage":"Video language","translationLanguage":"Translation language","translationTake":"The translation will take","translationTakeMoreThanHour":"The translation will take more than an hour","translationTakeAboutMinute":"The translation will take about a minute","translationTakeFewMinutes":"The translation will take a few minutes","translationTakeApproximatelyMinutes":"The translation will take approximately {0} minutes","translationTakeApproximatelyMinute":"The translation will take approximately {0} minutes","unSupportedExtensionError":"Error! {0} is not supported by this version of the extension!\\n\\nPlease use the cloudflare version of the VOT extension.","requestTranslationFailed":"Failed to request video translation","audioNotReceived":"Audio link not received","grantPermissionToAutoPlay":"Grant permission to autoplay","neededAdditionalExtension":"An additional extension is needed to support this site","audioFormatNotSupported":"The audio format is not supported","VOTAutoTranslate":"Translate on open","VOTDontTranslateYourLang":"Do not translate from my language","VOTVolume":"Video volume","VOTVolumeTranslation":"Translation Volume","VOTAutoSetVolume":"Reduce video volume to ","VOTShowVideoSlider":"Video volume slider","VOTSyncVolume":"Link translation and video volume","VOTAudioProxy":"Proxy received audio","VOTDisableFromYourLang":"You have disabled the translation of the video in your language","VOTLiveNotSupported":"Translation of live streams is not supported","VOTPremiere":"Wait for the premiere to end before translating","VOTVideoIsTooLong":"Video is too long","VOTNoVideoIDFound":"No video ID found","VOTSubtitles":"Subtitles","VOTSubtitlesDisabled":"Disabled","VOTSubtitlesMaxLength":"Subtitles max length","VOTHighlightWords":"Highlight words","VOTTranslatedFrom":"translated from","VOTAutogenerated":"autogenerated","VOTSettings":"VOT Settings","VOTMenuLanguage":"Menu language","VOTAuthors":"Authors","VOTVersion":"Version","VOTLoader":"Loader","VOTBrowser":"Browser","VOTShowPiPButton":"Show PiP button","langs":{"auto":"Auto","af":"Afrikaans","ak":"Akan","sq":"Albanian","am":"Amharic","ar":"Arabic","hy":"Armenian","as":"Assamese","ay":"Aymara","az":"Azerbaijani","bn":"Bangla","eu":"Basque","be":"Belarusian","bho":"Bhojpuri","bs":"Bosnian","bg":"Bulgarian","my":"Burmese","ca":"Catalan","ceb":"Cebuano","zh":"Chinese","zh-Hans":"Chinese (Simplified)","zh-Hant":"Chinese (Traditional)","co":"Corsican","hr":"Croatian","cs":"Czech","da":"Danish","dv":"Divehi","nl":"Dutch","en":"English","eo":"Esperanto","et":"Estonian","ee":"Ewe","fil":"Filipino","fi":"Finnish","fr":"French","gl":"Galician","lg":"Ganda","ka":"Georgian","de":"German","el":"Greek","gn":"Guarani","gu":"Gujarati","ht":"Haitian Creole","ha":"Hausa","haw":"Hawaiian","iw":"Hebrew","hi":"Hindi","hmn":"Hmong","hu":"Hungarian","is":"Icelandic","ig":"Igbo","id":"Indonesian","ga":"Irish","it":"Italian","ja":"Japanese","jv":"Javanese","kn":"Kannada","kk":"Kazakh","km":"Khmer","rw":"Kinyarwanda","ko":"Korean","kri":"Krio","ku":"Kurdish","ky":"Kyrgyz","lo":"Lao","la":"Latin","lv":"Latvian","ln":"Lingala","lt":"Lithuanian","lb":"Luxembourgish","mk":"Macedonian","mg":"Malagasy","ms":"Malay","ml":"Malayalam","mt":"Maltese","mi":"Māori","mr":"Marathi","mn":"Mongolian","ne":"Nepali","nso":"Northern Sotho","no":"Norwegian","ny":"Nyanja","or":"Odia","om":"Oromo","ps":"Pashto","fa":"Persian","pl":"Polish","pt":"Portuguese","pa":"Punjabi","qu":"Quechua","ro":"Romanian","ru":"Russian","sm":"Samoan","sa":"Sanskrit","gd":"Scottish Gaelic","sr":"Serbian","sn":"Shona","sd":"Sindhi","si":"Sinhala","sk":"Slovak","sl":"Slovenian","so":"Somali","st":"Southern Sotho","es":"Spanish","su":"Sundanese","sw":"Swahili","sv":"Swedish","tg":"Tajik","ta":"Tamil","tt":"Tatar","te":"Telugu","th":"Thai","ti":"Tigrinya","ts":"Tsonga","tr":"Turkish","tk":"Turkmen","uk":"Ukrainian","ur":"Urdu","ug":"Uyghur","uz":"Uzbek","vi":"Vietnamese","cy":"Welsh","fy":"Western Frisian","xh":"Xhosa","yi":"Yiddish","yo":"Yoruba","zu":"Zulu"},"udemyAccessTokenExpired":"Your entered Udemy Access Token has expired","udemyModuleArgsNotFound":"Could not get udemy module data due to the fact that ModuleArgs was not found","VOTTranslationHelpNull":"Could not get the data required for the translate","enterUdemyAccessToken":"Enter Udemy Access Token","VOTUdemyData":"Udemy Data","streamNoConnectionToServer":"There is no connection to the server","searchField":"Search...","VOTTranslateAPIErrors":"Translate errors from the API","VOTTranslationService":"Translation Service","VOTDetectService":"Detect Service","VOTTranslatingError":"Translating the error","VOTProxyWorkerHost":"Enter the proxy worker address","VOTM3u8ProxyHost":"Enter the address of the m3u8 proxy worker","proxySettings":"Proxy Settings","translationTakeApproximatelyMinute2":"The translation will take approximately {0} minutes","VOTAudioBooster":"Extended translation volume increase"}');
-// EXTERNAL MODULE: ./src/utils/debug.js
-var debug = __webpack_require__("./src/utils/debug.js");
-// EXTERNAL MODULE: ./src/utils/storage.js
-var storage = __webpack_require__("./src/utils/storage.js");
-// EXTERNAL MODULE: ./src/utils/utils.js
-var utils = __webpack_require__("./src/utils/utils.js");
-;// CONCATENATED MODULE: ./src/localization/localizationProvider.js
-
-
-
-
-
-const localesVersion = 4;
-const localesUrl = `https://raw.githubusercontent.com/ilyhalight/voice-over-translation/${
-   false ? 0 : "master"
-}/src/localization/locales`;
-
-const availableLocales = [
-  "auto",
-  "en",
-  "ru",
-
-  "af",
-  "am",
-  "ar",
-  "az",
-  "bg",
-  "bn",
-  "bs",
-  "ca",
-  "cs",
-  "cy",
-  "da",
-  "de",
-  "el",
-  "es",
-  "et",
-  "eu",
-  "fa",
-  "fi",
-  "fr",
-  "gl",
-  "hi",
-  "hr",
-  "hu",
-  "hy",
-  "id",
-  "it",
-  "ja",
-  "jv",
-  "kk",
-  "km",
-  "kn",
-  "ko",
-  "lo",
-  "mk",
-  "ml",
-  "mn",
-  "ms",
-  "mt",
-  "my",
-  "ne",
-  "nl",
-  "pa",
-  "pl",
-  "pt",
-  "ro",
-  "si",
-  "sk",
-  "sl",
-  "sq",
-  "sr",
-  "su",
-  "sv",
-  "sw",
-  "tr",
-  "uk",
-  "ur",
-  "uz",
-  "vi",
-  "zh",
-  "zu",
-];
-
-const localizationProvider = new (class {
-  lang = "en";
-  locale = {};
-  gmValues = [
-    "locale-phrases",
-    "locale-lang",
-    "locale-version",
-    "locale-lang-override",
-  ];
-
-  constructor() {
-    const langOverride = storage/* votStorage */.d.syncGet("locale-lang-override", "auto");
-    if (langOverride && langOverride !== "auto") {
-      this.lang = langOverride;
-    } else {
-      this.lang =
-        (navigator.language || navigator.userLanguage)
-          ?.substr(0, 2)
-          ?.toLowerCase() ?? "en";
-    }
-    this.setLocaleFromJsonString(storage/* votStorage */.d.syncGet("locale-phrases", ""));
-  }
-
-  reset() {
-    for (let i = 0; i < this.gmValues.length; i++) {
-      storage/* votStorage */.d.syncDelete(this.gmValues[i]);
-    }
-  }
-
-  async update(force = false) {
-    const localeVersion = await storage/* votStorage */.d.get("locale-version", 0, true);
-    const localeLang = await storage/* votStorage */.d.get("locale-lang");
-    if (
-      !force &&
-      localeVersion === localesVersion &&
-      localeLang === this.lang
-    ) {
-      return;
-    }
-
-    debug/* default */.A.log("Updating locale...");
-
-    try {
-      const response = await (0,utils/* GM_fetch */.G3)(`${localesUrl}/${this.lang}.json`);
-      if (response.status !== 200) throw response.status;
-      const text = await response.text();
-      await storage/* votStorage */.d.set("locale-phrases", text);
-      this.setLocaleFromJsonString(text);
-      const version = this.getFromLocale(this.locale, "__version__");
-      if (typeof version === "number")
-        await storage/* votStorage */.d.set("locale-version", version);
-      await storage/* votStorage */.d.set("locale-lang", this.lang);
-    } catch (error) {
-      console.error(
-        "[VOT] [localizationProvider] failed get locale, cause:",
-        error,
-      );
-      this.setLocaleFromJsonString(await storage/* votStorage */.d.get("locale-phrases", ""));
-    }
-  }
-
-  setLocaleFromJsonString(json) {
-    try {
-      this.locale = JSON.parse(json) ?? {};
-    } catch (exception) {
-      console.error("[VOT] [localizationProvider]", exception);
-      this.locale = {};
-    }
-  }
-
-  getFromLocale(locale, key) {
-    const result = key.split(".").reduce((locale, key) => {
-      if (typeof locale === "object" && locale) return locale[key];
-      return undefined;
-    }, locale);
-    if (result === undefined) {
-      console.warn(
-        "[VOT] [localizationProvider] locale",
-        locale,
-        "doesn't contain key",
-        key,
-      );
-    }
-    return result;
-  }
-
-  getDefault(key) {
-    return this.getFromLocale(en_namespaceObject, key) ?? key;
-  }
-
-  get(key) {
-    return (
-      this.getFromLocale(this.locale, key) ??
-      this.getFromLocale(en_namespaceObject, key) ??
-      key
-    );
-  }
-})();
-
-
-/***/ }),
-
-/***/ "./src/utils/debug.js":
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   A: () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
+;// CONCATENATED MODULE: ./src/utils/debug.js
 const debug = {};
 debug.log = (...text) => {
-  if (true) {
-    return;
-  }
+  if (false) {}
   return console.log(
     "%c[VOT DEBUG]",
     "background: #F2452D; color: #fff; padding: 5px;",
@@ -860,25 +3017,15 @@ debug.log = (...text) => {
   );
 };
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (debug);
+/* harmony default export */ const utils_debug = (debug);
 
-
-/***/ }),
-
-/***/ "./src/utils/storage.js":
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   d: () => (/* binding */ votStorage)
-/* harmony export */ });
-/* harmony import */ var _debug_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("./src/utils/debug.js");
+;// CONCATENATED MODULE: ./src/utils/storage.js
 
 
 const votStorage = new (class {
   constructor() {
     this.gmSupport = typeof GM_getValue === "function";
-    _debug_js__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A.log(`GM Storage Status: ${this.gmSupport}`);
+    utils_debug.log(`GM Storage Status: ${this.gmSupport}`);
   }
 
   syncGet(name, def = undefined, toNumber = false) {
@@ -895,7 +3042,8 @@ const votStorage = new (class {
       }
     }
 
-    return toNumber ? Number(val) ?? Number(def) : val ?? def;
+    const result = val ?? def;
+    return toNumber ? Number(result) : result;
   }
 
   async get(name, def = undefined, toNumber = false) {
@@ -976,515 +3124,34 @@ const votStorage = new (class {
   }
 })();
 
-
-/***/ }),
-
-/***/ "./src/utils/translateApis.js":
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Tl: () => (/* binding */ translate),
-/* harmony export */   o0: () => (/* binding */ detect),
-/* harmony export */   qh: () => (/* binding */ detectServices),
-/* harmony export */   vN: () => (/* binding */ translateServices)
-/* harmony export */ });
-/* harmony import */ var _config_config_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("./src/config/config.js");
-/* harmony import */ var _storage_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("./src/utils/storage.js");
-
-
-
-const HTTP_TIMEOUT = 3000;
-
-async function fetchWithTimeout(url, options = {}) {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), HTTP_TIMEOUT);
-
-  try {
-    return await fetch(url, {
-      ...options,
-      signal: controller.signal,
-    });
-  } catch (error) {
-    console.error("Fetch timed-out. Error:", error);
-    return error;
-  } finally {
-    clearTimeout(timeoutId);
-  }
-}
-
-const YandexTranslateAPI = {
-  async translate(text, lang) {
-    // Limit: 10k symbols
-    //
-    // Lang examples:
-    // en-ru, uk-ru, ru-en...
-    // ru, en (instead of auto-ru, auto-en)
-
-    try {
-      const response = await fetchWithTimeout(
-        `${_config_config_js__WEBPACK_IMPORTED_MODULE_0__/* .translateUrls */ .rw.yandex}?${new URLSearchParams({
-          text,
-          lang,
-        })}`,
-      );
-
-      if (response instanceof Error) {
-        throw response;
-      }
-
-      const content = await response.json();
-
-      if (content.code !== 200) {
-        throw content.message;
-      }
-
-      return content.text[0];
-    } catch (error) {
-      console.error("Error translating text:", error);
-      return text;
-    }
-  },
-
-  async detect(text) {
-    // Limit: 10k symbols
-    try {
-      const response = await fetchWithTimeout(
-        `${_config_config_js__WEBPACK_IMPORTED_MODULE_0__/* .detectUrls */ .QL.yandex}?${new URLSearchParams({
-          text,
-        })}`,
-      );
-
-      if (response instanceof Error) {
-        throw response;
-      }
-
-      const content = await response.json();
-      if (content.code !== 200) {
-        throw content.message;
-      }
-
-      return content.lang ?? "en";
-    } catch (error) {
-      console.error("Error getting lang from text:", error);
-      return "en";
-    }
-  },
-};
-
-const RustServerAPI = {
-  async detect(text) {
-    try {
-      const response = await fetch(_config_config_js__WEBPACK_IMPORTED_MODULE_0__/* .detectUrls */ .QL.rustServer, {
-        method: "POST",
-        body: text,
-      });
-
-      if (response instanceof Error) {
-        throw response;
-      }
-
-      return await response.text();
-    } catch (error) {
-      console.error("Error getting lang from text:", error);
-      return "en";
-    }
-  },
-};
-
-const DeeplServerAPI = {
-  async translate(text, fromLang = "auto", toLang = "ru") {
-    try {
-      const response = await fetchWithTimeout(_config_config_js__WEBPACK_IMPORTED_MODULE_0__/* .translateUrls */ .rw.deepl, {
-        method: "POST",
-        headers: {
-          "content-type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams({
-          text,
-          source_lang: fromLang,
-          target_lang: toLang,
-        }),
-      });
-
-      if (response instanceof Error) {
-        throw response;
-      }
-
-      const content = await response.json();
-
-      if (content.code !== 200) {
-        throw content.message;
-      }
-
-      return content.data;
-    } catch (error) {
-      console.error("Error translating text:", error);
-      return text;
-    }
-  },
-};
-
-async function translate(text, fromLang = "", toLang = "ru") {
-  const service = await _storage_js__WEBPACK_IMPORTED_MODULE_1__/* .votStorage */ .d.get(
-    "translationService",
-    _config_config_js__WEBPACK_IMPORTED_MODULE_0__/* .defaultTranslationService */ .mE,
-  );
-  switch (service) {
-    case "yandex": {
-      const langPair = fromLang && toLang ? `${fromLang}-${toLang}` : toLang;
-      return await YandexTranslateAPI.translate(text, langPair);
-    }
-    case "deepl": {
-      return await DeeplServerAPI.translate(text, fromLang, toLang);
-    }
-    default:
-      return text;
-  }
-}
-
-async function detect(text) {
-  const service = await _storage_js__WEBPACK_IMPORTED_MODULE_1__/* .votStorage */ .d.get("detectService", _config_config_js__WEBPACK_IMPORTED_MODULE_0__/* .defaultDetectService */ .K2);
-  switch (service) {
-    case "yandex":
-      return await YandexTranslateAPI.detect(text);
-    case "rust-server":
-      return await RustServerAPI.detect(text);
-    default:
-      return "en";
-  }
-}
-
-const translateServices = Object.keys(_config_config_js__WEBPACK_IMPORTED_MODULE_0__/* .translateUrls */ .rw);
-const detectServices = Object.keys(_config_config_js__WEBPACK_IMPORTED_MODULE_0__/* .detectUrls */ .QL).map((k) =>
-  k === "rustServer" ? "rust-server" : k,
-);
-
-
-
-
-/***/ }),
-
-/***/ "./src/utils/utils.js":
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Bs: () => (/* binding */ isPiPAvailable),
-/* harmony export */   CK: () => (/* binding */ initHls),
-/* harmony export */   G3: () => (/* binding */ GM_fetch),
-/* harmony export */   R4: () => (/* binding */ langTo6391),
-/* harmony export */   X5: () => (/* binding */ cleanText),
-/* harmony export */   jI: () => (/* binding */ getVideoId),
-/* harmony export */   ox: () => (/* binding */ secsToStrTime),
-/* harmony export */   vV: () => (/* binding */ lang)
-/* harmony export */ });
-/* harmony import */ var _localization_localizationProvider_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("./src/localization/localizationProvider.js");
-/* harmony import */ var _youtubeUtils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("./src/utils/youtubeUtils.js");
+;// CONCATENATED MODULE: ./src/utils/utils.js
 
 
 
 const userlang = navigator.language || navigator.userLanguage;
 const lang = userlang?.substr(0, 2)?.toLowerCase() ?? "en";
 
-// not used
-// function waitForElm(selector) {
-//   // https://stackoverflow.com/questions/5525071/how-to-wait-until-an-element-exists
-//   return new Promise((resolve) => {
-//     const element = document.querySelector(selector);
-//     if (element) {
-//       return resolve(element);
-//     }
-
-//     const observer = new MutationObserver(() => {
-//       const element = document.querySelector(selector);
-//       if (element) {
-//         resolve(element);
-//         observer.disconnect();
-//       }
-//     });
-
-//     observer.observe(document.body, {
-//       childList: true,
-//       subtree: true,
-//       once: true,
-//     });
-//   });
-// }
-
-// not used
-// const sleep = (m) => new Promise((r) => setTimeout(r, m));
-
-const getVideoId = (service, video) => {
-  let url = new URL(window.location.href);
-
-  switch (service) {
-    case "piped":
-    case "invidious":
-    case "youtube": {
-      if (url.searchParams.has("enablejsapi")) {
-        const videoUrl = _youtubeUtils_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .A.getPlayer().getVideoUrl();
-        url = new URL(videoUrl);
-      }
-
-      return (
-        /(?:watch|embed|shorts|live)\/([^/]+)/.exec(url.pathname)?.[1] ||
-        url.searchParams.get("v")
-      );
-    }
-    case "vk": {
-      const pathID = /^\/(video|clip)-?\d{8,9}_\d{9}$/.exec(url.pathname);
-      const paramZ = url.searchParams.get("z");
-      const paramOID = url.searchParams.get("oid");
-      const paramID = url.searchParams.get("id");
-      if (pathID) {
-        return pathID[0].slice(1);
-      } else if (paramZ) {
-        return paramZ.split("/")[0];
-      } else if (paramOID && paramID) {
-        return `video-${Math.abs(parseInt(paramOID))}_${paramID}`;
-      }
-
-      return null;
-    }
-    case "nine_gag":
-    case "9gag":
-    case "gag":
-      return /gag\/([^/]+)/.exec(url.pathname)?.[1];
-    case "twitch": {
-      const clipPath = /([^/]+)\/(?:clip)\/([^/]+)/.exec(url.pathname);
-      if (/^m\.twitch\.tv$/.test(url.hostname)) {
-        return /videos\/([^/]+)/.exec(url.href)?.[0] || url.pathname.slice(1);
-      } else if (/^player\.twitch\.tv$/.test(url.hostname)) {
-        return `videos/${url.searchParams.get("video")}`;
-      } else if (/^clips\.twitch\.tv$/.test(url.hostname)) {
-        // https://clips.twitch.tv/clipId
-        const schema = document.querySelector(
-          "script[type='application/ld+json']",
-        );
-        const pathname = url.pathname.slice(1);
-        if (!schema) {
-          // иногда из-за не прогрузов твича это не работает, но пусть лучше будет (можно переделать все в async и ждать элемента, но нужно ли это ради 1 сайта)
-          // ссылки вида https://clips.twitch.tv/embed?clip=clipId грузятся нормально
-          const isEmbed = pathname === "embed";
-          const channelLink = document.querySelector(
-            isEmbed
-              ? ".tw-link[data-test-selector='stream-info-card-component__stream-avatar-link']"
-              : ".clips-player a:not([class])",
-          );
-
-          if (!channelLink) {
-            return;
-          }
-
-          const channelName = channelLink.href.replace(
-            "https://www.twitch.tv/",
-            "",
-          );
-
-          return `${channelName}/clip/${isEmbed ? url.searchParams.get("clip") : pathname}`;
-        }
-
-        const schemaJSON = JSON.parse(schema.innerText);
-        const channelLink = schemaJSON["@graph"].find(
-          (obj) => obj["@type"] === "VideoObject",
-        )?.creator.url;
-
-        const channelName = channelLink.replace("https://www.twitch.tv/", "");
-        return `${channelName}/clip/${pathname}`;
-      } else if (clipPath) {
-        return clipPath[0];
-      }
-
-      return /(?:videos)\/([^/]+)/.exec(url.pathname)?.[0];
-    }
-    case "proxitok":
-      return /([^/]+)\/video\/([^/]+)/.exec(url.pathname)?.[0];
-    case "tiktok": {
-      let id = /([^/]+)\/video\/([^/]+)/.exec(url.pathname)?.[0];
-      if (!id) {
-        const playerEl = video.closest(".xgplayer-playing, .tiktok-web-player");
-        const itemEl = playerEl?.closest(
-          'div[data-e2e="recommend-list-item-container"]',
-        );
-        const authorEl = itemEl?.querySelector(
-          'a[data-e2e="video-author-avatar"]',
-        );
-        if (playerEl && authorEl) {
-          const videoId = playerEl.id?.match(/^xgwrapper-\d+-(.*)$/)?.at(1);
-          const author = authorEl.href?.match(/.*(@.*)$/)?.at(1);
-          if (videoId && author) {
-            id = `${author}/video/${videoId}`;
-          }
-        }
-      }
-      return id;
-    }
-    case "vimeo": {
-      const appId = url.searchParams.get("app_id");
-      const videoId =
-        /[^/]+\/[^/]+$/.exec(url.pathname)?.[0] ||
-        /[^/]+$/.exec(url.pathname)?.[0];
-
-      return appId ? `${videoId}?app_id=${appId}` : videoId;
-    }
-    case "xvideos":
-      return /[^/]+\/[^/]+$/.exec(url.pathname)?.[0];
-    case "pornhub":
-      return (
-        url.searchParams.get("viewkey") ||
-        /embed\/([^/]+)/.exec(url.pathname)?.[1]
-      );
-    case "twitter":
-      return /status\/([^/]+)/.exec(url.pathname)?.[1];
-    case "udemy":
-    case "rumble":
-    case "facebook":
-      return url.pathname.slice(1);
-    case "rutube":
-      return /(?:video|embed)\/([^/]+)/.exec(url.pathname)?.[1];
-    case "coub":
-      return (
-        /(?:view|embed)\/([^/]+)/.exec(url.pathname)?.[1] ||
-        document.querySelector(".coub.active")?.dataset?.permalink
-      );
-    case "bilibili": {
-      const bvid = url.searchParams.get("bvid");
-      if (bvid) {
-        return bvid;
-      }
-
-      let vid = /video\/([^/]+)/.exec(url.pathname)?.[1];
-      if (vid && url.searchParams.get("p") !== null) {
-        vid += `/?p=${url.searchParams.get("p")}`;
-      }
-
-      return vid;
-    }
-    case "mail_ru": {
-      const pathname = url.pathname;
-      if (pathname.startsWith("/v/") || pathname.startsWith("/mail/")) {
-        return pathname.slice(1);
-      }
-
-      const videoId = /video\/embed\/([^/]+)/.exec(pathname)?.[1];
-      if (!videoId) {
-        return null;
-      }
-
-      const referer = document.querySelector(".b-video-controls__mymail-link");
-      if (!referer) {
-        return false;
-      }
-
-      return referer?.href.split("my.mail.ru")?.[1];
-    }
-    case "bitchute": {
-      if (video.src?.startsWith("blob:") || !video.src?.includes(".mp4")) {
-        return null;
-      }
-
-      return video.src;
-      // doesn't want to translate using a bitchute link
-      // return /([^/]+)\/([^/]+).mp4/.exec(videoUrl.pathname)?.[2];
-    }
-    case "coursera":
-      // ! LINK SHOULD BE LIKE THIS https://www.coursera.org/learn/learning-how-to-learn/lecture/75EsZ
-      // return url.pathname.match(/lecture\/([^/]+)\/([^/]+)/)?.[1]; // <--- COURSE PREVIEW
-      return /learn\/([^/]+)\/lecture\/([^/]+)/.exec(url.pathname)?.[0]; // <--- COURSE PASSING (IF YOU LOGINED TO COURSERA)
-    case "eporner":
-      // ! LINK SHOULD BE LIKE THIS eporner.com/video-XXXXXXXXX/isdfsd-dfjsdfjsdf-dsfsdf-dsfsda-dsad-ddsd
-      return /video-([^/]+)\/([^/]+)/.exec(url.pathname)?.[0];
-    case "peertube":
-      return /\/w\/([^/]+)/.exec(url.pathname)?.[0];
-    case "dailymotion": {
-      // we work in the context of the player
-      // geo.dailymotion.com
-      const plainPlayerConfig = Array.from(
-        document.querySelectorAll("*"),
-      ).filter((s) => s.innerHTML.trim().includes(".m3u8"));
-      try {
-        let videoUrl = plainPlayerConfig[1].lastChild.src;
-        return /\/video\/(\w+)\.m3u8/.exec(videoUrl)?.[1];
-      } catch (e) {
-        console.error("[VOT]", e);
-        return false;
-      }
-    }
-    case "trovo": {
-      const vid = url.searchParams.get("vid");
-      if (!vid) {
-        return null;
-      }
-
-      const path = /([^/]+)\/(\d+)/.exec(url.pathname)?.[0];
-      if (!path) {
-        return null;
-      }
-
-      return `${path}?vid=${vid}`;
-    }
-    case "yandexdisk":
-      return /\/i\/([^/]+)/.exec(url.pathname)?.[1];
-    case "coursehunter": {
-      const courseId = /\/course\/([^/]+)/.exec(url.pathname)?.[1];
-      return courseId ? courseId + url.search : false;
-    }
-    case "ok.ru": {
-      return /\/video\/(\d+)/.exec(url.pathname)?.[1];
-    }
-    case "googledrive":
-      return url.searchParams.get("docid");
-    case "bannedvideo":
-      return url.searchParams.get("id");
-    case "weverse":
-      return /([^/]+)\/(live|media)\/([^/]+)/.exec(url.pathname)?.[0];
-    case "newgrounds":
-      return /([^/]+)\/(view)\/([^/]+)/.exec(url.pathname)?.[0];
-    case "egghead":
-      return url.pathname.slice(1);
-    case "youku":
-      return /v_show\/id_[\w=]+/.exec(url.pathname)?.[0];
-    case "archive":
-      return /(details|embed)\/([^/]+)/.exec(url.pathname)?.[2];
-    // case "sibnet": {
-    //   const videoId = url.searchParams.get("videoid");
-    //   if (videoId) {
-    //     return `video${videoId}`;
-    //   }
-
-    //   return /video([^/]+)/.exec(url.pathname)?.[0];
-    // }
-    // case "patreon":
-    //   return /posts\/([^/]+)/.exec(url.pathname)?.[0];
-    case "directlink":
-      return url.pathname + url.search;
-    default:
-      return false;
-  }
-};
-
 function secsToStrTime(secs) {
   const minutes = Math.floor(secs / 60);
   const seconds = Math.floor(secs % 60);
   if (minutes >= 60) {
-    return _localization_localizationProvider_js__WEBPACK_IMPORTED_MODULE_0__/* .localizationProvider */ .j.get("translationTakeMoreThanHour");
+    return localizationProvider.get("translationTakeMoreThanHour");
   } else if (minutes === 1 || (minutes === 0 && seconds > 0)) {
-    return _localization_localizationProvider_js__WEBPACK_IMPORTED_MODULE_0__/* .localizationProvider */ .j.get("translationTakeAboutMinute");
+    return localizationProvider.get("translationTakeAboutMinute");
   } else if (minutes !== 11 && minutes % 10 === 1) {
-    return _localization_localizationProvider_js__WEBPACK_IMPORTED_MODULE_0__/* .localizationProvider */ .j
+    return localizationProvider
       .get("translationTakeApproximatelyMinute2")
       .replace("{0}", minutes);
   } else if (
     ![12, 13, 14].includes(minutes) &&
     [2, 3, 4].includes(minutes % 10)
   ) {
-    return _localization_localizationProvider_js__WEBPACK_IMPORTED_MODULE_0__/* .localizationProvider */ .j
+    return localizationProvider
       .get("translationTakeApproximatelyMinute")
       .replace("{0}", minutes);
   }
 
-  return _localization_localizationProvider_js__WEBPACK_IMPORTED_MODULE_0__/* .localizationProvider */ .j
+  return localizationProvider
     .get("translationTakeApproximatelyMinutes")
     .replace("{0}", minutes);
 }
@@ -1503,7 +3170,7 @@ function isPiPAvailable() {
 function initHls() {
   return typeof Hls != "undefined" && Hls?.isSupported()
     ? new Hls({
-        debug: false, // turn it on manually if necessary
+        debug: true, // turn it on manually if necessary
         lowLatencyMode: true,
         backBufferLength: 90,
       })
@@ -1540,36 +3207,41 @@ function cleanText(title, description) {
   return fullText.replace(/[^\p{L}\s]+|\s+/gu, " ").trim();
 }
 
-async function GM_fetch(url, opt = {}) {
+async function GM_fetch(url, opts = {}) {
   try {
-    // Попытка выполнить запрос с помощью fetch
-    const response = await fetch(url, opt);
-    return response;
-  } catch (error) {
+    if (url.includes("api.browser.yandex.ru")) {
+      throw new Error("Preventing yandex cors");
+    }
+
+    return await fetch(url, opts);
+  } catch (err) {
     // Если fetch завершился ошибкой, используем GM_xmlhttpRequest
     // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
+    utils_debug.log("GM_fetch preventing cors by GM_xmlhttpRequest", err.message);
     return new Promise((resolve, reject) => {
-      // https://www.tampermonkey.net/documentation.php?ext=dhdg#GM_xmlhttpRequest
-      // https://violentmonkey.github.io/api/gm/#gm_xmlhttprequest
       GM_xmlhttpRequest({
-        method: opt.method || "GET",
+        method: "GET",
         url: url,
         responseType: "blob",
+        ...opts,
+        data: opts.body,
         onload: (resp) => {
           resolve(
             new Response(resp.response, {
               status: resp.status,
+              // chrome \n and ":", firefox \r\n and ": " (Only in GM_xmlhttpRequest)
               // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/getAllResponseHeaders#examples
               headers: Object.fromEntries(
                 resp.responseHeaders
                   .trim()
-                  .split("\r\n")
+                  .split("\n")
                   .map((line) => {
-                    let parts = line.split(": ");
+                    let parts = line.split(":");
                     if (parts?.[0] === "set-cookie") {
                       return;
                     }
-                    return [parts.shift(), parts.join(": ")];
+
+                    return [parts.shift(), parts.join(":")];
                   })
                   .filter((key) => key),
               ),
@@ -1586,512 +3258,637 @@ async function GM_fetch(url, opt = {}) {
 
 
 
-
-/***/ }),
-
-/***/ "./src/utils/youtubeUtils.js":
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   A: () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _debug_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("./src/utils/debug.js");
-/* harmony import */ var _config_constants_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("./src/config/constants.js");
-/* harmony import */ var _utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("./src/utils/utils.js");
-/* harmony import */ var _translateApis_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("./src/utils/translateApis.js");
+;// CONCATENATED MODULE: ./src/localization/localizationProvider.js
+/* eslint-disable sonarjs/no-duplicate-string */
 
 
 
 
 
-// Get the language code from the response or the text
-async function getLanguage(player, response, title, description) {
-  if (
-    !window.location.hostname.includes("m.youtube.com") &&
-    player?.getAudioTrack
-  ) {
-    // ! Experimental ! get lang from selected audio track if availabled
-    const audioTracks = player.getAudioTrack();
-    const trackInfo = audioTracks?.getLanguageInfo(); // get selected track info (id === "und" if tracks are not available)
-    if (trackInfo?.id !== "und") {
-      return (0,_utils_js__WEBPACK_IMPORTED_MODULE_1__/* .langTo6391 */ .R4)(trackInfo.id.split(".")[0]);
+const localesVersion = 4;
+const localesUrl = `https://raw.githubusercontent.com/ilyhalight/voice-over-translation/${
+   true ? "dev" : 0
+}/src/localization/locales`;
+
+const availableLocales = [
+  "auto",
+  "en",
+  "ru",
+
+  "af",
+  "am",
+  "ar",
+  "az",
+  "bg",
+  "bn",
+  "bs",
+  "ca",
+  "cs",
+  "cy",
+  "da",
+  "de",
+  "el",
+  "es",
+  "et",
+  "eu",
+  "fa",
+  "fi",
+  "fr",
+  "gl",
+  "hi",
+  "hr",
+  "hu",
+  "hy",
+  "id",
+  "it",
+  "ja",
+  "jv",
+  "kk",
+  "km",
+  "kn",
+  "ko",
+  "lo",
+  "mk",
+  "ml",
+  "mn",
+  "ms",
+  "mt",
+  "my",
+  "ne",
+  "nl",
+  "pa",
+  "pl",
+  "pt",
+  "ro",
+  "si",
+  "sk",
+  "sl",
+  "sq",
+  "sr",
+  "su",
+  "sv",
+  "sw",
+  "tr",
+  "uk",
+  "ur",
+  "uz",
+  "vi",
+  "zh",
+  "zu",
+];
+
+const localizationProvider = new (class {
+  lang = "en";
+  locale = {};
+  gmValues = [
+    "locale-phrases",
+    "locale-lang",
+    "locale-version",
+    "locale-lang-override",
+  ];
+
+  constructor() {
+    const langOverride = votStorage.syncGet("locale-lang-override", "auto");
+    if (langOverride && langOverride !== "auto") {
+      this.lang = langOverride;
+    } else {
+      this.lang =
+        (navigator.language || navigator.userLanguage)
+          ?.substr(0, 2)
+          ?.toLowerCase() ?? "en";
+    }
+    this.setLocaleFromJsonString(votStorage.syncGet("locale-phrases", ""));
+  }
+
+  reset() {
+    for (let i = 0; i < this.gmValues.length; i++) {
+      votStorage.syncDelete(this.gmValues[i]);
     }
   }
 
-  // TODO: If the audio tracks will work fine, transfer the receipt of captions to the audioTracks variable
-  // Check if there is an automatic caption track in the response
-  const captionTracks =
-    response?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
-  if (captionTracks?.length) {
-    const autoCaption = captionTracks.find((caption) => caption.kind === "asr");
-    if (autoCaption && autoCaption.languageCode) {
-      return (0,_utils_js__WEBPACK_IMPORTED_MODULE_1__/* .langTo6391 */ .R4)(autoCaption.languageCode);
+  async update(force = false) {
+    const localeVersion = await votStorage.get("locale-version", 0, true);
+    const localeLang = await votStorage.get("locale-lang");
+    if (
+      !force &&
+      localeVersion === localesVersion &&
+      localeLang === this.lang
+    ) {
+      return;
+    }
+
+    utils_debug.log("Updating locale...");
+
+    try {
+      const response = await GM_fetch(`${localesUrl}/${this.lang}.json`);
+      if (response.status !== 200) throw response.status;
+      const text = await response.text();
+      await votStorage.set("locale-phrases", text);
+      this.setLocaleFromJsonString(text);
+      const version = this.getFromLocale(this.locale, "__version__");
+      if (typeof version === "number")
+        await votStorage.set("locale-version", version);
+      await votStorage.set("locale-lang", this.lang);
+    } catch (error) {
+      console.error(
+        "[VOT] [localizationProvider] failed get locale, cause:",
+        error,
+      );
+      this.setLocaleFromJsonString(await votStorage.get("locale-phrases", ""));
     }
   }
 
-  // If there is no caption track, use detect to get the language code from the description
-
-  const text = (0,_utils_js__WEBPACK_IMPORTED_MODULE_1__/* .cleanText */ .X5)(title, description);
-
-  _debug_js__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A.log(`Detecting language text: ${text}`);
-
-  return (0,_translateApis_js__WEBPACK_IMPORTED_MODULE_2__/* .detect */ .o0)(text);
-}
-
-function isMobile() {
-  return /^m\.youtube\.com$/.test(window.location.hostname);
-}
-
-function getPlayer() {
-  if (window.location.pathname.startsWith("/shorts/")) {
-    return isMobile()
-      ? document.querySelector("#movie_player")
-      : document.querySelector("#shorts-player");
+  setLocaleFromJsonString(json) {
+    try {
+      this.locale = JSON.parse(json) ?? {};
+    } catch (exception) {
+      console.error("[VOT] [localizationProvider]", exception);
+      this.locale = {};
+    }
   }
 
-  return document.querySelector("#movie_player");
-}
-
-function getPlayerResponse() {
-  const player = getPlayer();
-  if (player?.getPlayerResponse)
-    return player?.getPlayerResponse?.call() ?? null;
-  return player?.data?.playerResponse ?? null;
-}
-
-function getPlayerData() {
-  const player = getPlayer();
-  if (player?.getVideoData) return player?.getVideoData?.call() ?? null;
-  return player?.data?.playerResponse?.videoDetails ?? null;
-}
-
-function getVideoVolume() {
-  const player = getPlayer();
-  if (player?.getVolume) {
-    return player.getVolume.call() / 100;
-  }
-
-  return 1;
-}
-
-function setVideoVolume(volume) {
-  const player = getPlayer();
-  if (player?.setVolume) {
-    player.setVolume(Math.round(volume * 100));
-    return true;
-  }
-}
-
-function isMuted() {
-  const player = getPlayer();
-  if (player?.isMuted) {
-    return player.isMuted.call();
-  }
-
-  return false;
-}
-
-function videoSeek(video, time) {
-  // * TIME IN MS
-  _debug_js__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A.log("videoSeek", time);
-  const preTime =
-    getPlayer()?.getProgressState()?.seekableEnd || video.currentTime;
-  const finalTime = preTime - time; // we always throw it to the end of the stream - time
-  video.currentTime = finalTime;
-}
-
-function isMusic() {
-  // Нужно доработать логику
-  const channelName = getPlayerData().author,
-    titleStr = getPlayerData().title.toUpperCase(),
-    titleWordsList = titleStr.match(/\w+/g),
-    playerData = document.body.querySelector("ytd-watch-flexy")?.playerData;
-
-  return (
-    [
-      titleStr,
-      document.URL,
-      channelName,
-      playerData?.microformat?.playerMicroformatRenderer.category,
-      playerData?.title,
-    ].some((i) => i?.toUpperCase().includes("MUSIC")) ||
-    document.body.querySelector(
-      "#upload-info #channel-name .badge-style-type-verified-artist",
-    ) ||
-    (channelName &&
-      /(VEVO|Topic|Records|RECORDS|Recordings|AMV)$/.test(channelName)) ||
-    (channelName &&
-      /(MUSIC|ROCK|SOUNDS|SONGS)/.test(channelName.toUpperCase())) ||
-    (titleWordsList?.length &&
-      [
-        "🎵",
-        "♫",
-        "SONG",
-        "SONGS",
-        "SOUNDTRACK",
-        "LYRIC",
-        "LYRICS",
-        "AMBIENT",
-        "MIX",
-        "VEVO",
-        "CLIP",
-        "KARAOKE",
-        "OPENING",
-        "COVER",
-        "COVERED",
-        "VOCAL",
-        "INSTRUMENTAL",
-        "ORCHESTRAL",
-        "DUBSTEP",
-        "DJ",
-        "DNB",
-        "BASS",
-        "BEAT",
-        "ALBUM",
-        "PLAYLIST",
-        "DUBSTEP",
-        "CHILL",
-        "RELAX",
-        "CLASSIC",
-        "CINEMATIC",
-      ].some((i) => titleWordsList.includes(i))) ||
-    [
-      "OFFICIAL VIDEO",
-      "OFFICIAL AUDIO",
-      "FEAT.",
-      "FT.",
-      "LIVE RADIO",
-      "DANCE VER",
-      "HIP HOP",
-      "ROCK N ROLL",
-      "HOUR VER",
-      "HOURS VER",
-      "INTRO THEME",
-    ].some((i) => titleStr.includes(i)) ||
-    (titleWordsList?.length &&
-      [
-        "OP",
-        "ED",
-        "MV",
-        "OST",
-        "NCS",
-        "BGM",
-        "EDM",
-        "GMV",
-        "AMV",
-        "MMD",
-        "MAD",
-      ].some((i) => titleWordsList.includes(i)))
-  );
-}
-
-function getSubtitles() {
-  const response = getPlayerResponse();
-  let captionTracks =
-    response?.captions?.playerCaptionsTracklistRenderer?.captionTracks ?? [];
-  captionTracks = captionTracks.reduce((result, captionTrack) => {
-    if ("languageCode" in captionTrack) {
-      const language = captionTrack?.languageCode
-        ? (0,_utils_js__WEBPACK_IMPORTED_MODULE_1__/* .langTo6391 */ .R4)(captionTrack?.languageCode)
-        : undefined;
-      const url = captionTrack?.url || captionTrack?.baseUrl;
-      language &&
-        url &&
-        result.push({
-          source: "youtube",
-          language,
-          isAutoGenerated: captionTrack?.kind === "asr",
-          url: `${
-            url.startsWith("http") ? url : `${window.location.origin}/${url}`
-          }&fmt=json3`,
-        });
+  getFromLocale(locale, key) {
+    const result = key.split(".").reduce((locale, key) => {
+      if (typeof locale === "object" && locale) return locale[key];
+      return undefined;
+    }, locale);
+    if (result === undefined) {
+      console.warn(
+        "[VOT] [localizationProvider] locale",
+        locale,
+        "doesn't contain key",
+        key,
+      );
     }
     return result;
-  }, []);
-  _debug_js__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A.log("youtube subtitles:", captionTracks);
-  return captionTracks;
-}
-
-// Get the video data from the player
-async function getVideoData() {
-  const player = getPlayer();
-  const response = getPlayerResponse(); // null in /embed
-  const data = getPlayerData();
-  const { title } = data ?? {};
-  const { shortDescription: description, isLive } =
-    response?.videoDetails ?? {};
-  let detectedLanguage = title
-    ? await getLanguage(player, response, title, description)
-    : "en";
-  detectedLanguage = _config_constants_js__WEBPACK_IMPORTED_MODULE_3__/* .availableLangs */ .xm.includes(detectedLanguage)
-    ? detectedLanguage
-    : "en";
-  const videoData = {
-    isLive: !!isLive,
-    title,
-    description,
-    detectedLanguage,
-  };
-  _debug_js__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A.log("youtube video data:", videoData);
-  console.log("[VOT] Detected language: ", videoData.detectedLanguage);
-  return videoData;
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  isMobile,
-  getPlayer,
-  getPlayerResponse,
-  getPlayerData,
-  getVideoVolume,
-  getSubtitles,
-  getVideoData,
-  setVideoVolume,
-  videoSeek,
-  isMuted,
-  isMusic,
-});
-
-
-/***/ }),
-
-/***/ "./src/yandexRequest-cloudflare.js":
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _config_config_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("./src/config/config.js");
-/* harmony import */ var _utils_debug_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("./src/utils/debug.js");
-/* harmony import */ var _utils_storage_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("./src/utils/storage.js");
-/* harmony import */ var _utils_utils_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("./src/utils/utils.js");
-
-
-
-
-
-async function yandexRequest(path, body, headers, callback) {
-  let response;
-  let responseBody;
-  try {
-    _utils_debug_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .A.log("yandexRequest:", path);
-    // Create a fetch options object with headers and body
-    const options = {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
-      body: JSON.stringify({
-        headers: {
-          ...{
-            Accept: "application/x-protobuf",
-            "Accept-Language": "en",
-            "Content-Type": "application/x-protobuf",
-            "User-Agent": _config_config_js__WEBPACK_IMPORTED_MODULE_0__/* .yandexUserAgent */ .Cc,
-            Pragma: "no-cache",
-            "Cache-Control": "no-cache",
-            "Sec-Fetch-Mode": "no-cors",
-          },
-          ...headers,
-        },
-        body: Array.from(body),
-      }),
-    };
-    const workerHost = await _utils_storage_js__WEBPACK_IMPORTED_MODULE_2__/* .votStorage */ .d.get("proxyWorkerHost", _config_config_js__WEBPACK_IMPORTED_MODULE_0__/* .proxyWorkerHost */ .Pm);
-    // Fetch the translation from the worker host
-    response = await (0,_utils_utils_js__WEBPACK_IMPORTED_MODULE_3__/* .GM_fetch */ .G3)(`https://${workerHost}${path}`, options);
-    _utils_debug_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .A.log("yandexRequest:", response.status, response);
-    // Get the response body as an array buffer
-    responseBody = await response.arrayBuffer();
-  } catch (exception) {
-    console.error("[VOT]", exception);
-    // Handle errors
-    response = { status: -1 };
-    responseBody = exception;
   }
 
-  // Call the callback function with the result
-  callback(response.status == 200, responseBody);
+  getDefault(key) {
+    return this.getFromLocale(en_namespaceObject, key) ?? key;
+  }
+
+  get(key) {
+    return (
+      this.getFromLocale(this.locale, key) ??
+      this.getFromLocale(en_namespaceObject, key) ??
+      key
+    );
+  }
+})();
+
+;// CONCATENATED MODULE: ./src/utils/VOTLocalizedError.js
+
+
+class VOTLocalizedError extends Error {
+  constructor(message) {
+    super(localizationProvider.getDefault(message));
+    this.name = "VOTLocalizedError";
+    this.unlocalizedMessage = message;
+    this.localizedMessage = localizationProvider.get(message);
+  }
 }
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (yandexRequest);
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/client.js
 
 
-/***/ })
 
-/******/ 	});
-/************************************************************************/
-/******/ 	// The module cache
-/******/ 	var __webpack_module_cache__ = {};
-/******/ 	
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/ 		// Check if module is in cache
-/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
-/******/ 		if (cachedModule !== undefined) {
-/******/ 			return cachedModule.exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			id: moduleId,
-/******/ 			// no module.loaded needed
-/******/ 			exports: {}
-/******/ 		};
-/******/ 	
-/******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/ 	
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/ 	
-/************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__webpack_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/nonce */
-/******/ 	(() => {
-/******/ 		__webpack_require__.nc = undefined;
-/******/ 	})();
-/******/ 	
-/************************************************************************/
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
-(() => {
-"use strict";
 
-;// CONCATENATED MODULE: ./src/config/alternativeUrls.js
-// Sites host Invidious. I tested the performance only on invidious.kevin.rocks, youtu.be and inv.vern.cc
-const sitesInvidious = [
-  "invidious.snopyta.org",
-  "yewtu.be",
-  "invidious.kavin.rocks",
-  "vid.puffyan.us",
-  "invidious.namazso.eu",
-  "inv.riverside.rocks",
-  "yt.artemislena.eu",
-  "invidious.flokinet.to",
-  "invidious.esmailelbob.xyz",
-  "y.com.sb",
-  "invidious.nerdvpn.de",
-  "inv.vern.cc",
-  "invidious.slipfox.xyz",
-  "invidio.xamh.de",
-  "invidious.dhusch.de",
+
+
+
+
+
+
+
+
+const { /* version */ "rE": version } = package_namespaceObject;
+class VOTJSError extends Error {
+    data;
+    constructor(message, data = undefined) {
+        super(message);
+        this.data = data;
+        this.name = "VOTJSError";
+        this.message = message;
+    }
+}
+class VOTClient {
+    host;
+    hostVOT;
+    schema;
+    schemaVOT;
+    fetch;
+    fetchOpts;
+    getVideoDataFn;
+    sessions = {};
+    requestLang;
+    responseLang;
+    userAgent = config.userAgent;
+    componentVersion = config.componentVersion;
+    paths = {
+        videoTranslation: "/video-translation/translate",
+        videoSubtitles: "/video-subtitles/get-subtitles",
+        streamPing: "/stream-translation/ping-stream",
+        streamTranslation: "/stream-translation/translate-stream",
+        createSession: "/session/create",
+    };
+    isCustomFormat(url) {
+        return /\.(m3u8|m4(a|v)|mpd)/.exec(url);
+    }
+    headers = {
+        "User-Agent": this.userAgent,
+        Accept: "application/x-protobuf",
+        "Accept-Language": "en",
+        "Content-Type": "application/x-protobuf",
+        Pragma: "no-cache",
+        "Cache-Control": "no-cache",
+        "Sec-Fetch-Mode": "no-cors",
+    };
+    headersVOT = {
+        "User-Agent": `vot.js/${version}`,
+        "Content-Type": "application/json",
+        Pragma: "no-cache",
+        "Cache-Control": "no-cache",
+    };
+    constructor({ host = config.host, hostVOT = config.hostVOT, fetchFn = fetchWithTimeout, fetchOpts = {}, getVideoDataFn = getVideoData, requestLang = "en", responseLang = "ru", headers = {}, } = {}) {
+        const schemaRe = /(http(s)?):\/\//;
+        const schema = schemaRe.exec(host)?.[1];
+        this.host = schema ? host.replace(`${schema}://`, "") : host;
+        this.schema = schema ?? "https";
+        const schemaVOT = schemaRe.exec(hostVOT)?.[1];
+        this.hostVOT = schemaVOT ? hostVOT.replace(`${schemaVOT}://`, "") : hostVOT;
+        this.schemaVOT = schemaVOT ?? "https";
+        this.fetch = fetchFn;
+        this.fetchOpts = fetchOpts;
+        this.getVideoDataFn = getVideoDataFn;
+        this.requestLang = requestLang;
+        this.responseLang = responseLang;
+        this.headers = { ...this.headers, ...headers };
+    }
+    getOpts(body, headers = {}) {
+        return {
+            method: "POST",
+            headers: {
+                ...this.headers,
+                ...headers,
+            },
+            body,
+            ...this.fetchOpts,
+        };
+    }
+    async request(path, body, headers = {}) {
+        const options = this.getOpts(new Blob([body]), headers);
+        try {
+            const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
+            const data = await res.arrayBuffer();
+            return {
+                success: res.status === 200,
+                data,
+            };
+        }
+        catch (err) {
+            console.error("[vot.js]", err.message);
+            return {
+                success: false,
+                data: null,
+            };
+        }
+    }
+    async requestVOT(path, body, headers = {}) {
+        const options = this.getOpts(JSON.stringify(body), {
+            ...this.headersVOT,
+            ...headers,
+        });
+        try {
+            console.log(`${this.schemaVOT}://${this.hostVOT}${path}`);
+            const res = await this.fetch(`${this.schemaVOT}://${this.hostVOT}${path}`, options);
+            const data = (await res.json());
+            return {
+                success: res.status === 200,
+                data,
+            };
+        }
+        catch (err) {
+            console.error("[vot.js]", err.message);
+            return {
+                success: false,
+                data: null,
+            };
+        }
+    }
+    async getSession(module) {
+        const timestamp = getTimestamp();
+        const session = this.sessions[module];
+        if (session && session.timestamp + session.expires > timestamp) {
+            return session;
+        }
+        const { secretKey, expires, uuid } = await this.createSession(module);
+        this.sessions[module] = {
+            secretKey,
+            expires,
+            timestamp,
+            uuid,
+        };
+        return this.sessions[module];
+    }
+    async translateVideoYAImpl({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, }) {
+        const { url, duration = config.defaultDuration } = videoData;
+        const { secretKey, uuid } = await this.getSession("video-translation");
+        const body = yandexProtobuf.encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp);
+        const sign = await getSignature(body);
+        const res = await this.request(this.paths.videoTranslation, body, {
+            "Vtrans-Signature": sign,
+            "Sec-Vtrans-Sk": secretKey,
+            "Sec-Vtrans-Token": `${sign}:${uuid}:${this.paths.videoTranslation}:${this.componentVersion}`,
+            ...headers,
+        });
+        if (!res.success) {
+            throw new VOTLocalizedError("requestTranslationFailed");
+        }
+        const translationData = yandexProtobuf.decodeTranslationResponse(res.data);
+        switch (translationData.status) {
+            case VideoTranslationStatus.FAILED:
+                throw translationData?.message ? new VOTJSError("Yandex couldn't translate video", translationData) : new VOTLocalizedError("requestTranslationFailed");
+            case VideoTranslationStatus.FINISHED:
+            case VideoTranslationStatus.PART_CONTENT:
+                if (!translationData.url) {
+                    throw new VOTLocalizedError("audioNotReceived");
+                }
+                return {
+                    translated: true,
+                    url: translationData.url,
+                    remainingTime: translationData.remainingTime ?? -1,
+                };
+            case VideoTranslationStatus.WAITING:
+                return {
+                    translated: false,
+                    remainingTime: translationData.remainingTime,
+                };
+            case VideoTranslationStatus.LONG_WAITING:
+            case VideoTranslationStatus.LONG_WAITING_2:
+                return {
+                    translated: false,
+                    remainingTime: translationData.remainingTime ?? -1,
+                };
+            default:
+                console.error("[vot.js] Unknown response", translationData);
+                throw new VOTJSError("Unknown response from Yandex", translationData);
+        }
+    }
+    async translateVideoVOTImpl({ url, videoId, service, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
+        const votData = convertVOT(service, videoId, url);
+        const res = await this.requestVOT(this.paths.videoTranslation, {
+            provider: "yandex",
+            service: votData.service,
+            videoId: votData.videoId,
+            fromLang: requestLang,
+            toLang: responseLang,
+            rawVideo: url,
+        }, headers);
+        if (!res.success) {
+            throw new VOTLocalizedError("requestTranslationFailed", res);
+        }
+        const translationData = res.data;
+        switch (translationData.status) {
+            case "failed":
+                throw new VOTJSError("Yandex couldn't translate video", translationData);
+            case "success":
+                if (!translationData.translatedUrl) {
+                    throw new VOTLocalizedError("audioNotReceived");
+                }
+                return {
+                    translated: true,
+                    url: translationData.translatedUrl,
+                    remainingTime: -1,
+                };
+            case "waiting":
+                return {
+                    translated: false,
+                    remainingTime: translationData.remainingTime,
+                    message: translationData.message,
+                };
+        }
+    }
+    async translateVideo({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, }) {
+        const { url, videoId, host } = videoData;
+        return this.isCustomFormat(url)
+            ? await this.translateVideoVOTImpl({
+                url,
+                videoId,
+                service: host,
+                requestLang,
+                responseLang,
+                headers,
+            })
+            : await this.translateVideoYAImpl({
+                videoData,
+                requestLang,
+                responseLang,
+                translationHelp,
+                headers,
+            });
+    }
+    async getSubtitles({ videoData, requestLang = this.requestLang, headers = {}, }) {
+        const { url } = videoData;
+        if (this.isCustomFormat(url)) {
+            throw new VOTJSError("Unsupported video URL for getting subtitles");
+        }
+        const { secretKey, uuid } = await this.getSession("video-translation");
+        const body = yandexProtobuf.encodeSubtitlesRequest(url, requestLang);
+        const sign = await getSignature(body);
+        const res = await this.request(this.paths.videoSubtitles, body, {
+            "Vsubs-Signature": await getSignature(body),
+            "Sec-Vsubs-Sk": secretKey,
+            "Sec-Vsubs-Token": `${sign}:${uuid}:${this.paths.videoSubtitles}:${this.componentVersion}`,
+            ...headers,
+        });
+        if (!res.success) {
+            throw new VOTJSError("Failed to request video subtitles", res);
+        }
+        return yandexProtobuf.decodeSubtitlesResponse(res.data);
+    }
+    async pingStream({ pingId, headers = {} }) {
+        const { secretKey, uuid } = await this.getSession("video-translation");
+        const body = yandexProtobuf.encodeStreamPingRequest(pingId);
+        const sign = await getSignature(body);
+        const res = await this.request(this.paths.streamPing, body, {
+            "Vtrans-Signature": await getSignature(body),
+            "Sec-Vtrans-Sk": secretKey,
+            "Sec-Vtrans-Token": `${sign}:${uuid}:${this.paths.streamPing}:${this.componentVersion}`,
+            ...headers,
+        });
+        if (!res.success) {
+            throw new VOTJSError("Failed to request stream ping", res);
+        }
+        return true;
+    }
+    async translateStream({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
+        const { url } = videoData;
+        if (this.isCustomFormat(url)) {
+            throw new VOTJSError("Unsupported video URL for getting stream translation");
+        }
+        const { secretKey, uuid } = await this.getSession("video-translation");
+        const body = yandexProtobuf.encodeStreamRequest(url, requestLang, responseLang);
+        const sign = await getSignature(body);
+        const res = await this.request(this.paths.streamTranslation, body, {
+            "Vtrans-Signature": await getSignature(body),
+            "Sec-Vtrans-Sk": secretKey,
+            "Sec-Vtrans-Token": `${sign}:${uuid}:${this.paths.streamTranslation}:${this.componentVersion}`,
+            ...headers,
+        });
+        if (!res.success) {
+            throw new VOTJSError("Failed to request stream translation", res);
+        }
+        const translateResponse = yandexProtobuf.decodeStreamResponse(res.data);
+        const interval = translateResponse.interval;
+        switch (interval) {
+            case StreamInterval.NO_CONNECTION:
+            case StreamInterval.TRANSLATING:
+                return {
+                    translated: false,
+                    interval,
+                    message: interval === StreamInterval.NO_CONNECTION
+                        ? "streamNoConnectionToServer"
+                        : "translationTakeFewMinutes",
+                };
+            case StreamInterval.STREAMING: {
+                return {
+                    translated: true,
+                    interval,
+                    pingId: translateResponse.pingId,
+                    result: translateResponse.translatedInfo,
+                };
+            }
+            default:
+                console.error("[vot.js] Unknown response", translateResponse);
+                throw new VOTJSError("Unknown response from Yandex", translateResponse);
+        }
+    }
+    async createSession(module) {
+        const uuid = getUUID();
+        const body = yandexProtobuf.encodeYandexSessionRequest(uuid, module);
+        const res = await this.request(this.paths.createSession, body, {
+            "Vtrans-Signature": await getSignature(body),
+        });
+        if (!res.success) {
+            throw new VOTJSError("Failed to request create session", res);
+        }
+        const subtitlesResponse = yandexProtobuf.decodeYandexSessionResponse(res.data);
+        return {
+            ...subtitlesResponse,
+            uuid,
+        };
+    }
+}
+class VOTWorkerClient extends VOTClient {
+    async request(path, body, headers = {}) {
+        const options = this.getOpts(JSON.stringify({
+            headers: {
+                ...this.headers,
+                ...headers,
+            },
+            body: Array.from(body),
+        }), {
+            "Content-Type": "application/json",
+        });
+        try {
+            const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
+            const data = await res.arrayBuffer();
+            return {
+                success: res.status === 200,
+                data,
+            };
+        }
+        catch (err) {
+            console.error("[vot.js]", err.message);
+            return {
+                success: false,
+                data: null,
+            };
+        }
+    }
+}
+
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/index.js
+
+
+
+
+
+
+
+
+
+
+
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/consts.js
+const availableLangs = [
+    "auto",
+    "ru",
+    "en",
+    "zh",
+    "ko",
+    "lt",
+    "lv",
+    "ar",
+    "fr",
+    "it",
+    "es",
+    "de",
+    "ja",
 ];
+const availableTTS = ["ru", "en", "kk"];
 
-// Sites host Piped. I tested the performance only on piped.video
-const sitesPiped = [
-  "piped.video",
-  "piped.tokhmi.xyz",
-  "piped.moomoo.me",
-  "piped.syncpundit.io",
-  "piped.mha.fi",
-  "watch.whatever.social",
-  "piped.garudalinux.org",
-  "efy.piped.pages.dev",
-  "watch.leptons.xyz",
-  "piped.lunar.icu",
-  "yt.dc09.ru",
-  "piped.mint.lgbt",
-  "il.ax",
-  "piped.privacy.com.de",
-  "piped.esmailelbob.xyz",
-  "piped.projectsegfau.lt",
-  "piped.in.projectsegfau.lt",
-  "piped.us.projectsegfau.lt",
-  "piped.privacydev.net",
-  "piped.palveluntarjoaja.eu",
-  "piped.smnz.de",
-  "piped.adminforge.de",
-  "piped.qdi.fi",
-  "piped.hostux.net",
-  "piped.chauvet.pro",
-  "piped.jotoma.de",
-  "piped.pfcd.me",
-  "piped.frontendfriendly.xyz",
-];
 
-const sitesProxiTok = [
-  "proxitok.pabloferreiro.es",
-  "proxitok.pussthecat.org",
-  "tok.habedieeh.re",
-  "proxitok.esmailelbob.xyz",
-  "proxitok.privacydev.net",
-  "tok.artemislena.eu",
-  "tok.adminforge.de",
-  "tik.hostux.net", // maybe instance doesn't working
-  "tt.vern.cc",
-  "cringe.whatever.social",
-  "proxitok.lunar.icu",
-  "proxitok.privacy.com.de", // maybe instance doesn't working
-];
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/utils/subs.js
+function convertToSrtTimeFormat(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    const milliseconds = Math.floor((seconds % 1) * 1000);
+    return `${hours.toString().padStart(2, "0")}:${minutes
+        .toString()
+        .padStart(2, "0")}:${remainingSeconds
+        .toString()
+        .padStart(2, "0")},${milliseconds.toString().padStart(3, "0")}`;
+}
+function convertSubs(data, output = "srt") {
+    const subs = data.subtitles
+        .map((sub, idx) => {
+        const startTime = sub.startMs / 1000.0;
+        const endTime = (sub.startMs + sub.durationMs) / 1000.0;
+        const result = output === "srt" ? `${idx + 1}\n` : "";
+        return (result +
+            `${convertToSrtTimeFormat(startTime)} --> ${convertToSrtTimeFormat(endTime)}\n${sub.text}\n\n`);
+    })
+        .join("")
+        .trim();
+    return output === "vtt" ? `WEBVTT\n\n${subs}` : subs;
+}
 
-// Sites host Peertube. I tested the performance only on dalek.zone and tube.shanti.cafe
-const sitesPeertube = [
-  "peertube.1312.media",
-  "tube.shanti.cafe",
-  "bee-tube.fr",
-  "video.sadmin.io",
-  "dalek.zone",
-  "review.peertube.biz",
-  "peervideo.club",
-  "tube.la-dina.net",
-  "peertube.tmp.rcp.tf",
-  "peertube.su",
-];
+;// CONCATENATED MODULE: ./src/config/config.js
+// CONFIGURATION
+const workerHost = "api.browser.yandex.ru";
+const m3u8ProxyHost = "m3u8-proxy.toil.cc"; // used for streaming
+const proxyWorkerHost = "vot-worker.toil.cc"; // used for cloudflare version
+const votBackendUrl = "https://vot-api.toil.cc/v1";
+
+const defaultAutoVolume = 0.15; // 0.0 - 1.0 (0% - 100%) - default volume of the video with the translation
+const maxAudioVolume = 900;
+const defaultTranslationService = "yandex";
+const defaultDetectService = "yandex";
+
+const detectUrls = {
+  yandex: "https://translate.toil.cc/detect",
+  rustServer: "https://rust-server-531j.onrender.com/detect",
+};
+
+const translateUrls = {
+  yandex: "https://translate.toil.cc/translate",
+  deepl: "https://translate-deepl.toil.cc/translate",
+};
 
 
 
-// EXTERNAL MODULE: ./src/config/config.js
-var config = __webpack_require__("./src/config/config.js");
-// EXTERNAL MODULE: ./src/config/constants.js
-var constants = __webpack_require__("./src/config/constants.js");
-// EXTERNAL MODULE: ./src/localization/localizationProvider.js + 1 modules
-var localizationProvider = __webpack_require__("./src/localization/localizationProvider.js");
 // EXTERNAL MODULE: ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js
 var injectStylesIntoStyleTag = __webpack_require__("./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 var injectStylesIntoStyleTag_default = /*#__PURE__*/__webpack_require__.n(injectStylesIntoStyleTag);
@@ -2141,6 +3938,8 @@ var update = injectStylesIntoStyleTag_default()(main/* default */.A, options);
 
 ;// CONCATENATED MODULE: ./src/ui.js
 
+
+const undefinedPhrase = "#UNDEFINED";
 
 function createHeader(html, level = 4) {
   const header = document.createElement("vot-block");
@@ -2438,8 +4237,7 @@ function createVOTSelectLabel(text) {
 }
 
 function createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
-  const onSelectCb = options.onSelectCb || function () {};
-  const labelElement = options.labelElement || "";
+  const { onSelectCb = function () {}, labelElement = "" } = options;
   let selectedItems = [];
 
   const container = document.createElement("vot-block");
@@ -2508,7 +4306,7 @@ function createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
 
     // search logic
     const votSearchLangTextfield = createTextfield(
-      localizationProvider/* localizationProvider */.j.get("searchField"),
+      localizationProvider.get("searchField"),
     );
 
     votSearchLangTextfield.input.oninput = (e) => {
@@ -2571,14 +4369,16 @@ function createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
 }
 
 function createVOTLanguageSelect(options) {
-  const fromTitle = options.fromTitle || "#UNDEFINED";
-  const fromDialogTitle = options.fromDialogTitle || "#UNDEFINED";
-  const fromItems = options.fromItems || [];
-  const fromOnSelectCB = options.fromOnSelectCB || function () {};
-  const toTitle = options.toTitle || "#UNDEFINED";
-  const toDialogTitle = options.toDialogTitle || "#UNDEFINED";
-  const toItems = options.toItems || [];
-  const toOnSelectCB = options.toOnSelectCB || function () {};
+  const {
+    fromTitle = undefinedPhrase,
+    fromDialogTitle = undefinedPhrase,
+    fromItems = [],
+    fromOnSelectCB = null,
+    toTitle = undefinedPhrase,
+    toDialogTitle = undefinedPhrase,
+    toItems = [],
+    toOnSelectCB = null,
+  } = options;
 
   const container = document.createElement("vot-block");
   container.classList.add("vot-lang-select");
@@ -2624,22 +4424,6 @@ function createVOTLanguageSelect(options) {
   updateSlider,
 });
 
-;// CONCATENATED MODULE: ./src/utils/VOTLocalizedError.js
-
-
-class VOTLocalizedError extends Error {
-  constructor(message) {
-    super(localizationProvider/* localizationProvider */.j.getDefault(message));
-    this.name = "VOTLocalizedError";
-    this.unlocalizedMessage = message;
-    this.localizedMessage = localizationProvider/* localizationProvider */.j.get(message);
-  }
-}
-
-// EXTERNAL MODULE: ./src/utils/debug.js
-var debug = __webpack_require__("./src/utils/debug.js");
-// EXTERNAL MODULE: ./src/utils/utils.js
-var utils = __webpack_require__("./src/utils/utils.js");
 ;// CONCATENATED MODULE: ./src/utils/volume.js
 // element - audio / video element
 function syncVolume(element, sliderVolume, otherSliderVolume, tempVolume) {
@@ -2671,383 +4455,433 @@ function syncVolume(element, sliderVolume, otherSliderVolume, tempVolume) {
 
 
 
-;// CONCATENATED MODULE: ./src/yandexProtobuf.js
-// coursera & udemy translation help object
-const VideoTranslationHelpObject = new protobuf.Type(
-  "VideoTranslationHelpObject",
-)
-  .add(new protobuf.Field("target", 1, "string")) // video_file_url or subtitles_file_url
-  .add(new protobuf.Field("targetUrl", 2, "string")); // url to video_file or url to subtitles
+;// CONCATENATED MODULE: ./src/utils/translateApis.js
 
-const VideoTranslationRequest = new protobuf.Type("VideoTranslationRequest")
-  .add(new protobuf.Field("url", 3, "string"))
-  .add(new protobuf.Field("deviceId", 4, "string")) // used in mobile version
-  .add(new protobuf.Field("firstRequest", 5, "bool")) // true for the first request, false for subsequent ones
-  .add(new protobuf.Field("duration", 6, "double"))
-  .add(new protobuf.Field("unknown2", 7, "int32")) // 1 1
-  .add(new protobuf.Field("language", 8, "string")) // source language code
-  .add(new protobuf.Field("forceSourceLang", 9, "bool")) // 0 - auto detected by yabrowser, 1 - user set his own lang by dropdown
-  .add(new protobuf.Field("unknown4", 10, "int32")) // 0 0
-  .add(
-    new protobuf.Field(
-      "translationHelp",
-      11,
-      "VideoTranslationHelpObject",
-      "repeated",
-    ),
-  ) // array for translation assistance ([0] -> {2: link to video, 1: "video_file_url"}, [1] -> {2: link to subtitles, 1: "subtitles_file_url"})
-  .add(new protobuf.Field("responseLanguage", 14, "string"))
-  .add(new protobuf.Field("unknown5", 15, "int32")) // 0
-  .add(new protobuf.Field("unknown6", 16, "int32")) // 1
-  .add(new protobuf.Field("bypassCache", 17, "bool")); // ? maybe they have some kind of bypass limiter from one IP, because after one such request it stopped working
 
-const VideoSubtitlesRequest = new protobuf.Type("VideoSubtitlesRequest")
-  .add(new protobuf.Field("url", 1, "string"))
-  .add(new protobuf.Field("language", 2, "string")); // source language code
 
-const VideoStreamRequest = new protobuf.Type("VideoStreamRequest")
-  .add(new protobuf.Field("url", 1, "string"))
-  .add(new protobuf.Field("language", 2, "string"))
-  .add(new protobuf.Field("responseLanguage", 3, "string"));
+const HTTP_TIMEOUT = 3000;
 
-const VideoStreamPingRequest = new protobuf.Type("VideoStreamPingRequest").add(
-  new protobuf.Field("pingId", 1, "int32"),
-);
+async function translateApis_fetchWithTimeout(url, options = {}) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), HTTP_TIMEOUT);
 
-const VideoTranslationResponse = new protobuf.Type("VideoTranslationResponse")
-  .add(new protobuf.Field("url", 1, "string"))
-  .add(new protobuf.Field("duration", 2, "double"))
-  .add(new protobuf.Field("status", 4, "int32"))
-  .add(new protobuf.Field("remainingTime", 5, "int32")) // secs before translation (used as interval before next request in yaBrowser)
-  .add(new protobuf.Field("unknown0", 6, "int32")) // unknown 0 (1st request) -> 10 (2nd, 3th and etc requests). (if status is 0)
-  .add(new protobuf.Field("translationId", 7, "string"))
-  .add(new protobuf.Field("language", 8, "string")) // detected language (if the wrong one is set)
-  .add(new protobuf.Field("message", 9, "string"));
+  try {
+    return await fetch(url, {
+      ...options,
+      signal: controller.signal,
+    });
+  } catch (error) {
+    console.error("Fetch timed-out. Error:", error);
+    return error;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
 
-const VideoSubtitlesObject = new protobuf.Type("VideoSubtitlesObject")
-  .add(new protobuf.Field("language", 1, "string"))
-  .add(new protobuf.Field("url", 2, "string"))
-  .add(new protobuf.Field("unknown2", 3, "int32"))
-  .add(new protobuf.Field("translatedLanguage", 4, "string"))
-  .add(new protobuf.Field("translatedUrl", 5, "string"))
-  .add(new protobuf.Field("unknown5", 6, "int32"))
-  .add(new protobuf.Field("unknown6", 7, "int32"));
+const YandexTranslateAPI = {
+  async translate(text, lang) {
+    // Limit: 10k symbols
+    //
+    // Lang examples:
+    // en-ru, uk-ru, ru-en...
+    // ru, en (instead of auto-ru, auto-en)
 
-const VideoSubtitlesResponse = new protobuf.Type("VideoSubtitlesResponse")
-  .add(new protobuf.Field("waiting", 1, "int32")) // 0 - finished/failed | 1 - waiting result (1 - ~10min, maybe more)
-  .add(new protobuf.Field("subtitles", 2, "VideoSubtitlesObject", "repeated"));
+    try {
+      const response = await translateApis_fetchWithTimeout(
+        `${translateUrls.yandex}?${new URLSearchParams({
+          text,
+          lang,
+        })}`,
+      );
 
-const VideoStreamObject = new protobuf.Type("VideoStreamObject")
-  .add(new protobuf.Field("url", 1, "string"))
-  .add(new protobuf.Field("timestamp", 2, "int64")); // timestamp in ms (probably means the time of 1 request to translate the stream)
+      if (response instanceof Error) {
+        throw response;
+      }
 
-const VideoStreamResponse = new protobuf.Type("VideoStreamResponse")
-  .add(new protobuf.Field("interval", 1, "int32")) // 20s - streaming, 10s - translating, 0s - there is no connection with the server (the broadcast is finished or deleted)
-  .add(new protobuf.Field("translatedInfo", 2, "VideoStreamObject"))
-  .add(new protobuf.Field("pingId", 3, "int32"));
+      const content = await response.json();
 
-// /session/create
-const YandexSessionRequest = new protobuf.Type("YandexSessionRequest")
-  .add(new protobuf.Field("uuid", 1, "string"))
-  .add(new protobuf.Field("module", 2, "string"));
+      if (content.code !== 200) {
+        throw content.message;
+      }
 
-const YandexSessionResponse = new protobuf.Type("YandexSessionResponse")
-  .add(new protobuf.Field("sign", 1, "string"))
-  .add(new protobuf.Field("expires", 2, "int32"));
-
-// * Yandex has been skipping any translation streams for a long time (whitelist always return true)
-// * Most likely, it is already outdated and will not be used
-// const VideoWhitelistStreamRequest = new protobuf.Type("VideoWhitelistStreamRequest")
-//   .add(new protobuf.Field("url", 1, "string"))
-//   .add(new protobuf.Field("deviceId", 4, "string"))
-
-// const VideoWhitelistStreamResponse = new protobuf.Type("VideoWhitelistStreamResponse")
-//   .add(new protobuf.Field("inWhitelist", 1, "bool"))
-
-// Create a root namespace and add the types
-const root = new protobuf.Root()
-  .define("yandex")
-  .add(VideoTranslationHelpObject)
-  .add(VideoTranslationRequest)
-  .add(VideoTranslationResponse)
-  .add(VideoSubtitlesRequest)
-  .add(VideoSubtitlesObject)
-  .add(VideoSubtitlesResponse)
-  .add(VideoStreamPingRequest)
-  .add(VideoStreamRequest)
-  .add(VideoStreamObject)
-  .add(VideoStreamResponse)
-  .add(YandexSessionRequest)
-  .add(YandexSessionResponse);
-
-// Export the encoding and decoding functions
-const yandexProtobuf = {
-  encodeTranslationRequest(
-    url,
-    duration,
-    requestLang,
-    responseLang,
-    translationHelp,
-  ) {
-    return root.VideoTranslationRequest.encode({
-      url,
-      firstRequest: true,
-      duration,
-      unknown2: 1,
-      language: requestLang,
-      forceSourceLang: false,
-      unknown4: 0,
-      translationHelp,
-      responseLanguage: responseLang,
-      unknown5: 0,
-      unknown6: 1,
-      bypassCache: false,
-    }).finish();
+      return content.text[0];
+    } catch (error) {
+      console.error("Error translating text:", error);
+      return text;
+    }
   },
-  decodeTranslationResponse(response) {
-    return root.VideoTranslationResponse.decode(new Uint8Array(response));
-  },
-  encodeSubtitlesRequest(url, requestLang) {
-    return root.VideoSubtitlesRequest.encode({
-      url,
-      language: requestLang,
-    }).finish();
-  },
-  decodeSubtitlesResponse(response) {
-    return root.VideoSubtitlesResponse.decode(new Uint8Array(response));
-  },
-  encodeStreamPingRequest(pingId) {
-    return root.VideoStreamPingRequest.encode({
-      pingId,
-    }).finish();
-  },
-  encodeStreamRequest(url, requestLang, responseLang) {
-    return root.VideoStreamRequest.encode({
-      url,
-      language: requestLang,
-      responseLanguage: responseLang,
-    }).finish();
-  },
-  decodeStreamResponse(response) {
-    return root.VideoStreamResponse.decode(new Uint8Array(response));
-  },
-  encodeYandexSessionRequest(uuid, module) {
-    return root.YandexSessionRequest.encode({
-      uuid,
-      module,
-    }).finish();
-  },
-  decodeYandexSessionResponse(response) {
-    return root.YandexSessionResponse.decode(new Uint8Array(response));
+
+  async detect(text) {
+    // Limit: 10k symbols
+    try {
+      const response = await translateApis_fetchWithTimeout(
+        `${detectUrls.yandex}?${new URLSearchParams({
+          text,
+        })}`,
+      );
+
+      if (response instanceof Error) {
+        throw response;
+      }
+
+      const content = await response.json();
+      if (content.code !== 200) {
+        throw content.message;
+      }
+
+      return content.lang ?? "en";
+    } catch (error) {
+      console.error("Error getting lang from text:", error);
+      return "en";
+    }
   },
 };
 
-// EXTERNAL MODULE: ./node_modules/bowser/es5.js
-var es5 = __webpack_require__("./node_modules/bowser/es5.js");
-;// CONCATENATED MODULE: ./src/getUUID.js
-function getUUID() {
-  const hexDigits = "0123456789ABCDEF";
-  let uuid = "";
-  for (let i = 0; i < 32; i++) {
-    const randomDigit = Math.floor(Math.random() * 16);
-    uuid += hexDigits[randomDigit];
+const RustServerAPI = {
+  async detect(text) {
+    try {
+      const response = await fetch(detectUrls.rustServer, {
+        method: "POST",
+        body: text,
+      });
+
+      if (response instanceof Error) {
+        throw response;
+      }
+
+      return await response.text();
+    } catch (error) {
+      console.error("Error getting lang from text:", error);
+      return "en";
+    }
+  },
+};
+
+const DeeplServerAPI = {
+  async translate(text, fromLang = "auto", toLang = "ru") {
+    try {
+      const response = await translateApis_fetchWithTimeout(translateUrls.deepl, {
+        method: "POST",
+        headers: {
+          "content-type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          text,
+          source_lang: fromLang,
+          target_lang: toLang,
+        }),
+      });
+
+      if (response instanceof Error) {
+        throw response;
+      }
+
+      const content = await response.json();
+
+      if (content.code !== 200) {
+        throw content.message;
+      }
+
+      return content.data;
+    } catch (error) {
+      console.error("Error translating text:", error);
+      return text;
+    }
+  },
+};
+
+async function translate(text, fromLang = "", toLang = "ru") {
+  const service = await votStorage.get(
+    "translationService",
+    defaultTranslationService,
+  );
+  switch (service) {
+    case "yandex": {
+      const langPair = fromLang && toLang ? `${fromLang}-${toLang}` : toLang;
+      return await YandexTranslateAPI.translate(text, langPair);
+    }
+    case "deepl": {
+      return await DeeplServerAPI.translate(text, fromLang, toLang);
+    }
+    default:
+      return text;
   }
-  return uuid;
 }
 
+async function detect(text) {
+  const service = await votStorage.get("detectService", defaultDetectService);
+  switch (service) {
+    case "yandex":
+      return await YandexTranslateAPI.detect(text);
+    case "rust-server":
+      return await RustServerAPI.detect(text);
+    default:
+      return "en";
+  }
+}
 
-
-;// CONCATENATED MODULE: ./src/getSignature.js
-
-
-// Create a key from the HMAC secret
-const CryptoKey = window.crypto.subtle.importKey(
-  "raw",
-  new TextEncoder().encode(config/* yandexHmacKey */.S7),
-  { name: "HMAC", hash: { name: "SHA-256" } },
-  false,
-  ["sign", "verify"],
+const translateServices = Object.keys(translateUrls);
+const detectServices = Object.keys(detectUrls).map((k) =>
+  k === "rustServer" ? "rust-server" : k,
 );
 
-async function getSignature(body) {
-  const key = await CryptoKey;
-  return new Uint8Array(
-    // Sign the body with the key
-    await window.crypto.subtle.sign("HMAC", key, body),
-    // Convert the signature to a hex string
-  ).reduce((str, byte) => str + byte.toString(16).padStart(2, "0"), "");
+
+
+;// CONCATENATED MODULE: ./src/utils/youtubeUtils.js
+
+
+
+
+
+
+// Get the language code from the response or the text
+async function getLanguage(player, response, title, description) {
+  if (
+    !window.location.hostname.includes("m.youtube.com") &&
+    player?.getAudioTrack
+  ) {
+    // ! Experimental ! get lang from selected audio track if availabled
+    const audioTracks = player.getAudioTrack();
+    const trackInfo = audioTracks?.getLanguageInfo(); // get selected track info (id === "und" if tracks are not available)
+    if (trackInfo?.id !== "und") {
+      return langTo6391(trackInfo.id.split(".")[0]);
+    }
+  }
+
+  // TODO: If the audio tracks will work fine, transfer the receipt of captions to the audioTracks variable
+  // Check if there is an automatic caption track in the response
+  const captionTracks =
+    response?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
+  if (captionTracks?.length) {
+    const autoCaption = captionTracks.find((caption) => caption.kind === "asr");
+    if (autoCaption && autoCaption.languageCode) {
+      return langTo6391(autoCaption.languageCode);
+    }
+  }
+
+  // If there is no caption track, use detect to get the language code from the description
+
+  const text = cleanText(title, description);
+
+  utils_debug.log(`Detecting language text: ${text}`);
+
+  return detect(text);
 }
 
+function isMobile() {
+  return /^m\.youtube\.com$/.test(window.location.hostname);
+}
 
+function getPlayer() {
+  if (window.location.pathname.startsWith("/shorts/")) {
+    return isMobile()
+      ? document.querySelector("#movie_player")
+      : document.querySelector("#shorts-player");
+  }
 
-;// CONCATENATED MODULE: ./src/rsp.js
+  return document.querySelector("#movie_player");
+}
 
+function getPlayerResponse() {
+  const player = getPlayer();
+  if (player?.getPlayerResponse)
+    return player?.getPlayerResponse?.call() ?? null;
+  return player?.data?.playerResponse ?? null;
+}
 
+function getPlayerData() {
+  const player = getPlayer();
+  if (player?.getVideoData) return player?.getVideoData?.call() ?? null;
+  return player?.data?.playerResponse?.videoDetails ?? null;
+}
 
+function getVideoVolume() {
+  const player = getPlayer();
+  if (player?.getVolume) {
+    return player.getVolume.call() / 100;
+  }
 
+  return 1;
+}
 
-// Request stream ping from Yandex API
-async function requestStreamPing(pingId, callback) {
-  try {
-    debug/* default */.A.log("requestStreamPing");
-    // ! CURRENT CLOUDFLARE WORKER DOESN'T SUPPORT STREAM TRANSLATIONS
-    const yar = await Promise.resolve(/* import() */).then(__webpack_require__.bind(__webpack_require__, "./src/yandexRequest-cloudflare.js"));
-    const yandexRequest = yar.default;
-    debug/* default */.A.log("Inited yandexRequest...");
-    // Initialize variables
-    const body = yandexProtobuf.encodeStreamPingRequest(pingId);
-    // Send the request
-    await yandexRequest(
-      "/stream-translation/ping-stream",
-      body,
-      {
-        "Vtrans-Signature": await getSignature(body),
-        "Sec-Vtrans-Token": getUUID(),
-      },
-      callback,
-    );
-  } catch (exception) {
-    console.error("[VOT]", exception);
-    // Handle errors
-    callback(false);
+function setVideoVolume(volume) {
+  const player = getPlayer();
+  if (player?.setVolume) {
+    player.setVolume(Math.round(volume * 100));
+    return true;
   }
 }
 
-/* harmony default export */ const rsp = (requestStreamPing);
-
-;// CONCATENATED MODULE: ./src/rst.js
-
-
-
-
-
-// Request stream translation from Yandex API
-async function requestStreamTranslation(
-  url,
-  requestLang,
-  responseLang,
-  callback,
-) {
-  try {
-    debug/* default */.A.log("requestStreamTranslation");
-    // ! CURRENT CLOUDFLARE WORKER DOESN'T SUPPORT STREAM TRANSLATIONS
-    const yar = await Promise.resolve(/* import() */).then(__webpack_require__.bind(__webpack_require__, "./src/yandexRequest-cloudflare.js"));
-    const yandexRequest = yar.default;
-    debug/* default */.A.log("Inited yandexRequest...");
-    // Initialize variables
-    const body = yandexProtobuf.encodeStreamRequest(
-      url,
-      requestLang,
-      responseLang,
-    );
-    // Send the request
-    await yandexRequest(
-      "/stream-translation/translate-stream",
-      body,
-      {
-        "Vtrans-Signature": await getSignature(body),
-        "Sec-Vtrans-Token": getUUID(),
-      },
-      callback,
-    );
-  } catch (exception) {
-    console.error("[VOT]", exception);
-    // Handle errors
-    callback(false);
+function isMuted() {
+  const player = getPlayer();
+  if (player?.isMuted) {
+    return player.isMuted.call();
   }
+
+  return false;
 }
 
-/* harmony default export */ const rst = (requestStreamTranslation);
-
-;// CONCATENATED MODULE: ./src/rvt.js
-
-
-
-
-
-// Request video translation from Yandex API
-async function requestVideoTranslation(
-  url,
-  duration,
-  requestLang,
-  responseLang,
-  translationHelp,
-  callback,
-) {
-  try {
-    debug/* default */.A.log("requestVideoTranslation");
-    const yar = await Promise.resolve(/* import() */).then(__webpack_require__.bind(__webpack_require__, "./src/yandexRequest-cloudflare.js"));
-    const yandexRequest = yar.default;
-    debug/* default */.A.log("Inited yandexRequest...");
-    // Initialize variables
-    const body = yandexProtobuf.encodeTranslationRequest(
-      url,
-      duration,
-      requestLang,
-      responseLang,
-      translationHelp,
-    );
-    // Send the request
-    await yandexRequest(
-      // "/stream-translation/whitelist-stream",
-      // "/stream-translation/translate-stream",
-      "/video-translation/translate",
-      body,
-      {
-        "Vtrans-Signature": await getSignature(body),
-        "Sec-Vtrans-Token": getUUID(),
-      },
-      callback,
-    );
-  } catch (exception) {
-    console.error("[VOT]", exception);
-    // Handle errors
-    callback(false);
-  }
+function videoSeek(video, time) {
+  // * TIME IN MS
+  utils_debug.log("videoSeek", time);
+  const preTime =
+    getPlayer()?.getProgressState()?.seekableEnd || video.currentTime;
+  const finalTime = preTime - time; // we always throw it to the end of the stream - time
+  video.currentTime = finalTime;
 }
 
-/* harmony default export */ const rvt = (requestVideoTranslation);
+function isMusic() {
+  // Нужно доработать логику
+  const channelName = getPlayerData().author,
+    titleStr = getPlayerData().title.toUpperCase(),
+    titleWordsList = titleStr.match(/\w+/g),
+    playerData = document.body.querySelector("ytd-watch-flexy")?.playerData;
 
-// EXTERNAL MODULE: ./src/utils/youtubeUtils.js
-var youtubeUtils = __webpack_require__("./src/utils/youtubeUtils.js");
-;// CONCATENATED MODULE: ./src/rvs.js
-
-
-
-
-
-// Request video subtitles from Yandex API
-async function requestVideoSubtitles(url, requestLang, callback) {
-  try {
-    debug/* default */.A.log("requestVideoSubtitles");
-    const yar = await Promise.resolve(/* import() */).then(__webpack_require__.bind(__webpack_require__, "./src/yandexRequest-cloudflare.js"));
-    const yandexRequest = yar.default;
-    debug/* default */.A.log("Inited yandexRequest...");
-    // Initialize variables
-    const body = yandexProtobuf.encodeSubtitlesRequest(url, requestLang);
-    // Send the request
-    await yandexRequest(
-      "/video-subtitles/get-subtitles",
-      body,
-      {
-        "Vsubs-Signature": await getSignature(body),
-        "Sec-Vsubs-Token": getUUID(),
-      },
-      callback,
-    );
-  } catch (exception) {
-    console.error("[VOT]", exception);
-    // Handle errors
-    callback(false);
-  }
+  return (
+    [
+      titleStr,
+      document.URL,
+      channelName,
+      playerData?.microformat?.playerMicroformatRenderer.category,
+      playerData?.title,
+    ].some((i) => i?.toUpperCase().includes("MUSIC")) ||
+    document.body.querySelector(
+      "#upload-info #channel-name .badge-style-type-verified-artist",
+    ) ||
+    (channelName &&
+      /(VEVO|Topic|Records|RECORDS|Recordings|AMV)$/.test(channelName)) ||
+    (channelName &&
+      /(MUSIC|ROCK|SOUNDS|SONGS)/.test(channelName.toUpperCase())) ||
+    (titleWordsList?.length &&
+      [
+        "🎵",
+        "♫",
+        "SONG",
+        "SONGS",
+        "SOUNDTRACK",
+        "LYRIC",
+        "LYRICS",
+        "AMBIENT",
+        "MIX",
+        "VEVO",
+        "CLIP",
+        "KARAOKE",
+        "OPENING",
+        "COVER",
+        "COVERED",
+        "VOCAL",
+        "INSTRUMENTAL",
+        "ORCHESTRAL",
+        "DUBSTEP",
+        "DJ",
+        "DNB",
+        "BASS",
+        "BEAT",
+        "ALBUM",
+        "PLAYLIST",
+        "DUBSTEP",
+        "CHILL",
+        "RELAX",
+        "CLASSIC",
+        "CINEMATIC",
+      ].some((i) => titleWordsList.includes(i))) ||
+    [
+      "OFFICIAL VIDEO",
+      "OFFICIAL AUDIO",
+      "FEAT.",
+      "FT.",
+      "LIVE RADIO",
+      "DANCE VER",
+      "HIP HOP",
+      "ROCK N ROLL",
+      "HOUR VER",
+      "HOURS VER",
+      "INTRO THEME",
+    ].some((i) => titleStr.includes(i)) ||
+    (titleWordsList?.length &&
+      [
+        "OP",
+        "ED",
+        "MV",
+        "OST",
+        "NCS",
+        "BGM",
+        "EDM",
+        "GMV",
+        "AMV",
+        "MMD",
+        "MAD",
+      ].some((i) => titleWordsList.includes(i)))
+  );
 }
 
-/* harmony default export */ const rvs = (requestVideoSubtitles);
+function getSubtitles() {
+  const response = getPlayerResponse();
+  let captionTracks =
+    response?.captions?.playerCaptionsTracklistRenderer?.captionTracks ?? [];
+  captionTracks = captionTracks.reduce((result, captionTrack) => {
+    if ("languageCode" in captionTrack) {
+      const language = captionTrack?.languageCode
+        ? langTo6391(captionTrack?.languageCode)
+        : undefined;
+      const url = captionTrack?.url || captionTrack?.baseUrl;
+      language &&
+        url &&
+        result.push({
+          source: "youtube",
+          language,
+          isAutoGenerated: captionTrack?.kind === "asr",
+          url: `${
+            url.startsWith("http") ? url : `${window.location.origin}/${url}`
+          }&fmt=json3`,
+        });
+    }
+    return result;
+  }, []);
+  utils_debug.log("youtube subtitles:", captionTracks);
+  return captionTracks;
+}
+
+// Get the video data from the player
+async function youtubeUtils_getVideoData() {
+  const player = getPlayer();
+  const response = getPlayerResponse(); // null in /embed
+  const data = getPlayerData();
+  const { title } = data ?? {};
+  const { shortDescription: description, isLive } =
+    response?.videoDetails ?? {};
+  let detectedLanguage = title
+    ? await getLanguage(player, response, title, description)
+    : "en";
+  detectedLanguage = availableLangs.includes(detectedLanguage)
+    ? detectedLanguage
+    : "en";
+  const videoData = {
+    isLive: !!isLive,
+    title,
+    description,
+    detectedLanguage,
+  };
+  utils_debug.log("youtube video data:", videoData);
+  console.log("[VOT] Detected language: ", videoData.detectedLanguage);
+  return videoData;
+}
+
+/* harmony default export */ const youtubeUtils = ({
+  isMobile,
+  getPlayer,
+  getPlayerResponse,
+  getPlayerData,
+  getVideoVolume,
+  getSubtitles,
+  getVideoData: youtubeUtils_getVideoData,
+  setVideoVolume,
+  videoSeek,
+  isMuted,
+  isMusic,
+});
 
 ;// CONCATENATED MODULE: ./src/subtitles.js
-
-
-
 
 
 
@@ -3180,31 +5014,6 @@ function formatYoutubeSubtitles(subtitles) {
   return result;
 }
 
-function convertToSrtTimeFormat(seconds) {
-  let hours = Math.floor(seconds / 3600);
-  let minutes = Math.floor((seconds % 3600) / 60);
-  let remainingSeconds = Math.floor(seconds % 60);
-  let milliseconds = Math.floor((seconds % 1) * 1000);
-
-  return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")},${milliseconds.toString().padStart(3, "0")}`;
-}
-
-function jsonToSrt(jsonData) {
-  let srtContent = "";
-  let index = 1;
-  for (const entry of jsonData.subtitles) {
-    let startTime = entry.startMs / 1000.0;
-    let endTime = (entry.startMs + entry.durationMs) / 1000.0;
-
-    srtContent += `${index}\n`;
-    srtContent += `${convertToSrtTimeFormat(startTime)} --> ${convertToSrtTimeFormat(endTime)}\n`;
-    srtContent += `${entry.text}\n\n`;
-    index++;
-  }
-
-  return srtContent.trim();
-}
-
 async function fetchSubtitles(subtitlesObject) {
   const timeoutPromise = new Promise((resolve) =>
     setTimeout(
@@ -3219,7 +5028,7 @@ async function fetchSubtitles(subtitlesObject) {
 
   const fetchPromise = (async () => {
     try {
-      const response = await (0,utils/* GM_fetch */.G3)(subtitlesObject.url);
+      const response = await GM_fetch(subtitlesObject.url);
       return await response.json();
     } catch (error) {
       console.error("[VOT] Failed to fetch subtitles. Reason:", error);
@@ -3241,9 +5050,9 @@ async function fetchSubtitles(subtitlesObject) {
   return subtitles;
 }
 
-async function getSubtitles(site, videoId, requestLang) {
-  const ytSubtitles =
-    site.host === "youtube" ? youtubeUtils/* default */.A.getSubtitles() : [];
+async function subtitles_getSubtitles(client, videoData) {
+  const { host, url, requestLang, videoId, duration } = videoData;
+  const ytSubtitles = host === "youtube" ? youtubeUtils.getSubtitles() : [];
   let resolved = false;
   const yaSubtitles = await Promise.race([
     new Promise((resolve) => {
@@ -3255,23 +5064,25 @@ async function getSubtitles(site, videoId, requestLang) {
       }, 5000);
     }),
     new Promise((resolve) => {
-      rvs(
-        `${site.url}${videoId}`,
-        requestLang,
-        (success, response) => {
-          debug/* default */.A.log("[exec callback] Requesting video subtitles", videoId);
-
-          if (!success) {
+      client
+        .getSubtitles({
+          videoData: {
+            host,
+            url,
+            videoId,
+            duration,
+          },
+          requestLang,
+        })
+        .then((res) => {
+          console.log("[VOT] Subtitles response: ", res);
+          if (res.waiting) {
             console.error("[VOT] Failed get yandex subtitles");
             resolved = true;
             resolve([]);
           }
 
-          const subtitlesResponse =
-            yandexProtobuf.decodeSubtitlesResponse(response);
-          console.log("[VOT] Subtitles response: ", subtitlesResponse);
-
-          let subtitles = subtitlesResponse.subtitles ?? [];
+          let subtitles = res.subtitles ?? [];
           subtitles = subtitles.reduce((result, yaSubtitlesObject) => {
             if (
               yaSubtitlesObject.language &&
@@ -3303,10 +5114,10 @@ async function getSubtitles(site, videoId, requestLang) {
           }, []);
           resolved = true;
           resolve(subtitles);
-        },
-      );
+        });
     }),
   ]);
+
   const subtitles = [...yaSubtitles, ...ytSubtitles].sort((a, b) => {
     if (a.source !== b.source) {
       // sort by source
@@ -3314,10 +5125,10 @@ async function getSubtitles(site, videoId, requestLang) {
     }
     if (
       a.language !== b.language &&
-      (a.language === utils/* lang */.vV || b.language === utils/* lang */.vV)
+      (a.language === lang || b.language === lang)
     ) {
       // sort by user language
-      return a.language === utils/* lang */.vV ? -1 : 1;
+      return a.language === lang ? -1 : 1;
     }
     if (a.source === "yandex") {
       // sort by translation
@@ -3343,6 +5154,7 @@ async function getSubtitles(site, videoId, requestLang) {
     }
     return 0;
   });
+
   console.log("[VOT] subtitles list", subtitles);
   return subtitles;
 }
@@ -3550,7 +5362,7 @@ async function getCourseData(courseId) {
   return await response.json();
 }
 
-async function getVideoData() {
+async function coursehunterUtils_getVideoData() {
   const courseId =
     window.course_id ??
     document.querySelector('input[name="course_id"]')?.value;
@@ -3565,7 +5377,7 @@ async function getVideoData() {
 
   const { file: videoUrl, duration } = lessonData;
 
-  debug/* default */.A.log("coursehunter course data:", courseData);
+  utils_debug.log("coursehunter course data:", courseData);
   return {
     url: videoUrl,
     duration,
@@ -3573,10 +5385,11 @@ async function getVideoData() {
 }
 
 /* harmony default export */ const coursehunterUtils = ({
-  getVideoData,
+  getVideoData: coursehunterUtils_getVideoData,
 });
 
 ;// CONCATENATED MODULE: ./src/utils/courseraUtils.js
+
 
 
 
@@ -3591,13 +5404,13 @@ async function courseraUtils_getCourseData(courseId) {
 
 function getSubtitlesFileURL(captions, detectedLanguage, responseLang) {
   let subtitle = captions?.find(
-    (caption) => (0,utils/* langTo6391 */.R4)(caption.srclang) === detectedLanguage,
+    (caption) => langTo6391(caption.srclang) === detectedLanguage,
   );
 
   if (!subtitle) {
     subtitle =
       captions?.find(
-        (caption) => (0,utils/* langTo6391 */.R4)(caption.srclang) === responseLang,
+        (caption) => langTo6391(caption.srclang) === responseLang,
       ) || captions?.[0];
   }
 
@@ -3611,18 +5424,18 @@ function getVideoFileURL(sources) {
   return source?.src;
 }
 
-function getPlayerData() {
-  return getPlayer()?.player;
+function courseraUtils_getPlayerData() {
+  return courseraUtils_getPlayer()?.player;
 }
 
-function getPlayer() {
+function courseraUtils_getPlayer() {
   return document.querySelector(".vjs-v6");
 }
 
 // Get the video data from the player
 async function courseraUtils_getVideoData(responseLang = "en") {
   let translationHelp = null;
-  const data = getPlayerData();
+  const data = courseraUtils_getPlayerData();
 
   const { duration } = data?.cache_ || {};
   const { courseId, tracks, sources } = data?.options_ || {};
@@ -3631,9 +5444,9 @@ async function courseraUtils_getVideoData(responseLang = "en") {
   const courseData = await courseraUtils_getCourseData(courseId);
 
   let detectedLanguage = courseData?.primaryLanguageCodes?.[0];
-  detectedLanguage = detectedLanguage ? (0,utils/* langTo6391 */.R4)(detectedLanguage) : "en";
+  detectedLanguage = detectedLanguage ? langTo6391(detectedLanguage) : "en";
 
-  if (!constants/* availableLangs */.xm.includes(detectedLanguage)) {
+  if (!availableLangs.includes(detectedLanguage)) {
     detectedLanguage = "en";
   }
 
@@ -3674,18 +5487,19 @@ async function courseraUtils_getVideoData(responseLang = "en") {
     translationHelp,
   };
 
-  debug/* default */.A.log("coursera video data:", videoData);
+  utils_debug.log("coursera video data:", videoData);
   console.log("[VOT] Detected language: ", videoData.detectedLanguage);
   return videoData;
 }
 
 /* harmony default export */ const courseraUtils = ({
-  getPlayer,
-  getPlayerData,
+  getPlayer: courseraUtils_getPlayer,
+  getPlayerData: courseraUtils_getPlayerData,
   getVideoData: courseraUtils_getVideoData,
 });
 
 ;// CONCATENATED MODULE: ./src/utils/udemyUtils.js
+
 
 
 
@@ -3713,7 +5527,7 @@ function checkUdemyTokenExpire(expires) {
 async function getLectureData(udemyData, courseId, lectureId) {
   // reference: https://greasyfork.org/ru/scripts/422576-udemy-subtitle-downloader-v3/code
   if (!checkUdemyTokenExpire(udemyData.expires) || !udemyData.accessToken) {
-    console.error(localizationProvider/* localizationProvider */.j.get("udemyAccessTokenExpired"));
+    console.error(localizationProvider.get("udemyAccessTokenExpired"));
     return undefined;
   }
 
@@ -3736,13 +5550,13 @@ async function getLectureData(udemyData, courseId, lectureId) {
 
 function udemyUtils_getSubtitlesFileURL(captions, detectedLanguage, responseLang) {
   let subtitle = captions?.find(
-    (caption) => (0,utils/* langTo6391 */.R4)(caption.locale_id) === detectedLanguage,
+    (caption) => langTo6391(caption.locale_id) === detectedLanguage,
   );
 
   if (!subtitle) {
     subtitle =
       captions?.find(
-        (caption) => (0,utils/* langTo6391 */.R4)(caption.locale_id) === responseLang,
+        (caption) => langTo6391(caption.locale_id) === responseLang,
       ) || captions?.[0];
   }
 
@@ -3766,7 +5580,7 @@ function getModuleData() {
     ".ud-app-loader[data-module-id='course-taking']",
   )?.dataset?.moduleArgs;
   if (!moduleArgs) {
-    console.error(localizationProvider/* localizationProvider */.j.get("udemyModuleArgsNotFound"));
+    console.error(localizationProvider.get("udemyModuleArgsNotFound"));
     return {};
   }
   return JSON.parse(moduleArgs);
@@ -3789,24 +5603,24 @@ function getVideoURLFromPlayer() {
 async function udemyUtils_getVideoData(udemyData, responseLang = "en") {
   let translationHelp = null;
   const data = udemyUtils_getPlayerData();
-  debug/* default */.A.log("udemyData", udemyData);
+  utils_debug.log("udemyData", udemyData);
 
   const moduleData = getModuleData();
-  debug/* default */.A.log("moduleData: ", moduleData);
+  utils_debug.log("moduleData: ", moduleData);
 
   const courseId = moduleData.courseId;
   const lectureId = getLectureId();
-  debug/* default */.A.log(`CourseId: ${courseId}, lectureId: ${lectureId}`);
+  utils_debug.log(`CourseId: ${courseId}, lectureId: ${lectureId}`);
 
   const courseLang = await getCourseLang(courseId);
-  debug/* default */.A.log("courseLang Data:", courseLang);
+  utils_debug.log("courseLang Data:", courseLang);
   const lectureData = await getLectureData(udemyData, courseId, lectureId);
   console.log("lecture Data:", lectureData);
 
   let detectedLanguage = courseLang?.locale?.locale;
-  detectedLanguage = detectedLanguage ? (0,utils/* langTo6391 */.R4)(detectedLanguage) : "en";
+  detectedLanguage = detectedLanguage ? langTo6391(detectedLanguage) : "en";
 
-  if (!constants/* availableLangs */.xm.includes(detectedLanguage)) {
+  if (!availableLangs.includes(detectedLanguage)) {
     detectedLanguage = "en";
   }
 
@@ -3852,7 +5666,7 @@ async function udemyUtils_getVideoData(udemyData, responseLang = "en") {
     translationHelp,
   };
 
-  debug/* default */.A.log("udemy video data:", videoData);
+  utils_debug.log("udemy video data:", videoData);
   console.log("[VOT] Detected language: ", videoData.detectedLanguage);
   return videoData;
 }
@@ -3866,583 +5680,6 @@ async function udemyUtils_getVideoData(udemyData, responseLang = "en") {
   getLectureData,
 });
 
-;// CONCATENATED MODULE: ./src/utils/bannedvideoUtils.js
-
-
-async function getVideoInfo(videoId) {
-  return await fetch(`https://api.banned.video/graphql`, {
-    method: "POST",
-    body: JSON.stringify({
-      operationName: "GetVideo",
-      query: `query GetVideo($id: String!) {
-          getVideo(id: $id) {
-            ...DisplayVideoFields
-            videoUrl: directUrl
-            live
-          }
-        }
-
-        fragment DisplayVideoFields on Video {
-          title
-          description: summary
-          duration: videoDuration
-        }`,
-      variables: {
-        id: videoId,
-      },
-    }),
-    headers: {
-      "User-Agent": "bannedVideoFrontEnd",
-      "apollographql-client-name": "banned-web",
-      "apollographql-client-version": "1.3",
-      "content-type": "application/json",
-    },
-  })
-    .then((res) => res.json())
-    .catch((err) => {
-      console.error(err);
-      return {
-        data: {
-          getVideo: {},
-        },
-      };
-    });
-}
-
-async function bannedvideoUtils_getVideoData(videoId) {
-  const videoData = await getVideoInfo(videoId);
-
-  debug/* default */.A.log("banned.video video data:", videoData);
-
-  const { videoUrl, duration, live, description, title } =
-    videoData.data.getVideo;
-
-  // TODO: Add detect language from title + description
-
-  return {
-    url: videoUrl,
-    duration,
-    live,
-    title,
-    description,
-  };
-}
-
-/* harmony default export */ const bannedvideoUtils = ({
-  getVideoData: bannedvideoUtils_getVideoData,
-});
-
-;// CONCATENATED MODULE: ./src/utils/crypto.js
-async function getHmacSha1(hmacKey, salt) {
-  try {
-    const utf8Encoder = new TextEncoder("utf-8");
-    salt = utf8Encoder.encode(salt);
-    const key = await window.crypto.subtle.importKey(
-      "raw",
-      utf8Encoder.encode(hmacKey),
-      { name: "HMAC", hash: { name: "SHA-1" } },
-      false,
-      ["sign", "verify"],
-    );
-    const signature = await window.crypto.subtle.sign("HMAC", key, salt);
-    return btoa(String.fromCharCode(...new Uint8Array(signature)));
-  } catch (err) {
-    console.error(err);
-    return false;
-  }
-}
-
-;// CONCATENATED MODULE: ./src/utils/weverseUtils.js
-
-
-
-const API_ORIGIN = "https://global.apis.naver.com/weverse/wevweb"; // find as REACT_APP_API_GW_ORIGIN in main.<hash>.js
-const API_APP_ID = "be4d79eb8fc7bd008ee82c8ec4ff6fd4"; // find as REACT_APP_API_APP_ID in main.<hash>.js
-const API_HMAC_KEY = "1b9cb6378d959b45714bec49971ade22e6e24e42"; // find as c.active near `createHmac('sha1'...`  in main.<hash>.js
-
-async function createHash(pathname) {
-  // pathname example: /post/v1.0/post-3-142049908/preview?fieldSet=postForPreview...
-  const timestamp = Date.now();
-
-  // example salt is /video/v1.1/vod/67134/inKey?gcc=RU&appId=be4d79eb8fc7bd008ee82c8ec4ff6fd4&language=en&os=WEB&platform=WEB&wpf=pc1707527163588
-  let salt = pathname.substring(0, Math.min(255, pathname.length)) + timestamp;
-
-  const sign = await getHmacSha1(API_HMAC_KEY, salt);
-
-  return {
-    wmsgpad: timestamp,
-    wmd: sign,
-  };
-}
-
-function getURLData() {
-  return {
-    appId: API_APP_ID,
-    language: "en",
-    os: "WEB",
-    platform: "WEB",
-    wpf: "pc",
-  };
-}
-
-async function getVideoPreview(postId) {
-  const pathname =
-    `/post/v1.0/post-${postId}/preview?` +
-    new URLSearchParams({
-      fieldSet: "postForPreview",
-      ...getURLData(),
-    }); // ! DON'T EDIT ME
-
-  const hash = await createHash(pathname);
-
-  try {
-    const res = await fetch(
-      API_ORIGIN + pathname + "&" + new URLSearchParams(hash),
-    );
-
-    return await res.json();
-  } catch (err) {
-    console.error(err);
-    return false;
-  }
-}
-
-async function getVideoInKey(videoId) {
-  const pathname =
-    `/video/v1.1/vod/${videoId}/inKey?` +
-    new URLSearchParams({
-      gcc: "RU",
-      ...getURLData(),
-    }); // ! DON'T EDIT ME
-  const hash = await createHash(pathname);
-
-  try {
-    const res = await fetch(
-      API_ORIGIN + pathname + "&" + new URLSearchParams(hash),
-      {
-        method: "POST",
-      },
-    );
-
-    return await res.json();
-  } catch (err) {
-    console.error(err);
-    return false;
-  }
-}
-
-async function weverseUtils_getVideoInfo(infraVideoId, inkey, serviceId) {
-  const timestamp = Date.now();
-  try {
-    const res = await fetch(
-      `https://global.apis.naver.com/rmcnmv/rmcnmv/vod/play/v2.0/${infraVideoId}?` +
-        new URLSearchParams({
-          key: inkey,
-          sid: serviceId,
-          nonce: timestamp,
-          devt: "html5_pc",
-          prv: "N",
-          aup: "N",
-          stpb: "N",
-          cpl: "en",
-          env: "prod",
-          lc: "en",
-          adi: JSON.stringify([
-            {
-              adSystem: null,
-            },
-          ]),
-          adu: "/",
-        }),
-    );
-
-    return await res.json();
-  } catch (err) {
-    console.error(err);
-    return false;
-  }
-}
-
-function extractVideoInfo(videoList) {
-  return videoList.find(
-    (video) => video.useP2P === false && video.source.includes(".mp4"),
-  );
-}
-
-async function weverseUtils_getVideoData() {
-  // ! When translating using a regular link (like this https://weverse.io/aespa/live/3-142049908),
-  // ! we will get an error, so we have to do this
-
-  const postId = /([^/]+)\/(live|media)\/([^/]+)/.exec(
-    new URL(window.location).pathname,
-  )?.[3];
-
-  const videoPreview = await getVideoPreview(postId);
-  if (!videoPreview) {
-    return undefined;
-  }
-
-  debug/* default */.A.log("weverse video preview data:", videoPreview);
-
-  const { videoId, serviceId, infraVideoId } = videoPreview.extension.video;
-  if (!(videoId && serviceId && infraVideoId)) {
-    return false;
-  }
-
-  const inkeyData = await getVideoInKey(videoId);
-  debug/* default */.A.log("weverse video inKey data:", videoPreview);
-  if (!inkeyData) {
-    return false;
-  }
-
-  const videoInfo = await weverseUtils_getVideoInfo(
-    infraVideoId,
-    inkeyData.inKey,
-    serviceId,
-  );
-  debug/* default */.A.log("weverse video info:", videoInfo);
-
-  const videoItem = extractVideoInfo(videoInfo.videos.list);
-  if (!videoItem) {
-    return false;
-  }
-
-  return {
-    url: videoItem.source,
-    duration: videoItem.duration,
-  };
-}
-
-/* harmony default export */ const weverseUtils = ({
-  getVideoData: weverseUtils_getVideoData,
-});
-
-;// CONCATENATED MODULE: ./src/config/sites.js
-
-
-const sites = () => {
-  return [
-    {
-      additionalData: "mobile",
-      host: "youtube",
-      url: "https://youtu.be/",
-      match: /^m.youtube.com$/,
-      selector: "shorts-video #player",
-    },
-    {
-      additionalData: "mobile",
-      host: "youtube",
-      url: "https://youtu.be/",
-      match: /^m.youtube.com$/,
-      selector: ".player-container",
-    },
-    {
-      host: "youtube",
-      url: "https://youtu.be/",
-      match: /^(www.)?youtube(-nocookie|kids)?.com$/,
-      selector: ".html5-video-container:not(#inline-player *)",
-    },
-    {
-      host: "tiktok",
-      url: "https://www.tiktok.com/",
-      match: /^(www.)?tiktok.com$/,
-      selector: null,
-    },
-    {
-      host: "proxitok",
-      url: "https://www.tiktok.com/",
-      match: sitesProxiTok,
-      selector: ".column.has-text-centered",
-    },
-    {
-      host: "twitch",
-      url: "https://twitch.tv/",
-      match: [
-        /^m.twitch.tv$/,
-        /^www.twitch.tv$/,
-        /^clips.twitch.tv$/,
-        /^player.twitch.tv$/,
-      ],
-      selector: ".video-ref, main > div > section > div > div > div",
-    },
-    {
-      host: "xvideos",
-      url: "https://www.xvideos.com/",
-      match: /^www.(xvideos|xv-ru).com$/,
-      selector: ".video-bg-pic",
-    },
-    {
-      host: "pornhub",
-      url: "https://rt.pornhub.com/view_video.php?viewkey=",
-      match: /^[a-z]+.pornhub.com$/,
-      selector: ".mainPlayerDiv > .video-element-wrapper-js > div",
-    },
-    {
-      additionalData: "embed",
-      host: "pornhub",
-      url: "https://rt.pornhub.com/view_video.php?viewkey=",
-      match: (url) =>
-        url.host.includes("pornhub.com") && url.pathname.startsWith("/embed/"),
-      selector: "#player",
-    },
-    {
-      additionalData: "mobile",
-      host: "vk",
-      url: "https://vk.com/video?z=",
-      match: /^m.vk.(com|ru)$/,
-      selector: "vk-video-player",
-      shadowRoot: true,
-    },
-    {
-      additionalData: "clips",
-      host: "vk",
-      url: "https://vk.com/video?z=",
-      match: /^(www.|m.)?vk.(com|ru)$/,
-      selector: 'div[data-testid="clipcontainer-video"]',
-    },
-    {
-      host: "vk",
-      url: "https://vk.com/video?z=",
-      match: /^(www.|m.)?vk.(com|ru)$/,
-      selector: ".videoplayer_media",
-    },
-    {
-      host: "vimeo",
-      url: "https://vimeo.com/",
-      match: /^vimeo.com$/,
-      selector: ".player",
-    },
-    {
-      additionalData: "embed",
-      host: "vimeo",
-      url: "https://player.vimeo.com/",
-      match: /^player.vimeo.com$/,
-      selector: ".player",
-    },
-    {
-      host: "ok.ru",
-      url: "https://ok.ru/video/",
-      match: /^ok.ru$/,
-      selector: ".html5-vpl_vid",
-    },
-    {
-      host: "nine_gag",
-      url: "https://9gag.com/gag/",
-      match: /^9gag.com$/,
-      selector: ".video-post",
-    },
-    // {
-    //   host: "coub",
-    //   url: "https://coub.com/view/",
-    //   match: /^coub.com$/,
-    //   selector: ".viewer__player",
-    // },
-    {
-      host: "bitchute",
-      url: "https://www.bitchute.com/video/",
-      match: /^(www.)?bitchute.com$/,
-      selector: ".video-js",
-    },
-    {
-      host: "rutube",
-      url: "https://rutube.ru/video/",
-      match: /^rutube.ru$/,
-      selector: ".video-player > div > div > div:nth-child(2)",
-    },
-    {
-      additionalData: "embed",
-      host: "rutube",
-      url: "https://rutube.ru/video/",
-      match: /^rutube.ru$/,
-      selector: "#app > div > div",
-    },
-    {
-      host: "bilibili",
-      url: "https://www.bilibili.com/video/",
-      match: /^(www|m|player).bilibili.com$/,
-      selector: ".bpx-player-video-wrap",
-    },
-    // Добавляет лишние видео в обработчик
-    {
-      additionalData: "old", // /blackboard/webplayer/embed-old.html
-      host: "bilibili",
-      url: "https://www.bilibili.com/video/",
-      match: /^(www|m).bilibili.com$/,
-      selector: null,
-    },
-    {
-      host: "twitter",
-      url: "https://twitter.com/i/status/",
-      match: /^twitter.com$/,
-      selector: 'div[data-testid="videoComponent"] > div:nth-child(1) > div',
-    },
-    {
-      host: "mail_ru",
-      url: "https://my.mail.ru/",
-      match: /^my.mail.ru$/,
-      selector: "#b-video-wrapper",
-    },
-    {
-      // ONLY IF YOU LOGINED TO COURSERA /learn/NAME/lecture/XXXX
-      host: "coursera",
-      url: "https://www.coursera.org/",
-      match: /coursera.org$/,
-      selector: ".vjs-v6",
-    },
-    {
-      // ONLY IF YOU LOGINED TO UDEMY /course/NAME/learn/lecture/XXXX
-      host: "udemy",
-      url: "https://www.udemy.com/",
-      match: /udemy.com$/,
-      selector:
-        'div[data-purpose="curriculum-item-viewer-content"] > section > div > div > div > div:nth-of-type(2)',
-    },
-    {
-      // Sites host Invidious. I tested the performance only on invidious.kevin.rocks, youtu.be and inv.vern.cc
-      host: "invidious",
-      url: "https://youtu.be/",
-      match: sitesInvidious,
-      selector: "#player",
-    },
-    {
-      // Sites host Piped. I tested the performance only on piped.video
-      host: "piped",
-      url: "https://youtu.be/",
-      match: sitesPiped,
-      selector: ".shaka-video-container",
-    },
-    {
-      host: "rumble",
-      url: "https://rumble.com/",
-      match: /^rumble.com$/,
-      selector: "#videoPlayer > .videoPlayer-Rumble-cls > div",
-    },
-    {
-      host: "eporner",
-      url: "https://www.eporner.com/",
-      match: /^(www.)?eporner.com$/,
-      selector: ".vjs-v7",
-    },
-    {
-      host: "peertube",
-      url: "stub", // This is a stub. The present value is set using window.location.origin. Check "src/index.js:videoObserver.onVideoAdded.addListener" to get more info
-      match: sitesPeertube,
-      selector: ".vjs-v7",
-    },
-    {
-      host: "dailymotion",
-      url: "https://dai.ly/", // This is a stub. The present value is set using window.location.origin. Check "src/index.js:videoObserver.onVideoAdded.addListener" to get more info
-      match: /^geo.dailymotion.com$/,
-      selector: ".player",
-    },
-    {
-      host: "trovo",
-      url: "https://trovo.live/s/",
-      match: /^trovo.live$/,
-      selector: ".player-video",
-    },
-    {
-      host: "yandexdisk",
-      url: "https://yadi.sk/i/",
-      match: /^disk.yandex.ru$/,
-      selector: ".video-player__player > div:nth-child(1)",
-    },
-    {
-      host: "coursehunter",
-      url: "https://coursehunter.net/course/",
-      match: /^coursehunter.net$/,
-      selector: "#oframeplayer > pjsdiv:nth-of-type(1)",
-    },
-    {
-      host: "googledrive",
-      url: "https://drive.google.com/file/d/",
-      match: /^youtube.googleapis.com$/,
-      selector: ".html5-video-container",
-    },
-    {
-      host: "bannedvideo",
-      url: "https://banned.video/watch?id=",
-      match: /^(www.)?banned.video$/,
-      selector: ".vjs-v7",
-    },
-    {
-      host: "facebook",
-      url: "https://facebook.com/",
-      match: (url) =>
-        url.host.includes("facebook.com") && url.pathname.includes("/videos/"),
-      selector: 'div[role="main"] div[data-pagelet$="video" i]',
-    },
-    {
-      additionalData: "reels",
-      host: "facebook",
-      url: "https://facebook.com/",
-      match: (url) =>
-        url.host.includes("facebook.com") && url.pathname.includes("/reel/"),
-      selector: 'div[role="main"]',
-    },
-    {
-      host: "weverse",
-      url: "https://weverse.io/",
-      match: /^weverse.io$/,
-      selector: ".webplayer-internal-source-wrapper",
-    },
-    {
-      host: "newgrounds",
-      url: "https://www.newgrounds.com/",
-      match: /^www.newgrounds.com$/,
-      selector: ".ng-video-player",
-    },
-    {
-      // TODO: Добавить поддержку tips (сделать через m3u8 т.к. обычная ссылка не принимается) и платных курсов
-      host: "egghead",
-      url: "https://egghead.io/",
-      match: /^egghead.io$/,
-      selector: ".cueplayer-react-video-holder",
-    },
-    {
-      host: "youku",
-      url: "https://v.youku.com/",
-      match: /^v.youku.com$/,
-      selector: "#ykPlayer",
-    },
-    {
-      host: "archive",
-      url: "https://archive.org/details/",
-      match: /^archive.org$/,
-      selector: ".jw-media",
-    },
-    {
-      host: "directlink",
-      url: "stub", // This is a stub. The present value is set using window.location.origin. Check "src/index.js:videoObserver.onVideoAdded.addListener" to get more info
-      match: (url) => /([^.]+).mp4/.test(url.pathname),
-      selector: null,
-    },
-    // пока рано
-    // {
-    //   host: "patreon",
-    //   url: "https://www.patreon.com/",
-    //   match: /^www.patreon.com$/,
-    //   selector:
-    //     'div[data-tag="post-card"] div[elevation="subtle"] > div > div > div > div',
-    // },
-    // {
-    //   host: "sibnet",
-    //   url: "https://video.sibnet.ru/",
-    //   match: /^video.sibnet.ru$/,
-    //   selector: ".video-js", // #video_html5_wrapper
-    // },
-    // Нужно куда-то заливать данные о плейлисте
-    // {
-    //   host: "epicgames",
-    //   url: "https://dev.epicgames.com/community/learning/tutorials/",
-    //   match: /^dev.epicgames.com$/,
-    //   selector: "#vjs_video_3",
-    // },
-  ];
-};
-
-/* harmony default export */ const config_sites = (sites());
-
 // EXTERNAL MODULE: ./node_modules/requestidlecallback-polyfill/index.js
 var requestidlecallback_polyfill = __webpack_require__("./node_modules/requestidlecallback-polyfill/index.js");
 ;// CONCATENATED MODULE: ./src/utils/EventImpl.js
@@ -4450,9 +5687,11 @@ class EventImpl {
   constructor() {
     this.listeners = new Set();
   }
+
   hasListener(e) {
     return this.listeners.has(e);
   }
+
   dispatchToListener(handler, ...args) {
     try {
       handler(...args);
@@ -4460,18 +5699,21 @@ class EventImpl {
       console.error("[VOT]", exception);
     }
   }
+
   addListener(handler) {
     if (this.hasListener(handler)) {
       throw new Error("[VOT] The listener has already been added.");
     }
     this.listeners.add(handler);
   }
+
   removeListener(handler) {
     if (!this.hasListener(handler)) {
       throw new Error("[VOT] The listener has not been added yet.");
     }
     this.listeners.delete(handler);
   }
+
   dispatch(...args) {
     for (const handler of Array.from(this.listeners)) {
       this.dispatchToListener(handler, ...args);
@@ -4578,7 +5820,7 @@ class VideoObserver {
       childList: true,
       subtree: true,
     });
-    const videos = document.querySelectorAll("video");
+    const videos = this.getAllVideoEls();
     for (let i = 0; i < videos.length; i++) {
       this.checkAndHandleVideo(videos[i]);
     }
@@ -4587,6 +5829,42 @@ class VideoObserver {
   disable() {
     this.observer.disconnect();
     this.intersectionObserver.disconnect();
+  }
+
+  getAllVideoEls() {
+    const videos = document.querySelectorAll("video");
+    if (videos.length) {
+      return videos;
+    }
+
+    // Use it only if we don't find videos
+    // It takes a long time to complete
+    const els = document.querySelectorAll("*");
+    const videoElements = new Set();
+    function traverseShadowRoot(root) {
+      if (!root) return;
+      root.querySelectorAll("video").forEach((video) => {
+        if (videoElements.has(video)) {
+          return;
+        }
+        videoElements.add(video);
+      });
+
+      root.querySelectorAll("*").forEach((element) => {
+        if (element.shadowRoot) {
+          traverseShadowRoot(element.shadowRoot);
+        }
+      });
+    }
+
+    for (let i = 0; i < els.length; i++) {
+      const el = els[i];
+      if (el.shadowRoot) {
+        traverseShadowRoot(el);
+      }
+    }
+
+    return Array.from(videoElements);
   }
 
   checkAndHandleVideo(video) {
@@ -4600,7 +5878,7 @@ class VideoObserver {
   handleIntersectingVideo(video) {
     this.intersectionObserver.unobserve(video);
     if (isAdVideo(video)) {
-      debug/* default */.A.log("The promotional video was ignored", video);
+      utils_debug.log("The promotional video was ignored", video);
       return;
     }
     waitForVideoReady(video, (readyVideo) => {
@@ -4620,10 +5898,6 @@ class VideoObserver {
   };
 }
 
-// EXTERNAL MODULE: ./src/utils/storage.js
-var storage = __webpack_require__("./src/utils/storage.js");
-// EXTERNAL MODULE: ./src/utils/translateApis.js
-var translateApis = __webpack_require__("./src/utils/translateApis.js");
 ;// CONCATENATED MODULE: ./src/index.js
 
 
@@ -4654,14 +5928,16 @@ var translateApis = __webpack_require__("./src/utils/translateApis.js");
 
 
 
-
-
 const browserInfo = es5.getParser(window.navigator.userAgent).getResult();
-
 const dontTranslateMusic = false; // Пока не придумал как стоит реализовать
-
 const sitesChromiumBlocked = [...sitesInvidious, ...sitesPiped];
-
+const cfOnlyExtensions = (/* unused pure expression or super */ null && ([
+  "Violentmonkey",
+  "FireMonkey",
+  "Greasemonkey",
+  "AdGuard",
+  "OrangeMonkey",
+]));
 const videoLipSyncEvents = [
   "playing",
   "ratechange",
@@ -4672,166 +5948,39 @@ const videoLipSyncEvents = [
 
 function genOptionsByOBJ(obj, conditionString) {
   return obj.map((code) => ({
-    label: localizationProvider/* localizationProvider */.j.get("langs")[code] ?? code.toUpperCase(),
+    label: localizationProvider.get("langs")[code] ?? code.toUpperCase(),
     value: code,
     selected: conditionString === code,
   }));
 }
 
-if (true) {
-  var translationPanding = false;
-}
-
-function translateVideo(
-  url,
-  duration,
-  requestLang,
-  responseLang,
-  translationHelp,
-  callback,
-) {
-  debug/* default */.A.log(
-    `Translate video (url: ${url}, duration: ${duration}, requestLang: ${requestLang}, responseLang: ${responseLang})`,
-  );
-
-  debug/* default */.A.log("translationHelp:", translationHelp);
-
-  if ( true && translationPanding) {
-    debug/* default */.A.log("translationPanding return");
-    return;
-  }
-
-  translationPanding = true;
-
-  rvt(
-    url,
-    duration,
-    requestLang,
-    responseLang,
-    translationHelp,
-    (success, response) => {
-      translationPanding = false;
-
-      debug/* default */.A.log("[exec callback] Requesting video translation");
-      if (!success) {
-        callback(false, localizationProvider/* localizationProvider */.j.get("requestTranslationFailed"));
-        return;
-      }
-
-      const translateResponse =
-        yandexProtobuf.decodeTranslationResponse(response);
-      console.log("[VOT] Translation response: ", translateResponse);
-
-      switch (translateResponse.status) {
-        case 0:
-          callback(false, translateResponse.message);
-          break;
-        case 1:
-        case 5:
-          // status 5 (dzen)
-          // Отдает частичный контент т.е. аудио не для всего видео, а только для части (~10min)
-          // так же возвращается оставшееся время перевода (remainingTime) через которое нужно сделать повторный запрос,
-          // в котором будет возвращено полное аудио перевода и status 1.
-          // Если включена часть видео без перевода, то пишет "Эта часть видео еще не переведена"
-          callback(
-            !!translateResponse.url,
-            translateResponse.url ||
-              localizationProvider/* localizationProvider */.j.get("audioNotReceived"),
-          );
-          break;
-        case 2:
-          callback(
-            false,
-            translateResponse.remainingTime
-              ? (0,utils/* secsToStrTime */.ox)(translateResponse.remainingTime)
-              : localizationProvider/* localizationProvider */.j.get("translationTakeFewMinutes"),
-          );
-          break;
-        case 3:
-        case 6:
-          /*
-            status: 3
-            Иногда, в ответе приходит статус код 3, но видео всё, так же, ожидает перевода.
-            В конечном итоге, это занимает слишком много времени,
-            как-будто сервер не понимает, что данное видео уже недавно было переведено
-            и заместо возвращения готовой ссылки на перевод начинает переводить видео заново
-            при чём у него это получается за очень длительное время.
-
-            status: 6
-            Случайно встретил 6 статус код при котором видео так же продолжается перевод,
-            но после него ничего сверхъестественного не происходит.
-            Он появляется при первом запросе с 17=1, но не исключено,
-            что может появится и просто так
-          */
-          callback(false, localizationProvider/* localizationProvider */.j.get("videoBeingTranslated"));
-          break;
-      }
-    },
-  );
-}
-
-function translateStream(url, requestLang, responseLang, callback) {
-  debug/* default */.A.log(
-    `Translate stream (url: ${url}, requestLang: ${requestLang}, responseLang: ${responseLang})`,
-  );
-
-  rst(
-    url,
-    requestLang,
-    responseLang,
-    (success, response) => {
-      debug/* default */.A.log("[exec callback] Requesting stream translation");
-      if (!success) {
-        callback(false, localizationProvider/* localizationProvider */.j.get("requestTranslationFailed"));
-        return;
-      }
-
-      const streamResponse = yandexProtobuf.decodeStreamResponse(response);
-      console.log("[VOT] Stream Translation response: ", streamResponse);
-
-      switch (streamResponse.interval) {
-        case 10:
-          callback(
-            false,
-            streamResponse.interval,
-            localizationProvider/* localizationProvider */.j.get("translationTakeFewMinutes"),
-          );
-          break;
-        case 20:
-          callback(
-            true,
-            streamResponse.interval,
-            streamResponse || localizationProvider/* localizationProvider */.j.get("audioNotReceived"),
-          );
-          break;
-        case 0:
-          // stream removed or ended
-          callback(
-            false,
-            streamResponse.interval,
-            localizationProvider/* localizationProvider */.j.get("streamNoConnectionToServer"),
-          );
-          break;
-      }
-    },
-  );
-}
+const votOpts = {
+  headers:
+     true
+      ? {}
+      : 0,
+  fetchFn: GM_fetch,
+  hostVOT: votBackendUrl,
+  host:  true ? proxyWorkerHost : 0,
+};
 
 class VideoHandler {
   // translate properties
   translateFromLang = "en"; // default language of video
-  translateToLang = utils/* lang */.vV; // default language of audio response
+  translateToLang = lang; // default language of audio response
 
   timer;
 
-  ytData = "";
   videoData = "";
   firstPlay = true;
   audio = new Audio();
   audioContext = new (window.AudioContext || window.webkitAudioContext)();
   gainNode = this.audioContext.createGain();
 
-  hls = (0,utils/* initHls */.CK)(); // debug enabled only in dev mode
+  hls = initHls(); // debug enabled only in dev mode
+  votClient = new ( true ? VOTWorkerClient : 0)(
+    votOpts,
+  );
 
   videoTranslations = [];
   videoTranslationTTL = 7200;
@@ -4855,7 +6004,7 @@ class VideoHandler {
   dragging;
 
   constructor(video, container, site) {
-    debug/* default */.A.log(
+    utils_debug.log(
       "[VideoHandler] add video:",
       video,
       "container:",
@@ -4872,11 +6021,139 @@ class VideoHandler {
     this.init();
   }
 
+  async translateVideoImpl(
+    videoData,
+    requestLang,
+    responseLang,
+    translationHelp = null,
+  ) {
+    clearTimeout(this.autoRetry);
+    utils_debug.log(
+      videoData,
+      `Translate video (requestLang: ${requestLang}, responseLang: ${responseLang})`,
+    );
+
+    if (
+      (await getVideoID(this.site, window.location.href)) !== videoData.videoId
+    ) {
+      return null;
+    }
+
+    try {
+      const res = await this.votClient.translateVideo({
+        videoData,
+        requestLang,
+        responseLang,
+        translationHelp,
+      });
+      utils_debug.log("Translate video result", res);
+      if (res.translated && res.remainingTime < 1) {
+        utils_debug.log("Video translation finished with this data: ", res);
+        return res;
+      }
+
+      await this.updateTranslationErrorMsg(
+        res.remainingTime > 0
+          ? secsToStrTime(res.remainingTime)
+          : res.message ??
+              localizationProvider.get("translationTakeFewMinutes"),
+      );
+    } catch (err) {
+      console.error("[VOT] Failed to translate video", err);
+      await this.updateTranslationErrorMsg(err.data?.message ?? err);
+      return null;
+    }
+
+    return new Promise((resolve) => {
+      const timeoutDuration = this.subtitlesList.some(
+        (item) => item.source === "yandex",
+      )
+        ? 20_000
+        : 30_000;
+      this.autoRetry = setTimeout(async () => {
+        const res = await this.translateVideoImpl(
+          videoData,
+          requestLang,
+          responseLang,
+          translationHelp,
+        );
+        if (!res || (res.translated && res.remainingTime < 1)) {
+          resolve(res);
+        }
+      }, timeoutDuration);
+    });
+  }
+
+  async translateStreamImpl(videoData, requestLang, responseLang) {
+    clearTimeout(this.autoRetry);
+    utils_debug.log(
+      videoData,
+      `Translate stream (requestLang: ${requestLang}, responseLang: ${responseLang})`,
+    );
+
+    if (
+      (await getVideoID(this.site, window.location.href)) !== videoData.videoId
+    ) {
+      return null;
+    }
+
+    try {
+      const res = await this.votClient.translateStream({
+        videoData,
+        requestLang,
+        responseLang,
+      });
+      utils_debug.log("Translate stream result", res);
+      if (!res.translated && res.interval === 10) {
+        await this.updateTranslationErrorMsg(
+          localizationProvider.get("translationTakeFewMinutes"),
+        );
+        return new Promise((resolve) => {
+          this.autoRetry = setTimeout(async () => {
+            const res = await this.translateStreamImpl(
+              videoData,
+              requestLang,
+              responseLang,
+            );
+            if (!res || !(!res.translated && res.interval === 10)) {
+              resolve(res);
+            }
+          }, res.interval * 1000);
+        });
+      }
+
+      if (res.message) {
+        utils_debug.log(`Stream translation aborted! Message: ${res.message}`);
+        throw new VOTLocalizedError("streamNoConnectionToServer");
+      }
+
+      if (!res.result) {
+        utils_debug.log("Failed to find translation result! Data:", res);
+        throw new VOTLocalizedError("audioNotReceived");
+      }
+
+      utils_debug.log("Stream translated successfully. Running...", res);
+
+      this.streamPing = setInterval(async () => {
+        utils_debug.log("Ping stream translation", res.pingId);
+        this.votClient.pingStream({
+          pingId: res.pingId,
+        });
+      }, res.interval * 1000);
+
+      return res;
+    } catch (err) {
+      console.error("[VOT] Failed to translate stream", err);
+      await this.updateTranslationErrorMsg(err.data?.message ?? err);
+      return null;
+    }
+  }
+
   async autoTranslate() {
     if (
       this.site.host === "youtube" &&
       dontTranslateMusic &&
-      youtubeUtils/* default */.A.isMusic()
+      youtubeUtils.isMusic()
     ) {
       return;
     }
@@ -4904,37 +6181,37 @@ class VideoHandler {
     if (this.initialized) return;
 
     const audioProxyDefault =
-      utils/* lang */.vV === "uk" && "cloudflare" === "cloudflare" ? 1 : 0;
+      lang === "uk" && "cloudflare" === "cloudflare" ? 1 : 0;
 
     const dataPromises = {
-      autoTranslate: storage/* votStorage */.d.get("autoTranslate", 0, true),
-      dontTranslateLanguage: storage/* votStorage */.d.get("dontTranslateLanguage", utils/* lang */.vV),
-      dontTranslateYourLang: storage/* votStorage */.d.get("dontTranslateYourLang", 1, true),
-      autoSetVolumeYandexStyle: storage/* votStorage */.d.get(
+      autoTranslate: votStorage.get("autoTranslate", 0, true),
+      dontTranslateLanguage: votStorage.get("dontTranslateLanguage", lang),
+      dontTranslateYourLang: votStorage.get("dontTranslateYourLang", 1, true),
+      autoSetVolumeYandexStyle: votStorage.get(
         "autoSetVolumeYandexStyle",
         1,
         true,
       ),
-      autoVolume: storage/* votStorage */.d.get("autoVolume", config/* defaultAutoVolume */.JD, true),
-      buttonPos: storage/* votStorage */.d.get("buttonPos", "default"),
-      showVideoSlider: storage/* votStorage */.d.get("showVideoSlider", 1, true),
-      syncVolume: storage/* votStorage */.d.get("syncVolume", 0, true),
-      subtitlesMaxLength: storage/* votStorage */.d.get("subtitlesMaxLength", 300, true),
-      highlightWords: storage/* votStorage */.d.get("highlightWords", 0, true),
-      responseLanguage: storage/* votStorage */.d.get("responseLanguage", utils/* lang */.vV),
-      defaultVolume: storage/* votStorage */.d.get("defaultVolume", 100, true),
-      udemyData: storage/* votStorage */.d.get("udemyData", { accessToken: "", expires: 0 }),
-      audioProxy: storage/* votStorage */.d.get("audioProxy", audioProxyDefault, true),
-      showPiPButton: storage/* votStorage */.d.get("showPiPButton", 0, true),
-      translateAPIErrors: storage/* votStorage */.d.get("translateAPIErrors", 1, true),
-      translationService: storage/* votStorage */.d.get(
+      autoVolume: votStorage.get("autoVolume", defaultAutoVolume, true),
+      buttonPos: votStorage.get("buttonPos", "default"),
+      showVideoSlider: votStorage.get("showVideoSlider", 1, true),
+      syncVolume: votStorage.get("syncVolume", 0, true),
+      subtitlesMaxLength: votStorage.get("subtitlesMaxLength", 300, true),
+      highlightWords: votStorage.get("highlightWords", 0, true),
+      responseLanguage: votStorage.get("responseLanguage", lang),
+      defaultVolume: votStorage.get("defaultVolume", 100, true),
+      udemyData: votStorage.get("udemyData", { accessToken: "", expires: 0 }),
+      audioProxy: votStorage.get("audioProxy", audioProxyDefault, true),
+      showPiPButton: votStorage.get("showPiPButton", 0, true),
+      translateAPIErrors: votStorage.get("translateAPIErrors", 1, true),
+      translationService: votStorage.get(
         "translationService",
-        config/* defaultTranslationService */.mE,
+        defaultTranslationService,
       ),
-      detectService: storage/* votStorage */.d.get("detectService", config/* defaultDetectService */.K2),
-      m3u8ProxyHost: storage/* votStorage */.d.get("m3u8ProxyHost", config/* m3u8ProxyHost */.se),
-      proxyWorkerHost: storage/* votStorage */.d.get("proxyWorkerHost", config/* proxyWorkerHost */.Pm),
-      audioBooster: storage/* votStorage */.d.get("audioBooster", 0, true),
+      detectService: votStorage.get("detectService", defaultDetectService),
+      m3u8ProxyHost: votStorage.get("m3u8ProxyHost", m3u8ProxyHost),
+      proxyWorkerHost: votStorage.get("proxyWorkerHost", proxyWorkerHost),
+      audioBooster: votStorage.get("audioBooster", 0, true),
     };
 
     this.data = Object.fromEntries(
@@ -4965,6 +6242,10 @@ class VideoHandler {
     this.initUI();
     this.initUIEvents();
 
+    if (true) {
+      this.votClient.host = this.data.proxyWorkerHost;
+    }
+
     const videoHasNoSource =
       !this.video.src && !this.video.currentSrc && !this.video.srcObject;
     this.votButton.container.hidden = videoHasNoSource;
@@ -4992,7 +6273,7 @@ class VideoHandler {
     this.votButton.container.dataset.status = status;
     this.votButton.container.dataset.translating =
       status === "error"
-        ? text.includes(localizationProvider/* localizationProvider */.j.get("translationTake"))
+        ? text.includes(localizationProvider.get("translationTake"))
         : false;
     this.votButton.label.innerHTML = text;
     this.votButton.container.title = status === "error" ? text : "";
@@ -5002,7 +6283,7 @@ class VideoHandler {
     // VOT Button
     {
       this.votButton = ui.createVOTButton(
-        localizationProvider/* localizationProvider */.j.get("translateVideo"),
+        localizationProvider.get("translateVideo"),
       );
       // use an additional check because sometimes this.video.clientWidth = 0
 
@@ -5021,9 +6302,9 @@ class VideoHandler {
       this.container.appendChild(this.votButton.container);
 
       this.votButton.pipButton.hidden =
-        !(0,utils/* isPiPAvailable */.Bs)() || !this.data?.showPiPButton;
+        !isPiPAvailable() || !this.data?.showPiPButton;
       this.votButton.separator2.hidden =
-        !(0,utils/* isPiPAvailable */.Bs)() || !this.data?.showPiPButton;
+        !isPiPAvailable() || !this.data?.showPiPButton;
 
       this.votButton.container.addEventListener("click", (e) => {
         e.preventDefault();
@@ -5034,7 +6315,7 @@ class VideoHandler {
 
     // VOT Menu
     {
-      this.votMenu = ui.createVOTMenu(localizationProvider/* localizationProvider */.j.get("VOTSettings"));
+      this.votMenu = ui.createVOTMenu(localizationProvider.get("VOTSettings"));
       this.votMenu.container.dataset.position =
         this.container.clientWidth && this.container.clientWidth > 550
           ? this.data?.buttonPos
@@ -5060,18 +6341,14 @@ class VideoHandler {
 
       this.votTranslationLanguageSelect = ui.createVOTLanguageSelect({
         fromTitle:
-          localizationProvider/* localizationProvider */.j.get("langs")[this.video.detectedLanguage],
-        fromDialogTitle: localizationProvider/* localizationProvider */.j.get("videoLanguage"),
-        fromItems: [
-          {
-            label: localizationProvider/* localizationProvider */.j.get("langs")["auto"],
-            value: "auto",
-            selected: "",
-          },
-          ...genOptionsByOBJ(constants/* availableLangs */.xm, this.videoData.detectedLanguage),
-        ],
+          localizationProvider.get("langs")[this.video.detectedLanguage],
+        fromDialogTitle: localizationProvider.get("videoLanguage"),
+        fromItems: genOptionsByOBJ(
+          availableLangs,
+          this.videoData.detectedLanguage,
+        ),
         fromOnSelectCB: async (e) => {
-          debug/* default */.A.log(
+          utils_debug.log(
             "[fromOnSelectCB] select from language",
             e.target.dataset.votValue,
           );
@@ -5081,15 +6358,15 @@ class VideoHandler {
             this.videoData.responseLanguage,
           );
         },
-        toTitle: localizationProvider/* localizationProvider */.j.get("langs")[this.video.responseLanguage],
-        toDialogTitle: localizationProvider/* localizationProvider */.j.get("translationLanguage"),
-        toItems: genOptionsByOBJ(constants/* actualTTS */.Ww, this.videoData.responseLanguage),
+        toTitle: localizationProvider.get("langs")[this.video.responseLanguage],
+        toDialogTitle: localizationProvider.get("translationLanguage"),
+        toItems: genOptionsByOBJ(availableTTS, this.videoData.responseLanguage),
         toOnSelectCB: async (e) => {
           const newLang = e.target.dataset.votValue;
-          debug/* default */.A.log("[toOnSelectCB] select to language", newLang);
+          utils_debug.log("[toOnSelectCB] select to language", newLang);
           this.data.responseLanguage = this.translateToLang = newLang;
-          await storage/* votStorage */.d.set("responseLanguage", this.data.responseLanguage);
-          debug/* default */.A.log(
+          await votStorage.set("responseLanguage", this.data.responseLanguage);
+          utils_debug.log(
             "Response Language value changed. New value: ",
             this.data.responseLanguage,
           );
@@ -5106,11 +6383,11 @@ class VideoHandler {
       );
 
       this.votSubtitlesSelect = ui.createVOTSelect(
-        localizationProvider/* localizationProvider */.j.get("VOTSubtitlesDisabled"),
-        localizationProvider/* localizationProvider */.j.get("VOTSubtitles"),
+        localizationProvider.get("VOTSubtitlesDisabled"),
+        localizationProvider.get("VOTSubtitles"),
         [
           {
-            label: localizationProvider/* localizationProvider */.j.get("VOTSubtitlesDisabled"),
+            label: localizationProvider.get("VOTSubtitlesDisabled"),
             value: "disabled",
             selected: true,
             disabled: false,
@@ -5121,7 +6398,7 @@ class VideoHandler {
             await this.changeSubtitlesLang(e.target.dataset.votValue);
           },
           labelElement: ui.createVOTSelectLabel(
-            localizationProvider/* localizationProvider */.j.get("VOTSubtitles"),
+            localizationProvider.get("VOTSubtitles"),
           ),
         },
       );
@@ -5129,7 +6406,7 @@ class VideoHandler {
       this.votMenu.bodyContainer.appendChild(this.votSubtitlesSelect.container);
 
       this.votVideoVolumeSlider = ui.createSlider(
-        `${localizationProvider/* localizationProvider */.j.get("VOTVolume")}: <strong>${
+        `${localizationProvider.get("VOTVolume")}: <strong>${
           this.getVideoVolume() * 100
         }%</strong>`,
         this.getVideoVolume() * 100,
@@ -5142,12 +6419,12 @@ class VideoHandler {
       );
 
       this.votVideoTranslationVolumeSlider = ui.createSlider(
-        `${localizationProvider/* localizationProvider */.j.get("VOTVolumeTranslation")}: <strong>${
+        `${localizationProvider.get("VOTVolumeTranslation")}: <strong>${
           this.data?.defaultVolume ?? 100
         }%</strong>`,
         this.data?.defaultVolume ?? 100,
         0,
-        this.data.audioBooster ? config/* maxAudioVolume */.T8 : 100,
+        this.data.audioBooster ? maxAudioVolume : 100,
       );
       this.votVideoTranslationVolumeSlider.container.hidden =
         this.votButton.container.dataset.status !== "success";
@@ -5165,19 +6442,19 @@ class VideoHandler {
     // VOT Settings
     {
       this.votSettingsDialog = ui.createDialog(
-        localizationProvider/* localizationProvider */.j.get("VOTSettings"),
+        localizationProvider.get("VOTSettings"),
       );
       document.documentElement.appendChild(this.votSettingsDialog.container);
 
       this.votTranslationHeader = ui.createHeader(
-        localizationProvider/* localizationProvider */.j.get("translationSettings"),
+        localizationProvider.get("translationSettings"),
       );
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votTranslationHeader,
       );
 
       this.votAutoTranslateCheckbox = ui.createCheckbox(
-        localizationProvider/* localizationProvider */.j.get("VOTAutoTranslate"),
+        localizationProvider.get("VOTAutoTranslate"),
         this.data?.autoTranslate ?? false,
       );
       this.votSettingsDialog.bodyContainer.appendChild(
@@ -5185,24 +6462,24 @@ class VideoHandler {
       );
 
       this.votDontTranslateYourLangSelect = ui.createVOTSelect(
-        localizationProvider/* localizationProvider */.j.get("langs")[
-          storage/* votStorage */.d.syncGet("dontTranslateLanguage", utils/* lang */.vV)
+        localizationProvider.get("langs")[
+          votStorage.syncGet("dontTranslateLanguage", lang)
         ],
-        localizationProvider/* localizationProvider */.j.get("VOTDontTranslateYourLang"),
+        localizationProvider.get("VOTDontTranslateYourLang"),
         genOptionsByOBJ(
-          constants/* availableLangs */.xm,
-          storage/* votStorage */.d.syncGet("dontTranslateLanguage", utils/* lang */.vV),
+          availableLangs,
+          votStorage.syncGet("dontTranslateLanguage", lang),
         ),
         {
           onSelectCb: async (e) => {
             this.data.dontTranslateLanguage = e.target.dataset.votValue;
-            await storage/* votStorage */.d.set(
+            await votStorage.set(
               "dontTranslateLanguage",
               this.data.dontTranslateLanguage,
             );
           },
           labelElement: ui.createCheckbox(
-            localizationProvider/* localizationProvider */.j.get("VOTDontTranslateYourLang"),
+            localizationProvider.get("VOTDontTranslateYourLang"),
             this.data?.dontTranslateYourLang ?? true,
           ).container,
         },
@@ -5213,15 +6490,17 @@ class VideoHandler {
       );
 
       this.votAutoSetVolumeCheckbox = ui.createCheckbox(
-        `${localizationProvider/* localizationProvider */.j.get("VOTAutoSetVolume")}`,
+        `${localizationProvider.get("VOTAutoSetVolume")}`,
         this.data?.autoSetVolumeYandexStyle ?? true,
       );
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votAutoSetVolumeCheckbox.container,
       );
       this.votAutoSetVolumeSlider = ui.createSlider(
-        `<strong>${(this.data?.autoVolume ?? config/* defaultAutoVolume */.JD) * 100}%</strong>`,
-        (this.data?.autoVolume ?? config/* defaultAutoVolume */.JD) * 100,
+        `<strong>${
+          (this.data?.autoVolume ?? defaultAutoVolume) * 100
+        }%</strong>`,
+        (this.data?.autoVolume ?? defaultAutoVolume) * 100,
         0,
         100,
       );
@@ -5230,7 +6509,7 @@ class VideoHandler {
       );
 
       this.votShowVideoSliderCheckbox = ui.createCheckbox(
-        localizationProvider/* localizationProvider */.j.get("VOTShowVideoSlider"),
+        localizationProvider.get("VOTShowVideoSlider"),
         this.data?.showVideoSlider ?? false,
       );
       this.votSettingsDialog.bodyContainer.appendChild(
@@ -5238,7 +6517,7 @@ class VideoHandler {
       );
 
       this.votAudioBoosterCheckbox = ui.createCheckbox(
-        localizationProvider/* localizationProvider */.j.get("VOTAudioBooster"),
+        localizationProvider.get("VOTAudioBooster"),
         this.data?.audioBooster ?? false,
       );
       this.votSettingsDialog.bodyContainer.appendChild(
@@ -5247,7 +6526,7 @@ class VideoHandler {
 
       // udemy only
       this.votUdemyDataTextfield = ui.createTextfield(
-        localizationProvider/* localizationProvider */.j.get("VOTUdemyData"),
+        localizationProvider.get("VOTUdemyData"),
         this.data?.udemyData?.accessToken ?? "",
       );
       this.votUdemyDataTextfield.container.hidden = this.site.host !== "udemy";
@@ -5256,7 +6535,7 @@ class VideoHandler {
       );
 
       this.votSyncVolumeCheckbox = ui.createCheckbox(
-        localizationProvider/* localizationProvider */.j.get("VOTSyncVolume"),
+        localizationProvider.get("VOTSyncVolume"),
         this.data?.syncVolume ?? false,
       );
       this.votSettingsDialog.bodyContainer.appendChild(
@@ -5264,48 +6543,48 @@ class VideoHandler {
       );
 
       this.votTranslationServiceSelect = ui.createVOTSelect(
-        storage/* votStorage */.d
-          .syncGet("translationService", config/* defaultTranslationService */.mE)
+        votStorage
+          .syncGet("translationService", defaultTranslationService)
           .toUpperCase(),
-        localizationProvider/* localizationProvider */.j.get("VOTTranslationService"),
+        localizationProvider.get("VOTTranslationService"),
         genOptionsByOBJ(
-          translateApis/* translateServices */.vN,
-          storage/* votStorage */.d.syncGet("translationService", config/* defaultTranslationService */.mE),
+          translateServices,
+          votStorage.syncGet("translationService", defaultTranslationService),
         ),
         {
           onSelectCb: async (e) => {
             this.data.translationService = e.target.dataset.votValue;
-            await storage/* votStorage */.d.set(
+            await votStorage.set(
               "translationService",
               this.data.translationService,
             );
           },
           labelElement: ui.createCheckbox(
-            localizationProvider/* localizationProvider */.j.get("VOTTranslateAPIErrors"),
+            localizationProvider.get("VOTTranslateAPIErrors"),
             this.data.translateAPIErrors ?? true,
           ).container,
         },
       );
       this.votTranslationServiceSelect.container.hidden =
-        localizationProvider/* localizationProvider */.j.lang === "ru";
+        localizationProvider.lang === "ru";
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votTranslationServiceSelect.container,
       );
 
       this.votDetectServiceSelect = ui.createVOTSelect(
-        storage/* votStorage */.d.syncGet("detectService", config/* defaultDetectService */.K2).toUpperCase(),
-        localizationProvider/* localizationProvider */.j.get("VOTDetectService"),
+        votStorage.syncGet("detectService", defaultDetectService).toUpperCase(),
+        localizationProvider.get("VOTDetectService"),
         genOptionsByOBJ(
-          translateApis/* detectServices */.qh,
-          storage/* votStorage */.d.syncGet("detectService", config/* defaultDetectService */.K2),
+          detectServices,
+          votStorage.syncGet("detectService", defaultDetectService),
         ),
         {
           onSelectCb: async (e) => {
             this.data.detectService = e.target.dataset.votValue;
-            await storage/* votStorage */.d.set("detectService", this.data.detectService);
+            await votStorage.set("detectService", this.data.detectService);
           },
           labelElement: ui.createVOTSelectLabel(
-            localizationProvider/* localizationProvider */.j.get("VOTDetectService"),
+            localizationProvider.get("VOTDetectService"),
           ),
         },
       );
@@ -5316,12 +6595,12 @@ class VideoHandler {
       // SUBTITLES
 
       this.votSubtitlesHeader = ui.createHeader(
-        localizationProvider/* localizationProvider */.j.get("subtitlesSettings"),
+        localizationProvider.get("subtitlesSettings"),
       );
       this.votSettingsDialog.bodyContainer.appendChild(this.votSubtitlesHeader);
 
       this.votSubtitlesMaxLengthSlider = ui.createSlider(
-        `${localizationProvider/* localizationProvider */.j.get("VOTSubtitlesMaxLength")}: <strong>${
+        `${localizationProvider.get("VOTSubtitlesMaxLength")}: <strong>${
           this.data?.subtitlesMaxLength ?? 300
         }</strong>`,
         this.data?.subtitlesMaxLength ?? 300,
@@ -5333,7 +6612,7 @@ class VideoHandler {
       );
 
       this.votSubtitlesHighlightWordsCheckbox = ui.createCheckbox(
-        localizationProvider/* localizationProvider */.j.get("VOTHighlightWords"),
+        localizationProvider.get("VOTHighlightWords"),
         this.data?.highlightWords ?? false,
       );
       this.votSettingsDialog.bodyContainer.appendChild(
@@ -5343,14 +6622,14 @@ class VideoHandler {
       // PROXY
 
       this.votProxyHeader = ui.createHeader(
-        localizationProvider/* localizationProvider */.j.get("proxySettings"),
+        localizationProvider.get("proxySettings"),
       );
       this.votSettingsDialog.bodyContainer.appendChild(this.votProxyHeader);
 
       this.votM3u8ProxyHostTextfield = ui.createTextfield(
-        localizationProvider/* localizationProvider */.j.get("VOTM3u8ProxyHost"),
+        localizationProvider.get("VOTM3u8ProxyHost"),
         this.data?.m3u8ProxyHost,
-        config/* m3u8ProxyHost */.se,
+        m3u8ProxyHost,
       );
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votM3u8ProxyHostTextfield.container,
@@ -5358,9 +6637,9 @@ class VideoHandler {
 
       // cf version only
       this.votProxyWorkerHostTextfield = ui.createTextfield(
-        localizationProvider/* localizationProvider */.j.get("VOTProxyWorkerHost"),
+        localizationProvider.get("VOTProxyWorkerHost"),
         this.data?.proxyWorkerHost,
-        config/* proxyWorkerHost */.Pm,
+        proxyWorkerHost,
       );
       this.votProxyWorkerHostTextfield.container.hidden =
         "cloudflare" !== "cloudflare";
@@ -5370,7 +6649,7 @@ class VideoHandler {
 
       // cf version only
       this.votAudioProxyCheckbox = ui.createCheckbox(
-        localizationProvider/* localizationProvider */.j.get("VOTAudioProxy"),
+        localizationProvider.get("VOTAudioProxy"),
         this.data?.audioProxy ?? false,
       );
       this.votAudioProxyCheckbox.container.hidden = "cloudflare" !== "cloudflare";
@@ -5380,27 +6659,28 @@ class VideoHandler {
 
       // ABOUT
 
-      this.votAboutHeader = ui.createHeader(localizationProvider/* localizationProvider */.j.get("about"));
+      this.votAboutHeader = ui.createHeader(localizationProvider.get("about"));
       this.votSettingsDialog.bodyContainer.appendChild(this.votAboutHeader);
 
       this.votLanguageSelect = ui.createVOTSelect(
-        localizationProvider/* localizationProvider */.j.get("langs")[
-          storage/* votStorage */.d.syncGet("locale-lang-override", "auto")
+        localizationProvider.get("langs")[
+          // eslint-disable-next-line sonarjs/no-duplicate-string
+          votStorage.syncGet("locale-lang-override", "auto")
         ],
-        localizationProvider/* localizationProvider */.j.get("VOTMenuLanguage"),
+        localizationProvider.get("VOTMenuLanguage"),
         genOptionsByOBJ(
-          localizationProvider/* availableLocales */.z,
-          storage/* votStorage */.d.syncGet("locale-lang-override", "auto"),
+          availableLocales,
+          votStorage.syncGet("locale-lang-override", "auto"),
         ),
         {
           onSelectCb: async (e) => {
-            await storage/* votStorage */.d.set(
+            await votStorage.set(
               "locale-lang-override",
               e.target.dataset.votValue,
             );
           },
           labelElement: ui.createVOTSelectLabel(
-            localizationProvider/* localizationProvider */.j.get("VOTMenuLanguage"),
+            localizationProvider.get("VOTMenuLanguage"),
           ),
         },
       );
@@ -5410,16 +6690,16 @@ class VideoHandler {
       );
 
       this.votShowPiPButtonCheckbox = ui.createCheckbox(
-        localizationProvider/* localizationProvider */.j.get("VOTShowPiPButton"),
+        localizationProvider.get("VOTShowPiPButton"),
         this.data?.showPiPButton ?? false,
       );
-      this.votShowPiPButtonCheckbox.container.hidden = !(0,utils/* isPiPAvailable */.Bs)();
+      this.votShowPiPButtonCheckbox.container.hidden = !isPiPAvailable();
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votShowPiPButtonCheckbox.container,
       );
 
       this.votVersionInfo = ui.createInformation(
-        `${localizationProvider/* localizationProvider */.j.get("VOTVersion")}:`,
+        `${localizationProvider.get("VOTVersion")}:`,
          true
           ? `cloudflare ${GM_info.script.version}`
           : 0,
@@ -5429,7 +6709,7 @@ class VideoHandler {
       );
 
       this.votAuthorsInfo = ui.createInformation(
-        `${localizationProvider/* localizationProvider */.j.get("VOTAuthors")}:`,
+        `${localizationProvider.get("VOTAuthors")}:`,
         GM_info.script.author,
       );
       this.votSettingsDialog.bodyContainer.appendChild(
@@ -5437,7 +6717,7 @@ class VideoHandler {
       );
 
       this.votLoaderInfo = ui.createInformation(
-        `${localizationProvider/* localizationProvider */.j.get("VOTLoader")}:`,
+        `${localizationProvider.get("VOTLoader")}:`,
         `${GM_info.scriptHandler} v${GM_info.version}`,
       );
       this.votSettingsDialog.bodyContainer.appendChild(
@@ -5445,7 +6725,7 @@ class VideoHandler {
       );
 
       this.votBrowserInfo = ui.createInformation(
-        `${localizationProvider/* localizationProvider */.j.get("VOTBrowser")}:`,
+        `${localizationProvider.get("VOTBrowser")}:`,
         `${browserInfo.browser.name} ${browserInfo.browser.version} (${browserInfo.os.name} ${browserInfo.os.version})`,
       );
       this.votSettingsDialog.bodyContainer.appendChild(
@@ -5453,7 +6733,7 @@ class VideoHandler {
       );
 
       this.votResetSettingsButton = ui.createButton(
-        localizationProvider/* localizationProvider */.j.get("resetSettings"),
+        localizationProvider.get("resetSettings"),
       );
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votResetSettingsButton,
@@ -5467,19 +6747,19 @@ class VideoHandler {
       this.votButton.translateButton.addEventListener("click", () => {
         (async () => {
           if (this.audio.src) {
-            debug/* default */.A.log("[click translationBtn] audio.src is not empty");
+            utils_debug.log("[click translationBtn] audio.src is not empty");
             this.stopTranslate();
             return;
           }
 
           if (this.hls.url) {
-            debug/* default */.A.log("[click translationBtn] hls is not empty");
+            utils_debug.log("[click translationBtn] hls is not empty");
             this.stopTranslate();
             return;
           }
 
           try {
-            debug/* default */.A.log("[click translationBtn] trying execute translation");
+            utils_debug.log("[click translationBtn] trying execute translation");
 
             if (!this.videoData.videoId) {
               throw new VOTLocalizedError("VOTNoVideoIDFound");
@@ -5539,15 +6819,15 @@ class VideoHandler {
               ? percentX <= 44
                 ? "left"
                 : percentX >= 66
-                  ? "right"
-                  : "default"
+                ? "right"
+                : "default"
               : "default";
           this.votButton.container.dataset.direction =
             this.data.buttonPos === "default" ? "row" : "column";
           this.votButton.container.dataset.position = this.data.buttonPos;
           this.votMenu.container.dataset.position = this.data.buttonPos;
           if (this.container.clientWidth && this.container.clientWidth > 550) {
-            await storage/* votStorage */.d.set("buttonPos", this.data.buttonPos);
+            await votStorage.set("buttonPos", this.data.buttonPos);
           }
         }
       });
@@ -5562,7 +6842,7 @@ class VideoHandler {
       });
 
       this.votDownloadSubtitlesButton.addEventListener("click", async () => {
-        const srtContent = jsonToSrt(this.YandexSubtitles);
+        const srtContent = convertSubs(this.yandexSubtitles, "srt");
         const blob = new Blob([srtContent], { type: "text/plain" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
@@ -5583,8 +6863,9 @@ class VideoHandler {
 
       this.votVideoVolumeSlider.input.addEventListener("input", (e) => {
         const value = Number(e.target.value);
-        this.votVideoVolumeSlider.label.querySelector("strong").innerHTML =
-          `${value}%`;
+        this.votVideoVolumeSlider.label.querySelector(
+          "strong",
+        ).innerHTML = `${value}%`;
         this.setVideoVolume(value / 100);
         if (this.data.syncVolume) {
           this.syncVolumeWrapper("video", value);
@@ -5596,7 +6877,7 @@ class VideoHandler {
         (e) => {
           (async () => {
             this.data.defaultVolume = Number(e.target.value);
-            await storage/* votStorage */.d.set("defaultVolume", this.data.defaultVolume);
+            await votStorage.set("defaultVolume", this.data.defaultVolume);
             this.votVideoTranslationVolumeSlider.label.querySelector(
               "strong",
             ).innerHTML = `${this.data.defaultVolume}%`;
@@ -5623,9 +6904,9 @@ class VideoHandler {
       this.votAutoTranslateCheckbox.input.addEventListener("change", (e) => {
         (async () => {
           this.data.autoTranslate = Number(e.target.checked);
-          await storage/* votStorage */.d.set("autoTranslate", this.data.autoTranslate);
+          await votStorage.set("autoTranslate", this.data.autoTranslate);
           await this.autoTranslate();
-          debug/* default */.A.log(
+          utils_debug.log(
             "autoTranslate value changed. New value: ",
             this.data.autoTranslate,
           );
@@ -5637,11 +6918,11 @@ class VideoHandler {
         (e) => {
           (async () => {
             this.data.dontTranslateYourLang = Number(e.target.checked);
-            await storage/* votStorage */.d.set(
+            await votStorage.set(
               "dontTranslateYourLang",
               this.data.dontTranslateYourLang,
             );
-            debug/* default */.A.log(
+            utils_debug.log(
               "dontTranslateYourLang value changed. New value: ",
               this.data.dontTranslateYourLang,
             );
@@ -5652,11 +6933,11 @@ class VideoHandler {
       this.votAutoSetVolumeCheckbox.input.addEventListener("change", (e) => {
         (async () => {
           this.data.autoSetVolumeYandexStyle = Number(e.target.checked);
-          await storage/* votStorage */.d.set(
+          await votStorage.set(
             "autoSetVolumeYandexStyle",
             this.data.autoSetVolumeYandexStyle,
           );
-          debug/* default */.A.log(
+          utils_debug.log(
             "autoSetVolumeYandexStyle value changed. New value: ",
             this.data.autoSetVolumeYandexStyle,
           );
@@ -5667,17 +6948,18 @@ class VideoHandler {
         (async () => {
           const presetAutoVolume = Number(e.target.value);
           this.data.autoVolume = (presetAutoVolume / 100).toFixed(2);
-          await storage/* votStorage */.d.set("autoVolume", this.data.autoVolume);
-          this.votAutoSetVolumeSlider.label.querySelector("strong").innerHTML =
-            `${presetAutoVolume}%`;
+          await votStorage.set("autoVolume", this.data.autoVolume);
+          this.votAutoSetVolumeSlider.label.querySelector(
+            "strong",
+          ).innerHTML = `${presetAutoVolume}%`;
         })();
       });
 
       this.votShowVideoSliderCheckbox.input.addEventListener("change", (e) => {
         (async () => {
           this.data.showVideoSlider = Number(e.target.checked);
-          await storage/* votStorage */.d.set("showVideoSlider", this.data.showVideoSlider);
-          debug/* default */.A.log(
+          await votStorage.set("showVideoSlider", this.data.showVideoSlider);
+          utils_debug.log(
             "showVideoSlider value changed. New value: ",
             this.data.showVideoSlider,
           );
@@ -5690,8 +6972,8 @@ class VideoHandler {
       this.votAudioBoosterCheckbox.input.addEventListener("change", (e) => {
         (async () => {
           this.data.audioBooster = Number(e.target.checked);
-          await storage/* votStorage */.d.set("audioBooster", this.data.audioBooster);
-          debug/* default */.A.log(
+          await votStorage.set("audioBooster", this.data.audioBooster);
+          utils_debug.log(
             "audioBooster value changed. New value: ",
             this.data.audioBooster,
           );
@@ -5700,7 +6982,7 @@ class VideoHandler {
             this.votVideoTranslationVolumeSlider.input.value;
           this.votVideoTranslationVolumeSlider.input.max = this.data
             .audioBooster
-            ? config/* maxAudioVolume */.T8
+            ? maxAudioVolume
             : 100;
           if (!this.data.audioBooster) {
             this.votVideoTranslationVolumeSlider.input.value =
@@ -5718,8 +7000,8 @@ class VideoHandler {
             accessToken: e.target.value,
             expires: new Date().getTime(),
           };
-          await storage/* votStorage */.d.set("udemyData", this.data.udemyData);
-          debug/* default */.A.log(
+          await votStorage.set("udemyData", this.data.udemyData);
+          utils_debug.log(
             "udemyData value changed. New value: ",
             this.data.udemyData,
           );
@@ -5730,8 +7012,8 @@ class VideoHandler {
       this.votSyncVolumeCheckbox.input.addEventListener("change", (e) => {
         (async () => {
           this.data.syncVolume = Number(e.target.checked);
-          await storage/* votStorage */.d.set("syncVolume", this.data.syncVolume);
-          debug/* default */.A.log(
+          await votStorage.set("syncVolume", this.data.syncVolume);
+          utils_debug.log(
             "syncVolume value changed. New value: ",
             this.data.syncVolume,
           );
@@ -5743,11 +7025,11 @@ class VideoHandler {
         (e) => {
           (async () => {
             this.data.translateAPIErrors = Number(e.target.checked);
-            await storage/* votStorage */.d.set(
+            await votStorage.set(
               "translateAPIErrors",
               this.data.translateAPIErrors,
             );
-            debug/* default */.A.log(
+            utils_debug.log(
               "translateAPIErrors value changed. New value: ",
               this.data.translateAPIErrors,
             );
@@ -5760,7 +7042,7 @@ class VideoHandler {
       this.votSubtitlesMaxLengthSlider.input.addEventListener("input", (e) => {
         (async () => {
           this.data.subtitlesMaxLength = Number(e.target.value);
-          await storage/* votStorage */.d.set(
+          await votStorage.set(
             "subtitlesMaxLength",
             this.data.subtitlesMaxLength,
           );
@@ -5776,8 +7058,8 @@ class VideoHandler {
         (e) => {
           (async () => {
             this.data.highlightWords = Number(e.target.checked);
-            await storage/* votStorage */.d.set("highlightWords", this.data.highlightWords);
-            debug/* default */.A.log(
+            await votStorage.set("highlightWords", this.data.highlightWords);
+            utils_debug.log(
               "highlightWords value changed. New value: ",
               this.data.highlightWords,
             );
@@ -5789,15 +7071,15 @@ class VideoHandler {
       this.votShowPiPButtonCheckbox.input.addEventListener("change", (e) => {
         (async () => {
           this.data.showPiPButton = Number(e.target.checked);
-          await storage/* votStorage */.d.set("showPiPButton", this.data.showPiPButton);
-          debug/* default */.A.log(
+          await votStorage.set("showPiPButton", this.data.showPiPButton);
+          utils_debug.log(
             "showPiPButton value changed. New value: ",
             this.data.showPiPButton,
           );
           this.votButton.pipButton.hidden =
-            !(0,utils/* isPiPAvailable */.Bs)() || !this.data.showPiPButton;
+            !isPiPAvailable() || !this.data.showPiPButton;
           this.votButton.separator2.hidden =
-            !(0,utils/* isPiPAvailable */.Bs)() || !this.data.showPiPButton;
+            !isPiPAvailable() || !this.data.showPiPButton;
         })();
       });
 
@@ -5805,9 +7087,9 @@ class VideoHandler {
 
       this.votM3u8ProxyHostTextfield.input.addEventListener("change", (e) => {
         (async () => {
-          this.data.m3u8ProxyHost = e.target.value || config/* m3u8ProxyHost */.se;
-          await storage/* votStorage */.d.set("m3u8ProxyHost", this.data.m3u8ProxyHost);
-          debug/* default */.A.log(
+          this.data.m3u8ProxyHost = e.target.value || m3u8ProxyHost;
+          await votStorage.set("m3u8ProxyHost", this.data.m3u8ProxyHost);
+          utils_debug.log(
             "m3u8ProxyHost value changed. New value: ",
             this.data.m3u8ProxyHost,
           );
@@ -5816,9 +7098,9 @@ class VideoHandler {
 
       this.votProxyWorkerHostTextfield.input.addEventListener("change", (e) => {
         (async () => {
-          this.data.proxyWorkerHost = e.target.value || config/* proxyWorkerHost */.Pm;
-          await storage/* votStorage */.d.set("proxyWorkerHost", this.data.proxyWorkerHost);
-          debug/* default */.A.log(
+          this.data.proxyWorkerHost = e.target.value || proxyWorkerHost;
+          await votStorage.set("proxyWorkerHost", this.data.proxyWorkerHost);
+          utils_debug.log(
             "proxyWorkerHost value changed. New value: ",
             this.data.proxyWorkerHost,
           );
@@ -5829,8 +7111,8 @@ class VideoHandler {
       this.votAudioProxyCheckbox.input.addEventListener("change", (e) => {
         (async () => {
           this.data.audioProxy = Number(e.target.checked);
-          await storage/* votStorage */.d.set("audioProxy", this.data.audioProxy);
-          debug/* default */.A.log(
+          await votStorage.set("audioProxy", this.data.audioProxy);
+          utils_debug.log(
             "audioProxy value changed. New value: ",
             this.data.audioProxy,
           );
@@ -5839,12 +7121,12 @@ class VideoHandler {
 
       this.votResetSettingsButton.addEventListener("click", () => {
         (async () => {
-          localizationProvider/* localizationProvider */.j.reset();
-          const valuesForClear = await storage/* votStorage */.d.list();
+          localizationProvider.reset();
+          const valuesForClear = await votStorage.list();
           for (let i = 0; i < valuesForClear.length; i++) {
             const v = valuesForClear[i];
-            if (!localizationProvider/* localizationProvider */.j.gmValues.includes(v)) {
-              storage/* votStorage */.d.syncDelete(v);
+            if (!localizationProvider.gmValues.includes(v)) {
+              votStorage.syncDelete(v);
             }
           }
           window.location.reload();
@@ -5977,7 +7259,7 @@ class VideoHandler {
       const isSettings = settings.contains(e);
       const isTempDialog = tempDialog?.contains(e) ?? false;
 
-      debug/* default */.A.log(
+      utils_debug.log(
         `[document click] ${isButton} ${isMenu} ${isVideo} ${isSettings} ${isTempDialog}`,
       );
       if (!(!isButton && !isMenu && !isSettings && !isTempDialog)) return;
@@ -6000,6 +7282,8 @@ class VideoHandler {
       eContainer = document.querySelector('div[data-testid="videoPlayer"]');
     } else if (this.site.host === "yandexdisk") {
       eContainer = document.querySelector(".video-player__player");
+    } else if (this.site.host === "reddit") {
+      eContainer = document.querySelector("shreddit-post");
     } else {
       eContainer = this.container;
     }
@@ -6043,25 +7327,29 @@ class VideoHandler {
       this.container.style.height = "100%";
     }
 
-    addExtraEventListener(this.video, "canplaythrough", async () => {
+    addExtraEventListener(this.video, "canplay", async () => {
       // Временное решение
       if (this.site.host === "rutube" && this.video.src) {
         return;
       }
-      if ((0,utils/* getVideoId */.jI)(this.site.host, this.video) === this.videoData.videoId)
+      if (
+        (await getVideoID(this.site, window.location.href)) ===
+        this.videoData.videoId
+      )
         return;
       await this.handleSrcChanged();
-      debug/* default */.A.log("lipsync mode is loadeddata");
+      utils_debug.log("lipsync mode is loadeddata");
       await this.autoTranslate();
     });
 
-    addExtraEventListener(this.video, "emptied", () => {
+    addExtraEventListener(this.video, "emptied", async () => {
       if (
         this.video.src &&
-        (0,utils/* getVideoId */.jI)(this.site.host, this.video) === this.videoData.videoId
+        (await getVideoID(this.site, window.location.href)) ===
+          this.videoData.videoId
       )
         return;
-      debug/* default */.A.log("lipsync mode is emptied");
+      utils_debug.log("lipsync mode is emptied");
       this.videoData = "";
       this.stopTranslation();
     });
@@ -6093,46 +7381,46 @@ class VideoHandler {
   }
 
   async changeSubtitlesLang(subs) {
-    debug/* default */.A.log("[onchange] subtitles", subs);
+    utils_debug.log("[onchange] subtitles", subs);
     this.votSubtitlesSelect.setSelected(subs);
     if (subs === "disabled") {
       this.votSubtitlesSelect.setTitle(
-        localizationProvider/* localizationProvider */.j.get("VOTSubtitlesDisabled"),
+        localizationProvider.get("VOTSubtitlesDisabled"),
       );
       this.subtitlesWidget.setContent(null);
       this.votDownloadSubtitlesButton.hidden = true;
-      this.YandexSubtitles = null;
+      this.yandexSubtitles = null;
     } else {
       const fetchedSubs = await fetchSubtitles(
         this.subtitlesList.at(parseInt(subs)),
       );
       this.subtitlesWidget.setContent(fetchedSubs);
       this.votDownloadSubtitlesButton.hidden = false;
-      this.YandexSubtitles = fetchedSubs;
+      this.yandexSubtitles = fetchedSubs;
     }
   }
 
   async updateSubtitlesLangSelect() {
     const updatedOptions = [
       {
-        label: localizationProvider/* localizationProvider */.j.get("VOTSubtitlesDisabled"),
+        label: localizationProvider.get("VOTSubtitlesDisabled"),
         value: "disabled",
         selected: true,
         disabled: false,
       },
       ...this.subtitlesList.map((s, idx) => ({
         label:
-          (localizationProvider/* localizationProvider */.j.get("langs")[s.language] ??
+          (localizationProvider.get("langs")[s.language] ??
             s.language.toUpperCase()) +
           (s.translatedFromLanguage
-            ? ` ${localizationProvider/* localizationProvider */.j.get("VOTTranslatedFrom")} ${
-                localizationProvider/* localizationProvider */.j.get("langs")[s.translatedFromLanguage] ??
+            ? ` ${localizationProvider.get("VOTTranslatedFrom")} ${
+                localizationProvider.get("langs")[s.translatedFromLanguage] ??
                 s.translatedFromLanguage.toUpperCase()
               }`
             : "") +
           (s.source !== "yandex" ? ` ${s.source}` : "") +
           (s.isAutoGenerated
-            ? ` (${localizationProvider/* localizationProvider */.j.get("VOTAutogenerated")})`
+            ? ` (${localizationProvider.get("VOTAutogenerated")})`
             : ""),
         value: idx,
         selected: false,
@@ -6150,7 +7438,7 @@ class VideoHandler {
 
     if (!this.videoData.videoId) {
       console.error(
-        `[VOT] ${localizationProvider/* localizationProvider */.j.getDefault("VOTNoVideoIDFound")}`,
+        `[VOT] ${localizationProvider.getDefault("VOTNoVideoIDFound")}`,
       );
       this.subtitlesList = [];
       this.subtitlesListVideoId = null;
@@ -6165,11 +7453,7 @@ class VideoHandler {
       return;
     }
 
-    this.subtitlesList = await getSubtitles(
-      this.site,
-      this.videoData.videoId,
-      this.videoData.detectedLanguage,
-    );
+    this.subtitlesList = await subtitles_getSubtitles(this.votClient, this.videoData);
     if (!this.subtitlesList) {
       await this.changeSubtitlesLang("disabled");
     } else {
@@ -6182,7 +7466,7 @@ class VideoHandler {
   getVideoVolume() {
     let videoVolume = this.video?.volume;
     if (["youtube", "googledrive"].includes(this.site.host)) {
-      videoVolume = youtubeUtils/* default */.A.getVideoVolume() ?? videoVolume;
+      videoVolume = youtubeUtils.getVideoVolume() ?? videoVolume;
     }
     return videoVolume;
   }
@@ -6190,7 +7474,7 @@ class VideoHandler {
   // Set video volume in 0.00-1.00 format
   setVideoVolume(volume) {
     if (["youtube", "googledrive"].includes(this.site.host)) {
-      const videoVolume = youtubeUtils/* default */.A.setVideoVolume(volume);
+      const videoVolume = youtubeUtils.setVideoVolume(volume);
       if (videoVolume) {
         return;
       }
@@ -6200,7 +7484,7 @@ class VideoHandler {
 
   isMuted() {
     return ["youtube", "googledrive"].includes(this.site.host)
-      ? youtubeUtils/* default */.A.isMuted()
+      ? youtubeUtils.isMuted()
       : this.video?.muted;
   }
 
@@ -6210,8 +7494,9 @@ class VideoHandler {
     const newSlidersVolume = Math.round(videoVolume);
 
     this.votVideoVolumeSlider.input.value = newSlidersVolume;
-    this.votVideoVolumeSlider.label.querySelector("strong").innerHTML =
-      `${newSlidersVolume}%`;
+    this.votVideoVolumeSlider.label.querySelector(
+      "strong",
+    ).innerHTML = `${newSlidersVolume}%`;
     ui.updateSlider(this.votVideoVolumeSlider.input);
 
     if (this.data.syncVolume === 1) {
@@ -6221,10 +7506,10 @@ class VideoHandler {
 
   setSelectMenuValues(from, to) {
     this.votTranslationLanguageSelect.fromSelect.setTitle(
-      localizationProvider/* localizationProvider */.j.get("langs")[from],
+      localizationProvider.get("langs")[from],
     );
     this.votTranslationLanguageSelect.toSelect.setTitle(
-      localizationProvider/* localizationProvider */.j.get("langs")[to],
+      localizationProvider.get("langs")[to],
     );
     this.votTranslationLanguageSelect.fromSelect.setSelected(from);
     this.votTranslationLanguageSelect.toSelect.setSelected(to);
@@ -6265,28 +7550,28 @@ class VideoHandler {
   }
 
   async getVideoData() {
+    // TODO: запатчить чтобы использовался уже существующий service?
+    const { duration, url, videoId, host } = await getVideoData(
+      window.location.href,
+    );
     const videoData = {
-      // ! should be null for ALL websites except coursera and udemy !
-      // else use direct link: `{url: xxx.mp4}`
       translationHelp: null,
-      isStream: false, // by default, we request the translation of the video
-      duration: this.video?.duration || 343, // ! if 0 - we get 400 error
-      videoId: (0,utils/* getVideoId */.jI)(this.site.host, this.video),
+      // by default, we request the translation of the video
+      isStream: false,
+      // ! if 0 - we get 400 error
+      duration: this.video?.duration || duration || config.defaultDuration,
+      videoId,
+      url,
+      host,
       detectedLanguage: this.translateFromLang,
       responseLanguage: this.translateToLang,
     };
 
-    if (!videoData.videoId) {
-      this.ytData = {};
-      return videoData;
-    }
-
     if (this.site.host === "youtube") {
-      this.ytData = await youtubeUtils/* default */.A.getVideoData();
-      videoData.isStream = this.ytData.isLive;
-      if (this.ytData.title) {
-        videoData.detectedLanguage = this.ytData.detectedLanguage;
-        videoData.responseLanguage = this.translateToLang;
+      const youtubeData = await youtubeUtils.getVideoData();
+      videoData.isStream = youtubeData.isLive;
+      if (youtubeData.title) {
+        videoData.detectedLanguage = youtubeData.detectedLanguage;
       }
     } else if (["rutube", "ok.ru", "mail_ru"].includes(this.site.host)) {
       videoData.detectedLanguage = "ru";
@@ -6309,25 +7594,8 @@ class VideoHandler {
         url: coursehunterData.url,
       };
       videoData.duration = coursehunterData.duration || videoData.duration;
-    } else if (this.site.host === "bannedvideo") {
-      const bannedvideoData = await bannedvideoUtils.getVideoData(
-        videoData.videoId,
-      );
-      videoData.translationHelp = {
-        url: bannedvideoData.url,
-      };
-
-      videoData.duration = bannedvideoData.duration || videoData.duration;
-      videoData.isStream = bannedvideoData.live;
     } else if (this.site.host === "weverse") {
-      const weverseData = await weverseUtils.getVideoData();
       videoData.detectedLanguage = "ko";
-      if (weverseData) {
-        videoData.translationHelp = {
-          url: weverseData.url,
-        };
-        videoData.duration = weverseData.duration || videoData.duration;
-      }
     } else if (this.site.host === "udemy") {
       const udemyData = await udemyUtils.getVideoData(
         this.data.udemyData,
@@ -6336,11 +7604,6 @@ class VideoHandler {
       videoData.duration = udemyData.duration || videoData.duration;
       videoData.detectedLanguage = udemyData.detectedLanguage;
       videoData.translationHelp = udemyData.translationHelp;
-    } else if (this.site.host === "bitchute") {
-      // to avoid creating a separate file with the same functionality
-      videoData.translationHelp = {
-        url: videoData.videoId,
-      };
     } else if (
       [
         "bilibili",
@@ -6361,9 +7624,10 @@ class VideoHandler {
     }
     return videoData;
   }
+
   videoValidator() {
     if (["youtube", "ok.ru", "vk"].includes(this.site.host)) {
-      debug/* default */.A.log("VideoValidator videoData: ", this.videoData);
+      utils_debug.log("VideoValidator videoData: ", this.videoData);
       if (
         this.data.dontTranslateYourLang === 1 &&
         this.videoData.detectedLanguage === this.data.dontTranslateLanguage
@@ -6371,20 +7635,16 @@ class VideoHandler {
         throw new VOTLocalizedError("VOTDisableFromYourLang");
       }
     }
-    // if (this.ytData.isPremiere) {
-    //   throw new VOTLocalizedError("VOTPremiere");
-    // }
-    // if (this.ytData.isLive) {
-    //   throw new VOTLocalizedError("VOTLiveNotSupported");
-    // }
+
     if (!this.videoData.isStream && this.videoData.duration > 14_400) {
       throw new VOTLocalizedError("VOTVideoIsTooLong");
     }
+
     return true;
   }
 
   lipSync(mode = false) {
-    debug/* default */.A.log("lipsync video", this.video);
+    utils_debug.log("lipsync video", this.video);
     if (!this.video) {
       return;
     }
@@ -6392,12 +7652,12 @@ class VideoHandler {
     this.audio.playbackRate = this.video.playbackRate;
 
     if (!mode) {
-      debug/* default */.A.log("lipsync mode is not set");
+      utils_debug.log("lipsync mode is not set");
       return;
     }
 
     if (mode == "play") {
-      debug/* default */.A.log("lipsync mode is play");
+      utils_debug.log("lipsync mode is play");
       const audioPromise = this.audio.play();
       if (audioPromise !== undefined) {
         audioPromise.catch((e) => {
@@ -6405,15 +7665,15 @@ class VideoHandler {
           if (e.name === "NotAllowedError") {
             this.transformBtn(
               "error",
-              localizationProvider/* localizationProvider */.j.get("grantPermissionToAutoPlay"),
+              localizationProvider.get("grantPermissionToAutoPlay"),
             );
             throw new VOTLocalizedError("grantPermissionToAutoPlay");
           } else if (e.name === "NotSupportedError") {
             this.transformBtn(
               "error",
               sitesChromiumBlocked.includes(window.location.hostname)
-                ? localizationProvider/* localizationProvider */.j.get("neededAdditionalExtension")
-                : localizationProvider/* localizationProvider */.j.get("audioFormatNotSupported"),
+                ? localizationProvider.get("neededAdditionalExtension")
+                : localizationProvider.get("audioFormatNotSupported"),
             );
             throw sitesChromiumBlocked.includes(window.location.hostname)
               ? new VOTLocalizedError("neededAdditionalExtension")
@@ -6425,19 +7685,19 @@ class VideoHandler {
     }
     // video is inactive
     if (["pause", "stop", "waiting"].includes(mode)) {
-      debug/* default */.A.log(`lipsync mode is ${mode}`);
+      utils_debug.log(`lipsync mode is ${mode}`);
       this.audio.pause();
     }
 
     if (mode == "playing") {
-      debug/* default */.A.log("lipsync mode is playing");
+      utils_debug.log("lipsync mode is playing");
       this.audio.play();
     }
   }
 
   // Define a function to handle common events
   handleVideoEvent(event) {
-    debug/* default */.A.log(`video ${event.type}`);
+    utils_debug.log(`video ${event.type}`);
     this.lipSync(event.type);
   }
 
@@ -6453,8 +7713,8 @@ class VideoHandler {
     this.votVideoTranslationVolumeSlider.container.hidden = true;
     this.votDownloadButton.hidden = true;
     this.downloadTranslationUrl = null;
-    this.transformBtn("none", localizationProvider/* localizationProvider */.j.get("translateVideo"));
-    debug/* default */.A.log(`Volume on start: ${this.volumeOnStart}`);
+    this.transformBtn("none", localizationProvider.get("translateVideo"));
+    utils_debug.log(`Volume on start: ${this.volumeOnStart}`);
     if (this.volumeOnStart) {
       this.setVideoVolume(this.volumeOnStart);
     }
@@ -6462,13 +7722,13 @@ class VideoHandler {
     clearInterval(this.streamPing);
     clearTimeout(this.autoRetry);
     this.hls?.destroy();
-    this.hls = (0,utils/* initHls */.CK)();
+    this.hls = initHls();
     this.firstSyncVolume = true;
   }
 
   async translateExecutor(VIDEO_ID) {
-    debug/* default */.A.log("Run translateFunc", VIDEO_ID);
-    this.translateFunc(
+    utils_debug.log("Run translateFunc", VIDEO_ID);
+    await this.translateFunc(
       VIDEO_ID,
       this.videoData.isStream,
       this.videoData.detectedLanguage,
@@ -6478,9 +7738,9 @@ class VideoHandler {
   }
 
   async updateTranslationErrorMsg(errorMessage) {
-    const translationTake = localizationProvider/* localizationProvider */.j.get("translationTake");
-    const VOTTranslatingError = localizationProvider/* localizationProvider */.j.get("VOTTranslatingError");
-    const lang = localizationProvider/* localizationProvider */.j.lang;
+    const translationTake = localizationProvider.get("translationTake");
+    const VOTTranslatingError = localizationProvider.get("VOTTranslatingError");
+    const lang = localizationProvider.lang;
 
     if (errorMessage?.name === "VOTLocalizedError") {
       this.transformBtn("error", errorMessage.localizedMessage);
@@ -6489,7 +7749,7 @@ class VideoHandler {
       !errorMessage.includes(translationTake) &&
       lang !== "ru"
     ) {
-      const translatedMessage = await (0,translateApis/* translate */.Tl)(errorMessage, "ru", lang);
+      const translatedMessage = await translate(errorMessage, "ru", lang);
       this.transformBtn("error", VOTTranslatingError);
       this.transformBtn("error", translatedMessage);
     } else {
@@ -6506,8 +7766,9 @@ class VideoHandler {
 
     if (this.data.autoSetVolumeYandexStyle === 1) {
       this.votVideoVolumeSlider.input.value = this.data.autoVolume * 100;
-      this.votVideoVolumeSlider.label.querySelector("strong").innerHTML =
-        `${this.data.autoVolume * 100}%`;
+      this.votVideoVolumeSlider.label.querySelector("strong").innerHTML = `${
+        this.data.autoVolume * 100
+      }%`;
       ui.updateSlider(this.votVideoVolumeSlider.input);
     }
 
@@ -6535,17 +7796,7 @@ class VideoHandler {
       this.audio.src = proxiedAudioUrl;
     }
 
-    this.volumeOnStart = this.getVideoVolume();
-    if (typeof this.data.defaultVolume === "number") {
-      this.gainNode.gain.value = this.data.defaultVolume / 100;
-    }
-    if (
-      typeof this.data.autoSetVolumeYandexStyle === "number" &&
-      this.data.autoSetVolumeYandexStyle
-    ) {
-      this.setVideoVolume(this.data.autoVolume);
-    }
-
+    this.setupAudioSettings();
     switch (this.site.host) {
       case "twitter":
         document
@@ -6561,12 +7812,12 @@ class VideoHandler {
     for (const e of videoLipSyncEvents) {
       this.video.addEventListener(e, this.handleVideoEventBound);
     }
-    this.transformBtn("success", localizationProvider/* localizationProvider */.j.get("disableTranslate"));
+    this.transformBtn("success", localizationProvider.get("disableTranslate"));
     this.afterUpdateTranslation(audioUrl);
   }
 
   // Define a function to translate a video and handle the callback
-  translateFunc(
+  async translateFunc(
     VIDEO_ID,
     isStream,
     requestLang,
@@ -6574,152 +7825,60 @@ class VideoHandler {
     translationHelp,
   ) {
     console.log("[VOT] Video Data: ", this.videoData);
-    const videoURL = translationHelp?.url
-      ? translationHelp.url
-      : `${this.site.url}${VIDEO_ID}`;
-
     // fix enabling the old requested voiceover when changing the language to the native language (#414)
-    debug/* default */.A.log("Run videoValidator");
+    utils_debug.log("Run videoValidator");
     this.videoValidator();
 
     if (isStream) {
-      debug/* default */.A.log("Executed stream translation");
-      translateStream(
-        videoURL,
+      let translateRes = await this.translateStreamImpl(
+        this.videoData,
         requestLang,
         responseLang,
-        async (success, reqInterval, resOrError) => {
-          debug/* default */.A.log("[exec callback] translateStream callback");
-          if ((0,utils/* getVideoId */.jI)(this.site.host, this.video) !== VIDEO_ID) return;
-          if (!success || !resOrError.translatedInfo) {
-            await this.updateTranslationErrorMsg(resOrError);
-
-            if (reqInterval === 10) {
-              // if wait translating
-              clearTimeout(this.autoRetry);
-              this.autoRetry = setTimeout(
-                () =>
-                  this.translateFunc(
-                    VIDEO_ID,
-                    isStream,
-                    requestLang,
-                    responseLang,
-                    translationHelp,
-                  ),
-                reqInterval * 1000,
-              );
-            }
-
-            return;
-          }
-
-          this.transformBtn(
-            "success",
-            localizationProvider/* localizationProvider */.j.get("disableTranslate"),
-          );
-
-          console.log(resOrError);
-          const pingId = resOrError.pingId;
-          debug/* default */.A.log(`Stream pingId: ${pingId}`);
-          // if you don't make ping requests, then the translation of the stream dies
-          this.streamPing = setInterval(
-            async () =>
-              await rsp(pingId, (result) =>
-                debug/* default */.A.log("Stream ping result: ", result),
-              ),
-            reqInterval * 1000,
-          );
-
-          debug/* default */.A.log(resOrError.translatedInfo.url);
-          const streamURL = `https://${
-            this.data.m3u8ProxyHost
-          }/?all=yes&origin=${encodeURIComponent(
-            "https://strm.yandex.ru",
-          )}&referer=${encodeURIComponent(
-            "https://strm.yandex.ru",
-          )}&url=${encodeURIComponent(resOrError.translatedInfo.url)}`;
-          debug/* default */.A.log(streamURL);
-
-          if (this.hls) {
-            this.hls.on(Hls.Events.MEDIA_ATTACHED, function () {
-              debug/* default */.A.log("audio and hls.js are now bound together !");
-            });
-            this.hls.on(Hls.Events.MANIFEST_PARSED, function (data) {
-              debug/* default */.A.log(
-                "manifest loaded, found " +
-                  data?.levels?.length +
-                  " quality level",
-              );
-            });
-            this.hls.loadSource(streamURL);
-            this.hls.attachMedia(this.audio);
-            this.hls.on(Hls.Events.ERROR, function (data) {
-              if (data.fatal) {
-                switch (data.type) {
-                  case Hls.ErrorTypes.MEDIA_ERROR:
-                    console.log(
-                      "fatal media error encountered, try to recover",
-                    );
-                    this.hls.recoverMediaError();
-                    break;
-                  case Hls.ErrorTypes.NETWORK_ERROR:
-                    console.error("fatal network error encountered", data);
-                    // All retries and media options have been exhausted.
-                    // Immediately trying to restart loading could cause loop loading.
-                    // Consider modifying loading policies to best fit your asset and network
-                    // conditions (manifestLoadPolicy, playlistLoadPolicy, fragLoadPolicy).
-                    break;
-                  default:
-                    // cannot recover
-                    this.hls.destroy();
-                    break;
-                }
-              }
-            });
-            debug/* default */.A.log(this.hls);
-          } else if (this.audio.canPlayType("application/vnd.apple.mpegurl")) {
-            // safari
-            this.audio.src = streamURL;
-          } else {
-            // browser doesn't support m3u8 (hls unsupported and it's not a safari)
-            throw new VOTLocalizedError("audioFormatNotSupported");
-          }
-
-          if (this.site.host === "youtube") {
-            youtubeUtils/* default */.A.videoSeek(this.video, 10); // 10 is the most successful number for streaming. With it, the audio is not so far behind the original
-          }
-
-          this.volumeOnStart = this.getVideoVolume();
-          if (typeof this.data.defaultVolume === "number") {
-            this.gainNode.gain.value = this.data.defaultVolume / 100;
-          }
-
-          if (
-            typeof this.data.autoSetVolumeYandexStyle === "number" &&
-            this.data.autoSetVolumeYandexStyle
-          ) {
-            this.setVideoVolume(this.data.autoVolume);
-          }
-
-          if (
-            !this.video.src &&
-            !this.video.currentSrc &&
-            !this.video.srcObject
-          ) {
-            this.stopTranslation();
-            return;
-          }
-
-          if (this.video && !this.video.paused) this.lipSync("play");
-          for (const e of videoLipSyncEvents) {
-            this.video.addEventListener(e, this.handleVideoEventBound);
-          }
-
-          this.afterUpdateTranslation(streamURL);
-        },
       );
 
-      return;
+      if (!translateRes) {
+        utils_debug.log("Skip translation");
+        return;
+      }
+
+      this.transformBtn(
+        "success",
+        localizationProvider.get("disableTranslate"),
+      );
+
+      const streamURL = `https://${
+        this.data.m3u8ProxyHost
+      }/?all=yes&origin=${encodeURIComponent(
+        "https://strm.yandex.ru",
+      )}&referer=${encodeURIComponent(
+        "https://strm.yandex.ru",
+      )}&url=${encodeURIComponent(translateRes.result.url)}`;
+
+      if (this.hls) {
+        this.setupHLS(streamURL);
+      } else if (this.audio.canPlayType("application/vnd.apple.mpegurl")) {
+        // safari
+        this.audio.src = streamURL;
+      } else {
+        // browser doesn't support m3u8 (hls unsupported and it isn't a safari)
+        throw new VOTLocalizedError("audioFormatNotSupported");
+      }
+
+      if (this.site.host === "youtube") {
+        youtubeUtils.videoSeek(this.video, 10); // 10 is the most successful number for streaming. With it, the audio is not so far behind the original
+      }
+
+      this.setupAudioSettings();
+      if (!this.video.src && !this.video.currentSrc && !this.video.srcObject) {
+        return this.stopTranslation();
+      }
+
+      if (this.video && !this.video.paused) this.lipSync("play");
+      for (const e of videoLipSyncEvents) {
+        this.video.addEventListener(e, this.handleVideoEventBound);
+      }
+
+      return this.afterUpdateTranslation(streamURL);
     }
 
     if (["udemy", "coursera"].includes(this.site.host) && !translationHelp) {
@@ -6736,75 +7895,93 @@ class VideoHandler {
 
     if (cachedTranslation) {
       this.updateTranslation(cachedTranslation.url);
-      debug/* default */.A.log("[translateFunc] A cached translate was received");
+      utils_debug.log("[translateFunc] Cached translation was received");
       return;
     }
 
-    const timeoutDuration = this.subtitlesList.some(
-      (item) => item.source === "yandex",
-    )
-      ? 20_000
-      : 30_000;
-
-    translateVideo(
-      videoURL,
-      this.videoData.duration,
+    let translateRes = await this.translateVideoImpl(
+      this.videoData,
       requestLang,
       responseLang,
       translationHelp,
-      async (success, urlOrError) => {
-        debug/* default */.A.log("[exec callback] translateVideo callback");
-        if ((0,utils/* getVideoId */.jI)(this.site.host, this.video) !== VIDEO_ID) return;
-        if (!success) {
-          await this.updateTranslationErrorMsg(urlOrError);
-
-          // if the error line contains information that the translation is being performed, then we wait
-          if (
-            urlOrError.includes(localizationProvider/* localizationProvider */.j.get("translationTake"))
-          ) {
-            clearTimeout(this.autoRetry);
-            this.autoRetry = setTimeout(
-              () =>
-                this.translateFunc(
-                  VIDEO_ID,
-                  isStream,
-                  requestLang,
-                  responseLang,
-                  translationHelp,
-                ),
-              timeoutDuration,
-            );
-          }
-          console.error("[VOT]", urlOrError);
-          return;
-        }
-
-        this.updateTranslation(urlOrError);
-        if (
-          !this.subtitlesList.some(
-            (item) =>
-              item.source === "yandex" &&
-              item.translatedFromLanguage === this.videoData.detectedLanguage &&
-              item.language === this.videoData.responseLanguage,
-          )
-        ) {
-          this.subtitlesList = await getSubtitles(
-            this.site,
-            this.videoData.videoId,
-            this.videoData.detectedLanguage,
-          );
-          await this.updateSubtitlesLangSelect();
-        }
-
-        this.videoTranslations.push({
-          videoId: VIDEO_ID,
-          from: requestLang,
-          to: responseLang,
-          url: urlOrError,
-          expires: Date.now() / 1000 + this.videoTranslationTTL,
-        });
-      },
     );
+
+    utils_debug.log("[translateRes]", translateRes);
+    if (!translateRes) {
+      utils_debug.log("Skip translation");
+      return;
+    }
+
+    this.updateTranslation(translateRes.url);
+    if (
+      !this.subtitlesList.some(
+        (item) =>
+          item.source === "yandex" &&
+          item.translatedFromLanguage === this.videoData.detectedLanguage &&
+          item.language === this.videoData.responseLanguage,
+      )
+    ) {
+      this.subtitlesList = await subtitles_getSubtitles(this.votClient, this.videoData);
+      await this.updateSubtitlesLangSelect();
+    }
+
+    this.videoTranslations.push({
+      videoId: VIDEO_ID,
+      from: requestLang,
+      to: responseLang,
+      url: translateRes.url,
+      expires: Date.now() / 1000 + this.videoTranslationTTL,
+    });
+  }
+
+  // Вспомогательные методы
+  setupHLS(streamURL) {
+    this.hls.on(Hls.Events.MEDIA_ATTACHED, function () {
+      utils_debug.log("audio and hls.js are now bound together !");
+    });
+    this.hls.on(Hls.Events.MANIFEST_PARSED, function (data) {
+      utils_debug.log(
+        "manifest loaded, found " + data?.levels?.length + " quality level",
+      );
+    });
+    this.hls.loadSource(streamURL);
+    this.hls.attachMedia(this.audio);
+    this.hls.on(Hls.Events.ERROR, function (data) {
+      if (data.fatal) {
+        switch (data.type) {
+          case Hls.ErrorTypes.MEDIA_ERROR:
+            console.log("fatal media error encountered, try to recover");
+            this.hls.recoverMediaError();
+            break;
+          case Hls.ErrorTypes.NETWORK_ERROR:
+            console.error("fatal network error encountered", data);
+            // All retries and media options have been exhausted.
+            // Immediately trying to restart loading could cause loop loading.
+            // Consider modifying loading policies to best fit your asset and network
+            // conditions (manifestLoadPolicy, playlistLoadPolicy, fragLoadPolicy).
+            break;
+          default:
+            // cannot recover
+            this.hls.destroy();
+            break;
+        }
+      }
+    });
+    utils_debug.log(this.hls);
+  }
+
+  setupAudioSettings() {
+    this.volumeOnStart = this.getVideoVolume();
+    if (typeof this.data.defaultVolume === "number") {
+      this.gainNode.gain.value = this.data.defaultVolume / 100;
+    }
+
+    if (
+      typeof this.data.autoSetVolumeYandexStyle === "number" &&
+      this.data.autoSetVolumeYandexStyle
+    ) {
+      this.setVideoVolume(this.data.autoVolume);
+    }
   }
 
   // Define a function to stop translation and clean up
@@ -6814,7 +7991,7 @@ class VideoHandler {
   }
 
   async handleSrcChanged() {
-    debug/* default */.A.log("[VideoHandler] src changed", this);
+    utils_debug.log("[VideoHandler] src changed", this);
 
     this.firstPlay = true;
 
@@ -6844,7 +8021,7 @@ class VideoHandler {
   }
 
   async release() {
-    debug/* default */.A.log("[VideoHandler] release");
+    utils_debug.log("[VideoHandler] release");
 
     this.initialized = false;
     this.releaseExtraEvents();
@@ -6869,7 +8046,7 @@ function getSites() {
     return false;
   };
 
-  return config_sites.filter((e) => {
+  return sites.filter((e) => {
     return (
       (Array.isArray(e.match) ? e.match.some(isMathes) : isMathes(e.match)) &&
       e.host &&
@@ -6891,43 +8068,43 @@ function findContainer(site, video) {
     return container && container.shadowRoot
       ? container.parentElement
       : container;
-  } else {
-    const browserVersion = browserInfo.browser.version.split(".")[0];
-    if (
-      site.selector?.includes(":not") &&
-      site.selector?.includes("*") &&
-      browserVersion &&
-      ((browserInfo.browser.name === "Chrome" && Number(browserVersion) < 88) ||
-        (browserInfo.browser.name === "Firefox" && Number(browserVersion) < 84))
-    ) {
-      const selector = site.selector.split(" *")[0];
-      return selector
-        ? Array.from(document.querySelectorAll(selector)).find((e) =>
-            e.contains(video),
-          )
-        : video.parentElement;
-    } else {
-      return site.selector
-        ? Array.from(document.querySelectorAll(site.selector)).find((e) =>
-            e.contains(video),
-          )
-        : video.parentElement;
-    }
   }
+
+  const browserVersion = browserInfo.browser.version.split(".")[0];
+  if (
+    site.selector?.includes(":not") &&
+    site.selector?.includes("*") &&
+    browserVersion &&
+    ((browserInfo.browser.name === "Chrome" && Number(browserVersion) < 88) ||
+      (browserInfo.browser.name === "Firefox" && Number(browserVersion) < 84))
+  ) {
+    const selector = site.selector.split(" *")[0];
+    return selector
+      ? Array.from(document.querySelectorAll(selector)).find((e) =>
+          e.contains(video),
+        )
+      : video.parentElement;
+  }
+
+  return site.selector
+    ? Array.from(document.querySelectorAll(site.selector)).find((e) =>
+        e.contains(video),
+      )
+    : video.parentElement;
 }
 
 async function src_main() {
-  debug/* default */.A.log("Loading extension...");
+  utils_debug.log("Loading extension...");
 
-  await localizationProvider/* localizationProvider */.j.update();
+  await localizationProvider.update();
 
-  debug/* default */.A.log(`Selected menu language: ${localizationProvider/* localizationProvider */.j.lang}`);
+  utils_debug.log(`Selected menu language: ${localizationProvider.lang}`);
 
   if (
     false
   ) {}
 
-  debug/* default */.A.log("Extension compatibility passed...");
+  utils_debug.log("Extension compatibility passed...");
 
   videoObserver.onVideoAdded.addListener((video) => {
     for (const site of getSites()) {
@@ -6970,19 +8147,6 @@ async function src_main() {
 src_main().catch((e) => {
   console.error("[VOT]", e);
 });
-
-// if (import.meta.webpackHot) {
-//   import.meta.webpackHot.monkeyReload();
-//   import.meta.webpackHot.dispose(() => {
-//     for (const selector of [
-//       ".vot-menu",
-//       ".vot-segmented-button",
-//       ".vot-subtitles-widget",
-//     ]) {
-//       document.querySelector(selector)?.remove();
-//     }
-//   });
-// }
 
 })();
 

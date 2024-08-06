@@ -20,7 +20,6 @@
   "requestTranslationFailed": "Videotõlke taotlemine nurjus",
   "audioNotReceived": "Audio link ei saanud",
   "grantPermissionToAutoPlay": "Andke luba automaatseks esitamiseks",
-  "neededAdditionalExtension": "Selle saidi toetamiseks on vaja täiendavat laiendust",
   "audioFormatNotSupported": "Helivormingut ei toetata",
   "VOTAutoTranslate": "Tõlgi avatud",
   "VOTDontTranslateYourLang": "Ära tõlgi minu keelest",
@@ -177,11 +176,8 @@
     "yo": "Joruba",
     "zu": "Zulu"
   },
-  "udemyAccessTokenExpired": "Teie sisestatud Udemy juurdepääsuluba on aegunud",
   "udemyModuleArgsNotFound": "Udemy mooduli andmeid ei õnnestunud saada, kuna Moduleargsi ei leitud",
   "VOTTranslationHelpNull": "Tõlkimiseks vajalikke andmeid ei õnnestunud saada",
-  "enterUdemyAccessToken": "Sisestage Udemy Juurdepääsuluba",
-  "VOTUdemyData": "Udemy Andmed",
   "streamNoConnectionToServer": "Serveriga pole ühendust",
   "searchField": "Otsing...",
   "VOTTranslateAPIErrors": "Tõlgi vead API-st",
@@ -192,5 +188,9 @@
   "VOTM3u8ProxyHost": "Sisestage m3u8 puhverserveri töötaja aadress",
   "proxySettings": "Puhverserveri Seaded",
   "translationTakeApproximatelyMinute2": "Tõlge võtab umbes {0} minutit",
-  "VOTAudioBooster": "Laiendatud tõlke mahu suurenemine"
+  "VOTAudioBooster": "Laiendatud tõlke mahu suurenemine",
+  "VOTMediaCSPError": "Heli laadimine nurjus (media csp viga)",
+  "VOTSubtitlesDesign": "Subtiitrite kujundus",
+  "VOTSubtitlesFontSize": "Subtiitrite fondi suurus",
+  "VOTSubtitlesOpacity": "Subtiitrite tausta läbipaistvus"
 }

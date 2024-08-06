@@ -20,7 +20,6 @@
   "requestTranslationFailed": "ভিডিও অনুবাদের অনুরোধ ব্যর্থ হয়েছে",
   "audioNotReceived": "অডিও লিঙ্ক পাওয়া যায়নি",
   "grantPermissionToAutoPlay": "অটো প্লে এর অনুমতি দিন",
-  "neededAdditionalExtension": "এই সাইটটি সমর্থনের জন্য অতিরিক্ত এক্সটেনশান প্রয়োজন",
   "audioFormatNotSupported": "অডিও ফরম্যাটটি সমর্থিত নয়",
   "VOTAutoTranslate": "খোলার সময় অনুবাদ করুন",
   "VOTDontTranslateYourLang": "নিজের ভাষা অনুবাদ না করুন",
@@ -177,11 +176,8 @@
     "ja": "জাপানি",
     "kri": "ক্রি"
   },
-  "udemyAccessTokenExpired": "আপনার প্রবেশ করা উডেমি অ্যাক্সেস টোকেনের মেয়াদ শেষ হয়ে গেছে",
   "udemyModuleArgsNotFound": "মডিউলআর্গস পাওয়া যায়নি বলে উডেমি মডিউল ডেটা পাওয়া যায়নি",
   "VOTTranslationHelpNull": "অনুবাদের জন্য প্রয়োজনীয় তথ্য পাওয়া যায়নি",
-  "enterUdemyAccessToken": "উদেমি অ্যাক্সেস টোকেন লিখুন",
-  "VOTUdemyData": "উদেমি ডেটা",
   "streamNoConnectionToServer": "সার্ভারের সাথে কোন সংযোগ নেই",
   "searchField": "অনুসন্ধান...",
   "VOTTranslateAPIErrors": "এপিআই থেকে ত্রুটিগুলি অনুবাদ করুন",
@@ -192,5 +188,9 @@
   "VOTM3u8ProxyHost": "এম 3 ইউ 8 প্রক্সি কর্মীর ঠিকানা লিখুন",
   "proxySettings": "প্রক্সি সেটিংস",
   "translationTakeApproximatelyMinute2": "অনুবাদটি প্রায় {0} মিনিট সময় নেবে",
-  "VOTAudioBooster": "বর্ধিত অনুবাদ ভলিউম বৃদ্ধি"
+  "VOTAudioBooster": "বর্ধিত অনুবাদ ভলিউম বৃদ্ধি",
+  "VOTMediaCSPError": "অডিও লোড করতে ব্যর্থ (মিডিয়া সিএসপি ত্রুটি)",
+  "VOTSubtitlesDesign": "সাবটাইটেল ডিজাইন",
+  "VOTSubtitlesFontSize": "সাবটাইটেলের ফন্টের আকার",
+  "VOTSubtitlesOpacity": "সাবটাইটেল পটভূমির স্বচ্ছতা"
 }

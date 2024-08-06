@@ -20,7 +20,6 @@
   "requestTranslationFailed": "Videon käännöksen pyyntö epäonnistui",
   "audioNotReceived": "Äänilinkkiä ei vastaanotettu",
   "grantPermissionToAutoPlay": "Myönnä lupa automaattipeliin",
-  "neededAdditionalExtension": "Tämän sivuston tueksi tarvitaan lisälaajennus",
   "audioFormatNotSupported": "Äänimuotoa ei tueta",
   "VOTAutoTranslate": "Käännä auki",
   "VOTDontTranslateYourLang": "Älä käännä kielestäni",
@@ -177,11 +176,8 @@
     "yo": "Joruba",
     "zu": "Zulu"
   },
-  "udemyAccessTokenExpired": "Syötetty Udemy Access Token on vanhentunut",
   "udemyModuleArgsNotFound": "Udemy-moduulin tietoja ei saatu, koska Moduleargsia ei löytynyt",
   "VOTTranslationHelpNull": "Ei voitu saada tarvittavat tiedot kääntää",
-  "enterUdemyAccessToken": "Enter Udemy Access Token",
-  "VOTUdemyData": "Udemy Data",
   "streamNoConnectionToServer": "Palvelimeen ei ole yhteyttä",
   "searchField": "Etsiä...",
   "VOTTranslateAPIErrors": "Käännä virheet API: sta",
@@ -192,5 +188,9 @@
   "VOTM3u8ProxyHost": "Anna M3U8-valtakirjan työntekijän osoite",
   "proxySettings": "Välityspalvelimen Asetukset",
   "translationTakeApproximatelyMinute2": "Käännös kestää noin {0} minuuttia",
-  "VOTAudioBooster": "Laajennettu käännösmäärä kasvaa"
+  "VOTAudioBooster": "Laajennettu käännösmäärä kasvaa",
+  "VOTMediaCSPError": "Äänen lataaminen epäonnistui (median csp-virhe)",
+  "VOTSubtitlesDesign": "Tekstitysten suunnittelu",
+  "VOTSubtitlesFontSize": "Tekstityksen kirjasinkoko",
+  "VOTSubtitlesOpacity": "Tekstityksen Taustan läpinäkyvyys"
 }

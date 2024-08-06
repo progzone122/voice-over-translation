@@ -20,7 +20,6 @@
   "requestTranslationFailed": "Nem sikerült a videó fordítását kérni",
   "audioNotReceived": "Az Audio link nem érkezett meg",
   "grantPermissionToAutoPlay": "Engedély megadása az automatikus lejátszáshoz",
-  "neededAdditionalExtension": "További bővítményre van szükség a webhely támogatásához",
   "audioFormatNotSupported": "Az audio formátum nem támogatott",
   "VOTAutoTranslate": "Fordítás nyitva",
   "VOTDontTranslateYourLang": "Ne fordítson az én nyelvemről",
@@ -177,11 +176,8 @@
     "yo": "Joruba",
     "zu": "Zulu"
   },
-  "udemyAccessTokenExpired": "A megadott Udemy hozzáférési Token lejárt",
   "udemyModuleArgsNotFound": "Nem sikerült megszerezni az udemy modul adatait, mivel a ModuleArgs nem található",
   "VOTTranslationHelpNull": "Nem sikerült megszerezni a fordításhoz szükséges adatokat",
-  "enterUdemyAccessToken": "Adja Meg Az Udemy Hozzáférési Tokent",
-  "VOTUdemyData": "Udemy Adatok",
   "streamNoConnectionToServer": "Nincs kapcsolat a szerverrel",
   "searchField": "Keresés...",
   "VOTTranslateAPIErrors": "Hibák lefordítása az API - ból",
@@ -192,5 +188,9 @@
   "VOTM3u8ProxyHost": "Írja be az m3u8 proxy munkás címét",
   "proxySettings": "Proxy Beállítások",
   "translationTakeApproximatelyMinute2": "A fordítás körülbelül {0} percet vesz igénybe",
-  "VOTAudioBooster": "Bővített fordítási volumen növekedés"
+  "VOTAudioBooster": "Bővített fordítási volumen növekedés",
+  "VOTMediaCSPError": "Nem sikerült betölteni a hangot (media csp hiba)",
+  "VOTSubtitlesDesign": "Feliratok tervezése",
+  "VOTSubtitlesFontSize": "A feliratok betűmérete",
+  "VOTSubtitlesOpacity": "A felirat hátterének átláthatósága"
 }

@@ -20,7 +20,6 @@
   "requestTranslationFailed": "Nuk arriti të kërkojë përkthim video",
   "audioNotReceived": "Lidhja Audio nuk është marrë",
   "grantPermissionToAutoPlay": "Jepni leje për autoplay",
-  "neededAdditionalExtension": "Një shtesë shtesë është e nevojshme për të mbështetur këtë faqe",
   "audioFormatNotSupported": "Formati audio nuk mbështetet",
   "VOTAutoTranslate": "Përktheni në open",
   "VOTDontTranslateYourLang": "Mos përktheni nga gjuha ime",
@@ -177,11 +176,8 @@
     "yo": "Joruba",
     "zu": "Zulu"
   },
-  "udemyAccessTokenExpired": "Hyrja Juaj Në Udemy Access Token ka skaduar",
   "udemyModuleArgsNotFound": "Nuk mund të marrë të dhënat e modulit udemy për shkak të faktit Se ModuleArgs nuk u gjet",
   "VOTTranslationHelpNull": "Nuk mund të merrte të dhënat e kërkuara për përkthimin",
-  "enterUdemyAccessToken": "Shkruani Udemy Access Token",
-  "VOTUdemyData": "Të Dhënat E Udemy",
   "streamNoConnectionToServer": "Nuk ka lidhje me serverin",
   "searchField": "Kërko...",
   "VOTTranslateAPIErrors": "Përktheni gabimet NGA API",
@@ -192,5 +188,9 @@
   "VOTM3u8ProxyHost": "Vendosni adresën e punonjësit të përfaqësuesit m3u8",
   "proxySettings": "Cilësimet E Përfaqësuesit",
   "translationTakeApproximatelyMinute2": "Përkthimi do të zgjasë afërsisht {0} minuta",
-  "VOTAudioBooster": "Rritja e vëllimit të përkthimit të zgjeruar"
+  "VOTAudioBooster": "Rritja e vëllimit të përkthimit të zgjeruar",
+  "VOTMediaCSPError": "Nuk arriti të ngarkojë audio (gabim media csp)",
+  "VOTSubtitlesDesign": "Dizajni i titrave",
+  "VOTSubtitlesFontSize": "Madhësia e shkronjave të titrave",
+  "VOTSubtitlesOpacity": "Transparenca e sfondit të titrave"
 }

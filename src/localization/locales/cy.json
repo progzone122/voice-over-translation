@@ -20,7 +20,6 @@
   "requestTranslationFailed": "Methu gofyn am gyfieithiad fideo",
   "audioNotReceived": "Ni dderbyniwyd y cyswllt sain",
   "grantPermissionToAutoPlay": "Rhoi caniatâd i awto-chwarae",
-  "neededAdditionalExtension": "Mae angen estyniad ychwanegol i gefnogi'r safle hwn",
   "audioFormatNotSupported": "Ni chynhelir y fformat sain",
   "VOTAutoTranslate": "Cyfieithu ar agor",
   "VOTDontTranslateYourLang": "Peidiwch â chyfieithu o fy iaith",
@@ -177,11 +176,8 @@
     "yo": "Yoruba",
     "zu": "Zulu"
   },
-  "udemyAccessTokenExpired": "Mae Eich Tocyn Mynediad Udemy a gofnodwyd wedi dod i ben",
   "udemyModuleArgsNotFound": "Methwyd cael data modiwl udemy oherwydd y ffaith na chanfuwyd ModuleArgs",
   "VOTTranslationHelpNull": "Methu cael y data sydd ei angen ar gyfer y cyfieithiad",
-  "enterUdemyAccessToken": "Rhowch Docyn Mynediad Udemy",
-  "VOTUdemyData": "Udemy Data",
   "streamNoConnectionToServer": "Nid oes cysylltiad i'r defnyddiwr",
   "searchField": "Chwilio...",
   "VOTTranslateAPIErrors": "Cyfieithu gwallau O'R API",
@@ -192,5 +188,9 @@
   "VOTM3u8ProxyHost": "Rhowch gyfeiriad y gweithiwr dirprwy m3u8",
   "proxySettings": "Gosodiadau Dirprwy",
   "translationTakeApproximatelyMinute2": "Bydd y cyfieithiad yn cymryd oddeutu {0} munud",
-  "VOTAudioBooster": "Cynyddu cyfaint cyfieithu estynedig"
+  "VOTAudioBooster": "Cynyddu cyfaint cyfieithu estynedig",
+  "VOTMediaCSPError": "Methu llwytho sain (gwall csp cyfrwng)",
+  "VOTSubtitlesDesign": "Isdeitlau dylunio",
+  "VOTSubtitlesFontSize": "Maint ffont isdeitlau",
+  "VOTSubtitlesOpacity": "Tryloywder cefndir yr is-deitl"
 }

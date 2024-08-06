@@ -20,7 +20,6 @@
   "requestTranslationFailed": "የቪዲዮ ትርጉም መጠየቅ አልተሳካም",
   "audioNotReceived": "የድምፅ አገናኝ አልተቀበለም",
   "grantPermissionToAutoPlay": "ለአውቶፕሌይ ፈቃድ ይስጡ",
-  "neededAdditionalExtension": "ይህንን ጣቢያ ለመደገፍ ተጨማሪ ቅጥያ ያስፈልጋል ። ",
   "audioFormatNotSupported": "የድምጽ ቅርጸት አይደገፍም",
   "VOTAutoTranslate": "ክፈት ላይ መተርጎም",
   "VOTDontTranslateYourLang": "ከቋንቋዬ አትበል",
@@ -177,11 +176,8 @@
     "yo": "ዮሩባ",
     "zu": "ዙሉ"
   },
-  "udemyAccessTokenExpired": "የኢትዮ ቴሌኮም ዋና ሥራ አስፈጻሚ ከኃላፊነታቸው ለቀቁ",
   "udemyModuleArgsNotFound": "ሞጁሎች ባለመገኘታቸው ምክንያት የኡዲሚ ሞዱል ውሂብ ማግኘት አልተቻለም ። ",
   "VOTTranslationHelpNull": "ለመተርጎም የሚያስፈልገውን መረጃ ማግኘት አልተቻለም",
-  "enterUdemyAccessToken": "የኡዲሚ መዳረሻ ማስመሰያ ያስገቡ",
-  "VOTUdemyData": "የተጠቃሚዎች በይነ-ተገናኝነት",
   "streamNoConnectionToServer": "ከአገልጋዩ ጋር ምንም ግንኙነት የለም ። ",
   "searchField": "Search።..",
   "VOTTranslateAPIErrors": "ከ API ስህተቶችን ይተረጉሙ",
@@ -192,5 +188,9 @@
   "VOTM3u8ProxyHost": "የ m3u8 ተኪ ሰራተኛ አድራሻ ያስገቡ",
   "proxySettings": "የተኪ ቅንብሮች",
   "translationTakeApproximatelyMinute2": "ትርጉሙ በግምት ይወስዳል {0} ደቂቃዎች",
-  "VOTAudioBooster": "የተራዘመ የትርጉም መጠን መጨመር"
+  "VOTAudioBooster": "የተራዘመ የትርጉም መጠን መጨመር",
+  "VOTMediaCSPError": "ኦዲዮ መጫን አልተሳካም (ሚዲያ csp ስህተት)",
+  "VOTSubtitlesDesign": "ንዑስ ርዕሶች ንድፍ",
+  "VOTSubtitlesFontSize": "የትርጉም ጽሑፎች ቅርጸ-ቁምፊ መጠን",
+  "VOTSubtitlesOpacity": "የትርጉም ዳራ ግልፅነት"
 }

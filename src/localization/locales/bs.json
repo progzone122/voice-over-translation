@@ -20,7 +20,6 @@
   "requestTranslationFailed": "Neuspjela prijava.",
   "audioNotReceived": "Audio link nije primljen",
   "grantPermissionToAutoPlay": "Grant dozvolu za autoplay",
-  "neededAdditionalExtension": "Za podršku ovoj web stranici potrebno je dodatno proširenje",
   "audioFormatNotSupported": "Audio format nije podržan",
   "VOTAutoTranslate": "Prevedi na open",
   "VOTDontTranslateYourLang": "Ne prevodite sa mog jezika",
@@ -177,11 +176,8 @@
     "yo": "Joruba",
     "zu": "Zulu"
   },
-  "udemyAccessTokenExpired": "Vaš uneseni Udemy Token za pristup je istekao",
   "udemyModuleArgsNotFound": "Nisam mogao dobaviti podatke udemy modula zbog činjenice da ModuleArgs nije pronađen",
   "VOTTranslationHelpNull": "Nisam mogao dobaviti podatke potrebne za prijevod",
-  "enterUdemyAccessToken": "Unesite Udemy Token Za Pristup",
-  "VOTUdemyData": "Udemy Podaci",
   "streamNoConnectionToServer": "Nema veze sa serverom",
   "searchField": "Traži...",
   "VOTTranslateAPIErrors": "Prevedi greške iz API-ja",
@@ -192,5 +188,9 @@
   "VOTM3u8ProxyHost": "Unesite adresu m3u8 proxy radnika",
   "proxySettings": "_postavke ... ",
   "translationTakeApproximatelyMinute2": "Prevod će trajati otprilike {0} minuta",
-  "VOTAudioBooster": "Prošireno povećanje obima prevođenja"
+  "VOTAudioBooster": "Prošireno povećanje obima prevođenja",
+  "VOTMediaCSPError": "Neuspješno učitavanje zvuka (media csp greška)",
+  "VOTSubtitlesDesign": "Subtitles design",
+  "VOTSubtitlesFontSize": "Veličina titlova",
+  "VOTSubtitlesOpacity": "Transparentnost pozadine titlova"
 }

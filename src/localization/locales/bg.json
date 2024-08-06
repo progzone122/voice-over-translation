@@ -20,7 +20,6 @@
   "requestTranslationFailed": "Неуспешно искане за превод на видео",
   "audioNotReceived": "Аудио връзката не е получена",
   "grantPermissionToAutoPlay": "Даване на разрешение за автоматично изпълнение",
-  "neededAdditionalExtension": "Необходимо е допълнително разширение за поддръжка на този сайт",
   "audioFormatNotSupported": "Аудио форматът не се поддържа",
   "VOTAutoTranslate": "Превод на отворен",
   "VOTDontTranslateYourLang": "Не превеждайте от моя език",
@@ -177,11 +176,8 @@
     "yo": "Йоруба",
     "zu": "Зулу"
   },
-  "udemyAccessTokenExpired": "Вашият въведен жетон за достъп е изтекъл",
   "udemyModuleArgsNotFound": "Не може да се получи информация за модула поради факта, че модулът не е намерен",
   "VOTTranslationHelpNull": "Грешка при получаване на данните, необходими за превода",
-  "enterUdemyAccessToken": "Въведете Жетон За Достъп",
-  "VOTUdemyData": "Данни Udemy",
   "streamNoConnectionToServer": "Няма връзка със сървъра",
   "searchField": "Търси...",
   "VOTTranslateAPIErrors": "Грешки при превод от АПИ",
@@ -192,5 +188,9 @@
   "VOTM3u8ProxyHost": "Въведете адреса на прокси служителя м3у8",
   "proxySettings": "Настройки На Прокси Сървъра",
   "translationTakeApproximatelyMinute2": "Преводът ще отнеме около {0} минути",
-  "VOTAudioBooster": "Увеличаване на обема на превода"
+  "VOTAudioBooster": "Увеличаване на обема на превода",
+  "VOTMediaCSPError": "Грешка при зареждане на аудиото (грешка при създаване на аудио файл)",
+  "VOTSubtitlesDesign": "Субтитри дизайн",
+  "VOTSubtitlesFontSize": "Размер на шрифта на субтитрите",
+  "VOTSubtitlesOpacity": "Прозрачност на фона на субтитрите"
 }

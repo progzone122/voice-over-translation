@@ -1,285 +1,8 @@
 import { localizationProvider } from "../localization/localizationProvider.js";
-import youtubeUtils from "./youtubeUtils.js";
+import debug from "./debug.js";
 
 const userlang = navigator.language || navigator.userLanguage;
 export const lang = userlang?.substr(0, 2)?.toLowerCase() ?? "en";
-
-// not used
-// function waitForElm(selector) {
-//   // https://stackoverflow.com/questions/5525071/how-to-wait-until-an-element-exists
-//   return new Promise((resolve) => {
-//     const element = document.querySelector(selector);
-//     if (element) {
-//       return resolve(element);
-//     }
-
-//     const observer = new MutationObserver(() => {
-//       const element = document.querySelector(selector);
-//       if (element) {
-//         resolve(element);
-//         observer.disconnect();
-//       }
-//     });
-
-//     observer.observe(document.body, {
-//       childList: true,
-//       subtree: true,
-//       once: true,
-//     });
-//   });
-// }
-
-// not used
-// const sleep = (m) => new Promise((r) => setTimeout(r, m));
-
-const getVideoId = (service, video) => {
-  let url = new URL(window.location.href);
-
-  switch (service) {
-    case "piped":
-    case "invidious":
-    case "youtube": {
-      if (url.searchParams.has("enablejsapi")) {
-        const videoUrl = youtubeUtils.getPlayer().getVideoUrl();
-        url = new URL(videoUrl);
-      }
-
-      return (
-        /(?:watch|embed|shorts|live)\/([^/]+)/.exec(url.pathname)?.[1] ||
-        url.searchParams.get("v")
-      );
-    }
-    case "vk": {
-      const pathID = /^\/(video|clip)-?\d{8,9}_\d{9}$/.exec(url.pathname);
-      const paramZ = url.searchParams.get("z");
-      const paramOID = url.searchParams.get("oid");
-      const paramID = url.searchParams.get("id");
-      if (pathID) {
-        return pathID[0].slice(1);
-      } else if (paramZ) {
-        return paramZ.split("/")[0];
-      } else if (paramOID && paramID) {
-        return `video-${Math.abs(parseInt(paramOID))}_${paramID}`;
-      }
-
-      return null;
-    }
-    case "nine_gag":
-    case "9gag":
-    case "gag":
-      return /gag\/([^/]+)/.exec(url.pathname)?.[1];
-    case "twitch": {
-      const clipPath = /([^/]+)\/(?:clip)\/([^/]+)/.exec(url.pathname);
-      if (/^m\.twitch\.tv$/.test(url.hostname)) {
-        return /videos\/([^/]+)/.exec(url.href)?.[0] || url.pathname.slice(1);
-      } else if (/^player\.twitch\.tv$/.test(url.hostname)) {
-        return `videos/${url.searchParams.get("video")}`;
-      } else if (/^clips\.twitch\.tv$/.test(url.hostname)) {
-        // https://clips.twitch.tv/clipId
-        const schema = document.querySelector(
-          "script[type='application/ld+json']",
-        );
-        const pathname = url.pathname.slice(1);
-        if (!schema) {
-          // иногда из-за не прогрузов твича это не работает, но пусть лучше будет (можно переделать все в async и ждать элемента, но нужно ли это ради 1 сайта)
-          // ссылки вида https://clips.twitch.tv/embed?clip=clipId грузятся нормально
-          const isEmbed = pathname === "embed";
-          const channelLink = document.querySelector(
-            isEmbed
-              ? ".tw-link[data-test-selector='stream-info-card-component__stream-avatar-link']"
-              : ".clips-player a:not([class])",
-          );
-
-          if (!channelLink) {
-            return;
-          }
-
-          const channelName = channelLink.href.replace(
-            "https://www.twitch.tv/",
-            "",
-          );
-
-          return `${channelName}/clip/${isEmbed ? url.searchParams.get("clip") : pathname}`;
-        }
-
-        const schemaJSON = JSON.parse(schema.innerText);
-        const channelLink = schemaJSON["@graph"].find(
-          (obj) => obj["@type"] === "VideoObject",
-        )?.creator.url;
-
-        const channelName = channelLink.replace("https://www.twitch.tv/", "");
-        return `${channelName}/clip/${pathname}`;
-      } else if (clipPath) {
-        return clipPath[0];
-      }
-
-      return /(?:videos)\/([^/]+)/.exec(url.pathname)?.[0];
-    }
-    case "proxitok":
-      return /([^/]+)\/video\/([^/]+)/.exec(url.pathname)?.[0];
-    case "tiktok": {
-      let id = /([^/]+)\/video\/([^/]+)/.exec(url.pathname)?.[0];
-      if (!id) {
-        const playerEl = video.closest(".xgplayer-playing, .tiktok-web-player");
-        const itemEl = playerEl?.closest(
-          'div[data-e2e="recommend-list-item-container"]',
-        );
-        const authorEl = itemEl?.querySelector(
-          'a[data-e2e="video-author-avatar"]',
-        );
-        if (playerEl && authorEl) {
-          const videoId = playerEl.id?.match(/^xgwrapper-\d+-(.*)$/)?.at(1);
-          const author = authorEl.href?.match(/.*(@.*)$/)?.at(1);
-          if (videoId && author) {
-            id = `${author}/video/${videoId}`;
-          }
-        }
-      }
-      return id;
-    }
-    case "vimeo": {
-      const appId = url.searchParams.get("app_id");
-      const videoId =
-        /[^/]+\/[^/]+$/.exec(url.pathname)?.[0] ||
-        /[^/]+$/.exec(url.pathname)?.[0];
-
-      return appId ? `${videoId}?app_id=${appId}` : videoId;
-    }
-    case "xvideos":
-      return /[^/]+\/[^/]+$/.exec(url.pathname)?.[0];
-    case "pornhub":
-      return (
-        url.searchParams.get("viewkey") ||
-        /embed\/([^/]+)/.exec(url.pathname)?.[1]
-      );
-    case "twitter":
-      return /status\/([^/]+)/.exec(url.pathname)?.[1];
-    case "udemy":
-    case "rumble":
-    case "facebook":
-      return url.pathname.slice(1);
-    case "rutube":
-      return /(?:video|embed)\/([^/]+)/.exec(url.pathname)?.[1];
-    case "coub":
-      return (
-        /(?:view|embed)\/([^/]+)/.exec(url.pathname)?.[1] ||
-        document.querySelector(".coub.active")?.dataset?.permalink
-      );
-    case "bilibili": {
-      const bvid = url.searchParams.get("bvid");
-      if (bvid) {
-        return bvid;
-      }
-
-      let vid = /video\/([^/]+)/.exec(url.pathname)?.[1];
-      if (vid && url.searchParams.get("p") !== null) {
-        vid += `/?p=${url.searchParams.get("p")}`;
-      }
-
-      return vid;
-    }
-    case "mail_ru": {
-      const pathname = url.pathname;
-      if (pathname.startsWith("/v/") || pathname.startsWith("/mail/")) {
-        return pathname.slice(1);
-      }
-
-      const videoId = /video\/embed\/([^/]+)/.exec(pathname)?.[1];
-      if (!videoId) {
-        return null;
-      }
-
-      const referer = document.querySelector(".b-video-controls__mymail-link");
-      if (!referer) {
-        return false;
-      }
-
-      return referer?.href.split("my.mail.ru")?.[1];
-    }
-    case "bitchute": {
-      if (video.src?.startsWith("blob:") || !video.src?.includes(".mp4")) {
-        return null;
-      }
-
-      return video.src;
-      // doesn't want to translate using a bitchute link
-      // return /([^/]+)\/([^/]+).mp4/.exec(videoUrl.pathname)?.[2];
-    }
-    case "coursera":
-      // ! LINK SHOULD BE LIKE THIS https://www.coursera.org/learn/learning-how-to-learn/lecture/75EsZ
-      // return url.pathname.match(/lecture\/([^/]+)\/([^/]+)/)?.[1]; // <--- COURSE PREVIEW
-      return /learn\/([^/]+)\/lecture\/([^/]+)/.exec(url.pathname)?.[0]; // <--- COURSE PASSING (IF YOU LOGINED TO COURSERA)
-    case "eporner":
-      // ! LINK SHOULD BE LIKE THIS eporner.com/video-XXXXXXXXX/isdfsd-dfjsdfjsdf-dsfsdf-dsfsda-dsad-ddsd
-      return /video-([^/]+)\/([^/]+)/.exec(url.pathname)?.[0];
-    case "peertube":
-      return /\/w\/([^/]+)/.exec(url.pathname)?.[0];
-    case "dailymotion": {
-      // we work in the context of the player
-      // geo.dailymotion.com
-      const plainPlayerConfig = Array.from(
-        document.querySelectorAll("*"),
-      ).filter((s) => s.innerHTML.trim().includes(".m3u8"));
-      try {
-        let videoUrl = plainPlayerConfig[1].lastChild.src;
-        return /\/video\/(\w+)\.m3u8/.exec(videoUrl)?.[1];
-      } catch (e) {
-        console.error("[VOT]", e);
-        return false;
-      }
-    }
-    case "trovo": {
-      const vid = url.searchParams.get("vid");
-      if (!vid) {
-        return null;
-      }
-
-      const path = /([^/]+)\/(\d+)/.exec(url.pathname)?.[0];
-      if (!path) {
-        return null;
-      }
-
-      return `${path}?vid=${vid}`;
-    }
-    case "yandexdisk":
-      return /\/i\/([^/]+)/.exec(url.pathname)?.[1];
-    case "coursehunter": {
-      const courseId = /\/course\/([^/]+)/.exec(url.pathname)?.[1];
-      return courseId ? courseId + url.search : false;
-    }
-    case "ok.ru": {
-      return /\/video\/(\d+)/.exec(url.pathname)?.[1];
-    }
-    case "googledrive":
-      return url.searchParams.get("docid");
-    case "bannedvideo":
-      return url.searchParams.get("id");
-    case "weverse":
-      return /([^/]+)\/(live|media)\/([^/]+)/.exec(url.pathname)?.[0];
-    case "newgrounds":
-      return /([^/]+)\/(view)\/([^/]+)/.exec(url.pathname)?.[0];
-    case "egghead":
-      return url.pathname.slice(1);
-    case "youku":
-      return /v_show\/id_[\w=]+/.exec(url.pathname)?.[0];
-    case "archive":
-      return /(details|embed)\/([^/]+)/.exec(url.pathname)?.[2];
-    // case "sibnet": {
-    //   const videoId = url.searchParams.get("videoid");
-    //   if (videoId) {
-    //     return `video${videoId}`;
-    //   }
-
-    //   return /video([^/]+)/.exec(url.pathname)?.[0];
-    // }
-    // case "patreon":
-    //   return /posts\/([^/]+)/.exec(url.pathname)?.[0];
-    case "directlink":
-      return url.pathname + url.search;
-    default:
-      return false;
-  }
-};
 
 function secsToStrTime(secs) {
   const minutes = Math.floor(secs / 60);
@@ -357,52 +80,62 @@ function cleanText(title, description) {
   return fullText.replace(/[^\p{L}\s]+|\s+/gu, " ").trim();
 }
 
-async function GM_fetch(url, opt = {}) {
+async function GM_fetch(url, opts = {}) {
+  const { timeout = 15000, ...fetchOptions } = opts;
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeout);
+
   try {
-    // Попытка выполнить запрос с помощью fetch
-    const response = await fetch(url, opt);
+    if (url.includes("api.browser.yandex.ru")) {
+      throw new Error("Preventing yandex cors");
+    }
+
+    const response = await fetch(url, {
+      signal: controller.signal,
+      ...fetchOptions,
+    });
+    clearTimeout(timeoutId);
     return response;
-  } catch (error) {
+  } catch (err) {
     // Если fetch завершился ошибкой, используем GM_xmlhttpRequest
     // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
+    debug.log("GM_fetch preventing cors by GM_xmlhttpRequest", err.message);
     return new Promise((resolve, reject) => {
-      // https://www.tampermonkey.net/documentation.php?ext=dhdg#GM_xmlhttpRequest
-      // https://violentmonkey.github.io/api/gm/#gm_xmlhttprequest
+      clearTimeout(timeoutId);
       GM_xmlhttpRequest({
-        method: opt.method || "GET",
+        method: fetchOptions.method || "GET",
         url: url,
         responseType: "blob",
+        ...fetchOptions,
+        data: fetchOptions.body,
+        timeout: timeout,
         onload: (resp) => {
+          // chrome \n and ":", firefox \r\n and ": " (Only in GM_xmlhttpRequest)
+          // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/getAllResponseHeaders#examples
+          const headers = Object.fromEntries(
+            resp.responseHeaders
+              .trim()
+              .split(/\r?\n/)
+              .map((line) => line.split(/: (.+)/))
+              .filter(([key]) => key && /^[\w-]+$/.test(key)),
+          );
+
           resolve(
             new Response(resp.response, {
               status: resp.status,
-              // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/getAllResponseHeaders#examples
-              headers: Object.fromEntries(
-                resp.responseHeaders
-                  .trim()
-                  .split("\r\n")
-                  .map((line) => {
-                    let parts = line.split(": ");
-                    if (parts?.[0] === "set-cookie") {
-                      return;
-                    }
-                    return [parts.shift(), parts.join(": ")];
-                  })
-                  .filter((key) => key),
-              ),
+              headers: headers,
             }),
           );
         },
-        ontimeout: () => reject(new Error("fetch timeout")),
+        ontimeout: () => reject(new Error("Timeout")),
         onerror: (error) => reject(error),
-        onabort: () => reject(new Error("fetch abort")),
+        onabort: () => reject(new Error("AbortError")),
       });
     });
   }
 }
 
 export {
-  getVideoId,
   secsToStrTime,
   langTo6391,
   isPiPAvailable,

@@ -20,7 +20,6 @@
   "requestTranslationFailed": "Failed to request video translation",
   "audioNotReceived": "Audio link not received",
   "grantPermissionToAutoPlay": "Grant permission to autoplay",
-  "neededAdditionalExtension": "An additional extension is needed to support this site",
   "audioFormatNotSupported": "The audio format is not supported",
   "VOTAutoTranslate": "Translate on open",
   "VOTDontTranslateYourLang": "Do not translate from my language",
@@ -177,11 +176,8 @@
     "yo": "Yoruba",
     "zu": "Zulu"
   },
-  "udemyAccessTokenExpired": "Your entered Udemy Access Token has expired",
   "udemyModuleArgsNotFound": "Could not get udemy module data due to the fact that ModuleArgs was not found",
   "VOTTranslationHelpNull": "Could not get the data required for the translate",
-  "enterUdemyAccessToken": "Enter Udemy Access Token",
-  "VOTUdemyData": "Udemy Data",
   "streamNoConnectionToServer": "There is no connection to the server",
   "searchField": "Search...",
   "VOTTranslateAPIErrors": "Translate errors from the API",
@@ -192,5 +188,9 @@
   "VOTM3u8ProxyHost": "Enter the address of the m3u8 proxy worker",
   "proxySettings": "Proxy Settings",
   "translationTakeApproximatelyMinute2": "The translation will take approximately {0} minutes",
-  "VOTAudioBooster": "Extended translation volume increase"
+  "VOTAudioBooster": "Extended translation volume increase",
+  "VOTMediaCSPError": "Failed to load audio (media csp error)",
+  "VOTSubtitlesDesign": "Subtitles design",
+  "VOTSubtitlesFontSize": "Font size of subtitles",
+  "VOTSubtitlesOpacity": "Transparency of the subtitle background"
 }

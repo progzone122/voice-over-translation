@@ -20,7 +20,6 @@
   "requestTranslationFailed": "वीडियो अनुवाद का अनुरोध विफल रहा",
   "audioNotReceived": "ऑडियो का लिंक प्राप्त नहीं हुआ",
   "grantPermissionToAutoPlay": "ऑटो प्ले करने की अनुमति दें",
-  "neededAdditionalExtension": "इस साइट के समर्थन के लिए एक अतिरिक्त एक्सटेंशन आवश्यक है",
   "audioFormatNotSupported": "ऑडियो फ़ॉर्मेट समर्थित नहीं है",
   "VOTAutoTranslate": "खोलने पर अनुवाद करें",
   "VOTDontTranslateYourLang": "अपनी भाषा से अनुवाद न करें",
@@ -177,11 +176,8 @@
     "ja": "जापानी",
     "kri": "क्री"
   },
-  "udemyAccessTokenExpired": "आपका दर्ज किया गया उदमी एक्सेस टोकन समाप्त हो गया है",
   "udemyModuleArgsNotFound": "इस तथ्य के कारण उदमी मॉड्यूल डेटा प्राप्त नहीं कर सका कि मॉड्यूलएआरजीएस नहीं मिला था",
   "VOTTranslationHelpNull": "अनुवाद के लिए आवश्यक डेटा प्राप्त नहीं कर सका",
-  "enterUdemyAccessToken": "उदमी एक्सेस टोकन दर्ज करें",
-  "VOTUdemyData": "उदमी डेटा",
   "streamNoConnectionToServer": "सर्वर से कोई संबंध नहीं है",
   "searchField": "खोज...",
   "VOTTranslateAPIErrors": "एपीआई से त्रुटियों का अनुवाद करें",
@@ -192,5 +188,9 @@
   "VOTM3u8ProxyHost": "एम 3 यू 8 प्रॉक्सी कार्यकर्ता का पता दर्ज करें",
   "proxySettings": "प्रॉक्सी सेटिंग्स",
   "translationTakeApproximatelyMinute2": "अनुवाद में लगभग {0} मिनट लगेंगे",
-  "VOTAudioBooster": "विस्तारित अनुवाद की मात्रा में वृद्धि"
+  "VOTAudioBooster": "विस्तारित अनुवाद की मात्रा में वृद्धि",
+  "VOTMediaCSPError": "ऑडियो लोड करने में विफल (मीडिया सीएसपी त्रुटि)",
+  "VOTSubtitlesDesign": "उपशीर्षक डिजाइन",
+  "VOTSubtitlesFontSize": "उपशीर्षक का फ़ॉन्ट आकार",
+  "VOTSubtitlesOpacity": "उपशीर्षक पृष्ठभूमि की पारदर्शिता"
 }

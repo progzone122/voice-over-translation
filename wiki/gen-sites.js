@@ -2,7 +2,7 @@ import Bun from "bun";
 
 import * as path from "node:path";
 
-import sites from "../src/config/sites";
+import sites from "vot.js/sites";
 
 const i18n = {
   limitations: {
@@ -49,6 +49,10 @@ const i18n = {
     ru: "Для работы необходимо добавить скрипт в [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ)",
     en: "To work, you need to add a script to the [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ)",
   },
+  needRemoveCSP: {
+    ru: "Для работы необходимо полностью удалить [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) со страницы",
+    en: "To work, you must completely remove [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) with pages",
+  },
   cantTranslatePHPremium: {
     ru: "Недоступен перевод для PH Premium",
     en: "Translation is not available for PH Premium",
@@ -81,6 +85,10 @@ const i18n = {
     ru: "Нельзя переводить локальные видео",
     en: "Local videos cannot be translated",
   },
+  noSubtitles: {
+    ru: "Нет субтитров",
+    en: "There are no subtitles",
+  },
 };
 
 const youtubeSiteData = {
@@ -88,10 +96,15 @@ const youtubeSiteData = {
   limits: [i18n.noPreviewVideos],
 };
 
+const youtubeAltSiteData = {
+  paths: youtubeSiteData.paths,
+  limits: [...youtubeSiteData.limits, i18n.needRemoveCSP],
+};
+
 const siteData = {
   youtube: youtubeSiteData,
-  invidious: youtubeSiteData,
-  piped: youtubeSiteData,
+  invidious: youtubeAltSiteData,
+  piped: youtubeAltSiteData,
   vk: {
     paths: [
       "/video-xxxxxxxxx_xxxxxxxxx",
@@ -136,11 +149,7 @@ const siteData = {
   },
   udemy: {
     paths: ["/course/NAME/learn/lecture/LECTURE_ID"],
-    limits: [
-      i18n.needSetAccessToken,
-      i18n.needBeLoggedIn,
-      i18n.videoWithoutSubs,
-    ],
+    limits: [i18n.needBeLoggedIn],
   },
   rumble: {
     paths: ["/VIDEO_NAME"],
@@ -216,6 +225,22 @@ const siteData = {
   },
   archive: {
     paths: ["/details/VIDEO_ID", "/embed/VIDEO_ID"],
+  },
+  patreon: {
+    paths: ["/posts/POST_ID"],
+    limits: [i18n.noSubtitles],
+  },
+  reddit: {
+    paths: ["/r/SUB_REDDIT/comments/VIDEO_ID/VIDEO_NAME"],
+    limits: [i18n.noSubtitles, i18n.needRemoveCSP],
+  },
+  kick: {
+    paths: ["/video/VIDEO_ID", "/NICKNAME?clip=clip_CLIPID"],
+    limits: [i18n.noSubtitles, i18n.noStreams],
+  },
+  apple_developer: {
+    paths: ["/videos/play/XXX/XXX"],
+    limits: [i18n.noSubtitles],
   },
   directlink: {
     paths: ["/*.mp4"],
@@ -347,7 +372,7 @@ function genMarkdown(sites, lang = "ru") {
     const pathsData = hasData ? Array.from(siteData[site.host].paths) : [];
     let paths = "";
     if (pathsData.length) {
-      paths = `\n\n${i18n.availabledDomains[lang]}:\n\n- ${pathsData.join("\n- ")}`;
+      paths = `\n\n${i18n.availabledPaths[lang]}:\n\n- ${pathsData.join("\n- ")}`;
     }
 
     return `## ${ucFirst(site.host)}
@@ -367,7 +392,7 @@ async function main() {
 
     return {
       host,
-      match: host === "directlink" ? "any" : site.match,
+      match: host === "custom" ? "any" : site.match,
       status: extra ? extraData[host].status : "✅",
       statusPhrase: extra ? extraData[host].statusPhrase : i18n.working,
       additionalData: site.additionalData,
@@ -379,9 +404,11 @@ async function main() {
     const mdText = genMarkdown(supportedSites, lang)
       .join("\n\n")
       .replace("Nine_gag", "9GAG")
-      .replace("Mail_ru", "Mail.ru")
+      .replace("Mailru", "Mail.ru")
       .replace("Yandexdisk", "Yandex Disk")
       .replace("Googledrive", "Google Drive")
+      .replace("Okru", "OK.ru")
+      .replace("Custom", "Direct link to MP4")
       .replace("Bannedvideo", "Banned.Video")
       .replace(
         "geo.dailymotion.com",

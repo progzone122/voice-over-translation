@@ -1,14 +1,4 @@
 .vot-segmented-button {
-  &[hidden] {
-    display: none !important;
-  }
-
-  & * {
-    -webkit-box-sizing: border-box !important;
-    -moz-box-sizing: border-box !important;
-    box-sizing: border-box !important;
-  }
-
   --vot-helper-theme-rgb: var(--vot-onsurface-rgb, 0, 0, 0);
   --vot-helper-theme: rgba(var(--vot-helper-theme-rgb), 0.87);
   overflow: hidden;
@@ -37,23 +27,28 @@
   line-height: 1.5;
   cursor: default;
   transition: opacity 0.5s;
-  z-index: 10000;
+  z-index: 2147483647;
+
+  &[hidden] {
+    display: none !important;
+  }
+
+  & * {
+    -webkit-box-sizing: border-box !important;
+    -moz-box-sizing: border-box !important;
+    box-sizing: border-box !important;
+  }
 
   & .vot-separator {
-    &[hidden] {
-      display: none !important;
-    }
-
     width: 1px;
     height: 50%;
     background: rgba(var(--vot-helper-theme-rgb), 0.1);
-  }
-
-  & .vot-segment {
     &[hidden] {
       display: none !important;
     }
+  }
 
+  & .vot-segment {
     position: relative;
     overflow: hidden;
     display: flex;
@@ -65,6 +60,10 @@
     color: inherit;
     transition: background-color 100ms ease-in-out;
     border: none;
+
+    &[hidden] {
+      display: none !important;
+    }
 
     &::before,
     &::after {
@@ -131,8 +130,8 @@
     fill: #f28b82;
   }
 
-  &[data-translating="true"] {
-    #vot-translating-icon {
+  &[data-loading="true"] {
+    #vot-loading-icon {
       display: block !important;
     }
 

@@ -20,7 +20,6 @@
   "requestTranslationFailed": "ဗီဒီယိုဘာသာပြန်မှုကိုတောင်းဆိုရန်ပျက်ကွက်",
   "audioNotReceived": "အသံလင့်ခ်ကိုမရရှိသေးပါ။",
   "grantPermissionToAutoPlay": "အလိုအလျောက်ကစားရန်ခွင့်ပြုချက်",
-  "neededAdditionalExtension": "ဤဆိုဒ်ကိုထောက်ပံ့ရန်အပိုဆောင်း extension တစ်ခုလိုအပ်သည်။",
   "audioFormatNotSupported": "အသံပုံစံကိုမထောက်ပံ့ပါ။",
   "VOTAutoTranslate": "ပွင့်လင်းအပေါ်ဘာသာပြန်ဆို",
   "VOTDontTranslateYourLang": "ငါ့ဘာသာစကားကနေဘာသာပြန်မနေနဲ့။",
@@ -177,11 +176,8 @@
     "yo": "ယိုရူးဘား",
     "zu": "ဇူလူး"
   },
-  "udemyAccessTokenExpired": "သင်ထည့်သွင်းထားသော Udemy Access Token သည်သက်တမ်းကုန်ဆုံးသွားပြီဖြစ်သည်။",
   "udemyModuleArgsNotFound": "ModuleArgs ကိုမတွေ့ရှိခဲ့သောကြောင့် udemy module data ကိုမရရှိနိုင်ခဲ့ပါ။",
   "VOTTranslationHelpNull": "ဘာသာပြန်ဖို့လိုအပ်တဲ့ဒေတာကိုမရနိုင်ခဲ့ဘူး။",
-  "enterUdemyAccessToken": "Udemy Access Token ကိုထည့်သွင်းပါ",
-  "VOTUdemyData": "Udemy ဒေတာ",
   "streamNoConnectionToServer": "ဆာဗာနှင့်ချိတ်ဆက်မှုမရှိပါ။",
   "searchField": "ရှာဖွေပါ။..",
   "VOTTranslateAPIErrors": "API မှအမှားများကိုဘာသာပြန်ပါ",
@@ -192,5 +188,9 @@
   "VOTM3u8ProxyHost": "M3u8 proxy worker၏လိပ်စာကိုရိုက်ထည့်ပါ",
   "proxySettings": "Proxy Setting များ",
   "translationTakeApproximatelyMinute2": "ဘာသာပြန်ဆိုမှုသည်{0}မိနစ်ခန့်ကြာလိမ့်မည်။",
-  "VOTAudioBooster": "ဘာသာပြန်မှုပမာဏတိုးမြှင့်"
+  "VOTAudioBooster": "ဘာသာပြန်မှုပမာဏတိုးမြှင့်",
+  "VOTMediaCSPError": "အသံတင်ရန်ပျက်ကွက်ခြင်း(မီဒီယာ csp အမှား)",
+  "VOTSubtitlesDesign": "စာတန်းထိုးဒီဇိုင်း",
+  "VOTSubtitlesFontSize": "စာတန်းထိုးများ၏စာလုံးအရွယ်အစား",
+  "VOTSubtitlesOpacity": "စာတန်းထိုးနောက်ခံ၏ပွင့်လင်းမြင်သာမှု"
 }

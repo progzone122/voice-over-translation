@@ -20,7 +20,6 @@
   "requestTranslationFailed": "Naqas milli jitlob traduzzjoni bil-vidjo",
   "audioNotReceived": "Link awdjo mhux riċevut",
   "grantPermissionToAutoPlay": "Agħti permess biex tilgħab awtomatikament",
-  "neededAdditionalExtension": "Hija meħtieġa estensjoni addizzjonali biex tappoġġja dan is sit",
   "audioFormatNotSupported": "Il-format tal-awdjo mhuwiex appoġġjat",
   "VOTAutoTranslate": "Ittraduċi fuq miftuħ",
   "VOTDontTranslateYourLang": "Tittraduċix mil lingwa tiegħi",
@@ -177,11 +176,8 @@
     "yo": "Joruba",
     "zu": "Żulu"
   },
-  "udemyAccessTokenExpired": "It-Token ta'aċċess udemy imdaħħal tiegħek skada",
   "udemyModuleArgsNotFound": "Ma setgħetx tikseb dejta tal modulu udemy minħabba l fatt Li Modulargs ma nstabx",
   "VOTTranslationHelpNull": "Ma setgħetx tikseb id-dejta meħtieġa għat-traduzzjoni",
-  "enterUdemyAccessToken": "Daħħal It-Token Tal-Aċċess Udemy",
-  "VOTUdemyData": "Dejta Udemy",
   "streamNoConnectionToServer": "M'hemm l ebda konnessjoni mas server",
   "searchField": "Fittex...",
   "VOTTranslateAPIErrors": "Ittraduċi żbalji mill-API",
@@ -192,5 +188,9 @@
   "VOTM3u8ProxyHost": "Daħħal l indirizz tal ħaddiem tal prokura m3u8",
   "proxySettings": "Settings Tal-Prokura",
   "translationTakeApproximatelyMinute2": "It-traduzzjoni tieħu madwar {0} minuti",
-  "VOTAudioBooster": "Żieda estiża fil-volum tat-traduzzjoni"
+  "VOTAudioBooster": "Żieda estiża fil-volum tat-traduzzjoni",
+  "VOTMediaCSPError": "Naqas milli jgħabbi l-awdjo (żball tal-psp tal-midja)",
+  "VOTSubtitlesDesign": "Disinn tas-sottotitoli",
+  "VOTSubtitlesFontSize": "Daqs tat-tipa tas-sottotitoli",
+  "VOTSubtitlesOpacity": "Trasparenza tal-isfond tas-sottotitolu"
 }

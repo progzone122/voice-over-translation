@@ -4,6 +4,9 @@
 [![ru](https://img.shields.io/badge/%D1%8F%D0%B7%D1%8B%D0%BA-%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9%20%F0%9F%87%B7%F0%9F%87%BA-white)](README.md)
 
 > [!CAUTION]
+> WIP. Все необходимые зависимости будут открыты с выходом беты
+
+> [!CAUTION]
 > Перед созданием Issues настоятельно рекомендуем ознакомиться с разделом [FAQ](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ), а так же с уже существующими [Issues](https://github.com/ilyhalight/voice-over-translation/issues)
 
 Закадровый перевод видео, теперь, доступен не только в YandexBrowser.
@@ -79,6 +82,11 @@
 - **[ProxiTok](https://proxitok.pabloferreiro.es/)**
 - **[Invidious](https://yewtu.be)**
 - **[Piped](https://piped.video)**
+- **[Kodik (player)](https://kodik.cc)**
+- **[Patreon](https://patreon.com)**
+- **[Reddit](https://reddit.com)**
+- **[Kick](https://kick.com)**
+- **[Apple Developer](https://developer.apple.com)**
 - **Любые прямые веб-ссылки на `.mp4`**
 
 ⚠️ - Требует дополнительных действий, подробнее в **[Wiki](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-Supported-sites)**
@@ -104,11 +112,19 @@
 
 ## Как собрать расширение?
 
-1. Установите NodeJS 18+
+1. Установите Node.js 18.18+ / Bun
 2. Установите зависимости:
 
+NPM:
+
 ```bash
-npm i
+npm install
+```
+
+Bun:
+
+```bash
+bun install --yarn
 ```
 
 3. Сборка расширения:
@@ -154,6 +170,25 @@ npm i
    npm run prepare
    ```
 
+### Как патчить vot.js
+
+1. Внесите нужные изменения в node_modules/vot.js/нужный файл
+2. Сохраните изменения с помощью:
+
+NPM (не тестил, но должно работать):
+
+```bash
+npx patch-package vot.js
+```
+
+Bun:
+
+```bash
+bunx patch-package --use-yarn vot.js
+```
+
+Не пользуйтесь патчами из `bun patch` или из каких-либо npm пакетов. Они будут несовместимы с patch-package, а так же могут ломаться при обновлении пакета.
+
 ## Кастомизация внешнего вида:
 
 Расширение поддерживает кастомизацию внешнего вида с помощью Stylus, Stylish и других подобных расширений
@@ -179,7 +214,6 @@ npm i
   --vot-surface-rgb: 32, 33, 36;
   --vot-onsurface-rgb: 227, 227, 227;
 
-  --vot-subtitles-background: rgba(var(--vot-surface-rgb, 46, 47, 52), 0.8);
   --vot-subtitles-color: rgb(var(--vot-onsurface-rgb, 227, 227, 227));
   --vot-subtitles-passed-color: rgb(var(--vot-primary-rgb, 33, 150, 243));
 }
@@ -187,24 +221,25 @@ npm i
 
 ## Расширение протестировано в следующих браузерах:
 
-| Статус | Браузер                   | Версия браузера                   | Платформа               | Расширение                                                         |
-| ------ | ------------------------- | --------------------------------- | ----------------------- | ------------------------------------------------------------------ |
-| ⠀✅    | Firefox Developer Edition | v106 — v128, 64 bit               | Windows                 | Tampermonkey (MV2)                                                 |
-| ⠀✅    | Firefox                   | v116.0.2                          | Windows, Linux, Android | Tampermonkey (MV2), Violetmonkey                                   |
-| ⠀✅    | Firefox Nightly           | v118.0a1                          | Windows, Android        | Tampermonkey (MV2)                                                 |
-| ⠀✅    | LibreWolf                 | v100.0.2-1                        | Windows                 | Tampermonkey (MV2)                                                 |
-| ⠀✅    | Brave                     | v106.0.5249.91                    | Windows                 | Tampermonkey (MV2)                                                 |
-| ⠀✅    | MS Edge                   | v106.0.1370.34                    | Windows, Linux          | Tampermonkey (MV2)                                                 |
-| ⠀✅    | Cent Browser              | v4.3.9.248, 32 bit                | Windows                 | Tampermonkey (MV2)                                                 |
-| ⠀✅    | Cent Browser Beta         | v5.0.1002.182, 64 bit             | Windows                 | Tampermonkey (MV2)                                                 |
-| ⠀✅    | Google Chrome             | v106 — 126                        | Windows, MacOS, Linux   | Tampermonkey (MV2), Tampermonkey (MV3), Violetmonkey, OrangeMonkey |
-| ⠀✅    | Opera GX                  | LVL4 (core: 91) - LVL5 (core 109) | Windows                 | Tampermonkey Opera                                                 |
-| ⠀✅    | Opera                     | v92.0.4561.43                     | Windows                 | Tampermonkey Opera                                                 |
-| ⠀✅    | Vivaldi                   | 5.7.2921.63                       | Windows, Linux          | Tampermonkey (MV2)                                                 |
-| ⠀✅    | Safari                    | v15.6.1                           | MacOS, iOS              | Userscripts                                                        |
-| ⠀✅    | Kiwi Browser              | v116.0.5845.61                    | Android                 | Tampermonkey (MV2)                                                 |
-| ⠀✅    | Yandex Browser            | v24.4-24.6                        | Windows                 | Tampermonkey (MV2), Tampermonkey (MV3)                             |
-| ⠀✅    | Arc                       | v1.6.1                            | Windows                 | Tampermonkey (MV3)                                                 |
+| Статус | Браузер                   | Версия браузера                   | Платформа               | Расширение                                                                                  |
+| ------ | ------------------------- | --------------------------------- | ----------------------- | ------------------------------------------------------------------------------------------- |
+| ⠀✅    | Firefox Developer Edition | v106 — v129, 64 bit               | Windows                 | Tampermonkey (MV2), FireMonkey, VioletMonkey, Greasemonkey                                  |
+| ⠀✅    | Firefox                   | v116.0.2                          | Windows, Linux, Android | Tampermonkey (MV2), Violetmonkey                                                            |
+| ⠀✅    | Firefox Nightly           | v118.0a1                          | Windows, Android        | Tampermonkey (MV2)                                                                          |
+| ⠀✅    | LibreWolf                 | v100.0.2-1                        | Windows                 | Tampermonkey (MV2)                                                                          |
+| ⠀✅    | Brave                     | v1.46 - v1.68.134                 | Windows                 | Tampermonkey (MV2)                                                                          |
+| ⠀✅    | MS Edge                   | v106.0.1370.34                    | Windows, Linux          | Tampermonkey (MV2)                                                                          |
+| ⠀✅    | Cent Browser              | v4.3.9.248, 32 bit                | Windows                 | Tampermonkey (MV2)                                                                          |
+| ⠀✅    | Cent Browser Beta         | v5.0.1002.182, 64 bit             | Windows                 | Tampermonkey (MV2)                                                                          |
+| ⠀✅    | Google Chrome             | v106 — v127                       | Windows, MacOS, Linux   | Tampermonkey (MV2), Tampermonkey (MV3), Violetmonkey, OrangeMonkey, User Javascript and CSS |
+| ⠀✅    | Opera GX                  | LVL4 (core: 91) - LVL5 (core 109) | Windows                 | Tampermonkey Opera                                                                          |
+| ⠀✅    | Opera                     | v92.0.4561.43                     | Windows                 | Tampermonkey Opera                                                                          |
+| ⠀✅    | Vivaldi                   | 5.7.2921.63                       | Windows, Linux          | Tampermonkey (MV2)                                                                          |
+| ⠀✅    | Safari                    | v15.6.1                           | MacOS, iOS              | Userscripts                                                                                 |
+| ⠀✅    | Kiwi Browser              | v116.0.5845.61                    | Android                 | Tampermonkey (MV2)                                                                          |
+| ⠀✅    | Yandex Browser            | v24.4-24.6                        | Windows                 | Tampermonkey (MV2), Tampermonkey (MV3)                                                      |
+| ⠀✅    | Arc                       | v1.6.1                            | Windows                 | Tampermonkey (MV3)                                                                          |
+| ⠀✅    | Incognition               | v4.1.1.0 (v125)                   | Windows                 | Tampermonkey (MV3), Tampermonkey (MV2)                                                      |
 
 Работа с современной версией Tampermonkey (MV3) не тестировалась в большинстве браузеров. При наличие проблем рекомендуется использовать Tampermonkey Legacy (MV2)
 
@@ -212,19 +247,18 @@ npm i
 
 ## Протестировано в следующих расширениях для юзерскриптов:
 
-| Статус                                                                                                                  | Браузер | Расширение                                                                         |
-| ----------------------------------------------------------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------- |
-| ⠀✅                                                                                                                     | Любой   | Tampermonkey Legacy (MV2)                                                          |
-| ⠀✅                                                                                                                     | Opera   | Tampermonkey Opera                                                                 |
-| ⠀✅                                                                                                                     | Chrome  | Tampermonkey (MV3)                                                                 |
-| ⠀[⚠️ Загрузить](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot-cloudflare.user.js) | Safari  | Userscripts                                                                        |
-| ⠀[⚠️ Загрузить](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot-cloudflare.user.js) | Любой   | Violetmonkey                                                                       |
-| ⠀[⚠️ Загрузить](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot-cloudflare.user.js) | Любой   | [AdGuard Usercripts](https://kb.adguard.com/en/general/userscripts#supported-apps) |
-| ⠀[⚠️ Загрузить](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot-cloudflare.user.js) | Firefox | Firemonkey                                                                         |
-| ⠀[⚠️ Загрузить](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot-cloudflare.user.js) | Любой   | Greasemonkey                                                                       |
-| ⠀[⚠️ Загрузить](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot-cloudflare.user.js) | Любой   | OrangeMonkey                                                                       |
-
-⚠️ - Не являются приоритетными расширениями. Эти расширения из-за "cloudflare" версии юзерскрипта не имеют межсайтовой синхронизации настроек, а так же (практически) не тестируются перед выходом новой версии юзерскрипта.
+| Статус                                                                                                                                                                                                                                                                       | Браузер | Расширение                                                                         |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------- |
+| ⠀✅                                                                                                                                                                                                                                                                          | Любой   | Tampermonkey Legacy (MV2)                                                          |
+| ⠀✅                                                                                                                                                                                                                                                                          | Opera   | Tampermonkey Opera                                                                 |
+| ⠀✅                                                                                                                                                                                                                                                                          | Chrome  | Tampermonkey (MV3)                                                                 |
+| ⠀❔                                                                                                                                                                                                                                                                          | Safari  | Userscripts                                                                        |
+| ⠀✅                                                                                                                                                                                                                                                                          | Любой   | Violetmonkey                                                                       |
+| ⠀❔                                                                                                                                                                                                                                                                          | Любой   | [AdGuard Usercripts](https://kb.adguard.com/en/general/userscripts#supported-apps) |
+| ⠀[Гайд по установке](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ#%D0%BA%D0%B0%D0%BA-%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D1%8C-%D1%80%D0%B0%D1%81%D1%88%D0%B8%D1%80%D0%B5%D0%BD%D0%B8%D0%B5-%D1%81-firemonkey)      | Firefox | Firemonkey                                                                         |
+| ⠀✅                                                                                                                                                                                                                                                                          | Firefox | Greasemonkey                                                                       |
+| ⚠️ RequestIdleCallback сыпет ошибками, но работает                                                                                                                                                                                                                           | Любой   | OrangeMonkey                                                                       |
+| ⠀[Гайд по установке](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ#%D0%BA%D0%B0%D0%BA-%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D1%8C-%D1%80%D0%B0%D1%81%D1%88%D0%B8%D1%80%D0%B5%D0%BD%D0%B8%D0%B5-%D1%81-user-js-and-css) | Любой   | User Javascript and CSS                                                            |
 
 ![example btn](https://github.com/ilyhalight/voice-over-translation/blob/master/img/example.png "btn")
 

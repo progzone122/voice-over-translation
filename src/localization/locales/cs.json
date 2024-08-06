@@ -20,7 +20,6 @@
   "requestTranslationFailed": "Nepodařilo se požádat o překlad videa",
   "audioNotReceived": "Nepřišel odkaz na zvuk",
   "grantPermissionToAutoPlay": "Povolte automatické přehrávání",
-  "neededAdditionalExtension": "Pro podporu této stránky je potřeba další rozšíření",
   "audioFormatNotSupported": "Formát zvuku není podporován",
   "VOTAutoTranslate": "Překládat automaticky při otevření",
   "VOTDontTranslateYourLang": "Nepřekládat z vašeho jazyka",
@@ -177,11 +176,8 @@
     "ja": "Japonština",
     "kri": "Krio"
   },
-  "udemyAccessTokenExpired": "Platnost zadaného přístupového tokenu Udemy vypršela",
   "udemyModuleArgsNotFound": "Nelze získat data Udemy modulu Vzhledem k tomu, že ModuleArgs nebyl nalezen",
   "VOTTranslationHelpNull": "Nelze získat data potřebná pro překlad",
-  "enterUdemyAccessToken": "Zadejte Udemy Přístupový Token",
-  "VOTUdemyData": "Udemy Data",
   "streamNoConnectionToServer": "Neexistuje žádné připojení k serveru",
   "searchField": "Vyhledávání...",
   "VOTTranslateAPIErrors": "Přeložit chyby z API",
@@ -192,5 +188,9 @@
   "VOTM3u8ProxyHost": "Zadejte adresu pracovníka proxy m3u8",
   "proxySettings": "Nastavení Serveru Proxy",
   "translationTakeApproximatelyMinute2": "Překlad bude trvat přibližně {0} minut",
-  "VOTAudioBooster": "Rozšíření objemu překladu"
+  "VOTAudioBooster": "Rozšíření objemu překladu",
+  "VOTMediaCSPError": "Nepodařilo se načíst zvuk (chyba media CSP)",
+  "VOTSubtitlesDesign": "Titulky design",
+  "VOTSubtitlesFontSize": "Velikost písma titulků",
+  "VOTSubtitlesOpacity": "Průhlednost pozadí titulků"
 }

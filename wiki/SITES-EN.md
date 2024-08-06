@@ -9,7 +9,7 @@ Available (sub)domains:
 - `(www.)?youtubekids.com`
 - `m.youtube.com`
 
-Available (sub)domains:
+Available paths:
 
 - /watch
 - /embed
@@ -20,270 +20,6 @@ Available (sub)domains:
 Limitations:
 
 - Doesn't work in the video preview
-
-## Tiktok
-
-Status: [✅] Working
-
-Available (sub)domains:
-
-- `(www.)?tiktok.com`
-
-Available (sub)domains:
-
-- /@NICKNAME/video/VIDEO_ID
-
-Limitations:
-
-- The translation in the feed doesn't work (It only works in open videos)
-
-## Proxitok
-
-Status: [✅] Working
-
-Available (sub)domains:
-
-- `proxitok.pabloferreiro.es`
-- `proxitok.pussthecat.org`
-- `tok.habedieeh.re`
-- `proxitok.esmailelbob.xyz`
-- `proxitok.privacydev.net`
-- `tok.artemislena.eu`
-- `tok.adminforge.de`
-- `tik.hostux.net`
-- `tt.vern.cc`
-- `cringe.whatever.social`
-- `proxitok.lunar.icu`
-- `proxitok.privacy.com.de`
-
-Available (sub)domains:
-
-- /@NICKNAME/video/VIDEO_ID
-
-## Twitch
-
-Status: [✅] Working
-
-Available (sub)domains:
-
-- `m.twitch.tv`
-- `www.twitch.tv`
-- `clips.twitch.tv`
-- `player.twitch.tv`
-
-Available (sub)domains:
-
-- /videos
-- /embed
-- /NICKNAME/clip
-- ?v=VIDEO_ID (player.twitch.tv)
-
-Limitations:
-
-- Translation of live broadcasts is not available
-
-## Xvideos
-
-Status: [✅] Working
-
-Available (sub)domains:
-
-- `www.xvideos.com`
-- `www.xv-ru.com`
-
-Available (sub)domains:
-
-- /VIDEO_ID/VIDEO_NAME
-
-Limitations:
-
-- To work, you may need to add a script to the [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ)
-
-## Pornhub
-
-Status: [✅] Working
-
-Available (sub)domains:
-
-- `pornhub.com`
-- `[a-z]+.pornhub.com`
-
-Available (sub)domains:
-
-- /view_video.php?viewkey=VIDEO_ID
-- /embed/VIDEO_ID
-
-Limitations:
-
-- Translation is not available for PH Premium
-
-## Vk
-
-Status: [✅] Working
-
-Available (sub)domains:
-
-- `vk.com`
-- `vk.ru`
-- `www.vk.com`
-- `www.vk.ru`
-- `m.vk.com`
-- `m.vk.ru`
-
-Available (sub)domains:
-
-- /video-xxxxxxxxx_xxxxxxxxx
-- ?z=VIDEO_ID
-- /video_ext.php?oid=VIDEO_ID_PART_ONE&id=VIDEO_ID_PART_TWO
-
-## Vimeo
-
-Status: [✅] Working
-
-Available (sub)domains:
-
-- `player.vimeo.com`
-- `vimeo.com`
-
-Available (sub)domains:
-
-- /CHANNEL_ID/VIDEO_ID
-- /VIDEO_ID
-
-## Ok.ru
-
-Status: [✅] Working
-
-Available (sub)domains:
-
-- `ok.ru`
-
-Available (sub)domains:
-
-- /video/VIDEO_ID
-
-## 9GAG
-
-Status: [✅] Working
-
-Available (sub)domains:
-
-- `9gag.com`
-
-Available (sub)domains:
-
-- /gag/VIDEO_ID
-
-Limitations:
-
-- The translation in the feed doesn't work (It only works in open videos)
-
-## Bitchute
-
-Status: [✅] Working
-
-Available (sub)domains:
-
-- `(www.)?bitchute.com`
-
-Available (sub)domains:
-
-- /video/VIDEO_ID
-- /embed/VIDEO_ID
-
-## Rutube
-
-Status: [✅] Working
-
-Available (sub)domains:
-
-- `rutube.ru`
-
-Available (sub)domains:
-
-- /video/VIDEO_ID
-- /?bvid=VIDEO_ID
-
-## Bilibili
-
-Status: [✅] Working
-
-Available (sub)domains:
-
-- `www.bilibili.com`
-- `m.bilibili.com`
-- `player.bilibili.com`
-
-Available (sub)domains:
-
-- /video/VIDEO_ID
-- /?bvid=VIDEO_ID
-
-## Twitter
-
-Status: [⚠️] Works with limitations
-
-Available (sub)domains:
-
-- `twitter.com`
-
-Available (sub)domains:
-
-- /NAME/status/VIDEO_ID
-
-Limitations:
-
-- To work, you need to add a script to the [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ)
-- The translation in the feed doesn't work (It only works in open videos)
-
-## Mail.ru
-
-Status: [✅] Working
-
-Available (sub)domains:
-
-- `my.mail.ru`
-
-Available (sub)domains:
-
-- /v/NICKNAME/video/...
-- /mail/NICKNAME/video/...
-- video/embed/VIDEO_ID
-
-## Coursera
-
-Status: [✅] Working
-
-Available (sub)domains:
-
-- `coursera.org`
-
-Available (sub)domains:
-
-- /learn/NAME/lecture/XXXX
-
-Limitations:
-
-- You must be logged in to the site
-- If the video doesn't have subtitles in your language, then the translation will not be performed
-
-## Udemy
-
-Status: [⚠️] Works with limitations
-
-Available (sub)domains:
-
-- `udemy.com`
-
-Available (sub)domains:
-
-- /course/NAME/learn/lecture/LECTURE_ID
-
-Limitations:
-
-- To work, you need to [set an Access Token](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-Where-to-get-Udemy-Access-Token%3F)
-- You must be logged in to the site
-- If the video doesn't have subtitles in your language, then the translation will not be performed
 
 ## Invidious
 
@@ -291,23 +27,18 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- `invidious.snopyta.org`
 - `yewtu.be`
-- `invidious.kavin.rocks`
-- `vid.puffyan.us`
-- `invidious.namazso.eu`
-- `inv.riverside.rocks`
 - `yt.artemislena.eu`
 - `invidious.flokinet.to`
-- `invidious.esmailelbob.xyz`
-- `y.com.sb`
-- `invidious.nerdvpn.de`
-- `inv.vern.cc`
-- `invidious.slipfox.xyz`
-- `invidio.xamh.de`
+- `iv.melmac.space`
+- `inv.nadeko.net`
+- `inv.tux.pizza`
+- `invidious.private.coffee`
+- `yt.drgnz.club`
+- `vid.puffyan.us`
 - `invidious.dhusch.de`
 
-Available (sub)domains:
+Available paths:
 
 - /watch
 - /embed
@@ -318,6 +49,7 @@ Available (sub)domains:
 Limitations:
 
 - Doesn't work in the video preview
+- To work, you must completely remove [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) with pages
 
 ## Piped
 
@@ -354,7 +86,7 @@ Available (sub)domains:
 - `piped.pfcd.me`
 - `piped.frontendfriendly.xyz`
 
-Available (sub)domains:
+Available paths:
 
 - /watch
 - /embed
@@ -365,6 +97,169 @@ Available (sub)domains:
 Limitations:
 
 - Doesn't work in the video preview
+- To work, you must completely remove [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) with pages
+
+## Vk
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `vk.com`
+- `vk.ru`
+- `www.vk.com`
+- `www.vk.ru`
+- `m.vk.com`
+- `m.vk.ru`
+
+Available paths:
+
+- /video-xxxxxxxxx_xxxxxxxxx
+- ?z=VIDEO_ID
+- /video_ext.php?oid=VIDEO_ID_PART_ONE&id=VIDEO_ID_PART_TWO
+
+## 9GAG
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `9gag.com`
+
+Available paths:
+
+- /gag/VIDEO_ID
+
+Limitations:
+
+- The translation in the feed doesn't work (It only works in open videos)
+
+## Twitch
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `m.twitch.tv`
+- `(www.)?twitch.tv`
+- `clips.twitch.tv`
+- `player.twitch.tv`
+
+Available paths:
+
+- /videos
+- /embed
+- /NICKNAME/clip
+- ?v=VIDEO_ID (player.twitch.tv)
+
+Limitations:
+
+- Translation of live broadcasts is not available
+
+## Proxitok
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `proxitok.pabloferreiro.es`
+- `proxitok.pussthecat.org`
+- `tok.habedieeh.re`
+- `proxitok.esmailelbob.xyz`
+- `proxitok.privacydev.net`
+- `tok.artemislena.eu`
+- `tok.adminforge.de`
+- `tt.vern.cc`
+- `cringe.whatever.social`
+- `proxitok.lunar.icu`
+- `proxitok.privacy.com.de`
+
+Available paths:
+
+- /@NICKNAME/video/VIDEO_ID
+
+## Tiktok
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `(www.)?tiktok.com`
+
+Available paths:
+
+- /@NICKNAME/video/VIDEO_ID
+
+Limitations:
+
+- The translation in the feed doesn't work (It only works in open videos)
+
+## Vimeo
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `player.vimeo.com`
+- `vimeo.com`
+
+Available paths:
+
+- /CHANNEL_ID/VIDEO_ID
+- /VIDEO_ID
+
+## Xvideos
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `(www.)?xvideos.com`
+- `(www.)?xv-ru.com`
+
+Available paths:
+
+- /VIDEO_ID/VIDEO_NAME
+
+Limitations:
+
+- To work, you may need to add a script to the [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ)
+
+## Pornhub
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `pornhub.com`
+- `[a-z]+.pornhub.com`
+
+Available paths:
+
+- /view_video.php?viewkey=VIDEO_ID
+- /embed/VIDEO_ID
+
+Limitations:
+
+- Translation is not available for PH Premium
+
+## Twitter
+
+Status: [⚠️] Works with limitations
+
+Available (sub)domains:
+
+- `twitter.com`
+- `x.com`
+
+Available paths:
+
+- /NAME/status/VIDEO_ID
+
+Limitations:
+
+- To work, you need to add a script to the [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ)
+- The translation in the feed doesn't work (It only works in open videos)
 
 ## Rumble
 
@@ -374,13 +269,112 @@ Available (sub)domains:
 
 - `rumble.com`
 
-Available (sub)domains:
+Available paths:
 
 - /VIDEO_NAME
 
 Limitations:
 
 - Translation of live broadcasts is not available
+
+## Facebook
+
+Status: [⚠️] Works with limitations
+
+Available (sub)domains:
+
+- `facebook.com`
+
+Available paths:
+
+- /reel/VIDEO_ID
+- /videos/VIDEO_ID
+
+Limitations:
+
+- To work, you need to add a script to the [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ)
+
+## Rutube
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `rutube.ru`
+
+Available paths:
+
+- /video/VIDEO_ID
+- /?bvid=VIDEO_ID
+
+## Bilibili
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `www.bilibili.com`
+- `m.bilibili.com`
+- `player.bilibili.com`
+
+Available paths:
+
+- /video/VIDEO_ID
+- /?bvid=VIDEO_ID
+
+## Mail.ru
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `my.mail.ru`
+
+## Bitchute
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `(www.)?bitchute.com`
+
+Available paths:
+
+- /video/VIDEO_ID
+- /embed/VIDEO_ID
+
+## Coursera
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `coursera.org`
+
+Available paths:
+
+- /learn/NAME/lecture/XXXX
+
+Limitations:
+
+- You must be logged in to the site
+- If the video doesn't have subtitles in your language, then the translation will not be performed
+
+## Udemy
+
+Status: [⚠️] Works with limitations
+
+Available (sub)domains:
+
+- `udemy.com`
+
+Available paths:
+
+- /course/NAME/learn/lecture/LECTURE_ID
+
+Limitations:
+
+- You must be logged in to the site
 
 ## Eporner
 
@@ -390,7 +384,7 @@ Available (sub)domains:
 
 - `(www.)?eporner.com`
 
-Available (sub)domains:
+Available paths:
 
 - /video-VIDEO_ID/NAME
 
@@ -410,8 +404,9 @@ Available (sub)domains:
 - `tube.la-dina.net`
 - `peertube.tmp.rcp.tf`
 - `peertube.su`
+- `video.blender.org`
 
-Available (sub)domains:
+Available paths:
 
 - /w/VIDEO_ID
 
@@ -427,7 +422,7 @@ Available (sub)domains:
 
 - `geo.dailymotion.com (embedded player, on www.dailymotion.com it works)`
 
-Available (sub)domains:
+Available paths:
 
 - /video/VIDEO_ID
 
@@ -439,7 +434,7 @@ Available (sub)domains:
 
 - `trovo.live`
 
-Available (sub)domains:
+Available paths:
 
 - /s/NICK/VIDEO_ID
 
@@ -455,7 +450,7 @@ Available (sub)domains:
 
 - `disk.yandex.ru`
 
-Available (sub)domains:
+Available paths:
 
 - /i/FILE_ID
 
@@ -472,9 +467,17 @@ Available (sub)domains:
 
 - `coursehunter.net`
 
-Available (sub)domains:
+Available paths:
 
 - /course/COURSE_ID
+
+## OK.ru
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `ok.ru`
 
 ## Google Drive
 
@@ -484,7 +487,7 @@ Available (sub)domains:
 
 - `youtube.googleapis.com`
 
-Available (sub)domains:
+Available paths:
 
 - /file/d/FILE_ID
 
@@ -498,28 +501,11 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- `(www.)?banned.video`
+- `(www.)?banned.video|madmaxworld.tv`
 
-Available (sub)domains:
+Available paths:
 
 - /watch?id=VIDEO_ID
-
-## Facebook
-
-Status: [⚠️] Works with limitations
-
-Available (sub)domains:
-
-- `facebook.com`
-
-Available (sub)domains:
-
-- /reel/VIDEO_ID
-- /videos/VIDEO_ID
-
-Limitations:
-
-- To work, you need to add a script to the [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ)
 
 ## Weverse
 
@@ -529,7 +515,7 @@ Available (sub)domains:
 
 - `weverse.io`
 
-Available (sub)domains:
+Available paths:
 
 - /CHANNEL_NAME/media/VIDEO_ID
 - /CHANNEL_NAME/live/VIDEO_ID
@@ -544,9 +530,9 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- `www.newgrounds.com`
+- `(www.)?newgrounds.com`
 
-Available (sub)domains:
+Available paths:
 
 - /XXX/view/XXX
 
@@ -558,7 +544,7 @@ Available (sub)domains:
 
 - `egghead.io`
 
-Available (sub)domains:
+Available paths:
 
 - /lessons/LESSON_NAME
 
@@ -570,7 +556,7 @@ Available (sub)domains:
 
 - `v.youku.com`
 
-Available (sub)domains:
+Available paths:
 
 - /v_show/VIDEO_ID
 
@@ -582,23 +568,84 @@ Available (sub)domains:
 
 - `archive.org`
 
-Available (sub)domains:
+Available paths:
 
 - /details/VIDEO_ID
 - /embed/VIDEO_ID
 
-## Directlink
+## Kodik
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `kodik.info`
+- `kodik.biz`
+- `kodik.cc`
+
+## Patreon
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `(www.)?patreon.com`
+
+Available paths:
+
+- /posts/POST_ID
+
+Limitations:
+
+- There are no subtitles
+
+## Reddit
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `(www.)?reddit.com`
+
+Available paths:
+
+- /r/SUB_REDDIT/comments/VIDEO_ID/VIDEO_NAME
+
+Limitations:
+
+- There are no subtitles
+- To work, you must completely remove [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) with pages
+
+## Kick
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `kick.com`
+
+Available paths:
+
+- /video/VIDEO_ID
+- /NICKNAME?clip=clip_CLIPID
+
+Limitations:
+
+- There are no subtitles
+- Translation of live broadcasts is not available
+
+## Apple_developer
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `developer.apple.com`
+
+## Direct link to MP4
 
 Status: [✅] Working
 
 Available (sub)domains:
 
 - `any`
-
-Available (sub)domains:
-
-- /\*.mp4
-
-Limitations:
-
-- Local videos cannot be translated

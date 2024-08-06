@@ -9,11 +9,18 @@ import { styleLoaderInsertStyleElement } from "webpack-monkey/lib/client/css.js"
 import ESLintPlugin from "eslint-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
 
+import {
+  sitesInvidious,
+  sitesPiped,
+  sitesProxiTok,
+  sitesPeertube,
+} from "vot.js/alternativeUrls";
+
 const repo =
   "https://raw.githubusercontent.com/ilyhalight/voice-over-translation";
 const dev = process.env.NODE_ENV === "development";
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.resolve(path.dirname(__filename), "..");
 let isBeta = getHeaders().version.includes("beta");
 
 console.log("development mode: ", dev);
@@ -29,16 +36,16 @@ function getHeaders(lang) {
 }
 
 export default (env) => {
-  const build_mode = env.build_mode;
+  //const build_mode = env.build_mode;
   const build_type = env.build_type;
-  console.log("build mode: ", build_mode);
+  //console.log("build mode: ", build_mode);
   console.log("build type: ", build_type);
 
-  function get_filename() {
+  function getFilename() {
     let name = "vot";
-    if (build_mode === "cloudflare") {
-      name += "-cloudflare";
-    }
+    // if (build_mode === "cloudflare") {
+    //   name += "-cloudflare";
+    // }
 
     if (build_type === "minify") {
       name += "-min";
@@ -47,14 +54,23 @@ export default (env) => {
     return name + ".user.js";
   }
 
-  function get_name_by_build_mode(name) {
-    let finalName =
-      build_mode === "cloudflare"
-        ? name.replace("[VOT]", "[VOT Cloudflare]")
-        : name;
-
-    return finalName;
+  function altUrlsToMatch() {
+    // autogenerating match list by alternative urls sites
+    return [sitesInvidious, sitesPiped, sitesProxiTok, sitesPeertube]
+      .map((sites) =>
+        sites.map((site) => {
+          const isSubdomain = site.match(/\./g)?.length > 1;
+          return `*://${isSubdomain ? "" : "*."}${site}/*`;
+        }),
+      )
+      .flat();
   }
+
+  // function getNameByBuildMode(name) {
+  //   return build_mode === "cloudflare"
+  //     ? name.replace("[VOT]", "[VOT Cloudflare]")
+  //     : name;
+  // }
 
   return monkey({
     mode: dev ? "development" : "production",
@@ -69,14 +85,14 @@ export default (env) => {
     entry: path.resolve(__dirname, "src", "index.js"),
     output: {
       path: path.resolve(__dirname, "dist"),
-      ...(!dev ? { filename: get_filename() } : {}),
+      ...(!dev ? { filename: getFilename() } : {}),
     },
     monkey: {
       debug: dev,
       meta: {
-        resolve: "headers.json",
+        resolve: path.resolve(__dirname, "src", "headers.json"),
         transform({ meta }) {
-          const extFileName = get_filename().slice(0, -8);
+          const extFileName = getFilename().slice(0, -8);
           const finalURL = `${repo}/${
             isBeta ? "dev" : "master"
           }/dist/${extFileName}.user.js`;
@@ -84,10 +100,10 @@ export default (env) => {
           meta.namespace = extFileName;
           meta.updateURL = meta.downloadURL = finalURL;
 
-          if (build_mode === "cloudflare") {
-            meta.name = meta.name.replace("[VOT]", "[VOT Cloudflare]");
-            meta["inject-into"] = "page";
-          }
+          // if (build_mode === "cloudflare") {
+          //   meta.name = meta.name.replace("[VOT]", "[VOT Cloudflare]");
+          //   meta["inject-into"] = "page";
+          // }
 
           const files = fs.readdirSync(
             path.resolve(__dirname, "src", "locales"),
@@ -105,22 +121,29 @@ export default (env) => {
             const localeHeaders = getHeaders(file);
             const lang = file.substring(0, 2);
 
-            meta.name[lang] = get_name_by_build_mode(localeHeaders.name);
+            meta.name[lang] = localeHeaders.name;
             meta.description[lang] = localeHeaders.description;
           }
+
+          meta.match = Array.from(
+            new Set([...meta.match, ...altUrlsToMatch()]),
+          );
 
           return meta;
         },
       },
     },
     plugins: [
-      new ESLintPlugin(),
+      new ESLintPlugin({
+        configType: "flat",
+      }),
       new webpack.optimize.LimitChunkCountPlugin({
         maxChunks: 1,
       }),
       new webpack.DefinePlugin({
-        BUILD_MODE: JSON.stringify(build_mode),
-        DEBUG_MODE: dev,
+        // BUILD_MODE: JSON.stringify(build_mode),
+        // DEBUG_MODE: dev,
+        DEBUG_MODE: true,
         IS_BETA_VERSION: isBeta,
         ...(() => {
           if (!dev) {
@@ -144,7 +167,7 @@ export default (env) => {
     optimization: {
       emitOnErrors: true,
       moduleIds: "named",
-      minimize: build_type === "minify" ? true : false,
+      minimize: build_type === "minify",
       minimizer: [new TerserPlugin()],
     },
   });

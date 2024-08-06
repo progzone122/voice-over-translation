@@ -5,25 +5,7 @@ import {
   defaultTranslationService,
 } from "../config/config.js";
 import { votStorage } from "./storage.js";
-
-const HTTP_TIMEOUT = 3000;
-
-async function fetchWithTimeout(url, options = {}) {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), HTTP_TIMEOUT);
-
-  try {
-    return await fetch(url, {
-      ...options,
-      signal: controller.signal,
-    });
-  } catch (error) {
-    console.error("Fetch timed-out. Error:", error);
-    return error;
-  } finally {
-    clearTimeout(timeoutId);
-  }
-}
+import { GM_fetch } from "./utils.js";
 
 const YandexTranslateAPI = {
   async translate(text, lang) {
@@ -34,11 +16,12 @@ const YandexTranslateAPI = {
     // ru, en (instead of auto-ru, auto-en)
 
     try {
-      const response = await fetchWithTimeout(
+      const response = await GM_fetch(
         `${translateUrls.yandex}?${new URLSearchParams({
           text,
           lang,
         })}`,
+        { timeout: 3000 },
       );
 
       if (response instanceof Error) {
@@ -61,10 +44,11 @@ const YandexTranslateAPI = {
   async detect(text) {
     // Limit: 10k symbols
     try {
-      const response = await fetchWithTimeout(
+      const response = await GM_fetch(
         `${detectUrls.yandex}?${new URLSearchParams({
           text,
         })}`,
+        { timeout: 3000 },
       );
 
       if (response instanceof Error) {
@@ -87,10 +71,14 @@ const YandexTranslateAPI = {
 const RustServerAPI = {
   async detect(text) {
     try {
-      const response = await fetch(detectUrls.rustServer, {
-        method: "POST",
-        body: text,
-      });
+      const response = await GM_fetch(
+        detectUrls.rustServer,
+        {
+          method: "POST",
+          body: text,
+        },
+        { timeout: 3000 },
+      );
 
       if (response instanceof Error) {
         throw response;
@@ -107,17 +95,21 @@ const RustServerAPI = {
 const DeeplServerAPI = {
   async translate(text, fromLang = "auto", toLang = "ru") {
     try {
-      const response = await fetchWithTimeout(translateUrls.deepl, {
-        method: "POST",
-        headers: {
-          "content-type": "application/x-www-form-urlencoded",
+      const response = await GM_fetch(
+        translateUrls.deepl,
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams({
+            text,
+            source_lang: fromLang,
+            target_lang: toLang,
+          }),
         },
-        body: new URLSearchParams({
-          text,
-          source_lang: fromLang,
-          target_lang: toLang,
-        }),
-      });
+        { timeout: 3000 },
+      );
 
       if (response instanceof Error) {
         throw response;

@@ -1,0 +1,27 @@
+diff --git a/node_modules/vot.js/dist/config/sites.js b/node_modules/vot.js/dist/config/sites.js
+index 29bfeeb..fde00aa 100644
+--- a/node_modules/vot.js/dist/config/sites.js
++++ b/node_modules/vot.js/dist/config/sites.js
+@@ -319,6 +319,7 @@ export default [
+         host: VideoService.appledeveloper,
+         url: "https://developer.apple.com/",
+         match: /^developer.apple.com$/,
++        selector: ".developer-video-player",
+         needExtraData: true,
+     },
+     {
+diff --git a/node_modules/vot.js/dist/utils/helper.js b/node_modules/vot.js/dist/utils/helper.js
+index cb1fda5..2ae535b 100644
+--- a/node_modules/vot.js/dist/utils/helper.js
++++ b/node_modules/vot.js/dist/utils/helper.js
+@@ -514,9 +514,7 @@ export class CoursehunterHelper {
+ }
+ export class AppleDeveloperHelper {
+     async getVideoData(videoId) {
+-        const res = await fetchWithTimeout(`https://developer.apple.com/${videoId}`);
+-        const content = await res.text();
+-        const contentUrl = /https:\/\/devstreaming-cdn\.apple\.com\/videos\/([^.]+)\/(cmaf\.m3u8)/.exec(content)?.[0];
++        const contentUrl = document.querySelector("meta[property='og:video']")?.content
+         if (!contentUrl) {
+             return undefined;
+         }

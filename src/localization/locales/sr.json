@@ -20,7 +20,6 @@
   "requestTranslationFailed": "Захтев за превод видео записа није успео",
   "audioNotReceived": "Аудио комуникација није примљена",
   "grantPermissionToAutoPlay": "Дајте дозволу за аутоматску репродукцију",
-  "neededAdditionalExtension": "За подршку овој веб локацији потребно је додатно проширење",
   "audioFormatNotSupported": "Аудио формат није подржан",
   "VOTAutoTranslate": "Преведи на отворено",
   "VOTDontTranslateYourLang": "Не преводите са мог језика",
@@ -177,11 +176,8 @@
     "yo": "Јоруба",
     "zu": "Зулуски"
   },
-  "udemyAccessTokenExpired": "Удеми приступни токен који сте унели је истекао",
   "udemyModuleArgsNotFound": "Није могуће добити податке о Удеми модулу јер Модулеаргс није пронађен",
   "VOTTranslationHelpNull": "Није могуће добити податке потребне за превод",
-  "enterUdemyAccessToken": "Унесите Удеми приступни токен",
-  "VOTUdemyData": "Удеми Подаци",
   "streamNoConnectionToServer": "Нема везе са сервером",
   "searchField": "Претрага...",
   "VOTTranslateAPIErrors": "Превођење грешака из АПИ-ја",
@@ -192,5 +188,9 @@
   "VOTM3u8ProxyHost": "Унесите адресу радног проки сервера м3у8",
   "proxySettings": "Подешавања проксија",
   "translationTakeApproximatelyMinute2": "Превод ће трајати приближно {0} минута",
-  "VOTAudioBooster": "Повећање обима проширеног трансфера"
+  "VOTAudioBooster": "Повећање обима проширеног трансфера",
+  "VOTMediaCSPError": "Преузимање звука није успело (Медиа ЦСП грешка)",
+  "VOTSubtitlesDesign": "Дизајн титлова",
+  "VOTSubtitlesFontSize": "Величина фонта титлова",
+  "VOTSubtitlesOpacity": "Транспарентност позадине титлова"
 }

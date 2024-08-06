@@ -20,7 +20,6 @@
   "requestTranslationFailed": "Не успеа да побара видео превод",
   "audioNotReceived": "Аудио врската не е примена",
   "grantPermissionToAutoPlay": "Дајте дозвола за автоматско репродукција",
-  "neededAdditionalExtension": "Потребна е дополнителна екстензија за поддршка на оваа страница",
   "audioFormatNotSupported": "Аудио форматот не е поддржан",
   "VOTAutoTranslate": "Преведи на отворено",
   "VOTDontTranslateYourLang": "Не преведувајте од мојот јазик",
@@ -177,11 +176,8 @@
     "yo": "Јоруба",
     "zu": "Зулу"
   },
-  "udemyAccessTokenExpired": "Вашиот внесен Знак За Пристап До Удеми истече",
   "udemyModuleArgsNotFound": "Не можев да добијам податоци за модулот удеми поради фактот Што Модулоте пронајдени",
   "VOTTranslationHelpNull": "Не можев да ги добијам податоците потребни за преводот",
-  "enterUdemyAccessToken": "Внесете Удеми Пристап Токен",
-  "VOTUdemyData": "Удеми Податоци",
   "streamNoConnectionToServer": "Нема врска со серверот",
   "searchField": "Барај...",
   "VOTTranslateAPIErrors": "Преведи грешки ОД АПИ",
@@ -192,5 +188,9 @@
   "VOTM3u8ProxyHost": "Внесете ја адресата на прокси-работникот м3у8",
   "proxySettings": "Поставки За Прокси",
   "translationTakeApproximatelyMinute2": "Преводот ќе трае приближно {0} минути",
-  "VOTAudioBooster": "Зголемен обем на превод"
+  "VOTAudioBooster": "Зголемен обем на превод",
+  "VOTMediaCSPError": "Не успеа да вчита аудио (грешка во медиумскиот цсп)",
+  "VOTSubtitlesDesign": "Преводи дизајн",
+  "VOTSubtitlesFontSize": "Големина на фонт на преводи",
+  "VOTSubtitlesOpacity": "Транспарентност на позадината на титлот"
 }

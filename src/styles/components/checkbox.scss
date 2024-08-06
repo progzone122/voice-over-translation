@@ -1,8 +1,4 @@
 .vot-checkbox {
-  &[hidden] {
-    display: none !important;
-  }
-
   --vot-helper-theme: var(
     --vot-theme-rgb,
     var(--vot-primary-rgb, 33, 150, 243)
@@ -26,6 +22,10 @@
   font-size: 16px;
   line-height: 1.5;
   text-align: start;
+
+  &[hidden] {
+    display: none !important;
+  }
 
   & > input {
     appearance: none;

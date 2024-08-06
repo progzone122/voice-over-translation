@@ -20,7 +20,6 @@
   "requestTranslationFailed": "Ni bilo mogoče zahtevati prevoda videa",
   "audioNotReceived": "Zvočna povezava ni prejeta",
   "grantPermissionToAutoPlay": "Podelite dovoljenje za samodejno predvajanje",
-  "neededAdditionalExtension": "Za podporo tega spletnega mesta je potrebna dodatna razširitev",
   "audioFormatNotSupported": "Zvočni format ni podprt",
   "VOTAutoTranslate": "Prevedi na odprto",
   "VOTDontTranslateYourLang": "Ne prevajaj iz mojega jezika",
@@ -177,11 +176,8 @@
     "yo": "Joruba",
     "zu": "Zulu"
   },
-  "udemyAccessTokenExpired": "Vaš vneseni žeton za dostop je potekel",
   "udemyModuleArgsNotFound": "Ni bilo mogoče dobiti podatkov o modulu zaradi dejstva, da ModuleArgs ni bilo mogoče najti",
   "VOTTranslationHelpNull": "Ni bilo mogoče dobiti podatkov, potrebnih za prevajanje",
-  "enterUdemyAccessToken": "Vnesite Žeton Za Dostop",
-  "VOTUdemyData": "Podatki O Udemiju",
   "streamNoConnectionToServer": "Ni povezave s strežnikom",
   "searchField": "Išči...",
   "VOTTranslateAPIErrors": "Prevedi napake iz API-ja",
@@ -192,5 +188,9 @@
   "VOTM3u8ProxyHost": "Vnesite naslov pooblaščenca m3u8",
   "proxySettings": "Nastavitve Posrednika",
   "translationTakeApproximatelyMinute2": "Prevod bo trajal približno {0} minut",
-  "VOTAudioBooster": "Povečanje obsega razširjenega prevajanja"
+  "VOTAudioBooster": "Povečanje obsega razširjenega prevajanja",
+  "VOTMediaCSPError": "Ni bilo mogoče naložiti zvoka (napaka media CSP)",
+  "VOTSubtitlesDesign": "Oblikovanje podnapisov",
+  "VOTSubtitlesFontSize": "Velikost pisave podnapisov",
+  "VOTSubtitlesOpacity": "Preglednost ozadja podnapisov"
 }

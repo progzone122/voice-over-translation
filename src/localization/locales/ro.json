@@ -20,7 +20,6 @@
   "requestTranslationFailed": "Nu s-a solicitat traducerea video",
   "audioNotReceived": "Link-ul Audio nu a fost primit",
   "grantPermissionToAutoPlay": "Acordați permisiunea de redare automată",
-  "neededAdditionalExtension": "Este necesară o extensie suplimentară pentru a sprijini acest site",
   "audioFormatNotSupported": "Formatul audio nu este acceptat",
   "VOTAutoTranslate": "Traduceți pe deschis",
   "VOTDontTranslateYourLang": "Nu Traduceți din limba mea",
@@ -177,11 +176,8 @@
     "yo": "Yoruba",
     "zu": "Zulu"
   },
-  "udemyAccessTokenExpired": "Jetonul dvs. de acces Udemy introdus a expirat",
   "udemyModuleArgsNotFound": "Nu s-au putut obține datele modulului udemy datorită faptului că ModuleArgs nu a fost găsit",
   "VOTTranslationHelpNull": "Nu s - au putut obține datele necesare pentru traducere",
-  "enterUdemyAccessToken": "Introduceți Jetonul De Acces Udemy",
-  "VOTUdemyData": "Datele Udemy",
   "streamNoConnectionToServer": "Nu există nicio conexiune la server",
   "searchField": "Căutare...",
   "VOTTranslateAPIErrors": "Traduceți erorile din API",
@@ -192,5 +188,9 @@
   "VOTM3u8ProxyHost": "Introduceți adresa lucrătorului proxy m3u8",
   "proxySettings": "Setări Proxy",
   "translationTakeApproximatelyMinute2": "Traducerea va dura aproximativ {0} minute",
-  "VOTAudioBooster": "Creșterea extinsă a volumului de traducere"
+  "VOTAudioBooster": "Creșterea extinsă a volumului de traducere",
+  "VOTMediaCSPError": "Nu s-a încărcat audio (eroare media csp)",
+  "VOTSubtitlesDesign": "Design subtitrari",
+  "VOTSubtitlesFontSize": "Dimensiunea fontului subtitrărilor",
+  "VOTSubtitlesOpacity": "Transparența fundalului subtitrării"
 }

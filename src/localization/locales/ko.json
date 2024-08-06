@@ -20,7 +20,6 @@
   "requestTranslationFailed": "비디오 번역 요청 실패",
   "audioNotReceived": "오디오 링크를 받지 못했습니다",
   "grantPermissionToAutoPlay": "자동 재생 권한 부여",
-  "neededAdditionalExtension": "이 사이트를 지원하기 위해 추가 확장 프로그램이 필요합니다",
   "audioFormatNotSupported": "오디오 형식이 지원되지 않습니다",
   "VOTAutoTranslate": "열 때 번역하기",
   "VOTDontTranslateYourLang": "내 언어에서 번역하지 않기",
@@ -177,11 +176,8 @@
     "hi": "힌디어",
     "kri": "Kri"
   },
-  "udemyAccessTokenExpired": "입력한 액세스 토큰이 만료되었습니다.",
   "udemyModuleArgsNotFound": "오류 코드에 관한 문제로 트리거됩니다.",
   "VOTTranslationHelpNull": "번역에 필요한 데이터를 가져올 수 없습니다",
-  "enterUdemyAccessToken": "액세스 토큰 입력",
-  "VOTUdemyData": "데이터",
   "streamNoConnectionToServer": "서버에 연결이 없습니다",
   "searchField": "검색...",
   "VOTTranslateAPIErrors": "번역 오류",
@@ -192,5 +188,9 @@
   "VOTM3u8ProxyHost": "프록시 작업자의 주소를 입력합니다",
   "proxySettings": "프록시 설정",
   "translationTakeApproximatelyMinute2": "번역은 약{0}분이 소요됩니다",
-  "VOTAudioBooster": "확장 번역 볼륨 증가"
+  "VOTAudioBooster": "확장 번역 볼륨 증가",
+  "VOTMediaCSPError": "오디오 로드 실패",
+  "VOTSubtitlesDesign": "자막 디자인",
+  "VOTSubtitlesFontSize": "자막의 글꼴 크기",
+  "VOTSubtitlesOpacity": "자막 배경의 투명도"
 }

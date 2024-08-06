@@ -20,7 +20,6 @@
   "requestTranslationFailed": "වීඩියෝ පරිවර්තනය ඉල්ලා සිටීමට අසමත්",
   "audioNotReceived": "ශ්රව්ය සබැඳිය ලැබී නැත",
   "grantPermissionToAutoPlay": "ස්වයංක් රීයව ක් රීඩා කිරීමට අවසර ලබා දෙන්න",
-  "neededAdditionalExtension": "මෙම වෙබ් අඩවියට සහාය වීම සඳහා අතිරේක දිගුවක් අවශ් ය වේ",
   "audioFormatNotSupported": "ශ් රව් ය ආකෘතිය සහාය නොදක්වයි",
   "VOTAutoTranslate": "විවෘත මත පරිවර්තනය කරන්න",
   "VOTDontTranslateYourLang": "මගේ භාෂාවෙන් පරිවර්තනය කරන්න එපා",
@@ -177,11 +176,8 @@
     "yo": "යෝරුබා",
     "zu": "සුලු"
   },
-  "udemyAccessTokenExpired": "ඔබගේ ඇතුලත් Udemy ප්රවේශ ටෝකනය කල් ඉකුත් වී ඇත",
   "udemyModuleArgsNotFound": "ModuleArgs සොයාගත නොහැකි වීම නිසා udemy මොඩියුල දත්ත ලබා ගැනීමට නොහැකි විය",
   "VOTTranslationHelpNull": "පරිවර්තනය සඳහා අවශ්ය දත්ත ලබා ගැනීමට නොහැකි විය",
-  "enterUdemyAccessToken": "Udemy ප්රවේශ සංකේතය ඇතුලත් කරන්න",
-  "VOTUdemyData": "උඩෙමි දත්ත",
   "streamNoConnectionToServer": "සර්වර් එකට කිසිම සම්බන්ධයක් නෑ",
   "searchField": "හොයන්න...",
   "VOTTranslateAPIErrors": "API වෙතින් දෝෂ පරිවර්තනය කරන්න",
@@ -192,5 +188,9 @@
   "VOTM3u8ProxyHost": "M3u8 ප්රොක්සි සේවකයාගේ ලිපිනය ඇතුලත් කරන්න",
   "proxySettings": "ප්රොක්සි සැකසුම්",
   "translationTakeApproximatelyMinute2": "පරිවර්තනය සඳහා ආසන්න වශයෙන් {0} විනාඩි ගතවනු ඇත",
-  "VOTAudioBooster": "දීර්ඝ පරිවර්තන පරිමාව වැඩි කිරීම"
+  "VOTAudioBooster": "දීර්ඝ පරිවර්තන පරිමාව වැඩි කිරීම",
+  "VOTMediaCSPError": "ශ්රව්ය පූරණය කිරීමට අසමත් (මාධ්ය csp දෝෂය)",
+  "VOTSubtitlesDesign": "උපසිරැසි නිර්මාණය",
+  "VOTSubtitlesFontSize": "උපසිරැසි වල අකුරු ප්රමාණය",
+  "VOTSubtitlesOpacity": "උපසිරැසි පසුබිමේ විනිවිදභාවය"
 }

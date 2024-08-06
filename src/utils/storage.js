@@ -20,7 +20,8 @@ export const votStorage = new (class {
       }
     }
 
-    return toNumber ? Number(val) ?? Number(def) : val ?? def;
+    const result = val ?? def;
+    return toNumber ? Number(result) : result;
   }
 
   async get(name, def = undefined, toNumber = false) {
@@ -77,15 +78,23 @@ export const votStorage = new (class {
       "dontTranslateLanguage",
       "dontTranslateYourLang",
       "autoSetVolumeYandexStyle",
+      "autoVolume",
+      "buttonPos",
       "showVideoSlider",
       "syncVolume",
       "subtitlesMaxLength",
       "highlightWords",
       "responseLanguage",
       "defaultVolume",
-      "udemyData",
       "audioProxy",
       "showPiPButton",
+      "translateAPIErrors",
+      "translationService",
+      "detectService",
+      "m3u8ProxyHost",
+      "translateProxyEnabled",
+      "proxyWorkerHost",
+      "audioBooster",
       "locale-version",
       "locale-lang",
       "locale-phrases",

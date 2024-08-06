@@ -20,7 +20,6 @@
   "requestTranslationFailed": "Yehlulekile ukucela ukuhunyushwa kwevidiyo",
   "audioNotReceived": "Isixhumanisi somsindo asitholakalanga",
   "grantPermissionToAutoPlay": "Imvume yokudlala ngokuzenzakalelayo",
-  "neededAdditionalExtension": "Kudingeka isandiso esengeziwe ukuze kusekelwe le ndawo",
   "audioFormatNotSupported": "Ifomethi yomsindo ayisekelwa",
   "VOTAutoTranslate": "Ukuhumusha ku-open",
   "VOTDontTranslateYourLang": "Ungahumushi kusuka olimini lwami",
@@ -177,11 +176,8 @@
     "yo": "Isiyoruba",
     "zu": "Isizulu"
   },
-  "udemyAccessTokenExpired": "Udemy Wakho wangena Ukufinyelela Ithokheni uphelelwe yisikhathi",
   "udemyModuleArgsNotFound": "Ayikwazanga ukuthola idatha ye udemy module ngenxa yokuthi I ModuleArgs ayitholakalanga",
   "VOTTranslationHelpNull": "Ayikwazanga ukuthola imininingwane edingekayo ukuze kuhunyushwe",
-  "enterUdemyAccessToken": "Faka Udemy Ukufinyelela Ithokheni",
-  "VOTUdemyData": "Idatha Ye-Udemy",
   "streamNoConnectionToServer": "Akukho ukuxhumana neseva",
   "searchField": "Ukucinga...",
   "VOTTranslateAPIErrors": "Humusha amaphutha KUSUKA API",
@@ -192,5 +188,9 @@
   "VOTM3u8ProxyHost": "Faka ikheli le-m3u8 proxy worker",
   "proxySettings": "Izilungiselelo Ze-Proxy",
   "translationTakeApproximatelyMinute2": "Ukuhumusha kuzothatha cishe imizuzu {0}",
-  "VOTAudioBooster": "Ukwanda kwevolumu yokuhumusha okwandisiwe"
+  "VOTAudioBooster": "Ukwanda kwevolumu yokuhumusha okwandisiwe",
+  "VOTMediaCSPError": "Yehlulekile ukulayisha audio (media csp iphutha)",
+  "VOTSubtitlesDesign": "Umklamo wemibhalo engezansi",
+  "VOTSubtitlesFontSize": "Usayizi wefonti yemibhalo engezansi",
+  "VOTSubtitlesOpacity": "Ukungafihli lutho kwesizinda sesihlokwana"
 }
