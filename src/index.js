@@ -446,8 +446,7 @@ class VideoHandler {
     this.votButton.container.dataset.status = status;
     const isLoading =
       status === "error" &&
-      (text.includes(localizationProvider.get("translationTake")) ||
-        text === "Подготавливаем перевод");
+      text.includes(localizationProvider.get("translationTake"));
     this.setLoadingBtn(isLoading);
     this.votButton.label.textContent = text;
     this.votButton.container.title = status === "error" ? text : "";
@@ -1984,6 +1983,17 @@ class VideoHandler {
     const translationTake = localizationProvider.get("translationTake");
     const lang = localizationProvider.lang;
 
+    if (
+      [
+        "Подготавливаем перевод",
+        "Видео передано в обработку",
+        "Ожидаем перевод видео",
+        "Загружаем переведенное аудио",
+      ].includes(errorMessage)
+    ) {
+      this.setLoadingBtn(true);
+    }
+
     if (errorMessage?.name === "VOTLocalizedError") {
       this.transformBtn("error", errorMessage.localizedMessage);
     } else if (errorMessage instanceof Error) {
@@ -2220,6 +2230,7 @@ class VideoHandler {
         YandexType.VideoService.reddit,
         YandexType.VideoService.patreon,
         YandexType.VideoService.kodik,
+        YandexType.VideoService.appledeveloper,
       ].includes(this.site.host) &&
       !this.subtitlesList.some(
         (item) =>
