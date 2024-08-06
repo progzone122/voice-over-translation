@@ -34,5 +34,3 @@ jobs:
           files: |
             vot/vot.user.js
             vot/vot-min.user.js
-            vot/vot-cloudflare.user.js
-            vot/vot-cloudflare-min.user.js
