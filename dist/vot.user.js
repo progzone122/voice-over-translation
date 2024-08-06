@@ -2429,7 +2429,9 @@ const en_namespaceObject = /*#__PURE__*/JSON.parse('{"__version__":4,"recommende
 ;// CONCATENATED MODULE: ./src/utils/debug.js
 const debug = {};
 debug.log = (...text) => {
-  if (false) {}
+  if (true) {
+    return;
+  }
   return console.log(
     "%c[VOT DEBUG]",
     "background: #F2452D; color: #fff; padding: 5px;",
@@ -2598,7 +2600,7 @@ function isPiPAvailable() {
 function initHls() {
   return typeof Hls != "undefined" && Hls?.isSupported()
     ? new Hls({
-        debug: true, // turn it on manually if necessary
+        debug: false, // turn it on manually if necessary
         lowLatencyMode: true,
         backBufferLength: 90,
       })
@@ -2701,7 +2703,7 @@ async function GM_fetch(url, opts = {}) {
 
 const localesVersion = 4;
 const localesUrl = `https://raw.githubusercontent.com/ilyhalight/voice-over-translation/${
-   true ? "dev" : 0
+   false ? 0 : "master"
 }/src/localization/locales`;
 
 const availableLocales = [
