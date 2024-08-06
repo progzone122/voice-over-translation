@@ -14,6 +14,7 @@ import {
   sitesPiped,
   sitesProxiTok,
   sitesPeertube,
+  sitesPoketube,
 } from "vot.js/alternativeUrls";
 
 const repo =
@@ -50,7 +51,13 @@ export default (env) => {
 
   function altUrlsToMatch() {
     // autogenerating match list by alternative urls sites
-    return [sitesInvidious, sitesPiped, sitesProxiTok, sitesPeertube]
+    return [
+      sitesInvidious,
+      sitesPiped,
+      sitesProxiTok,
+      sitesPeertube,
+      sitesPoketube,
+    ]
       .map((sites) =>
         sites.map((site) => {
           const isSubdomain = site.match(/\./g)?.length > 1;
