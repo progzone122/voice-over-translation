@@ -1,9 +1,9 @@
 diff --git a/node_modules/vot.js/dist/config/sites.js b/node_modules/vot.js/dist/config/sites.js
-index 99d23b1..8843c66 100644
+index 80a2809..4ccf3f8 100644
 --- a/node_modules/vot.js/dist/config/sites.js
 +++ b/node_modules/vot.js/dist/config/sites.js
-@@ -2,29 +2,63 @@ import { VideoService } from "../types/yandex.js";
- import { sitesInvidious, sitesPiped, sitesProxiTok, sitesPeertube, } from "./alternativeUrls.js";
+@@ -2,34 +2,68 @@ import { VideoService } from "../types/yandex.js";
+ import { sitesInvidious, sitesPiped, sitesProxiTok, sitesPeertube, sitesPoketube, } from "./alternativeUrls.js";
  export default [
      {
 +        additionalData: "mobile",
@@ -37,7 +37,12 @@ index 99d23b1..8843c66 100644
          url: "https://youtu.be/",
          match: sitesPiped,
 +        selector: ".shaka-video-container",
-+    },
+     },
+     {
+         host: VideoService.poketube,
+         url: "https://youtu.be/",
+         match: sitesPoketube,
+     },
 +    {
 +        additionalData: "mobile",
 +        host: VideoService.vk,
@@ -52,7 +57,7 @@ index 99d23b1..8843c66 100644
 +        url: "https://vk.com/video?z=",
 +        match: /^(www.|m.)?vk.(com|ru)$/,
 +        selector: 'div[data-testid="clipcontainer-video"]',
-     },
++    },
      {
          host: VideoService.vk,
          url: "https://vk.com/video?z=",
@@ -67,7 +72,7 @@ index 99d23b1..8843c66 100644
      },
      {
          host: VideoService.twitch,
-@@ -35,162 +69,249 @@ export default [
+@@ -40,162 +74,249 @@ export default [
              /^clips.twitch.tv$/,
              /^player.twitch.tv$/,
          ],
