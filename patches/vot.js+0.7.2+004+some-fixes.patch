@@ -1,0 +1,115 @@
+diff --git a/node_modules/vot.js/dist/types/yandex.d.ts b/node_modules/vot.js/dist/types/yandex.d.ts
+index 5d80f07..e729cfa 100644
+--- a/node_modules/vot.js/dist/types/yandex.d.ts
++++ b/node_modules/vot.js/dist/types/yandex.d.ts
+@@ -33,11 +33,14 @@ export declare enum VideoService {
+     mail_ru = "mailru",
+     mailru = "mailru",
+     bitchute = "bitchute",
++    coursera = "coursera",
++    udemy = "udemy",
+     eporner = "eporner",
+     peertube = "peertube",
+     dailymotion = "dailymotion",
+     trovo = "trovo",
+     yandexdisk = "yandexdisk",
++    coursehunter = "coursehunter",
+     ok_ru = "okru",
+     okru = "okru",
+     googledrive = "googledrive",
+diff --git a/node_modules/vot.js/dist/types/yandex.js b/node_modules/vot.js/dist/types/yandex.js
+index 59d35c3..bf4fe61 100644
+--- a/node_modules/vot.js/dist/types/yandex.js
++++ b/node_modules/vot.js/dist/types/yandex.js
+@@ -23,11 +23,14 @@ export var VideoService;
+     VideoService["mail_ru"] = "mailru";
+     VideoService["mailru"] = "mailru";
+     VideoService["bitchute"] = "bitchute";
++    VideoService["coursera"] = "coursera";
++    VideoService["udemy"] = "udemy";
+     VideoService["eporner"] = "eporner";
+     VideoService["peertube"] = "peertube";
+     VideoService["dailymotion"] = "dailymotion";
+     VideoService["trovo"] = "trovo";
+     VideoService["yandexdisk"] = "yandexdisk";
++    VideoService["coursehunter"] = "coursehunter";
+     VideoService["ok_ru"] = "okru";
+     VideoService["okru"] = "okru";
+     VideoService["googledrive"] = "googledrive";
+diff --git a/node_modules/vot.js/dist/utils/helper.js b/node_modules/vot.js/dist/utils/helper.js
+index 8c73ca9..2bb4ff2 100644
+--- a/node_modules/vot.js/dist/utils/helper.js
++++ b/node_modules/vot.js/dist/utils/helper.js
+@@ -1,4 +1,3 @@
+-import { parseFromString } from "dom-parser";
+ import { getHmacSha1 } from "../secure.js";
+ import sites from "../config/sites.js";
+ import { fetchWithTimeout } from "./utils.js";
+@@ -157,7 +156,7 @@ export class WeverseHelper {
+     }
+ }
+ export class KodikHelper {
+-    API_ORIGIN = "https://kodik.biz";
++    API_ORIGIN = window.location.origin;
+     async getSecureData(videoPath) {
+         try {
+             const url = this.API_ORIGIN + videoPath;
+@@ -170,7 +169,8 @@ export class KodikHelper {
+             });
+             const content = await res.text();
+             const [videoType, videoId, hash] = videoPath.split("/").filter((a) => a);
+-            const doc = parseFromString(content);
++            const parser = new DOMParser();
++            const doc = parser.parseFromString(content, "text/html");
+             const secureScript = Array.from(doc.getElementsByTagName("script")).filter((s) => s.innerHTML.includes(`videoId = "${videoId}"`));
+             if (!secureScript.length) {
+                 throw new VideoHelperError("Failed to find secure script");
+@@ -276,11 +276,10 @@ export class PatreonHelper {
+     }
+ }
+ export class RedditHelper {
+-    async getVideoData(videoId) {
+-        const res = await fetchWithTimeout(`https://www.reddit.com/r/${videoId}`);
+-        const content = await res.text();
+-        const contentUrl = /https:\/\/v\.redd\.it\/([^/]+)\/HLSPlaylist\.m3u8\?([^"]+)/
+-            .exec(content)?.[0]
++    async getVideoData() {
++        const contentUrl = document
++            .querySelector("source[type='application/vnd.apple.mpegURL']")
++            ?.src
+             ?.replaceAll("&amp;", "&");
+         if (!contentUrl) {
+             return undefined;
+diff --git a/node_modules/vot.js/dist/utils/videoData.js b/node_modules/vot.js/dist/utils/videoData.js
+index cedfa97..9ab1c62 100644
+--- a/node_modules/vot.js/dist/utils/videoData.js
++++ b/node_modules/vot.js/dist/utils/videoData.js
+@@ -150,14 +150,25 @@ export async function getVideoID(service, videoURL) {
+         }
+         case VideoService.bitchute:
+             return /(video|embed)\/([^/]+)/.exec(url.pathname)?.[2];
++        case VideoService.coursera:
++            return /learn\/([^/]+)\/lecture\/([^/]+)/.exec(url.pathname)?.[0]; // <-- COURSE PASSING (IF YOU LOGINED TO COURSERA)
+         case VideoService.eporner:
+             return /video-([^/]+)\/([^/]+)/.exec(url.pathname)?.[0];
+         case VideoService.peertube:
+             return /\/w\/([^/]+)/.exec(url.pathname)?.[0];
+         case VideoService.dailymotion: {
+-            return url.hostname === "dai.ly"
+-                ? url.pathname.slice(1)
+-                : /video\/([^/]+)/.exec(url.pathname)?.[1];
++            // we work in the context of the player
++            // geo.dailymotion.com
++            const plainPlayerConfig = Array.from(
++                document.querySelectorAll("*"),
++            ).filter((s) => s.innerHTML.trim().includes(".m3u8"));
++            try {
++                let videoUrl = plainPlayerConfig[1].lastChild.src;
++                return /\/video\/(\w+)\.m3u8/.exec(videoUrl)?.[1];
++            } catch (e) {
++                console.error("[VOT]", e);
++                return false;
++            }
+         }
+         case VideoService.trovo: {
+             const vid = url.searchParams.get("vid");

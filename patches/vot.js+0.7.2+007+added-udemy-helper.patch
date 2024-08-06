@@ -1,0 +1,259 @@
+diff --git a/node_modules/vot.js/dist/types/helpers/udemy.d.ts b/node_modules/vot.js/dist/types/helpers/udemy.d.ts
+new file mode 100644
+index 0000000..1be4a49
+--- /dev/null
++++ b/node_modules/vot.js/dist/types/helpers/udemy.d.ts
+@@ -0,0 +1,51 @@
++import { ISODate } from "../utils.js";
++
++export type Caption = {
++  _class: "caption";
++  asset_id: number;
++  created: ISODate;
++  file_name: string;
++  id: number;
++  locale_id: string;
++  source: string;
++  status: number;
++  title: string;
++  url: string;
++  video_label: string;
++};
++
++export type MediaSource = {
++  label: string;
++  src: string;
++  type: string;
++};
++
++export type Asset = {
++  _class: "asset";
++  captions: Caption[];
++  id: number;
++  length: number;
++  media_sources: MediaSource[];
++}
++
++export type Lecture = {
++  _class: "lecture";
++  asset: Asset[];
++  description: string;
++  id: number;
++  title: string;
++}
++
++export type Locale = {
++  _class: "locale";
++  english_title: string;
++  locale: string;
++  simple_english_title: string
++​​  title: string;
++}
++
++export type Course = {
++  _class: "course";
++  id: number;
++  locale: Locale;
++}
+\ No newline at end of file
+diff --git a/node_modules/vot.js/dist/types/helpers/udemy.js b/node_modules/vot.js/dist/types/helpers/udemy.js
+new file mode 100644
+index 0000000..693da49
+--- /dev/null
++++ b/node_modules/vot.js/dist/types/helpers/udemy.js
+@@ -0,0 +1 @@
++export {}
+\ No newline at end of file
+diff --git a/node_modules/vot.js/dist/utils/helper.d.ts b/node_modules/vot.js/dist/utils/helper.d.ts
+index c2f9f80..0b4416c 100644
+--- a/node_modules/vot.js/dist/utils/helper.d.ts
++++ b/node_modules/vot.js/dist/utils/helper.d.ts
+@@ -4,7 +4,8 @@ import * as Kodik from "../types/helpers/kodik.js";
+ import * as Patreon from "../types/helpers/patreon.js";
+ import * as BannedVideo from "../types/helpers/bannedvideo.js";
+ import * as Kick from "../types/helpers/kick.js";
+-import { VideoService } from "../types/yandex.js";
++import * as Udemy from "../types/helpers/udemy.js";
++import { VideoService, RequestLang, TranslationHelp } from "../types/yandex.js";
+ export declare class MailRuHelper {
+     getVideoData(videoId: string): Promise<MailRu.VideoInfo | undefined>;
+ }
+@@ -80,6 +81,24 @@ export declare class KickHelper {
+         title: string;
+     }>;
+ }
++export declare class UdemyHelper {
++    getModuleData(): {
++        courseId?: number;
++    }
++    getLectureId(): null | string;
++    getLectureData(courseId: number|string, lectureId: number|string): Promise<Udemy.Lecture>;
++    getCourseLang(courseId: number|string): Promise<Udemy.Course>;
++    findVideoUrl(sources: Udemy.MediaSource[]): string|null;
++    findSubtitleUrl(captions: Udemy.Caption[], detectedLanguage: RequestLang): string|null;
++    getVideoData(videoId: string): Promise<false | {
++        url: string;
++        duration: number;
++        title: string;
++        description: string;
++        translationHelp: TranslationHelp[] | null;
++        detectedLanguage?: RequestLang
++    }>;
++}
+ export declare class AppleDeveloperHelper {
+     getVideoData(videoId: string): Promise<{
+         url: string;
+@@ -93,6 +112,7 @@ export default class VideoHelper {
+     static [VideoService.reddit]: RedditHelper;
+     static [VideoService.bannedvideo]: BannedVideoHelper;
+     static [VideoService.kick]: KickHelper;
++    static [VideoService.udemy]: UdemyHelper;
+     static [VideoService.appledeveloper]: AppleDeveloperHelper;
+ }
+ //# sourceMappingURL=helper.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/vot.js/dist/utils/helper.js b/node_modules/vot.js/dist/utils/helper.js
+index 96234ed..a6dd08e 100644
+--- a/node_modules/vot.js/dist/utils/helper.js
++++ b/node_modules/vot.js/dist/utils/helper.js
+@@ -1,8 +1,12 @@
+ import { getHmacSha1 } from "../secure.js";
+ import sites from "../config/sites.js";
+ import { fetchWithTimeout } from "./utils.js";
++import { availableLangs } from "../consts";
+ import config from "../config/config.js";
+ import { VideoService } from "../types/yandex.js";
++import { localizationProvider } from "../../../../src/localization/localizationProvider.js";
++import debug from "../../../../src/utils/debug.js";
++import { GM_fetch, langTo6391 } from "../../../../src/utils/utils.js";
+ class VideoHelperError extends Error {
+     constructor(message) {
+         super(message);
+@@ -367,6 +371,120 @@ export class KickHelper {
+         };
+     }
+ }
++export class UdemyHelper {
++    API_ORIGIN = "https://www.udemy.com/api-2.0";
++
++    getModuleData() {
++        const moduleArgs = document.querySelector(
++            ".ud-app-loader[data-module-id='course-taking']",
++        )?.dataset?.moduleArgs;
++        if (!moduleArgs) {
++            console.error(localizationProvider.get("udemyModuleArgsNotFound"));
++            return {};
++        }
++        return JSON.parse(moduleArgs);
++    }
++
++    getLectureId() {
++        return /learn\/lecture\/([^/]+)/.exec(window.location.pathname)?.[1];
++    }
++
++    async getLectureData(courseId, lectureId) {
++        const res = await GM_fetch(
++            `${this.API_ORIGIN}/users/me/subscribed-courses/${courseId}/lectures/${lectureId}/?` +
++            new URLSearchParams({
++                "fields[lecture]": "title,description,asset",
++                "fields[asset]": "length,media_sources,captions",
++            })
++        );
++        return await res.json();
++    }
++
++    async getCourseLang(courseId) {
++        const res = await GM_fetch(
++            `${this.API_ORIGIN}/users/me/subscribed-courses/${courseId}?` +
++            new URLSearchParams({
++                "fields[course]": "locale",
++            })
++        );
++        return await res.json();
++    }
++
++    findVideoUrl(sources) {
++        return sources?.find((src) => src.type === "video/mp4")?.src;
++    }
++
++    findSubtitleUrl(captions, detectedLanguage) {
++        let subtitle = captions?.find(
++            (caption) => langTo6391(caption.locale_id) === detectedLanguage,
++        );
++
++        if (!subtitle) {
++            subtitle = captions?.find(
++                (caption) => langTo6391(caption.locale_id) === "en",
++            ) ?? captions?.[0];
++        }
++
++        return subtitle?.url;
++    }
++
++    async getVideoData(videoId) {
++        const { courseId } = this.getModuleData();
++        if (!courseId) {
++            return false;
++        }
++
++        const lectureId = this.getLectureId();
++        debug.log(`[Udemy] courseId: ${courseId}, lectureId: ${lectureId}`)
++        if (!lectureId) {
++            return false;
++        }
++
++        const { title, description, asset } = await this.getLectureData(courseId, lectureId);
++        const { length: duration, media_sources, captions } = asset;
++
++        const videoUrl = this.findVideoUrl(media_sources);
++        if (!videoUrl) {
++            console.log("Failed to find .mp4 video file in media_sources", media_sources);
++            return false;
++        }
++
++        const courseLangData = await this.getCourseLang(courseId);
++        let { locale: { locale } } = courseLangData;
++        locale = locale ? langTo6391(locale) : "en";
++        if (!availableLangs.includes(locale)) {
++            locale = "en";
++        }
++
++        const subtitleUrl = this.findSubtitleUrl(captions, locale);
++        if (!subtitleUrl) {
++            console.log("Failed to find subtitle file in captions", captions)
++        }
++
++        return {
++            ...subtitleUrl ? {
++                url: sites.find((s) => s.host === VideoService.udemy).url + videoId,
++                translationHelp: [
++                    {
++                        target: "subtitles_file_url",
++                        targetUrl: subtitleUrl,
++                    },
++                    {
++                        target: "video_file_url",
++                        targetUrl: videoUrl,
++                    },
++                ],
++                detectedLanguage: locale,
++            } : {
++                url: videoUrl,
++                translationHelp: null,
++            },
++            duration,
++            title,
++            description,
++        };
++    }
++}
+ export class AppleDeveloperHelper {
+     async getVideoData(videoId) {
+         const res = await fetchWithTimeout(`https://developer.apple.com/${videoId}`);
+@@ -388,5 +506,6 @@ export default class VideoHelper {
+     static [VideoService.reddit] = new RedditHelper();
+     static [VideoService.bannedvideo] = new BannedVideoHelper();
+     static [VideoService.kick] = new KickHelper();
++    static [VideoService.udemy] = new UdemyHelper();
+     static [VideoService.appledeveloper] = new AppleDeveloperHelper();
+ }
