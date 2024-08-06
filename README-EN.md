@@ -110,7 +110,13 @@ These domains can be set in the extension settings (only those domains that can 
 2. Install dependencies:
 
 ```bash
-npm i
+npm install --legacy-peer-deps
+```
+
+Bun:
+
+```bash
+bun install --yarn
 ```
 
 3. Building an extension:
