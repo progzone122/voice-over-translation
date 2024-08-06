@@ -1,0 +1,19 @@
+diff --git a/node_modules/vot.js/dist/utils/videoData.js b/node_modules/vot.js/dist/utils/videoData.js
+index 55365ac..3c16dd8 100644
+--- a/node_modules/vot.js/dist/utils/videoData.js
++++ b/node_modules/vot.js/dist/utils/videoData.js
+@@ -239,7 +239,13 @@ export async function getVideoID(service, video) {
+             if (videoId) {
+                 return videoId;
+             }
+-            return url.searchParams.get("clip");
++            const clipId = url.searchParams.get("clip");
++            if (clipId) {
++                return clipId;
++            }
++
++            const player = document.getElementById("clip-video-player");
++            return /clip_([^/]+)/.exec(player?.getAttribute("poster"))?.[0]
+         }
+         case VideoService.appledeveloper: {
+             return /videos\/play\/([^/]+)\/([\d]+)/.exec(url.pathname)?.[0];
