@@ -4,6 +4,10 @@
 <!-- #600 aniboom (referer + useragent, mpd), sibnet (referer) "*://video.sibnet.ru/*", -->
 <!-- Фикс vk mobile -->
 
+# 1.6.x
+
+- Исправлена работа Peertube
+
 # 1.6.0
 
 - Функционал запросов к API переписан с использованием vot.js

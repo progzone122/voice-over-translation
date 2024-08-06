@@ -1886,7 +1886,7 @@ const yandexProtobuf = {
 });
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/package.json
-const package_namespaceObject = {"rE":"1.0.0"};
+const package_namespaceObject = {"rE":"1.0.1"};
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/secure.js
 
 const utf8Encoder = new TextEncoder();
@@ -1968,6 +1968,7 @@ var VideoService;
     VideoService["kick"] = "kick";
     VideoService["apple_developer"] = "apple_developer";
     VideoService["appledeveloper"] = "apple_developer";
+    VideoService["poketube"] = "poketube";
 })(VideoService || (VideoService = {}));
 var VideoTranslationStatus;
 (function (VideoTranslationStatus) {
@@ -2069,6 +2070,13 @@ const sitesPeertube = [
     "peertube.su",
     "video.blender.org",
 ];
+const sitesPoketube = [
+    "poketube.fun",
+    "pt.sudovanilla.org",
+    "poke.ggtyler.dev",
+    "poke.uk2.littlekai.co.uk",
+    "poke.blahai.gay",
+];
 
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/config/sites.js
@@ -2106,6 +2114,11 @@ const sitesPeertube = [
         url: "https://youtu.be/",
         match: sitesPiped,
         selector: ".shaka-video-container",
+    },
+    {
+        host: VideoService.poketube,
+        url: "https://youtu.be/",
+        match: sitesPoketube,
     },
     {
         additionalData: "mobile",
@@ -3536,6 +3549,7 @@ async function getVideoID(service, video) {
         case VideoService.custom:
             return url.href;
         case VideoService.piped:
+        case VideoService.poketube:
         case VideoService.invidious:
         case VideoService.youtube:
             if (url.hostname === "youtu.be") {
@@ -3759,7 +3773,7 @@ async function getVideoData(service, video) {
         throw new VideoDataError(`Entered unsupported link: "${service.host}"`);
     }
     if (service.host === VideoService.peertube) {
-        service.url = new URL(url).origin;
+        service.url = window.location.origin;
     }
     if (service.rawResult) {
         return {
