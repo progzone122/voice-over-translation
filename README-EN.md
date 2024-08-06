@@ -4,9 +4,6 @@
 [![en](https://img.shields.io/badge/lang-English%20%F0%9F%87%AC%F0%9F%87%A7-white)](README-EN.md)
 
 > [!CAUTION]
-> WIP. All necessary depends will be opened with the release of beta
-
-> [!CAUTION]
 > Before creating Issues, we strongly recommend that you read the [FAQ](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) section, as well as with existing [Issues](https://github.com/ilyhalight/voice-over-translation/issues)
 
 The voice-over translation of the video is now available not only in YandexBrowser. Very grateful, **[Yandex.Translate](https://translate.yandex.ru/)**, **[sodapng](https://github.com/sodapng)**, **[mynovelhost](https://github.com/mynovelhost)**, **[SashaXser](https://github.com/SashaXser)** and to all other contributors. Thanks <3
@@ -17,7 +14,7 @@ The voice-over translation of the video is now available not only in YandexBrows
 > If you use Tampermonkey 5.2.0+, don't forget to [enable](https://github.com/ilyhalight/voice-over-translation/issues/662#issuecomment-2160768958) Developer mode or use Tampermonkey MV2
 
 1. Install the extension **[Tampermonkey](https://www.tampermonkey.net/)** (An alternative for Safari: **[UserScripts](https://apps.apple.com/app/userscripts/id1463298887)**)
-2. **[«Install the Script»](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot.user.js)** (**[Cloudflare version](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot-cloudflare.user.js)**)
+2. **[«Install the Script»](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot.user.js)**
 
 ## List of functionality:
 
@@ -31,11 +28,11 @@ The voice-over translation of the video is now available not only in YandexBrows
 8. Automatic setting of the translated video volume (as in Yandex browser)
 9. Synchronizing the translation volume with the video volume
 10. Limit the translation of videos from your native language (you can select the language in the menu)
-11. Audio proxying if you have banned Yandex servers (in the Cloudflare version)
+11. Audio proxying
 
 ### Useful links:
 
-1. Version for VioletMonkey, FireMonkey, GreaseMonkey, AdGuard, OrangeMonkey, UserScripts and some browsers (cloudflare-version): **[Link](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot-cloudflare.user.js)**
+1. Javascript library (vot.js): **[Link](https://github.com/FOSWLY/vot.js)**
 2. Terminal version (vot-cli): **[Link](https://github.com/FOSWLY/vot-cli)**
 3. Wiki: **[Link](https://github.com/ilyhalight/voice-over-translation/wiki)**
 
@@ -96,11 +93,9 @@ These domains can be set in the extension settings (only those domains that can 
 
 #### Proxy-server
 
-> [!WARNING]
-> In the next version, the domain `vot.toil.cc` will be replaced by `vot-worker.toil.cc`. If you don't plan to upgrade extension and you are using the cloudflare version, then you will need to install the domain yourself `vot-worker.toil.cc ` in the extension menu
-
 - [vot-worker.toil.cc](https://vot-worker.toil.cc/health) (Load balancer between proxy servers)
 - [vot-worker-s1.toil.cc](https://github.com/FOSWLY/vot-worker)
+- [vot-api.toil.cc](https://github.com/FOSWLY/vot-backend)
 - [vot.deno.dev](https://github.com/FOSWLY/vot-worker)
 - [vot-new.toil-dump.workers.dev](https://github.com/FOSWLY/vot-worker) (⚠️ doesn't work in Russia)
 
@@ -138,27 +133,10 @@ npm i
    npm run build:default
    ```
 
-   3.3. Cloudflare version only:
-
-   ```bash
-   npm run build:cloudflare
-   ```
-
-   3.2. Only the usual min. versions:
+   3.3. Only the usual min. versions:
 
    ```bash
    npm run build:default-min
-   ```
-
-   3.3. Only min. Cloudflare versions:
-
-   ```bash
-   npm run build:cloudflare-min
-   ```
-
-4. Installing the pre-commit hook:
-   ```bash
-   npm run prepare
    ```
 
 ### How to patch vot.js

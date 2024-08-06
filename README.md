@@ -4,9 +4,6 @@
 [![ru](https://img.shields.io/badge/%D1%8F%D0%B7%D1%8B%D0%BA-%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9%20%F0%9F%87%B7%F0%9F%87%BA-white)](README.md)
 
 > [!CAUTION]
-> WIP. Все необходимые зависимости будут открыты с выходом беты
-
-> [!CAUTION]
 > Перед созданием Issues настоятельно рекомендуем ознакомиться с разделом [FAQ](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ), а так же с уже существующими [Issues](https://github.com/ilyhalight/voice-over-translation/issues)
 
 Закадровый перевод видео, теперь, доступен не только в YandexBrowser.
@@ -18,7 +15,7 @@
 > Если вы пользуетесь Tampermonkey 5.2.0+, не забудьте [включить](https://github.com/ilyhalight/voice-over-translation/issues/662#issuecomment-2160768958) режим разработчика или используйте Tampermonkey MV2
 
 1. Установите расширение **[Tampermonkey](https://www.tampermonkey.net/)** (Альтернатива для Safari: **[UserScripts](https://apps.apple.com/app/userscripts/id1463298887)**)
-2. **[«Установите Скрипт»](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot.user.js)** (**[Cloudflare version](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot-cloudflare.user.js)**)
+2. **[«Установите Скрипт»](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot.user.js)**
 
 ## Список функционала:
 
@@ -32,11 +29,11 @@
 8. Автоматическое выставление громкости переведенного видео (как в Яндекс браузере)
 9. Синхронизация громкости перевода с громкостью видео
 10. Ограничить перевод видео с родного языка (язык можно выбрать в меню)
-11. Проксирование аудио, если у вас забанены сервера Яндекса (в Cloudflare версии)
+11. Проксирование аудио
 
 ### Полезные ссылки:
 
-1. Версия для VioletMonkey, FireMonkey, GreaseMonkey, AdGuard, OrangeMonkey, UserScripts и некоторых браузеров (cloudflare-version): **[Ссылка](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot-cloudflare.user.js)**
+1. Библиотека для JS (vot.js): **[Ссылка](https://github.com/FOSWLY/vot.js)**
 2. Версия для терминала (vot-cli): **[Ссылка](https://github.com/FOSWLY/vot-cli)**
 3. Вики: **[Ссылка](https://github.com/ilyhalight/voice-over-translation/wiki)**
 
@@ -97,11 +94,9 @@
 
 #### Proxy-сервер
 
-> [!WARNING]
-> В следующей версии домен `vot.toil.cc` будет заменен на `vot-worker.toil.cc`. Если вы не планируете обновляться до нее и вы пользуетесь cloudflare версией, то вам будет необходимо самостоятельно установить домен `vot-worker.toil.cc` в меню расширения
-
 - [vot-worker.toil.cc](https://vot-worker.toil.cc/health) (Балансировщик между прокси серверами)
 - [vot-worker-s1.toil.cc](https://github.com/FOSWLY/vot-worker)
+- [vot-api.toil.cc](https://github.com/FOSWLY/vot-backend)
 - [vot.deno.dev](https://github.com/FOSWLY/vot-worker)
 - [vot-new.toil-dump.workers.dev](https://github.com/FOSWLY/vot-worker) (⚠️ не работает в РФ)
 
@@ -147,27 +142,10 @@ bun install --yarn
    npm run build:default
    ```
 
-   3.3. Только Cloudflare версии:
-
-   ```bash
-   npm run build:cloudflare
-   ```
-
-   3.2. Только обычная мин. версии:
+   3.3. Только обычная мин. версии:
 
    ```bash
    npm run build:default-min
-   ```
-
-   3.3. Только мин. Cloudflare версии:
-
-   ```bash
-   npm run build:cloudflare-min
-   ```
-
-4. Установка pre-commit хука:
-   ```bash
-   npm run prepare
    ```
 
 ### Как патчить vot.js
