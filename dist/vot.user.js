@@ -6383,8 +6383,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : res.message ??
-              localizationProvider.get("translationTakeFewMinutes"),
+          : (res.message ??
+              localizationProvider.get("translationTakeFewMinutes")),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
@@ -7736,10 +7736,7 @@ class VideoHandler {
       if (this.site.additionalData === "embed") {
         eContainer = document.querySelector("#player");
       } else {
-        // const e = document.querySelector(".original.mainPlayerDiv > video-element > div");
-        eContainer = this.container.querySelector(
-          ".video-element-wrapper-js > div",
-        );
+        eContainer = this.container.querySelector(".mgp_eventCatcher");
       }
     } else if (this.site.host === "twitter") {
       eContainer = document.querySelector('div[data-testid="videoPlayer"]');
