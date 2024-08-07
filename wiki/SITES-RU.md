@@ -99,6 +99,18 @@
 - Не работает в предпросмотре видео
 - Для работы необходимо полностью удалить [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) со страницы
 
+## Poketube
+
+Статус: [✅] Работает
+
+Доступные (под)домены:
+
+- `poketube.fun`
+- `pt.sudovanilla.org`
+- `poke.ggtyler.dev`
+- `poke.uk2.littlekai.co.uk`
+- `poke.blahai.gay`
+
 ## Vk
 
 Статус: [✅] Работает
@@ -405,6 +417,13 @@
 - `peertube.tmp.rcp.tf`
 - `peertube.su`
 - `video.blender.org`
+- `videos.viorsan.com`
+- `tube-sciences-technologies.apps.education.fr`
+- `tube-numerique-educatif.apps.education.fr`
+- `tube-arts-lettres-sciences-humaines.apps.education.fr`
+- `beetoons.tv`
+- `comics.peertube.biz`
+- `makertube.net`
 
 Доступные пути:
 
@@ -605,7 +624,7 @@
 
 Доступные (под)домены:
 
-- `(www.)?reddit.com`
+- `old.reddit.com`
 
 Доступные пути:
 
@@ -641,6 +660,14 @@
 Доступные (под)домены:
 
 - `developer.apple.com`
+
+Доступные пути:
+
+- /videos/play/XXX/XXX
+
+Ограничения:
+
+- Нет субтитров
 
 ## Direct link to MP4
 

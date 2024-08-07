@@ -99,6 +99,18 @@ Limitations:
 - Doesn't work in the video preview
 - To work, you must completely remove [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) with pages
 
+## Poketube
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `poketube.fun`
+- `pt.sudovanilla.org`
+- `poke.ggtyler.dev`
+- `poke.uk2.littlekai.co.uk`
+- `poke.blahai.gay`
+
 ## Vk
 
 Status: [✅] Working
@@ -405,6 +417,13 @@ Available (sub)domains:
 - `peertube.tmp.rcp.tf`
 - `peertube.su`
 - `video.blender.org`
+- `videos.viorsan.com`
+- `tube-sciences-technologies.apps.education.fr`
+- `tube-numerique-educatif.apps.education.fr`
+- `tube-arts-lettres-sciences-humaines.apps.education.fr`
+- `beetoons.tv`
+- `comics.peertube.biz`
+- `makertube.net`
 
 Available paths:
 
@@ -605,7 +624,7 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- `(www.)?reddit.com`
+- `old.reddit.com`
 
 Available paths:
 
@@ -641,6 +660,14 @@ Status: [✅] Working
 Available (sub)domains:
 
 - `developer.apple.com`
+
+Available paths:
+
+- /videos/play/XXX/XXX
+
+Limitations:
+
+- There are no subtitles
 
 ## Direct link to MP4
 
