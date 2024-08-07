@@ -153,8 +153,8 @@ export class VideoObserver {
 
   handleIntersectingVideo(video) {
     this.intersectionObserver.unobserve(video);
-    if (isAdVideo(video)) {
-      debug.log("The promotional video was ignored", video);
+    if (isAdVideo(video) || video.getAttribute("muted") !== null) {
+      debug.log("The promotional/muted video was ignored", video);
       return;
     }
     waitForVideoReady(video, (readyVideo) => {
