@@ -2410,9 +2410,9 @@ const sitesPoketube = [
     {
         host: VideoService.reddit,
         url: "stub",
-        match: /^(www.|new.|old.)?reddit.com$/,
         match: /^old.reddit.com$/,
         selector: ".reddit-video-player-root",
+        needExtraData: true,
     },
     {
         host: VideoService.kick,

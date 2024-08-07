@@ -1,0 +1,15 @@
+diff --git a/node_modules/vot.js/dist/config/sites.js b/node_modules/vot.js/dist/config/sites.js
+index 143eb41..8c7b35d 100644
+--- a/node_modules/vot.js/dist/config/sites.js
++++ b/node_modules/vot.js/dist/config/sites.js
+@@ -309,9 +309,9 @@ export default [
+     {
+         host: VideoService.reddit,
+         url: "stub",
+-        match: /^(www.|new.|old.)?reddit.com$/,
+         match: /^old.reddit.com$/,
+         selector: ".reddit-video-player-root",
++        needExtraData: true,
+     },
+     {
+         host: VideoService.kick,
