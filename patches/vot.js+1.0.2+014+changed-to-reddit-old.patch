@@ -1,0 +1,34 @@
+diff --git a/node_modules/vot.js/dist/config/sites.js b/node_modules/vot.js/dist/config/sites.js
+index 8e6df85..143eb41 100644
+--- a/node_modules/vot.js/dist/config/sites.js
++++ b/node_modules/vot.js/dist/config/sites.js
+@@ -310,9 +310,8 @@ export default [
+         host: VideoService.reddit,
+         url: "stub",
+         match: /^(www.|new.|old.)?reddit.com$/,
+-        selector: "shreddit-player",
+-        shadowRoot: true,
+-        needExtraData: true,
++        match: /^old.reddit.com$/,
++        selector: ".reddit-video-player-root",
+     },
+     {
+         host: VideoService.kick,
+diff --git a/node_modules/vot.js/dist/utils/helper.js b/node_modules/vot.js/dist/utils/helper.js
+index 2ae535b..2362243 100644
+--- a/node_modules/vot.js/dist/utils/helper.js
++++ b/node_modules/vot.js/dist/utils/helper.js
+@@ -282,9 +282,10 @@ export class PatreonHelper {
+ export class RedditHelper {
+     async getVideoData() {
+         const contentUrl = document
+-            .querySelector("source[type='application/vnd.apple.mpegURL']")
+-            ?.src
+-            ?.replaceAll("&amp;", "&");
++            .querySelector("[data-hls-url]")
++            ?.dataset
++            .hlsUrl
++            .replaceAll("&amp;", "&");
+         if (!contentUrl) {
+             return undefined;
+         }

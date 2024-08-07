@@ -46,7 +46,7 @@
     "*://*.youku.com/*",
     "*://*.archive.org/*",
     "*://*.patreon.com/*",
-    "*://*.reddit.com/*",
+    "*://old.reddit.com/*",
     "*://*.kodik.info/*",
     "*://*.kodik.biz/*",
     "*://*.kodik.cc/*",
