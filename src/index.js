@@ -1536,8 +1536,6 @@ class VideoHandler {
       eContainer = document.querySelector('div[data-testid="videoPlayer"]');
     } else if (this.site.host === "yandexdisk") {
       eContainer = document.querySelector(".video-player__player");
-    } else if (this.site.host === "reddit") {
-      eContainer = document.querySelector("shreddit-post");
     } else {
       eContainer = this.container;
     }
@@ -1705,6 +1703,14 @@ class VideoHandler {
     try {
       this.subtitlesList = await getSubtitles(this.votClient, this.videoData);
     } catch (err) {
+      // ignore error on sites with m3u8
+      if (
+        err?.unlocalizedMessage ===
+        "Unsupported video URL for getting subtitles"
+      ) {
+        this.subtitlesList = [];
+        return;
+      }
       debug.log("Error with yandex server, try auto-fix...", err);
       this.votOpts = {
         fetchFn: GM_fetch,
