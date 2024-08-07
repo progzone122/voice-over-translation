@@ -6674,6 +6674,7 @@ class VideoHandler {
       this.votButton = ui.createVOTButton(
         localizationProvider.get("translateVideo"),
       );
+      this.votButton.container.style.opacity = 0;
 
       // use an additional check because sometimes this.video.clientWidth = 0
       if (
