@@ -59,7 +59,7 @@
 // @match          *://*.youku.com/*
 // @match          *://*.archive.org/*
 // @match          *://*.patreon.com/*
-// @match          *://*.reddit.com/*
+// @match          *://old.reddit.com/*
 // @match          *://*.kodik.info/*
 // @match          *://*.kodik.biz/*
 // @match          *://*.kodik.cc/*
@@ -126,6 +126,13 @@
 // @match          *://peertube.tmp.rcp.tf/*
 // @match          *://*.peertube.su/*
 // @match          *://video.blender.org/*
+// @match          *://videos.viorsan.com/*
+// @match          *://tube-sciences-technologies.apps.education.fr/*
+// @match          *://tube-numerique-educatif.apps.education.fr/*
+// @match          *://tube-arts-lettres-sciences-humaines.apps.education.fr/*
+// @match          *://*.beetoons.tv/*
+// @match          *://comics.peertube.biz/*
+// @match          *://*.makertube.net/*
 // @match          *://*.poketube.fun/*
 // @match          *://pt.sudovanilla.org/*
 // @match          *://poke.ggtyler.dev/*
@@ -1891,7 +1898,7 @@ const yandexProtobuf = {
 });
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/package.json
-const package_namespaceObject = {"rE":"1.0.1"};
+const package_namespaceObject = {"rE":"1.0.2"};
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/secure.js
 
 const utf8Encoder = new TextEncoder();
@@ -2074,6 +2081,13 @@ const sitesPeertube = [
     "peertube.tmp.rcp.tf",
     "peertube.su",
     "video.blender.org",
+    "videos.viorsan.com",
+    "tube-sciences-technologies.apps.education.fr",
+    "tube-numerique-educatif.apps.education.fr",
+    "tube-arts-lettres-sciences-humaines.apps.education.fr",
+    "beetoons.tv",
+    "comics.peertube.biz",
+    "makertube.net",
 ];
 const sitesPoketube = [
     "poketube.fun",
@@ -2230,7 +2244,7 @@ const sitesPoketube = [
     {
         additionalData: "reels",
         host: VideoService.facebook,
-    url: "https://facebook.com/",
+        url: "https://facebook.com/",
         match: (url) =>
             url.host.includes("facebook.com") && url.pathname.includes("/reel/"),
         selector: 'div[role="main"]',
@@ -2252,6 +2266,7 @@ const sitesPoketube = [
         host: VideoService.bilibili,
         url: "https://www.bilibili.com/video/",
         match: /^(www|m|player).bilibili.com$/,
+        selector: ".bpx-player-video-wrap",
         selector: ".bpx-player-video-wrap",
     },
     // Добавляет лишние видео в обработчик
@@ -2283,7 +2298,6 @@ const sitesPoketube = [
         needExtraData: true,
     },
     {
-        // ONLY IF YOU LOGINED TO UDEMY /course/NAME/learn/lecture/XXXX
         host: VideoService.udemy,
         url: "https://www.udemy.com/",
         match: /udemy.com$/,
@@ -2396,10 +2410,9 @@ const sitesPoketube = [
     {
         host: VideoService.reddit,
         url: "stub",
-        match: /^(www.)?reddit.com$/,
-        selector: "shreddit-player",
-        shadowRoot: true,
-        needExtraData: true,
+        match: /^(www.|new.|old.)?reddit.com$/,
+        match: /^old.reddit.com$/,
+        selector: ".reddit-video-player-root",
     },
     {
         host: VideoService.kick,
@@ -2448,9 +2461,7 @@ const en_namespaceObject = /*#__PURE__*/JSON.parse('{"__version__":4,"recommende
 ;// CONCATENATED MODULE: ./src/utils/debug.js
 const debug = {};
 debug.log = (...text) => {
-  if (true) {
-    return;
-  }
+  if (false) {}
   return console.log(
     "%c[VOT DEBUG]",
     "background: #F2452D; color: #fff; padding: 5px;",
@@ -2619,7 +2630,7 @@ function isPiPAvailable() {
 function initHls() {
   return typeof Hls != "undefined" && Hls?.isSupported()
     ? new Hls({
-        debug: false, // turn it on manually if necessary
+        debug: true, // turn it on manually if necessary
         lowLatencyMode: true,
         backBufferLength: 90,
       })
@@ -2722,7 +2733,7 @@ async function GM_fetch(url, opts = {}) {
 
 const localesVersion = 4;
 const localesUrl = `https://raw.githubusercontent.com/ilyhalight/voice-over-translation/${
-   false ? 0 : "master"
+   true ? "dev" : 0
 }/src/localization/locales`;
 
 const availableLocales = [
@@ -3176,9 +3187,10 @@ class PatreonHelper {
 class RedditHelper {
     async getVideoData() {
         const contentUrl = document
-            .querySelector("source[type='application/vnd.apple.mpegURL']")
-            ?.src
-            ?.replaceAll("&amp;", "&");
+            .querySelector("[data-hls-url]")
+            ?.dataset
+            .hlsUrl
+            .replaceAll("&amp;", "&");
         if (!contentUrl) {
             return undefined;
         }
@@ -6205,8 +6217,8 @@ class VideoObserver {
 
   handleIntersectingVideo(video) {
     this.intersectionObserver.unobserve(video);
-    if (isAdVideo(video)) {
-      utils_debug.log("The promotional video was ignored", video);
+    if (isAdVideo(video) || video.getAttribute("muted") !== null) {
+      utils_debug.log("The promotional/muted video was ignored", video);
       return;
     }
     waitForVideoReady(video, (readyVideo) => {
@@ -7743,8 +7755,6 @@ class VideoHandler {
       eContainer = document.querySelector('div[data-testid="videoPlayer"]');
     } else if (this.site.host === "yandexdisk") {
       eContainer = document.querySelector(".video-player__player");
-    } else if (this.site.host === "reddit") {
-      eContainer = document.querySelector("shreddit-post");
     } else {
       eContainer = this.container;
     }
@@ -7912,6 +7922,14 @@ class VideoHandler {
     try {
       this.subtitlesList = await subtitles_getSubtitles(this.votClient, this.videoData);
     } catch (err) {
+      // ignore error on sites with m3u8
+      if (
+        err?.unlocalizedMessage ===
+        "Unsupported video URL for getting subtitles"
+      ) {
+        this.subtitlesList = [];
+        return;
+      }
       utils_debug.log("Error with yandex server, try auto-fix...", err);
       this.votOpts = {
         fetchFn: GM_fetch,
