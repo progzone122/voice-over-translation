@@ -3742,7 +3742,7 @@ async function getVideoID(service, video) {
             return /\/video\/(\d+)/.exec(url.pathname)?.[1];
         }
         case VideoService.googledrive:
-            return /\/file\/d\/([^/]+)/.exec(url.pathname)?.[1];
+            return url.searchParams.get("docid");
         case VideoService.bannedvideo: {
             return url.searchParams.get("id");
         }
@@ -3850,6 +3850,7 @@ class VOTLocalizedError extends Error {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/client.js
+
 
 
 
@@ -4047,6 +4048,7 @@ class VOTClient {
             throw new VOTLocalizedError("requestTranslationFailed", res);
         }
         const translationData = res.data;
+        utils_debug.log("requestTranslation", translationData);
         switch (translationData.status) {
             case "failed":
                 throw new VOTJSError("Yandex couldn't translate video", translationData);
