@@ -7869,9 +7869,22 @@ class VideoHandler {
       this.votDownloadSubtitlesButton.hidden = true;
       this.yandexSubtitles = null;
     } else {
-      this.yandexSubtitles = await fetchSubtitles(
-        this.subtitlesList.at(parseInt(subs)),
-      );
+      const subtitlesObj = this.subtitlesList.at(parseInt(subs));
+      if (
+        this.data.audioProxy === 1 &&
+        subtitlesObj.url.startsWith(
+          "https://brosubs.s3-private.mds.yandex.net/vtrans/",
+        )
+      ) {
+        const audioPath = subtitlesObj.url.replace(
+          "https://brosubs.s3-private.mds.yandex.net/vtrans/",
+          "",
+        );
+        subtitlesObj.url = `https://${this.data.proxyWorkerHost}/video-subtitles/subtitles-proxy/${audioPath}`;
+        console.log(`[VOT] Subs proxied via ${subtitlesObj.url}`);
+      }
+
+      this.yandexSubtitles = await fetchSubtitles(subtitlesObj);
       this.subtitlesWidget.setContent(this.yandexSubtitles);
       this.votDownloadSubtitlesButton.hidden = false;
     }
