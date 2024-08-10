@@ -92,7 +92,6 @@ class VideoHandler {
   cachedTranslation;
 
   downloadTranslationUrl = null;
-  downloadSubtitlesUrl = null;
 
   autoRetry;
   streamPing;
@@ -104,8 +103,6 @@ class VideoHandler {
 
   subtitlesList = [];
   subtitlesListVideoId = null;
-
-  videoLastSrcObject = null;
 
   // button move
   dragging;
@@ -176,8 +173,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : res.message ??
-              localizationProvider.get("translationTakeFewMinutes"),
+          : (res.message ??
+              localizationProvider.get("translationTakeFewMinutes")),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
