@@ -1643,11 +1643,11 @@ class VideoHandler {
           "https://brosubs.s3-private.mds.yandex.net/vtrans/",
         )
       ) {
-        const audioPath = subtitlesObj.url.replace(
+        const subsPath = subtitlesObj.url.replace(
           "https://brosubs.s3-private.mds.yandex.net/vtrans/",
           "",
         );
-        subtitlesObj.url = `https://${this.data.proxyWorkerHost}/video-subtitles/subtitles-proxy/${audioPath}`;
+        subtitlesObj.url = `https://${this.data.proxyWorkerHost}/video-subtitles/subtitles-proxy/${subsPath}`;
         console.log(`[VOT] Subs proxied via ${subtitlesObj.url}`);
       }
 
