@@ -16,7 +16,7 @@
 - Добавлено проксирование субтитров (#739)
 - Добавлена поддержка Poketube (#726)
 - Исправлена работа Peertube
-- Исправлена работа Dailymotion (#728#discussioncomment-10300700)
+- Исправлена работа Dailymotion ([#728#discussioncomment-10300700](https://github.com/ilyhalight/voice-over-translation/discussions/728#discussioncomment-10300700))
 - Исправлена работа Google Drive (#737)
 
 # 1.6.0
