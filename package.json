@@ -16,7 +16,6 @@
     "voice-over-translation"
   ],
   "devDependencies": {
-    "ajv": "^8.17.1",
     "bun-types": "^1.1.20",
     "css-loader": "^7.1.2",
     "eslint": "^9.7.0",
@@ -41,10 +40,8 @@
   },
   "scripts": {
     "test": "webpack build -c .webpack/config.test.js",
-    "build:default": "webpack build -c .webpack/webpack.config.js",
-    "build:default-min": "webpack build -c .webpack/webpack.config.js --env build_type=minify",
-    "build": "run-p build:default",
-    "build:min": "run-p build:default-min",
+    "build": "webpack build -c .webpack/webpack.config.js",
+    "build:min": "webpack build -c .webpack/webpack.config.js --env build_type=minify",
     "build:all": "run-p build build:min",
     "build:bun": "bun run build:all",
     "dev": "webpack serve --node-env development",
