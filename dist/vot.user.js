@@ -6125,6 +6125,10 @@ const isAdVideo = (video) => {
   return false;
 };
 
+const isMutedVideo = (video) => {
+  return video.hasAttribute("muted") && !video.classList.contains("vjs-tech");
+};
+
 const isVideoReady = (video) => video.readyState >= 3;
 
 const waitForVideoReady = (video, callback) => {
@@ -6233,7 +6237,7 @@ class VideoObserver {
 
   handleIntersectingVideo = (video) => {
     this.intersectionObserver.unobserve(video);
-    if (isAdVideo(video) || video.hasAttribute("muted")) {
+    if (isAdVideo(video) || isMutedVideo(video)) {
       utils_debug.log("The promotional/muted video was ignored", video);
       return;
     }
