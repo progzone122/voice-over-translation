@@ -440,6 +440,7 @@
 Доступные (под)домены:
 
 - `geo.dailymotion.com (встраиваемый плеер, на www.dailymotion.com работает)`
+- `geo[\d]+.dailymotion.com`
 
 Доступные пути:
 

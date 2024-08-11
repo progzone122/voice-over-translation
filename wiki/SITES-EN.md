@@ -440,6 +440,7 @@ Status: [✅] Working
 Available (sub)domains:
 
 - `geo.dailymotion.com (embedded player, on www.dailymotion.com it works)`
+- `geo[\d]+.dailymotion.com`
 
 Available paths:
 
