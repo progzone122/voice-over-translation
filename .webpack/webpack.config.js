@@ -16,6 +16,7 @@ import {
   sitesPeertube,
   sitesPoketube,
 } from "vot.js/alternativeUrls";
+import configShared from "./config.shared.js";
 
 const repo =
   "https://raw.githubusercontent.com/ilyhalight/voice-over-translation";
@@ -69,14 +70,7 @@ export default (env) => {
 
   return monkey({
     mode: dev ? "development" : "production",
-    resolve: {
-      extensions: [".js"],
-    },
-    performance: {
-      hints: "error",
-      maxEntrypointSize: 2000 * 10 ** 3,
-      maxAssetSize: 2000 * 10 ** 3,
-    },
+    ...configShared,
     entry: path.resolve(__dirname, "src", "index.js"),
     output: {
       path: path.resolve(__dirname, "dist"),
@@ -144,14 +138,6 @@ export default (env) => {
         })(),
       }),
     ],
-    module: {
-      rules: [
-        {
-          test: /\.(css|scss|sass)$/i,
-          use: ["style-loader", "css-loader", "sass-loader"],
-        },
-      ],
-    },
     optimization: {
       emitOnErrors: true,
       moduleIds: "named",

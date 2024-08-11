@@ -8,20 +8,15 @@ import { styleLoaderInsertStyleElement } from "webpack-monkey/lib/client/css.js"
 import ESLintPlugin from "eslint-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
 
+import configShared from "./config.shared.js";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.resolve(path.dirname(__filename), "..");
 
 export default () => {
   return monkey({
     mode: "production",
-    resolve: {
-      extensions: [".js"],
-    },
-    performance: {
-      hints: "error",
-      maxEntrypointSize: 2000 * 10 ** 3,
-      maxAssetSize: 2000 * 10 ** 3,
-    },
+    ...configShared,
     entry: path.resolve(__dirname, "tests", "ui.js"),
     output: {
       path: path.resolve(__dirname, "dist"),
@@ -48,14 +43,6 @@ export default () => {
         },
       }),
     ],
-    module: {
-      rules: [
-        {
-          test: /\.(css|scss|sass)$/i,
-          use: ["style-loader", "css-loader", "sass-loader"],
-        },
-      ],
-    },
     optimization: {
       emitOnErrors: true,
       moduleIds: "named",

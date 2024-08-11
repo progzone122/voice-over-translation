@@ -148,7 +148,7 @@
 // @connect        onrender.com
 // @connect        workers.dev
 // @namespace      vot-min
-// @version        1.6.0
+// @version        1.6.1
 // @icon           https://translate.yandex.ru/icons/favicon.ico
 // @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation/issues
