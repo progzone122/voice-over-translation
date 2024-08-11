@@ -46,7 +46,7 @@
 // @match          *://*.tiktok.com/*
 // @match          *://rumble.com/*
 // @match          *://*.eporner.com/*
-// @match          *://geo.dailymotion.com/*
+// @match          *://*.dailymotion.com/*
 // @match          *://*.ok.ru/*
 // @match          *://trovo.live/*
 // @match          *://disk.yandex.ru/i/*
@@ -2320,7 +2320,7 @@ const sitesPoketube = [
     {
         host: VideoService.dailymotion,
         url: "https://dai.ly/",
-        match: /^geo.dailymotion.com$/,
+        match: /^geo([\d]+)?.dailymotion.com$/,
         selector: ".player",
     },
     {
@@ -6406,8 +6406,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : (res.message ??
-              localizationProvider.get("translationTakeFewMinutes")),
+          : res.message ??
+              localizationProvider.get("translationTakeFewMinutes"),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
