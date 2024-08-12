@@ -6,7 +6,7 @@ import github from "eslint-plugin-github";
 
 export default [
   {
-    ignores: ["dist/*", "wiki/*"],
+    ignores: ["dist/*"],
   },
   js.configs.recommended,
   sonarjs.configs.recommended,

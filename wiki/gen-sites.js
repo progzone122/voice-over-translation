@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import Bun from "bun";
 
 import * as path from "node:path";
