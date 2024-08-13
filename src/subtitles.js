@@ -271,7 +271,6 @@ export class SubtitlesWidget {
 
     this.bindEvents();
     this.updateContainerRect();
-    this.applySubtitlePosition();
   }
 
   createSubtitlesContainer() {
