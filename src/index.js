@@ -418,12 +418,10 @@ class VideoHandler {
       );
     }
 
-    await this.updateSubtitles();
-    await this.changeSubtitlesLang("disabled");
-    await this.autoTranslate();
     this.translateToLang = this.data.responseLanguage ?? "ru";
-
     this.initExtraEvents();
+
+    await Promise.all([this.updateSubtitles(), this.autoTranslate()]);
 
     this.initialized = true;
   }
