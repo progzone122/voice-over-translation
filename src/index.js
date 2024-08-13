@@ -27,6 +27,7 @@ import debug from "./utils/debug.js";
 import {
   GM_fetch,
   initHls,
+  initAudioContext,
   isPiPAvailable,
   lang,
   secsToStrTime,
@@ -81,8 +82,7 @@ class VideoHandler {
   videoData = "";
   firstPlay = true;
   audio = new Audio();
-  audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  gainNode = this.audioContext.createGain();
+  audioContext = initAudioContext();
 
   hls = initHls(); // debug enabled only in dev mode
   votClient;
@@ -401,14 +401,9 @@ class VideoHandler {
     this.subtitlesWidget.setFontSize(this.data.subtitlesFontSize);
     this.subtitlesWidget.setOpacity(this.data.subtitlesOpacity);
 
-    // audio booster
-    this.audio.crossOrigin = "anonymous";
-    this.gainNode.connect(this.audioContext.destination);
-    this.audioSource = this.audioContext.createMediaElementSource(this.audio);
-    this.audioSource.connect(this.gainNode);
-
     this.initUI();
     this.initUIEvents();
+    this.initAudioBooster();
 
     const videoHasNoSource =
       !this.video.src && !this.video.currentSrc && !this.video.srcObject;
@@ -456,6 +451,16 @@ class VideoHandler {
    */
   setLoadingBtn(loading = false) {
     this.votButton.container.dataset.loading = loading;
+  }
+
+  initAudioBooster() {
+    this.audio.crossOrigin = "anonymous";
+    if (this.audioContext) {
+      this.gainNode = this.audioContext.createGain();
+      this.gainNode.connect(this.audioContext.destination);
+      this.audioSource = this.audioContext.createMediaElementSource(this.audio);
+      this.audioSource.connect(this.gainNode);
+    }
   }
 
   initUI() {
@@ -725,6 +730,7 @@ class VideoHandler {
         localizationProvider.get("VOTAudioBooster"),
         this.data?.audioBooster ?? false,
       );
+      this.votAudioBoosterCheckbox.container.hidden = !this.audioContext;
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votAudioBoosterCheckbox.container,
       );
@@ -1059,7 +1065,7 @@ class VideoHandler {
             this.votVideoTranslationVolumeSlider.label.querySelector(
               "strong",
             ).textContent = `${this.data.defaultVolume}%`;
-            this.gainNode.gain.value = this.data.defaultVolume / 100;
+            this.setAudioVolume(this.data.defaultVolume / 100);
             if (!this.data.syncVolume) {
               return;
             }
@@ -1481,7 +1487,7 @@ class VideoHandler {
 
             const finalVolume = Math.round(videoVolume);
             this.data.defaultVolume = finalVolume;
-            this.gainNode.gain.value = this.data.defaultVolume / 100;
+            this.setAudioVolume(this.data.defaultVolume / 100);
             this.syncVolumeWrapper("video", finalVolume);
           }
         }
@@ -1746,6 +1752,7 @@ class VideoHandler {
     if (["youtube", "googledrive"].includes(this.site.host)) {
       videoVolume = youtubeUtils.getVideoVolume() ?? videoVolume;
     }
+
     return videoVolume;
   }
 
@@ -1757,7 +1764,20 @@ class VideoHandler {
         return;
       }
     }
+
     this.video.volume = volume;
+  }
+
+  getAudioVolume() {
+    return this.gainNode ? this.gainNode.gain.value : this.audio.volume;
+  }
+
+  setAudioVolume(volume) {
+    if (this.gainNode) {
+      return (this.gainNode.gain.value = volume);
+    }
+
+    return (this.audio.volume = volume);
   }
 
   isMuted() {
@@ -2304,7 +2324,7 @@ class VideoHandler {
 
   setupAudioSettings() {
     if (typeof this.data.defaultVolume === "number") {
-      this.gainNode.gain.value = this.data.defaultVolume / 100;
+      this.setAudioVolume(this.data.defaultVolume / 100);
     }
 
     if (

@@ -50,6 +50,11 @@ function initHls() {
     : undefined;
 }
 
+function initAudioContext() {
+  const audioContext = window.AudioContext || window.webkitAudioContext;
+  return audioContext ? new audioContext() : undefined;
+}
+
 const deletefilter = [
   /(?:https?|ftp):\/\/\S+/g,
   /https?:\/\/\S+|www\.\S+/gm,
@@ -140,6 +145,7 @@ export {
   langTo6391,
   isPiPAvailable,
   initHls,
+  initAudioContext,
   cleanText,
   GM_fetch,
 };
