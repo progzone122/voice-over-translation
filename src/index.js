@@ -1723,6 +1723,7 @@ class VideoHandler {
         "Unsupported video URL for getting subtitles"
       ) {
         this.subtitlesList = [];
+        await this.updateSubtitlesLangSelect();
         return;
       }
       debug.log("Error with yandex server, try auto-fix...", err);
@@ -2365,7 +2366,6 @@ class VideoHandler {
     }
 
     await this.updateSubtitles();
-    await this.changeSubtitlesLang("disabled");
     this.translateToLang = this.data.responseLanguage ?? "ru";
   }
 
