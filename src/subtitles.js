@@ -281,17 +281,17 @@ export class SubtitlesWidget {
   }
 
   bindEvents() {
-    this.onMouseDownBound = this.onMouseDown.bind(this);
-    this.onMouseUpBound = this.onMouseUp.bind(this);
-    this.onMouseMoveBound = this.onMouseMove.bind(this);
-    this.onTimeUpdateBound = this.debounce(this.update.bind(this), 100);
+    this.onMouseDownBound = (e) => this.onMouseDown(e);
+    this.onMouseUpBound = () => this.onMouseUp();
+    this.onMouseMoveBound = (e) => this.onMouseMove(e);
+    this.onTimeUpdateBound = this.debounce(() => this.update(), 100);
 
     document.addEventListener("mousedown", this.onMouseDownBound);
     document.addEventListener("mouseup", this.onMouseUpBound);
     document.addEventListener("mousemove", this.onMouseMoveBound);
     this.video?.addEventListener("timeupdate", this.onTimeUpdateBound);
 
-    this.resizeObserver = new ResizeObserver(this.onResize.bind(this));
+    this.resizeObserver = new ResizeObserver(() => this.onResize());
     this.resizeObserver.observe(this.container);
   }
 

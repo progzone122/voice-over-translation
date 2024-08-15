@@ -125,10 +125,6 @@ class VideoHandler {
     this.video = video;
     this.container = container;
     this.site = site;
-    this.stopTranslationBound = this.stopTranslation.bind(this);
-    this.handleVideoEventBound = this.handleVideoEvent.bind(this);
-    this.changeOpacityOnEventBound = this.changeOpacityOnEvent.bind(this);
-    this.resetTimerBound = this.resetTimer.bind(this);
     this.init();
   }
 
@@ -173,8 +169,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : res.message ??
-              localizationProvider.get("translationTakeFewMinutes"),
+          : (res.message ??
+              localizationProvider.get("translationTakeFewMinutes")),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
@@ -405,18 +401,11 @@ class VideoHandler {
     this.initUIEvents();
     this.initAudioBooster();
 
-    const videoHasNoSource =
-      !this.video.src && !this.video.currentSrc && !this.video.srcObject;
-    this.votButton.container.hidden = videoHasNoSource;
-    if (videoHasNoSource) {
-      this.votMenu.container.hidden = true;
-    } else {
-      this.videoData = await this.getVideoData();
-      this.setSelectMenuValues(
-        this.videoData.detectedLanguage,
-        this.data.responseLanguage ?? "ru",
-      );
-    }
+    this.videoData = await this.getVideoData();
+    this.setSelectMenuValues(
+      this.videoData.detectedLanguage,
+      this.data.responseLanguage ?? "ru",
+    );
 
     this.translateToLang = this.data.responseLanguage ?? "ru";
     this.initExtraEvents();
@@ -1086,8 +1075,10 @@ class VideoHandler {
       this.votAutoTranslateCheckbox.input.addEventListener("change", (e) => {
         (async () => {
           this.data.autoTranslate = Number(e.target.checked);
-          await votStorage.set("autoTranslate", this.data.autoTranslate);
-          await this.autoTranslate();
+          await Promise.all([
+            votStorage.set("autoTranslate", this.data.autoTranslate),
+            this.autoTranslate(),
+          ]);
           debug.log(
             "autoTranslate value changed. New value: ",
             this.data.autoTranslate,
@@ -1544,23 +1535,23 @@ class VideoHandler {
       addExtraEventListeners(
         eContainer,
         ["mousemove", "mouseout"],
-        this.resetTimerBound,
+        this.resetTimer,
       );
 
     addExtraEventListener(
       this.votButton.container,
       "mousemove",
-      this.changeOpacityOnEventBound,
+      this.changeOpacityOnEvent,
     );
     addExtraEventListener(
       this.votMenu.container,
       "mousemove",
-      this.changeOpacityOnEventBound,
+      this.changeOpacityOnEvent,
     );
     addExtraEventListeners(
       document,
       ["touchstart", "touchmove", "touchend"],
-      this.changeOpacityOnEventBound,
+      this.changeOpacityOnEvent,
     );
 
     // fix youtube hold to fast
@@ -1587,9 +1578,8 @@ class VideoHandler {
       }
       if ((await getVideoID(this.site, this.video)) === this.videoData.videoId)
         return;
-      await this.handleSrcChanged();
-      debug.log("lipsync mode is loadeddata");
-      await this.autoTranslate();
+      await Promise.all([this.handleSrcChanged(), this.autoTranslate()]);
+      debug.log("lipsync mode is canplay");
     });
 
     addExtraEventListener(this.video, "emptied", async () => {
@@ -1615,19 +1605,19 @@ class VideoHandler {
     this.votButton.container.style.opacity = n;
   }
 
-  resetTimer() {
+  resetTimer = () => {
     clearTimeout(this.timer);
     this.logout(1);
     this.timer = setTimeout(() => {
       this.logout(0);
     }, 1000);
-  }
+  };
 
-  changeOpacityOnEvent(event) {
+  changeOpacityOnEvent = (event) => {
     clearTimeout(this.timer);
     this.logout(1);
     event.stopPropagation();
-  }
+  };
 
   async changeSubtitlesLang(subs) {
     debug.log("[onchange] subtitles", subs);
@@ -1971,15 +1961,15 @@ class VideoHandler {
   }
 
   // Define a function to handle common events
-  handleVideoEvent(event) {
+  handleVideoEvent = (event) => {
     debug.log(`video ${event.type}`);
     this.lipSync(event.type);
-  }
+  };
 
   // Default actions on stop translate
   stopTranslate() {
     for (const e of videoLipSyncEvents) {
-      this.video.removeEventListener(e, this.handleVideoEventBound);
+      this.video.removeEventListener(e, this.handleVideoEvent);
     }
     this.audio.pause();
     this.audio.src = "";
@@ -2148,7 +2138,7 @@ class VideoHandler {
       case "twitter":
         document
           .querySelector('button[data-testid="app-bar-back"][role="button"]')
-          .addEventListener("click", this.stopTranslationBound);
+          .addEventListener("click", this.stopTranslation);
         break;
       case "invidious":
       case "piped":
@@ -2157,7 +2147,7 @@ class VideoHandler {
 
     if (this.video && !this.video.paused) this.lipSync("play");
     for (const e of videoLipSyncEvents) {
-      this.video.addEventListener(e, this.handleVideoEventBound);
+      this.video.addEventListener(e, this.handleVideoEvent);
     }
     this.transformBtn("success", localizationProvider.get("disableTranslate"));
     this.afterUpdateTranslation(audioUrl);
@@ -2222,7 +2212,7 @@ class VideoHandler {
 
       if (this.video && !this.video.paused) this.lipSync("play");
       for (const e of videoLipSyncEvents) {
-        this.video.addEventListener(e, this.handleVideoEventBound);
+        this.video.addEventListener(e, this.handleVideoEvent);
       }
 
       return this.afterUpdateTranslation(streamURL);
@@ -2335,10 +2325,10 @@ class VideoHandler {
   }
 
   // Define a function to stop translation and clean up
-  stopTranslation() {
+  stopTranslation = () => {
     this.stopTranslate();
     this.syncVideoVolumeSlider();
-  }
+  };
 
   async handleSrcChanged() {
     debug.log("[VideoHandler] src changed", this);
