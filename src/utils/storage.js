@@ -12,13 +12,6 @@ export const votStorage = new (class {
     }
 
     let val = window.localStorage.getItem(name);
-    if (name === "udemyData" && typeof val === "string") {
-      try {
-        val = JSON.parse(val);
-      } catch {
-        val = def;
-      }
-    }
 
     const result = val ?? def;
     return toNumber ? Number(result) : result;
@@ -35,10 +28,6 @@ export const votStorage = new (class {
   syncSet(name, value) {
     if (this.gmSupport) {
       return GM_setValue(name, value);
-    }
-
-    if (name === "udemyData") {
-      value = JSON.stringify(value);
     }
 
     return window.localStorage.setItem(name, value);
