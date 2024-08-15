@@ -82,6 +82,7 @@ export const votStorage = new (class {
       "detectService",
       "m3u8ProxyHost",
       "translateProxyEnabled",
+      "hotkeyButton",
       "proxyWorkerHost",
       "audioBooster",
       "locale-version",
