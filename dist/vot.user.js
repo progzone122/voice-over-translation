@@ -6097,7 +6097,7 @@ class VideoHandler {
         defaultTranslationService,
       ),
       detectService: votStorage.get("detectService", defaultDetectService),
-      hotkeyButton: votStorage.get("hotkeyButton", "e", true),
+      hotkeyButton: votStorage.get("hotkeyButton", "KeyE", true),
       m3u8ProxyHost: votStorage.get("m3u8ProxyHost", m3u8ProxyHost),
       translateProxyEnabled: votStorage.get("translateProxyEnabled", 0, true),
       proxyWorkerHost: votStorage.get("proxyWorkerHost", proxyWorkerHost),
@@ -6455,27 +6455,22 @@ class VideoHandler {
       );
 
       this.changehotkeyButton = ui.createButton(
-        `Change Hotkey (Current: ${this.data.hotkeyButton.toUpperCase()})`
+        `Change Hotkey (Current: ${this.data.hotkeyButton})`,
       );
       this.votSettingsDialog.bodyContainer.appendChild(this.changehotkeyButton);
 
       const keydownHandler = async (event) => {
-        const newKey = event.key.toLowerCase();
-      
+        const newKey = event.code;
         await votStorage.set("hotkeyButton", newKey);
-      
         this.data.hotkeyButton = newKey;
-      
-        this.changehotkeyButton.textContent = `Change Hotkey (Current: ${newKey.toUpperCase()})`;
-      
-        document.removeEventListener('keydown', keydownHandler);
+        this.changehotkeyButton.textContent = `Change Hotkey (Current: ${newKey})`;
+        document.removeEventListener("keydown", keydownHandler);
       };
-      
-      this.changehotkeyButton.addEventListener('click', () => {
-        this.changehotkeyButton.textContent = 'Press the new hotkey...';
-        document.addEventListener('keydown', keydownHandler);
+
+      this.changehotkeyButton.addEventListener("click", () => {
+        this.changehotkeyButton.textContent = "Press the new hotkey...";
+        document.addEventListener("keydown", keydownHandler);
       });
-      
 
       this.votAutoSetVolumeCheckbox = ui.createCheckbox(
         `${localizationProvider.get("VOTAutoSetVolume")}`,
@@ -6710,7 +6705,7 @@ class VideoHandler {
       this.stopTranslate();
       return;
     }
-  
+
     if (this.hls.url) {
       utils_debug.log("[click translationBtn] hls is not empty");
       this.stopTranslate();
@@ -6726,10 +6721,7 @@ class VideoHandler {
 
       // при скролле ленты клипов в вк сохраняется старый айди видео для перевода,
       // но для субтитров используется новый, поэтому перед запуском перевода необходимо получить актуальный айди
-      if (
-        this.site.host === "vk" &&
-        this.site.additionalData === "clips"
-      ) {
+      if (this.site.host === "vk" && this.site.additionalData === "clips") {
         this.videoData = await this.getVideoData();
       }
       await this.translateExecutor(this.videoData.videoId);
@@ -6747,7 +6739,7 @@ class VideoHandler {
     // VOT Button
     {
       this.votButton.translateButton.addEventListener("click", async () => {
-        await this.handleTranslationBtnClick()
+        await this.handleTranslationBtnClick();
       });
 
       this.votButton.pipButton.addEventListener("click", () => {
@@ -7311,13 +7303,13 @@ class VideoHandler {
     });
 
     document.addEventListener("keydown", async (event) => {
-      const key = event.key.toLowerCase();
-    
+      const code = event.code;
       // Проверка, если активный элемент - это вводимый элемент
       const activeElement = document.activeElement;
-      const isInputElement = ['input', 'textarea'].includes(activeElement.tagName.toLowerCase()) || activeElement.isContentEditable;
-    
-      if (!isInputElement && key === this.data.hotkeyButton) {
+      const isInputElement =
+        ["input", "textarea"].includes(activeElement.tagName.toLowerCase()) ||
+        activeElement.isContentEditable;
+      if (!isInputElement && code === this.data.hotkeyButton) {
         await this.handleTranslationBtnClick();
       }
     });
@@ -8139,7 +8131,7 @@ class VideoHandler {
   async handleSrcChanged() {
     utils_debug.log("[VideoHandler] src changed", this);
     this.firstPlay = true;
-  
+
     const hide =
       !this.video.src && !this.video.currentSrc && !this.video.srcObject;
     this.votButton.container.hidden = hide;
@@ -8151,18 +8143,17 @@ class VideoHandler {
       this.container.appendChild(this.votButton.container);
       this.container.appendChild(this.votMenu.container);
     }
-  
+
     await Promise.all([
-      this.videoData = await this.getVideoData(),
+      (this.videoData = await this.getVideoData()),
       this.updateSubtitles(),
-      this.translateToLang = this.data.responseLanguage ?? "ru"
+      (this.translateToLang = this.data.responseLanguage ?? "ru"),
     ]);
     this.setSelectMenuValues(
       this.videoData.detectedLanguage,
       this.videoData.responseLanguage,
     );
   }
-  
 
   async release() {
     utils_debug.log("[VideoHandler] release");

@@ -322,7 +322,7 @@ class VideoHandler {
         defaultTranslationService,
       ),
       detectService: votStorage.get("detectService", defaultDetectService),
-      hotkeyButton: votStorage.get("hotkeyButton", "e", true),
+      hotkeyButton: votStorage.get("hotkeyButton", "KeyE", true),
       m3u8ProxyHost: votStorage.get("m3u8ProxyHost", m3u8ProxyHost),
       translateProxyEnabled: votStorage.get("translateProxyEnabled", 0, true),
       proxyWorkerHost: votStorage.get("proxyWorkerHost", proxyWorkerHost),
@@ -680,19 +680,15 @@ class VideoHandler {
       );
 
       this.changehotkeyButton = ui.createButton(
-        `Change Hotkey (Current: ${this.data.hotkeyButton.toUpperCase()})`,
+        `Change Hotkey (Current: ${this.data.hotkeyButton})`,
       );
       this.votSettingsDialog.bodyContainer.appendChild(this.changehotkeyButton);
 
       const keydownHandler = async (event) => {
-        const newKey = event.key.toLowerCase();
-
+        const newKey = event.code;
         await votStorage.set("hotkeyButton", newKey);
-
         this.data.hotkeyButton = newKey;
-
-        this.changehotkeyButton.textContent = `Change Hotkey (Current: ${newKey.toUpperCase()})`;
-
+        this.changehotkeyButton.textContent = `Change Hotkey (Current: ${newKey})`;
         document.removeEventListener("keydown", keydownHandler);
       };
 
@@ -1532,15 +1528,13 @@ class VideoHandler {
     });
 
     document.addEventListener("keydown", async (event) => {
-      const key = event.key.toLowerCase();
-
+      const code = event.code;
       // Проверка, если активный элемент - это вводимый элемент
       const activeElement = document.activeElement;
       const isInputElement =
         ["input", "textarea"].includes(activeElement.tagName.toLowerCase()) ||
         activeElement.isContentEditable;
-
-      if (!isInputElement && key === this.data.hotkeyButton) {
+      if (!isInputElement && code === this.data.hotkeyButton) {
         await this.handleTranslationBtnClick();
       }
     });
