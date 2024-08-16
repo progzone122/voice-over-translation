@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Kunne ikke indlæse lyd (media CSP-fejl)",
   "VOTSubtitlesDesign": "Undertekster design",
   "VOTSubtitlesFontSize": "Skriftstørrelse på undertekster",
-  "VOTSubtitlesOpacity": "Gennemsigtighed i undertekstbaggrunden"
+  "VOTSubtitlesOpacity": "Gennemsigtighed i undertekstbaggrunden",
+  "VOTPressNewHotkey": "Tryk på den nye genvejstast...",
+  "VOTCreateTranslationHotkey": "Opret genvejstast til oversættelse",
+  "VOTChangeHotkeyWithCurrent": "Skift Genvejstast (Current: {0})"
 }

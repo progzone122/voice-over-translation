@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "加载音频失败（媒体csp错误）",
   "VOTSubtitlesDesign": "字幕设计",
   "VOTSubtitlesFontSize": "字幕的字体大小",
-  "VOTSubtitlesOpacity": "字幕背景的透明度"
+  "VOTSubtitlesOpacity": "字幕背景的透明度",
+  "VOTPressNewHotkey": "按新热键。..",
+  "VOTCreateTranslationHotkey": "为翻译创建热键",
+  "VOTChangeHotkeyWithCurrent": "更改热键(当前:{0})"
 }

@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Gagal memuat audio (kesalahan csp media)",
   "VOTSubtitlesDesign": "Desain subtitle",
   "VOTSubtitlesFontSize": "Ukuran font subtitle",
-  "VOTSubtitlesOpacity": "Transparansi latar belakang subtitle"
+  "VOTSubtitlesOpacity": "Transparansi latar belakang subtitle",
+  "VOTPressNewHotkey": "Tekan tombol pintas baru...",
+  "VOTCreateTranslationHotkey": "Buat Hotkey untuk Terjemahan",
+  "VOTChangeHotkeyWithCurrent": "Ubah Tombol Pintas (Saat ini: {0})"
 }

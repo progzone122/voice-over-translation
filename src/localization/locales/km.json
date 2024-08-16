@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "បានបរាជ័យក្នុងការផ្ទុកអូឌីយ៉ូ(កំហុសប្រព័ន្ធផ្សព្វផ្សាយ csp)",
   "VOTSubtitlesDesign": "រចនាអក្សររត់ពីក្រោម",
   "VOTSubtitlesFontSize": "ទំហំពុម្ពអក្សរនៃចំណងជើងរង",
-  "VOTSubtitlesOpacity": "តម្លាភាពនៃផ្ទៃខាងក្រោយចំណងជើងរង"
+  "VOTSubtitlesOpacity": "តម្លាភាពនៃផ្ទៃខាងក្រោយចំណងជើងរង",
+  "VOTPressNewHotkey": "ចុចគ្រាប់ចុចចងថ្មី...",
+  "VOTCreateTranslationHotkey": "បង្កើតគ្រាប់ចុចចងសម្រាប់ការបកប្រែ",
+  "VOTChangeHotkeyWithCurrent": "ផ្លាស់ប្តូរគ្រាប់ចុចចង(បច្ចុប្បន្ន:{0})"
 }

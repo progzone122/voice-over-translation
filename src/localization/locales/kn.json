@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "ಆಡಿಯೋ ಲೋಡ್ ಮಾಡಲು ವಿಫಲವಾಗಿದೆ (ಮೀಡಿಯಾ csp ದೋಷ)",
   "VOTSubtitlesDesign": "ಉಪಶೀರ್ಷಿಕೆಗಳು ವಿನ್ಯಾಸ",
   "VOTSubtitlesFontSize": "ಉಪಶೀರ್ಷಿಕೆಗಳ ಫಾಂಟ್ ಗಾತ್ರ",
-  "VOTSubtitlesOpacity": "ಉಪಶೀರ್ಷಿಕೆ ಹಿನ್ನೆಲೆ ಪಾರದರ್ಶಕತೆ"
+  "VOTSubtitlesOpacity": "ಉಪಶೀರ್ಷಿಕೆ ಹಿನ್ನೆಲೆ ಪಾರದರ್ಶಕತೆ",
+  "VOTPressNewHotkey": "ಹೊಸ ಹಾಟ್ಕೀ ಒತ್ತಿರಿ...",
+  "VOTCreateTranslationHotkey": "ಅನುವಾದಕ್ಕಾಗಿ Hotkey ರಚಿಸಿ",
+  "VOTChangeHotkeyWithCurrent": "ಹಾಟ್ಕೀ ಬದಲಾಯಿಸಿ (ಪ್ರಸ್ತುತ: {0})"
 }

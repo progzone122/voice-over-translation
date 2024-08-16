@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Грешка при зареждане на аудиото (грешка при създаване на аудио файл)",
   "VOTSubtitlesDesign": "Субтитри дизайн",
   "VOTSubtitlesFontSize": "Размер на шрифта на субтитрите",
-  "VOTSubtitlesOpacity": "Прозрачност на фона на субтитрите"
+  "VOTSubtitlesOpacity": "Прозрачност на фона на субтитрите",
+  "VOTPressNewHotkey": "Натисни новата клавишна комбинация...",
+  "VOTCreateTranslationHotkey": "Създаване на клавиш за превод",
+  "VOTChangeHotkeyWithCurrent": "Промяна На Клавишната Комбинация (Текуща: {0})"
 }

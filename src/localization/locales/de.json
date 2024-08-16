@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Audio konnte nicht geladen werden (Medien-CSP-Fehler)",
   "VOTSubtitlesDesign": "Untertitel-Design",
   "VOTSubtitlesFontSize": "Schriftgröße der Untertitel",
-  "VOTSubtitlesOpacity": "Transparenz des Untertitelhintergrunds"
+  "VOTSubtitlesOpacity": "Transparenz des Untertitelhintergrunds",
+  "VOTPressNewHotkey": "Drücken Sie den neuen Hotkey...",
+  "VOTCreateTranslationHotkey": "Hotkey für Übersetzung erstellen",
+  "VOTChangeHotkeyWithCurrent": "Hotkey ändern (Aktuell: {0})"
 }

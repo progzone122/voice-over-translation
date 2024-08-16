@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Ni bilo mogoče naložiti zvoka (napaka media CSP)",
   "VOTSubtitlesDesign": "Oblikovanje podnapisov",
   "VOTSubtitlesFontSize": "Velikost pisave podnapisov",
-  "VOTSubtitlesOpacity": "Preglednost ozadja podnapisov"
+  "VOTSubtitlesOpacity": "Preglednost ozadja podnapisov",
+  "VOTPressNewHotkey": "Pritisnite novo bližnjično tipko...",
+  "VOTCreateTranslationHotkey": "Ustvari bližnjico za prevod",
+  "VOTChangeHotkeyWithCurrent": "Spremeni Bližnjično Tipko (Trenutno: {0})"
 }

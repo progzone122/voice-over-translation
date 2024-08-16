@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Failed to load audio (media csp error)",
   "VOTSubtitlesDesign": "Subtitles design",
   "VOTSubtitlesFontSize": "Font size of subtitles",
-  "VOTSubtitlesOpacity": "Transparency of the subtitle background"
+  "VOTSubtitlesOpacity": "Transparency of the subtitle background",
+  "VOTPressNewHotkey": "Press the new hotkey...",
+  "VOTCreateTranslationHotkey": "Create Hotkey for Translation",
+  "VOTChangeHotkeyWithCurrent": "Change Hotkey (Current: {0})"
 }

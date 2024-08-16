@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Neuspješno učitavanje zvuka (media csp greška)",
   "VOTSubtitlesDesign": "Subtitles design",
   "VOTSubtitlesFontSize": "Veličina titlova",
-  "VOTSubtitlesOpacity": "Transparentnost pozadine titlova"
+  "VOTSubtitlesOpacity": "Transparentnost pozadine titlova",
+  "VOTPressNewHotkey": "Pritisnite novi hotkey...",
+  "VOTCreateTranslationHotkey": "Kreirajte interventni taster za prevod",
+  "VOTChangeHotkeyWithCurrent": "Promijeni Interventni Taster (Trenutno: {0})"
 }

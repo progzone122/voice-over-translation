@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Caricamento audio non riuscito (errore media csp)",
   "VOTSubtitlesDesign": "Sottotitoli design",
   "VOTSubtitlesFontSize": "Dimensione del carattere dei sottotitoli",
-  "VOTSubtitlesOpacity": "Trasparenza dello sfondo dei sottotitoli"
+  "VOTSubtitlesOpacity": "Trasparenza dello sfondo dei sottotitoli",
+  "VOTPressNewHotkey": "Premere il nuovo tasto di scelta rapida...",
+  "VOTCreateTranslationHotkey": "Crea Hotkey per la traduzione",
+  "VOTChangeHotkeyWithCurrent": "Cambia tasto di scelta rapida (Corrente: {0})"
 }

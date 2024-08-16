@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Huts egin du audioa kargatzean (euskarriaren ksp errorea)",
   "VOTSubtitlesDesign": "Azpitituluen diseinua",
   "VOTSubtitlesFontSize": "Azpitituluen letra-tamaina",
-  "VOTSubtitlesOpacity": "Azpitituluen atzeko planoaren gardentasuna"
+  "VOTSubtitlesOpacity": "Azpitituluen atzeko planoaren gardentasuna",
+  "VOTPressNewHotkey": "Sakatu laster-tekla berria...",
+  "VOTCreateTranslationHotkey": "Sortu Laster-Tekla Itzulpenerako",
+  "VOTChangeHotkeyWithCurrent": "Aldatu Laster-Tekla (Unekoa: {0})"
 }

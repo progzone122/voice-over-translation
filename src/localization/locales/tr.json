@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Ses yüklenemedi (ortam csp hatası)",
   "VOTSubtitlesDesign": "Altyazı tasarımı",
   "VOTSubtitlesFontSize": "Altyazıların yazı tipi boyutu",
-  "VOTSubtitlesOpacity": "Altyazı arka planının şeffaflığı"
+  "VOTSubtitlesOpacity": "Altyazı arka planının şeffaflığı",
+  "VOTPressNewHotkey": "Yeni kısayol tuşuna basın...",
+  "VOTCreateTranslationHotkey": "Çeviri için Kısayol Tuşu Oluşturma",
+  "VOTChangeHotkeyWithCurrent": "Kısayol Tuşunu Değiştir (Geçerli: {0})"
 }

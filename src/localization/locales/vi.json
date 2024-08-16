@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Không tải được âm thanh (lỗi media csp)",
   "VOTSubtitlesDesign": "Thiết kế phụ đề",
   "VOTSubtitlesFontSize": "Kích thước phông chữ của phụ đề",
-  "VOTSubtitlesOpacity": "Độ trong suốt của nền phụ đề"
+  "VOTSubtitlesOpacity": "Độ trong suốt của nền phụ đề",
+  "VOTPressNewHotkey": "Nhấn phím nóng mới...",
+  "VOTCreateTranslationHotkey": "Tạo Phím Nóng Để Dịch",
+  "VOTChangeHotkeyWithCurrent": "Thay Đổi Phím Nóng (Hiện Tại: {0})"
 }

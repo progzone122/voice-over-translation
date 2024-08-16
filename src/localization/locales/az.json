@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Audio yükləyə bilmədi (media csp xətası)",
   "VOTSubtitlesDesign": "Altyazı dizaynı",
   "VOTSubtitlesFontSize": "Altyazı şrift ölçüsü",
-  "VOTSubtitlesOpacity": "Altyazı fon şəffaflığı"
+  "VOTSubtitlesOpacity": "Altyazı fon şəffaflığı",
+  "VOTPressNewHotkey": "Yeni isti düyməni basın...",
+  "VOTCreateTranslationHotkey": "Tərcümə üçün qısa düymə yaradın",
+  "VOTChangeHotkeyWithCurrent": "Qısayol düyməsini dəyişdirin (cari: {0})"
 }

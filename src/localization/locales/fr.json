@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Échec du chargement de l'audio (erreur csp multimédia)",
   "VOTSubtitlesDesign": "Conception des sous-titres",
   "VOTSubtitlesFontSize": "Taille de la police des sous-titres",
-  "VOTSubtitlesOpacity": "Transparence de l'arrière-plan des sous-titres"
+  "VOTSubtitlesOpacity": "Transparence de l'arrière-plan des sous-titres",
+  "VOTPressNewHotkey": "Appuyez sur la nouvelle touche de raccourci...",
+  "VOTCreateTranslationHotkey": "Créer un raccourci clavier pour la traduction",
+  "VOTChangeHotkeyWithCurrent": "Modifier le raccourci clavier (Actuel: {0})"
 }

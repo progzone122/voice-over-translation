@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "ਆਡੀਓ ਲੋਡ ਕਰਨ ਲਈ ਫੇਲ੍ਹ (ਮੀਡਿਆ ਸੀਐਸਪੀ ਗਲਤੀ)",
   "VOTSubtitlesDesign": "ਉਪਸਿਰਲੇਖ ਡਿਜ਼ਾਈਨ",
   "VOTSubtitlesFontSize": "ਉਪਸਿਰਲੇਖਾਂ ਦਾ ਫੋਂਟ ਸਾਈਜ਼",
-  "VOTSubtitlesOpacity": "ਉਪਸਿਰਲੇਖ ਪਿਛੋਕੜ ਦੀ ਪਾਰਦਰਸ਼ਤਾ"
+  "VOTSubtitlesOpacity": "ਉਪਸਿਰਲੇਖ ਪਿਛੋਕੜ ਦੀ ਪਾਰਦਰਸ਼ਤਾ",
+  "VOTPressNewHotkey": "ਨਵ ਹੌਟਕੀ ਦਬਾਓ...",
+  "VOTCreateTranslationHotkey": "ਅਨੁਵਾਦ ਲਈ ਹੌਟਕੀ ਬਣਾਓ",
+  "VOTChangeHotkeyWithCurrent": "ਹਾਟਕੀ ਬਦਲੋ (ਮੌਜੂਦਾ: {0})"
 }

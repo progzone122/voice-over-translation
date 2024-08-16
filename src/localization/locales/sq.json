@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Nuk arriti të ngarkojë audio (gabim media csp)",
   "VOTSubtitlesDesign": "Dizajni i titrave",
   "VOTSubtitlesFontSize": "Madhësia e shkronjave të titrave",
-  "VOTSubtitlesOpacity": "Transparenca e sfondit të titrave"
+  "VOTSubtitlesOpacity": "Transparenca e sfondit të titrave",
+  "VOTPressNewHotkey": "Shtypni tastin e ri...",
+  "VOTCreateTranslationHotkey": "Krijo Hotkey Për Përkthim",
+  "VOTChangeHotkeyWithCurrent": "Ndrysho Hotkey (Aktual: {0})"
 }

@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "အသံတင်ရန်ပျက်ကွက်ခြင်း(မီဒီယာ csp အမှား)",
   "VOTSubtitlesDesign": "စာတန်းထိုးဒီဇိုင်း",
   "VOTSubtitlesFontSize": "စာတန်းထိုးများ၏စာလုံးအရွယ်အစား",
-  "VOTSubtitlesOpacity": "စာတန်းထိုးနောက်ခံ၏ပွင့်လင်းမြင်သာမှု"
+  "VOTSubtitlesOpacity": "စာတန်းထိုးနောက်ခံ၏ပွင့်လင်းမြင်သာမှု",
+  "VOTPressNewHotkey": "ခလုတ်အသစ်ကိုနှိပ်ပါ။..",
+  "VOTCreateTranslationHotkey": "ဘာသာပြန်ရန် Hotkey ကိုဖန်တီးပါ",
+  "VOTChangeHotkeyWithCurrent": "Change Hotkey(လက်ရှိ:{0})"
 }

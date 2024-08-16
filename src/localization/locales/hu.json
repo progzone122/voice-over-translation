@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Nem sikerült betölteni a hangot (media csp hiba)",
   "VOTSubtitlesDesign": "Feliratok tervezése",
   "VOTSubtitlesFontSize": "A feliratok betűmérete",
-  "VOTSubtitlesOpacity": "A felirat hátterének átláthatósága"
+  "VOTSubtitlesOpacity": "A felirat hátterének átláthatósága",
+  "VOTPressNewHotkey": "Nyomja meg az új gyorsbillentyűt...",
+  "VOTCreateTranslationHotkey": "Gyorsbillentyű létrehozása a fordításhoz",
+  "VOTChangeHotkeyWithCurrent": "Gyorsbillentyű Módosítása (Aktuális: {0})"
 }

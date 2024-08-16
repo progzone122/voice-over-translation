@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Imeshindwa kupakia sauti (kosa la media csp)",
   "VOTSubtitlesDesign": "Subtitles kubuni",
   "VOTSubtitlesFontSize": "Ukubwa wa fonti ya manukuu",
-  "VOTSubtitlesOpacity": "Uwazi wa mandharinyuma ya manukuu"
+  "VOTSubtitlesOpacity": "Uwazi wa mandharinyuma ya manukuu",
+  "VOTPressNewHotkey": "Bonyeza hotkey mpya...",
+  "VOTCreateTranslationHotkey": "Kujenga Hotkey Kwa Tafsiri",
+  "VOTChangeHotkeyWithCurrent": "Kubadili Hotkey (Sasa: {0})"
 }

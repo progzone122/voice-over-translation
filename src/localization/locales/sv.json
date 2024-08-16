@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Det gick inte att ladda ljud (media csp-fel)",
   "VOTSubtitlesDesign": "Textning design",
   "VOTSubtitlesFontSize": "Teckenstorlek på undertexter",
-  "VOTSubtitlesOpacity": "Öppenhet i undertextens bakgrund"
+  "VOTSubtitlesOpacity": "Öppenhet i undertextens bakgrund",
+  "VOTPressNewHotkey": "Tryck på den nya snabbtangenten...",
+  "VOTCreateTranslationHotkey": "Skapa snabbtangent för översättning",
+  "VOTChangeHotkeyWithCurrent": "Ändra Snabbtangent (Nuvarande: {0})"
 }

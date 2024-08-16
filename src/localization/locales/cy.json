@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Methu llwytho sain (gwall csp cyfrwng)",
   "VOTSubtitlesDesign": "Isdeitlau dylunio",
   "VOTSubtitlesFontSize": "Maint ffont isdeitlau",
-  "VOTSubtitlesOpacity": "Tryloywder cefndir yr is-deitl"
+  "VOTSubtitlesOpacity": "Tryloywder cefndir yr is-deitl",
+  "VOTPressNewHotkey": "Pwyswch y hotkey newydd...",
+  "VOTCreateTranslationHotkey": "Creu Hotkey Ar Gyfer Cyfieithu",
+  "VOTChangeHotkeyWithCurrent": "Newid Hotkey (Cyfredol: {0})"
 }

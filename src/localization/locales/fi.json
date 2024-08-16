@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Äänen lataaminen epäonnistui (median csp-virhe)",
   "VOTSubtitlesDesign": "Tekstitysten suunnittelu",
   "VOTSubtitlesFontSize": "Tekstityksen kirjasinkoko",
-  "VOTSubtitlesOpacity": "Tekstityksen Taustan läpinäkyvyys"
+  "VOTSubtitlesOpacity": "Tekstityksen Taustan läpinäkyvyys",
+  "VOTPressNewHotkey": "Paina uutta pikanäppäintä...",
+  "VOTCreateTranslationHotkey": "Luo Pikanäppäin kääntämistä varten",
+  "VOTChangeHotkeyWithCurrent": "Vaihda Pikanäppäintä (Nykyinen: {0})"
 }

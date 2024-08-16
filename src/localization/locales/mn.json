@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Аудио ачаалж чадаагүй (медиа csp алдаа)",
   "VOTSubtitlesDesign": "Хадмалтай дизайн",
   "VOTSubtitlesFontSize": "Хадмалтай үсгийн хэмжээ",
-  "VOTSubtitlesOpacity": "Subtitle background-ийн ил тод байдал"
+  "VOTSubtitlesOpacity": "Subtitle background-ийн ил тод байдал",
+  "VOTPressNewHotkey": "Шинэ товчлуур дээр дарна уу...",
+  "VOTCreateTranslationHotkey": "Орчуулгын Hotkey үүсгэх",
+  "VOTChangeHotkeyWithCurrent": "Түлхүүр Гардуулах Өөрчлөх (Одоогийн: {0})"
 }

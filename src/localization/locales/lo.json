@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "ລົ້ມເຫລວໃນການໂຫຼດສຽງ(media csp error)",
   "VOTSubtitlesDesign": "ການອອກແບບຄໍາບັນຍາຍ",
   "VOTSubtitlesFontSize": "ຂະໜາດຕົວອັກສອນຂອງຄຳບັນຍາຍ",
-  "VOTSubtitlesOpacity": "ຄວາມໂປ່ງໃສຂອງຄວາມເປັນມາ subtitle ໄດ້"
+  "VOTSubtitlesOpacity": "ຄວາມໂປ່ງໃສຂອງຄວາມເປັນມາ subtitle ໄດ້",
+  "VOTPressNewHotkey": "ກົດປຸ່ມ hotkey ໃໝ່...",
+  "VOTCreateTranslationHotkey": "ສ້າງ Hotkey ສໍາລັບການແປພາສາ",
+  "VOTChangeHotkeyWithCurrent": "ປ່ຽນ Hotkey(ປັດຈຸບັນ:{0})"
 }

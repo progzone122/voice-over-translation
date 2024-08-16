@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "نتوانست صدا را بارگذاری کند (خطای csp رسانه ای)",
   "VOTSubtitlesDesign": "طراحی زیرنویس",
   "VOTSubtitlesFontSize": "اندازه فونت زیرنویس",
-  "VOTSubtitlesOpacity": "شفافیت پس زمینه زیرنویس"
+  "VOTSubtitlesOpacity": "شفافیت پس زمینه زیرنویس",
+  "VOTPressNewHotkey": "کلید میانبر جدید را فشار دهید...",
+  "VOTCreateTranslationHotkey": "ایجاد کلید میانبر برای ترجمه",
+  "VOTChangeHotkeyWithCurrent": "کلید میانبر تغییر (در حال حاضر: {0})"
 }

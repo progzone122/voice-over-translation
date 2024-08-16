@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "ऑडियो लोड करने में विफल (मीडिया सीएसपी त्रुटि)",
   "VOTSubtitlesDesign": "उपशीर्षक डिजाइन",
   "VOTSubtitlesFontSize": "उपशीर्षक का फ़ॉन्ट आकार",
-  "VOTSubtitlesOpacity": "उपशीर्षक पृष्ठभूमि की पारदर्शिता"
+  "VOTSubtitlesOpacity": "उपशीर्षक पृष्ठभूमि की पारदर्शिता",
+  "VOTPressNewHotkey": "नई हॉटकी दबाएं।..",
+  "VOTCreateTranslationHotkey": "अनुवाद के लिए हॉटकी बनाएं",
+  "VOTChangeHotkeyWithCurrent": "हॉटकी बदलें (वर्तमान: {0})"
 }

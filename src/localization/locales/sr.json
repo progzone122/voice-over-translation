@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Преузимање звука није успело (Медиа ЦСП грешка)",
   "VOTSubtitlesDesign": "Дизајн титлова",
   "VOTSubtitlesFontSize": "Величина фонта титлова",
-  "VOTSubtitlesOpacity": "Транспарентност позадине титлова"
+  "VOTSubtitlesOpacity": "Транспарентност позадине титлова",
+  "VOTPressNewHotkey": "Притисните нови интервентни тастер...",
+  "VOTCreateTranslationHotkey": "Направите интервентни тастер за превод",
+  "VOTChangeHotkeyWithCurrent": "Промените интервентни тастер (тренутни: {0})"
 }

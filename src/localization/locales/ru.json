@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Не удалось загрузить аудио (ошибка media csp)",
   "VOTSubtitlesDesign": "Оформление субтитров",
   "VOTSubtitlesFontSize": "Размер шрифта субтитров",
-  "VOTSubtitlesOpacity": "Прозрачность фона субтитров"
+  "VOTSubtitlesOpacity": "Прозрачность фона субтитров",
+  "VOTPressNewHotkey": "Нажмите новую клавишу...",
+  "VOTCreateTranslationHotkey": "Назначить горячую клавишу для перевода",
+  "VOTChangeHotkeyWithCurrent": "Изменить горячую клавишу (Текущая: {0})"
 }

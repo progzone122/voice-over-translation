@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Gagal pikeun muka audio (media csp error)",
   "VOTSubtitlesDesign": "Desain subtitle",
   "VOTSubtitlesFontSize": "Ukuran font tina subtitles",
-  "VOTSubtitlesOpacity": "Transparansi tina latar subjudul"
+  "VOTSubtitlesOpacity": "Transparansi tina latar subjudul",
+  "VOTPressNewHotkey": "Pencét hotkey anyar...",
+  "VOTCreateTranslationHotkey": "Jieun Hotkey Pikeun Tarjamahan",
+  "VOTChangeHotkeyWithCurrent": "Robah Hotkey (Ayeuna: {0})"
 }

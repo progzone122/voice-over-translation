@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "オーディオのロードに失敗しました（メディアcspエラー）",
   "VOTSubtitlesDesign": "字幕デザイン",
   "VOTSubtitlesFontSize": "字幕のフォントサイズ",
-  "VOTSubtitlesOpacity": "字幕の背景の透明度"
+  "VOTSubtitlesOpacity": "字幕の背景の透明度",
+  "VOTPressNewHotkey": "新しいホットキーを押します。..",
+  "VOTCreateTranslationHotkey": "翻訳用のホットキーを作成する",
+  "VOTChangeHotkeyWithCurrent": "ホットキーの変更(現在:{0})"
 }

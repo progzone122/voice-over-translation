@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Не успеа да вчита аудио (грешка во медиумскиот цсп)",
   "VOTSubtitlesDesign": "Преводи дизајн",
   "VOTSubtitlesFontSize": "Големина на фонт на преводи",
-  "VOTSubtitlesOpacity": "Транспарентност на позадината на титлот"
+  "VOTSubtitlesOpacity": "Транспарентност на позадината на титлот",
+  "VOTPressNewHotkey": "Притиснете го новото копче...",
+  "VOTCreateTranslationHotkey": "Креирај Клуч За Превод",
+  "VOTChangeHotkeyWithCurrent": "Променете Го Копчето (Струја: {0})"
 }

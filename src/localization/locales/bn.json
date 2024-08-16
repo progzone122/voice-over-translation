@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "অডিও লোড করতে ব্যর্থ (মিডিয়া সিএসপি ত্রুটি)",
   "VOTSubtitlesDesign": "সাবটাইটেল ডিজাইন",
   "VOTSubtitlesFontSize": "সাবটাইটেলের ফন্টের আকার",
-  "VOTSubtitlesOpacity": "সাবটাইটেল পটভূমির স্বচ্ছতা"
+  "VOTSubtitlesOpacity": "সাবটাইটেল পটভূমির স্বচ্ছতা",
+  "VOTPressNewHotkey": "নতুন হটকি টিপুন...",
+  "VOTCreateTranslationHotkey": "অনুবাদের জন্য হটকি তৈরি করুন",
+  "VOTChangeHotkeyWithCurrent": "হটকি পরিবর্তন করুন (বর্তমান: {0})"
 }

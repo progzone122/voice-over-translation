@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Ovozni yuklab bo'lmadi (media CSP xatosi)",
   "VOTSubtitlesDesign": "Subtitrlar dizayni",
   "VOTSubtitlesFontSize": "Subtitrlarning shrift o'lchami",
-  "VOTSubtitlesOpacity": "Subtitr fonining shaffofligi"
+  "VOTSubtitlesOpacity": "Subtitr fonining shaffofligi",
+  "VOTPressNewHotkey": "Yangi tezkor tugmani bosing...",
+  "VOTCreateTranslationHotkey": "Tarjima uchun tezkor tugma yarating",
+  "VOTChangeHotkeyWithCurrent": "O'zgartirish Hotkey (Hozirgi: {0})"
 }

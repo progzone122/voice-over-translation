@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "آڈیو لوڈ کرنے میں ناکام (میڈیا سی ایس پی کی خرابی)",
   "VOTSubtitlesDesign": "سب ٹائٹلز ڈیزائن",
   "VOTSubtitlesFontSize": "سب ٹائٹلز کا فونٹ سائز",
-  "VOTSubtitlesOpacity": "ذیلی عنوان کے پس منظر کی شفافیت"
+  "VOTSubtitlesOpacity": "ذیلی عنوان کے پس منظر کی شفافیت",
+  "VOTPressNewHotkey": "نئی ہاٹکی دبائیں۔..",
+  "VOTCreateTranslationHotkey": "ترجمہ کے لئے ہاٹکی بنائیں",
+  "VOTChangeHotkeyWithCurrent": "ہاٹکی تبدیل کریں (موجودہ: {0})"
 }

@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Heli laadimine nurjus (media csp viga)",
   "VOTSubtitlesDesign": "Subtiitrite kujundus",
   "VOTSubtitlesFontSize": "Subtiitrite fondi suurus",
-  "VOTSubtitlesOpacity": "Subtiitrite tausta läbipaistvus"
+  "VOTSubtitlesOpacity": "Subtiitrite tausta läbipaistvus",
+  "VOTPressNewHotkey": "Vajutage uut kiirklahvi...",
+  "VOTCreateTranslationHotkey": "Looge tõlkimiseks kiirklahv",
+  "VOTChangeHotkeyWithCurrent": "Muuda Kiirklahvi (Praegune: {0})"
 }

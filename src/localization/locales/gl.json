@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Fallou a carga do audio (erro do csp dos medios)",
   "VOTSubtitlesDesign": "Deseño de subtítulos",
   "VOTSubtitlesFontSize": "Tamaño da letra dos subtítulos",
-  "VOTSubtitlesOpacity": "Transparencia do fondo do subtítulo"
+  "VOTSubtitlesOpacity": "Transparencia do fondo do subtítulo",
+  "VOTPressNewHotkey": "Preme na nova tecla...",
+  "VOTCreateTranslationHotkey": "Crear Hotkey Para A Tradución",
+  "VOTChangeHotkeyWithCurrent": "Cambiar A Tecla Quente (Actual: {0})"
 }

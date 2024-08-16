@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Gagal memuatkan audio (ralat media CSP)",
   "VOTSubtitlesDesign": "Reka bentuk sarikata",
   "VOTSubtitlesFontSize": "Saiz fon sari kata",
-  "VOTSubtitlesOpacity": "Ketelusan latar belakang sari kata"
+  "VOTSubtitlesOpacity": "Ketelusan latar belakang sari kata",
+  "VOTPressNewHotkey": "Tekan kekunci panas baharu...",
+  "VOTCreateTranslationHotkey": "Buat Hotkey untuk terjemahan",
+  "VOTChangeHotkeyWithCurrent": "Tukar Hotkey (Semasa: {0})"
 }

@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Nepodařilo se načíst zvuk (chyba media CSP)",
   "VOTSubtitlesDesign": "Titulky design",
   "VOTSubtitlesFontSize": "Velikost písma titulků",
-  "VOTSubtitlesOpacity": "Průhlednost pozadí titulků"
+  "VOTSubtitlesOpacity": "Průhlednost pozadí titulků",
+  "VOTPressNewHotkey": "Stiskněte novou klávesovou zkratku...",
+  "VOTCreateTranslationHotkey": "Vytvořit klávesovou zkratku pro překlad",
+  "VOTChangeHotkeyWithCurrent": "Změnit Klávesovou Zkratku (Aktuální: {0})"
 }

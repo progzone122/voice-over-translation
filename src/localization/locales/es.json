@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Error al cargar audio (error de csp de medios)",
   "VOTSubtitlesDesign": "Diseño de subtítulos",
   "VOTSubtitlesFontSize": "Tamaño de fuente de los subtítulos",
-  "VOTSubtitlesOpacity": "Transparencia del fondo de los subtítulos"
+  "VOTSubtitlesOpacity": "Transparencia del fondo de los subtítulos",
+  "VOTPressNewHotkey": "Presione la nueva tecla de acceso rápido...",
+  "VOTCreateTranslationHotkey": "Crear Tecla de acceso rápido para la Traducción",
+  "VOTChangeHotkeyWithCurrent": "Cambiar tecla de acceso rápido (Actual: {0})"
 }

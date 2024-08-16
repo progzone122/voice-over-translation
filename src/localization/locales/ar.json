@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "فشل تحميل الصوت (خطأ في الطاقة الشمسية المركزة في الوسائط)",
   "VOTSubtitlesDesign": "تصميم الترجمة",
   "VOTSubtitlesFontSize": "حجم الخط من ترجمات",
-  "VOTSubtitlesOpacity": "شفافية خلفية العنوان الفرعي"
+  "VOTSubtitlesOpacity": "شفافية خلفية العنوان الفرعي",
+  "VOTPressNewHotkey": "اضغط على مفتاح الاختصار الجديد...",
+  "VOTCreateTranslationHotkey": "إنشاء هوتكي للترجمة",
+  "VOTChangeHotkeyWithCurrent": "تغيير هوتكي (الحالي: {0})"
 }

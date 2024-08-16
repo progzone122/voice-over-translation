@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Не вдалося завантажити аудіо (помилка media csp)",
   "VOTSubtitlesDesign": "Дизайн субтитрів",
   "VOTSubtitlesFontSize": "Розмір шрифту субтитрів",
-  "VOTSubtitlesOpacity": "Прозорість фону субтитрів"
+  "VOTSubtitlesOpacity": "Прозорість фону субтитрів",
+  "VOTPressNewHotkey": "Натисніть нову гарячу клавішу...",
+  "VOTCreateTranslationHotkey": "Створити гарячу клавішу для перекладу",
+  "VOTChangeHotkeyWithCurrent": "Змінити гарячу клавішу (поточна: {0})"
 }

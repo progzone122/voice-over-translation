@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "ኦዲዮ መጫን አልተሳካም (ሚዲያ csp ስህተት)",
   "VOTSubtitlesDesign": "ንዑስ ርዕሶች ንድፍ",
   "VOTSubtitlesFontSize": "የትርጉም ጽሑፎች ቅርጸ-ቁምፊ መጠን",
-  "VOTSubtitlesOpacity": "የትርጉም ዳራ ግልፅነት"
+  "VOTSubtitlesOpacity": "የትርጉም ዳራ ግልፅነት",
+  "VOTPressNewHotkey": "አዲሱን ሆትኪይ ይጫኑ።..",
+  "VOTCreateTranslationHotkey": "ለትርጉም ሆትኪይ ይፍጠሩ",
+  "VOTChangeHotkeyWithCurrent": "ሆትኪይ ለውጥ (የአሁኑ: {0})"
 }

@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Kon nie klank laai nie (media csp-fout)",
   "VOTSubtitlesDesign": "Onderskrifte ontwerp",
   "VOTSubtitlesFontSize": "Lettergrootte van onderskrifte",
-  "VOTSubtitlesOpacity": "Deursigtigheid van die ondertitel agtergrond"
+  "VOTSubtitlesOpacity": "Deursigtigheid van die ondertitel agtergrond",
+  "VOTPressNewHotkey": "Druk die nuwe sneltoets...",
+  "VOTCreateTranslationHotkey": "Skep Sneltoets Vir Vertaling",
+  "VOTChangeHotkeyWithCurrent": "Verander Sneltoets (Huidige: {0})"
 }

@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Nepodarilo sa načítať zvuk (chyba media csp)",
   "VOTSubtitlesDesign": "Dizajn titulkov",
   "VOTSubtitlesFontSize": "Veľkosť písma titulkov",
-  "VOTSubtitlesOpacity": "Transparentnosť pozadia titulkov"
+  "VOTSubtitlesOpacity": "Transparentnosť pozadia titulkov",
+  "VOTPressNewHotkey": "Stlačte novú klávesovú skratku...",
+  "VOTCreateTranslationHotkey": "Vytvoriť klávesovú skratku pre preklad",
+  "VOTChangeHotkeyWithCurrent": "Zmeniť Klávesovú Skratku (Aktuálne: {0})"
 }

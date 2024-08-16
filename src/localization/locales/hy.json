@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Չհաջողվեց բեռնել աուդիո (media csp սխալ)",
   "VOTSubtitlesDesign": "Ենթագրերի ձևավորում",
   "VOTSubtitlesFontSize": "Ենթագրերի տառատեսակի չափը",
-  "VOTSubtitlesOpacity": "Ենթագրերի ֆոնի թափանցիկություն"
+  "VOTSubtitlesOpacity": "Ենթագրերի ֆոնի թափանցիկություն",
+  "VOTPressNewHotkey": "Սեղմեք նոր թեժ ստեղնը:..",
+  "VOTCreateTranslationHotkey": "Թարգմանության համար Ստեղծեք թեժ ստեղն",
+  "VOTChangeHotkeyWithCurrent": "Փոխել թեժ ստեղնը (Ընթացիկ ՝ {0})"
 }

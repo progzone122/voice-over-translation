@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Аудио жүктелмеді (медиа csp қатесі)",
   "VOTSubtitlesDesign": "Субтитрлер дизайны",
   "VOTSubtitlesFontSize": "Субтитрлердің қаріп өлшемі",
-  "VOTSubtitlesOpacity": "Субтитр фонының мөлдірлігі"
+  "VOTSubtitlesOpacity": "Субтитр фонының мөлдірлігі",
+  "VOTPressNewHotkey": "Жаңа жылдам пернені басыңыз...",
+  "VOTCreateTranslationHotkey": "Аударма Үшін Жылдам Перне жасаңыз",
+  "VOTChangeHotkeyWithCurrent": "Жылдам Пернені Өзгерту (Ағымдағы: {0})"
 }

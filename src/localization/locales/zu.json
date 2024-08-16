@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Yehlulekile ukulayisha audio (media csp iphutha)",
   "VOTSubtitlesDesign": "Umklamo wemibhalo engezansi",
   "VOTSubtitlesFontSize": "Usayizi wefonti yemibhalo engezansi",
-  "VOTSubtitlesOpacity": "Ukungafihli lutho kwesizinda sesihlokwana"
+  "VOTSubtitlesOpacity": "Ukungafihli lutho kwesizinda sesihlokwana",
+  "VOTPressNewHotkey": "Cindezela hotkey entsha...",
+  "VOTCreateTranslationHotkey": "Yakha Hotkey For Translation",
+  "VOTChangeHotkeyWithCurrent": "Shintsha Hotkey (Zamanje: {0})"
 }

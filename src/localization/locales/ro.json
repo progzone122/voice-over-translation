@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Nu s-a încărcat audio (eroare media csp)",
   "VOTSubtitlesDesign": "Design subtitrari",
   "VOTSubtitlesFontSize": "Dimensiunea fontului subtitrărilor",
-  "VOTSubtitlesOpacity": "Transparența fundalului subtitrării"
+  "VOTSubtitlesOpacity": "Transparența fundalului subtitrării",
+  "VOTPressNewHotkey": "Apăsați tasta rapidă nouă...",
+  "VOTCreateTranslationHotkey": "Creați taste rapide pentru traducere",
+  "VOTChangeHotkeyWithCurrent": "Schimbare Tastă Rapidă (Curent: {0})"
 }

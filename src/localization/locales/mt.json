@@ -192,5 +192,8 @@
   "VOTMediaCSPError": "Naqas milli jgħabbi l-awdjo (żball tal-psp tal-midja)",
   "VOTSubtitlesDesign": "Disinn tas-sottotitoli",
   "VOTSubtitlesFontSize": "Daqs tat-tipa tas-sottotitoli",
-  "VOTSubtitlesOpacity": "Trasparenza tal-isfond tas-sottotitolu"
+  "VOTSubtitlesOpacity": "Trasparenza tal-isfond tas-sottotitolu",
+  "VOTPressNewHotkey": "Agħfas il-hotkey il-ġdid...",
+  "VOTCreateTranslationHotkey": "Oħloq Hotkey għat-Traduzzjoni",
+  "VOTChangeHotkeyWithCurrent": "Ibdel Il-Hotkey (Kurrenti: {0})"
 }
