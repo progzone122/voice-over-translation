@@ -2148,6 +2148,7 @@ const votStorage = new (class {
       "detectService",
       "m3u8ProxyHost",
       "translateProxyEnabled",
+      "hotkeyButton",
       "proxyWorkerHost",
       "audioBooster",
       "locale-version",
@@ -5822,7 +5823,6 @@ class VideoObserver {
 
 
 const browserInfo = es5.getParser(window.navigator.userAgent).getResult();
-const dontTranslateMusic = false; // Пока не придумал как стоит реализовать
 const cfOnlyExtensions = [
   "Violentmonkey",
   "FireMonkey",
@@ -6045,13 +6045,6 @@ class VideoHandler {
 
   async autoTranslate() {
     if (
-      this.site.host === "youtube" &&
-      dontTranslateMusic &&
-      youtubeUtils.isMusic()
-    ) {
-      return;
-    }
-    if (
       !(
         this.firstPlay &&
         this.data.autoTranslate === 1 &&
@@ -6104,6 +6097,7 @@ class VideoHandler {
         defaultTranslationService,
       ),
       detectService: votStorage.get("detectService", defaultDetectService),
+      hotkeyButton: votStorage.get("hotkeyButton", null, true),
       m3u8ProxyHost: votStorage.get("m3u8ProxyHost", m3u8ProxyHost),
       translateProxyEnabled: votStorage.get("translateProxyEnabled", 0, true),
       proxyWorkerHost: votStorage.get("proxyWorkerHost", proxyWorkerHost),
@@ -6460,6 +6454,29 @@ class VideoHandler {
         this.votDontTranslateYourLangSelect.container,
       );
 
+      const createHotkeyText = (hotkey) =>
+        hotkey ? `Change Hotkey (Current: ${hotkey})` : "Create Hotkey for Translation";
+      
+      this.changehotkeyButton = ui.createButton(createHotkeyText(this.data.hotkeyButton));
+      this.votSettingsDialog.bodyContainer.appendChild(this.changehotkeyButton);
+      
+      const updateHotkey = async (newKey) => {
+        await votStorage.set("hotkeyButton", newKey);
+        this.data.hotkeyButton = newKey;
+        this.changehotkeyButton.textContent = createHotkeyText(newKey);
+      };
+      
+      const keydownHandler = (event) => {
+        const newKey = event.code === "Escape" ? null : event.code;
+        updateHotkey(newKey);
+        document.removeEventListener("keydown", keydownHandler);
+      };      
+
+      this.changehotkeyButton.addEventListener("click", () => {
+        this.changehotkeyButton.textContent = "Press the new hotkey...";
+        document.addEventListener("keydown", keydownHandler);
+      });
+
       this.votAutoSetVolumeCheckbox = ui.createCheckbox(
         `${localizationProvider.get("VOTAutoSetVolume")}`,
         this.data?.autoSetVolumeYandexStyle ?? true,
@@ -6687,48 +6704,47 @@ class VideoHandler {
     }
   }
 
+  async handleTranslationBtnClick() {
+    if (this.audio.src) {
+      utils_debug.log("[click translationBtn] audio.src is not empty");
+      this.stopTranslate();
+      return;
+    }
+
+    if (this.hls.url) {
+      utils_debug.log("[click translationBtn] hls is not empty");
+      this.stopTranslate();
+      return;
+    }
+
+    try {
+      utils_debug.log("[click translationBtn] trying execute translation");
+
+      if (!this.videoData.videoId) {
+        throw new VOTLocalizedError("VOTNoVideoIDFound");
+      }
+
+      // при скролле ленты клипов в вк сохраняется старый айди видео для перевода,
+      // но для субтитров используется новый, поэтому перед запуском перевода необходимо получить актуальный айди
+      if (this.site.host === "vk" && this.site.additionalData === "clips") {
+        this.videoData = await this.getVideoData();
+      }
+      await this.translateExecutor(this.videoData.videoId);
+    } catch (err) {
+      console.error("[VOT]", err);
+      if (err?.name === "VOTLocalizedError") {
+        this.transformBtn("error", err.localizedMessage);
+      } else {
+        this.transformBtn("error", err);
+      }
+    }
+  }
+
   initUIEvents() {
     // VOT Button
     {
-      this.votButton.translateButton.addEventListener("click", () => {
-        (async () => {
-          if (this.audio.src) {
-            utils_debug.log("[click translationBtn] audio.src is not empty");
-            this.stopTranslate();
-            return;
-          }
-
-          if (this.hls.url) {
-            utils_debug.log("[click translationBtn] hls is not empty");
-            this.stopTranslate();
-            return;
-          }
-
-          try {
-            utils_debug.log("[click translationBtn] trying execute translation");
-
-            if (!this.videoData.videoId) {
-              throw new VOTLocalizedError("VOTNoVideoIDFound");
-            }
-
-            // при скролле ленты клипов в вк сохраняется старый айди видео для перевода,
-            // но для субтитров используется новый, поэтому перед запуском перевода необходимо получить актуальный айди
-            if (
-              this.site.host === "vk" &&
-              this.site.additionalData === "clips"
-            ) {
-              this.videoData = await this.getVideoData();
-            }
-            await this.translateExecutor(this.videoData.videoId);
-          } catch (err) {
-            console.error("[VOT]", err);
-            if (err?.name === "VOTLocalizedError") {
-              this.transformBtn("error", err.localizedMessage);
-            } else {
-              this.transformBtn("error", err);
-            }
-          }
-        })();
+      this.votButton.translateButton.addEventListener("click", async () => {
+        await this.handleTranslationBtnClick();
       });
 
       this.votButton.pipButton.addEventListener("click", () => {
@@ -7291,6 +7307,18 @@ class VideoHandler {
       this.votMenu.container.hidden = true;
     });
 
+    document.addEventListener("keydown", async (event) => {
+      const code = event.code;
+      // Проверка, если активный элемент - это вводимый элемент
+      const activeElement = document.activeElement;
+      const isInputElement =
+        ["input", "textarea"].includes(activeElement.tagName.toLowerCase()) ||
+        activeElement.isContentEditable;
+      if (!isInputElement && code === this.data.hotkeyButton) {
+        await this.handleTranslationBtnClick();
+      }
+    });
+
     let eContainer;
     if (this.site.host === "pornhub") {
       if (this.site.additionalData === "embed") {
@@ -7352,7 +7380,8 @@ class VideoHandler {
       }
       if ((await getVideoID(this.site, this.video)) === this.videoData.videoId)
         return;
-      await Promise.all([this.handleSrcChanged(), this.autoTranslate()]);
+      await this.handleSrcChanged();
+      await this.autoTranslate();
       utils_debug.log("lipsync mode is canplay");
     });
 
@@ -7385,13 +7414,13 @@ class VideoHandler {
     this.timer = setTimeout(() => {
       this.logout(0);
     }, 1000);
-  }
+  };
 
   changeOpacityOnEvent = (event) => {
     clearTimeout(this.timer);
     this.logout(1);
     event.stopPropagation();
-  }
+  };
 
   async changeSubtitlesLang(subs) {
     utils_debug.log("[onchange] subtitles", subs);
@@ -7738,7 +7767,7 @@ class VideoHandler {
   handleVideoEvent = (event) => {
     utils_debug.log(`video ${event.type}`);
     this.lipSync(event.type);
-  }
+  };
 
   // Default actions on stop translate
   stopTranslate() {
@@ -8102,35 +8131,33 @@ class VideoHandler {
   stopTranslation = () => {
     this.stopTranslate();
     this.syncVideoVolumeSlider();
-  }
+  };
 
   async handleSrcChanged() {
     utils_debug.log("[VideoHandler] src changed", this);
-
     this.firstPlay = true;
-
-    this.videoData = await this.getVideoData();
-    this.setSelectMenuValues(
-      this.videoData.detectedLanguage,
-      this.videoData.responseLanguage,
-    );
 
     const hide =
       !this.video.src && !this.video.currentSrc && !this.video.srcObject;
     this.votButton.container.hidden = hide;
     hide && (this.votMenu.container.hidden = hide);
-
     if (!this.site.selector) {
       this.container = this.video.parentElement;
     }
-
     if (!this.container.contains(this.votButton.container)) {
       this.container.appendChild(this.votButton.container);
       this.container.appendChild(this.votMenu.container);
     }
 
-    await this.updateSubtitles();
-    this.translateToLang = this.data.responseLanguage ?? "ru";
+    await Promise.all([
+      (this.videoData = await this.getVideoData()),
+      this.updateSubtitles(),
+      (this.translateToLang = this.data.responseLanguage ?? "ru"),
+    ]);
+    this.setSelectMenuValues(
+      this.videoData.detectedLanguage,
+      this.videoData.responseLanguage,
+    );
   }
 
   async release() {
