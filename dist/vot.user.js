@@ -6097,7 +6097,7 @@ class VideoHandler {
         defaultTranslationService,
       ),
       detectService: votStorage.get("detectService", defaultDetectService),
-      hotkeyButton: votStorage.get("hotkeyButton", "KeyE", true),
+      hotkeyButton: votStorage.get("hotkeyButton", null, true),
       m3u8ProxyHost: votStorage.get("m3u8ProxyHost", m3u8ProxyHost),
       translateProxyEnabled: votStorage.get("translateProxyEnabled", 0, true),
       proxyWorkerHost: votStorage.get("proxyWorkerHost", proxyWorkerHost),
@@ -6454,18 +6454,23 @@ class VideoHandler {
         this.votDontTranslateYourLangSelect.container,
       );
 
-      this.changehotkeyButton = ui.createButton(
-        `Change Hotkey (Current: ${this.data.hotkeyButton})`,
-      );
+      const createHotkeyText = (hotkey) =>
+        hotkey ? `Change Hotkey (Current: ${hotkey})` : "Create Hotkey for Translation";
+      
+      this.changehotkeyButton = ui.createButton(createHotkeyText(this.data.hotkeyButton));
       this.votSettingsDialog.bodyContainer.appendChild(this.changehotkeyButton);
-
-      const keydownHandler = async (event) => {
-        const newKey = event.code;
+      
+      const updateHotkey = async (newKey) => {
         await votStorage.set("hotkeyButton", newKey);
         this.data.hotkeyButton = newKey;
-        this.changehotkeyButton.textContent = `Change Hotkey (Current: ${newKey})`;
-        document.removeEventListener("keydown", keydownHandler);
+        this.changehotkeyButton.textContent = createHotkeyText(newKey);
       };
+      
+      const keydownHandler = (event) => {
+        const newKey = event.code === "Escape" ? null : event.code;
+        updateHotkey(newKey);
+        document.removeEventListener("keydown", keydownHandler);
+      };      
 
       this.changehotkeyButton.addEventListener("click", () => {
         this.changehotkeyButton.textContent = "Press the new hotkey...";
