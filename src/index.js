@@ -71,6 +71,13 @@ function genOptionsByOBJ(obj, conditionString) {
   }));
 }
 
+const createHotkeyText = (hotkey) =>
+  hotkey
+    ? localizationProvider
+        .get("VOTChangeHotkeyWithCurrent")
+        .replace("{0}", hotkey.replace("Key", ""))
+    : localizationProvider.get("VOTCreateTranslationHotkey");
+
 class VideoHandler {
   // translate properties
   translateFromLang = "en"; // default language of video
@@ -168,8 +175,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : (res.message ??
-              localizationProvider.get("translationTakeFewMinutes")),
+          : res.message ??
+              localizationProvider.get("translationTakeFewMinutes"),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
@@ -679,32 +686,10 @@ class VideoHandler {
         this.votDontTranslateYourLangSelect.container,
       );
 
-      const createHotkeyText = (hotkey) =>
-        hotkey
-          ? `Change Hotkey (Current: ${hotkey})`
-          : "Create Hotkey for Translation";
-
-      this.changehotkeyButton = ui.createButton(
+      this.changehotkeyButton = ui.createOutlinedButton(
         createHotkeyText(this.data.hotkeyButton),
       );
       this.votSettingsDialog.bodyContainer.appendChild(this.changehotkeyButton);
-
-      const updateHotkey = async (newKey) => {
-        await votStorage.set("hotkeyButton", newKey);
-        this.data.hotkeyButton = newKey;
-        this.changehotkeyButton.textContent = createHotkeyText(newKey);
-      };
-
-      const keydownHandler = (event) => {
-        const newKey = event.code === "Escape" ? null : event.code;
-        updateHotkey(newKey);
-        document.removeEventListener("keydown", keydownHandler);
-      };
-
-      this.changehotkeyButton.addEventListener("click", () => {
-        this.changehotkeyButton.textContent = "Press the new hotkey...";
-        document.addEventListener("keydown", keydownHandler);
-      });
 
       this.votAutoSetVolumeCheckbox = ui.createCheckbox(
         `${localizationProvider.get("VOTAutoSetVolume")}`,
@@ -1121,6 +1106,24 @@ class VideoHandler {
           })();
         },
       );
+
+      const updateHotkey = async (newKey) => {
+        await votStorage.set("hotkeyButton", newKey);
+        this.data.hotkeyButton = newKey;
+        this.changehotkeyButton.textContent = createHotkeyText(newKey);
+      };
+
+      const keydownHandler = (e) => {
+        const newKey = e.code === "Escape" ? null : e.code;
+        updateHotkey(newKey);
+        document.removeEventListener("keydown", keydownHandler);
+      };
+
+      this.changehotkeyButton.addEventListener("click", () => {
+        this.changehotkeyButton.textContent =
+          localizationProvider.get("VOTPressNewHotkey");
+        document.addEventListener("keydown", keydownHandler);
+      });
 
       this.votAutoSetVolumeCheckbox.input.addEventListener("change", (e) => {
         (async () => {
