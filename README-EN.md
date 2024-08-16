@@ -29,6 +29,7 @@ The voice-over translation of the video is now available not only in YandexBrows
 9. Synchronizing the translation volume with the video volume
 10. Limit the translation of videos from your native language (you can select the language in the menu)
 11. Audio proxying
+12. Translation with hotkey
 
 ### Useful links:
 

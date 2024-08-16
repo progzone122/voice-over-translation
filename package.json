@@ -17,15 +17,15 @@
   ],
   "devDependencies": {
     "browserslist": "^4.23.3",
-    "bun-types": "^1.1.20",
-    "eslint": "^9.7.0",
+    "bun-types": "^1.1.24",
+    "eslint": "^9.9.0",
     "eslint-plugin-github": "^5.0.1",
-    "eslint-plugin-oxlint": "^0.5.0",
+    "eslint-plugin-oxlint": "0.7.2",
     "eslint-plugin-sonarjs": "^1.0.4",
     "eslint-webpack-plugin": "^4.2.0",
-    "husky": "^9.1.1",
+    "husky": "^9.1.4",
     "lightningcss": "^1.26.0",
-    "lint-staged": "^15.2.7",
+    "lint-staged": "^15.2.9",
     "npm-run-all2": "^6.2.2",
     "oxlint": "0.7.0",
     "patch-package": "^8.0.0",
@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "bowser": "^2.11.0",
-    "lit": "^3.1.4",
+    "lit": "^3.2.0",
     "requestidlecallback-polyfill": "^1.0.2",
     "vot.js": "^1.0.3"
   }
