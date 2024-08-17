@@ -1,6 +1,6 @@
 diff --git a/node_modules/vot.js/dist/types/helpers/udemy.d.ts b/node_modules/vot.js/dist/types/helpers/udemy.d.ts
 new file mode 100644
-index 0000000..1be4a49
+index 0000000..4e20871
 --- /dev/null
 +++ b/node_modules/vot.js/dist/types/helpers/udemy.d.ts
 @@ -0,0 +1,51 @@
@@ -58,14 +58,14 @@ index 0000000..1be4a49
 \ No newline at end of file
 diff --git a/node_modules/vot.js/dist/types/helpers/udemy.js b/node_modules/vot.js/dist/types/helpers/udemy.js
 new file mode 100644
-index 0000000..693da49
+index 0000000..0aacd4e
 --- /dev/null
 +++ b/node_modules/vot.js/dist/types/helpers/udemy.js
 @@ -0,0 +1 @@
 +export {}
 \ No newline at end of file
 diff --git a/node_modules/vot.js/dist/utils/helper.d.ts b/node_modules/vot.js/dist/utils/helper.d.ts
-index c2f9f80..0b4416c 100644
+index 80a6b43..36d1d6c 100644
 --- a/node_modules/vot.js/dist/utils/helper.d.ts
 +++ b/node_modules/vot.js/dist/utils/helper.d.ts
 @@ -4,7 +4,8 @@ import * as Kodik from "../types/helpers/kodik.js";
@@ -76,9 +76,9 @@ index c2f9f80..0b4416c 100644
 +import * as Udemy from "../types/helpers/udemy.js";
 +import { VideoService, RequestLang, TranslationHelp } from "../types/yandex.js";
  export declare class MailRuHelper {
-     getVideoData(videoId: string): Promise<MailRu.VideoInfo | undefined>;
- }
-@@ -80,6 +81,24 @@ export declare class KickHelper {
+     API_ORIGIN: string;
+     getExtraVideoId(pathname: string): Promise<string | undefined>;
+@@ -82,6 +83,24 @@ export declare class KickHelper {
          title: string;
      }>;
  }
@@ -103,7 +103,7 @@ index c2f9f80..0b4416c 100644
  export declare class AppleDeveloperHelper {
      getVideoData(videoId: string): Promise<{
          url: string;
-@@ -93,6 +112,7 @@ export default class VideoHelper {
+@@ -95,6 +114,7 @@ export default class VideoHelper {
      static [VideoService.reddit]: RedditHelper;
      static [VideoService.bannedvideo]: BannedVideoHelper;
      static [VideoService.kick]: KickHelper;
@@ -113,7 +113,7 @@ index c2f9f80..0b4416c 100644
  //# sourceMappingURL=helper.d.ts.map
 \ No newline at end of file
 diff --git a/node_modules/vot.js/dist/utils/helper.js b/node_modules/vot.js/dist/utils/helper.js
-index 96234ed..a6dd08e 100644
+index e55f95d..0778561 100644
 --- a/node_modules/vot.js/dist/utils/helper.js
 +++ b/node_modules/vot.js/dist/utils/helper.js
 @@ -1,8 +1,12 @@
@@ -129,7 +129,7 @@ index 96234ed..a6dd08e 100644
  class VideoHelperError extends Error {
      constructor(message) {
          super(message);
-@@ -367,6 +371,120 @@ export class KickHelper {
+@@ -379,6 +383,120 @@ export class KickHelper {
          };
      }
  }
@@ -250,7 +250,7 @@ index 96234ed..a6dd08e 100644
  export class AppleDeveloperHelper {
      async getVideoData(videoId) {
          const res = await fetchWithTimeout(`https://developer.apple.com/${videoId}`);
-@@ -388,5 +506,6 @@ export default class VideoHelper {
+@@ -400,5 +518,6 @@ export default class VideoHelper {
      static [VideoService.reddit] = new RedditHelper();
      static [VideoService.bannedvideo] = new BannedVideoHelper();
      static [VideoService.kick] = new KickHelper();

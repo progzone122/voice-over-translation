@@ -52,6 +52,6 @@
     "bowser": "^2.11.0",
     "lit": "^3.2.0",
     "requestidlecallback-polyfill": "^1.0.2",
-    "vot.js": "^1.0.3"
+    "vot.js": "^1.0.4"
   }
 }

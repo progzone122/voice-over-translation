@@ -1488,7 +1488,7 @@ const yandexProtobuf = {
 });
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/package.json
-const package_namespaceObject = {"rE":"1.0.3"};
+const package_namespaceObject = {"rE":"1.0.4"};
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/secure.js
 
 const utf8Encoder = new TextEncoder();
@@ -2507,9 +2507,20 @@ class VideoHelperError extends Error {
     }
 }
 class MailRuHelper {
+    API_ORIGIN = "https://my.mail.ru/";
+    async getExtraVideoId(pathname) {
+        try {
+            const content = document.querySelector(".sp-video__page-config")?.innerText;
+            return /"itemId":\s?"([^"]+)"/.exec(content)?.[1];
+        }
+        catch (err) {
+            console.error("Failed to get mail.ru extra video id", err.message);
+            return undefined;
+        }
+    }
     async getVideoData(videoId) {
         try {
-            const res = await fetchWithTimeout(`https://my.mail.ru/+/video/meta/${videoId}?xemail=&ajax_call=1&func_name=&mna=&mnb=&ext=1&_=${new Date().getTime()}`);
+            const res = await fetchWithTimeout(`${this.API_ORIGIN}+/video/meta/${videoId}?xemail=&ajax_call=1&func_name=&mna=&mnb=&ext=1&_=${new Date().getTime()}`);
             return (await res.json());
         }
         catch (err) {
@@ -3269,10 +3280,13 @@ async function getVideoID(service, video) {
         }
         case VideoService.mailru: {
             const pathname = url.pathname;
-            if (pathname.startsWith("/v/") || pathname.startsWith("/mail/")) {
+            if (/\/(v|mail)\//.exec(pathname)) {
                 return pathname.slice(1);
             }
-            const videoId = /video\/embed\/([^/]+)/.exec(pathname)?.[1];
+            const videoId = /video\/embed\/([^/]+)/.exec(pathname)?.[1] ??
+                /\/(bk|inbox)\/([^/]+)\/video\//.exec(pathname)
+                ? await VideoHelper.mailru.getExtraVideoId(pathname)
+                : undefined;
             if (!videoId) {
                 return null;
             }
