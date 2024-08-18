@@ -3493,7 +3493,7 @@ async function getVideoID(service, video) {
             return /videos\/play\/([^/]+)\/([\d]+)/.exec(url.pathname)?.[0];
         }
         case VideoService.epicgames: {
-            return /\/(\w{4})\/[^/]+$/.exec(url.pathname)?.[1];
+            return /\/(\w{3,5})\/[^/]+$/.exec(url.pathname)?.[1];
         }
         case VideoService.nineanimetv: {
             return new Promise(resolve => {
