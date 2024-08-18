@@ -125,7 +125,7 @@ export default (env) => {
         maxChunks: 1,
       }),
       new webpack.DefinePlugin({
-        DEBUG_MODE: true,
+        DEBUG_MODE: dev,
         IS_BETA_VERSION: isBeta,
         ...(() => {
           if (!dev) {
