@@ -3090,7 +3090,7 @@ class NineAnimeTVHelper extends BaseHelper {
                 }
 
                 if (e.data?.startsWith("getVideoId:")) {
-                    resolve(e.data.replace("getVideoId:"))
+                    resolve(e.data.replace("getVideoId:", ""))
                 }
             })
             window.top.postMessage("getVideoId", origin);
@@ -6163,8 +6163,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : (res.message ??
-              localizationProvider.get("translationTakeFewMinutes")),
+          : res.message ??
+              localizationProvider.get("translationTakeFewMinutes"),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);

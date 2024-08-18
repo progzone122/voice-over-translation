@@ -128,7 +128,7 @@ index e2af81a..57431c4 100644
              if (!secureScript.length) {
                  throw new VideoHelperError("Failed to find secure script");
 diff --git a/node_modules/vot.js/dist/helpers/nineanimetv.js b/node_modules/vot.js/dist/helpers/nineanimetv.js
-index 0cf3606..75639d5 100644
+index 0cf3606..6343ea5 100644
 --- a/node_modules/vot.js/dist/helpers/nineanimetv.js
 +++ b/node_modules/vot.js/dist/helpers/nineanimetv.js
 @@ -72,6 +72,18 @@ export default class NineAnimeTVHelper extends BaseHelper {
@@ -144,7 +144,7 @@ index 0cf3606..75639d5 100644
 +                }
 +
 +                if (e.data?.startsWith("getVideoId:")) {
-+                    resolve(e.data.replace("getVideoId:"))
++                    resolve(e.data.replace("getVideoId:", ""))
 +                }
 +            })
 +            window.top.postMessage("getVideoId", origin);
