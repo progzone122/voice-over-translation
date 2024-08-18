@@ -84,6 +84,8 @@ You can see all the restrictions related to site support in [wiki](https://githu
 - **[Reddit](https://reddit.com)**
 - **[Kick](https://kick.com)**
 - **[Apple Developer](https://developer.apple.com)**
+- **[EpicGames Developers](https://dev.epicgames.com)**
+- **[9AnimeTV](https://9animetv.to/)**
 - **Any direct web links to `.mp4`**
 
 ⚠️ - Requires additional actions, more in **[Wiki](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-Supported-sites)**

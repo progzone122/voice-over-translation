@@ -423,6 +423,7 @@ async function main() {
         "geo.dailymotion.com",
         `geo.dailymotion.com (${i18n.dailymotionNotice[lang]})`,
       )
+      .replace("Nineanimetv", `9AnimeTV`)
       .replace("rapid-cloud.co", `9animetv.to (vidstreaming / vidcloud)`)
       .replaceAll("\\/", "/");
 

@@ -686,7 +686,7 @@ Limitations:
 
 - There are no subtitles
 
-## Nineanimetv
+## 9AnimeTV
 
 Status: [✅] Working
 

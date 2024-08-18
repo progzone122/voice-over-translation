@@ -85,6 +85,8 @@
 - **[Reddit](https://reddit.com)**
 - **[Kick](https://kick.com)**
 - **[Apple Developer](https://developer.apple.com)**
+- **[EpicGames Developers](https://dev.epicgames.com)**
+- **[9AnimeTV](https://9animetv.to/)**
 - **Любые прямые веб-ссылки на `.mp4`**
 
 ⚠️ - Требует дополнительных действий, подробнее в **[Wiki](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-Supported-sites)**
