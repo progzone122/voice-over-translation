@@ -55,6 +55,7 @@
     "*://dev.epicgames.com/*",
     "*://*.rapid-cloud.co/*",
     "*://9animetv.to/*",
+    "*://odysee.com/*",
     "*://*/*.mp4*"
   ],
   "exclude": ["file://*/*.mp4*"],

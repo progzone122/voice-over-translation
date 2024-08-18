@@ -68,6 +68,7 @@
 // @match          *://dev.epicgames.com/*
 // @match          *://*.rapid-cloud.co/*
 // @match          *://9animetv.to/*
+// @match          *://odysee.com/*
 // @match          *://*/*.mp4*
 // @match          *://*.yewtu.be/*
 // @match          *://yt.artemislena.eu/*
@@ -1492,7 +1493,7 @@ const yandexProtobuf = {
 });
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/package.json
-const package_namespaceObject = {"rE":"1.0.5"};
+const package_namespaceObject = {"rE":"1.1.0"};
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/secure.js
 
 const utf8Encoder = new TextEncoder();
@@ -1551,14 +1552,11 @@ var VideoService;
     VideoService["mail_ru"] = "mailru";
     VideoService["mailru"] = "mailru";
     VideoService["bitchute"] = "bitchute";
-    VideoService["coursera"] = "coursera";
-    VideoService["udemy"] = "udemy";
     VideoService["eporner"] = "eporner";
     VideoService["peertube"] = "peertube";
     VideoService["dailymotion"] = "dailymotion";
     VideoService["trovo"] = "trovo";
     VideoService["yandexdisk"] = "yandexdisk";
-    VideoService["coursehunter"] = "coursehunter";
     VideoService["ok_ru"] = "okru";
     VideoService["okru"] = "okru";
     VideoService["googledrive"] = "googledrive";
@@ -1577,6 +1575,10 @@ var VideoService;
     VideoService["poketube"] = "poketube";
     VideoService["epicgames"] = "epicgames";
     VideoService["nineanimetv"] = "nineanimetv";
+    VideoService["odysee"] = "odysee";
+    VideoService["coursehunter"] = "coursehunter";
+    VideoService["udemy"] = "udemy";
+    VideoService["coursera"] = "coursera";
 })(VideoService || (VideoService = {}));
 var VideoTranslationStatus;
 (function (VideoTranslationStatus) {
@@ -1863,7 +1865,6 @@ const sitesPoketube = [
         url: "https://www.bilibili.com/video/",
         match: /^(www|m|player).bilibili.com$/,
         selector: ".bpx-player-video-wrap",
-        selector: ".bpx-player-video-wrap",
     },
     // Добавляет лишние видео в обработчик
     {
@@ -1884,22 +1885,6 @@ const sitesPoketube = [
         url: "https://www.bitchute.com/video/",
         match: /^(www.)?bitchute.com$/,
         selector: ".video-js",
-    },
-    {
-        // ONLY IF YOU LOGINED TO COURSERA /learn/NAME/lecture/XXXX
-        host: VideoService.coursera,
-        url: "https://www.coursera.org/",
-        match: /coursera.org$/,
-        selector: ".vjs-v6",
-        needExtraData: true,
-    },
-    {
-        host: VideoService.udemy,
-        url: "https://www.udemy.com/",
-        match: /udemy.com$/,
-        selector:
-            'div[data-purpose="curriculum-item-viewer-content"] > section > div > div > div > div:nth-of-type(2)',
-        needExtraData: true,
     },
     {
         host: VideoService.eporner,
@@ -1930,13 +1915,6 @@ const sitesPoketube = [
         url: "https://yadi.sk/i/",
         match: /^disk.yandex.ru$/,
         selector: ".video-player__player > div:nth-child(1)",
-    },
-    {
-        host: VideoService.coursehunter,
-        url: "https://coursehunter.net/course/",
-        match: /^coursehunter.net$/,
-        selector: "#oframeplayer > pjsdiv:nth-of-type(1)",
-        needExtraData: true,
     },
     {
         host: VideoService.okru,
@@ -2006,7 +1984,7 @@ const sitesPoketube = [
     {
         host: VideoService.reddit,
         url: "stub",
-        match: /^old.reddit.com$/,
+        match: /^(www.|new.|old.)?reddit.com$/,
         selector: ".reddit-video-player-root",
         needExtraData: true,
     },
@@ -2039,32 +2017,42 @@ const sitesPoketube = [
         needExtraData: true,
     },
     {
+        host: VideoService.odysee,
+        url: "stub",
+        match: /^odysee.com$/,
+        selector: ".vjs-v7",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.coursehunter,
+        url: "https://coursehunter.net/course/",
+        match: /^coursehunter.net$/,
+        selector: "#oframeplayer > pjsdiv:nth-of-type(1)",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.udemy,
+        url: "https://www.udemy.com/",
+        match: /udemy.com$/,
+        selector:
+            'div[data-purpose="curriculum-item-viewer-content"] > section > div > div > div > div:nth-of-type(2)',
+        needExtraData: true,
+    },
+    {
+        // ONLY IF YOU LOGINED TO COURSERA /learn/NAME/lecture/XXXX
+        host: VideoService.coursera,
+        url: "https://www.coursera.org/",
+        match: /coursera.org$/,
+        selector: ".vjs-v6",
+        needExtraData: true,
+    },
+    {
         host: VideoService.custom,
         url: "stub",
         match: (url) => /([^.]+).mp4/.test(url.pathname),
         rawResult: true,
     },
 ]);
-
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/consts.js
-const availableLangs = [
-    "auto",
-    "ru",
-    "en",
-    "zh",
-    "ko",
-    "lt",
-    "lv",
-    "ar",
-    "fr",
-    "it",
-    "es",
-    "de",
-    "ja",
-];
-const availableTTS = ["ru", "en", "kk"];
-const subtitlesFormats = (/* unused pure expression or super */ null && (["srt", "vtt", "json"]));
-
 
 ;// CONCATENATED MODULE: ./src/localization/locales/en.json
 const en_namespaceObject = /*#__PURE__*/JSON.parse('{"__version__":5,"recommended":"recommended","translateVideo":"Translate video","disableTranslate":"Turn off","translationSettings":"Translation settings","subtitlesSettings":"Subtitles settings","about":"About extension","resetSettings":"Reset settings","videoBeingTranslated":"The video is being translated","videoLanguage":"Video language","translationLanguage":"Translation language","translationTake":"The translation will take","translationTakeMoreThanHour":"The translation will take more than an hour","translationTakeAboutMinute":"The translation will take about a minute","translationTakeFewMinutes":"The translation will take a few minutes","translationTakeApproximatelyMinutes":"The translation will take approximately {0} minutes","translationTakeApproximatelyMinute":"The translation will take approximately {0} minutes","unSupportedExtensionError":"Error! {0} is not supported by this version of the extension!\\n\\nPlease use the cloudflare version of the VOT extension.","requestTranslationFailed":"Failed to request video translation","audioNotReceived":"Audio link not received","grantPermissionToAutoPlay":"Grant permission to autoplay","audioFormatNotSupported":"The audio format is not supported","VOTAutoTranslate":"Translate on open","VOTDontTranslateYourLang":"Do not translate from my language","VOTVolume":"Video volume","VOTVolumeTranslation":"Translation Volume","VOTAutoSetVolume":"Reduce video volume to ","VOTShowVideoSlider":"Video volume slider","VOTSyncVolume":"Link translation and video volume","VOTAudioProxy":"Proxy received audio","VOTDisableFromYourLang":"You have disabled the translation of the video in your language","VOTLiveNotSupported":"Translation of live streams is not supported","VOTPremiere":"Wait for the premiere to end before translating","VOTVideoIsTooLong":"Video is too long","VOTNoVideoIDFound":"No video ID found","VOTSubtitles":"Subtitles","VOTSubtitlesDisabled":"Disabled","VOTSubtitlesMaxLength":"Subtitles max length","VOTHighlightWords":"Highlight words","VOTTranslatedFrom":"translated from","VOTAutogenerated":"autogenerated","VOTSettings":"VOT Settings","VOTMenuLanguage":"Menu language","VOTAuthors":"Authors","VOTVersion":"Version","VOTLoader":"Loader","VOTBrowser":"Browser","VOTShowPiPButton":"Show PiP button","langs":{"auto":"Auto","af":"Afrikaans","ak":"Akan","sq":"Albanian","am":"Amharic","ar":"Arabic","hy":"Armenian","as":"Assamese","ay":"Aymara","az":"Azerbaijani","bn":"Bangla","eu":"Basque","be":"Belarusian","bho":"Bhojpuri","bs":"Bosnian","bg":"Bulgarian","my":"Burmese","ca":"Catalan","ceb":"Cebuano","zh":"Chinese","zh-Hans":"Chinese (Simplified)","zh-Hant":"Chinese (Traditional)","co":"Corsican","hr":"Croatian","cs":"Czech","da":"Danish","dv":"Divehi","nl":"Dutch","en":"English","eo":"Esperanto","et":"Estonian","ee":"Ewe","fil":"Filipino","fi":"Finnish","fr":"French","gl":"Galician","lg":"Ganda","ka":"Georgian","de":"German","el":"Greek","gn":"Guarani","gu":"Gujarati","ht":"Haitian Creole","ha":"Hausa","haw":"Hawaiian","iw":"Hebrew","hi":"Hindi","hmn":"Hmong","hu":"Hungarian","is":"Icelandic","ig":"Igbo","id":"Indonesian","ga":"Irish","it":"Italian","ja":"Japanese","jv":"Javanese","kn":"Kannada","kk":"Kazakh","km":"Khmer","rw":"Kinyarwanda","ko":"Korean","kri":"Krio","ku":"Kurdish","ky":"Kyrgyz","lo":"Lao","la":"Latin","lv":"Latvian","ln":"Lingala","lt":"Lithuanian","lb":"Luxembourgish","mk":"Macedonian","mg":"Malagasy","ms":"Malay","ml":"Malayalam","mt":"Maltese","mi":"Māori","mr":"Marathi","mn":"Mongolian","ne":"Nepali","nso":"Northern Sotho","no":"Norwegian","ny":"Nyanja","or":"Odia","om":"Oromo","ps":"Pashto","fa":"Persian","pl":"Polish","pt":"Portuguese","pa":"Punjabi","qu":"Quechua","ro":"Romanian","ru":"Russian","sm":"Samoan","sa":"Sanskrit","gd":"Scottish Gaelic","sr":"Serbian","sn":"Shona","sd":"Sindhi","si":"Sinhala","sk":"Slovak","sl":"Slovenian","so":"Somali","st":"Southern Sotho","es":"Spanish","su":"Sundanese","sw":"Swahili","sv":"Swedish","tg":"Tajik","ta":"Tamil","tt":"Tatar","te":"Telugu","th":"Thai","ti":"Tigrinya","ts":"Tsonga","tr":"Turkish","tk":"Turkmen","uk":"Ukrainian","ur":"Urdu","ug":"Uyghur","uz":"Uzbek","vi":"Vietnamese","cy":"Welsh","fy":"Western Frisian","xh":"Xhosa","yi":"Yiddish","yo":"Yoruba","zu":"Zulu"},"udemyModuleArgsNotFound":"Could not get udemy module data due to the fact that ModuleArgs was not found","VOTTranslationHelpNull":"Could not get the data required for the translate","streamNoConnectionToServer":"There is no connection to the server","searchField":"Search...","VOTTranslateAPIErrors":"Translate errors from the API","VOTTranslationService":"Translation Service","VOTDetectService":"Detect Service","VOTTranslatingError":"Translating the error","VOTProxyWorkerHost":"Enter the proxy worker address","VOTM3u8ProxyHost":"Enter the address of the m3u8 proxy worker","proxySettings":"Proxy Settings","translationTakeApproximatelyMinute2":"The translation will take approximately {0} minutes","VOTAudioBooster":"Extended translation volume increase","VOTMediaCSPError":"Failed to load audio (media csp error)","VOTSubtitlesDesign":"Subtitles design","VOTSubtitlesFontSize":"Font size of subtitles","VOTSubtitlesOpacity":"Transparency of the subtitle background","VOTPressNewHotkey":"Press the new hotkey...","VOTCreateTranslationHotkey":"Create Hotkey for Translation","VOTChangeHotkeyWithCurrent":"Change Hotkey (Current: {0})"}');
@@ -2185,151 +2173,6 @@ const votStorage = new (class {
     return Promise.resolve(this.syncList());
   }
 })();
-
-;// CONCATENATED MODULE: ./src/utils/utils.js
-
-
-
-const userlang = navigator.language || navigator.userLanguage;
-const lang = userlang?.substr(0, 2)?.toLowerCase() ?? "en";
-
-function secsToStrTime(secs) {
-  const minutes = Math.floor(secs / 60);
-  const seconds = Math.floor(secs % 60);
-  if (minutes >= 60) {
-    return localizationProvider.get("translationTakeMoreThanHour");
-  } else if (minutes === 1 || (minutes === 0 && seconds > 0)) {
-    return localizationProvider.get("translationTakeAboutMinute");
-  } else if (minutes !== 11 && minutes % 10 === 1) {
-    return localizationProvider
-      .get("translationTakeApproximatelyMinute2")
-      .replace("{0}", minutes);
-  } else if (
-    ![12, 13, 14].includes(minutes) &&
-    [2, 3, 4].includes(minutes % 10)
-  ) {
-    return localizationProvider
-      .get("translationTakeApproximatelyMinute")
-      .replace("{0}", minutes);
-  }
-
-  return localizationProvider
-    .get("translationTakeApproximatelyMinutes")
-    .replace("{0}", minutes);
-}
-
-function langTo6391(lang) {
-  // convert lang to ISO 639-1
-  return lang.toLowerCase().split(/[_;-]/)[0].trim();
-}
-
-function isPiPAvailable() {
-  return (
-    "pictureInPictureEnabled" in document && document.pictureInPictureEnabled
-  );
-}
-
-function initHls() {
-  return typeof Hls != "undefined" && Hls?.isSupported()
-    ? new Hls({
-        debug: false, // turn it on manually if necessary
-        lowLatencyMode: true,
-        backBufferLength: 90,
-      })
-    : undefined;
-}
-
-function initAudioContext() {
-  const audioContext = window.AudioContext || window.webkitAudioContext;
-  return audioContext ? new audioContext() : undefined;
-}
-
-const deletefilter = [
-  /(?:https?|ftp):\/\/\S+/g,
-  /https?:\/\/\S+|www\.\S+/gm,
-  /\b\S+\.\S+/gm,
-  /#[^\s#]+/g,
-  /Auto-generated by YouTube/g,
-  /Provided to YouTube by/g,
-  /Released on/g,
-  /0x[a-fA-F0-9]{40}/g,
-  /[13][a-km-zA-HJ-NP-Z1-9]{25,34}/g,
-  /4[0-9AB][1-9A-HJ-NP-Za-km-z]{93}/g,
-  /Paypal/g,
-];
-
-const combinedRegex = new RegExp(
-  deletefilter.map((regex) => regex.source).join("|"),
-);
-
-function cleanText(title, description) {
-  const cleanedDescription = description
-    ? description
-        .split("\n")
-        .filter((line) => !combinedRegex.test(line))
-        .join(" ")
-    : "";
-
-  const fullText = `${title} ${cleanedDescription}`.slice(0, 450);
-  return fullText.replace(/[^\p{L}\s]+|\s+/gu, " ").trim();
-}
-
-async function GM_fetch(url, opts = {}) {
-  const { timeout = 15000, ...fetchOptions } = opts;
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), timeout);
-
-  try {
-    if (url.includes("api.browser.yandex.ru")) {
-      throw new Error("Preventing yandex cors");
-    }
-
-    const response = await fetch(url, {
-      signal: controller.signal,
-      ...fetchOptions,
-    });
-    clearTimeout(timeoutId);
-    return response;
-  } catch (err) {
-    // Если fetch завершился ошибкой, используем GM_xmlhttpRequest
-    // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
-    utils_debug.log("GM_fetch preventing cors by GM_xmlhttpRequest", err.message);
-    return new Promise((resolve, reject) => {
-      clearTimeout(timeoutId);
-      GM_xmlhttpRequest({
-        method: fetchOptions.method || "GET",
-        url: url,
-        responseType: "blob",
-        ...fetchOptions,
-        data: fetchOptions.body,
-        timeout: timeout,
-        onload: (resp) => {
-          // chrome \n and ":", firefox \r\n and ": " (Only in GM_xmlhttpRequest)
-          // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/getAllResponseHeaders#examples
-          const headers = Object.fromEntries(
-            resp.responseHeaders
-              .trim()
-              .split(/\r?\n/)
-              .map((line) => line.split(/: (.+)/))
-              .filter(([key]) => key && /^[\w-]+$/.test(key)),
-          );
-
-          resolve(
-            new Response(resp.response, {
-              status: resp.status,
-              headers: headers,
-            }),
-          );
-        },
-        ontimeout: () => reject(new Error("Timeout")),
-        onerror: (error) => reject(error),
-        onabort: () => reject(new Error("AbortError")),
-      });
-    });
-  }
-}
-
-
 
 ;// CONCATENATED MODULE: ./src/localization/localizationProvider.js
 /* eslint-disable sonarjs/no-duplicate-string */
@@ -2509,15 +2352,152 @@ const localizationProvider = new (class {
   }
 })();
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/utils/helper.js
+;// CONCATENATED MODULE: ./src/utils/utils.js
 
 
 
+const userlang = navigator.language || navigator.userLanguage;
+const lang = userlang?.substr(0, 2)?.toLowerCase() ?? "en";
+
+function secsToStrTime(secs) {
+  const minutes = Math.floor(secs / 60);
+  const seconds = Math.floor(secs % 60);
+  if (minutes >= 60) {
+    return localizationProvider.get("translationTakeMoreThanHour");
+  } else if (minutes === 1 || (minutes === 0 && seconds > 0)) {
+    return localizationProvider.get("translationTakeAboutMinute");
+  } else if (minutes !== 11 && minutes % 10 === 1) {
+    return localizationProvider
+      .get("translationTakeApproximatelyMinute2")
+      .replace("{0}", minutes);
+  } else if (
+    ![12, 13, 14].includes(minutes) &&
+    [2, 3, 4].includes(minutes % 10)
+  ) {
+    return localizationProvider
+      .get("translationTakeApproximatelyMinute")
+      .replace("{0}", minutes);
+  }
+
+  return localizationProvider
+    .get("translationTakeApproximatelyMinutes")
+    .replace("{0}", minutes);
+}
+
+function langTo6391(lang) {
+  // convert lang to ISO 639-1
+  return lang.toLowerCase().split(/[_;-]/)[0].trim();
+}
+
+function isPiPAvailable() {
+  return (
+    "pictureInPictureEnabled" in document && document.pictureInPictureEnabled
+  );
+}
+
+function initHls() {
+  return typeof Hls != "undefined" && Hls?.isSupported()
+    ? new Hls({
+        debug: false, // turn it on manually if necessary
+        lowLatencyMode: true,
+        backBufferLength: 90,
+      })
+    : undefined;
+}
+
+function initAudioContext() {
+  const audioContext = window.AudioContext || window.webkitAudioContext;
+  return audioContext ? new audioContext() : undefined;
+}
+
+const deletefilter = [
+  /(?:https?|ftp):\/\/\S+/g,
+  /https?:\/\/\S+|www\.\S+/gm,
+  /\b\S+\.\S+/gm,
+  /#[^\s#]+/g,
+  /Auto-generated by YouTube/g,
+  /Provided to YouTube by/g,
+  /Released on/g,
+  /0x[a-fA-F0-9]{40}/g,
+  /[13][a-km-zA-HJ-NP-Z1-9]{25,34}/g,
+  /4[0-9AB][1-9A-HJ-NP-Za-km-z]{93}/g,
+  /Paypal/g,
+];
+
+const combinedRegex = new RegExp(
+  deletefilter.map((regex) => regex.source).join("|"),
+);
+
+function cleanText(title, description) {
+  const cleanedDescription = description
+    ? description
+        .split("\n")
+        .filter((line) => !combinedRegex.test(line))
+        .join(" ")
+    : "";
+
+  const fullText = `${title} ${cleanedDescription}`.slice(0, 450);
+  return fullText.replace(/[^\p{L}\s]+|\s+/gu, " ").trim();
+}
+
+async function GM_fetch(url, opts = {}) {
+  const { timeout = 15000, ...fetchOptions } = opts;
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+  try {
+    if (url.includes("api.browser.yandex.ru")) {
+      throw new Error("Preventing yandex cors");
+    }
+
+    const response = await fetch(url, {
+      signal: controller.signal,
+      ...fetchOptions,
+    });
+    clearTimeout(timeoutId);
+    return response;
+  } catch (err) {
+    // Если fetch завершился ошибкой, используем GM_xmlhttpRequest
+    // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
+    utils_debug.log("GM_fetch preventing cors by GM_xmlhttpRequest", err.message);
+    return new Promise((resolve, reject) => {
+      clearTimeout(timeoutId);
+      GM_xmlhttpRequest({
+        method: fetchOptions.method || "GET",
+        url: url,
+        responseType: "blob",
+        ...fetchOptions,
+        data: fetchOptions.body,
+        timeout: timeout,
+        onload: (resp) => {
+          // chrome \n and ":", firefox \r\n and ": " (Only in GM_xmlhttpRequest)
+          // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/getAllResponseHeaders#examples
+          const headers = Object.fromEntries(
+            resp.responseHeaders
+              .trim()
+              .split(/\r?\n/)
+              .map((line) => line.split(/: (.+)/))
+              .filter(([key]) => key && /^[\w-]+$/.test(key)),
+          );
+
+          resolve(
+            new Response(resp.response, {
+              status: resp.status,
+              headers: headers,
+            }),
+          );
+        },
+        ontimeout: () => reject(new Error("Timeout")),
+        onerror: (error) => reject(error),
+        onabort: () => reject(new Error("AbortError")),
+      });
+    });
+  }
+}
 
 
 
-
-
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/base.js
 
 class VideoHelperError extends Error {
     constructor(message) {
@@ -2526,20 +2506,55 @@ class VideoHelperError extends Error {
         this.message = message;
     }
 }
-class MailRuHelper {
-    API_ORIGIN = "https://my.mail.ru/";
+class BaseHelper {
+    API_ORIGIN = "https://example.com";
+    fetch;
+    constructor({ fetchFn = GM_fetch } = {}) {
+        this.fetch = fetchFn;
+    }
     async getVideoData(videoId) {
+        return undefined;
+    }
+    async getVideoId(url) {
+        return undefined;
+    }
+}
+
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/mailru.js
+
+class MailRuHelper extends BaseHelper {
+    API_ORIGIN = "https://my.mail.ru";
+    async getVideoMeta(videoId) {
         try {
-            const res = await fetchWithTimeout(`${this.API_ORIGIN}+/video/meta/${videoId}?xemail=&ajax_call=1&func_name=&mna=&mnb=&ext=1&_=${new Date().getTime()}`);
+            const res = await this.fetch(`${this.API_ORIGIN}/+/video/meta/${videoId}?xemail=&ajax_call=1&func_name=&mna=&mnb=&ext=1&_=${new Date().getTime()}`);
             return (await res.json());
         }
         catch (err) {
-            console.error("Failed to get mail.ru video info", err.message);
+            console.error("Failed to get mail.ru video data", err.message);
             return undefined;
         }
     }
+    async getVideoId(url) {
+        const pathname = url.pathname;
+        if (/\/(v|mail|bk|inbox)\//.exec(pathname)) {
+            return pathname.slice(1);
+        }
+        const videoId = /video\/embed\/([^/]+)/.exec(pathname)?.[1];
+        if (!videoId) {
+            return undefined;
+        }
+        const videoData = await this.getVideoMeta(videoId);
+        if (!videoData) {
+            return undefined;
+        }
+        return videoData.meta.url.replace("//my.mail.ru/", "");
+    }
 }
-class WeverseHelper {
+
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/weverse.js
+
+
+class WeverseHelper extends BaseHelper {
     API_ORIGIN = "https://global.apis.naver.com/weverse/wevweb";
     API_APP_ID = "be4d79eb8fc7bd008ee82c8ec4ff6fd4";
     API_HMAC_KEY = "1b9cb6378d959b45714bec49971ade22e6e24e42";
@@ -2581,7 +2596,7 @@ class WeverseHelper {
             }).toString();
         try {
             const urlParams = await this.getHashURLParams(pathname);
-            const res = await fetchWithTimeout(this.API_ORIGIN + pathname + "&" + urlParams, {
+            const res = await this.fetch(this.API_ORIGIN + pathname + "&" + urlParams, {
                 headers: this.HEADERS,
             });
             return (await res.json());
@@ -2599,7 +2614,7 @@ class WeverseHelper {
             }).toString();
         try {
             const urlParams = await this.getHashURLParams(pathname);
-            const res = await fetchWithTimeout(this.API_ORIGIN + pathname + "&" + urlParams, {
+            const res = await this.fetch(this.API_ORIGIN + pathname + "&" + urlParams, {
                 method: "POST",
                 headers: this.HEADERS,
             });
@@ -2631,7 +2646,7 @@ class WeverseHelper {
                 ]),
                 adu: "/",
             }).toString();
-            const res = await fetchWithTimeout(`https://global.apis.naver.com/rmcnmv/rmcnmv/vod/play/v2.0/${infraVideoId}?` +
+            const res = await this.fetch(`https://global.apis.naver.com/rmcnmv/rmcnmv/vod/play/v2.0/${infraVideoId}?` +
                 urlParams, {
                 headers: this.HEADERS,
             });
@@ -2645,16 +2660,16 @@ class WeverseHelper {
     extractVideoInfo(videoList) {
         return videoList.find((video) => video.useP2P === false && video.source.includes(".mp4"));
     }
-    async getVideoData(postId) {
-        const videoPreview = await this.getPostPreview(postId);
+    async getVideoData(videoId) {
+        const videoPreview = await this.getPostPreview(videoId);
         if (!videoPreview) {
             return undefined;
         }
-        const { videoId, serviceId, infraVideoId } = videoPreview.extension.video;
-        if (!(videoId && serviceId && infraVideoId)) {
+        const { videoId: internalVideoId, serviceId, infraVideoId, } = videoPreview.extension.video;
+        if (!(internalVideoId && serviceId && infraVideoId)) {
             return undefined;
         }
-        const inkeyData = await this.getVideoInKey(videoId);
+        const inkeyData = await this.getVideoInKey(internalVideoId);
         if (!inkeyData) {
             return undefined;
         }
@@ -2671,13 +2686,19 @@ class WeverseHelper {
             duration: videoItem.duration,
         };
     }
+    async getVideoId(url) {
+        return /([^/]+)\/(live|media)\/([^/]+)/.exec(url.pathname)?.[3];
+    }
 }
-class KodikHelper {
+
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/kodik.js
+
+
+class KodikHelper extends BaseHelper {
     API_ORIGIN = window.location.origin;
     async getSecureData(videoPath) {
         try {
-            const url = this.API_ORIGIN + videoPath;
-            const res = await fetchWithTimeout(url, {
+            const res = await this.fetch(`${this.API_ORIGIN}${videoPath}`, {
                 headers: {
                     "User-Agent": config.userAgent,
                     Origin: this.API_ORIGIN,
@@ -2712,7 +2733,7 @@ class KodikHelper {
     async getFtor(secureData) {
         const { videoType, videoId: id, hash, d, d_sign, pd, pd_sign, ref, ref_sign, } = secureData;
         try {
-            const res = await fetchWithTimeout(this.API_ORIGIN + "/ftor", {
+            const res = await this.fetch(this.API_ORIGIN + "/ftor", {
                 method: "POST",
                 headers: {
                     "User-Agent": config.userAgent,
@@ -2748,8 +2769,8 @@ class KodikHelper {
         }));
         return "https:" + decryptedUrl;
     }
-    async getVideoData(videoPath) {
-        const secureData = await this.getSecureData(videoPath);
+    async getVideoData(videoId) {
+        const secureData = await this.getSecureData(videoId);
         if (!secureData) {
             return undefined;
         }
@@ -2766,11 +2787,18 @@ class KodikHelper {
             url: this.decryptUrl(videoLink.src),
         };
     }
+    async getVideoId(url) {
+        return /\/(seria|video)\/([^/]+)\/([^/]+)\/([\d]+)p/.exec(url.pathname)?.[0];
+    }
 }
-class PatreonHelper {
+
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/patreon.js
+
+class PatreonHelper extends BaseHelper {
+    API_ORIGIN = "https://www.patreon.com/api";
     async getPosts(postId) {
         try {
-            const res = await fetchWithTimeout(`https://www.patreon.com/api/posts/${postId}?json-api-use-default-includes=false`);
+            const res = await this.fetch(`${this.API_ORIGIN}/posts/${postId}?json-api-use-default-includes=false`);
             return (await res.json());
         }
         catch (err) {
@@ -2791,9 +2819,20 @@ class PatreonHelper {
             url: postFileUrl,
         };
     }
+    async getVideoId(url) {
+        const fullPostId = /posts\/([^/]+)/.exec(url.pathname)?.[1];
+        if (!fullPostId) {
+            return undefined;
+        }
+        return fullPostId.replace(/[^\d.]/g, "");
+    }
 }
-class RedditHelper {
-    async getVideoData() {
+
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/reddit.js
+
+class RedditHelper extends BaseHelper {
+    API_ORIGIN = "https://www.reddit.com";
+    async getVideoData(videoId) {
         const contentUrl = document
             .querySelector("[data-hls-url]")
             ?.dataset
@@ -2806,11 +2845,18 @@ class RedditHelper {
             url: decodeURIComponent(contentUrl),
         };
     }
+    async getVideoId(url) {
+        return /\/r\/(([^/]+)\/([^/]+)\/([^/]+)\/([^/]+))/.exec(url.pathname)?.[1];
+    }
 }
-class BannedVideoHelper {
+
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/bannedvideo.js
+
+class BannedVideoHelper extends BaseHelper {
+    API_ORIGIN = "https://api.banned.video";
     async getVideoInfo(videoId) {
         try {
-            const res = await fetchWithTimeout(`https://api.banned.video/graphql`, {
+            const res = await this.fetch(`${this.API_ORIGIN}/graphql`, {
                 method: "POST",
                 body: JSON.stringify({
                     operationName: "GetVideo",
@@ -2844,7 +2890,7 @@ class BannedVideoHelper {
     async getVideoData(videoId) {
         const videoInfo = await this.getVideoInfo(videoId);
         if (!videoInfo) {
-            return false;
+            return undefined;
         }
         const { videoUrl, duration, isStream, description, title } = videoInfo.data.getVideo;
         return {
@@ -2855,11 +2901,20 @@ class BannedVideoHelper {
             description,
         };
     }
+    async getVideoId(url) {
+        return url.searchParams.get("id") ?? undefined;
+    }
 }
-class KickHelper {
+
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/kick.js
+
+
+
+class KickHelper extends BaseHelper {
+    API_ORIGIN = "https://kick.com/api/v2";
     async getClipInfo(clipId) {
         try {
-            const res = await fetchWithTimeout(`https://kick.com/api/v2/clips/${clipId}`);
+            const res = await this.fetch(`${this.API_ORIGIN}/clips/${clipId}`);
             return (await res.json());
         }
         catch (err) {
@@ -2875,7 +2930,7 @@ class KickHelper {
         }
         const clipInfo = await this.getClipInfo(videoId);
         if (!clipInfo) {
-            return false;
+            return undefined;
         }
         const { clip_url, duration, title } = clipInfo.clip;
         return {
@@ -2884,149 +2939,26 @@ class KickHelper {
             title,
         };
     }
-}
-class UdemyHelper {
-    API_ORIGIN = "https://www.udemy.com/api-2.0";
-
-    getModuleData() {
-        const moduleArgs = document.querySelector(
-            ".ud-app-loader[data-module-id='course-taking']",
-        )?.dataset?.moduleArgs;
-        if (!moduleArgs) {
-            console.error(localizationProvider.get("udemyModuleArgsNotFound"));
-            return {};
-        }
-        return JSON.parse(moduleArgs);
-    }
-
-    getLectureId() {
-        return /learn\/lecture\/([^/]+)/.exec(window.location.pathname)?.[1];
-    }
-
-    async getLectureData(courseId, lectureId) {
-        const res = await GM_fetch(
-            `${this.API_ORIGIN}/users/me/subscribed-courses/${courseId}/lectures/${lectureId}/?` +
-            new URLSearchParams({
-                "fields[lecture]": "title,description,asset",
-                "fields[asset]": "length,media_sources,captions",
-            })
-        );
-        return await res.json();
-    }
-
-    async getCourseLang(courseId) {
-        const res = await GM_fetch(
-            `${this.API_ORIGIN}/users/me/subscribed-courses/${courseId}?` +
-            new URLSearchParams({
-                "fields[course]": "locale",
-            })
-        );
-        return await res.json();
-    }
-
-    findVideoUrl(sources) {
-        return sources?.find((src) => src.type === "video/mp4")?.src;
-    }
-
-    findSubtitleUrl(captions, detectedLanguage) {
-        let subtitle = captions?.find(
-            (caption) => langTo6391(caption.locale_id) === detectedLanguage,
-        );
-
-        if (!subtitle) {
-            subtitle = captions?.find(
-                (caption) => langTo6391(caption.locale_id) === "en",
-            ) ?? captions?.[0];
+    async getVideoId(url) {
+        const videoId = /video\/([^/]+)/.exec(url.pathname)?.[0];
+        if (videoId) {
+            return videoId;
         }
 
-        return subtitle?.url;
-    }
-
-    async getVideoData(videoId) {
-        const { courseId } = this.getModuleData();
-        if (!courseId) {
-            return false;
+        const clipId = url.searchParams.get("clip");
+        if (clipId) {
+            return clipId;
         }
 
-        const lectureId = this.getLectureId();
-        utils_debug.log(`[Udemy] courseId: ${courseId}, lectureId: ${lectureId}`)
-        if (!lectureId) {
-            return false;
-        }
-
-        const { title, description, asset } = await this.getLectureData(courseId, lectureId);
-        const { length: duration, media_sources, captions } = asset;
-
-        const videoUrl = this.findVideoUrl(media_sources);
-        if (!videoUrl) {
-            console.log("Failed to find .mp4 video file in media_sources", media_sources);
-            return false;
-        }
-
-        const courseLangData = await this.getCourseLang(courseId);
-        let { locale: { locale: courseLang } } = courseLangData;
-        courseLang = courseLang ? langTo6391(courseLang) : "en";
-        if (!availableLangs.includes(courseLang)) {
-            courseLang = "en";
-        }
-
-        const subtitleUrl = this.findSubtitleUrl(captions, courseLang);
-        if (!subtitleUrl) {
-            console.log("Failed to find subtitle file in captions", captions)
-        }
-
-        return {
-            ...subtitleUrl ? {
-                url: sites.find((s) => s.host === VideoService.udemy).url + videoId,
-                translationHelp: [
-                    {
-                        target: "subtitles_file_url",
-                        targetUrl: subtitleUrl,
-                    },
-                    {
-                        target: "video_file_url",
-                        targetUrl: videoUrl,
-                    },
-                ],
-                detectedLanguage: courseLang,
-            } : {
-                url: videoUrl,
-                translationHelp: null,
-            },
-            duration,
-            title,
-            description,
-        };
+        const player = document.getElementById("clip-video-player");
+        return /clip_([^/]+)/.exec(player?.getAttribute("poster"))?.[0]
     }
 }
-class CoursehunterHelper {
-    API_ORIGIN = "https://coursehunter.net/api/v1";
 
-    async getLessonsData(courseId) {
-        const response = await GM_fetch(
-            `${this.API_ORIGIN}/course/${courseId}/lessons`,
-        );
-        return await response.json();
-    }
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/appledeveloper.js
 
-    async getVideoData() {
-        const courseId = window.course_id ?? +document.querySelector('input[name="course_id"]')?.value;
-        const lessonsData = window.lessons ?? (await this.getLessonsData(courseId));
-        const lessonId = +document.querySelector(".lessons-item_active")?.dataset?.index || 1;
-        const currentLesson = lessonsData?.[lessonId - 1];
-        const { file: videoUrl, duration, title } = currentLesson;
-        if (!videoUrl) {
-            return false;
-        }
-
-        return {
-            url: videoUrl,
-            duration,
-            title
-        };
-    }
-}
-class AppleDeveloperHelper {
+class AppleDeveloperHelper extends BaseHelper {
+    API_ORIGIN = "https://developer.apple.com";
     async getVideoData(videoId) {
         const contentUrl = document.querySelector("meta[property='og:video']")?.content
         if (!contentUrl) {
@@ -3036,100 +2968,22 @@ class AppleDeveloperHelper {
             url: contentUrl,
         };
     }
-}
-class CourseraHelper {
-    API_ORIGIN = "https://www.coursera.org/api";
-
-    async getCourseData(courseId) {
-        const response = await GM_fetch(
-            `${this.API_ORIGIN}/onDemandCourses.v1/${courseId}`,
-        );
-        const resJSON = await response.json();
-        return resJSON?.elements?.[0];
-    }
-
-    getPlayer() {
-        return document.querySelector(".vjs-v6");
-    }
-
-    getPlayerData() {
-        return this.getPlayer()?.player;
-    }
-
-    findVideoUrl(sources) {
-        return sources?.find((src) => src.type === "video/mp4")?.src;
-    }
-
-    findSubtitleUrl(captions, detectedLanguage) {
-        let subtitle = captions?.find(
-            (caption) => langTo6391(caption.srclang) === detectedLanguage,
-        );
-
-        if (!subtitle) {
-            subtitle = captions?.find(
-                (caption) => langTo6391(caption.srclang) === "en",
-            ) || captions?.[0];
-        }
-
-        return subtitle?.src;
-    }
-
-    async getVideoData(videoId) {
-        const data = this.getPlayerData();
-
-        const { duration } = data?.cache_ || {};
-        const { courseId, tracks, sources } = data?.options_ || {};
-
-        const videoUrl = this.findVideoUrl(sources);
-        if (!videoUrl) {
-            console.log("Failed to find .mp4 video file in sources", sources);
-            return false;
-        }
-
-        const { primaryLanguageCodes } = await this.getCourseData(courseId);
-        let courseLang = primaryLanguageCodes?.[0];
-        courseLang = courseLang ? langTo6391(courseLang) : "en";
-
-        if (!availableLangs.includes(courseLang)) {
-            courseLang = "en";
-        }
-
-        const subtitleUrl = this.findSubtitleUrl(tracks, courseLang);
-        if (!subtitleUrl) {
-            console.log("Failed to find subtitle file in tracks", tracks)
-        }
-
-        return {
-            ...subtitleUrl ? {
-                url: sites.find((s) => s.host === VideoService.coursera).url + videoId,
-                translationHelp: [
-                    {
-                        target: "subtitles_file_url",
-                        targetUrl: subtitleUrl,
-                    },
-                    {
-                        target: "video_file_url",
-                        targetUrl: videoUrl,
-                    },
-                ],
-                detectedLanguage: courseLang,
-            } : {
-                url: videoUrl,
-                translationHelp: null,
-            },
-            duration,
-        };
+    async getVideoId(url) {
+        return /videos\/play\/([^/]+)\/([\d]+)/.exec(url.pathname)?.[0];
     }
 }
-class EpicGamesHelper {
+
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/epicgames.js
+
+class EpicGamesHelper extends BaseHelper {
     API_ORIGIN = "https://dev.epicgames.com/community/api/learning";
     async getPostInfo(videoId) {
         try {
-            const res = await fetchWithTimeout(`${this.API_ORIGIN}/post.json?hash_id=${videoId}`);
+            const res = await this.fetch(`${this.API_ORIGIN}/post.json?hash_id=${videoId}`);
             return (await res.json());
         }
         catch (err) {
-            console.error(`Failed to get post info by videoId: ${videoId}.`, err.message);
+            console.error(`Failed to get epicgames post info by videoId: ${videoId}.`, err.message);
             return false;
         }
     }
@@ -3148,13 +3002,19 @@ class EpicGamesHelper {
             url: playlistUrl,
         };
     }
+    async getVideoId(url) {
+        return /\/(\w{3,5})\/[^/]+$/.exec(url.pathname)?.[1];
+    }
 }
-class NineAnimetvHelper {
+
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/nineanimetv.js
+
+class NineAnimeTVHelper extends BaseHelper {
     API_ORIGIN = "https://9animetv.to/ajax/episode";
     RAPID_CLOUD_ORIGIN = "https://rapid-cloud.co/ajax/embed-6-v2";
     async getSourceId(episodeId) {
         try {
-            const res = await GM_fetch(`${this.API_ORIGIN}/servers?episodeId=${episodeId}`);
+            const res = await this.fetch(`${this.API_ORIGIN}/servers?episodeId=${episodeId}`);
             const content = (await res.json());
             if (!content.html) {
                 return false;
@@ -3168,7 +3028,7 @@ class NineAnimetvHelper {
     }
     async getPlayerLink(sourceId) {
         try {
-            const res = await GM_fetch(`${this.API_ORIGIN}/sources?id=${sourceId}`);
+            const res = await this.fetch(`${this.API_ORIGIN}/sources?id=${sourceId}`);
             const content = (await res.json());
             if (!content.link.includes("rapid-cloud.co")) {
                 return false;
@@ -3182,7 +3042,7 @@ class NineAnimetvHelper {
     }
     async getRapidCloudData(rapidId) {
         try {
-            const res = await GM_fetch(`${this.RAPID_CLOUD_ORIGIN}/getSources?id=${rapidId}`);
+            const res = await this.fetch(`${this.RAPID_CLOUD_ORIGIN}/getSources?id=${rapidId}`);
             const content = (await res.json());
             if (content.encrypted) {
                 console.warn("Encrypted RapidCloud data found. Let us know about it", content);
@@ -3221,7 +3081,323 @@ class NineAnimetvHelper {
             url: videoUrl,
         };
     }
+    async getVideoId(url) {
+        return new Promise(resolve => {
+            const origin = "https://9animetv.to"
+            window.addEventListener("message", (e) => {
+                if (e.origin !== origin) {
+                    return;
+                }
+
+                if (e.data?.startsWith("getVideoId:")) {
+                    resolve(e.data.replace("getVideoId:"))
+                }
+            })
+            window.top.postMessage("getVideoId", origin);
+        });
+    }
 }
+
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/odysee.js
+
+class OdyseeHelper extends BaseHelper {
+    API_ORIGIN = "https://odysee.com";
+    async getVideoData(videoId) {
+        try {
+            const res = await this.fetch(`${this.API_ORIGIN}/${videoId}`);
+            const content = await res.text();
+            return { url: /"contentUrl":(\s)?"([^"]+)"/.exec(content)?.[2] };
+        }
+        catch (err) {
+            console.error("Failed to get odysee video data", err.message);
+            return undefined;
+        }
+    }
+    async getVideoId(url) {
+        return url.pathname.slice(1);
+    }
+}
+
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/coursehunter.js
+
+class CoursehunterHelper extends BaseHelper {
+    API_ORIGIN = "https://coursehunter.net/api/v1";
+    getCourseId(videoId) {
+        return window.course_id ?? +document.querySelector('input[name="course_id"]')?.value;
+    }
+    async getLessonsData(courseId) {
+        try {
+            const res = await this.fetch(`${this.API_ORIGIN}/course/${courseId}/lessons`);
+            return (await res.json());
+        }
+        catch (err) {
+            console.error(`Failed to get Coursehunter lessons data by courseId: ${courseId}`, err.message);
+            return false;
+        }
+    }
+    async getVideoData(videoId) {
+        const courseId = this.getCourseId(videoId);
+        if (!courseId) {
+            return undefined;
+        }
+        const lessonsData = window.lessons ?? (await this.getLessonsData(courseId));
+        if (!lessonsData) {
+            return undefined;
+        }
+        const lessonId = +(
+            videoId.split("?lesson=")?.[1] ??
+            document.querySelector(".lessons-item_active")?.dataset?.index ??
+            1
+        );
+        const currentLesson = lessonsData?.[lessonId - 1];
+        const { file: videoUrl, duration, title } = currentLesson;
+        if (!videoUrl) {
+            return undefined;
+        }
+        return {
+            url: videoUrl,
+            duration,
+            title,
+        };
+    }
+    async getVideoId(url) {
+        const courseId = /\/course\/([^/]+)/.exec(url.pathname)?.[1];
+        return courseId ? courseId + url.search : undefined;
+    }
+}
+
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/twitch.js
+
+class TwitchHelper extends BaseHelper {
+    API_ORIGIN = "https://clips.twitch.tv";
+    async getClipLink(pathname, clipId) {
+        const schema = document.querySelector(
+            "script[type='application/ld+json']",
+        );
+        const clearPathname = pathname.slice(1);
+        if (schema) {
+            const schemaJSON = JSON.parse(schema.innerText);
+            const channelLink = schemaJSON["@graph"].find(
+                (obj) => obj["@type"] === "VideoObject",
+            )?.creator.url;
+
+            const channelName = channelLink.replace("https://www.twitch.tv/", "");
+            return `${channelName}/clip/${clearPathname}`;
+        }
+        const isEmbed = clearPathname === "embed";
+        const channelLink = document.querySelector(
+            isEmbed
+                ? ".tw-link[data-test-selector='stream-info-card-component__stream-avatar-link']"
+                : ".clips-player a:not([class])",
+        );
+        if (!channelLink) {
+            return undefined;
+        }
+
+        const channelName = channelLink.href.replace(
+            "https://www.twitch.tv/",
+            "",
+        );
+
+        return `${channelName}/clip/${isEmbed ? clipId : clearPathname}`;
+    }
+    async getVideoId(url) {
+        const pathname = url.pathname;
+        if (/^m\.twitch\.tv$/.test(pathname)) {
+            return /videos\/([^/]+)/.exec(url.href)?.[0] ?? pathname.slice(1);
+        }
+        else if (/^player\.twitch\.tv$/.test(url.hostname)) {
+            return `videos/${url.searchParams.get("video")}`;
+        }
+        const clipPath = /([^/]+)\/(?:clip)\/([^/]+)/.exec(pathname);
+        if (clipPath) {
+            return clipPath[0];
+        }
+        const isClipsDomain = /^clips\.twitch\.tv$/.test(url.hostname);
+        if (isClipsDomain) {
+            return await this.getClipLink(pathname, url.searchParams.get("clip"));
+        }
+        return /(?:videos)\/([^/]+)/.exec(pathname)?.[0];
+    }
+}
+
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/consts.js
+const availableLangs = [
+    "auto",
+    "ru",
+    "en",
+    "zh",
+    "ko",
+    "lt",
+    "lv",
+    "ar",
+    "fr",
+    "it",
+    "es",
+    "de",
+    "ja",
+];
+const availableTTS = ["ru", "en", "kk"];
+const subtitlesFormats = (/* unused pure expression or super */ null && (["srt", "vtt", "json"]));
+
+
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/udemy.js
+
+
+
+
+
+
+
+
+class UdemyHelper extends BaseHelper {
+  API_ORIGIN = "https://www.udemy.com/api-2.0";
+
+  getModuleData() {
+      const moduleArgs = document.querySelector(
+          ".ud-app-loader[data-module-id='course-taking']",
+      )?.dataset?.moduleArgs;
+      if (!moduleArgs) {
+          console.error(localizationProvider.get("udemyModuleArgsNotFound"));
+          return {};
+      }
+      return JSON.parse(moduleArgs);
+  }
+
+  getLectureId() {
+      return /learn\/lecture\/([^/]+)/.exec(window.location.pathname)?.[1];
+  }
+
+  async getLectureData(courseId, lectureId) {
+      const res = await this.fetch(
+          `${this.API_ORIGIN}/users/me/subscribed-courses/${courseId}/lectures/${lectureId}/?` +
+          new URLSearchParams({
+              "fields[lecture]": "title,description,asset",
+              "fields[asset]": "length,media_sources,captions",
+          })
+      );
+      return await res.json();
+  }
+
+  async getCourseLang(courseId) {
+      const res = await this.fetch(
+          `${this.API_ORIGIN}/users/me/subscribed-courses/${courseId}?` +
+          new URLSearchParams({
+              "fields[course]": "locale",
+          })
+      );
+      return await res.json();
+  }
+
+  findVideoUrl(sources) {
+      return sources?.find((src) => src.type === "video/mp4")?.src;
+  }
+
+  findSubtitleUrl(captions, detectedLanguage) {
+      let subtitle = captions?.find(
+          (caption) => langTo6391(caption.locale_id) === detectedLanguage,
+      );
+
+      if (!subtitle) {
+          subtitle = captions?.find(
+              (caption) => langTo6391(caption.locale_id) === "en",
+          ) ?? captions?.[0];
+      }
+
+      return subtitle?.url;
+  }
+
+  async getVideoData(videoId) {
+      const { courseId } = this.getModuleData();
+      if (!courseId) {
+          return undefined;
+      }
+
+      const lectureId = this.getLectureId();
+      utils_debug.log(`[Udemy] courseId: ${courseId}, lectureId: ${lectureId}`)
+      if (!lectureId) {
+          return undefined;
+      }
+
+      const { title, description, asset } = await this.getLectureData(courseId, lectureId);
+      const { length: duration, media_sources, captions } = asset;
+
+      const videoUrl = this.findVideoUrl(media_sources);
+      if (!videoUrl) {
+          console.log("Failed to find .mp4 video file in media_sources", media_sources);
+          return undefined;
+      }
+
+      const courseLangData = await this.getCourseLang(courseId);
+      let { locale: { locale: courseLang } } = courseLangData;
+      courseLang = courseLang ? langTo6391(courseLang) : "en";
+      if (!availableLangs.includes(courseLang)) {
+          courseLang = "en";
+      }
+
+      const subtitleUrl = this.findSubtitleUrl(captions, courseLang);
+      if (!subtitleUrl) {
+          console.log("Failed to find subtitle file in captions", captions)
+      }
+
+      return {
+          ...subtitleUrl ? {
+              url: sites.find((s) => s.host === VideoService.udemy).url + videoId,
+              translationHelp: [
+                  {
+                      target: "subtitles_file_url",
+                      targetUrl: subtitleUrl,
+                  },
+                  {
+                      target: "video_file_url",
+                      targetUrl: videoUrl,
+                  },
+              ],
+              detectedLanguage: courseLang,
+          } : {
+              url: videoUrl,
+              translationHelp: null,
+          },
+          duration,
+          title,
+          description,
+      };
+  }
+
+  async getVideoId(url) {
+      return url.pathname.slice(1);
+  }
+}
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/index.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class VideoHelper {
     static [VideoService.mailru] = new MailRuHelper();
     static [VideoService.weverse] = new WeverseHelper();
@@ -3230,12 +3406,13 @@ class VideoHelper {
     static [VideoService.reddit] = new RedditHelper();
     static [VideoService.bannedvideo] = new BannedVideoHelper();
     static [VideoService.kick] = new KickHelper();
-    static [VideoService.udemy] = new UdemyHelper();
-    static [VideoService.coursehunter] = new CoursehunterHelper();
-    static [VideoService.coursera] = new CourseraHelper();
     static [VideoService.appledeveloper] = new AppleDeveloperHelper();
     static [VideoService.epicgames] = new EpicGamesHelper();
-    static [VideoService.nineanimetv] = new NineAnimetvHelper();
+    static [VideoService.nineanimetv] = new NineAnimeTVHelper();
+    static [VideoService.odysee] = new OdyseeHelper();
+    static [VideoService.twitch] = new TwitchHelper();
+    static [VideoService.coursehunter] = new CoursehunterHelper();
+    static [VideoService.udemy] = new UdemyHelper();
 }
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/utils/videoData.js
@@ -3274,7 +3451,11 @@ function getService() {
 }
 async function getVideoID(service, video) {
     const url = new URL(window.location.href);
-    switch (service.host) {
+    const serviceHost = service.host;
+    if (Object.getOwnPropertyDescriptor(VideoHelper, serviceHost)) {
+        return await VideoHelper[serviceHost].getVideoId(url);
+    }
+    switch (serviceHost) {
         case VideoService.custom:
             return url.href;
         case VideoService.piped:
@@ -3301,64 +3482,15 @@ async function getVideoID(service, video) {
             else if (paramOID && paramID) {
                 return `video-${Math.abs(parseInt(paramOID))}_${paramID}`;
             }
-
             const videoBox = video.parentElement?.closest(".video_box_wrap");
             if (videoBox) {
                 return videoBox.id.replace("video_box_wrap", "video");
             }
-
             return null;
         }
         case VideoService.nine_gag:
         case VideoService.gag:
             return /gag\/([^/]+)/.exec(url.pathname)?.[1];
-        case VideoService.twitch: {
-            const clipPath = /([^/]+)\/(?:clip)\/([^/]+)/.exec(url.pathname);
-            const isClipsDomain = /^clips\.twitch\.tv$/.test(url.hostname);
-            if (/^m\.twitch\.tv$/.test(url.hostname)) {
-                return /videos\/([^/]+)/.exec(url.href)?.[0] ?? url.pathname.slice(1);
-            }
-            else if (/^player\.twitch\.tv$/.test(url.hostname)) {
-                return `videos/${url.searchParams.get("video")}`;
-            }
-            else if (isClipsDomain) {
-                const schema = document.querySelector(
-                    "script[type='application/ld+json']",
-                );
-                const pathname = url.pathname.slice(1);
-                if (schema) {
-                    const schemaJSON = JSON.parse(schema.innerText);
-                    const channelLink = schemaJSON["@graph"].find(
-                    (obj) => obj["@type"] === "VideoObject",
-                    )?.creator.url;
-
-                    const channelName = channelLink.replace("https://www.twitch.tv/", "");
-                    return `${channelName}/clip/${pathname}`;
-                }
-
-                const isEmbed = pathname === "embed";
-                const channelLink = document.querySelector(
-                    isEmbed
-                    ? ".tw-link[data-test-selector='stream-info-card-component__stream-avatar-link']"
-                    : ".clips-player a:not([class])",
-                );
-
-                if (!channelLink) {
-                    return;
-                }
-
-                const channelName = channelLink.href.replace(
-                    "https://www.twitch.tv/",
-                    "",
-                );
-
-                return `${channelName}/clip/${isEmbed ? url.searchParams.get("clip") : pathname}`;
-            }
-            else if (clipPath) {
-                return clipPath[0];
-            }
-            return /(?:videos)\/([^/]+)/.exec(url.pathname)?.[0];
-        }
         case VideoService.proxitok:
         case VideoService.tiktok:
             return /([^/]+)\/video\/([^/]+)/.exec(url.pathname)?.[0];
@@ -3391,27 +3523,8 @@ async function getVideoID(service, video) {
             }
             return vid;
         }
-        case VideoService.mailru: {
-            const pathname = url.pathname;
-            if (/\/(v|mail|bk|inbox)\//.exec(pathname)) {
-                return pathname.slice(1);
-            }
-            const videoId = /video\/embed\/([^/]+)/.exec(pathname)?.[1];
-            if (!videoId) {
-                return null;
-            }
-            const videoData = await VideoHelper.mailru.getVideoData(videoId);
-            if (!videoData) {
-                return null;
-            }
-            return videoData.meta.url.replace("//my.mail.ru/", "");
-        }
         case VideoService.bitchute:
             return /(video|embed)\/([^/]+)/.exec(url.pathname)?.[2];
-        case VideoService.coursera:
-            return /learn\/([^/]+)\/lecture\/([^/]+)/.exec(url.pathname)?.[0]; // <-- COURSE PASSING (IF YOU LOGINED TO COURSERA)
-        case VideoService.udemy:
-            return url.pathname.slice(1);
         case VideoService.eporner:
             return /video-([^/]+)\/([^/]+)/.exec(url.pathname)?.[0];
         case VideoService.peertube:
@@ -3422,13 +3535,11 @@ async function getVideoID(service, video) {
             const plainPlayerConfig = Array.from(
                 document.querySelectorAll("*"),
             ).filter((s) => s.innerHTML.trim().includes(".m3u8"));
-            try {
-                let videoUrl = plainPlayerConfig[1].lastChild.src;
-                return /\/video\/(\w+)\.m3u8/.exec(videoUrl)?.[1];
-            } catch (e) {
-                console.error("[VOT]", e);
-                return false;
+            let videoUrl = plainPlayerConfig?.[1]?.lastChild?.src;
+            if (!videoUrl) {
+                return undefined
             }
+            return /\/video\/(\w+)\.m3u8/.exec(videoUrl)?.[1];
         }
         case VideoService.trovo: {
             const vid = url.searchParams.get("vid");
@@ -3443,20 +3554,11 @@ async function getVideoID(service, video) {
         }
         case VideoService.yandexdisk:
             return /\/i\/([^/]+)/.exec(url.pathname)?.[1];
-        case VideoService.coursehunter: {
-            const courseId = /\/course\/([^/]+)/.exec(url.pathname)?.[1];
-            return courseId ? courseId + url.search : false;
-        }
         case VideoService.okru: {
             return /\/video\/(\d+)/.exec(url.pathname)?.[1];
         }
         case VideoService.googledrive:
             return url.searchParams.get("docid");
-        case VideoService.bannedvideo: {
-            return url.searchParams.get("id");
-        }
-        case VideoService.weverse:
-            return /([^/]+)\/(live|media)\/([^/]+)/.exec(url.pathname)?.[3];
         case VideoService.newgrounds:
             return /([^/]+)\/(view)\/([^/]+)/.exec(url.pathname)?.[0];
         case VideoService.egghead:
@@ -3465,51 +3567,6 @@ async function getVideoID(service, video) {
             return /v_show\/id_[\w=]+/.exec(url.pathname)?.[0];
         case VideoService.archive:
             return /(details|embed)\/([^/]+)/.exec(url.pathname)?.[2];
-        case VideoService.kodik:
-            return /\/(seria|video)\/([^/]+)\/([^/]+)\/([\d]+)p/.exec(url.pathname)?.[0];
-        case VideoService.patreon: {
-            const fullPostId = /posts\/([^/]+)/.exec(url.pathname)?.[1];
-            if (!fullPostId) {
-                return undefined;
-            }
-            return fullPostId.replace(/[^\d.]/g, "");
-        }
-        case VideoService.reddit:
-            return /\/r\/(([^/]+)\/([^/]+)\/([^/]+)\/([^/]+))/.exec(url.pathname)?.[1];
-        case VideoService.kick: {
-            const videoId = /video\/([^/]+)/.exec(url.pathname)?.[0];
-            if (videoId) {
-                return videoId;
-            }
-            const clipId = url.searchParams.get("clip");
-            if (clipId) {
-                return clipId;
-            }
-
-            const player = document.getElementById("clip-video-player");
-            return /clip_([^/]+)/.exec(player?.getAttribute("poster"))?.[0]
-        }
-        case VideoService.appledeveloper: {
-            return /videos\/play\/([^/]+)\/([\d]+)/.exec(url.pathname)?.[0];
-        }
-        case VideoService.epicgames: {
-            return /\/(\w{3,5})\/[^/]+$/.exec(url.pathname)?.[1];
-        }
-        case VideoService.nineanimetv: {
-            return new Promise(resolve => {
-                const origin = "https://9animetv.to"
-                window.addEventListener("message", (e) => {
-                    if (e.origin !== origin) {
-                        return;
-                    }
-
-                    if (e.data?.startsWith("getVideoId:")) {
-                        resolve(e.data.replace("getVideoId:"))
-                    }
-                })
-                window.top.postMessage("getVideoId", origin);
-            })
-        }
         default:
             return undefined;
     }
@@ -3730,6 +3787,7 @@ class VOTClient {
             throw new VOTLocalizedError("requestTranslationFailed");
         }
         const translationData = yandexProtobuf.decodeTranslationResponse(res.data);
+        utils_debug.log("requestTranslation", translationData);
         switch (translationData.status) {
             case VideoTranslationStatus.FAILED:
                 throw translationData?.message ? new VOTJSError("Yandex couldn't translate video", translationData) : new VOTLocalizedError("requestTranslationFailed");
@@ -3773,7 +3831,6 @@ class VOTClient {
             throw new VOTLocalizedError("requestTranslationFailed", res);
         }
         const translationData = res.data;
-        utils_debug.log("requestTranslation", translationData);
         switch (translationData.status) {
             case "failed":
                 throw new VOTJSError("Yandex couldn't translate video", translationData);
@@ -3816,7 +3873,7 @@ class VOTClient {
     async getSubtitles({ videoData, requestLang = this.requestLang, headers = {}, }) {
         const { url } = videoData;
         if (this.isCustomLink(url)) {
-            throw new VOTLocalizedError("Unsupported video URL for getting subtitles"); // add translation
+            throw new VOTLocalizedError("VOTSubtitlesNotSupportedUrl");
         }
         const { secretKey, uuid } = await this.getSession("video-translation");
         const body = yandexProtobuf.encodeSubtitlesRequest(url, requestLang);
@@ -3850,7 +3907,7 @@ class VOTClient {
     async translateStream({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
         const { url } = videoData;
         if (this.isCustomLink(url)) {
-            throw new VOTLocalizedError("Unsupported video URL for getting stream translation"); // add translation
+            throw new VOTLocalizedError("VOTStreamNotSupportedUrl");
         }
         const { secretKey, uuid } = await this.getSession("video-translation");
         const body = yandexProtobuf.encodeStreamRequest(url, requestLang, responseLang);
@@ -3933,6 +3990,13 @@ class VOTWorkerClient extends VOTClient {
     }
 }
 
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/types/helpers/bannedvideo.js
+var TypeName;
+(function (TypeName) {
+    TypeName["Channel"] = "Channel";
+    TypeName["Video"] = "Video";
+})(TypeName || (TypeName = {}));
+
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/types/index.js
 
 
@@ -3946,7 +4010,13 @@ class VOTWorkerClient extends VOTClient {
 
 
 
+
+
+
+
+
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/index.js
+
 
 
 
@@ -6093,8 +6163,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : res.message ??
-              localizationProvider.get("translationTakeFewMinutes"),
+          : (res.message ??
+              localizationProvider.get("translationTakeFewMinutes")),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
