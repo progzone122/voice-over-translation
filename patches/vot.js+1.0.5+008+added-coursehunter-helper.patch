@@ -21,18 +21,18 @@ index 0000000..0aacd4e
 +export {}
 \ No newline at end of file
 diff --git a/node_modules/vot.js/dist/utils/helper.d.ts b/node_modules/vot.js/dist/utils/helper.d.ts
-index 36d1d6c..1f88850 100644
+index 4469506..c81aaf6 100644
 --- a/node_modules/vot.js/dist/utils/helper.d.ts
 +++ b/node_modules/vot.js/dist/utils/helper.d.ts
-@@ -5,6 +5,7 @@ import * as Patreon from "../types/helpers/patreon.js";
- import * as BannedVideo from "../types/helpers/bannedvideo.js";
- import * as Kick from "../types/helpers/kick.js";
+@@ -7,6 +7,7 @@ import * as Kick from "../types/helpers/kick.js";
+ import * as NineAnimeTV from "../types/helpers/nineanimetv.js";
+ import * as EpicGames from "../types/helpers/epicgames.js";
  import * as Udemy from "../types/helpers/udemy.js";
 +import * as Coursehunter from "../types/helpers/coursehunter.js";
  import { VideoService, RequestLang, TranslationHelp } from "../types/yandex.js";
  export declare class MailRuHelper {
      API_ORIGIN: string;
-@@ -101,6 +102,14 @@ export declare class UdemyHelper {
+@@ -102,6 +103,14 @@ export declare class UdemyHelper {
          detectedLanguage?: RequestLang
      }>;
  }
@@ -47,20 +47,19 @@ index 36d1d6c..1f88850 100644
  export declare class AppleDeveloperHelper {
      getVideoData(videoId: string): Promise<{
          url: string;
-@@ -115,6 +124,7 @@ export default class VideoHelper {
+@@ -133,6 +142,7 @@ export default class VideoHelper {
      static [VideoService.bannedvideo]: BannedVideoHelper;
      static [VideoService.kick]: KickHelper;
      static [VideoService.udemy]: UdemyHelper;
 +    static [VideoService.coursehunter]: CoursehunterHelper;
      static [VideoService.appledeveloper]: AppleDeveloperHelper;
- }
- //# sourceMappingURL=helper.d.ts.map
-\ No newline at end of file
+     static [VideoService.epicgames]: EpicGamesHelper;
+     static [VideoService.nineanimetv]: NineAnimetvHelper;
 diff --git a/node_modules/vot.js/dist/utils/helper.js b/node_modules/vot.js/dist/utils/helper.js
-index 0778561..750d917 100644
+index 651dfa8..98f8b69 100644
 --- a/node_modules/vot.js/dist/utils/helper.js
 +++ b/node_modules/vot.js/dist/utils/helper.js
-@@ -497,6 +497,33 @@ export class UdemyHelper {
+@@ -486,6 +486,33 @@ export class UdemyHelper {
          };
      }
  }
@@ -94,18 +93,19 @@ index 0778561..750d917 100644
  export class AppleDeveloperHelper {
      async getVideoData(videoId) {
          const res = await fetchWithTimeout(`https://developer.apple.com/${videoId}`);
-@@ -519,5 +546,6 @@ export default class VideoHelper {
+@@ -609,6 +636,7 @@ export default class VideoHelper {
      static [VideoService.bannedvideo] = new BannedVideoHelper();
      static [VideoService.kick] = new KickHelper();
      static [VideoService.udemy] = new UdemyHelper();
 +    static [VideoService.coursehunter] = new CoursehunterHelper();
      static [VideoService.appledeveloper] = new AppleDeveloperHelper();
- }
+     static [VideoService.epicgames] = new EpicGamesHelper();
+     static [VideoService.nineanimetv] = new NineAnimetvHelper();
 diff --git a/node_modules/vot.js/dist/utils/videoData.js b/node_modules/vot.js/dist/utils/videoData.js
-index bdff13c..115fa98 100644
+index 740c4b9..202dbf4 100644
 --- a/node_modules/vot.js/dist/utils/videoData.js
 +++ b/node_modules/vot.js/dist/utils/videoData.js
-@@ -188,6 +188,10 @@ export async function getVideoID(service, video) {
+@@ -185,6 +185,10 @@ export async function getVideoID(service, video) {
          }
          case VideoService.yandexdisk:
              return /\/i\/([^/]+)/.exec(url.pathname)?.[1];

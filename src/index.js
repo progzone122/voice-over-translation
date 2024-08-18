@@ -1921,6 +1921,7 @@ class VideoHandler {
         "yandexdisk",
         "coursehunter",
         "archive",
+        "nineanimetv",
         "directlink",
       ].includes(this.site.host)
     ) {
@@ -2289,6 +2290,8 @@ class VideoHandler {
         YandexType.VideoService.patreon,
         YandexType.VideoService.kodik,
         YandexType.VideoService.appledeveloper,
+        YandexType.VideoService.epicgames,
+        YandexType.VideoService.nineanimetv,
       ].includes(this.site.host) &&
       !this.subtitlesList.some(
         (item) =>
@@ -2454,6 +2457,26 @@ async function main() {
   await localizationProvider.update();
 
   debug.log(`Selected menu language: ${localizationProvider.lang}`);
+
+  // I haven't figured out how to do it any other way
+  if (window.location.origin === "https://9animetv.to") {
+    window.addEventListener("message", (e) => {
+      if (e.origin !== "https://rapid-cloud.co") {
+        return;
+      }
+
+      if (e.data === "getVideoId") {
+        const videoId = /[^/]+$/.exec(window.location.href)?.[0];
+        const iframeWin =
+          document.querySelector("#iframe-embed")?.contentWindow;
+
+        iframeWin.postMessage(
+          `getVideoId:${videoId}`,
+          "https://rapid-cloud.co/",
+        );
+      }
+    });
+  }
 
   videoObserver.onVideoAdded.addListener((video) => {
     for (const site of getService()) {

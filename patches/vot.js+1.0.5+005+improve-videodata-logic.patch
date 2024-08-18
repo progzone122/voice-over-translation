@@ -1,27 +1,27 @@
 diff --git a/node_modules/vot.js/dist/client.js b/node_modules/vot.js/dist/client.js
-index ffa6115..903b604 100644
+index ce15ba0..bf7ffc7 100644
 --- a/node_modules/vot.js/dist/client.js
 +++ b/node_modules/vot.js/dist/client.js
-@@ -237,7 +237,7 @@ export default class VOTClient {
+@@ -235,7 +235,7 @@ export default class VOTClient {
      async getSubtitles({ videoData, requestLang = this.requestLang, headers = {}, }) {
          const { url } = videoData;
-         if (this.isCustomFormat(url)) {
+         if (this.isCustomLink(url)) {
 -            throw new VOTJSError("Unsupported video URL for getting subtitles");
 +            throw new VOTLocalizedError("Unsupported video URL for getting subtitles"); // add translation
          }
          const { secretKey, uuid } = await this.getSession("video-translation");
          const body = yandexProtobuf.encodeSubtitlesRequest(url, requestLang);
-@@ -271,7 +271,7 @@ export default class VOTClient {
+@@ -269,7 +269,7 @@ export default class VOTClient {
      async translateStream({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
          const { url } = videoData;
-         if (this.isCustomFormat(url)) {
+         if (this.isCustomLink(url)) {
 -            throw new VOTJSError("Unsupported video URL for getting stream translation");
 +            throw new VOTLocalizedError("Unsupported video URL for getting stream translation"); // add translation
          }
          const { secretKey, uuid } = await this.getSession("video-translation");
          const body = yandexProtobuf.encodeStreamRequest(url, requestLang, responseLang);
 diff --git a/node_modules/vot.js/dist/utils/videoData.js b/node_modules/vot.js/dist/utils/videoData.js
-index 9ab1c62..2532b39 100644
+index 5f7adbe..de2c385 100644
 --- a/node_modules/vot.js/dist/utils/videoData.js
 +++ b/node_modules/vot.js/dist/utils/videoData.js
 @@ -9,18 +9,11 @@ class VideoDataError extends Error {
@@ -66,7 +66,7 @@ index 9ab1c62..2532b39 100644
      switch (service.host) {
          case VideoService.custom:
              return url.href;
-@@ -67,6 +60,12 @@ export async function getVideoID(service, videoURL) {
+@@ -68,6 +61,12 @@ export async function getVideoID(service, videoURL) {
              else if (paramOID && paramID) {
                  return `video-${Math.abs(parseInt(paramOID))}_${paramID}`;
              }
@@ -79,7 +79,7 @@ index 9ab1c62..2532b39 100644
              return null;
          }
          case VideoService.nine_gag:
-@@ -223,12 +222,8 @@ export async function getVideoID(service, videoURL) {
+@@ -233,12 +232,8 @@ export async function getVideoID(service, videoURL) {
              return undefined;
      }
  }

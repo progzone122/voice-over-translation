@@ -1,5 +1,5 @@
 diff --git a/node_modules/vot.js/dist/config/sites.js b/node_modules/vot.js/dist/config/sites.js
-index bfa6edc..d7598b2 100644
+index 69c1a46..00fcc39 100644
 --- a/node_modules/vot.js/dist/config/sites.js
 +++ b/node_modules/vot.js/dist/config/sites.js
 @@ -238,6 +238,7 @@ export default [
@@ -78,18 +78,18 @@ index 0000000..0aacd4e
 +export {}
 \ No newline at end of file
 diff --git a/node_modules/vot.js/dist/utils/helper.d.ts b/node_modules/vot.js/dist/utils/helper.d.ts
-index 1f88850..597091f 100644
+index c81aaf6..1a66b09 100644
 --- a/node_modules/vot.js/dist/utils/helper.d.ts
 +++ b/node_modules/vot.js/dist/utils/helper.d.ts
-@@ -6,6 +6,7 @@ import * as BannedVideo from "../types/helpers/bannedvideo.js";
- import * as Kick from "../types/helpers/kick.js";
+@@ -8,6 +8,7 @@ import * as NineAnimeTV from "../types/helpers/nineanimetv.js";
+ import * as EpicGames from "../types/helpers/epicgames.js";
  import * as Udemy from "../types/helpers/udemy.js";
  import * as Coursehunter from "../types/helpers/coursehunter.js";
 +import * as Coursera from "../types/helpers/coursera.js";
  import { VideoService, RequestLang, TranslationHelp } from "../types/yandex.js";
  export declare class MailRuHelper {
      API_ORIGIN: string;
-@@ -99,7 +100,7 @@ export declare class UdemyHelper {
+@@ -100,7 +101,7 @@ export declare class UdemyHelper {
          title: string;
          description: string;
          translationHelp: TranslationHelp[] | null;
@@ -98,7 +98,7 @@ index 1f88850..597091f 100644
      }>;
  }
  export declare class CoursehunterHelper {
-@@ -110,6 +111,19 @@ export declare class CoursehunterHelper {
+@@ -111,6 +112,19 @@ export declare class CoursehunterHelper {
          title: string;
      }>;
  }
@@ -118,17 +118,16 @@ index 1f88850..597091f 100644
  export declare class AppleDeveloperHelper {
      getVideoData(videoId: string): Promise<{
          url: string;
-@@ -125,6 +139,7 @@ export default class VideoHelper {
+@@ -143,6 +157,7 @@ export default class VideoHelper {
      static [VideoService.kick]: KickHelper;
      static [VideoService.udemy]: UdemyHelper;
      static [VideoService.coursehunter]: CoursehunterHelper;
 +    static [VideoService.coursera]: CourseraHelper;
      static [VideoService.appledeveloper]: AppleDeveloperHelper;
- }
- //# sourceMappingURL=helper.d.ts.map
-\ No newline at end of file
+     static [VideoService.epicgames]: EpicGamesHelper;
+     static [VideoService.nineanimetv]: NineAnimetvHelper;
 diff --git a/node_modules/vot.js/dist/utils/helper.js b/node_modules/vot.js/dist/utils/helper.js
-index 750d917..aeba2ba 100644
+index 98f8b69..cdb1aa7 100644
 --- a/node_modules/vot.js/dist/utils/helper.js
 +++ b/node_modules/vot.js/dist/utils/helper.js
 @@ -1,7 +1,7 @@
@@ -140,7 +139,7 @@ index 750d917..aeba2ba 100644
  import config from "../config/config.js";
  import { VideoService } from "../types/yandex.js";
  import { localizationProvider } from "../../../../src/localization/localizationProvider.js";
-@@ -462,13 +462,13 @@ export class UdemyHelper {
+@@ -451,13 +451,13 @@ export class UdemyHelper {
          }
  
          const courseLangData = await this.getCourseLang(courseId);
@@ -159,7 +158,7 @@ index 750d917..aeba2ba 100644
          if (!subtitleUrl) {
              console.log("Failed to find subtitle file in captions", captions)
          }
-@@ -486,7 +486,7 @@ export class UdemyHelper {
+@@ -475,7 +475,7 @@ export class UdemyHelper {
                          targetUrl: videoUrl,
                      },
                  ],
@@ -168,7 +167,7 @@ index 750d917..aeba2ba 100644
              } : {
                  url: videoUrl,
                  translationHelp: null,
-@@ -537,6 +537,90 @@ export class AppleDeveloperHelper {
+@@ -526,6 +526,90 @@ export class AppleDeveloperHelper {
          };
      }
  }
@@ -256,13 +255,14 @@ index 750d917..aeba2ba 100644
 +        };
 +    }
 +}
- export default class VideoHelper {
-     static [VideoService.mailru] = new MailRuHelper();
-     static [VideoService.weverse] = new WeverseHelper();
-@@ -547,5 +631,6 @@ export default class VideoHelper {
+ export class EpicGamesHelper {
+     API_ORIGIN = "https://dev.epicgames.com/community/api/learning";
+     async getPostInfo(videoId) {
+@@ -637,6 +721,7 @@ export default class VideoHelper {
      static [VideoService.kick] = new KickHelper();
      static [VideoService.udemy] = new UdemyHelper();
      static [VideoService.coursehunter] = new CoursehunterHelper();
 +    static [VideoService.coursera] = new CourseraHelper();
      static [VideoService.appledeveloper] = new AppleDeveloperHelper();
- }
+     static [VideoService.epicgames] = new EpicGamesHelper();
+     static [VideoService.nineanimetv] = new NineAnimetvHelper();

@@ -65,20 +65,20 @@ index 0000000..0aacd4e
 +export {}
 \ No newline at end of file
 diff --git a/node_modules/vot.js/dist/utils/helper.d.ts b/node_modules/vot.js/dist/utils/helper.d.ts
-index 80a6b43..36d1d6c 100644
+index 0d0db05..4469506 100644
 --- a/node_modules/vot.js/dist/utils/helper.d.ts
 +++ b/node_modules/vot.js/dist/utils/helper.d.ts
-@@ -4,7 +4,8 @@ import * as Kodik from "../types/helpers/kodik.js";
- import * as Patreon from "../types/helpers/patreon.js";
- import * as BannedVideo from "../types/helpers/bannedvideo.js";
+@@ -6,7 +6,8 @@ import * as BannedVideo from "../types/helpers/bannedvideo.js";
  import * as Kick from "../types/helpers/kick.js";
+ import * as NineAnimeTV from "../types/helpers/nineanimetv.js";
+ import * as EpicGames from "../types/helpers/epicgames.js";
 -import { VideoService } from "../types/yandex.js";
 +import * as Udemy from "../types/helpers/udemy.js";
 +import { VideoService, RequestLang, TranslationHelp } from "../types/yandex.js";
  export declare class MailRuHelper {
      API_ORIGIN: string;
-     getExtraVideoId(pathname: string): Promise<string | undefined>;
-@@ -82,6 +83,24 @@ export declare class KickHelper {
+     getVideoData(videoId: string): Promise<MailRu.VideoInfo | undefined>;
+@@ -83,6 +84,24 @@ export declare class KickHelper {
          title: string;
      }>;
  }
@@ -103,17 +103,16 @@ index 80a6b43..36d1d6c 100644
  export declare class AppleDeveloperHelper {
      getVideoData(videoId: string): Promise<{
          url: string;
-@@ -95,6 +114,7 @@ export default class VideoHelper {
+@@ -113,6 +132,7 @@ export default class VideoHelper {
      static [VideoService.reddit]: RedditHelper;
      static [VideoService.bannedvideo]: BannedVideoHelper;
      static [VideoService.kick]: KickHelper;
 +    static [VideoService.udemy]: UdemyHelper;
      static [VideoService.appledeveloper]: AppleDeveloperHelper;
- }
- //# sourceMappingURL=helper.d.ts.map
-\ No newline at end of file
+     static [VideoService.epicgames]: EpicGamesHelper;
+     static [VideoService.nineanimetv]: NineAnimetvHelper;
 diff --git a/node_modules/vot.js/dist/utils/helper.js b/node_modules/vot.js/dist/utils/helper.js
-index e55f95d..0778561 100644
+index 59d03b4..651dfa8 100644
 --- a/node_modules/vot.js/dist/utils/helper.js
 +++ b/node_modules/vot.js/dist/utils/helper.js
 @@ -1,8 +1,12 @@
@@ -129,7 +128,7 @@ index e55f95d..0778561 100644
  class VideoHelperError extends Error {
      constructor(message) {
          super(message);
-@@ -379,6 +383,120 @@ export class KickHelper {
+@@ -368,6 +372,120 @@ export class KickHelper {
          };
      }
  }
@@ -250,10 +249,11 @@ index e55f95d..0778561 100644
  export class AppleDeveloperHelper {
      async getVideoData(videoId) {
          const res = await fetchWithTimeout(`https://developer.apple.com/${videoId}`);
-@@ -400,5 +518,6 @@ export default class VideoHelper {
+@@ -490,6 +608,7 @@ export default class VideoHelper {
      static [VideoService.reddit] = new RedditHelper();
      static [VideoService.bannedvideo] = new BannedVideoHelper();
      static [VideoService.kick] = new KickHelper();
 +    static [VideoService.udemy] = new UdemyHelper();
      static [VideoService.appledeveloper] = new AppleDeveloperHelper();
- }
+     static [VideoService.epicgames] = new EpicGamesHelper();
+     static [VideoService.nineanimetv] = new NineAnimetvHelper();

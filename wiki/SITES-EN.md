@@ -670,6 +670,38 @@ Limitations:
 
 - There are no subtitles
 
+## Epicgames
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `dev.epicgames.com`
+
+Available paths:
+
+- /community/learning/courses/XXX/XXX/XXX/XXX
+
+Limitations:
+
+- There are no subtitles
+
+## Nineanimetv
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `9animetv.to (vidstreaming / vidcloud)`
+
+Available paths:
+
+- /watch/anime-name-ANIME_ID?ep=EPISODE_ID
+
+Limitations:
+
+- There are no subtitles
+
 ## Direct link to MP4
 
 Status: [✅] Working

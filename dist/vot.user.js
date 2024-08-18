@@ -65,6 +65,9 @@
 // @match          *://*.kodik.cc/*
 // @match          *://*.kick.com/*
 // @match          *://developer.apple.com/*
+// @match          *://dev.epicgames.com/*
+// @match          *://*.rapid-cloud.co/*
+// @match          *://9animetv.to/*
 // @match          *://*/*.mp4*
 // @match          *://*.yewtu.be/*
 // @match          *://yt.artemislena.eu/*
@@ -143,6 +146,7 @@
 // @connect        yandex.net
 // @connect        timeweb.cloud
 // @connect        raw.githubusercontent.com
+// @connect        9animetv.to
 // @connect        toil.cc
 // @connect        deno.dev
 // @connect        onrender.com
@@ -1481,14 +1485,14 @@ const yandexProtobuf = {
 /* harmony default export */ const config = ({
     host: "api.browser.yandex.ru",
     hostVOT: "vot-api.toil.cc/v1",
-    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 YaBrowser/24.6.0.0 Safari/537.36",
+    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 YaBrowser/24.7.0.0 Safari/537.36",
     componentVersion: "24.7.0.2377",
     hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
     defaultDuration: 343,
 });
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/package.json
-const package_namespaceObject = {"rE":"1.0.4"};
+const package_namespaceObject = {"rE":"1.0.5"};
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/secure.js
 
 const utf8Encoder = new TextEncoder();
@@ -1571,6 +1575,8 @@ var VideoService;
     VideoService["apple_developer"] = "apple_developer";
     VideoService["appledeveloper"] = "apple_developer";
     VideoService["poketube"] = "poketube";
+    VideoService["epicgames"] = "epicgames";
+    VideoService["nineanimetv"] = "nineanimetv";
 })(VideoService || (VideoService = {}));
 var VideoTranslationStatus;
 (function (VideoTranslationStatus) {
@@ -2019,6 +2025,20 @@ const sitesPoketube = [
         needExtraData: true,
     },
     {
+        host: VideoService.epicgames,
+        url: "https://dev.epicgames.com/community/learning/",
+        match: /^dev.epicgames.com$/,
+        selector: ".vjs-v7",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.nineanimetv,
+        url: "https://9animetv.to/watch/",
+        match: /^rapid-cloud.co$/,
+        selector: ".jw-media",
+        needExtraData: true,
+    },
+    {
         host: VideoService.custom,
         url: "stub",
         match: (url) => /([^.]+).mp4/.test(url.pathname),
@@ -2051,9 +2071,7 @@ const en_namespaceObject = /*#__PURE__*/JSON.parse('{"__version__":5,"recommende
 ;// CONCATENATED MODULE: ./src/utils/debug.js
 const debug = {};
 debug.log = (...text) => {
-  if (true) {
-    return;
-  }
+  if (false) {}
   return console.log(
     "%c[VOT DEBUG]",
     "background: #F2452D; color: #fff; padding: 5px;",
@@ -2212,7 +2230,7 @@ function isPiPAvailable() {
 function initHls() {
   return typeof Hls != "undefined" && Hls?.isSupported()
     ? new Hls({
-        debug: false, // turn it on manually if necessary
+        debug: true, // turn it on manually if necessary
         lowLatencyMode: true,
         backBufferLength: 90,
       })
@@ -2320,7 +2338,7 @@ async function GM_fetch(url, opts = {}) {
 
 const localesVersion = 5;
 const localesUrl = `https://raw.githubusercontent.com/ilyhalight/voice-over-translation/${
-   false ? 0 : "master"
+   true ? "dev" : 0
 }/src/localization/locales`;
 
 const availableLocales = [
@@ -2508,16 +2526,6 @@ class VideoHelperError extends Error {
 }
 class MailRuHelper {
     API_ORIGIN = "https://my.mail.ru/";
-    async getExtraVideoId(pathname) {
-        try {
-            const content = document.querySelector(".sp-video__page-config")?.innerText;
-            return /"itemId":\s?"([^"]+)"/.exec(content)?.[1];
-        }
-        catch (err) {
-            console.error("Failed to get mail.ru extra video id", err.message);
-            return undefined;
-        }
-    }
     async getVideoData(videoId) {
         try {
             const res = await fetchWithTimeout(`${this.API_ORIGIN}+/video/meta/${videoId}?xemail=&ajax_call=1&func_name=&mna=&mnb=&ext=1&_=${new Date().getTime()}`);
@@ -3111,6 +3119,107 @@ class CourseraHelper {
         };
     }
 }
+class EpicGamesHelper {
+    API_ORIGIN = "https://dev.epicgames.com/community/api/learning";
+    async getPostInfo(videoId) {
+        try {
+            const res = await fetchWithTimeout(`${this.API_ORIGIN}/post.json?hash_id=${videoId}`);
+            return (await res.json());
+        }
+        catch (err) {
+            console.error(`Failed to get post info by videoId: ${videoId}.`, err.message);
+            return false;
+        }
+    }
+    async getVideoData(videoId) {
+        const postInfo = await this.getPostInfo(videoId);
+        if (!postInfo) {
+            return undefined;
+        }
+        const playlistUrl = postInfo.blocks
+            .find((block) => block.type === "video")
+            ?.video_url?.replace("qsep://", "https://");
+        if (!playlistUrl) {
+            return undefined;
+        }
+        return {
+            url: playlistUrl,
+        };
+    }
+}
+class NineAnimetvHelper {
+    API_ORIGIN = "https://9animetv.to/ajax/episode";
+    RAPID_CLOUD_ORIGIN = "https://rapid-cloud.co/ajax/embed-6-v2";
+    async getSourceId(episodeId) {
+        try {
+            const res = await GM_fetch(`${this.API_ORIGIN}/servers?episodeId=${episodeId}`);
+            const content = (await res.json());
+            if (!content.html) {
+                return false;
+            }
+            return /data-id="(\d+)"/.exec(content.html)?.[1];
+        }
+        catch (err) {
+            console.error(`Failed to get 9animetv servers info by episodeId: ${episodeId}.`, err.message);
+            return false;
+        }
+    }
+    async getPlayerLink(sourceId) {
+        try {
+            const res = await GM_fetch(`${this.API_ORIGIN}/sources?id=${sourceId}`);
+            const content = (await res.json());
+            if (!content.link.includes("rapid-cloud.co")) {
+                return false;
+            }
+            return content.link;
+        }
+        catch (err) {
+            console.error(`Failed to get player link by sourceId: ${sourceId}.`, err.message);
+            return false;
+        }
+    }
+    async getRapidCloudData(rapidId) {
+        try {
+            const res = await GM_fetch(`${this.RAPID_CLOUD_ORIGIN}/getSources?id=${rapidId}`);
+            const content = (await res.json());
+            if (content.encrypted) {
+                console.warn("Encrypted RapidCloud data found. Let us know about it", content);
+                return false;
+            }
+            return content;
+        }
+        catch (err) {
+            console.error(`Failed to get rapid cloud data by rapidId: ${rapidId}.`, err.message);
+            return false;
+        }
+    }
+    async getVideoData(videoId) {
+        const episodeId = videoId.split("?ep=")[1];
+        const sourceId = await this.getSourceId(episodeId);
+        if (!sourceId) {
+            return undefined;
+        }
+        const playerLink = await this.getPlayerLink(sourceId);
+        if (!playerLink) {
+            return undefined;
+        }
+        const rapidCloudId = /\/([^/?]+)\?/.exec(playerLink)?.[1];
+        if (!rapidCloudId) {
+            return undefined;
+        }
+        const rapidData = await this.getRapidCloudData(rapidCloudId);
+        if (!rapidData) {
+            return undefined;
+        }
+        const videoUrl = rapidData.sources.find((file) => file.type === "hls")?.file;
+        if (!videoUrl) {
+            return undefined;
+        }
+        return {
+            url: videoUrl,
+        };
+    }
+}
 class VideoHelper {
     static [VideoService.mailru] = new MailRuHelper();
     static [VideoService.weverse] = new WeverseHelper();
@@ -3123,6 +3232,8 @@ class VideoHelper {
     static [VideoService.coursehunter] = new CoursehunterHelper();
     static [VideoService.coursera] = new CourseraHelper();
     static [VideoService.appledeveloper] = new AppleDeveloperHelper();
+    static [VideoService.epicgames] = new EpicGamesHelper();
+    static [VideoService.nineanimetv] = new NineAnimetvHelper();
 }
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/utils/videoData.js
@@ -3280,13 +3391,10 @@ async function getVideoID(service, video) {
         }
         case VideoService.mailru: {
             const pathname = url.pathname;
-            if (/\/(v|mail)\//.exec(pathname)) {
+            if (/\/(v|mail|bk|inbox)\//.exec(pathname)) {
                 return pathname.slice(1);
             }
-            const videoId = /video\/embed\/([^/]+)/.exec(pathname)?.[1] ??
-                /\/(bk|inbox)\/([^/]+)\/video\//.exec(pathname)
-                ? await VideoHelper.mailru.getExtraVideoId(pathname)
-                : undefined;
+            const videoId = /video\/embed\/([^/]+)/.exec(pathname)?.[1];
             if (!videoId) {
                 return null;
             }
@@ -3381,6 +3489,24 @@ async function getVideoID(service, video) {
         }
         case VideoService.appledeveloper: {
             return /videos\/play\/([^/]+)\/([\d]+)/.exec(url.pathname)?.[0];
+        }
+        case VideoService.epicgames: {
+            return /\/(\w{4})\/[^/]+$/.exec(url.pathname)?.[1];
+        }
+        case VideoService.nineanimetv: {
+            return new Promise(resolve => {
+                const origin = "https://9animetv.to"
+                window.addEventListener("message", (e) => {
+                    if (e.origin !== origin) {
+                        return;
+                    }
+
+                    if (e.data?.startsWith("getVideoId:")) {
+                        resolve(e.data.replace("getVideoId:"))
+                    }
+                })
+                window.top.postMessage("getVideoId", origin);
+            })
         }
         default:
             return undefined;
@@ -3490,8 +3616,9 @@ class VOTClient {
         streamTranslation: "/stream-translation/translate-stream",
         createSession: "/session/create",
     };
-    isCustomFormat(url) {
-        return /\.(m3u8|m4(a|v)|mpd)/.exec(url);
+    isCustomLink(url) {
+        return !!(/\.(m3u8|m4(a|v)|mpd)/.exec(url) ??
+            /^https:\/\/cdn\.qstv\.on\.epicgames\.com/.exec(url));
     }
     headers = {
         "User-Agent": this.userAgent,
@@ -3667,7 +3794,7 @@ class VOTClient {
     }
     async translateVideo({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, }) {
         const { url, videoId, host } = videoData;
-        return this.isCustomFormat(url)
+        return this.isCustomLink(url)
             ? await this.translateVideoVOTImpl({
                 url,
                 videoId,
@@ -3686,7 +3813,7 @@ class VOTClient {
     }
     async getSubtitles({ videoData, requestLang = this.requestLang, headers = {}, }) {
         const { url } = videoData;
-        if (this.isCustomFormat(url)) {
+        if (this.isCustomLink(url)) {
             throw new VOTLocalizedError("Unsupported video URL for getting subtitles"); // add translation
         }
         const { secretKey, uuid } = await this.getSession("video-translation");
@@ -3720,7 +3847,7 @@ class VOTClient {
     }
     async translateStream({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
         const { url } = videoData;
-        if (this.isCustomFormat(url)) {
+        if (this.isCustomLink(url)) {
             throw new VOTLocalizedError("Unsupported video URL for getting stream translation"); // add translation
         }
         const { secretKey, uuid } = await this.getSession("video-translation");
@@ -5964,8 +6091,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : res.message ??
-              localizationProvider.get("translationTakeFewMinutes"),
+          : (res.message ??
+              localizationProvider.get("translationTakeFewMinutes")),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
@@ -7710,6 +7837,7 @@ class VideoHandler {
         "yandexdisk",
         "coursehunter",
         "archive",
+        "nineanimetv",
         "directlink",
       ].includes(this.site.host)
     ) {
@@ -8078,6 +8206,8 @@ class VideoHandler {
         VideoService.patreon,
         VideoService.kodik,
         VideoService.appledeveloper,
+        VideoService.epicgames,
+        VideoService.nineanimetv,
       ].includes(this.site.host) &&
       !this.subtitlesList.some(
         (item) =>
@@ -8243,6 +8373,26 @@ async function src_main() {
   await localizationProvider.update();
 
   utils_debug.log(`Selected menu language: ${localizationProvider.lang}`);
+
+  // I haven't figured out how to do it any other way
+  if (window.location.origin === "https://9animetv.to") {
+    window.addEventListener("message", (e) => {
+      if (e.origin !== "https://rapid-cloud.co") {
+        return;
+      }
+
+      if (e.data === "getVideoId") {
+        const videoId = /[^/]+$/.exec(window.location.href)?.[0];
+        const iframeWin =
+          document.querySelector("#iframe-embed")?.contentWindow;
+
+        iframeWin.postMessage(
+          `getVideoId:${videoId}`,
+          "https://rapid-cloud.co/",
+        );
+      }
+    });
+  }
 
   videoObserver.onVideoAdded.addListener((video) => {
     for (const site of getService()) {

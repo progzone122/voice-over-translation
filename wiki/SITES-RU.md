@@ -670,6 +670,38 @@
 
 - Нет субтитров
 
+## Epicgames
+
+Статус: [✅] Работает
+
+Доступные (под)домены:
+
+- `dev.epicgames.com`
+
+Доступные пути:
+
+- /community/learning/courses/XXX/XXX/XXX/XXX
+
+Ограничения:
+
+- Нет субтитров
+
+## Nineanimetv
+
+Статус: [✅] Работает
+
+Доступные (под)домены:
+
+- `9animetv.to (vidstreaming / vidcloud)`
+
+Доступные пути:
+
+- /watch/anime-name-ANIME_ID?ep=EPISODE_ID
+
+Ограничения:
+
+- Нет субтитров
+
 ## Direct link to MP4
 
 Статус: [✅] Работает

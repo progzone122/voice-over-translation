@@ -243,6 +243,14 @@ const siteData = {
     paths: ["/videos/play/XXX/XXX"],
     limits: [i18n.noSubtitles],
   },
+  epicgames: {
+    paths: ["/community/learning/courses/XXX/XXX/XXX/XXX"],
+    limits: [i18n.noSubtitles],
+  },
+  nineanimetv: {
+    paths: ["/watch/anime-name-ANIME_ID?ep=EPISODE_ID"],
+    limits: [i18n.noSubtitles],
+  },
   directlink: {
     paths: ["/*.mp4"],
     limits: [i18n.noLocalLinks],
@@ -415,6 +423,7 @@ async function main() {
         "geo.dailymotion.com",
         `geo.dailymotion.com (${i18n.dailymotionNotice[lang]})`,
       )
+      .replace("rapid-cloud.co", `9animetv.to (vidstreaming / vidcloud)`)
       .replaceAll("\\/", "/");
 
     await Bun.write(

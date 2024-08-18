@@ -1,5 +1,5 @@
 diff --git a/node_modules/vot.js/dist/config/sites.js b/node_modules/vot.js/dist/config/sites.js
-index 8c7b35d..52f942b 100644
+index c4a4a5c..ab11302 100644
 --- a/node_modules/vot.js/dist/config/sites.js
 +++ b/node_modules/vot.js/dist/config/sites.js
 @@ -219,7 +219,7 @@ export default [

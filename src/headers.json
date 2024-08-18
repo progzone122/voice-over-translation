@@ -52,6 +52,9 @@
     "*://*.kodik.cc/*",
     "*://*.kick.com/*",
     "*://developer.apple.com/*",
+    "*://dev.epicgames.com/*",
+    "*://*.rapid-cloud.co/*",
+    "*://9animetv.to/*",
     "*://*/*.mp4*"
   ],
   "exclude": ["file://*/*.mp4*"],
@@ -65,6 +68,7 @@
     "yandex.net",
     "timeweb.cloud",
     "raw.githubusercontent.com",
+    "9animetv.to",
     "toil.cc",
     "deno.dev",
     "onrender.com",
