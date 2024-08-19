@@ -7731,10 +7731,7 @@ class VideoHandler {
       this.subtitlesList = await subtitles_getSubtitles(this.votClient, this.videoData);
     } catch (err) {
       // ignore error on sites with m3u8
-      if (
-        err?.unlocalizedMessage ===
-        "Unsupported video URL for getting subtitles"
-      ) {
+      if (err?.unlocalizedMessage === "VOTSubtitlesNotSupportedUrl") {
         this.subtitlesList = [];
         await this.updateSubtitlesLangSelect();
         return;
