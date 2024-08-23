@@ -99,6 +99,7 @@
 
 - [vot-worker.toil.cc](https://vot-worker.toil.cc/health) (Балансировщик между прокси серверами)
 - [vot-worker-s1.toil.cc](https://github.com/FOSWLY/vot-worker)
+- [vot-worker-s2.toil.cc](https://github.com/FOSWLY/vot-worker)
 - [vot-api.toil.cc](https://github.com/FOSWLY/vot-backend)
 - [vot.deno.dev](https://github.com/FOSWLY/vot-worker)
 - [vot-new.toil-dump.workers.dev](https://github.com/FOSWLY/vot-worker) (⚠️ не работает в РФ)

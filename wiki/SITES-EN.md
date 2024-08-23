@@ -355,39 +355,6 @@ Available paths:
 - /video/VIDEO_ID
 - /embed/VIDEO_ID
 
-## Coursera
-
-Status: [✅] Working
-
-Available (sub)domains:
-
-- `coursera.org`
-
-Available paths:
-
-- /learn/NAME/lecture/XXXX
-
-Limitations:
-
-- You must be logged in to the site
-- If the video doesn't have subtitles in your language, then the translation will not be performed
-
-## Udemy
-
-Status: [⚠️] Works with limitations
-
-Available (sub)domains:
-
-- `udemy.com`
-
-Available paths:
-
-- /course/NAME/learn/lecture/LECTURE_ID
-
-Limitations:
-
-- You must be logged in to the site
-
 ## Eporner
 
 Status: [✅] Working
@@ -478,18 +445,6 @@ Limitations:
 
 - To work, you need to add a script to the [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ)
 - It only works with public links
-
-## Coursehunter
-
-Status: [✅] Working
-
-Available (sub)domains:
-
-- `coursehunter.net`
-
-Available paths:
-
-- /course/COURSE_ID
 
 ## OK.ru
 
@@ -625,6 +580,9 @@ Status: [✅] Working
 
 Available (sub)domains:
 
+- `reddit.com`
+- `www.reddit.com`
+- `new.reddit.com`
 - `old.reddit.com`
 
 Available paths:
@@ -701,6 +659,59 @@ Available paths:
 Limitations:
 
 - There are no subtitles
+
+## Odysee
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `odysee.com`
+
+## Coursehunter
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `coursehunter.net`
+
+Available paths:
+
+- /course/COURSE_ID
+
+## Udemy
+
+Status: [⚠️] Works with limitations
+
+Available (sub)domains:
+
+- `udemy.com`
+
+Available paths:
+
+- /course/NAME/learn/lecture/LECTURE_ID
+
+Limitations:
+
+- You must be logged in to the site
+
+## Coursera
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `coursera.org`
+
+Available paths:
+
+- /learn/NAME/lecture/XXXX
+
+Limitations:
+
+- You must be logged in to the site
+- If the video doesn't have subtitles in your language, then the translation will not be performed
 
 ## Direct link to MP4
 
