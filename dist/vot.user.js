@@ -6163,8 +6163,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : res.message ??
-              localizationProvider.get("translationTakeFewMinutes"),
+          : (res.message ??
+              localizationProvider.get("translationTakeFewMinutes")),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
@@ -6336,7 +6336,7 @@ class VideoHandler {
     console.log("[db] data from db: ", this.data);
 
     if (
-      this.data.translateProxyEnabled === 0 &&
+      !this.data.translateProxyEnabled &&
       GM_info?.scriptHandler &&
       cfOnlyExtensions.includes(GM_info.scriptHandler)
     ) {
@@ -6348,31 +6348,29 @@ class VideoHandler {
     utils_debug.log("Extension compatibility passed...");
 
     this.votOpts = {
-      headers:
-        this.data.translateProxyEnabled === 1
-          ? {}
-          : {
-              "sec-ch-ua": null,
-              "sec-ch-ua-mobile": null,
-              "sec-ch-ua-platform": null,
-              // "sec-ch-ua-model": null,
-              // "sec-ch-ua-platform-version": null,
-              // "sec-ch-ua-wow64": null,
-              // "sec-ch-ua-arch": null,
-              // "sec-ch-ua-bitness": null,
-              // "sec-ch-ua-full-version": null,
-              // "sec-ch-ua-full-version-list": null,
-            },
+      headers: this.data.translateProxyEnabled
+        ? {}
+        : {
+            "sec-ch-ua": null,
+            "sec-ch-ua-mobile": null,
+            "sec-ch-ua-platform": null,
+            // "sec-ch-ua-model": null,
+            // "sec-ch-ua-platform-version": null,
+            // "sec-ch-ua-wow64": null,
+            // "sec-ch-ua-arch": null,
+            // "sec-ch-ua-bitness": null,
+            // "sec-ch-ua-full-version": null,
+            // "sec-ch-ua-full-version-list": null,
+          },
       fetchFn: GM_fetch,
       hostVOT: votBackendUrl,
-      host:
-        this.data.translateProxyEnabled === 1
-          ? this.data.proxyWorkerHost
-          : workerHost,
+      host: this.data.translateProxyEnabled
+        ? this.data.proxyWorkerHost
+        : workerHost,
     };
 
     this.votClient = new (
-      this.data.translateProxyEnabled === 1 ? VOTWorkerClient : VOTClient
+      this.data.translateProxyEnabled ? VOTWorkerClient : VOTClient
     )(this.votOpts);
 
     this.subtitlesWidget = new SubtitlesWidget(
@@ -6808,8 +6806,6 @@ class VideoHandler {
         this.data?.proxyWorkerHost,
         proxyWorkerHost,
       );
-      // this.votProxyWorkerHostTextfield.container.hidden =
-      //   this.data.translateProxyEnabled !== 1;
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votProxyWorkerHostTextfield.container,
       );
@@ -6818,8 +6814,6 @@ class VideoHandler {
         localizationProvider.get("VOTAudioProxy"),
         this.data?.audioProxy ?? false,
       );
-      // this.votAudioProxyCheckbox.container.hidden =
-      //   this.data.translateProxyEnabled !== 1;
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votAudioProxyCheckbox.container,
       );
@@ -7363,7 +7357,9 @@ class VideoHandler {
             "proxyWorkerHost value changed. New value: ",
             this.data.proxyWorkerHost,
           );
-          this.votClient.host = this.data.proxyWorkerHost;
+          if (this.data.translateProxyEnabled) {
+            this.votClient.host = this.data.proxyWorkerHost;
+          }
         })();
       });
 
