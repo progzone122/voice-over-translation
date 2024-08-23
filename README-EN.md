@@ -99,7 +99,7 @@ These domains can be set in the extension settings (only those domains that can 
 - [vot-worker.toil.cc](https://vot-worker.toil.cc/health) (Load balancer between proxy servers)
 - [vot-worker-s1.toil.cc](https://github.com/FOSWLY/vot-worker)
 - [vot-worker-s2.toil.cc](https://github.com/FOSWLY/vot-worker)
-- [vot-api.toil.cc](https://github.com/FOSWLY/vot-backend)
+- [vot.toil.cc](https://github.com/FOSWLY/vot-backend)
 - [vot.deno.dev](https://github.com/FOSWLY/vot-worker)
 - [vot-new.toil-dump.workers.dev](https://github.com/FOSWLY/vot-worker) (⚠️ doesn't work in Russia)
 
