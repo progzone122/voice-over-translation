@@ -3368,7 +3368,104 @@ class UdemyHelper extends BaseHelper {
       return url.pathname.slice(1);
   }
 }
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/coursera.js
+
+
+
+
+
+
+class CourseraHelper extends BaseHelper {
+    API_ORIGIN = "https://www.coursera.org/api";
+
+    async getCourseData(courseId) {
+        const response = await this.fetch(
+            `${this.API_ORIGIN}/onDemandCourses.v1/${courseId}`,
+        );
+        const resJSON = await response.json();
+        return resJSON?.elements?.[0];
+    }
+
+    getPlayer() {
+        return document.querySelector(".vjs-v6");
+    }
+
+    getPlayerData() {
+        return this.getPlayer()?.player;
+    }
+
+    findVideoUrl(sources) {
+        return sources?.find((src) => src.type === "video/mp4")?.src;
+    }
+
+    findSubtitleUrl(captions, detectedLanguage) {
+        let subtitle = captions?.find(
+            (caption) => langTo6391(caption.srclang) === detectedLanguage,
+        );
+
+        if (!subtitle) {
+            subtitle = captions?.find(
+                (caption) => langTo6391(caption.srclang) === "en",
+            ) || captions?.[0];
+        }
+
+        return subtitle?.src;
+    }
+
+    async getVideoData(videoId) {
+        const data = this.getPlayerData();
+
+        const { duration } = data?.cache_ || {};
+        const { courseId, tracks, sources } = data?.options_ || {};
+
+        const videoUrl = this.findVideoUrl(sources);
+        if (!videoUrl) {
+            console.log("Failed to find .mp4 video file in sources", sources);
+            return undefined;
+        }
+
+        const { primaryLanguageCodes } = await this.getCourseData(courseId);
+        let courseLang = primaryLanguageCodes?.[0];
+        courseLang = courseLang ? langTo6391(courseLang) : "en";
+
+        if (!availableLangs.includes(courseLang)) {
+            courseLang = "en";
+        }
+
+        const subtitleUrl = this.findSubtitleUrl(tracks, courseLang);
+        if (!subtitleUrl) {
+            console.log("Failed to find subtitle file in tracks", tracks)
+        }
+
+        return {
+            ...subtitleUrl ? {
+                url: sites.find((s) => s.host === VideoService.coursera).url + videoId,
+                translationHelp: [
+                    {
+                        target: "subtitles_file_url",
+                        targetUrl: subtitleUrl,
+                    },
+                    {
+                        target: "video_file_url",
+                        targetUrl: videoUrl,
+                    },
+                ],
+                detectedLanguage: courseLang,
+            } : {
+                url: videoUrl,
+                translationHelp: null,
+            },
+            duration,
+        };
+    }
+
+    async getVideoId(url) {
+        return /learn\/([^/]+)\/lecture\/([^/]+)/.exec(url.pathname)?.[0]; // <-- COURSE PASSING (IF YOU LOGINED TO COURSERA)
+    }
+}
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/index.js
+
+
 
 
 
@@ -3413,6 +3510,7 @@ class VideoHelper {
     static [VideoService.twitch] = new TwitchHelper();
     static [VideoService.coursehunter] = new CoursehunterHelper();
     static [VideoService.udemy] = new UdemyHelper();
+    static [VideoService.coursera] = new CourseraHelper();
 }
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/utils/videoData.js
@@ -5061,10 +5159,8 @@ function isMobile() {
 }
 
 function getPlayer() {
-  if (window.location.pathname.startsWith("/shorts/")) {
-    return isMobile()
-      ? document.querySelector("#movie_player")
-      : document.querySelector("#shorts-player");
+  if (window.location.pathname.startsWith("/shorts/") && !isMobile()) {
+    return document.querySelector("#shorts-player");
   }
 
   return document.querySelector("#movie_player");
