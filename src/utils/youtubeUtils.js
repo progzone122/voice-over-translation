@@ -43,10 +43,8 @@ function isMobile() {
 }
 
 function getPlayer() {
-  if (window.location.pathname.startsWith("/shorts/")) {
-    return isMobile()
-      ? document.querySelector("#movie_player")
-      : document.querySelector("#shorts-player");
+  if (window.location.pathname.startsWith("/shorts/") && !isMobile()) {
+    return document.querySelector("#shorts-player");
   }
 
   return document.querySelector("#movie_player");
