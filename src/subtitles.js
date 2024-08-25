@@ -118,8 +118,8 @@ function formatYoutubeSubtitles(subtitles, isAsr = false) {
 
     const tokens = [];
     let lastSegDuration = durationMs;
-    for (let i = 0; i < subtitle.segs.length; i++) {
-      const seg = subtitle.segs[i];
+    for (let j = 0; j < subtitle.segs.length; j++) {
+      const seg = subtitle.segs[j];
       const text = seg.utf8.trim();
       if (text === "\n") {
         continue;
@@ -127,7 +127,7 @@ function formatYoutubeSubtitles(subtitles, isAsr = false) {
 
       const offset = seg.tOffsetMs ?? 0;
       let segDuration = durationMs;
-      const nextSeg = subtitle.segs[i + 1];
+      const nextSeg = subtitle.segs[j + 1];
       if (nextSeg?.tOffsetMs) {
         segDuration = nextSeg.tOffsetMs - offset;
         lastSegDuration -= segDuration;
