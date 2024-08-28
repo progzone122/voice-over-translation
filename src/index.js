@@ -2,8 +2,7 @@ import Bowser from "bowser";
 import VOTClient, { VOTWorkerClient } from "vot.js";
 import votConfig from "vot.js/config";
 import { getVideoData, getVideoID, getService } from "vot.js/utils/videoData";
-import { YandexType } from "vot.js/types";
-import { availableLangs, availableTTS } from "vot.js/consts";
+import { availableLangs, availableTTS, subtitlesFormats } from "vot.js/consts";
 import { convertSubs } from "vot.js/utils/subs";
 import { svg, html } from "lit-html";
 
@@ -319,6 +318,7 @@ class VideoHandler {
       highlightWords: votStorage.get("highlightWords", 0, true),
       subtitlesFontSize: votStorage.get("subtitlesFontSize", 20, true),
       subtitlesOpacity: votStorage.get("subtitlesOpacity", 20, true),
+      subtitlesDownloadFormat: votStorage.get("subtitlesDownloadFormat", "srt"),
       responseLanguage: votStorage.get("responseLanguage", lang),
       defaultVolume: votStorage.get("defaultVolume", 100, true),
       audioProxy: votStorage.get("audioProxy", 0, true),
@@ -419,7 +419,7 @@ class VideoHandler {
    * @param {"none"|"success"|"error"} status - button status
    * @param {string} text - visible button text
    */
-  transformBtn(status = "none", text) {
+  transformBtn(status, text) {
     this.votButton.container.dataset.status = status;
     const isLoading =
       status === "error" &&
@@ -460,7 +460,6 @@ class VideoHandler {
       if (
         this.data?.buttonPos &&
         this.data?.buttonPos !== "default" &&
-        this.container.clientWidth &&
         this.container.clientWidth > 550
       ) {
         this.votButton.container.dataset.direction = "column";
@@ -657,14 +656,9 @@ class VideoHandler {
       );
 
       this.votDontTranslateYourLangSelect = ui.createVOTSelect(
-        localizationProvider.get("langs")[
-          votStorage.syncGet("dontTranslateLanguage", lang)
-        ],
+        localizationProvider.get("langs")[this.data.dontTranslateLanguage],
         localizationProvider.get("VOTDontTranslateYourLang"),
-        genOptionsByOBJ(
-          availableLangs,
-          votStorage.syncGet("dontTranslateLanguage", lang),
-        ),
+        genOptionsByOBJ(availableLangs, this.data.dontTranslateLanguage),
         {
           onSelectCb: async (e) => {
             this.data.dontTranslateLanguage = e.target.dataset.votValue;
@@ -734,14 +728,9 @@ class VideoHandler {
       );
 
       this.votTranslationServiceSelect = ui.createVOTSelect(
-        votStorage
-          .syncGet("translationService", defaultTranslationService)
-          .toUpperCase(),
+        this.data.translationService.toUpperCase(),
         localizationProvider.get("VOTTranslationService"),
-        genOptionsByOBJ(
-          translateServices,
-          votStorage.syncGet("translationService", defaultTranslationService),
-        ),
+        genOptionsByOBJ(translateServices, this.data.translationService),
         {
           onSelectCb: async (e) => {
             this.data.translationService = e.target.dataset.votValue;
@@ -763,12 +752,9 @@ class VideoHandler {
       );
 
       this.votDetectServiceSelect = ui.createVOTSelect(
-        votStorage.syncGet("detectService", defaultDetectService).toUpperCase(),
+        this.data.detectService.toUpperCase(),
         localizationProvider.get("VOTDetectService"),
-        genOptionsByOBJ(
-          detectServices,
-          votStorage.syncGet("detectService", defaultDetectService),
-        ),
+        genOptionsByOBJ(detectServices, this.data.detectService),
         {
           onSelectCb: async (e) => {
             this.data.detectService = e.target.dataset.votValue;
@@ -837,7 +823,6 @@ class VideoHandler {
 
       this.votLanguageSelect = ui.createVOTSelect(
         localizationProvider.get("langs")[
-          // eslint-disable-next-line sonarjs/no-duplicate-string
           votStorage.syncGet("locale-lang-override", "auto")
         ],
         localizationProvider.get("VOTMenuLanguage"),
@@ -983,20 +968,18 @@ class VideoHandler {
 
           const percentX = (e.clientX / this.container.clientWidth) * 100;
           // const percentY = (e.clientY / this.video.clientHeight) * 100;
+          const isBigContainer =
+            this.container.clientWidth && this.container.clientWidth > 550;
+          const isLeft = percentX <= 44;
+          const isRightSide = percentX >= 66 ? "right" : "default";
+          const side = isLeft ? "left" : isRightSide;
 
-          this.data.buttonPos =
-            this.container.clientWidth && this.container.clientWidth > 550
-              ? percentX <= 44
-                ? "left"
-                : percentX >= 66
-                  ? "right"
-                  : "default"
-              : "default";
+          this.data.buttonPos = isBigContainer ? side : "default";
           this.votButton.container.dataset.direction =
             this.data.buttonPos === "default" ? "row" : "column";
           this.votButton.container.dataset.position = this.data.buttonPos;
           this.votMenu.container.dataset.position = this.data.buttonPos;
-          if (this.container.clientWidth && this.container.clientWidth > 550) {
+          if (isBigContainer) {
             await votStorage.set("buttonPos", this.data.buttonPos);
           }
         }
@@ -1012,12 +995,18 @@ class VideoHandler {
       });
 
       this.votDownloadSubtitlesButton.addEventListener("click", async () => {
-        const srtContent = convertSubs(this.yandexSubtitles, "srt");
-        const blob = new Blob([srtContent], { type: "text/plain" });
+        const format = this.data.subtitlesDownloadFormat;
+        const subsContent = convertSubs(this.yandexSubtitles, format);
+        const blob = new Blob(
+          [format === "json" ? JSON.stringify(subsContent) : subsContent],
+          {
+            type: "text/plain",
+          },
+        );
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `subtitles_${this.videoData.videoId}.srt`;
+        a.download = `subtitles_${this.videoData.videoId}.${format}`;
         a.click();
         URL.revokeObjectURL(url);
       });
@@ -1026,7 +1015,9 @@ class VideoHandler {
         this.votSettingsDialog.container.hidden =
           !this.votSettingsDialog.container.hidden;
         if (document.fullscreenElement || document.webkitFullscreenElement) {
+          // eslint-disable-next-line sonarjs/no-unused-expressions
           document.webkitExitFullscreen && document.webkitExitFullscreen();
+          // eslint-disable-next-line sonarjs/no-unused-expressions
           document.exitFullscreen && document.exitFullscreen();
         }
       });
@@ -1232,6 +1223,27 @@ class VideoHandler {
         );
         this.votSubtitlesDialog.bodyContainer.appendChild(
           this.votSubtitlesHighlightWordsCheckbox.container,
+        );
+
+        this.votSubtitlesDownloadFormatSelect = ui.createVOTSelect(
+          this.data.subtitlesDownloadFormat.toUpperCase(),
+          localizationProvider.get("VOTSubtitlesDownloadFormat"),
+          genOptionsByOBJ(subtitlesFormats, this.data.subtitlesDownloadFormat),
+          {
+            onSelectCb: async (e) => {
+              this.data.subtitlesDownloadFormat = e.target.dataset.votValue;
+              await votStorage.set(
+                "subtitlesDownloadFormat",
+                this.data.subtitlesDownloadFormat,
+              );
+            },
+            labelElement: ui.createVOTSelectLabel(
+              localizationProvider.get("VOTSubtitlesDownloadFormat"),
+            ),
+          },
+        );
+        this.votSubtitlesDialog.bodyContainer.appendChild(
+          this.votSubtitlesDownloadFormatSelect.container,
         );
 
         this.votSubtitlesMaxLengthSlider = ui.createSlider(
@@ -1700,7 +1712,7 @@ class VideoHandler {
                 s.translatedFromLanguage.toUpperCase()
               }`
             : "") +
-          (s.source !== "yandex" ? `, ${s.source}` : "") +
+          (s.source !== "yandex" ? `, ${window.location.hostname}` : "") +
           (s.isAutoGenerated
             ? ` (${localizationProvider.get("VOTAutogenerated")})`
             : ""),
@@ -1738,12 +1750,6 @@ class VideoHandler {
     try {
       this.subtitlesList = await getSubtitles(this.votClient, this.videoData);
     } catch (err) {
-      // ignore error on sites with m3u8
-      if (err?.unlocalizedMessage === "VOTSubtitlesNotSupportedUrl") {
-        this.subtitlesList = [];
-        await this.updateSubtitlesLangSelect();
-        return;
-      }
       debug.log("Error with yandex server, try auto-fix...", err);
       this.votOpts = {
         fetchFn: GM_fetch,
@@ -1871,8 +1877,15 @@ class VideoHandler {
    * detected language, response language, and translation help.
    */
   async getVideoData() {
-    const { duration, url, videoId, host, translationHelp, detectedLanguage } =
-      await getVideoData(this.site, this.video);
+    const {
+      duration,
+      url,
+      videoId,
+      host,
+      translationHelp,
+      detectedLanguage,
+      subtitles,
+    } = await getVideoData(this.site, this.video);
     const videoData = {
       translationHelp: translationHelp ?? null,
       // by default, we request the translation of the video
@@ -1884,6 +1897,7 @@ class VideoHandler {
       host,
       detectedLanguage: detectedLanguage ?? this.translateFromLang,
       responseLanguage: this.translateToLang,
+      subtitles,
     };
 
     if (this.site.host === "youtube") {
@@ -2035,17 +2049,6 @@ class VideoHandler {
     const translationTake = localizationProvider.get("translationTake");
     const lang = localizationProvider.lang;
 
-    if (
-      [
-        "Подготавливаем перевод",
-        "Видео передано в обработку",
-        "Ожидаем перевод видео",
-        "Загружаем переведенное аудио",
-      ].includes(errorMessage)
-    ) {
-      this.setLoadingBtn(true);
-    }
-
     if (errorMessage?.name === "VOTLocalizedError") {
       this.transformBtn("error", errorMessage.localizedMessage);
     } else if (errorMessage instanceof Error) {
@@ -2062,6 +2065,18 @@ class VideoHandler {
       this.transformBtn("error", translatedMessage);
     } else {
       this.transformBtn("error", errorMessage);
+    }
+
+    // it must be at the very bottom of the function, otherwise it will be overwritten in the transformBtn
+    if (
+      [
+        "Подготавливаем перевод",
+        "Видео передано в обработку",
+        "Ожидаем перевод видео",
+        "Загружаем переведенное аудио",
+      ].includes(errorMessage)
+    ) {
+      this.setLoadingBtn(true);
     }
   }
 
@@ -2084,6 +2099,59 @@ class VideoHandler {
     this.downloadTranslationUrl = audioUrl;
   }
 
+  async validateAudioUrl(audioUrl) {
+    try {
+      const response = await GM_fetch(audioUrl, {
+        method: "HEAD",
+        timeout: 5000,
+      });
+      debug.log("Test audio response", response);
+      if (response.status === 404) {
+        debug.log("Yandex returned not valid audio, trying to fix...");
+        let translateRes = await this.translateVideoImpl(
+          this.videoData,
+          (this.videoData.detectedLanguage = "auto"),
+          this.videoData.responseLanguage,
+          this.videoData.translationHelp,
+        );
+        this.setSelectMenuValues(
+          this.videoData.detectedLanguage,
+          this.videoData.responseLanguage,
+        );
+        audioUrl = translateRes.url;
+        debug.log("Fixed audio audioUrl", audioUrl);
+      } else {
+        debug.log("Valid audioUrl", audioUrl);
+      }
+    } catch (err) {
+      if (err.message === "Timeout") {
+        debug.log("Request timed out. Handling timeout error...");
+        this.data.audioProxy = 1;
+        await votStorage.set("audioProxy", 1);
+      } else {
+        debug.log("Test audio error:", err);
+      }
+    }
+
+    this.audio.src = audioUrl;
+    try {
+      await this.audio.play();
+    } catch (e) {
+      console.error("[VOT]", e);
+      if (e.name === "NotSupportedError") {
+        if (
+          [...sitesInvidious, ...sitesPiped].includes(window.location.hostname)
+        ) {
+          throw new VOTLocalizedError("VOTMediaCSPError");
+        }
+        this.data.audioProxy = 1;
+        await votStorage.set("audioProxy", 1);
+      }
+    }
+
+    return audioUrl;
+  }
+
   // update translation audio src
   async updateTranslation(audioUrl) {
     //debug.log("cachedTranslation", this.cachedTranslation?.url, this.audio.currentSrc);
@@ -2091,56 +2159,7 @@ class VideoHandler {
       debug.log("[translateFunc] Audio src is the same");
       this.audio.src = audioUrl;
     } else {
-      try {
-        const response = await GM_fetch(audioUrl, {
-          method: "HEAD",
-          timeout: 5000,
-        });
-        debug.log("Test audio response", response);
-        if (response.status === 404) {
-          debug.log("Yandex returned not valid audio, trying to fix...");
-          let translateRes = await this.translateVideoImpl(
-            this.videoData,
-            (this.videoData.detectedLanguage = "auto"),
-            this.videoData.responseLanguage,
-            this.videoData.translationHelp,
-          );
-          this.setSelectMenuValues(
-            this.videoData.detectedLanguage,
-            this.videoData.responseLanguage,
-          );
-          audioUrl = translateRes.url;
-          debug.log("Fixed audio audioUrl", audioUrl);
-        } else {
-          debug.log("Valid audioUrl", audioUrl);
-        }
-      } catch (err) {
-        if (err.message === "Timeout") {
-          debug.log("Request timed out. Handling timeout error...");
-          this.data.audioProxy = 1;
-          await votStorage.set("audioProxy", 1);
-        } else {
-          debug.log("Test audio error:", err);
-        }
-      }
-
-      this.audio.src = audioUrl;
-      try {
-        await this.audio.play();
-      } catch (e) {
-        console.error("[VOT]", e);
-        if (e.name === "NotSupportedError") {
-          if (
-            [...sitesInvidious, ...sitesPiped].includes(
-              window.location.hostname,
-            )
-          ) {
-            throw new VOTLocalizedError("VOTMediaCSPError");
-          }
-          this.data.audioProxy = 1;
-          await votStorage.set("audioProxy", 1);
-        }
-      }
+      audioUrl = await this.validateAudioUrl(audioUrl);
     }
 
     if (
@@ -2212,24 +2231,7 @@ class VideoHandler {
         "success",
         localizationProvider.get("disableTranslate"),
       );
-
-      const streamURL = `https://${
-        this.data.m3u8ProxyHost
-      }/?all=yes&origin=${encodeURIComponent(
-        "https://strm.yandex.ru",
-      )}&referer=${encodeURIComponent(
-        "https://strm.yandex.ru",
-      )}&url=${encodeURIComponent(translateRes.result.url)}`;
-      if (this.hls) {
-        this.setupHLS(streamURL);
-      } else if (this.audio.canPlayType("application/vnd.apple.mpegurl")) {
-        // safari
-        this.audio.src = streamURL;
-      } else {
-        // browser doesn't support m3u8 (hls unsupported and it isn't a safari)
-        throw new VOTLocalizedError("audioFormatNotSupported");
-      }
-
+      const streamURL = this.setHLSSource(translateRes.result.url);
       if (this.site.host === "youtube") {
         youtubeUtils.videoSeek(this.video, 10); // 10 is the most successful number for streaming. With it, the audio is not so far behind the original
       }
@@ -2277,15 +2279,6 @@ class VideoHandler {
     await this.updateTranslation(translateRes.url);
 
     if (
-      ![
-        YandexType.VideoService.kick,
-        YandexType.VideoService.reddit,
-        YandexType.VideoService.patreon,
-        YandexType.VideoService.kodik,
-        YandexType.VideoService.appledeveloper,
-        YandexType.VideoService.epicgames,
-        YandexType.VideoService.nineanimetv,
-      ].includes(this.site.host) &&
       !this.subtitlesList.some(
         (item) =>
           item.source === "yandex" &&
@@ -2342,6 +2335,27 @@ class VideoHandler {
     debug.log(this.hls);
   }
 
+  setHLSSource(url) {
+    const streamURL = `https://${
+      this.data.m3u8ProxyHost
+    }/?all=yes&origin=${encodeURIComponent(
+      "https://strm.yandex.ru",
+    )}&referer=${encodeURIComponent(
+      "https://strm.yandex.ru",
+    )}&url=${encodeURIComponent(url)}`;
+    if (this.hls) {
+      this.setupHLS(streamURL);
+    } else if (this.audio.canPlayType("application/vnd.apple.mpegurl")) {
+      // safari
+      this.audio.src = streamURL;
+    } else {
+      // browser doesn't support m3u8 (hls unsupported and it isn't a safari)
+      throw new VOTLocalizedError("audioFormatNotSupported");
+    }
+
+    return streamURL;
+  }
+
   setupAudioSettings() {
     if (typeof this.data.defaultVolume === "number") {
       this.setAudioVolume(this.data.defaultVolume / 100);
@@ -2368,13 +2382,16 @@ class VideoHandler {
     const hide =
       !this.video.src && !this.video.currentSrc && !this.video.srcObject;
     this.votButton.container.hidden = hide;
-    hide && (this.votMenu.container.hidden = hide);
+    if (hide) {
+      this.votMenu.container.hidden = hide;
+    }
+
     if (!this.site.selector) {
       this.container = this.video.parentElement;
     }
+
     if (!this.container.contains(this.votButton.container)) {
-      this.container.appendChild(this.votButton.container);
-      this.container.appendChild(this.votMenu.container);
+      this.container.append(this.votButton.container, this.votMenu.container);
     }
 
     await Promise.all([
