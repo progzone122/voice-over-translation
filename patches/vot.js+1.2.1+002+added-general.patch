@@ -1,5 +1,5 @@
 diff --git a/node_modules/vot.js/dist/client.js b/node_modules/vot.js/dist/client.js
-index ea3a8cd..dafa54c 100644
+index ea3a8cd..4857f88 100644
 --- a/node_modules/vot.js/dist/client.js
 +++ b/node_modules/vot.js/dist/client.js
 @@ -7,6 +7,8 @@ import { fetchWithTimeout, getTimestamp } from "./utils/utils.js";
@@ -50,16 +50,19 @@ index ea3a8cd..dafa54c 100644
                  }
                  return {
                      translated: true,
-@@ -234,7 +237,7 @@ export default class VOTClient {
+@@ -234,7 +237,10 @@ export default class VOTClient {
      async getSubtitles({ videoData, requestLang = this.requestLang, headers = {}, }) {
          const { url } = videoData;
          if (this.isCustomLink(url)) {
 -            throw new VOTJSError("Unsupported video URL for getting subtitles");
-+            throw new VOTLocalizedError("VOTSubtitlesNotSupportedUrl");
++            return {
++                waiting: false,
++                subtitles: []
++            }
          }
          const { secretKey, uuid } = await this.getSession("video-translation");
          const body = yandexProtobuf.encodeSubtitlesRequest(url, requestLang);
-@@ -268,7 +271,7 @@ export default class VOTClient {
+@@ -268,7 +274,7 @@ export default class VOTClient {
      async translateStream({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
          const { url } = videoData;
          if (this.isCustomLink(url)) {

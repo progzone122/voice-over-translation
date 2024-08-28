@@ -142,7 +142,7 @@ index 0000000..7675127
 +}
 \ No newline at end of file
 diff --git a/node_modules/vot.js/dist/helpers/index.d.ts b/node_modules/vot.js/dist/helpers/index.d.ts
-index 241d5cf..b0cf962 100644
+index 05a6057..379a7d1 100644
 --- a/node_modules/vot.js/dist/helpers/index.d.ts
 +++ b/node_modules/vot.js/dist/helpers/index.d.ts
 @@ -13,6 +13,7 @@ import OdyseeHelper from "./odysee.js";
@@ -159,13 +159,13 @@ index 241d5cf..b0cf962 100644
  export * as UdemyHelper from "./udemy.js";
 +export * as CourseraHelper from "./coursera.js";
  export default class VideoHelper {
-     static [VideoService.mailru]: MailRuHelper;
-     static [VideoService.weverse]: WeverseHelper;
+     static readonly [VideoService.mailru]: MailRuHelper;
+     static readonly [VideoService.weverse]: WeverseHelper;
 @@ -42,5 +44,6 @@ export default class VideoHelper {
-     static [VideoService.twitch]: TwitchHelper;
-     static [VideoService.coursehunter]: CoursehunterHelper;
-     static [VideoService.udemy]: UdemyHelper;
-+    static [VideoService.coursera]: CourseraHelper;
+     static readonly [VideoService.twitch]: TwitchHelper;
+     static readonly [VideoService.coursehunter]: CoursehunterHelper;
+     static readonly [VideoService.udemy]: UdemyHelper;
++    static readonly [VideoService.coursera]: CourseraHelper;
  }
  //# sourceMappingURL=index.d.ts.map
 \ No newline at end of file
