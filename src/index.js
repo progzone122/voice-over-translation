@@ -968,8 +968,7 @@ class VideoHandler {
 
           const percentX = (e.clientX / this.container.clientWidth) * 100;
           // const percentY = (e.clientY / this.video.clientHeight) * 100;
-          const isBigContainer =
-            this.container.clientWidth && this.container.clientWidth > 550;
+          const isBigContainer = this.container.clientWidth > 550;
           const isLeft = percentX <= 44;
           const isRightSide = percentX >= 66 ? "right" : "default";
           const side = isLeft ? "left" : isRightSide;
@@ -1458,9 +1457,7 @@ class VideoHandler {
         );
       }
 
-      const isBigWidth =
-        this.container.clientWidth && this.container.clientWidth > 550;
-
+      const isBigWidth = this.container.clientWidth > 550;
       this.votButton.container.dataset.position =
         this.votMenu.container.dataset.position = isBigWidth
           ? this.data?.buttonPos
