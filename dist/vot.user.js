@@ -1487,13 +1487,13 @@ const yandexProtobuf = {
     host: "api.browser.yandex.ru",
     hostVOT: "vot-api.toil.cc/v1",
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 YaBrowser/24.7.0.0 Safari/537.36",
-    componentVersion: "24.7.0.2377",
+    componentVersion: "24.7.1.1076",
     hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
     defaultDuration: 343,
 });
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/package.json
-const package_namespaceObject = {"rE":"1.1.0"};
+const package_namespaceObject = {"rE":"1.2.4"};
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/secure.js
 
 const utf8Encoder = new TextEncoder();
@@ -1592,6 +1592,124 @@ var VideoTranslationStatus;
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/utils/utils.js
 
+const iso6392to6391 = {
+    afr: "af",
+    aka: "ak",
+    alb: "sq",
+    amh: "am",
+    ara: "ar",
+    arm: "hy",
+    asm: "as",
+    aym: "ay",
+    aze: "az",
+    baq: "eu",
+    bel: "be",
+    ben: "bn",
+    bos: "bs",
+    bul: "bg",
+    bur: "my",
+    cat: "ca",
+    chi: "zh",
+    cos: "co",
+    cze: "cs",
+    dan: "da",
+    div: "dv",
+    dut: "nl",
+    eng: "en",
+    epo: "eo",
+    est: "et",
+    ewe: "ee",
+    fin: "fi",
+    fre: "fr",
+    fry: "fy",
+    geo: "ka",
+    ger: "de",
+    gla: "gd",
+    gle: "ga",
+    glg: "gl",
+    gre: "el",
+    grn: "gn",
+    guj: "gu",
+    hat: "ht",
+    hau: "ha",
+    hin: "hi",
+    hrv: "hr",
+    hun: "hu",
+    ibo: "ig",
+    ice: "is",
+    ind: "id",
+    ita: "it",
+    jav: "jv",
+    jpn: "ja",
+    kan: "kn",
+    kaz: "kk",
+    khm: "km",
+    kin: "rw",
+    kir: "ky",
+    kor: "ko",
+    kur: "ku",
+    lao: "lo",
+    lat: "la",
+    lav: "lv",
+    lin: "ln",
+    lit: "lt",
+    ltz: "lb",
+    lug: "lg",
+    mac: "mk",
+    mal: "ml",
+    mao: "mi",
+    mar: "mr",
+    may: "ms",
+    mlg: "mg",
+    mlt: "mt",
+    mon: "mn",
+    nep: "ne",
+    nor: "no",
+    nya: "ny",
+    ori: "or",
+    orm: "om",
+    pan: "pa",
+    per: "fa",
+    pol: "pl",
+    por: "pt",
+    pus: "ps",
+    que: "qu",
+    rum: "ro",
+    rus: "ru",
+    san: "sa",
+    sin: "si",
+    slo: "sk",
+    slv: "sl",
+    smo: "sm",
+    sna: "sn",
+    snd: "sd",
+    som: "so",
+    sot: "st",
+    spa: "es",
+    srp: "sr",
+    sun: "su",
+    swa: "sw",
+    swe: "sv",
+    tam: "ta",
+    tat: "tt",
+    tel: "te",
+    tgk: "tg",
+    tha: "th",
+    tir: "ti",
+    tso: "ts",
+    tuk: "tk",
+    tur: "tr",
+    uig: "ug",
+    ukr: "uk",
+    urd: "ur",
+    uzb: "uz",
+    vie: "vi",
+    wel: "cy",
+    xho: "xh",
+    yid: "yi",
+    yor: "yo",
+    zul: "zu",
+};
 async function fetchWithTimeout(url, options = {
     headers: {
         "User-Agent": config.userAgent,
@@ -1609,6 +1727,12 @@ async function fetchWithTimeout(url, options = {
 }
 function getTimestamp() {
     return Math.floor(Date.now() / 1000);
+}
+function normalizeLang(lang) {
+    if (lang.length === 3) {
+        return iso6392to6391[lang];
+    }
+    return lang.toLowerCase().split(/[_;-]/)[0].trim();
 }
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/config/alternativeUrls.js
@@ -2055,7 +2179,7 @@ const sitesPoketube = [
 ]);
 
 ;// CONCATENATED MODULE: ./src/localization/locales/en.json
-const en_namespaceObject = /*#__PURE__*/JSON.parse('{"__version__":5,"recommended":"recommended","translateVideo":"Translate video","disableTranslate":"Turn off","translationSettings":"Translation settings","subtitlesSettings":"Subtitles settings","about":"About extension","resetSettings":"Reset settings","videoBeingTranslated":"The video is being translated","videoLanguage":"Video language","translationLanguage":"Translation language","translationTake":"The translation will take","translationTakeMoreThanHour":"The translation will take more than an hour","translationTakeAboutMinute":"The translation will take about a minute","translationTakeFewMinutes":"The translation will take a few minutes","translationTakeApproximatelyMinutes":"The translation will take approximately {0} minutes","translationTakeApproximatelyMinute":"The translation will take approximately {0} minutes","unSupportedExtensionError":"Error! {0} is not supported by this version of the extension!\\n\\nPlease use the cloudflare version of the VOT extension.","requestTranslationFailed":"Failed to request video translation","audioNotReceived":"Audio link not received","grantPermissionToAutoPlay":"Grant permission to autoplay","audioFormatNotSupported":"The audio format is not supported","VOTAutoTranslate":"Translate on open","VOTDontTranslateYourLang":"Do not translate from my language","VOTVolume":"Video volume","VOTVolumeTranslation":"Translation Volume","VOTAutoSetVolume":"Reduce video volume to ","VOTShowVideoSlider":"Video volume slider","VOTSyncVolume":"Link translation and video volume","VOTAudioProxy":"Proxy received audio","VOTDisableFromYourLang":"You have disabled the translation of the video in your language","VOTLiveNotSupported":"Translation of live streams is not supported","VOTPremiere":"Wait for the premiere to end before translating","VOTVideoIsTooLong":"Video is too long","VOTNoVideoIDFound":"No video ID found","VOTSubtitles":"Subtitles","VOTSubtitlesDisabled":"Disabled","VOTSubtitlesMaxLength":"Subtitles max length","VOTHighlightWords":"Highlight words","VOTTranslatedFrom":"translated from","VOTAutogenerated":"autogenerated","VOTSettings":"VOT Settings","VOTMenuLanguage":"Menu language","VOTAuthors":"Authors","VOTVersion":"Version","VOTLoader":"Loader","VOTBrowser":"Browser","VOTShowPiPButton":"Show PiP button","langs":{"auto":"Auto","af":"Afrikaans","ak":"Akan","sq":"Albanian","am":"Amharic","ar":"Arabic","hy":"Armenian","as":"Assamese","ay":"Aymara","az":"Azerbaijani","bn":"Bangla","eu":"Basque","be":"Belarusian","bho":"Bhojpuri","bs":"Bosnian","bg":"Bulgarian","my":"Burmese","ca":"Catalan","ceb":"Cebuano","zh":"Chinese","zh-Hans":"Chinese (Simplified)","zh-Hant":"Chinese (Traditional)","co":"Corsican","hr":"Croatian","cs":"Czech","da":"Danish","dv":"Divehi","nl":"Dutch","en":"English","eo":"Esperanto","et":"Estonian","ee":"Ewe","fil":"Filipino","fi":"Finnish","fr":"French","gl":"Galician","lg":"Ganda","ka":"Georgian","de":"German","el":"Greek","gn":"Guarani","gu":"Gujarati","ht":"Haitian Creole","ha":"Hausa","haw":"Hawaiian","iw":"Hebrew","hi":"Hindi","hmn":"Hmong","hu":"Hungarian","is":"Icelandic","ig":"Igbo","id":"Indonesian","ga":"Irish","it":"Italian","ja":"Japanese","jv":"Javanese","kn":"Kannada","kk":"Kazakh","km":"Khmer","rw":"Kinyarwanda","ko":"Korean","kri":"Krio","ku":"Kurdish","ky":"Kyrgyz","lo":"Lao","la":"Latin","lv":"Latvian","ln":"Lingala","lt":"Lithuanian","lb":"Luxembourgish","mk":"Macedonian","mg":"Malagasy","ms":"Malay","ml":"Malayalam","mt":"Maltese","mi":"Māori","mr":"Marathi","mn":"Mongolian","ne":"Nepali","nso":"Northern Sotho","no":"Norwegian","ny":"Nyanja","or":"Odia","om":"Oromo","ps":"Pashto","fa":"Persian","pl":"Polish","pt":"Portuguese","pa":"Punjabi","qu":"Quechua","ro":"Romanian","ru":"Russian","sm":"Samoan","sa":"Sanskrit","gd":"Scottish Gaelic","sr":"Serbian","sn":"Shona","sd":"Sindhi","si":"Sinhala","sk":"Slovak","sl":"Slovenian","so":"Somali","st":"Southern Sotho","es":"Spanish","su":"Sundanese","sw":"Swahili","sv":"Swedish","tg":"Tajik","ta":"Tamil","tt":"Tatar","te":"Telugu","th":"Thai","ti":"Tigrinya","ts":"Tsonga","tr":"Turkish","tk":"Turkmen","uk":"Ukrainian","ur":"Urdu","ug":"Uyghur","uz":"Uzbek","vi":"Vietnamese","cy":"Welsh","fy":"Western Frisian","xh":"Xhosa","yi":"Yiddish","yo":"Yoruba","zu":"Zulu"},"udemyModuleArgsNotFound":"Could not get udemy module data due to the fact that ModuleArgs was not found","VOTTranslationHelpNull":"Could not get the data required for the translate","streamNoConnectionToServer":"There is no connection to the server","searchField":"Search...","VOTTranslateAPIErrors":"Translate errors from the API","VOTTranslationService":"Translation Service","VOTDetectService":"Detect Service","VOTTranslatingError":"Translating the error","VOTProxyWorkerHost":"Enter the proxy worker address","VOTM3u8ProxyHost":"Enter the address of the m3u8 proxy worker","proxySettings":"Proxy Settings","translationTakeApproximatelyMinute2":"The translation will take approximately {0} minutes","VOTAudioBooster":"Extended translation volume increase","VOTMediaCSPError":"Failed to load audio (media csp error)","VOTSubtitlesDesign":"Subtitles design","VOTSubtitlesFontSize":"Font size of subtitles","VOTSubtitlesOpacity":"Transparency of the subtitle background","VOTPressNewHotkey":"Press the new hotkey...","VOTCreateTranslationHotkey":"Create Hotkey for Translation","VOTChangeHotkeyWithCurrent":"Change Hotkey (Current: {0})"}');
+const en_namespaceObject = /*#__PURE__*/JSON.parse('{"__version__":5,"recommended":"recommended","translateVideo":"Translate video","disableTranslate":"Turn off","translationSettings":"Translation settings","subtitlesSettings":"Subtitles settings","about":"About extension","resetSettings":"Reset settings","videoBeingTranslated":"The video is being translated","videoLanguage":"Video language","translationLanguage":"Translation language","translationTake":"The translation will take","translationTakeMoreThanHour":"The translation will take more than an hour","translationTakeAboutMinute":"The translation will take about a minute","translationTakeFewMinutes":"The translation will take a few minutes","translationTakeApproximatelyMinutes":"The translation will take approximately {0} minutes","translationTakeApproximatelyMinute":"The translation will take approximately {0} minutes","unSupportedExtensionError":"Error! {0} is not supported by this version of the extension!\\n\\nPlease use the cloudflare version of the VOT extension.","requestTranslationFailed":"Failed to request video translation","audioNotReceived":"Audio link not received","grantPermissionToAutoPlay":"Grant permission to autoplay","audioFormatNotSupported":"The audio format is not supported","VOTAutoTranslate":"Translate on open","VOTDontTranslateYourLang":"Do not translate from my language","VOTVolume":"Video volume","VOTVolumeTranslation":"Translation Volume","VOTAutoSetVolume":"Reduce video volume to ","VOTShowVideoSlider":"Video volume slider","VOTSyncVolume":"Link translation and video volume","VOTAudioProxy":"Proxy received audio","VOTDisableFromYourLang":"You have disabled the translation of the video in your language","VOTLiveNotSupported":"Translation of live streams is not supported","VOTPremiere":"Wait for the premiere to end before translating","VOTVideoIsTooLong":"Video is too long","VOTNoVideoIDFound":"No video ID found","VOTSubtitles":"Subtitles","VOTSubtitlesDisabled":"Disabled","VOTSubtitlesMaxLength":"Subtitles max length","VOTHighlightWords":"Highlight words","VOTTranslatedFrom":"translated from","VOTAutogenerated":"autogenerated","VOTSettings":"VOT Settings","VOTMenuLanguage":"Menu language","VOTAuthors":"Authors","VOTVersion":"Version","VOTLoader":"Loader","VOTBrowser":"Browser","VOTShowPiPButton":"Show PiP button","langs":{"auto":"Auto","af":"Afrikaans","ak":"Akan","sq":"Albanian","am":"Amharic","ar":"Arabic","hy":"Armenian","as":"Assamese","ay":"Aymara","az":"Azerbaijani","bn":"Bangla","eu":"Basque","be":"Belarusian","bho":"Bhojpuri","bs":"Bosnian","bg":"Bulgarian","my":"Burmese","ca":"Catalan","ceb":"Cebuano","zh":"Chinese","zh-Hans":"Chinese (Simplified)","zh-Hant":"Chinese (Traditional)","co":"Corsican","hr":"Croatian","cs":"Czech","da":"Danish","dv":"Divehi","nl":"Dutch","en":"English","eo":"Esperanto","et":"Estonian","ee":"Ewe","fil":"Filipino","fi":"Finnish","fr":"French","gl":"Galician","lg":"Ganda","ka":"Georgian","de":"German","el":"Greek","gn":"Guarani","gu":"Gujarati","ht":"Haitian Creole","ha":"Hausa","haw":"Hawaiian","iw":"Hebrew","hi":"Hindi","hmn":"Hmong","hu":"Hungarian","is":"Icelandic","ig":"Igbo","id":"Indonesian","ga":"Irish","it":"Italian","ja":"Japanese","jv":"Javanese","kn":"Kannada","kk":"Kazakh","km":"Khmer","rw":"Kinyarwanda","ko":"Korean","kri":"Krio","ku":"Kurdish","ky":"Kyrgyz","lo":"Lao","la":"Latin","lv":"Latvian","ln":"Lingala","lt":"Lithuanian","lb":"Luxembourgish","mk":"Macedonian","mg":"Malagasy","ms":"Malay","ml":"Malayalam","mt":"Maltese","mi":"Māori","mr":"Marathi","mn":"Mongolian","ne":"Nepali","nso":"Northern Sotho","no":"Norwegian","ny":"Nyanja","or":"Odia","om":"Oromo","ps":"Pashto","fa":"Persian","pl":"Polish","pt":"Portuguese","pa":"Punjabi","qu":"Quechua","ro":"Romanian","ru":"Russian","sm":"Samoan","sa":"Sanskrit","gd":"Scottish Gaelic","sr":"Serbian","sn":"Shona","sd":"Sindhi","si":"Sinhala","sk":"Slovak","sl":"Slovenian","so":"Somali","st":"Southern Sotho","es":"Spanish","su":"Sundanese","sw":"Swahili","sv":"Swedish","tg":"Tajik","ta":"Tamil","tt":"Tatar","te":"Telugu","th":"Thai","ti":"Tigrinya","ts":"Tsonga","tr":"Turkish","tk":"Turkmen","uk":"Ukrainian","ur":"Urdu","ug":"Uyghur","uz":"Uzbek","vi":"Vietnamese","cy":"Welsh","fy":"Western Frisian","xh":"Xhosa","yi":"Yiddish","yo":"Yoruba","zu":"Zulu"},"udemyModuleArgsNotFound":"Could not get udemy module data due to the fact that ModuleArgs was not found","VOTTranslationHelpNull":"Could not get the data required for the translate","streamNoConnectionToServer":"There is no connection to the server","searchField":"Search...","VOTTranslateAPIErrors":"Translate errors from the API","VOTTranslationService":"Translation Service","VOTDetectService":"Detect Service","VOTTranslatingError":"Translating the error","VOTProxyWorkerHost":"Enter the proxy worker address","VOTM3u8ProxyHost":"Enter the address of the m3u8 proxy worker","proxySettings":"Proxy Settings","translationTakeApproximatelyMinute2":"The translation will take approximately {0} minutes","VOTAudioBooster":"Extended translation volume increase","VOTMediaCSPError":"Failed to load audio (media csp error)","VOTSubtitlesDesign":"Subtitles design","VOTSubtitlesFontSize":"Font size of subtitles","VOTSubtitlesOpacity":"Transparency of the subtitle background","VOTPressNewHotkey":"Press the new hotkey...","VOTCreateTranslationHotkey":"Create Hotkey for Translation","VOTChangeHotkeyWithCurrent":"Change Hotkey (Current: {0})","VOTSubtitlesDownloadFormat":"The format for downloading subtitles"}');
 ;// CONCATENATED MODULE: ./src/utils/debug.js
 const debug = {};
 debug.log = (...text) => {
@@ -2175,7 +2299,6 @@ const votStorage = new (class {
 })();
 
 ;// CONCATENATED MODULE: ./src/localization/localizationProvider.js
-/* eslint-disable sonarjs/no-duplicate-string */
 
 
 
@@ -2765,7 +2888,8 @@ class KodikHelper extends BaseHelper {
     decryptUrl(encryptedUrl) {
         const decryptedUrl = atob(encryptedUrl.replace(/[a-zA-Z]/g, function (e) {
             const charCode = e.charCodeAt(0) + 13;
-            return String.fromCharCode((e <= "Z" ? 90 : 122) >= charCode ? charCode : charCode - 26);
+            const pos = e <= "Z" ? 90 : 122;
+            return String.fromCharCode(pos >= charCode ? charCode : charCode - 26);
         }));
         return "https:" + decryptedUrl;
     }
@@ -2975,6 +3099,7 @@ class AppleDeveloperHelper extends BaseHelper {
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/epicgames.js
 
+
 class EpicGamesHelper extends BaseHelper {
     API_ORIGIN = "https://dev.epicgames.com/community/api/learning";
     async getPostInfo(videoId) {
@@ -2992,14 +3117,22 @@ class EpicGamesHelper extends BaseHelper {
         if (!postInfo) {
             return undefined;
         }
-        const playlistUrl = postInfo.blocks
-            .find((block) => block.type === "video")
-            ?.video_url?.replace("qsep://", "https://");
+        const videoBlock = postInfo.blocks.find((block) => block.type === "video");
+        const playlistUrl = videoBlock?.video_url?.replace("qsep://", "https://");
         if (!playlistUrl) {
             return undefined;
         }
+        const { title, description } = postInfo;
+        const subtitles = videoBlock?.video_captions?.map((caption) => ({
+            language: normalizeLang(caption.locale),
+            format: "vtt",
+            url: caption.signed_url,
+        }));
         return {
             url: playlistUrl,
+            title,
+            description,
+            subtitles,
         };
     }
     async getVideoId(url) {
@@ -3008,6 +3141,7 @@ class EpicGamesHelper extends BaseHelper {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/nineanimetv.js
+
 
 class NineAnimeTVHelper extends BaseHelper {
     API_ORIGIN = "https://9animetv.to/ajax/episode";
@@ -3077,8 +3211,26 @@ class NineAnimeTVHelper extends BaseHelper {
         if (!videoUrl) {
             return undefined;
         }
+        const subtitles = rapidData.tracks.reduce((result, track) => {
+            const fileName = /([\w+]+)(-\d)?\.vtt/.exec(track.file)?.[1];
+            if (!fileName) {
+                return result;
+            }
+            const lang = fileName.length === 3 ? fileName : track.label;
+            const language = normalizeLang(lang);
+            if (result.find((t) => t.language === language)) {
+                return result;
+            }
+            result.push({
+                language,
+                format: "vtt",
+                url: track.file,
+            });
+            return result;
+        }, []);
         return {
             url: videoUrl,
+            subtitles,
         };
     }
     async getVideoId(url) {
@@ -3106,7 +3258,11 @@ class OdyseeHelper extends BaseHelper {
         try {
             const res = await this.fetch(`${this.API_ORIGIN}/${videoId}`);
             const content = await res.text();
-            return { url: /"contentUrl":(\s)?"([^"]+)"/.exec(content)?.[2] };
+            const url = /"contentUrl":(\s)?"([^"]+)"/.exec(content)?.[2];
+            if (!url) {
+                throw new Error("Odysee url doesn't parsed");
+            }
+            return { url };
         }
         catch (err) {
             console.error("Failed to get odysee video data", err.message);
@@ -3238,7 +3394,7 @@ const availableLangs = [
     "ja",
 ];
 const availableTTS = ["ru", "en", "kk"];
-const subtitlesFormats = (/* unused pure expression or super */ null && (["srt", "vtt", "json"]));
+const subtitlesFormats = ["srt", "vtt", "json"];
 
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/udemy.js
@@ -3971,7 +4127,10 @@ class VOTClient {
     async getSubtitles({ videoData, requestLang = this.requestLang, headers = {}, }) {
         const { url } = videoData;
         if (this.isCustomLink(url)) {
-            throw new VOTLocalizedError("VOTSubtitlesNotSupportedUrl");
+            return {
+                waiting: false,
+                subtitles: []
+            }
         }
         const { secretKey, uuid } = await this.getSession("video-translation");
         const body = yandexProtobuf.encodeSubtitlesRequest(url, requestLang);
@@ -4121,29 +4280,95 @@ var TypeName;
 
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/utils/subs.js
-function convertToSrtTimeFormat(seconds) {
+function convertToStrTime(ms, delimiter = ",") {
+    const seconds = ms / 1000;
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const remainingSeconds = Math.floor(seconds % 60);
-    const milliseconds = Math.floor((seconds % 1) * 1000);
+    const milliseconds = Math.floor(ms % 1000);
     return `${hours.toString().padStart(2, "0")}:${minutes
         .toString()
         .padStart(2, "0")}:${remainingSeconds
         .toString()
-        .padStart(2, "0")},${milliseconds.toString().padStart(3, "0")}`;
+        .padStart(2, "0")}${delimiter}${milliseconds.toString().padStart(3, "0")}`;
 }
-function convertSubs(data, output = "srt") {
+function convertToMSTime(time) {
+    const parts = time.split(" ")?.[0]?.split(":");
+    if (parts.length < 3) {
+        parts.unshift("00");
+    }
+    const [strHours, strMinutes, strSeconds] = parts;
+    const secs = +strSeconds.replace(/[,.]/, "");
+    const mins = +strMinutes * 60_000;
+    const hours = +strHours * 3_600_000;
+    return hours + mins + secs;
+}
+function convertSubsFromJSON(data, output = "srt") {
+    const isVTT = output === "vtt";
+    const delimiter = isVTT ? "." : ",";
     const subs = data.subtitles
         .map((sub, idx) => {
-        const startTime = sub.startMs / 1000.0;
-        const endTime = (sub.startMs + sub.durationMs) / 1000.0;
-        const result = output === "srt" ? `${idx + 1}\n` : "";
+        const result = isVTT ? "" : `${idx + 1}\n`;
         return (result +
-            `${convertToSrtTimeFormat(startTime)} --> ${convertToSrtTimeFormat(endTime)}\n${sub.text}\n\n`);
+            `${convertToStrTime(sub.startMs, delimiter)} --> ${convertToStrTime(sub.startMs + sub.durationMs, delimiter)}\n${sub.text}\n\n`);
     })
         .join("")
         .trim();
-    return output === "vtt" ? `WEBVTT\n\n${subs}` : subs;
+    return isVTT ? `WEBVTT\n\n${subs}` : subs;
+}
+function convertSubsToJSON(data, from = "srt") {
+    const parts = data.split(/\r?\n\r?\n/g);
+    if (from === "vtt") {
+        parts.shift();
+    }
+    const offset = +(from === "srt");
+    const subtitles = parts.reduce((result, part) => {
+        const lines = part.trim().split("\n");
+        const time = lines[offset];
+        const text = lines.slice(offset + 1).join("\n");
+        if ((lines.length !== 2 || !part.includes(" --> ")) &&
+            !time?.includes(" --> ")) {
+            result[result.length - 1].text += `\n\n${lines.join("\n")}`;
+            return result;
+        }
+        const [start, end] = time.split(" --> ");
+        const startMs = convertToMSTime(start);
+        const endMs = convertToMSTime(end);
+        const durationMs = endMs - startMs;
+        result.push({
+            text,
+            startMs,
+            durationMs,
+            speakerId: "0",
+        });
+        return result;
+    }, []);
+    return {
+        containsTokens: false,
+        subtitles,
+    };
+}
+function getSubsFormat(data) {
+    if (typeof data !== "string") {
+        return "json";
+    }
+    if (/(WEBVTT)(\r?\n\r?\n)/.exec(data)) {
+        return "vtt";
+    }
+    return "srt";
+}
+function convertSubs(data, output = "srt") {
+    const from = getSubsFormat(data);
+    if (from === output)
+        return data;
+    if (from === "json") {
+        return convertSubsFromJSON(data, output);
+    }
+    data = convertSubsToJSON(data, from);
+    if (output === "json") {
+        return data;
+    }
+    return convertSubsFromJSON(data, output);
 }
 
 ;// CONCATENATED MODULE: ./node_modules/lit-html/lit-html.js
@@ -5406,6 +5631,7 @@ async function youtubeUtils_getVideoData() {
 
 
 
+
 function formatYandexSubtitlesTokens(line) {
   const lineEndMs = line.startMs + line.durationMs;
   return line.tokens.reduce((result, token, index) => {
@@ -5477,11 +5703,6 @@ function getSubtitlesTokens(subtitles, subtitlesObject) {
   for (let i = 0; i < subtitles.subtitles.length; i++) {
     const line = subtitles.subtitles[i];
     const hasTokens = line?.tokens?.length;
-    if (hasTokens && !["yandex", "youtube"].includes(source)) {
-      console.warn("[VOT] Unsupported subtitles tokens type: ", source);
-      subtitles.containsTokens = false;
-      return null;
-    }
 
     let tokens =
       hasTokens &&
@@ -5560,9 +5781,14 @@ function formatYoutubeSubtitles(subtitles, isAsr = false) {
 }
 
 async function fetchSubtitles(subtitlesObject) {
+  const { source, isAutoGenerated, format, url } = subtitlesObject;
   const fetchPromise = (async () => {
     try {
-      const response = await GM_fetch(subtitlesObject.url, { timeout: 5000 });
+      const response = await GM_fetch(url, { timeout: 5000 });
+      if (["vtt", "srt"].includes(format)) {
+        const plain = await response.text();
+        return convertSubs(plain, "json");
+      }
       return await response.json();
     } catch (error) {
       console.error("[VOT] Failed to fetch subtitles.", error);
@@ -5574,7 +5800,6 @@ async function fetchSubtitles(subtitlesObject) {
   })();
 
   let subtitles = await fetchPromise;
-  const { source, isAutoGenerated } = subtitlesObject;
   if (source === "youtube") {
     subtitles = formatYoutubeSubtitles(subtitles, isAutoGenerated);
   }
@@ -5591,8 +5816,10 @@ async function subtitles_getSubtitles(client, videoData) {
     detectedLanguage: requestLang,
     videoId,
     duration,
+    subtitles,
   } = videoData;
-  const ytSubtitles = host === "youtube" ? youtubeUtils.getSubtitles() : [];
+  const extraSubtitles =
+    host === "youtube" ? youtubeUtils.getSubtitles() : subtitles ?? [];
 
   const timeoutPromise = new Promise((_, reject) =>
     setTimeout(() => reject(new Error("Timeout")), 5000),
@@ -5642,7 +5869,7 @@ async function subtitles_getSubtitles(client, videoData) {
       return result;
     }, []);
 
-    return [...subtitles, ...ytSubtitles].sort((a, b) => {
+    return [...subtitles, ...extraSubtitles].sort((a, b) => {
       if (a.source !== b.source) return a.source === "yandex" ? -1 : 1;
       if (
         a.language !== b.language &&
@@ -6195,7 +6422,6 @@ class VideoObserver {
 
 
 
-
 const browserInfo = es5.getParser(window.navigator.userAgent).getResult();
 const cfOnlyExtensions = [
   "Violentmonkey",
@@ -6324,8 +6550,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : res.message ??
-              localizationProvider.get("translationTakeFewMinutes"),
+          : (res.message ??
+              localizationProvider.get("translationTakeFewMinutes")),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
@@ -6468,6 +6694,7 @@ class VideoHandler {
       highlightWords: votStorage.get("highlightWords", 0, true),
       subtitlesFontSize: votStorage.get("subtitlesFontSize", 20, true),
       subtitlesOpacity: votStorage.get("subtitlesOpacity", 20, true),
+      subtitlesDownloadFormat: votStorage.get("subtitlesDownloadFormat", "srt"),
       responseLanguage: votStorage.get("responseLanguage", lang),
       defaultVolume: votStorage.get("defaultVolume", 100, true),
       audioProxy: votStorage.get("audioProxy", 0, true),
@@ -6568,7 +6795,7 @@ class VideoHandler {
    * @param {"none"|"success"|"error"} status - button status
    * @param {string} text - visible button text
    */
-  transformBtn(status = "none", text) {
+  transformBtn(status, text) {
     this.votButton.container.dataset.status = status;
     const isLoading =
       status === "error" &&
@@ -6609,7 +6836,6 @@ class VideoHandler {
       if (
         this.data?.buttonPos &&
         this.data?.buttonPos !== "default" &&
-        this.container.clientWidth &&
         this.container.clientWidth > 550
       ) {
         this.votButton.container.dataset.direction = "column";
@@ -6806,14 +7032,9 @@ class VideoHandler {
       );
 
       this.votDontTranslateYourLangSelect = ui.createVOTSelect(
-        localizationProvider.get("langs")[
-          votStorage.syncGet("dontTranslateLanguage", lang)
-        ],
+        localizationProvider.get("langs")[this.data.dontTranslateLanguage],
         localizationProvider.get("VOTDontTranslateYourLang"),
-        genOptionsByOBJ(
-          availableLangs,
-          votStorage.syncGet("dontTranslateLanguage", lang),
-        ),
+        genOptionsByOBJ(availableLangs, this.data.dontTranslateLanguage),
         {
           onSelectCb: async (e) => {
             this.data.dontTranslateLanguage = e.target.dataset.votValue;
@@ -6883,14 +7104,9 @@ class VideoHandler {
       );
 
       this.votTranslationServiceSelect = ui.createVOTSelect(
-        votStorage
-          .syncGet("translationService", defaultTranslationService)
-          .toUpperCase(),
+        this.data.translationService.toUpperCase(),
         localizationProvider.get("VOTTranslationService"),
-        genOptionsByOBJ(
-          translateServices,
-          votStorage.syncGet("translationService", defaultTranslationService),
-        ),
+        genOptionsByOBJ(translateServices, this.data.translationService),
         {
           onSelectCb: async (e) => {
             this.data.translationService = e.target.dataset.votValue;
@@ -6912,12 +7128,9 @@ class VideoHandler {
       );
 
       this.votDetectServiceSelect = ui.createVOTSelect(
-        votStorage.syncGet("detectService", defaultDetectService).toUpperCase(),
+        this.data.detectService.toUpperCase(),
         localizationProvider.get("VOTDetectService"),
-        genOptionsByOBJ(
-          detectServices,
-          votStorage.syncGet("detectService", defaultDetectService),
-        ),
+        genOptionsByOBJ(detectServices, this.data.detectService),
         {
           onSelectCb: async (e) => {
             this.data.detectService = e.target.dataset.votValue;
@@ -6986,7 +7199,6 @@ class VideoHandler {
 
       this.votLanguageSelect = ui.createVOTSelect(
         localizationProvider.get("langs")[
-          // eslint-disable-next-line sonarjs/no-duplicate-string
           votStorage.syncGet("locale-lang-override", "auto")
         ],
         localizationProvider.get("VOTMenuLanguage"),
@@ -7132,20 +7344,18 @@ class VideoHandler {
 
           const percentX = (e.clientX / this.container.clientWidth) * 100;
           // const percentY = (e.clientY / this.video.clientHeight) * 100;
+          const isBigContainer =
+            this.container.clientWidth && this.container.clientWidth > 550;
+          const isLeft = percentX <= 44;
+          const isRightSide = percentX >= 66 ? "right" : "default";
+          const side = isLeft ? "left" : isRightSide;
 
-          this.data.buttonPos =
-            this.container.clientWidth && this.container.clientWidth > 550
-              ? percentX <= 44
-                ? "left"
-                : percentX >= 66
-                  ? "right"
-                  : "default"
-              : "default";
+          this.data.buttonPos = isBigContainer ? side : "default";
           this.votButton.container.dataset.direction =
             this.data.buttonPos === "default" ? "row" : "column";
           this.votButton.container.dataset.position = this.data.buttonPos;
           this.votMenu.container.dataset.position = this.data.buttonPos;
-          if (this.container.clientWidth && this.container.clientWidth > 550) {
+          if (isBigContainer) {
             await votStorage.set("buttonPos", this.data.buttonPos);
           }
         }
@@ -7161,12 +7371,18 @@ class VideoHandler {
       });
 
       this.votDownloadSubtitlesButton.addEventListener("click", async () => {
-        const srtContent = convertSubs(this.yandexSubtitles, "srt");
-        const blob = new Blob([srtContent], { type: "text/plain" });
+        const format = this.data.subtitlesDownloadFormat;
+        const subsContent = convertSubs(this.yandexSubtitles, format);
+        const blob = new Blob(
+          [format === "json" ? JSON.stringify(subsContent) : subsContent],
+          {
+            type: "text/plain",
+          },
+        );
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `subtitles_${this.videoData.videoId}.srt`;
+        a.download = `subtitles_${this.videoData.videoId}.${format}`;
         a.click();
         URL.revokeObjectURL(url);
       });
@@ -7175,7 +7391,9 @@ class VideoHandler {
         this.votSettingsDialog.container.hidden =
           !this.votSettingsDialog.container.hidden;
         if (document.fullscreenElement || document.webkitFullscreenElement) {
+          // eslint-disable-next-line sonarjs/no-unused-expressions
           document.webkitExitFullscreen && document.webkitExitFullscreen();
+          // eslint-disable-next-line sonarjs/no-unused-expressions
           document.exitFullscreen && document.exitFullscreen();
         }
       });
@@ -7381,6 +7599,27 @@ class VideoHandler {
         );
         this.votSubtitlesDialog.bodyContainer.appendChild(
           this.votSubtitlesHighlightWordsCheckbox.container,
+        );
+
+        this.votSubtitlesDownloadFormatSelect = ui.createVOTSelect(
+          this.data.subtitlesDownloadFormat.toUpperCase(),
+          localizationProvider.get("VOTSubtitlesDownloadFormat"),
+          genOptionsByOBJ(subtitlesFormats, this.data.subtitlesDownloadFormat),
+          {
+            onSelectCb: async (e) => {
+              this.data.subtitlesDownloadFormat = e.target.dataset.votValue;
+              await votStorage.set(
+                "subtitlesDownloadFormat",
+                this.data.subtitlesDownloadFormat,
+              );
+            },
+            labelElement: ui.createVOTSelectLabel(
+              localizationProvider.get("VOTSubtitlesDownloadFormat"),
+            ),
+          },
+        );
+        this.votSubtitlesDialog.bodyContainer.appendChild(
+          this.votSubtitlesDownloadFormatSelect.container,
         );
 
         this.votSubtitlesMaxLengthSlider = ui.createSlider(
@@ -7849,7 +8088,7 @@ class VideoHandler {
                 s.translatedFromLanguage.toUpperCase()
               }`
             : "") +
-          (s.source !== "yandex" ? `, ${s.source}` : "") +
+          (s.source !== "yandex" ? `, ${window.location.hostname}` : "") +
           (s.isAutoGenerated
             ? ` (${localizationProvider.get("VOTAutogenerated")})`
             : ""),
@@ -7887,12 +8126,6 @@ class VideoHandler {
     try {
       this.subtitlesList = await subtitles_getSubtitles(this.votClient, this.videoData);
     } catch (err) {
-      // ignore error on sites with m3u8
-      if (err?.unlocalizedMessage === "VOTSubtitlesNotSupportedUrl") {
-        this.subtitlesList = [];
-        await this.updateSubtitlesLangSelect();
-        return;
-      }
       utils_debug.log("Error with yandex server, try auto-fix...", err);
       this.votOpts = {
         fetchFn: GM_fetch,
@@ -8020,8 +8253,15 @@ class VideoHandler {
    * detected language, response language, and translation help.
    */
   async getVideoData() {
-    const { duration, url, videoId, host, translationHelp, detectedLanguage } =
-      await getVideoData(this.site, this.video);
+    const {
+      duration,
+      url,
+      videoId,
+      host,
+      translationHelp,
+      detectedLanguage,
+      subtitles,
+    } = await getVideoData(this.site, this.video);
     const videoData = {
       translationHelp: translationHelp ?? null,
       // by default, we request the translation of the video
@@ -8033,6 +8273,7 @@ class VideoHandler {
       host,
       detectedLanguage: detectedLanguage ?? this.translateFromLang,
       responseLanguage: this.translateToLang,
+      subtitles,
     };
 
     if (this.site.host === "youtube") {
@@ -8184,17 +8425,6 @@ class VideoHandler {
     const translationTake = localizationProvider.get("translationTake");
     const lang = localizationProvider.lang;
 
-    if (
-      [
-        "Подготавливаем перевод",
-        "Видео передано в обработку",
-        "Ожидаем перевод видео",
-        "Загружаем переведенное аудио",
-      ].includes(errorMessage)
-    ) {
-      this.setLoadingBtn(true);
-    }
-
     if (errorMessage?.name === "VOTLocalizedError") {
       this.transformBtn("error", errorMessage.localizedMessage);
     } else if (errorMessage instanceof Error) {
@@ -8211,6 +8441,18 @@ class VideoHandler {
       this.transformBtn("error", translatedMessage);
     } else {
       this.transformBtn("error", errorMessage);
+    }
+
+    // it must be at the very bottom of the function, otherwise it will be overwritten in the transformBtn
+    if (
+      [
+        "Подготавливаем перевод",
+        "Видео передано в обработку",
+        "Ожидаем перевод видео",
+        "Загружаем переведенное аудио",
+      ].includes(errorMessage)
+    ) {
+      this.setLoadingBtn(true);
     }
   }
 
@@ -8233,6 +8475,59 @@ class VideoHandler {
     this.downloadTranslationUrl = audioUrl;
   }
 
+  async validateAudioUrl(audioUrl) {
+    try {
+      const response = await GM_fetch(audioUrl, {
+        method: "HEAD",
+        timeout: 5000,
+      });
+      utils_debug.log("Test audio response", response);
+      if (response.status === 404) {
+        utils_debug.log("Yandex returned not valid audio, trying to fix...");
+        let translateRes = await this.translateVideoImpl(
+          this.videoData,
+          (this.videoData.detectedLanguage = "auto"),
+          this.videoData.responseLanguage,
+          this.videoData.translationHelp,
+        );
+        this.setSelectMenuValues(
+          this.videoData.detectedLanguage,
+          this.videoData.responseLanguage,
+        );
+        audioUrl = translateRes.url;
+        utils_debug.log("Fixed audio audioUrl", audioUrl);
+      } else {
+        utils_debug.log("Valid audioUrl", audioUrl);
+      }
+    } catch (err) {
+      if (err.message === "Timeout") {
+        utils_debug.log("Request timed out. Handling timeout error...");
+        this.data.audioProxy = 1;
+        await votStorage.set("audioProxy", 1);
+      } else {
+        utils_debug.log("Test audio error:", err);
+      }
+    }
+
+    this.audio.src = audioUrl;
+    try {
+      await this.audio.play();
+    } catch (e) {
+      console.error("[VOT]", e);
+      if (e.name === "NotSupportedError") {
+        if (
+          [...sitesInvidious, ...sitesPiped].includes(window.location.hostname)
+        ) {
+          throw new VOTLocalizedError("VOTMediaCSPError");
+        }
+        this.data.audioProxy = 1;
+        await votStorage.set("audioProxy", 1);
+      }
+    }
+
+    return audioUrl;
+  }
+
   // update translation audio src
   async updateTranslation(audioUrl) {
     //debug.log("cachedTranslation", this.cachedTranslation?.url, this.audio.currentSrc);
@@ -8240,56 +8535,7 @@ class VideoHandler {
       utils_debug.log("[translateFunc] Audio src is the same");
       this.audio.src = audioUrl;
     } else {
-      try {
-        const response = await GM_fetch(audioUrl, {
-          method: "HEAD",
-          timeout: 5000,
-        });
-        utils_debug.log("Test audio response", response);
-        if (response.status === 404) {
-          utils_debug.log("Yandex returned not valid audio, trying to fix...");
-          let translateRes = await this.translateVideoImpl(
-            this.videoData,
-            (this.videoData.detectedLanguage = "auto"),
-            this.videoData.responseLanguage,
-            this.videoData.translationHelp,
-          );
-          this.setSelectMenuValues(
-            this.videoData.detectedLanguage,
-            this.videoData.responseLanguage,
-          );
-          audioUrl = translateRes.url;
-          utils_debug.log("Fixed audio audioUrl", audioUrl);
-        } else {
-          utils_debug.log("Valid audioUrl", audioUrl);
-        }
-      } catch (err) {
-        if (err.message === "Timeout") {
-          utils_debug.log("Request timed out. Handling timeout error...");
-          this.data.audioProxy = 1;
-          await votStorage.set("audioProxy", 1);
-        } else {
-          utils_debug.log("Test audio error:", err);
-        }
-      }
-
-      this.audio.src = audioUrl;
-      try {
-        await this.audio.play();
-      } catch (e) {
-        console.error("[VOT]", e);
-        if (e.name === "NotSupportedError") {
-          if (
-            [...sitesInvidious, ...sitesPiped].includes(
-              window.location.hostname,
-            )
-          ) {
-            throw new VOTLocalizedError("VOTMediaCSPError");
-          }
-          this.data.audioProxy = 1;
-          await votStorage.set("audioProxy", 1);
-        }
-      }
+      audioUrl = await this.validateAudioUrl(audioUrl);
     }
 
     if (
@@ -8361,24 +8607,7 @@ class VideoHandler {
         "success",
         localizationProvider.get("disableTranslate"),
       );
-
-      const streamURL = `https://${
-        this.data.m3u8ProxyHost
-      }/?all=yes&origin=${encodeURIComponent(
-        "https://strm.yandex.ru",
-      )}&referer=${encodeURIComponent(
-        "https://strm.yandex.ru",
-      )}&url=${encodeURIComponent(translateRes.result.url)}`;
-      if (this.hls) {
-        this.setupHLS(streamURL);
-      } else if (this.audio.canPlayType("application/vnd.apple.mpegurl")) {
-        // safari
-        this.audio.src = streamURL;
-      } else {
-        // browser doesn't support m3u8 (hls unsupported and it isn't a safari)
-        throw new VOTLocalizedError("audioFormatNotSupported");
-      }
-
+      const streamURL = this.setHLSSource(translateRes.result.url);
       if (this.site.host === "youtube") {
         youtubeUtils.videoSeek(this.video, 10); // 10 is the most successful number for streaming. With it, the audio is not so far behind the original
       }
@@ -8426,15 +8655,6 @@ class VideoHandler {
     await this.updateTranslation(translateRes.url);
 
     if (
-      ![
-        VideoService.kick,
-        VideoService.reddit,
-        VideoService.patreon,
-        VideoService.kodik,
-        VideoService.appledeveloper,
-        VideoService.epicgames,
-        VideoService.nineanimetv,
-      ].includes(this.site.host) &&
       !this.subtitlesList.some(
         (item) =>
           item.source === "yandex" &&
@@ -8491,6 +8711,27 @@ class VideoHandler {
     utils_debug.log(this.hls);
   }
 
+  setHLSSource(url) {
+    const streamURL = `https://${
+      this.data.m3u8ProxyHost
+    }/?all=yes&origin=${encodeURIComponent(
+      "https://strm.yandex.ru",
+    )}&referer=${encodeURIComponent(
+      "https://strm.yandex.ru",
+    )}&url=${encodeURIComponent(url)}`;
+    if (this.hls) {
+      this.setupHLS(streamURL);
+    } else if (this.audio.canPlayType("application/vnd.apple.mpegurl")) {
+      // safari
+      this.audio.src = streamURL;
+    } else {
+      // browser doesn't support m3u8 (hls unsupported and it isn't a safari)
+      throw new VOTLocalizedError("audioFormatNotSupported");
+    }
+
+    return streamURL;
+  }
+
   setupAudioSettings() {
     if (typeof this.data.defaultVolume === "number") {
       this.setAudioVolume(this.data.defaultVolume / 100);
@@ -8517,13 +8758,16 @@ class VideoHandler {
     const hide =
       !this.video.src && !this.video.currentSrc && !this.video.srcObject;
     this.votButton.container.hidden = hide;
-    hide && (this.votMenu.container.hidden = hide);
+    if (hide) {
+      this.votMenu.container.hidden = hide;
+    }
+
     if (!this.site.selector) {
       this.container = this.video.parentElement;
     }
+
     if (!this.container.contains(this.votButton.container)) {
-      this.container.appendChild(this.votButton.container);
-      this.container.appendChild(this.votMenu.container);
+      this.container.append(this.votButton.container, this.votMenu.container);
     }
 
     await Promise.all([
