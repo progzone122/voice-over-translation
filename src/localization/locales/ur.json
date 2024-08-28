@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "ذیلی عنوان کے پس منظر کی شفافیت",
   "VOTPressNewHotkey": "نئی ہاٹکی دبائیں۔..",
   "VOTCreateTranslationHotkey": "ترجمہ کے لئے ہاٹکی بنائیں",
-  "VOTChangeHotkeyWithCurrent": "ہاٹکی تبدیل کریں (موجودہ: {0})"
+  "VOTChangeHotkeyWithCurrent": "ہاٹکی تبدیل کریں (موجودہ: {0})",
+  "VOTSubtitlesDownloadFormat": "سب ٹائٹلز ڈاؤن لوڈ کرنے کا فارمیٹ"
 }

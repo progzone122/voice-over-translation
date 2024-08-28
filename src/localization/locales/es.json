@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "Transparencia del fondo de los subtítulos",
   "VOTPressNewHotkey": "Presione la nueva tecla de acceso rápido...",
   "VOTCreateTranslationHotkey": "Crear Tecla de acceso rápido para la Traducción",
-  "VOTChangeHotkeyWithCurrent": "Cambiar tecla de acceso rápido (Actual: {0})"
+  "VOTChangeHotkeyWithCurrent": "Cambiar tecla de acceso rápido (Actual: {0})",
+  "VOTSubtitlesDownloadFormat": "El formato para descargar subtítulos"
 }

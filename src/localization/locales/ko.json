@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "자막 배경의 투명도",
   "VOTPressNewHotkey": "새 단축키를 누릅니다...",
   "VOTCreateTranslationHotkey": "번역을 위한 단축키 만들기",
-  "VOTChangeHotkeyWithCurrent": "단축키 변경(현재:{0})"
+  "VOTChangeHotkeyWithCurrent": "단축키 변경(현재:{0})",
+  "VOTSubtitlesDownloadFormat": "자막 다운로드 형식"
 }

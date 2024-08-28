@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "Transparentnost pozadine titlova",
   "VOTPressNewHotkey": "Pritisnite novu tipku prečaca...",
   "VOTCreateTranslationHotkey": "Stvorite prečac za prijevod",
-  "VOTChangeHotkeyWithCurrent": "Promijenite prečac (trenutni: {0})"
+  "VOTChangeHotkeyWithCurrent": "Promijenite prečac (trenutni: {0})",
+  "VOTSubtitlesDownloadFormat": "Format za preuzimanje titlova"
 }

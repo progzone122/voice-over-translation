@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "Transparansi latar mburi subtitle",
   "VOTPressNewHotkey": "Pencet tombol anyar...",
   "VOTCreateTranslationHotkey": "Nggawe Hotkey Kanggo Terjemahan",
-  "VOTChangeHotkeyWithCurrent": "Ganti Tombol (Saiki: {0})"
+  "VOTChangeHotkeyWithCurrent": "Ganti Tombol (Saiki: {0})",
+  "VOTSubtitlesDownloadFormat": "Format kanggo ngundhuh subtitles"
 }

@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "Gennemsigtighed i undertekstbaggrunden",
   "VOTPressNewHotkey": "Tryk på den nye genvejstast...",
   "VOTCreateTranslationHotkey": "Opret genvejstast til oversættelse",
-  "VOTChangeHotkeyWithCurrent": "Skift Genvejstast (Current: {0})"
+  "VOTChangeHotkeyWithCurrent": "Skift Genvejstast (Current: {0})",
+  "VOTSubtitlesDownloadFormat": "Formatet til hentning af undertekster"
 }

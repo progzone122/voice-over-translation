@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "字幕背景的透明度",
   "VOTPressNewHotkey": "按新热键。..",
   "VOTCreateTranslationHotkey": "为翻译创建热键",
-  "VOTChangeHotkeyWithCurrent": "更改热键(当前:{0})"
+  "VOTChangeHotkeyWithCurrent": "更改热键(当前:{0})",
+  "VOTSubtitlesDownloadFormat": "下载字幕的格式"
 }

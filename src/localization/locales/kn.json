@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "ಉಪಶೀರ್ಷಿಕೆ ಹಿನ್ನೆಲೆ ಪಾರದರ್ಶಕತೆ",
   "VOTPressNewHotkey": "ಹೊಸ ಹಾಟ್ಕೀ ಒತ್ತಿರಿ...",
   "VOTCreateTranslationHotkey": "ಅನುವಾದಕ್ಕಾಗಿ Hotkey ರಚಿಸಿ",
-  "VOTChangeHotkeyWithCurrent": "ಹಾಟ್ಕೀ ಬದಲಾಯಿಸಿ (ಪ್ರಸ್ತುತ: {0})"
+  "VOTChangeHotkeyWithCurrent": "ಹಾಟ್ಕೀ ಬದಲಾಯಿಸಿ (ಪ್ರಸ್ತುತ: {0})",
+  "VOTSubtitlesDownloadFormat": "ಉಪಶೀರ್ಷಿಕೆಗಳನ್ನು ಡೌನ್ಲೋಡ್ ಮಾಡುವ ಸ್ವರೂಪ"
 }

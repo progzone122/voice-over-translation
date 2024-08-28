@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "Trasparenza tal-isfond tas-sottotitolu",
   "VOTPressNewHotkey": "Agħfas il-hotkey il-ġdid...",
   "VOTCreateTranslationHotkey": "Oħloq Hotkey għat-Traduzzjoni",
-  "VOTChangeHotkeyWithCurrent": "Ibdel Il-Hotkey (Kurrenti: {0})"
+  "VOTChangeHotkeyWithCurrent": "Ibdel Il-Hotkey (Kurrenti: {0})",
+  "VOTSubtitlesDownloadFormat": "Il-format għat-tniżżil ta'sottotitoli"
 }

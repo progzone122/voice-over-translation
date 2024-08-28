@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "شفافية خلفية العنوان الفرعي",
   "VOTPressNewHotkey": "اضغط على مفتاح الاختصار الجديد...",
   "VOTCreateTranslationHotkey": "إنشاء هوتكي للترجمة",
-  "VOTChangeHotkeyWithCurrent": "تغيير هوتكي (الحالي: {0})"
+  "VOTChangeHotkeyWithCurrent": "تغيير هوتكي (الحالي: {0})",
+  "VOTSubtitlesDownloadFormat": "تنسيق تنزيل الترجمة"
 }

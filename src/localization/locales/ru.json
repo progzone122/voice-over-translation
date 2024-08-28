@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "Прозрачность фона субтитров",
   "VOTPressNewHotkey": "Нажмите новую клавишу...",
   "VOTCreateTranslationHotkey": "Назначить горячую клавишу для перевода",
-  "VOTChangeHotkeyWithCurrent": "Изменить горячую клавишу (Текущая: {0})"
+  "VOTChangeHotkeyWithCurrent": "Изменить горячую клавишу (Текущая: {0})",
+  "VOTSubtitlesDownloadFormat": "Формат для загрузки субтитров"
 }

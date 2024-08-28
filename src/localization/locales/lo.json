@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "ຄວາມໂປ່ງໃສຂອງຄວາມເປັນມາ subtitle ໄດ້",
   "VOTPressNewHotkey": "ກົດປຸ່ມ hotkey ໃໝ່...",
   "VOTCreateTranslationHotkey": "ສ້າງ Hotkey ສໍາລັບການແປພາສາ",
-  "VOTChangeHotkeyWithCurrent": "ປ່ຽນ Hotkey(ປັດຈຸບັນ:{0})"
+  "VOTChangeHotkeyWithCurrent": "ປ່ຽນ Hotkey(ປັດຈຸບັນ:{0})",
+  "VOTSubtitlesDownloadFormat": "ຮູບແບບສໍາລັບການດາວໂຫຼດຄໍາບັນຍາຍ"
 }

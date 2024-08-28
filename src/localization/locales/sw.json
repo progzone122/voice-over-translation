@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "Uwazi wa mandharinyuma ya manukuu",
   "VOTPressNewHotkey": "Bonyeza hotkey mpya...",
   "VOTCreateTranslationHotkey": "Kujenga Hotkey Kwa Tafsiri",
-  "VOTChangeHotkeyWithCurrent": "Kubadili Hotkey (Sasa: {0})"
+  "VOTChangeHotkeyWithCurrent": "Kubadili Hotkey (Sasa: {0})",
+  "VOTSubtitlesDownloadFormat": "Umbizo la kupakua manukuu"
 }

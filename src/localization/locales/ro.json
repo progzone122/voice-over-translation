@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "Transparența fundalului subtitrării",
   "VOTPressNewHotkey": "Apăsați tasta rapidă nouă...",
   "VOTCreateTranslationHotkey": "Creați taste rapide pentru traducere",
-  "VOTChangeHotkeyWithCurrent": "Schimbare Tastă Rapidă (Curent: {0})"
+  "VOTChangeHotkeyWithCurrent": "Schimbare Tastă Rapidă (Curent: {0})",
+  "VOTSubtitlesDownloadFormat": "Formatul pentru descărcarea subtitrărilor"
 }

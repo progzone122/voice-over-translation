@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "Transparenca e sfondit të titrave",
   "VOTPressNewHotkey": "Shtypni tastin e ri...",
   "VOTCreateTranslationHotkey": "Krijo Hotkey Për Përkthim",
-  "VOTChangeHotkeyWithCurrent": "Ndrysho Hotkey (Aktual: {0})"
+  "VOTChangeHotkeyWithCurrent": "Ndrysho Hotkey (Aktual: {0})",
+  "VOTSubtitlesDownloadFormat": "Formati për shkarkimin e titrave"
 }

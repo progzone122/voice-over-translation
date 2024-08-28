@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "Độ trong suốt của nền phụ đề",
   "VOTPressNewHotkey": "Nhấn phím nóng mới...",
   "VOTCreateTranslationHotkey": "Tạo Phím Nóng Để Dịch",
-  "VOTChangeHotkeyWithCurrent": "Thay Đổi Phím Nóng (Hiện Tại: {0})"
+  "VOTChangeHotkeyWithCurrent": "Thay Đổi Phím Nóng (Hiện Tại: {0})",
+  "VOTSubtitlesDownloadFormat": "Định dạng để tải xuống phụ đề"
 }

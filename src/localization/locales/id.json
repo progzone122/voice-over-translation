@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "Transparansi latar belakang subtitle",
   "VOTPressNewHotkey": "Tekan tombol pintas baru...",
   "VOTCreateTranslationHotkey": "Buat Hotkey untuk Terjemahan",
-  "VOTChangeHotkeyWithCurrent": "Ubah Tombol Pintas (Saat ini: {0})"
+  "VOTChangeHotkeyWithCurrent": "Ubah Tombol Pintas (Saat ini: {0})",
+  "VOTSubtitlesDownloadFormat": "Format untuk mengunduh subtitle"
 }

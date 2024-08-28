@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "A felirat hátterének átláthatósága",
   "VOTPressNewHotkey": "Nyomja meg az új gyorsbillentyűt...",
   "VOTCreateTranslationHotkey": "Gyorsbillentyű létrehozása a fordításhoz",
-  "VOTChangeHotkeyWithCurrent": "Gyorsbillentyű Módosítása (Aktuális: {0})"
+  "VOTChangeHotkeyWithCurrent": "Gyorsbillentyű Módosítása (Aktuális: {0})",
+  "VOTSubtitlesDownloadFormat": "A feliratok letöltésének formátuma"
 }

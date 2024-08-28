@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "Transparency of the subtitle background",
   "VOTPressNewHotkey": "Press the new hotkey...",
   "VOTCreateTranslationHotkey": "Create Hotkey for Translation",
-  "VOTChangeHotkeyWithCurrent": "Change Hotkey (Current: {0})"
+  "VOTChangeHotkeyWithCurrent": "Change Hotkey (Current: {0})",
+  "VOTSubtitlesDownloadFormat": "The format for downloading subtitles"
 }

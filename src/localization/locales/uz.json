@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "Subtitr fonining shaffofligi",
   "VOTPressNewHotkey": "Yangi tezkor tugmani bosing...",
   "VOTCreateTranslationHotkey": "Tarjima uchun tezkor tugma yarating",
-  "VOTChangeHotkeyWithCurrent": "O'zgartirish Hotkey (Hozirgi: {0})"
+  "VOTChangeHotkeyWithCurrent": "O'zgartirish Hotkey (Hozirgi: {0})",
+  "VOTSubtitlesDownloadFormat": "Subtitrlarni yuklab olish formati"
 }

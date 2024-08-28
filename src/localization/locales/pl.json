@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "Przezroczystość tła napisów",
   "VOTPressNewHotkey": "Naciśnij nowy klawisz skrótu...",
   "VOTCreateTranslationHotkey": "Utwórz skrót do tłumaczenia",
-  "VOTChangeHotkeyWithCurrent": "Zmień Klawisz Skrótu (Current: {0})"
+  "VOTChangeHotkeyWithCurrent": "Zmień Klawisz Skrótu (Current: {0})",
+  "VOTSubtitlesDownloadFormat": "Format pobierania napisów"
 }

@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "Preglednost ozadja podnapisov",
   "VOTPressNewHotkey": "Pritisnite novo bližnjično tipko...",
   "VOTCreateTranslationHotkey": "Ustvari bližnjico za prevod",
-  "VOTChangeHotkeyWithCurrent": "Spremeni Bližnjično Tipko (Trenutno: {0})"
+  "VOTChangeHotkeyWithCurrent": "Spremeni Bližnjično Tipko (Trenutno: {0})",
+  "VOTSubtitlesDownloadFormat": "Oblika za prenos podnapisov"
 }

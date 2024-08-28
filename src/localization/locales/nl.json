@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "Transparantie van de ondertitelingsachtergrond",
   "VOTPressNewHotkey": "Druk op de nieuwe sneltoets...",
   "VOTCreateTranslationHotkey": "Sneltoets maken voor vertaling",
-  "VOTChangeHotkeyWithCurrent": "Sneltoets Wijzigen (Huidige: {0})"
+  "VOTChangeHotkeyWithCurrent": "Sneltoets Wijzigen (Huidige: {0})",
+  "VOTSubtitlesDownloadFormat": "Het formaat voor het downloaden van ondertitels"
 }

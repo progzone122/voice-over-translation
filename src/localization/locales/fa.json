@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "شفافیت پس زمینه زیرنویس",
   "VOTPressNewHotkey": "کلید میانبر جدید را فشار دهید...",
   "VOTCreateTranslationHotkey": "ایجاد کلید میانبر برای ترجمه",
-  "VOTChangeHotkeyWithCurrent": "کلید میانبر تغییر (در حال حاضر: {0})"
+  "VOTChangeHotkeyWithCurrent": "کلید میانبر تغییر (در حال حاضر: {0})",
+  "VOTSubtitlesDownloadFormat": "فرمت دانلود زیرنویس"
 }

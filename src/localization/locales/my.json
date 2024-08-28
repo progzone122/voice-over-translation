@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "စာတန်းထိုးနောက်ခံ၏ပွင့်လင်းမြင်သာမှု",
   "VOTPressNewHotkey": "ခလုတ်အသစ်ကိုနှိပ်ပါ။..",
   "VOTCreateTranslationHotkey": "ဘာသာပြန်ရန် Hotkey ကိုဖန်တီးပါ",
-  "VOTChangeHotkeyWithCurrent": "Change Hotkey(လက်ရှိ:{0})"
+  "VOTChangeHotkeyWithCurrent": "Change Hotkey(လက်ရှိ:{0})",
+  "VOTSubtitlesDownloadFormat": "စာတန်းထိုးများကိုဒေါင်းလုဒ်လုပ်ရန်ပုံစံ"
 }

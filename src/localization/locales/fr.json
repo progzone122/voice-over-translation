@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "Transparence de l'arrière-plan des sous-titres",
   "VOTPressNewHotkey": "Appuyez sur la nouvelle touche de raccourci...",
   "VOTCreateTranslationHotkey": "Créer un raccourci clavier pour la traduction",
-  "VOTChangeHotkeyWithCurrent": "Modifier le raccourci clavier (Actuel: {0})"
+  "VOTChangeHotkeyWithCurrent": "Modifier le raccourci clavier (Actuel: {0})",
+  "VOTSubtitlesDownloadFormat": "Le format de téléchargement des sous-titres"
 }

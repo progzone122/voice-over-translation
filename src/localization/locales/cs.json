@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "Průhlednost pozadí titulků",
   "VOTPressNewHotkey": "Stiskněte novou klávesovou zkratku...",
   "VOTCreateTranslationHotkey": "Vytvořit klávesovou zkratku pro překlad",
-  "VOTChangeHotkeyWithCurrent": "Změnit Klávesovou Zkratku (Aktuální: {0})"
+  "VOTChangeHotkeyWithCurrent": "Změnit Klávesovou Zkratku (Aktuální: {0})",
+  "VOTSubtitlesDownloadFormat": "Formát pro stahování titulků"
 }

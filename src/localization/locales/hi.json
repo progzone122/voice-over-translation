@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "उपशीर्षक पृष्ठभूमि की पारदर्शिता",
   "VOTPressNewHotkey": "नई हॉटकी दबाएं।..",
   "VOTCreateTranslationHotkey": "अनुवाद के लिए हॉटकी बनाएं",
-  "VOTChangeHotkeyWithCurrent": "हॉटकी बदलें (वर्तमान: {0})"
+  "VOTChangeHotkeyWithCurrent": "हॉटकी बदलें (वर्तमान: {0})",
+  "VOTSubtitlesDownloadFormat": "उपशीर्षक डाउनलोड करने का प्रारूप"
 }

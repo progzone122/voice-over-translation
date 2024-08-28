@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "Subtiitrite tausta läbipaistvus",
   "VOTPressNewHotkey": "Vajutage uut kiirklahvi...",
   "VOTCreateTranslationHotkey": "Looge tõlkimiseks kiirklahv",
-  "VOTChangeHotkeyWithCurrent": "Muuda Kiirklahvi (Praegune: {0})"
+  "VOTChangeHotkeyWithCurrent": "Muuda Kiirklahvi (Praegune: {0})",
+  "VOTSubtitlesDownloadFormat": "Subtiitrite allalaadimise vorming"
 }

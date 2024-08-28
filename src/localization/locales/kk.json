@@ -195,5 +195,6 @@
   "VOTSubtitlesOpacity": "Субтитр фонының мөлдірлігі",
   "VOTPressNewHotkey": "Жаңа жылдам пернені басыңыз...",
   "VOTCreateTranslationHotkey": "Аударма Үшін Жылдам Перне жасаңыз",
-  "VOTChangeHotkeyWithCurrent": "Жылдам Пернені Өзгерту (Ағымдағы: {0})"
+  "VOTChangeHotkeyWithCurrent": "Жылдам Пернені Өзгерту (Ағымдағы: {0})",
+  "VOTSubtitlesDownloadFormat": "Субтитрлерді жүктеу форматы"
 }
