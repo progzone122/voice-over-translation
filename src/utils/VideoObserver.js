@@ -62,7 +62,11 @@ const isAdVideo = (video) => {
 };
 
 const isMutedVideo = (video) => {
-  return video.hasAttribute("muted") && !video.classList.contains("vjs-tech");
+  return (
+    video.hasAttribute("muted") &&
+    !video.classList.contains("vjs-tech") &&
+    !video.preload
+  );
 };
 
 const isVideoReady = (video) => video.readyState >= 3;

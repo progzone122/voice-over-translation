@@ -6266,7 +6266,11 @@ const isAdVideo = (video) => {
 };
 
 const isMutedVideo = (video) => {
-  return video.hasAttribute("muted") && !video.classList.contains("vjs-tech");
+  return (
+    video.hasAttribute("muted") &&
+    !video.classList.contains("vjs-tech") &&
+    !video.preload
+  );
 };
 
 const isVideoReady = (video) => video.readyState >= 3;
@@ -6550,8 +6554,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : (res.message ??
-              localizationProvider.get("translationTakeFewMinutes")),
+          : res.message ??
+              localizationProvider.get("translationTakeFewMinutes"),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
