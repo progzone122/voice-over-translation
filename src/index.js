@@ -692,9 +692,11 @@ class VideoHandler {
       );
       this.votAutoSetVolumeSlider = ui.createSlider(
         html`<strong
-          >${(this.data?.autoVolume ?? defaultAutoVolume) * 100}%</strong
+          >${Math.round(
+            (this.data?.autoVolume ?? defaultAutoVolume) * 100,
+          )}%</strong
         >`,
-        (this.data?.autoVolume ?? defaultAutoVolume) * 100,
+        Math.round((this.data?.autoVolume ?? defaultAutoVolume) * 100),
         0,
         100,
       );
@@ -2435,7 +2437,7 @@ function findContainer(site, video) {
       : container;
   }
 
-  const browserVersion = browserInfo.browser.version.split(".")[0];
+  const browserVersion = browserInfo.browser.version?.split(".")?.[0];
   if (
     site.selector?.includes(":not") &&
     site.selector?.includes("*") &&
