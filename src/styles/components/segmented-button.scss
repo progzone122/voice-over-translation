@@ -118,6 +118,7 @@
       margin-left: 8px;
       white-space: nowrap;
       color: inherit;
+      font-weight: 400;
     }
   }
 
@@ -172,6 +173,7 @@
   }
 
   & svg {
-    width: fit-content;
+    // width: fit-content;
+    width: 24px;
   }
 }
