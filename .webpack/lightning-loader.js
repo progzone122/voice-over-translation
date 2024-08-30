@@ -13,7 +13,7 @@ export default function (content, map) {
     cssModules: false,
     projectRoot: path.join(process.cwd(), "dist"),
     filename: this.resourcePath,
-    targets: browserslistToTargets(browserslist("defaults")),
+    targets: browserslistToTargets(browserslist("defaults, Safari >= 13")),
   };
 
   let code = "";
