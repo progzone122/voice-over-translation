@@ -6,22 +6,24 @@ export const votStorage = new (class {
     debug.log(`GM Storage Status: ${this.gmSupport}`);
   }
 
-  syncGet(name, def = undefined, toNumber = false) {
+  syncGet(name, def = undefined) {
     if (this.gmSupport) {
       return GM_getValue(name, def);
     }
 
+    const toNumber = typeof def === "number";
     let val = window.localStorage.getItem(name);
 
     const result = val ?? def;
     return toNumber ? Number(result) : result;
   }
 
-  async get(name, def = undefined, toNumber = false) {
+  async get(name, def = undefined) {
     if (this.gmSupport) {
       return await GM_getValue(name, def);
     }
 
+    const toNumber = typeof def === "number";
     return Promise.resolve(this.syncGet(name, def, toNumber));
   }
 
