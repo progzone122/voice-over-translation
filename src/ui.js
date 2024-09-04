@@ -15,6 +15,12 @@ const arrowIconRaw = svg`<svg
     d="M12 14.975q-.2 0-.375-.062T11.3 14.7l-4.6-4.6q-.275-.275-.275-.7t.275-.7q.275-.275.7-.275t.7.275l3.9 3.9l3.9-3.9q.275-.275.7-.275t.7.275q.275.275.275.7t-.275.7l-4.6 4.6q-.15.15-.325.213t-.375.062Z"
   />
 </svg>`;
+const animeOpts = {
+  easing: "linear",
+  delay: function (el, i) {
+    return i * 200;
+  },
+};
 
 /**
  * Create header element
@@ -714,6 +720,123 @@ export function createDetails(titleHtml) {
   };
 }
 
+/**
+ *
+ * @export
+ * @param {SVGElement} votLoader
+ * @param {string} [primaryColor="139, 180, 245"]
+ * @return {Function} Update animation function
+ */
+function animateLoader(votLoader, primaryColor = "139, 180, 245") {
+  const votLoaderHelper = votLoader.querySelector(".vot-loader-helper");
+  const votLoaderMain = votLoader.querySelector(".vot-loader-main");
+  anime
+    .timeline({
+      ...animeOpts,
+      targets: [votLoaderHelper, votLoaderMain],
+      duration: 250,
+    })
+    .add({
+      "fill-opacity": 0,
+      "stroke-width": 2,
+      d: "M 12 1.5 C 17.799 1.5 22.5 6.201 22.5 12 C 22.5 17.799 17.799 22.5 12 22.5 C 6.201 22.5 1.5 17.799 1.5 12 C 1.5 6.201 6.201 1.5 12 1.5 Z",
+      duration: 0,
+    })
+    .add(
+      {
+        targets: votLoaderHelper,
+        stroke: `rgb(${primaryColor})`,
+        // make empty by default
+        "stroke-opacity": 0,
+        duration: 0,
+      },
+      0,
+    )
+    .add(
+      {
+        targets: votLoaderMain,
+        stroke: "#888888",
+        "stroke-opacity": 0.25,
+      },
+      0,
+    );
+  const animation = anime
+    .timeline({
+      targets: votLoaderHelper,
+      easing: "easeInOutSine",
+      duration: 1000,
+      autoplay: false,
+    })
+    .add(
+      {
+        // prevent full fill on 0%
+        strokeOpacity: 1,
+        duration: 0,
+      },
+      0,
+    )
+    .add(
+      {
+        strokeDashoffset: [anime.setDashoffset, 0],
+      },
+      0,
+    );
+
+  return (percentage) => {
+    animation.seek(animation.duration * (percentage / 100));
+  };
+}
+
+function afterAnimateLoader(votLoader, primaryColor = "139, 180, 245") {
+  const votLoaderHelper = votLoader.querySelector(".vot-loader-helper");
+  const votLoaderMain = votLoader.querySelector(".vot-loader-main");
+  anime
+    .timeline({
+      ...animeOpts,
+      targets: votLoaderMain,
+      duration: 600,
+    })
+    .add({
+      d: "M 9.0596 14.8571 L 9.7667 15.5642 L 10.4738 14.8571 L 17.0071 8.3238 C 17.0457 8.2852 17.0937 8.25 17.2333 8.25 C 17.373 8.25 17.421 8.2852 17.4596 8.3238 C 17.4981 8.3624 17.5333 8.4104 17.5333 8.55 C 17.5333 8.6896 17.4981 8.7376 17.4596 8.7762 L 9.9929 16.2429 C 9.9011 16.3346 9.8397 16.35 9.7667 16.35 C 9.6937 16.35 9.6322 16.3346 9.5404 16.2429 L 6.0738 12.7762 C 6.0352 12.7376 6 12.6897 6 12.55 C 6 12.4103 6.0352 12.3624 6.0738 12.3238 C 6.1124 12.2852 6.1603 12.25 6.3 12.25 C 6.4397 12.25 6.4876 12.2852 6.5262 12.3238 L 9.0596 14.8571 Z",
+      duration: 0,
+    })
+    .add({
+      strokeDashoffset: [anime.setDashoffset, 0],
+      stroke: `rgb(${primaryColor})`,
+      "stroke-opacity": 1,
+    });
+
+  setTimeout(() => {
+    anime
+      .timeline({
+        ...animeOpts,
+        targets: votLoaderMain,
+        duration: 600,
+      })
+      .add({
+        d: "M12 15.575C11.8667 15.575 11.7417 15.5542 11.625 15.5125C11.5083 15.4708 11.4 15.4 11.3 15.3L7.7 11.7C7.5 11.5 7.40417 11.2667 7.4125 11C7.42083 10.7333 7.51667 10.5 7.7 10.3C7.9 10.1 8.1375 9.99583 8.4125 9.9875C8.6875 9.97917 8.925 10.075 9.125 10.275L11 12.15V5C11 4.71667 11.0958 4.47917 11.2875 4.2875C11.4792 4.09583 11.7167 4 12 4C12.2833 4 12.5208 4.09583 12.7125 4.2875C12.9042 4.47917 13 4.71667 13 5V12.15L14.875 10.275C15.075 10.075 15.3125 9.97917 15.5875 9.9875C15.8625 9.99583 16.1 10.1 16.3 10.3C16.4833 10.5 16.5792 10.7333 16.5875 11C16.5958 11.2667 16.5 11.5 16.3 11.7L12.7 15.3C12.6 15.4 12.4917 15.4708 12.375 15.5125C12.2583 15.5542 12.1333 15.575 12 15.575ZM6 20C5.45 20 4.97917 19.8042 4.5875 19.4125C4.19583 19.0208 4 18.55 4 18V16C4 15.7167 4.09583 15.4792 4.2875 15.2875C4.47917 15.0958 4.71667 15 5 15C5.28333 15 5.52083 15.0958 5.7125 15.2875C5.90417 15.4792 6 15.7167 6 16V18H18V16C18 15.7167 18.0958 15.4792 18.2875 15.2875C18.4792 15.0958 18.7167 15 19 15C19.2833 15 19.5208 15.0958 19.7125 15.2875C19.9042 15.4792 20 15.7167 20 16V18C20 18.55 19.8042 19.0208 19.4125 19.4125C19.0208 19.8042 18.55 20 18 20H6Z",
+        duration: 100,
+      })
+      .add(
+        {
+          targets: votLoaderHelper,
+          d: "",
+          duration: 200,
+        },
+        0,
+      )
+      .add({
+        targets: votLoaderMain,
+        "stroke-width": "0",
+        stroke: `rgba(${primaryColor}), 0)`,
+        "fill-opacity": "1",
+        "stroke-dasharray": "0",
+        "stroke-dashoffset": "0",
+        duration: 0,
+      });
+  }, 2000);
+}
+
 export default {
   createHeader,
   createInformation,
@@ -731,5 +854,7 @@ export default {
   createVOTSelect,
   createVOTLanguageSelect,
   updateSlider,
+  animateLoader,
+  afterAnimateLoader,
   createDetails,
 };
