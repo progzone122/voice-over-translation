@@ -84,6 +84,34 @@ function cleanText(title, description) {
   const fullText = `${title} ${cleanedDescription}`.slice(0, 450);
   return fullText.replace(/[^\p{L}\s]+|\s+/gu, " ").trim();
 }
+/**
+ * Download binary file with entered filename
+ *
+ * @param {Blob} blob
+ * @param {string} filename
+ */
+function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+/**
+ * Remove all banned characters from filename
+ *
+ * @param {string} filename
+ * @return {string}
+ */
+function clearFileName(filename) {
+  if (filename.trim().length === 0) {
+    // generate a new filename
+    return new Date().toLocaleDateString("en-us").replaceAll("/", "-");
+  }
+
+  return filename.replace(/[\\/:*?"'<>|]/g, "");
+}
 
 async function GM_fetch(url, opts = {}) {
   const { timeout = 15000, ...fetchOptions } = opts;
@@ -147,5 +175,7 @@ export {
   initHls,
   initAudioContext,
   cleanText,
+  downloadBlob,
+  clearFileName,
   GM_fetch,
 };
