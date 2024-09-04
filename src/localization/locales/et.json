@@ -196,5 +196,6 @@
   "VOTPressNewHotkey": "Vajutage uut kiirklahvi...",
   "VOTCreateTranslationHotkey": "Looge tõlkimiseks kiirklahv",
   "VOTChangeHotkeyWithCurrent": "Muuda Kiirklahvi (Praegune: {0})",
-  "VOTSubtitlesDownloadFormat": "Subtiitrite allalaadimise vorming"
+  "VOTSubtitlesDownloadFormat": "Subtiitrite allalaadimise vorming",
+  "VOTDownloadWithName": "Laadige alla video nimega failid"
 }

@@ -196,5 +196,6 @@
   "VOTPressNewHotkey": "کلید میانبر جدید را فشار دهید...",
   "VOTCreateTranslationHotkey": "ایجاد کلید میانبر برای ترجمه",
   "VOTChangeHotkeyWithCurrent": "کلید میانبر تغییر (در حال حاضر: {0})",
-  "VOTSubtitlesDownloadFormat": "فرمت دانلود زیرنویس"
+  "VOTSubtitlesDownloadFormat": "فرمت دانلود زیرنویس",
+  "VOTDownloadWithName": "دانلود فایل با نام تصویری"
 }

@@ -196,5 +196,6 @@
   "VOTPressNewHotkey": "Pencét hotkey anyar...",
   "VOTCreateTranslationHotkey": "Jieun Hotkey Pikeun Tarjamahan",
   "VOTChangeHotkeyWithCurrent": "Robah Hotkey (Ayeuna: {0})",
-  "VOTSubtitlesDownloadFormat": "Format pikeun ngundeur terjemahan"
+  "VOTSubtitlesDownloadFormat": "Format pikeun ngundeur terjemahan",
+  "VOTDownloadWithName": "Ngundeur payil jeung ngaran video"
 }

@@ -196,5 +196,6 @@
   "VOTPressNewHotkey": "Притисните нови интервентни тастер...",
   "VOTCreateTranslationHotkey": "Направите интервентни тастер за превод",
   "VOTChangeHotkeyWithCurrent": "Промените интервентни тастер (тренутни: {0})",
-  "VOTSubtitlesDownloadFormat": "Формат за преузимање титлова"
+  "VOTSubtitlesDownloadFormat": "Формат за преузимање титлова",
+  "VOTDownloadWithName": "Преузмите датотеке са именом видео записа"
 }

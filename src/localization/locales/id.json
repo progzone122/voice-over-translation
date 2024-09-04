@@ -196,5 +196,6 @@
   "VOTPressNewHotkey": "Tekan tombol pintas baru...",
   "VOTCreateTranslationHotkey": "Buat Hotkey untuk Terjemahan",
   "VOTChangeHotkeyWithCurrent": "Ubah Tombol Pintas (Saat ini: {0})",
-  "VOTSubtitlesDownloadFormat": "Format untuk mengunduh subtitle"
+  "VOTSubtitlesDownloadFormat": "Format untuk mengunduh subtitle",
+  "VOTDownloadWithName": "Unduh file dengan nama video"
 }

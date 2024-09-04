@@ -196,5 +196,6 @@
   "VOTPressNewHotkey": "Agħfas il-hotkey il-ġdid...",
   "VOTCreateTranslationHotkey": "Oħloq Hotkey għat-Traduzzjoni",
   "VOTChangeHotkeyWithCurrent": "Ibdel Il-Hotkey (Kurrenti: {0})",
-  "VOTSubtitlesDownloadFormat": "Il-format għat-tniżżil ta'sottotitoli"
+  "VOTSubtitlesDownloadFormat": "Il-format għat-tniżżil ta'sottotitoli",
+  "VOTDownloadWithName": "Niżżel fajls bl-isem tal-vidjo"
 }

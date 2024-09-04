@@ -196,5 +196,6 @@
   "VOTPressNewHotkey": "Натисни новата клавишна комбинация...",
   "VOTCreateTranslationHotkey": "Създаване на клавиш за превод",
   "VOTChangeHotkeyWithCurrent": "Промяна На Клавишната Комбинация (Текуща: {0})",
-  "VOTSubtitlesDownloadFormat": "Формат за изтегляне на субтитри"
+  "VOTSubtitlesDownloadFormat": "Формат за изтегляне на субтитри",
+  "VOTDownloadWithName": "Изтегляне на файлове с името на видеото"
 }

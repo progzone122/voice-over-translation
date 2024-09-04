@@ -196,5 +196,6 @@
   "VOTPressNewHotkey": "Stlačte novú klávesovú skratku...",
   "VOTCreateTranslationHotkey": "Vytvoriť klávesovú skratku pre preklad",
   "VOTChangeHotkeyWithCurrent": "Zmeniť Klávesovú Skratku (Aktuálne: {0})",
-  "VOTSubtitlesDownloadFormat": "Formát na stiahnutie titulkov"
+  "VOTSubtitlesDownloadFormat": "Formát na stiahnutie titulkov",
+  "VOTDownloadWithName": "Stiahnite si súbory s názvom videa"
 }

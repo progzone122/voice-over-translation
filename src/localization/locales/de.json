@@ -196,5 +196,6 @@
   "VOTPressNewHotkey": "Drücken Sie den neuen Hotkey...",
   "VOTCreateTranslationHotkey": "Hotkey für Übersetzung erstellen",
   "VOTChangeHotkeyWithCurrent": "Hotkey ändern (Aktuell: {0})",
-  "VOTSubtitlesDownloadFormat": "Das Format zum Herunterladen von Untertiteln"
+  "VOTSubtitlesDownloadFormat": "Das Format zum Herunterladen von Untertiteln",
+  "VOTDownloadWithName": "Laden Sie Dateien mit dem Videonamen herunter"
 }

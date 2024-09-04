@@ -196,5 +196,6 @@
   "VOTPressNewHotkey": "اضغط على مفتاح الاختصار الجديد...",
   "VOTCreateTranslationHotkey": "إنشاء هوتكي للترجمة",
   "VOTChangeHotkeyWithCurrent": "تغيير هوتكي (الحالي: {0})",
-  "VOTSubtitlesDownloadFormat": "تنسيق تنزيل الترجمة"
+  "VOTSubtitlesDownloadFormat": "تنسيق تنزيل الترجمة",
+  "VOTDownloadWithName": "تحميل الملفات مع اسم الفيديو"
 }

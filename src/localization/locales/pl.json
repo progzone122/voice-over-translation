@@ -196,5 +196,6 @@
   "VOTPressNewHotkey": "Naciśnij nowy klawisz skrótu...",
   "VOTCreateTranslationHotkey": "Utwórz skrót do tłumaczenia",
   "VOTChangeHotkeyWithCurrent": "Zmień Klawisz Skrótu (Current: {0})",
-  "VOTSubtitlesDownloadFormat": "Format pobierania napisów"
+  "VOTSubtitlesDownloadFormat": "Format pobierania napisów",
+  "VOTDownloadWithName": "Pobierz pliki z nazwą wideo"
 }

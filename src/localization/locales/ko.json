@@ -196,5 +196,6 @@
   "VOTPressNewHotkey": "새 단축키를 누릅니다...",
   "VOTCreateTranslationHotkey": "번역을 위한 단축키 만들기",
   "VOTChangeHotkeyWithCurrent": "단축키 변경(현재:{0})",
-  "VOTSubtitlesDownloadFormat": "자막 다운로드 형식"
+  "VOTSubtitlesDownloadFormat": "자막 다운로드 형식",
+  "VOTDownloadWithName": "비디오 이름을 가진 파일 다운로드"
 }

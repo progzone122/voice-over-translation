@@ -196,5 +196,6 @@
   "VOTPressNewHotkey": "Nyomja meg az új gyorsbillentyűt...",
   "VOTCreateTranslationHotkey": "Gyorsbillentyű létrehozása a fordításhoz",
   "VOTChangeHotkeyWithCurrent": "Gyorsbillentyű Módosítása (Aktuális: {0})",
-  "VOTSubtitlesDownloadFormat": "A feliratok letöltésének formátuma"
+  "VOTSubtitlesDownloadFormat": "A feliratok letöltésének formátuma",
+  "VOTDownloadWithName": "Töltsön le fájlokat a videó nevével"
 }

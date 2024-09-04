@@ -196,5 +196,6 @@
   "VOTPressNewHotkey": "Bonyeza hotkey mpya...",
   "VOTCreateTranslationHotkey": "Kujenga Hotkey Kwa Tafsiri",
   "VOTChangeHotkeyWithCurrent": "Kubadili Hotkey (Sasa: {0})",
-  "VOTSubtitlesDownloadFormat": "Umbizo la kupakua manukuu"
+  "VOTSubtitlesDownloadFormat": "Umbizo la kupakua manukuu",
+  "VOTDownloadWithName": "Pakua faili zilizo na jina la video"
 }

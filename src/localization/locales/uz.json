@@ -196,5 +196,6 @@
   "VOTPressNewHotkey": "Yangi tezkor tugmani bosing...",
   "VOTCreateTranslationHotkey": "Tarjima uchun tezkor tugma yarating",
   "VOTChangeHotkeyWithCurrent": "O'zgartirish Hotkey (Hozirgi: {0})",
-  "VOTSubtitlesDownloadFormat": "Subtitrlarni yuklab olish formati"
+  "VOTSubtitlesDownloadFormat": "Subtitrlarni yuklab olish formati",
+  "VOTDownloadWithName": "Video nomi bilan fayllarni yuklab oling"
 }

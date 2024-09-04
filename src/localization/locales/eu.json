@@ -196,5 +196,6 @@
   "VOTPressNewHotkey": "Sakatu laster-tekla berria...",
   "VOTCreateTranslationHotkey": "Sortu Laster-Tekla Itzulpenerako",
   "VOTChangeHotkeyWithCurrent": "Aldatu Laster-Tekla (Unekoa: {0})",
-  "VOTSubtitlesDownloadFormat": "Azpitituluak deskargatzeko formatua"
+  "VOTSubtitlesDownloadFormat": "Azpitituluak deskargatzeko formatua",
+  "VOTDownloadWithName": "Deskargatu bideoaren izena duten fitxategiak"
 }

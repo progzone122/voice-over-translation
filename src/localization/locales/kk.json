@@ -196,5 +196,6 @@
   "VOTPressNewHotkey": "Жаңа жылдам пернені басыңыз...",
   "VOTCreateTranslationHotkey": "Аударма Үшін Жылдам Перне жасаңыз",
   "VOTChangeHotkeyWithCurrent": "Жылдам Пернені Өзгерту (Ағымдағы: {0})",
-  "VOTSubtitlesDownloadFormat": "Субтитрлерді жүктеу форматы"
+  "VOTSubtitlesDownloadFormat": "Субтитрлерді жүктеу форматы",
+  "VOTDownloadWithName": "Бейне атауы бар файлдарды жүктеңіз"
 }

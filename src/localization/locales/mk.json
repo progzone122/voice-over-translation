@@ -196,5 +196,6 @@
   "VOTPressNewHotkey": "Притиснете го новото копче...",
   "VOTCreateTranslationHotkey": "Креирај Клуч За Превод",
   "VOTChangeHotkeyWithCurrent": "Променете Го Копчето (Струја: {0})",
-  "VOTSubtitlesDownloadFormat": "Форматот за преземање преводи"
+  "VOTSubtitlesDownloadFormat": "Форматот за преземање преводи",
+  "VOTDownloadWithName": "Преземете датотеки со името на видеото"
 }

@@ -44,6 +44,7 @@ export default [
         // IMPORTED SCRIPTS
         protobuf: "readonly",
         Hls: "readonly",
+        anime: "readonly",
         // WEBPACK ENVIRONMENT
         BUILD_MODE: "readonly",
         DEBUG_MODE: "readonly",

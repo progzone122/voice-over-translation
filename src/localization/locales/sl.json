@@ -196,5 +196,6 @@
   "VOTPressNewHotkey": "Pritisnite novo bližnjično tipko...",
   "VOTCreateTranslationHotkey": "Ustvari bližnjico za prevod",
   "VOTChangeHotkeyWithCurrent": "Spremeni Bližnjično Tipko (Trenutno: {0})",
-  "VOTSubtitlesDownloadFormat": "Oblika za prenos podnapisov"
+  "VOTSubtitlesDownloadFormat": "Oblika za prenos podnapisov",
+  "VOTDownloadWithName": "Prenesite datoteke z imenom videoposnetka"
 }

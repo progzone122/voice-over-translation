@@ -196,5 +196,6 @@
   "VOTPressNewHotkey": "Yeni isti düyməni basın...",
   "VOTCreateTranslationHotkey": "Tərcümə üçün qısa düymə yaradın",
   "VOTChangeHotkeyWithCurrent": "Qısayol düyməsini dəyişdirin (cari: {0})",
-  "VOTSubtitlesDownloadFormat": "Altyazıları yükləmək üçün format"
+  "VOTSubtitlesDownloadFormat": "Altyazıları yükləmək üçün format",
+  "VOTDownloadWithName": "Video adı ilə faylları yükləyin"
 }

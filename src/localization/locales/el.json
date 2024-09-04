@@ -196,5 +196,6 @@
   "VOTPressNewHotkey": "Πατήστε το νέο πλήκτρο πρόσβασης...",
   "VOTCreateTranslationHotkey": "Δημιουργία πλήκτρου πρόσβασης για μετάφραση",
   "VOTChangeHotkeyWithCurrent": "Αλλαγή Πλήκτρου Πρόσβασης (Τρέχον: {0})",
-  "VOTSubtitlesDownloadFormat": "Η μορφή λήψης υπότιτλων"
+  "VOTSubtitlesDownloadFormat": "Η μορφή λήψης υπότιτλων",
+  "VOTDownloadWithName": "Λήψη αρχείων με το όνομα του βίντεο"
 }

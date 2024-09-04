@@ -196,5 +196,6 @@
   "VOTPressNewHotkey": "Cindezela hotkey entsha...",
   "VOTCreateTranslationHotkey": "Yakha Hotkey For Translation",
   "VOTChangeHotkeyWithCurrent": "Shintsha Hotkey (Zamanje: {0})",
-  "VOTSubtitlesDownloadFormat": "Ifomethi yokulanda imibhalo engezansi"
+  "VOTSubtitlesDownloadFormat": "Ifomethi yokulanda imibhalo engezansi",
+  "VOTDownloadWithName": "Thwebula amafayela ngegama video"
 }

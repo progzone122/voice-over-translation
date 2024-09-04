@@ -196,5 +196,6 @@
   "VOTPressNewHotkey": "Druk die nuwe sneltoets...",
   "VOTCreateTranslationHotkey": "Skep Sneltoets Vir Vertaling",
   "VOTChangeHotkeyWithCurrent": "Verander Sneltoets (Huidige: {0})",
-  "VOTSubtitlesDownloadFormat": "Die formaat vir die aflaai van onderskrifte"
+  "VOTSubtitlesDownloadFormat": "Die formaat vir die aflaai van onderskrifte",
+  "VOTDownloadWithName": "Laai lêers af met die video naam"
 }

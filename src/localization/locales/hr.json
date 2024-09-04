@@ -196,5 +196,6 @@
   "VOTPressNewHotkey": "Pritisnite novu tipku prečaca...",
   "VOTCreateTranslationHotkey": "Stvorite prečac za prijevod",
   "VOTChangeHotkeyWithCurrent": "Promijenite prečac (trenutni: {0})",
-  "VOTSubtitlesDownloadFormat": "Format za preuzimanje titlova"
+  "VOTSubtitlesDownloadFormat": "Format za preuzimanje titlova",
+  "VOTDownloadWithName": "Prenesite datoteke s nazivom videozapisa"
 }

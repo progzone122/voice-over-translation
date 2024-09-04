@@ -196,5 +196,6 @@
   "VOTPressNewHotkey": "Yeni kısayol tuşuna basın...",
   "VOTCreateTranslationHotkey": "Çeviri için Kısayol Tuşu Oluşturma",
   "VOTChangeHotkeyWithCurrent": "Kısayol Tuşunu Değiştir (Geçerli: {0})",
-  "VOTSubtitlesDownloadFormat": "Altyazı indirme biçimi"
+  "VOTSubtitlesDownloadFormat": "Altyazı indirme biçimi",
+  "VOTDownloadWithName": "Video adına sahip dosyaları indirin"
 }
