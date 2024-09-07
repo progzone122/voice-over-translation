@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Promijeni Interventni Taster (Trenutno: {0})",
   "VOTSubtitlesDownloadFormat": "Format za preuzimanje titlova",
   "VOTDownloadWithName": "Preuzmite datoteke sa imenom video zapisa",
-  "VOTUpdateLocaleFiles": "Ažurirajte datoteke za lokalizaciju"
+  "VOTUpdateLocaleFiles": "Ažurirajte datoteke za lokalizaciju",
+  "VOTLocaleHash": "Locale hash",
+  "VOTUpdatedAt": "Ažurirano u"
 }

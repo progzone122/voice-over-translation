@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Променете Го Копчето (Струја: {0})",
   "VOTSubtitlesDownloadFormat": "Форматот за преземање преводи",
   "VOTDownloadWithName": "Преземете датотеки со името на видеото",
-  "VOTUpdateLocaleFiles": "Ажурирајте ги датотеките за локализација"
+  "VOTUpdateLocaleFiles": "Ажурирајте ги датотеките за локализација",
+  "VOTLocaleHash": "Локал хаш",
+  "VOTUpdatedAt": "Ажурирано во"
 }

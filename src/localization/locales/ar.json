@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "تغيير هوتكي (الحالي: {0})",
   "VOTSubtitlesDownloadFormat": "تنسيق تنزيل الترجمة",
   "VOTDownloadWithName": "تحميل الملفات مع اسم الفيديو",
-  "VOTUpdateLocaleFiles": "تحديث ملفات الترجمة"
+  "VOTUpdateLocaleFiles": "تحديث ملفات الترجمة",
+  "VOTLocaleHash": "تجزئة اللغة",
+  "VOTUpdatedAt": "تحديث في 16: 40"
 }

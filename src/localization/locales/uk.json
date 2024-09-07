@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Змінити гарячу клавішу (поточна: {0})",
   "VOTSubtitlesDownloadFormat": "Формат для завантаження субтитрів",
   "VOTDownloadWithName": "Завантажуйте файли з назвою відео",
-  "VOTUpdateLocaleFiles": "Оновити файли локалізації"
+  "VOTUpdateLocaleFiles": "Оновити файли локалізації",
+  "VOTLocaleHash": "Хеш локалі",
+  "VOTUpdatedAt": "Оновлено о 16: 40"
 }

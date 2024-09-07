@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Shintsha Hotkey (Zamanje: {0})",
   "VOTSubtitlesDownloadFormat": "Ifomethi yokulanda imibhalo engezansi",
   "VOTDownloadWithName": "Thwebula amafayela ngegama video",
-  "VOTUpdateLocaleFiles": "Buyekeza amafayela localization"
+  "VOTUpdateLocaleFiles": "Buyekeza amafayela localization",
+  "VOTLocaleHash": "I-hash yendawo",
+  "VOTUpdatedAt": "Kubuyekezwe"
 }

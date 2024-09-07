@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "ہاٹکی تبدیل کریں (موجودہ: {0})",
   "VOTSubtitlesDownloadFormat": "سب ٹائٹلز ڈاؤن لوڈ کرنے کا فارمیٹ",
   "VOTDownloadWithName": "ویڈیو نام کے ساتھ فائلیں ڈاؤن لوڈ کریں",
-  "VOTUpdateLocaleFiles": "لوکلائزیشن فائلوں کو اپ ڈیٹ کریں"
+  "VOTUpdateLocaleFiles": "لوکلائزیشن فائلوں کو اپ ڈیٹ کریں",
+  "VOTLocaleHash": "مقامی ہیش",
+  "VOTUpdatedAt": "پر اپ ڈیٹ"
 }

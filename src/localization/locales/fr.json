@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Modifier le raccourci clavier (Actuel: {0})",
   "VOTSubtitlesDownloadFormat": "Le format de téléchargement des sous-titres",
   "VOTDownloadWithName": "Télécharger des fichiers avec le nom de la vidéo",
-  "VOTUpdateLocaleFiles": "Mettre à jour les fichiers de localisation"
+  "VOTUpdateLocaleFiles": "Mettre à jour les fichiers de localisation",
+  "VOTLocaleHash": "Hachage des paramètres régionaux",
+  "VOTUpdatedAt": "Mis à jour à 16h40"
 }

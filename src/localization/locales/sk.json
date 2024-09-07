@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Zmeniť Klávesovú Skratku (Aktuálne: {0})",
   "VOTSubtitlesDownloadFormat": "Formát na stiahnutie titulkov",
   "VOTDownloadWithName": "Stiahnite si súbory s názvom videa",
-  "VOTUpdateLocaleFiles": "Aktualizácia lokalizačných súborov"
+  "VOTUpdateLocaleFiles": "Aktualizácia lokalizačných súborov",
+  "VOTLocaleHash": "Locale hash",
+  "VOTUpdatedAt": "Aktualizované o 16: 40"
 }

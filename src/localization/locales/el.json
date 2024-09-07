@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Αλλαγή Πλήκτρου Πρόσβασης (Τρέχον: {0})",
   "VOTSubtitlesDownloadFormat": "Η μορφή λήψης υπότιτλων",
   "VOTDownloadWithName": "Λήψη αρχείων με το όνομα του βίντεο",
-  "VOTUpdateLocaleFiles": "Ενημέρωση αρχείων εντοπισμού"
+  "VOTUpdateLocaleFiles": "Ενημέρωση αρχείων εντοπισμού",
+  "VOTLocaleHash": "Τοπικό χασίς",
+  "VOTUpdatedAt": "Ενημερώθηκε στις"
 }

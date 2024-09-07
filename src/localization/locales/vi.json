@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Thay Đổi Phím Nóng (Hiện Tại: {0})",
   "VOTSubtitlesDownloadFormat": "Định dạng để tải xuống phụ đề",
   "VOTDownloadWithName": "Tải xuống các tệp có tên video",
-  "VOTUpdateLocaleFiles": "Cập nhật tệp bản địa hóa"
+  "VOTUpdateLocaleFiles": "Cập nhật tệp bản địa hóa",
+  "VOTLocaleHash": "Ngôn ngữ băm",
+  "VOTUpdatedAt": "Cập nhật lúc 16: 40"
 }

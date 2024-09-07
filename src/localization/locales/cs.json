@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Změnit Klávesovou Zkratku (Aktuální: {0})",
   "VOTSubtitlesDownloadFormat": "Formát pro stahování titulků",
   "VOTDownloadWithName": "Stahujte soubory s názvem videa",
-  "VOTUpdateLocaleFiles": "Aktualizace lokalizačních souborů"
+  "VOTUpdateLocaleFiles": "Aktualizace lokalizačních souborů",
+  "VOTLocaleHash": "Národní hash",
+  "VOTUpdatedAt": "Aktualizováno v 16: 40"
 }

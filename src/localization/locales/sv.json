@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Ändra Snabbtangent (Nuvarande: {0})",
   "VOTSubtitlesDownloadFormat": "Formatet för nedladdning av undertexter",
   "VOTDownloadWithName": "Ladda ner filer med videonamnet",
-  "VOTUpdateLocaleFiles": "Uppdatera lokaliseringsfiler"
+  "VOTUpdateLocaleFiles": "Uppdatera lokaliseringsfiler",
+  "VOTLocaleHash": "Lokal hash",
+  "VOTUpdatedAt": "Uppdaterat klockan"
 }

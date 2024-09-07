@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Kısayol Tuşunu Değiştir (Geçerli: {0})",
   "VOTSubtitlesDownloadFormat": "Altyazı indirme biçimi",
   "VOTDownloadWithName": "Video adına sahip dosyaları indirin",
-  "VOTUpdateLocaleFiles": "Yerelleştirme dosyalarını güncelle"
+  "VOTUpdateLocaleFiles": "Yerelleştirme dosyalarını güncelle",
+  "VOTLocaleHash": "Yerel ayar karması",
+  "VOTUpdatedAt": "güncellendi"
 }

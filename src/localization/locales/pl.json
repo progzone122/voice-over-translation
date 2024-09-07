@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Zmień Klawisz Skrótu (Current: {0})",
   "VOTSubtitlesDownloadFormat": "Format pobierania napisów",
   "VOTDownloadWithName": "Pobierz pliki z nazwą wideo",
-  "VOTUpdateLocaleFiles": "Aktualizuj pliki lokalizacyjne"
+  "VOTUpdateLocaleFiles": "Aktualizuj pliki lokalizacyjne",
+  "VOTLocaleHash": "Locale hash",
+  "VOTUpdatedAt": "Aktualizacja:"
 }

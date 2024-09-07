@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Vaihda Pikanäppäintä (Nykyinen: {0})",
   "VOTSubtitlesDownloadFormat": "Tekstityksen lataamisen muoto",
   "VOTDownloadWithName": "Lataa tiedostoja videon nimellä",
-  "VOTUpdateLocaleFiles": "Päivitä lokalisointitiedostot"
+  "VOTUpdateLocaleFiles": "Päivitä lokalisointitiedostot",
+  "VOTLocaleHash": "Paikallinen hash",
+  "VOTUpdatedAt": "Päivitetty klo"
 }

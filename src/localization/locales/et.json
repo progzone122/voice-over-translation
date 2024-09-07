@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Muuda Kiirklahvi (Praegune: {0})",
   "VOTSubtitlesDownloadFormat": "Subtiitrite allalaadimise vorming",
   "VOTDownloadWithName": "Laadige alla video nimega failid",
-  "VOTUpdateLocaleFiles": "Uuenda lokaliseerimisfaile"
+  "VOTUpdateLocaleFiles": "Uuenda lokaliseerimisfaile",
+  "VOTLocaleHash": "Locale hash",
+  "VOTUpdatedAt": "Uuendatud kell"
 }

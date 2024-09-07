@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Verander Sneltoets (Huidige: {0})",
   "VOTSubtitlesDownloadFormat": "Die formaat vir die aflaai van onderskrifte",
   "VOTDownloadWithName": "Laai lêers af met die video naam",
-  "VOTUpdateLocaleFiles": "Dateer lokaliseringslêers op"
+  "VOTUpdateLocaleFiles": "Dateer lokaliseringslêers op",
+  "VOTLocaleHash": "Plaaslike hash",
+  "VOTUpdatedAt": "Opgedateer om"
 }

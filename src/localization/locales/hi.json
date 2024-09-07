@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "हॉटकी बदलें (वर्तमान: {0})",
   "VOTSubtitlesDownloadFormat": "उपशीर्षक डाउनलोड करने का प्रारूप",
   "VOTDownloadWithName": "वीडियो नाम के साथ फ़ाइलें डाउनलोड करें",
-  "VOTUpdateLocaleFiles": "स्थानीयकरण फ़ाइलें अपडेट करें"
+  "VOTUpdateLocaleFiles": "स्थानीयकरण फ़ाइलें अपडेट करें",
+  "VOTLocaleHash": "लोकेल हैश",
+  "VOTUpdatedAt": "पर अपडेट किया गया"
 }

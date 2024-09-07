@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Kubadili Hotkey (Sasa: {0})",
   "VOTSubtitlesDownloadFormat": "Umbizo la kupakua manukuu",
   "VOTDownloadWithName": "Pakua faili zilizo na jina la video",
-  "VOTUpdateLocaleFiles": "Sasisha faili za ujanibishaji"
+  "VOTUpdateLocaleFiles": "Sasisha faili za ujanibishaji",
+  "VOTLocaleHash": "Eneo hash",
+  "VOTUpdatedAt": "Imesasishwa saa 16: 40"
 }

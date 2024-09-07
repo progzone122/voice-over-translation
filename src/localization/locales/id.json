@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Ubah Tombol Pintas (Saat ini: {0})",
   "VOTSubtitlesDownloadFormat": "Format untuk mengunduh subtitle",
   "VOTDownloadWithName": "Unduh file dengan nama video",
-  "VOTUpdateLocaleFiles": "Perbarui file pelokalan"
+  "VOTUpdateLocaleFiles": "Perbarui file pelokalan",
+  "VOTLocaleHash": "Hash lokal",
+  "VOTUpdatedAt": "Diperbarui pukul"
 }
