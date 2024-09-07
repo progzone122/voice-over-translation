@@ -334,6 +334,8 @@ class VideoHandler {
       translateProxyEnabled: votStorage.get("translateProxyEnabled", 0),
       proxyWorkerHost: votStorage.get("proxyWorkerHost", proxyWorkerHost),
       audioBooster: votStorage.get("audioBooster", 0),
+      localeHash: votStorage.get("locale-hash", ""),
+      localeUpdatedIn: votStorage.get("locale-updated-in", 0),
     };
 
     this.data = Object.fromEntries(
@@ -900,6 +902,17 @@ class VideoHandler {
       );
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votBrowserInfo.container,
+      );
+
+      this.votLocaleInfo = ui.createInformation(
+        `${localizationProvider.get("VOTLocaleHash")}:`,
+        html`${this.data.localeHash}<br />(${localizationProvider.get(
+            "VOTUpdatedIn",
+          )}
+          ${new Date(this.data.localeUpdatedIn * 1000).toLocaleString()})`,
+      );
+      this.votSettingsDialog.bodyContainer.appendChild(
+        this.votLocaleInfo.container,
       );
 
       this.votUpdateLocaleFilesButton = ui.createOutlinedButton(
