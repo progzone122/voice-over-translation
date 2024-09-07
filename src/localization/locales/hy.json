@@ -197,5 +197,6 @@
   "VOTCreateTranslationHotkey": "Թարգմանության համար Ստեղծեք թեժ ստեղն",
   "VOTChangeHotkeyWithCurrent": "Փոխել թեժ ստեղնը (Ընթացիկ ՝ {0})",
   "VOTSubtitlesDownloadFormat": "Ձևաչափ ՝ ենթագրերը ներբեռնելու համար",
-  "VOTDownloadWithName": "Վերբեռնեք ֆայլեր տեսանյութի անունով"
+  "VOTDownloadWithName": "Վերբեռնեք ֆայլեր տեսանյութի անունով",
+  "VOTUpdateLocaleFiles": "Թարմացրեք տեղայնացման ֆայլերը"
 }

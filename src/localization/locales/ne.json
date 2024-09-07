@@ -197,5 +197,6 @@
   "VOTCreateTranslationHotkey": "अनुवादका लागि हटकी सिर्जना गर्नुहोस्",
   "VOTChangeHotkeyWithCurrent": "हटकी (हालको: {0})परिवर्तन गर्नुहोस्",
   "VOTSubtitlesDownloadFormat": "उपशीर्षक डाउनलोड गर्नका लागि ढाँचा",
-  "VOTDownloadWithName": "भिडियो नाम सहित फाइलहरू डाउनलोड गर्नुहोस्"
+  "VOTDownloadWithName": "भिडियो नाम सहित फाइलहरू डाउनलोड गर्नुहोस्",
+  "VOTUpdateLocaleFiles": "स्थानीयकरण फाइलहरू अद्यावधिक गर्नुहोस्"
 }

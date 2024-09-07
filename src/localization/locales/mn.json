@@ -197,5 +197,6 @@
   "VOTCreateTranslationHotkey": "Орчуулгын Hotkey үүсгэх",
   "VOTChangeHotkeyWithCurrent": "Түлхүүр Гардуулах Өөрчлөх (Одоогийн: {0})",
   "VOTSubtitlesDownloadFormat": "Хадмал орчуулга татаж авах формат",
-  "VOTDownloadWithName": "Видео нэртэй файлуудыг татаж авах"
+  "VOTDownloadWithName": "Видео нэртэй файлуудыг татаж авах",
+  "VOTUpdateLocaleFiles": "Локалчлалын файлуудыг шинэчлэх"
 }

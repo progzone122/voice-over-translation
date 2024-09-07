@@ -197,5 +197,6 @@
   "VOTCreateTranslationHotkey": "បង្កើតគ្រាប់ចុចចងសម្រាប់ការបកប្រែ",
   "VOTChangeHotkeyWithCurrent": "ផ្លាស់ប្តូរគ្រាប់ចុចចង(បច្ចុប្បន្ន:{0})",
   "VOTSubtitlesDownloadFormat": "ទ្រង់ទ្រាយសម្រាប់ទាញយកចំណងជើងរង",
-  "VOTDownloadWithName": "ទាញយកឯកសារដែលមានឈ្មោះវីដេអូ"
+  "VOTDownloadWithName": "ទាញយកឯកសារដែលមានឈ្មោះវីដេអូ",
+  "VOTUpdateLocaleFiles": "ធ្វើឲ្យឯកសារមូលដ្ឋានីយកម្មទាន់សម័យ"
 }

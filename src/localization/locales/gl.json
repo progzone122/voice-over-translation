@@ -197,5 +197,6 @@
   "VOTCreateTranslationHotkey": "Crear Hotkey Para A Tradución",
   "VOTChangeHotkeyWithCurrent": "Cambiar A Tecla Quente (Actual: {0})",
   "VOTSubtitlesDownloadFormat": "O formato para descargar subtítulos",
-  "VOTDownloadWithName": "Descargar ficheiros co nome do vídeo"
+  "VOTDownloadWithName": "Descargar ficheiros co nome do vídeo",
+  "VOTUpdateLocaleFiles": "Actualizar os ficheiros de localización"
 }

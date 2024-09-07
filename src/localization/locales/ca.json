@@ -197,5 +197,6 @@
   "VOTCreateTranslationHotkey": "Crea Una Tecla D'Accés Ràpid Per A La Traducció",
   "VOTChangeHotkeyWithCurrent": "Canvia La Tecla D'Accés Ràpid (Actual: {0})",
   "VOTSubtitlesDownloadFormat": "El format per descarregar subtítols",
-  "VOTDownloadWithName": "Baixeu fitxers amb el nom del vídeo"
+  "VOTDownloadWithName": "Baixeu fitxers amb el nom del vídeo",
+  "VOTUpdateLocaleFiles": "Actualitza els fitxers de localització"
 }

@@ -197,5 +197,6 @@
   "VOTCreateTranslationHotkey": "Buat Hotkey untuk terjemahan",
   "VOTChangeHotkeyWithCurrent": "Tukar Hotkey (Semasa: {0})",
   "VOTSubtitlesDownloadFormat": "Format untuk muat turun sari kata",
-  "VOTDownloadWithName": "Muat turun fail dengan nama video"
+  "VOTDownloadWithName": "Muat turun fail dengan nama video",
+  "VOTUpdateLocaleFiles": "Kemas kini fail penyetempatan"
 }

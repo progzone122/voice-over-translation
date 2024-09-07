@@ -197,5 +197,6 @@
   "VOTCreateTranslationHotkey": "ਅਨੁਵਾਦ ਲਈ ਹੌਟਕੀ ਬਣਾਓ",
   "VOTChangeHotkeyWithCurrent": "ਹਾਟਕੀ ਬਦਲੋ (ਮੌਜੂਦਾ: {0})",
   "VOTSubtitlesDownloadFormat": "ਉਪਸਿਰਲੇਖ ਡਾਊਨਲੋਡ ਕਰਨ ਲਈ ਫਾਰਮੈਟ",
-  "VOTDownloadWithName": "ਵੀਡੀਓ ਨਾਂ ਨਾਲ ਫਾਇਲਾਂ ਡਾਊਨਲੋਡ ਕਰੋ"
+  "VOTDownloadWithName": "ਵੀਡੀਓ ਨਾਂ ਨਾਲ ਫਾਇਲਾਂ ਡਾਊਨਲੋਡ ਕਰੋ",
+  "VOTUpdateLocaleFiles": "ਸਥਾਨੀਕਰਨ ਫਾਇਲਾਂ ਅੱਪਡੇਟ"
 }
