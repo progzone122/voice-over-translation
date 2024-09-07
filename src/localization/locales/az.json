@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Qısayol düyməsini dəyişdirin (cari: {0})",
   "VOTSubtitlesDownloadFormat": "Altyazıları yükləmək üçün format",
   "VOTDownloadWithName": "Video adı ilə faylları yükləyin",
-  "VOTUpdateLocaleFiles": "Yerli faylları yeniləyin"
+  "VOTUpdateLocaleFiles": "Yerli faylları yeniləyin",
+  "VOTLocaleHash": "Hash yerli",
+  "VOTUpdatedAt": "Saat yeniləndi"
 }

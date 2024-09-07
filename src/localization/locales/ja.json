@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "ホットキーの変更(現在:{0})",
   "VOTSubtitlesDownloadFormat": "字幕をダウンロードするためのフォーマット",
   "VOTDownloadWithName": "ビデオ名のファイルをダウンロードする",
-  "VOTUpdateLocaleFiles": "ローカリゼーションファイルの更新"
+  "VOTUpdateLocaleFiles": "ローカリゼーションファイルの更新",
+  "VOTLocaleHash": "ロケールハッシュ",
+  "VOTUpdatedAt": "更新"
 }

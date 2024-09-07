@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Robah Hotkey (Ayeuna: {0})",
   "VOTSubtitlesDownloadFormat": "Format pikeun ngundeur terjemahan",
   "VOTDownloadWithName": "Ngundeur payil jeung ngaran video",
-  "VOTUpdateLocaleFiles": "File lokalisasi Update"
+  "VOTUpdateLocaleFiles": "File lokalisasi Update",
+  "VOTLocaleHash": "Lokal hash",
+  "VOTUpdatedAt": "Diperbarui jam 16: 40"
 }

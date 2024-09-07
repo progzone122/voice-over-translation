@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Tukar Hotkey (Semasa: {0})",
   "VOTSubtitlesDownloadFormat": "Format untuk muat turun sari kata",
   "VOTDownloadWithName": "Muat turun fail dengan nama video",
-  "VOTUpdateLocaleFiles": "Kemas kini fail penyetempatan"
+  "VOTUpdateLocaleFiles": "Kemas kini fail penyetempatan",
+  "VOTLocaleHash": "Hash tempatan",
+  "VOTUpdatedAt": "Dikemaskini pada 16: 40"
 }

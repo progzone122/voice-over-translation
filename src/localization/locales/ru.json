@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Изменить горячую клавишу (Текущая: {0})",
   "VOTSubtitlesDownloadFormat": "Формат для загрузки субтитров",
   "VOTDownloadWithName": "Загружать файлы с названием видео",
-  "VOTUpdateLocaleFiles": "Обновить файлы локализации"
+  "VOTUpdateLocaleFiles": "Обновить файлы локализации",
+  "VOTLocaleHash": "Хеш перевода",
+  "VOTUpdatedAt": "Обновлено в"
 }

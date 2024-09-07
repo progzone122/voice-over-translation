@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Spremeni Bližnjično Tipko (Trenutno: {0})",
   "VOTSubtitlesDownloadFormat": "Oblika za prenos podnapisov",
   "VOTDownloadWithName": "Prenesite datoteke z imenom videoposnetka",
-  "VOTUpdateLocaleFiles": "Posodobite lokalizacijske datoteke"
+  "VOTUpdateLocaleFiles": "Posodobite lokalizacijske datoteke",
+  "VOTLocaleHash": "Lokalni hash",
+  "VOTUpdatedAt": "Posodobljeno ob"
 }

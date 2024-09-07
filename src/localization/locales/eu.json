@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Aldatu Laster-Tekla (Unekoa: {0})",
   "VOTSubtitlesDownloadFormat": "Azpitituluak deskargatzeko formatua",
   "VOTDownloadWithName": "Deskargatu bideoaren izena duten fitxategiak",
-  "VOTUpdateLocaleFiles": "Eguneratu lokalizazio-fitxategiak"
+  "VOTUpdateLocaleFiles": "Eguneratu lokalizazio-fitxategiak",
+  "VOTLocaleHash": "Lokaleko hash-a",
+  "VOTUpdatedAt": "etan eguneratua"
 }

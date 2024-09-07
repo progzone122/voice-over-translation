@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Newid Hotkey (Cyfredol: {0})",
   "VOTSubtitlesDownloadFormat": "Y fformat ar gyfer lawrlwytho isdeitlau",
   "VOTDownloadWithName": "Lawrlwytho ffeiliau gydag enw'r fideo",
-  "VOTUpdateLocaleFiles": "Diweddaru ffeiliau lleoleiddio"
+  "VOTUpdateLocaleFiles": "Diweddaru ffeiliau lleoleiddio",
+  "VOTLocaleHash": "Hash Locale",
+  "VOTUpdatedAt": "Diweddarwyd am 16: 40"
 }

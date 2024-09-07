@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Ganti Tombol (Saiki: {0})",
   "VOTSubtitlesDownloadFormat": "Format kanggo ngundhuh subtitles",
   "VOTDownloadWithName": "Ngundhuh file kanthi jeneng video",
-  "VOTUpdateLocaleFiles": "Nganyari file lokalisasi"
+  "VOTUpdateLocaleFiles": "Nganyari file lokalisasi",
+  "VOTLocaleHash": "Hash lokal",
+  "VOTUpdatedAt": "Dianyari jam 16: 40"
 }

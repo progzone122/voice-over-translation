@@ -197,5 +197,7 @@
   "VOTChangeHotkeyWithCurrent": "Alterar Tecla De Atalho (Actual: {0})",
   "VOTSubtitlesDownloadFormat": "O formato para baixar legendas",
   "VOTDownloadWithName": "Baixar arquivos com o nome do vídeo",
-  "VOTUpdateLocaleFiles": "Actualizar ficheiros de localização"
+  "VOTUpdateLocaleFiles": "Actualizar ficheiros de localização",
+  "VOTLocaleHash": "Hash de localidade",
+  "VOTUpdatedAt": "Actualizado às"
 }

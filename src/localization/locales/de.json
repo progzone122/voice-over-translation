@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Hotkey ändern (Aktuell: {0})",
   "VOTSubtitlesDownloadFormat": "Das Format zum Herunterladen von Untertiteln",
   "VOTDownloadWithName": "Laden Sie Dateien mit dem Videonamen herunter",
-  "VOTUpdateLocaleFiles": "Lokalisierungsdateien aktualisieren"
+  "VOTUpdateLocaleFiles": "Lokalisierungsdateien aktualisieren",
+  "VOTLocaleHash": "Gebietsschema-Hash",
+  "VOTUpdatedAt": "Aktualisiert um"
 }

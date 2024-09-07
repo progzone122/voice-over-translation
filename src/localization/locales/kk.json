@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Жылдам Пернені Өзгерту (Ағымдағы: {0})",
   "VOTSubtitlesDownloadFormat": "Субтитрлерді жүктеу форматы",
   "VOTDownloadWithName": "Бейне атауы бар файлдарды жүктеңіз",
-  "VOTUpdateLocaleFiles": "Локализация файлдарын жаңарту"
+  "VOTUpdateLocaleFiles": "Локализация файлдарын жаңарту",
+  "VOTLocaleHash": "Жергілікті хэш",
+  "VOTUpdatedAt": "жаңартылды"
 }

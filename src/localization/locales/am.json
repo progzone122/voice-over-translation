@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "ሆትኪይ ለውጥ (የአሁኑ: {0})",
   "VOTSubtitlesDownloadFormat": "ንዑስ ርዕሶችን ለማውረድ ቅርጸት",
   "VOTDownloadWithName": "ፋይሎችን በቪዲዮ ስም ያውርዱ",
-  "VOTUpdateLocaleFiles": "የአካባቢ ፋይሎችን አዘምን"
+  "VOTUpdateLocaleFiles": "የአካባቢ ፋይሎችን አዘምን",
+  "VOTLocaleHash": "አካባቢያዊ ሃሽ",
+  "VOTUpdatedAt": "ላይ የተዘመነ"
 }

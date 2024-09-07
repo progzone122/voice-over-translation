@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "O'zgartirish Hotkey (Hozirgi: {0})",
   "VOTSubtitlesDownloadFormat": "Subtitrlarni yuklab olish formati",
   "VOTDownloadWithName": "Video nomi bilan fayllarni yuklab oling",
-  "VOTUpdateLocaleFiles": "Mahalliylashtirish fayllarini yangilang"
+  "VOTUpdateLocaleFiles": "Mahalliylashtirish fayllarini yangilang",
+  "VOTLocaleHash": "Mahalliy Xash",
+  "VOTUpdatedAt": "da yangilangan"
 }

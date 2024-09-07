@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Cambiar tecla de acceso rápido (Actual: {0})",
   "VOTSubtitlesDownloadFormat": "El formato para descargar subtítulos",
   "VOTDownloadWithName": "Descargar archivos con el nombre del video",
-  "VOTUpdateLocaleFiles": "Actualizar archivos de localización"
+  "VOTUpdateLocaleFiles": "Actualizar archivos de localización",
+  "VOTLocaleHash": "Hash de configuración regional",
+  "VOTUpdatedAt": "Actualizado a las 16: 40"
 }

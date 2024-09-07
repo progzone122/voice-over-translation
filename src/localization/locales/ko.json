@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "단축키 변경(현재:{0})",
   "VOTSubtitlesDownloadFormat": "자막 다운로드 형식",
   "VOTDownloadWithName": "비디오 이름을 가진 파일 다운로드",
-  "VOTUpdateLocaleFiles": "현지화 파일 업데이트"
+  "VOTUpdateLocaleFiles": "현지화 파일 업데이트",
+  "VOTLocaleHash": "로캘 해시",
+  "VOTUpdatedAt": "에 업데이트 됨"
 }

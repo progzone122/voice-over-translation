@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Change Hotkey(လက်ရှိ:{0})",
   "VOTSubtitlesDownloadFormat": "စာတန်းထိုးများကိုဒေါင်းလုဒ်လုပ်ရန်ပုံစံ",
   "VOTDownloadWithName": "ဗီဒီယိုအမည်ပါဖိုင်များကိုဒေါင်းလုပ်ဆွဲပါ",
-  "VOTUpdateLocaleFiles": "ဒေသတွင်းဖိုင်များကို Update လုပ်ပါ"
+  "VOTUpdateLocaleFiles": "ဒေသတွင်းဖိုင်များကို Update လုပ်ပါ",
+  "VOTLocaleHash": "ဒေသတွင်းဟက်ရှ်",
+  "VOTUpdatedAt": "၁၆:၄၀ တွင်အတည်ပြု"
 }

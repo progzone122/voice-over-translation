@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Ibdel Il-Hotkey (Kurrenti: {0})",
   "VOTSubtitlesDownloadFormat": "Il-format għat-tniżżil ta'sottotitoli",
   "VOTDownloadWithName": "Niżżel fajls bl-isem tal-vidjo",
-  "VOTUpdateLocaleFiles": "Aġġorna l-fajls tal-lokalizzazzjoni"
+  "VOTUpdateLocaleFiles": "Aġġorna l-fajls tal-lokalizzazzjoni",
+  "VOTLocaleHash": "Hash lokali",
+  "VOTUpdatedAt": "Aġġornat fis-16: 40"
 }

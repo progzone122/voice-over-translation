@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "ផ្លាស់ប្តូរគ្រាប់ចុចចង(បច្ចុប្បន្ន:{0})",
   "VOTSubtitlesDownloadFormat": "ទ្រង់ទ្រាយសម្រាប់ទាញយកចំណងជើងរង",
   "VOTDownloadWithName": "ទាញយកឯកសារដែលមានឈ្មោះវីដេអូ",
-  "VOTUpdateLocaleFiles": "ធ្វើឲ្យឯកសារមូលដ្ឋានីយកម្មទាន់សម័យ"
+  "VOTUpdateLocaleFiles": "ធ្វើឲ្យឯកសារមូលដ្ឋានីយកម្មទាន់សម័យ",
+  "VOTLocaleHash": "សញ្ញាមូលដ្ឋាន",
+  "VOTUpdatedAt": "ធ្វើឱ្យទាន់សម័យនៅ"
 }

@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Change Hotkey (Current: {0})",
   "VOTSubtitlesDownloadFormat": "The format for downloading subtitles",
   "VOTDownloadWithName": "Download files with the video name",
-  "VOTUpdateLocaleFiles": "Update localization files"
+  "VOTUpdateLocaleFiles": "Update localization files",
+  "VOTLocaleHash": "Locale hash",
+  "VOTUpdatedAt": "Updated at"
 }

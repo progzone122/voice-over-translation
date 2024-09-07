@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "ປ່ຽນ Hotkey(ປັດຈຸບັນ:{0})",
   "VOTSubtitlesDownloadFormat": "ຮູບແບບສໍາລັບການດາວໂຫຼດຄໍາບັນຍາຍ",
   "VOTDownloadWithName": "ດາວນ໌ໂຫລດໄຟລ໌ທີ່ມີຊື່ວິດີໂອໄດ້",
-  "VOTUpdateLocaleFiles": "ອັບເດດໄຟລ໌ທ້ອງຖິ່ນ"
+  "VOTUpdateLocaleFiles": "ອັບເດດໄຟລ໌ທ້ອງຖິ່ນ",
+  "VOTLocaleHash": "Hash ທ້ອງຖິ່ນ",
+  "VOTUpdatedAt": "ອັບເດດເວລາ"
 }

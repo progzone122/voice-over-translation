@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Түлхүүр Гардуулах Өөрчлөх (Одоогийн: {0})",
   "VOTSubtitlesDownloadFormat": "Хадмал орчуулга татаж авах формат",
   "VOTDownloadWithName": "Видео нэртэй файлуудыг татаж авах",
-  "VOTUpdateLocaleFiles": "Локалчлалын файлуудыг шинэчлэх"
+  "VOTUpdateLocaleFiles": "Локалчлалын файлуудыг шинэчлэх",
+  "VOTLocaleHash": "Локал хэш",
+  "VOTUpdatedAt": "цагт шинэчлэгдсэн"
 }

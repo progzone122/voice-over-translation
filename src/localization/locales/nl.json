@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Sneltoets Wijzigen (Huidige: {0})",
   "VOTSubtitlesDownloadFormat": "Het formaat voor het downloaden van ondertitels",
   "VOTDownloadWithName": "Download bestanden met de naam van de video",
-  "VOTUpdateLocaleFiles": "Lokalisatiebestanden bijwerken"
+  "VOTUpdateLocaleFiles": "Lokalisatiebestanden bijwerken",
+  "VOTLocaleHash": "Lokale hash",
+  "VOTUpdatedAt": "Bijgewerkt op"
 }

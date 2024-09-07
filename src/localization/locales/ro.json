@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Schimbare Tastă Rapidă (Curent: {0})",
   "VOTSubtitlesDownloadFormat": "Formatul pentru descărcarea subtitrărilor",
   "VOTDownloadWithName": "Descărcați fișiere cu numele videoclipului",
-  "VOTUpdateLocaleFiles": "Actualizați fișierele de localizare"
+  "VOTUpdateLocaleFiles": "Actualizați fișierele de localizare",
+  "VOTLocaleHash": "Hash Locale",
+  "VOTUpdatedAt": "Actualizat la 16: 40"
 }

@@ -198,5 +198,7 @@
   "VOTChangeHotkeyWithCurrent": "Promijenite prečac (trenutni: {0})",
   "VOTSubtitlesDownloadFormat": "Format za preuzimanje titlova",
   "VOTDownloadWithName": "Prenesite datoteke s nazivom videozapisa",
-  "VOTUpdateLocaleFiles": "Ažurirajte datoteke lokalizacije"
+  "VOTUpdateLocaleFiles": "Ažurirajte datoteke lokalizacije",
+  "VOTLocaleHash": "Lokalni hash",
+  "VOTUpdatedAt": "Ažurirano u"
 }
