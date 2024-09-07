@@ -197,5 +197,6 @@
   "VOTCreateTranslationHotkey": "Nggawe Hotkey Kanggo Terjemahan",
   "VOTChangeHotkeyWithCurrent": "Ganti Tombol (Saiki: {0})",
   "VOTSubtitlesDownloadFormat": "Format kanggo ngundhuh subtitles",
-  "VOTDownloadWithName": "Ngundhuh file kanthi jeneng video"
+  "VOTDownloadWithName": "Ngundhuh file kanthi jeneng video",
+  "VOTUpdateLocaleFiles": "Nganyari file lokalisasi"
 }

@@ -197,5 +197,6 @@
   "VOTCreateTranslationHotkey": "Luo Pikanäppäin kääntämistä varten",
   "VOTChangeHotkeyWithCurrent": "Vaihda Pikanäppäintä (Nykyinen: {0})",
   "VOTSubtitlesDownloadFormat": "Tekstityksen lataamisen muoto",
-  "VOTDownloadWithName": "Lataa tiedostoja videon nimellä"
+  "VOTDownloadWithName": "Lataa tiedostoja videon nimellä",
+  "VOTUpdateLocaleFiles": "Päivitä lokalisointitiedostot"
 }

@@ -197,5 +197,6 @@
   "VOTCreateTranslationHotkey": "Ustvari bližnjico za prevod",
   "VOTChangeHotkeyWithCurrent": "Spremeni Bližnjično Tipko (Trenutno: {0})",
   "VOTSubtitlesDownloadFormat": "Oblika za prenos podnapisov",
-  "VOTDownloadWithName": "Prenesite datoteke z imenom videoposnetka"
+  "VOTDownloadWithName": "Prenesite datoteke z imenom videoposnetka",
+  "VOTUpdateLocaleFiles": "Posodobite lokalizacijske datoteke"
 }

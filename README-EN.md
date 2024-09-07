@@ -168,6 +168,18 @@ bunx patch-package --use-yarn vot.js
 
 Do not use patches from the `bun patch` or from any npm packages. They will be incompatible with the patch-package, and may also break when updating the package.
 
+### How to update localization files
+
+For all interaction with localization files, the l10n-tui utility is made.
+
+To call the utility, use the command:
+
+```bash
+bun l10n
+```
+
+You can read more about the utility [here](scripts/l10n-tui/README.md)
+
 ## Customization of appearance:
 
 The extension supports customization of the appearance using Stylus, Stylish and other similar extensions

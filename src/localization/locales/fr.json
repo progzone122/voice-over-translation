@@ -197,5 +197,6 @@
   "VOTCreateTranslationHotkey": "Créer un raccourci clavier pour la traduction",
   "VOTChangeHotkeyWithCurrent": "Modifier le raccourci clavier (Actuel: {0})",
   "VOTSubtitlesDownloadFormat": "Le format de téléchargement des sous-titres",
-  "VOTDownloadWithName": "Télécharger des fichiers avec le nom de la vidéo"
+  "VOTDownloadWithName": "Télécharger des fichiers avec le nom de la vidéo",
+  "VOTUpdateLocaleFiles": "Mettre à jour les fichiers de localisation"
 }

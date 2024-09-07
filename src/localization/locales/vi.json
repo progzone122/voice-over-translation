@@ -197,5 +197,6 @@
   "VOTCreateTranslationHotkey": "Tạo Phím Nóng Để Dịch",
   "VOTChangeHotkeyWithCurrent": "Thay Đổi Phím Nóng (Hiện Tại: {0})",
   "VOTSubtitlesDownloadFormat": "Định dạng để tải xuống phụ đề",
-  "VOTDownloadWithName": "Tải xuống các tệp có tên video"
+  "VOTDownloadWithName": "Tải xuống các tệp có tên video",
+  "VOTUpdateLocaleFiles": "Cập nhật tệp bản địa hóa"
 }

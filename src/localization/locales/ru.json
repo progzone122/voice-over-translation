@@ -197,5 +197,6 @@
   "VOTCreateTranslationHotkey": "Назначить горячую клавишу для перевода",
   "VOTChangeHotkeyWithCurrent": "Изменить горячую клавишу (Текущая: {0})",
   "VOTSubtitlesDownloadFormat": "Формат для загрузки субтитров",
-  "VOTDownloadWithName": "Загружать файлы с названием видео"
+  "VOTDownloadWithName": "Загружать файлы с названием видео",
+  "VOTUpdateLocaleFiles": "Обновить файлы локализации"
 }

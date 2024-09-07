@@ -197,5 +197,6 @@
   "VOTCreateTranslationHotkey": "번역을 위한 단축키 만들기",
   "VOTChangeHotkeyWithCurrent": "단축키 변경(현재:{0})",
   "VOTSubtitlesDownloadFormat": "자막 다운로드 형식",
-  "VOTDownloadWithName": "비디오 이름을 가진 파일 다운로드"
+  "VOTDownloadWithName": "비디오 이름을 가진 파일 다운로드",
+  "VOTUpdateLocaleFiles": "현지화 파일 업데이트"
 }

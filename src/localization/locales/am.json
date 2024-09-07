@@ -197,5 +197,6 @@
   "VOTCreateTranslationHotkey": "ለትርጉም ሆትኪይ ይፍጠሩ",
   "VOTChangeHotkeyWithCurrent": "ሆትኪይ ለውጥ (የአሁኑ: {0})",
   "VOTSubtitlesDownloadFormat": "ንዑስ ርዕሶችን ለማውረድ ቅርጸት",
-  "VOTDownloadWithName": "ፋይሎችን በቪዲዮ ስም ያውርዱ"
+  "VOTDownloadWithName": "ፋይሎችን በቪዲዮ ስም ያውርዱ",
+  "VOTUpdateLocaleFiles": "የአካባቢ ፋይሎችን አዘምን"
 }

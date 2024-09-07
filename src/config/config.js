@@ -3,6 +3,9 @@ const workerHost = "api.browser.yandex.ru";
 const m3u8ProxyHost = "m3u8-proxy.toil.cc"; // used for streaming
 const proxyWorkerHost = "vot-worker.toil.cc"; // used for cloudflare version
 const votBackendUrl = "https://vot-api.toil.cc/v1";
+const contentUrl =
+  "https://raw.githubusercontent.com/ilyhalight/voice-over-translation";
+const repositoryUrl = "https://github.com/ilyhalight/voice-over-translation";
 
 const defaultAutoVolume = 0.15; // 0.0 - 1.0 (0% - 100%) - default volume of the video with the translation
 const maxAudioVolume = 900;
@@ -25,6 +28,8 @@ export {
   proxyWorkerHost,
   detectUrls,
   votBackendUrl,
+  contentUrl,
+  repositoryUrl,
   translateUrls,
   defaultTranslationService,
   defaultDetectService,

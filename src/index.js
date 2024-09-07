@@ -32,6 +32,7 @@ import {
   secsToStrTime,
   downloadBlob,
   clearFileName,
+  getTimestamp,
 } from "./utils/utils.js";
 import { syncVolume } from "./utils/volume.js";
 
@@ -901,6 +902,13 @@ class VideoHandler {
         this.votBrowserInfo.container,
       );
 
+      this.votUpdateLocaleFilesButton = ui.createOutlinedButton(
+        localizationProvider.get("VOTUpdateLocaleFiles"),
+      );
+      this.votSettingsDialog.bodyContainer.appendChild(
+        this.votUpdateLocaleFilesButton,
+      );
+
       this.votResetSettingsButton = ui.createButton(
         localizationProvider.get("resetSettings"),
       );
@@ -1455,6 +1463,14 @@ class VideoHandler {
         })();
       });
 
+      this.votUpdateLocaleFilesButton.addEventListener("click", () => {
+        (async () => {
+          await votStorage.set("locale-hash", "");
+          await localizationProvider.update(true);
+          window.location.reload();
+        })();
+      });
+
       this.votResetSettingsButton.addEventListener("click", () => {
         (async () => {
           localizationProvider.reset();
@@ -1976,8 +1992,6 @@ class VideoHandler {
     } else if (
       [
         "bilibili",
-        "piped",
-        "invidious",
         "bitchute",
         "rumble",
         "peertube",
@@ -2310,7 +2324,7 @@ class VideoHandler {
     this.cachedTranslation = this.videoTranslations.find(
       (t) =>
         t.videoId === VIDEO_ID &&
-        t.expires > Date.now() / 1000 &&
+        t.expires > getTimestamp() &&
         t.from === requestLang &&
         t.to === responseLang,
     );
@@ -2353,7 +2367,7 @@ class VideoHandler {
       from: requestLang,
       to: responseLang,
       url: this.downloadTranslationUrl,
-      expires: Date.now() / 1000 + this.videoTranslationTTL,
+      expires: getTimestamp() + this.videoTranslationTTL,
     });
   }
 

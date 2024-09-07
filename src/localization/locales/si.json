@@ -197,5 +197,6 @@
   "VOTCreateTranslationHotkey": "පරිවර්තනය සඳහා Hotkey නිර්මාණය කරන්න",
   "VOTChangeHotkeyWithCurrent": "Hotkey (වර්තමාන: {0})වෙනස් කරන්න",
   "VOTSubtitlesDownloadFormat": "උපසිරැසි බාගත කිරීම සඳහා ආකෘතිය",
-  "VOTDownloadWithName": "වීඩියෝ නාමය සහිත ගොනු බාගත කරන්න"
+  "VOTDownloadWithName": "වීඩියෝ නාමය සහිත ගොනු බාගත කරන්න",
+  "VOTUpdateLocaleFiles": "දේශීයකරණ ගොනු යාවත්කාලීන කරන්න"
 }

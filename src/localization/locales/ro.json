@@ -197,5 +197,6 @@
   "VOTCreateTranslationHotkey": "Creați taste rapide pentru traducere",
   "VOTChangeHotkeyWithCurrent": "Schimbare Tastă Rapidă (Curent: {0})",
   "VOTSubtitlesDownloadFormat": "Formatul pentru descărcarea subtitrărilor",
-  "VOTDownloadWithName": "Descărcați fișiere cu numele videoclipului"
+  "VOTDownloadWithName": "Descărcați fișiere cu numele videoclipului",
+  "VOTUpdateLocaleFiles": "Actualizați fișierele de localizare"
 }
