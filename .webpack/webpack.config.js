@@ -18,23 +18,43 @@ import {
 } from "vot.js/alternativeUrls";
 import configShared from "./config.shared.js";
 
-const repo =
-  "https://raw.githubusercontent.com/ilyhalight/voice-over-translation";
+import { repositoryUrl, contentUrl } from "../src/config/config.js";
+
 const dev = process.env.NODE_ENV === "development";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.resolve(path.dirname(__filename), "..");
+const localesDir = path.resolve(__dirname, "src", "localization", "locales");
+const priorityLocales = ["auto", "en", "ru"];
+
 let isBeta = getHeaders().version.includes("beta");
+const availableLocales = getAvailableLocales();
 
 console.log("development mode: ", dev);
 
 function getHeaders(lang) {
-  const headersPath = path.resolve(
-    __dirname,
-    "src",
-    lang ? `locales/${lang}` : "",
-    "headers.json",
-  );
+  const headersPath = lang
+    ? path.resolve(localesDir, "headers", lang)
+    : path.resolve(__dirname, "src", "headers.json");
   return JSON.parse(fs.readFileSync(headersPath).toString());
+}
+
+function getAvailableLocales() {
+  const files = fs.readdirSync(localesDir);
+  const locales = files.reduce((result, file) => {
+    if (!file.endsWith(".json")) {
+      return result;
+    }
+
+    const locale = file.replace(".json", "");
+    if (priorityLocales.includes(locale)) {
+      return result;
+    }
+
+    result.push(locale);
+    return result;
+  }, []);
+
+  return [...priorityLocales, ...locales];
 }
 
 export default (env) => {
@@ -82,23 +102,25 @@ export default (env) => {
         resolve: path.resolve(__dirname, "src", "headers.json"),
         transform({ meta }) {
           const extFileName = getFilename().slice(0, -8);
-          const finalURL = `${repo}/${
+          const finalURL = `${contentUrl}/${
             isBeta ? "dev" : "master"
           }/dist/${extFileName}.user.js`;
 
           meta.namespace = extFileName;
+          meta.homepageURL = repositoryUrl;
           meta.updateURL = meta.downloadURL = finalURL;
+          meta.supportURL = `${repositoryUrl}/issues`;
 
-          const files = fs.readdirSync(
-            path.resolve(__dirname, "src", "locales"),
-          );
-
-          meta.name = {
-            default: meta.name,
-          };
-
-          meta.description = {
-            default: meta.description,
+          const files = fs.readdirSync(path.resolve(localesDir, "headers"));
+          meta = {
+            ...meta,
+            name: {
+              default: meta.name,
+            },
+            description: {
+              default: meta.description,
+            },
+            match: Array.from(new Set([...meta.match, ...altUrlsToMatch()])),
           };
 
           for (const file of files) {
@@ -108,10 +130,6 @@ export default (env) => {
             meta.name[lang] = localeHeaders.name;
             meta.description[lang] = localeHeaders.description;
           }
-
-          meta.match = Array.from(
-            new Set([...meta.match, ...altUrlsToMatch()]),
-          );
 
           return meta;
         },
@@ -127,6 +145,7 @@ export default (env) => {
       new webpack.DefinePlugin({
         DEBUG_MODE: dev,
         IS_BETA_VERSION: isBeta,
+        AVAILABLE_LOCALES: JSON.stringify(availableLocales),
         ...(() => {
           if (!dev) {
             return {
