@@ -168,6 +168,10 @@ async function GM_fetch(url, opts = {}) {
   }
 }
 
+function getTimestamp() {
+  return Math.floor(Date.now() / 1000);
+}
+
 export {
   secsToStrTime,
   langTo6391,
@@ -178,4 +182,5 @@ export {
   downloadBlob,
   clearFileName,
   GM_fetch,
+  getTimestamp,
 };
