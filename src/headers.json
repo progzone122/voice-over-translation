@@ -5,10 +5,6 @@
   "author": "sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD",
   "namespace": "vot",
   "icon": "https://translate.yandex.ru/icons/favicon.ico",
-  "updateURL": "https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot.user.js",
-  "downloadURL": "https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot.user.js",
-  "supportURL": "https://github.com/ilyhalight/voice-over-translation/issues",
-  "homepageURL": "https://github.com/ilyhalight/voice-over-translation/issues",
   "match": [
     "*://*.youtube.com/*",
     "*://*.youtube-nocookie.com/*",
@@ -58,7 +54,7 @@
     "*://odysee.com/*",
     "*://*/*.mp4*"
   ],
-  "exclude": ["file://*/*.mp4*"],
+  "exclude": ["file://*/*.mp4*", "*://accounts.youtube.com/*"],
   "require": [
     "https://cdn.jsdelivr.net/npm/protobufjs/dist/light/protobuf.min.js",
     "https://cdn.jsdelivr.net/npm/hls.js/dist/hls.light.min.js",
