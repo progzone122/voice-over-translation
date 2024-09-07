@@ -31,8 +31,7 @@ const animeOpts = {
  */
 export function createHeader(html, level = 4) {
   const header = document.createElement("vot-block");
-  header.classList.add("vot-header");
-  header.classList.add(`vot-header-level-${level}`);
+  header.classList.add("vot-header", `vot-header-level-${level}`);
   header.append(html);
 
   return header;
@@ -41,7 +40,7 @@ export function createHeader(html, level = 4) {
 /**
  * Create information element
  *
- * @param {HTMLElement|string} html - label content
+ * @param {HTMLElement|string} labelHtml - label content
  * @param {HTMLElement|string} valueHtml - value content
  * @return {{
  *  container: HTMLElement,
@@ -49,15 +48,15 @@ export function createHeader(html, level = 4) {
  *  value: HTMLElement
  * }} information elements
  */
-export function createInformation(html, valueHtml) {
+export function createInformation(labelHtml, valueHtml) {
   const container = document.createElement("vot-block");
   container.classList.add("vot-info");
 
   const header = document.createElement("vot-block");
-  header.append(html);
+  render(labelHtml, header);
 
   const value = document.createElement("vot-block");
-  value.append(valueHtml);
+  render(valueHtml, value);
 
   container.append(header, value);
 
