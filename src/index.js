@@ -335,7 +335,7 @@ class VideoHandler {
       proxyWorkerHost: votStorage.get("proxyWorkerHost", proxyWorkerHost),
       audioBooster: votStorage.get("audioBooster", 0),
       localeHash: votStorage.get("locale-hash", ""),
-      localeUpdatedIn: votStorage.get("locale-updated-in", 0),
+      localeUpdatedAt: votStorage.get("locale-updated-at", 0),
     };
 
     this.data = Object.fromEntries(
@@ -907,9 +907,9 @@ class VideoHandler {
       this.votLocaleInfo = ui.createInformation(
         `${localizationProvider.get("VOTLocaleHash")}:`,
         html`${this.data.localeHash}<br />(${localizationProvider.get(
-            "VOTUpdatedIn",
+            "VOTUpdatedAt",
           )}
-          ${new Date(this.data.localeUpdatedIn * 1000).toLocaleString()})`,
+          ${new Date(this.data.localeUpdatedAt * 1000).toLocaleString()})`,
       );
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votLocaleInfo.container,

@@ -66,19 +66,19 @@ export const localizationProvider = new (class {
   }
 
   async update(force = false) {
-    const localeUpdatedIn = await votStorage.get("locale-updated-in", 0);
+    const localeUpdatedAt = await votStorage.get("locale-updated-at", 0);
     const localeLang = await votStorage.get("locale-lang");
     const timestamp = getTimestamp();
     if (
       !force &&
-      localeUpdatedIn + localeCacheTTL > timestamp &&
+      localeUpdatedAt + localeCacheTTL > timestamp &&
       localeLang === this.lang
     ) {
       return;
     }
 
     const hash = await this.checkUpdates();
-    await votStorage.set("locale-updated-in", timestamp);
+    await votStorage.set("locale-updated-at", timestamp);
     if (!hash) {
       return;
     }
