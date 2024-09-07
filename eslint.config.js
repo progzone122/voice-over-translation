@@ -46,8 +46,8 @@ export default [
         Hls: "readonly",
         anime: "readonly",
         // WEBPACK ENVIRONMENT
-        BUILD_MODE: "readonly",
         DEBUG_MODE: "readonly",
+        AVAILABLE_LOCALES: "readonly",
         IS_BETA_VERSION: "readonly",
         __MK_GLOBAL__: "readonly",
         // YOUTUBE PAGE API
