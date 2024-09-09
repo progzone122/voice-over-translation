@@ -6821,8 +6821,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : res.message ??
-              localizationProvider.get("translationTakeFewMinutes"),
+          : (res.message ??
+              localizationProvider.get("translationTakeFewMinutes")),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
@@ -8335,11 +8335,7 @@ class VideoHandler {
       if (this.site.host === "rutube" && this.video.src) {
         return;
       }
-      if ((await getVideoID(this.site, this.video)) === this.videoData.videoId)
-        return;
-      await this.handleSrcChanged();
-      await this.autoTranslate();
-      utils_debug.log("lipsync mode is canplay");
+      await this.setCanPlay();
     });
 
     addExtraEventListener(this.video, "emptied", async () => {
@@ -8358,6 +8354,25 @@ class VideoHandler {
         this.syncVideoVolumeSlider();
       });
     }
+
+    if (this.site.host === "youtube" && !this.site.additionalData) {
+      addExtraEventListener(document, "yt-page-data-updated", async () => {
+        utils_debug.log("yt-page-data-updated");
+        // fix #802
+        if (!window.location.pathname.includes("/shorts/")) {
+          return;
+        }
+        await this.setCanPlay();
+      });
+    }
+  }
+
+  async setCanPlay() {
+    if ((await getVideoID(this.site, this.video)) === this.videoData.videoId)
+      return;
+    await this.handleSrcChanged();
+    await this.autoTranslate();
+    utils_debug.log("lipsync mode is canplay");
   }
 
   logout(n) {
@@ -9096,6 +9111,7 @@ class VideoHandler {
   async handleSrcChanged() {
     utils_debug.log("[VideoHandler] src changed", this);
     this.firstPlay = true;
+    this.stopTranslation();
 
     const hide =
       !this.video.src && !this.video.currentSrc && !this.video.srcObject;
