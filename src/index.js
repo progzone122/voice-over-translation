@@ -1643,23 +1643,12 @@ class VideoHandler {
       }
     });
 
-    let eContainer;
-    if (this.site.host === "pornhub") {
-      if (this.site.additionalData === "embed") {
-        eContainer = document.querySelector("#player");
-      } else {
-        eContainer = this.container.querySelector(".mgp_eventCatcher");
-      }
-    } else if (this.site.host === "twitter") {
-      eContainer = document.querySelector('div[data-testid="videoPlayer"]');
-    } else if (this.site.host === "yandexdisk") {
-      eContainer = document.querySelector(".video-player__player");
-    } else {
-      eContainer = this.container;
-    }
-    if (eContainer)
+    let eventContainer = this.site.eventSelector
+      ? document.querySelector(this.site.eventSelector)
+      : this.container;
+    if (eventContainer)
       addExtraEventListeners(
-        eContainer,
+        eventContainer,
         ["mousemove", "mouseout"],
         this.resetTimer,
       );
