@@ -668,6 +668,10 @@
 
 - `odysee.com`
 
+Доступные пути:
+
+- /@USERNAME/VIDEO_NAME
+
 ## Coursehunter
 
 Статус: [✅] Работает
@@ -712,6 +716,23 @@
 
 - Необходимо быть авторизованным на сайте
 - Если у видео нет субтитров на вашем языке, то перевод не будет выполнен
+
+## Sap
+
+Статус: [⚠️] Работает с ограничениями
+
+Доступные (под)домены:
+
+- `learning.sap.com`
+
+Доступные пути:
+
+- /courses/COURSE_NAME
+- /courses/COURSE_NAME/LECTURE_NAME
+
+Ограничения:
+
+- Для работы необходимо полностью удалить [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) со страницы
 
 ## Direct link to MP4
 

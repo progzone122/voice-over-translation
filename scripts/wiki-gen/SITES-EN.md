@@ -668,6 +668,10 @@ Available (sub)domains:
 
 - `odysee.com`
 
+Available paths:
+
+- /@USERNAME/VIDEO_NAME
+
 ## Coursehunter
 
 Status: [✅] Working
@@ -712,6 +716,23 @@ Limitations:
 
 - You must be logged in to the site
 - If the video doesn't have subtitles in your language, then the translation will not be performed
+
+## Sap
+
+Status: [⚠️] Works with limitations
+
+Available (sub)domains:
+
+- `learning.sap.com`
+
+Available paths:
+
+- /courses/COURSE_NAME
+- /courses/COURSE_NAME/LECTURE_NAME
+
+Limitations:
+
+- To work, you must completely remove [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) with pages
 
 ## Direct link to MP4
 
