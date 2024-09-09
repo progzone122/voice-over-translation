@@ -1,8 +1,8 @@
 diff --git a/node_modules/vot.js/dist/config/sites.js b/node_modules/vot.js/dist/config/sites.js
-index 9b95b70..082212c 100644
+index c7c66bb..3a678ee 100644
 --- a/node_modules/vot.js/dist/config/sites.js
 +++ b/node_modules/vot.js/dist/config/sites.js
-@@ -339,6 +339,14 @@ export default [
+@@ -342,6 +342,14 @@ export default [
              'div[data-purpose="curriculum-item-viewer-content"] > section > div > div > div > div:nth-of-type(2)',
          needExtraData: true,
      },
@@ -15,8 +15,8 @@ index 9b95b70..082212c 100644
 +        needExtraData: true,
 +    },
      {
-         host: VideoService.custom,
-         url: "stub",
+         host: VideoService.sap,
+         url: "https://learning.sap.com/courses/",
 diff --git a/node_modules/vot.js/dist/helpers/coursera.d.ts b/node_modules/vot.js/dist/helpers/coursera.d.ts
 new file mode 100644
 index 0000000..fc46e72
@@ -142,7 +142,7 @@ index 0000000..7675127
 +}
 \ No newline at end of file
 diff --git a/node_modules/vot.js/dist/helpers/index.d.ts b/node_modules/vot.js/dist/helpers/index.d.ts
-index 05a6057..379a7d1 100644
+index 3d5f3da..bdeaeaa 100644
 --- a/node_modules/vot.js/dist/helpers/index.d.ts
 +++ b/node_modules/vot.js/dist/helpers/index.d.ts
 @@ -13,6 +13,7 @@ import OdyseeHelper from "./odysee.js";
@@ -150,27 +150,28 @@ index 05a6057..379a7d1 100644
  import TwitchHelper from "./twitch.js";
  import UdemyHelper from "./udemy.js";
 +import CourseraHelper from "./coursera.js";
+ import SapHelper from "./sap.js";
  export * as MailRuHelper from "./mailru.js";
  export * as WeverseHelper from "./weverse.js";
- export * as KodikHelper from "./kodik.js";
-@@ -27,6 +28,7 @@ export * as OdyseeHelper from "./odysee.js";
+@@ -28,6 +29,7 @@ export * as OdyseeHelper from "./odysee.js";
  export * as CoursehunterHelper from "./coursehunter.js";
  export * as TwitchHelper from "./twitch.js";
  export * as UdemyHelper from "./udemy.js";
 +export * as CourseraHelper from "./coursera.js";
+ export * as SapHelper from "./sap.js";
  export default class VideoHelper {
      static readonly [VideoService.mailru]: MailRuHelper;
-     static readonly [VideoService.weverse]: WeverseHelper;
-@@ -42,5 +44,6 @@ export default class VideoHelper {
+@@ -44,6 +46,7 @@ export default class VideoHelper {
      static readonly [VideoService.twitch]: TwitchHelper;
      static readonly [VideoService.coursehunter]: CoursehunterHelper;
      static readonly [VideoService.udemy]: UdemyHelper;
 +    static readonly [VideoService.coursera]: CourseraHelper;
+     static readonly [VideoService.sap]: SapHelper;
  }
  //# sourceMappingURL=index.d.ts.map
 \ No newline at end of file
 diff --git a/node_modules/vot.js/dist/helpers/index.js b/node_modules/vot.js/dist/helpers/index.js
-index f8e2601..38871c4 100644
+index b7f0fa2..66c31a2 100644
 --- a/node_modules/vot.js/dist/helpers/index.js
 +++ b/node_modules/vot.js/dist/helpers/index.js
 @@ -13,6 +13,7 @@ import OdyseeHelper from "./odysee.js";
@@ -178,26 +179,27 @@ index f8e2601..38871c4 100644
  import TwitchHelper from "./twitch.js";
  import UdemyHelper from "./udemy.js";
 +import CourseraHelper from "./coursera.js";
+ import SapHelper from "./sap.js";
  export * as MailRuHelper from "./mailru.js";
  export * as WeverseHelper from "./weverse.js";
- export * as KodikHelper from "./kodik.js";
-@@ -27,6 +28,7 @@ export * as OdyseeHelper from "./odysee.js";
+@@ -28,6 +29,7 @@ export * as OdyseeHelper from "./odysee.js";
  export * as CoursehunterHelper from "./coursehunter.js";
  export * as TwitchHelper from "./twitch.js";
  export * as UdemyHelper from "./udemy.js";
 +export * as CourseraHelper from "./udemy.js";
+ export * as SapHelper from "./sap.js";
  export default class VideoHelper {
      static [VideoService.mailru] = new MailRuHelper();
-     static [VideoService.weverse] = new WeverseHelper();
-@@ -42,4 +44,5 @@ export default class VideoHelper {
+@@ -44,5 +46,6 @@ export default class VideoHelper {
      static [VideoService.twitch] = new TwitchHelper();
      static [VideoService.coursehunter] = new CoursehunterHelper();
      static [VideoService.udemy] = new UdemyHelper();
 +    static [VideoService.coursera] = new CourseraHelper();
+     static [VideoService.sap] = new SapHelper();
  }
 diff --git a/node_modules/vot.js/dist/types/helpers/coursera.d.ts b/node_modules/vot.js/dist/types/helpers/coursera.d.ts
 new file mode 100644
-index 0000000..15d378e
+index 0000000..2803fc9
 --- /dev/null
 +++ b/node_modules/vot.js/dist/types/helpers/coursera.d.ts
 @@ -0,0 +1,52 @@
@@ -256,28 +258,26 @@ index 0000000..15d378e
 \ No newline at end of file
 diff --git a/node_modules/vot.js/dist/types/helpers/coursera.js b/node_modules/vot.js/dist/types/helpers/coursera.js
 new file mode 100644
-index 0000000..0aacd4e
+index 0000000..693da49
 --- /dev/null
 +++ b/node_modules/vot.js/dist/types/helpers/coursera.js
 @@ -0,0 +1 @@
 +export {}
 \ No newline at end of file
 diff --git a/node_modules/vot.js/dist/types/yandex.d.ts b/node_modules/vot.js/dist/types/yandex.d.ts
-index c6658a7..6749be0 100644
+index fd5631d..e15f763 100644
 --- a/node_modules/vot.js/dist/types/yandex.d.ts
 +++ b/node_modules/vot.js/dist/types/yandex.d.ts
-@@ -58,7 +58,8 @@ export declare enum VideoService {
-     nineanimetv = "nineanimetv",
+@@ -59,6 +59,7 @@ export declare enum VideoService {
      odysee = "odysee",
      coursehunter = "coursehunter",
--    udemy = "udemy"
-+    udemy = "udemy",
-+    coursera = "coursera"
+     udemy = "udemy",
++    coursera = "coursera",
+     sap = "sap"
  }
  export type ServiceConf = {
-     host: VideoService;
 diff --git a/node_modules/vot.js/dist/types/yandex.js b/node_modules/vot.js/dist/types/yandex.js
-index 5c6fcaa..265d340 100644
+index 7adb768..7499680 100644
 --- a/node_modules/vot.js/dist/types/yandex.js
 +++ b/node_modules/vot.js/dist/types/yandex.js
 @@ -49,6 +49,7 @@ export var VideoService;
@@ -285,6 +285,6 @@ index 5c6fcaa..265d340 100644
      VideoService["coursehunter"] = "coursehunter";
      VideoService["udemy"] = "udemy";
 +    VideoService["coursera"] = "coursera";
+     VideoService["sap"] = "sap";
  })(VideoService || (VideoService = {}));
  export var VideoTranslationStatus;
- (function (VideoTranslationStatus) {

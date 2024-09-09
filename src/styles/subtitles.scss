@@ -43,6 +43,8 @@
     -moz-user-select: text;
     -ms-user-select: text;
     user-select: text;
+    font-size: inherit !important;
+    line-height: normal !important;
   }
 
   & .passed {

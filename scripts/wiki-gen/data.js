@@ -159,6 +159,14 @@ const siteData = {
     paths: ["/watch/anime-name-ANIME_ID?ep=EPISODE_ID"],
     limits: [locales.noSubtitles],
   },
+  odysee: {
+    paths: ["/@USERNAME/VIDEO_NAME"],
+    limits: [],
+  },
+  sap: {
+    paths: ["/courses/COURSE_NAME", "/courses/COURSE_NAME/LECTURE_NAME"],
+    limits: [locales.needRemoveCSP],
+  },
   directlink: {
     paths: ["/*.mp4"],
     limits: [locales.noLocalLinks],
@@ -179,6 +187,10 @@ const extraData = {
     statusPhrase: locales.worksWithLimitations,
   },
   yandexdisk: {
+    status: "⚠️",
+    statusPhrase: locales.worksWithLimitations,
+  },
+  sap: {
     status: "⚠️",
     statusPhrase: locales.worksWithLimitations,
   },

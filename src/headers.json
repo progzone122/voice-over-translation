@@ -52,6 +52,7 @@
     "*://*.rapid-cloud.co/*",
     "*://9animetv.to/*",
     "*://odysee.com/*",
+    "*://learning.sap.com/*",
     "*://*/*.mp4*"
   ],
   "exclude": ["file://*/*.mp4*", "*://accounts.youtube.com/*"],
