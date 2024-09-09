@@ -6086,7 +6086,7 @@ async function subtitles_getSubtitles(client, videoData) {
     subtitles,
   } = videoData;
   const extraSubtitles =
-    host === "youtube" ? youtubeUtils.getSubtitles() : (subtitles ?? []);
+    host === "youtube" ? youtubeUtils.getSubtitles() : subtitles ?? [];
 
   const timeoutPromise = new Promise((_, reject) =>
     setTimeout(() => reject(new Error("Timeout")), 5000),

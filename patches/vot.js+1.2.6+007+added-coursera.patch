@@ -199,7 +199,7 @@ index b7f0fa2..66c31a2 100644
  }
 diff --git a/node_modules/vot.js/dist/types/helpers/coursera.d.ts b/node_modules/vot.js/dist/types/helpers/coursera.d.ts
 new file mode 100644
-index 0000000..15d378e
+index 0000000..2803fc9
 --- /dev/null
 +++ b/node_modules/vot.js/dist/types/helpers/coursera.d.ts
 @@ -0,0 +1,52 @@
@@ -258,7 +258,7 @@ index 0000000..15d378e
 \ No newline at end of file
 diff --git a/node_modules/vot.js/dist/types/helpers/coursera.js b/node_modules/vot.js/dist/types/helpers/coursera.js
 new file mode 100644
-index 0000000..0aacd4e
+index 0000000..693da49
 --- /dev/null
 +++ b/node_modules/vot.js/dist/types/helpers/coursera.js
 @@ -0,0 +1 @@
@@ -288,26 +288,3 @@ index 7adb768..7499680 100644
      VideoService["sap"] = "sap";
  })(VideoService || (VideoService = {}));
  export var VideoTranslationStatus;
-diff --git a/node_modules/vot.js/dist/utils/subs.d.ts.map b/node_modules/vot.js/dist/utils/subs.d.ts.map
-index bea5857..12f93dc 100644
---- a/node_modules/vot.js/dist/utils/subs.d.ts.map
-+++ b/node_modules/vot.js/dist/utils/subs.d.ts.map
-@@ -1 +1 @@
--{"version":3,"file":"subs.d.ts","sourceRoot":"","sources":["../../src/utils/subs.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,cAAc,EAAgB,aAAa,EAAE,MAAM,eAAe,CAAC;AAE5E,wBAAgB,gBAAgB,CAAC,EAAE,EAAE,MAAM,EAAE,SAAS,SAAM,UAa3D;AAkFD,wBAAgB,aAAa,CAAC,IAAI,EAAE,aAAa,GAAG,MAAM,GAAG,cAAc,CAU1E;AAED,wBAAgB,WAAW,CACzB,IAAI,EAAE,aAAa,GAAG,MAAM,EAC5B,MAAM,GAAE,cAAsB,0BAiB/B"}
-\ No newline at end of file
-+{"version":3,"file":"subs.d.ts","sourceRoot":"","sources":["../../src/utils/subs.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,cAAc,EAAgB,aAAa,EAAE,MAAM,eAAe,CAAC;AAE5E,wBAAgB,gBAAgB,CAAC,EAAE,EAAE,MAAM,EAAE,SAAS,SAAM,UAa3D;AAsFD,wBAAgB,aAAa,CAAC,IAAI,EAAE,aAAa,GAAG,MAAM,GAAG,cAAc,CAU1E;AAED,wBAAgB,WAAW,CACzB,IAAI,EAAE,aAAa,GAAG,MAAM,EAC5B,MAAM,GAAE,cAAsB,0BAiB/B"}
-\ No newline at end of file
-diff --git a/node_modules/vot.js/dist/utils/subs.js b/node_modules/vot.js/dist/utils/subs.js
-index 0ee957d..939ed1d 100644
---- a/node_modules/vot.js/dist/utils/subs.js
-+++ b/node_modules/vot.js/dist/utils/subs.js
-@@ -46,6 +46,9 @@ function convertSubsToJSON(data, from = "srt") {
-         const text = lines.slice(offset + 1).join("\n");
-         if ((lines.length !== 2 || !part.includes(" --> ")) &&
-             !time?.includes(" --> ")) {
-+            if (result.length === 0) {
-+                return result;
-+            }
-             result[result.length - 1].text += `\n\n${lines.join("\n")}`;
-             return result;
-         }
