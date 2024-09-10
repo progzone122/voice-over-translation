@@ -32,5 +32,4 @@ jobs:
           draft: true
           prerelease: false
           files: |
-            vot/vot.user.js
-            vot/vot-min.user.js
+            vot/vot*.user.js
