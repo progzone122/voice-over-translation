@@ -53,9 +53,16 @@
     "*://9animetv.to/*",
     "*://odysee.com/*",
     "*://learning.sap.com/*",
-    "*://*/*.mp4*"
+    "*://*.watchporn.to/*",
+    "*://*.linkedin.com/*",
+    "*://*/*.mp4*",
+    "*://*/*.webm*"
   ],
-  "exclude": ["file://*/*.mp4*", "*://accounts.youtube.com/*"],
+  "exclude": [
+    "file://*/*.mp4*",
+    "file://*/*.webm*",
+    "*://accounts.youtube.com/*"
+  ],
   "require": [
     "https://cdn.jsdelivr.net/npm/protobufjs/dist/light/protobuf.min.js",
     "https://cdn.jsdelivr.net/npm/hls.js/dist/hls.light.min.js",
