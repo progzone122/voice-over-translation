@@ -349,6 +349,25 @@ class VideoHandler {
 
     console.log("[db] data from db: ", this.data);
 
+    // convert old m3u8-proxy-worker to new media-proxy
+    if (this.data.m3u8ProxyHost === "m3u8-proxy.toil.cc") {
+      this.data.m3u8ProxyHost = m3u8ProxyHost;
+      await votStorage.set("m3u8ProxyHost", m3u8ProxyHost);
+      console.log(
+        `[VOT] Old m3u8 proxy host converted to new ${this.data.m3u8ProxyHost} media-proxy`,
+      );
+    }
+
+    // convert old vot-worker domain to actual
+    // TODO: remove converter in one of the next versions after release 1.7.0
+    if (this.data.proxyWorkerHost === "vot.toil.cc") {
+      this.data.proxyWorkerHost = proxyWorkerHost;
+      await votStorage.set("proxyWorkerHost", proxyWorkerHost);
+      console.log(
+        `[VOT] Old proxy worker host converted to new ${this.data.proxyWorkerHost}`,
+      );
+    }
+
     if (
       !this.data.translateProxyEnabled &&
       GM_info?.scriptHandler &&

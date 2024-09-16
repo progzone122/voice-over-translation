@@ -734,6 +734,36 @@
 
 - Для работы необходимо полностью удалить [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) со страницы
 
+## Watchpornto
+
+Статус: [✅] Работает
+
+Доступные (под)домены:
+
+- `watchporn.to`
+
+Доступные пути:
+
+- /video/VIDEO_ID/VIDEO_NAME
+- /embed/VIDEO_ID
+
+## Linkedin
+
+Статус: [⚠️] Работает с ограничениями
+
+Доступные (под)домены:
+
+- `.linkedin.com`
+- `www.linkedin.com`
+
+Доступные пути:
+
+- /learning/COURSE_NAME/LECTURE_NAME
+
+Ограничения:
+
+- Для работы необходимо полностью удалить [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) со страницы
+
 ## Direct link to MP4
 
 Статус: [✅] Работает

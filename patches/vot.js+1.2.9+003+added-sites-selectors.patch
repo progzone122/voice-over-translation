@@ -1,5 +1,5 @@
 diff --git a/node_modules/vot.js/dist/config/sites.js b/node_modules/vot.js/dist/config/sites.js
-index 5bf04c5..4bb42bb 100644
+index 64e1530..ffc71a8 100644
 --- a/node_modules/vot.js/dist/config/sites.js
 +++ b/node_modules/vot.js/dist/config/sites.js
 @@ -2,34 +2,69 @@ import { VideoService } from "../types/yandex.js";
@@ -73,7 +73,7 @@ index 5bf04c5..4bb42bb 100644
      },
      {
          host: VideoService.twitch,
-@@ -40,198 +75,271 @@ export default [
+@@ -40,209 +75,284 @@ export default [
              /^clips.twitch.tv$/,
              /^player.twitch.tv$/,
          ],
@@ -303,7 +303,7 @@ index 5bf04c5..4bb42bb 100644
          host: VideoService.kick,
          url: "https://kick.com/",
          match: /^kick.com$/,
-+        selector: ".vjs-v8",
++        selector: "#injected-embedded-channel-player-video > div",
          needExtraData: true,
      },
      {
@@ -348,6 +348,19 @@ index 5bf04c5..4bb42bb 100644
          match: /^learning.sap.com$/,
 +        selector: ".playkit-container",
 +        eventSelector: ".playkit-player",
+         needExtraData: true,
+     },
+     {
+         host: VideoService.watchpornto,
+         url: "https://watchporn.to/",
+         match: /^watchporn.to$/,
++        selector: ".fp-player",
+     },
+     {
+         host: VideoService.linkedin,
+         url: "https://www.linkedin.com/learning/",
+         match: /^(www)?.linkedin.com$/,
++        selector: ".vjs-v7",
          needExtraData: true,
      },
      {

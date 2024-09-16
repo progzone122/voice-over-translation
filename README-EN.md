@@ -86,7 +86,10 @@ You can see all the restrictions related to site support in [wiki](https://githu
 - **[Apple Developer](https://developer.apple.com)**
 - **[EpicGames Developers](https://dev.epicgames.com)**
 - **[9AnimeTV](https://9animetv.to/)**
-- **Any direct web links to `.mp4`**
+- **[Sap learning](https://learning.sap.com/)**
+- **[Watchporn.to](https://watchporn.to/)**
+- **[Linkedin learning](https://www.linkedin.com/)**
+- **Any direct web links to `.mp4` or `.webm`**
 
 ⚠️ - Requires additional actions, more in **[Wiki](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-Supported-sites)**
 
@@ -96,17 +99,25 @@ These domains can be set in the extension settings (only those domains that can 
 
 #### Proxy-server
 
+It's necessary for proxying requests if it is not possible to make a direct request to the Yandex servers
+
 - [vot-worker.toil.cc](https://vot-worker.toil.cc/health) (Load balancer between proxy servers)
 - [vot-worker-s1.toil.cc](https://github.com/FOSWLY/vot-worker)
 - [vot-worker-s2.toil.cc](https://github.com/FOSWLY/vot-worker)
-- [vot.toil.cc](https://github.com/FOSWLY/vot-backend)
 - [vot.deno.dev](https://github.com/FOSWLY/vot-worker)
 - [vot-new.toil-dump.workers.dev](https://github.com/FOSWLY/vot-worker) (⚠️ doesn't work in Russia)
 
-#### M3U8 Proxy-server
+#### Media Proxy-server
 
-- [m3u8-proxy.toil.cc](https://github.com/FOSWLY/m3u8-proxy-worker)
-- [m3u8-proxy.toiloff.workers.dev](https://github.com/FOSWLY/m3u8-proxy-worker) (⚠️ doesn't work in Russia. It's not recommended for use due to low limits.)
+It's necessary for proxying `.m3u8` files and correcting the translation for indirect links to `.mp4` or `.webm`(for more information in the repository)
+
+- [media-proxy.toil.cc](https://github.com/FOSWLY/media-proxy)
+
+#### VOT-Backend
+
+It's necessary to translate additional sites that use the `.m3u8` or `.mpd` video format.
+
+- [vot.toil.cc](https://github.com/FOSWLY/vot-backend)
 
 ## How to build an extension?
 

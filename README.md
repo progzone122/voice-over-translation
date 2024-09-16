@@ -87,7 +87,10 @@
 - **[Apple Developer](https://developer.apple.com)**
 - **[EpicGames Developers](https://dev.epicgames.com)**
 - **[9AnimeTV](https://9animetv.to/)**
-- **Любые прямые веб-ссылки на `.mp4`**
+- **[Sap learning](https://learning.sap.com/)**
+- **[Watchporn.to](https://watchporn.to/)**
+- **[Linkedin learning](https://www.linkedin.com/)**
+- **Любые прямые веб-ссылки на `.mp4` или `.webm`**
 
 ⚠️ - Требует дополнительных действий, подробнее в **[Wiki](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-Supported-sites)**
 
@@ -97,17 +100,25 @@
 
 #### Proxy-сервер
 
+Необходим для проксирования запросов, если не получается сделать прямой запрос к серверам Яндекса
+
 - [vot-worker.toil.cc](https://vot-worker.toil.cc/health) (Балансировщик между прокси серверами)
 - [vot-worker-s1.toil.cc](https://github.com/FOSWLY/vot-worker)
 - [vot-worker-s2.toil.cc](https://github.com/FOSWLY/vot-worker)
-- [vot.toil.cc](https://github.com/FOSWLY/vot-backend)
 - [vot.deno.dev](https://github.com/FOSWLY/vot-worker)
 - [vot-new.toil-dump.workers.dev](https://github.com/FOSWLY/vot-worker) (⚠️ не работает в РФ)
 
-#### M3U8 Proxy-сервер
+#### Media Proxy-сервер
 
-- [m3u8-proxy.toil.cc](https://github.com/FOSWLY/m3u8-proxy-worker)
-- [m3u8-proxy.toiloff.workers.dev](https://github.com/FOSWLY/m3u8-proxy-worker) (⚠️ не работает в РФ. Не рекомендуется к использованию из-за низких лимитов.)
+Необходим для проксирования `.m3u8` файлов и исправления перевода для непрямых ссылок на `.mp4` или `.webm` (подробнее в репозитории)
+
+- [media-proxy.toil.cc](https://github.com/FOSWLY/media-proxy)
+
+#### VOT-Backend
+
+Необходим для перевода дополнительных сайтов, которые используют формат видео, который не поддерживается серверами Яндекса.
+
+- [vot.toil.cc](https://github.com/FOSWLY/vot-backend)
 
 ## Как собрать расширение?
 

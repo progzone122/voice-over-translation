@@ -167,8 +167,15 @@ const siteData = {
     paths: ["/courses/COURSE_NAME", "/courses/COURSE_NAME/LECTURE_NAME"],
     limits: [locales.needRemoveCSP],
   },
+  watchpornto: {
+    paths: ["/video/VIDEO_ID/VIDEO_NAME", "/embed/VIDEO_ID"],
+  },
+  linkedin: {
+    paths: ["/learning/COURSE_NAME/LECTURE_NAME"],
+    limits: [locales.needRemoveCSP],
+  },
   directlink: {
-    paths: ["/*.mp4"],
+    paths: ["/*.mp4", "/*.webm"],
     limits: [locales.noLocalLinks],
   },
 };
@@ -191,6 +198,10 @@ const extraData = {
     statusPhrase: locales.worksWithLimitations,
   },
   sap: {
+    status: "⚠️",
+    statusPhrase: locales.worksWithLimitations,
+  },
+  linkedin: {
     status: "⚠️",
     statusPhrase: locales.worksWithLimitations,
   },

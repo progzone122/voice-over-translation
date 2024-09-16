@@ -1,8 +1,8 @@
 // CONFIGURATION
 const workerHost = "api.browser.yandex.ru";
-const m3u8ProxyHost = "m3u8-proxy.toil.cc"; // used for streaming
-const proxyWorkerHost = "vot-worker.toil.cc"; // used for cloudflare version
-const votBackendUrl = "https://vot-api.toil.cc/v1";
+const m3u8ProxyHost = "media-proxy.toil.cc/v1/proxy/m3u8"; // used for streaming
+const proxyWorkerHost = "vot-worker.toil.cc";
+const votBackendUrl = "https://vot.toil.cc/v1";
 const contentUrl =
   "https://raw.githubusercontent.com/ilyhalight/voice-over-translation";
 const repositoryUrl = "https://github.com/ilyhalight/voice-over-translation";

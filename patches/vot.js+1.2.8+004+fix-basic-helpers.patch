@@ -84,25 +84,6 @@ index 3e7181b..a24039b 100644
          const currentLesson = lessonsData?.[lessonId - 1];
          const { file: videoUrl, duration, title } = currentLesson;
          if (!videoUrl) {
-diff --git a/node_modules/vot.js/dist/helpers/kick.js b/node_modules/vot.js/dist/helpers/kick.js
-index 3aea861..9db22ca 100644
---- a/node_modules/vot.js/dist/helpers/kick.js
-+++ b/node_modules/vot.js/dist/helpers/kick.js
-@@ -35,6 +35,13 @@ export default class KickHelper extends BaseHelper {
-         if (videoId) {
-             return videoId;
-         }
--        return url.searchParams.get("clip") ?? undefined;
-+
-+        const clipId = url.searchParams.get("clip");
-+        if (clipId) {
-+            return clipId;
-+        }
-+
-+        const player = document.getElementById("clip-video-player");
-+        return /clip_([^/]+)/.exec(player?.getAttribute("poster"))?.[0]
-     }
- }
 diff --git a/node_modules/vot.js/dist/helpers/kodik.js b/node_modules/vot.js/dist/helpers/kodik.js
 index fbdab60..91c8c4f 100644
 --- a/node_modules/vot.js/dist/helpers/kodik.js
@@ -127,6 +108,26 @@ index fbdab60..91c8c4f 100644
              const secureScript = Array.from(doc.getElementsByTagName("script")).filter((s) => s.innerHTML.includes(`videoId = "${videoId}"`));
              if (!secureScript.length) {
                  throw new VideoHelperError("Failed to find secure script");
+diff --git a/node_modules/vot.js/dist/helpers/linkedin.js b/node_modules/vot.js/dist/helpers/linkedin.js
+index 199b6d2..8a41858 100644
+--- a/node_modules/vot.js/dist/helpers/linkedin.js
++++ b/node_modules/vot.js/dist/helpers/linkedin.js
+@@ -1,14 +1,10 @@
+-import { parseFromString } from "dom-parser";
+ import { BaseHelper, VideoHelperError } from "./base.js";
+ import { proxyMedia } from "../utils/utils.js";
+ export default class LinkedinHelper extends BaseHelper {
+     API_ORIGIN = "https://www.linkedin.com/learning";
+     async getVideoData(videoId) {
+         try {
+-            const res = await this.fetch(`${this.API_ORIGIN}/${videoId}`);
+-            const content = await res.text();
+-            const doc = parseFromString(content.replace("<!DOCTYPE html>", ""));
+-            const videoEl = doc.getElementsByClassName("video-js")?.[0];
++            const videoEl = document.querySelector(".video-js");
+             if (!videoEl) {
+                 throw new VideoHelperError(`Failed to find video element for videoID ${videoId}`);
+             }
 diff --git a/node_modules/vot.js/dist/helpers/nineanimetv.js b/node_modules/vot.js/dist/helpers/nineanimetv.js
 index 1519156..8493047 100644
 --- a/node_modules/vot.js/dist/helpers/nineanimetv.js
@@ -173,7 +174,7 @@ index 346f79f..6bf653e 100644
              return undefined;
          }
 diff --git a/node_modules/vot.js/dist/helpers/sap.js b/node_modules/vot.js/dist/helpers/sap.js
-index 7284490..6569197 100644
+index 323ad90..404d658 100644
 --- a/node_modules/vot.js/dist/helpers/sap.js
 +++ b/node_modules/vot.js/dist/helpers/sap.js
 @@ -1,4 +1,3 @@

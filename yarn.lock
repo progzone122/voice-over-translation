@@ -5893,10 +5893,10 @@ vary@~1.1.2:
   resolved "https://registry.npmjs.org/vary/-/vary-1.1.2.tgz"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
 
-vot.js@^1.2.6:
-  version "1.2.6"
-  resolved "https://registry.npmjs.org/vot.js/-/vot.js-1.2.6.tgz"
-  integrity sha512-OZkmL6/9LLSvRyPwo8CntC6XEERE+W7vQfGE5SNI6WkuRVLwy1rDddMaPB9Jep1q1VAJrEFuIHZchg0odkHfcw==
+vot.js@^1.2.9:
+  version "1.2.9"
+  resolved "https://registry.npmjs.org/vot.js/-/vot.js-1.2.9.tgz"
+  integrity sha512-xSM1yYpJIxGpNa5LO2ZOV+qN2jvH3xUYClqO/gUbUcxv/V/G3PrNfzVuRmOvdQ+2eSozZ8mX+mewmDuUjFDQrA==
   dependencies:
     dom-parser "^1.1.5"
 
