@@ -71,7 +71,10 @@
 // @match          *://9animetv.to/*
 // @match          *://odysee.com/*
 // @match          *://learning.sap.com/*
+// @match          *://*.watchporn.to/*
+// @match          *://*.linkedin.com/*
 // @match          *://*/*.mp4*
+// @match          *://*/*.webm*
 // @match          *://*.yewtu.be/*
 // @match          *://yt.artemislena.eu/*
 // @match          *://invidious.flokinet.to/*
@@ -145,6 +148,7 @@
 // @match          *://poke.uk2.littlekai.co.uk/*
 // @match          *://poke.blahai.gay/*
 // @exclude        file://*/*.mp4*
+// @exclude        file://*/*.webm*
 // @exclude        *://accounts.youtube.com/*
 // @connect        yandex.ru
 // @connect        yandex.net
@@ -1489,14 +1493,15 @@ const yandexProtobuf = {
 /* harmony default export */ const config = ({
     host: "api.browser.yandex.ru",
     hostVOT: "vot-api.toil.cc/v1",
+    mediaProxy: "media-proxy.toil.cc",
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 YaBrowser/24.7.0.0 Safari/537.36",
-    componentVersion: "24.7.2.1098",
+    componentVersion: "24.7.3.1081",
     hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
     defaultDuration: 343,
 });
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/package.json
-const package_namespaceObject = {"rE":"1.2.6"};
+const package_namespaceObject = {"rE":"1.2.9"};
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/secure.js
 
 const utf8Encoder = new TextEncoder();
@@ -1583,6 +1588,8 @@ var VideoService;
     VideoService["udemy"] = "udemy";
     VideoService["coursera"] = "coursera";
     VideoService["sap"] = "sap";
+    VideoService["watchpornto"] = "watchpornto";
+    VideoService["linkedin"] = "linkedin";
 })(VideoService || (VideoService = {}));
 var VideoTranslationStatus;
 (function (VideoTranslationStatus) {
@@ -1737,6 +1744,9 @@ function normalizeLang(lang) {
         return iso6392to6391[lang];
     }
     return lang.toLowerCase().split(/[_;-]/)[0].trim();
+}
+function proxyMedia(url, format = "mp4") {
+    return `https://${config.mediaProxy}/v1/proxy/video.${format}?url=${encodeURIComponent(url.href)}&origin=${url.origin}&referer=${url.origin}`;
 }
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/config/alternativeUrls.js
@@ -2123,7 +2133,7 @@ const sitesPoketube = [
         host: VideoService.kick,
         url: "https://kick.com/",
         match: /^kick.com$/,
-        selector: ".vjs-v8",
+        selector: "#injected-embedded-channel-player-video > div",
         needExtraData: true,
     },
     {
@@ -2186,9 +2196,22 @@ const sitesPoketube = [
         needExtraData: true,
     },
     {
+        host: VideoService.watchpornto,
+        url: "https://watchporn.to/",
+        match: /^watchporn.to$/,
+        selector: ".fp-player",
+    },
+    {
+        host: VideoService.linkedin,
+        url: "https://www.linkedin.com/learning/",
+        match: /^(www)?.linkedin.com$/,
+        selector: ".vjs-v7",
+        needExtraData: true,
+    },
+    {
         host: VideoService.custom,
         url: "stub",
-        match: (url) => /([^.]+).mp4/.test(url.pathname),
+        match: (url) => /([^.]+).(mp4|webm)/.test(url.pathname),
         rawResult: true,
     },
 ]);
@@ -2213,9 +2236,9 @@ debug.log = (...text) => {
 ;// CONCATENATED MODULE: ./src/config/config.js
 // CONFIGURATION
 const workerHost = "api.browser.yandex.ru";
-const m3u8ProxyHost = "m3u8-proxy.toil.cc"; // used for streaming
-const proxyWorkerHost = "vot-worker.toil.cc"; // used for cloudflare version
-const votBackendUrl = "https://vot-api.toil.cc/v1";
+const m3u8ProxyHost = "media-proxy.toil.cc/v1/proxy/m3u8"; // used for streaming
+const proxyWorkerHost = "vot-worker.toil.cc";
+const votBackendUrl = "https://vot.toil.cc/v1";
 const contentUrl =
   "https://raw.githubusercontent.com/ilyhalight/voice-over-translation";
 const repositoryUrl = "https://github.com/ilyhalight/voice-over-translation";
@@ -3080,50 +3103,48 @@ class BannedVideoHelper extends BaseHelper {
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/kick.js
 
-
-
 class KickHelper extends BaseHelper {
-    API_ORIGIN = "https://kick.com/api/v2";
+    API_ORIGIN = "https://kick.com/api";
     async getClipInfo(clipId) {
         try {
-            const res = await this.fetch(`${this.API_ORIGIN}/clips/${clipId}`);
-            return (await res.json());
+            const res = await this.fetch(`${this.API_ORIGIN}/v2/clips/${clipId}`);
+            const data = (await res.json());
+            const { clip_url: url, duration, title } = data.clip;
+            return {
+                url,
+                duration,
+                title,
+            };
         }
         catch (err) {
             console.error(`Failed to get kick clip info by clipId: ${clipId}.`, err.message);
-            return false;
+            return undefined;
+        }
+    }
+    async getVideoInfo(videoId) {
+        try {
+            const res = await this.fetch(`${this.API_ORIGIN}/v1/video/${videoId}`);
+            const data = (await res.json());
+            const { source: url, livestream } = data;
+            const { session_title: title, duration } = livestream;
+            return {
+                url,
+                duration: Math.round(duration / 1000),
+                title,
+            };
+        }
+        catch (err) {
+            console.error(`Failed to get kick video info by videoId: ${videoId}.`, err.message);
+            return undefined;
         }
     }
     async getVideoData(videoId) {
-        if (!videoId.startsWith("clip_")) {
-            return {
-                url: sites.find((s) => s.host === VideoService.kick).url + videoId,
-            };
-        }
-        const clipInfo = await this.getClipInfo(videoId);
-        if (!clipInfo) {
-            return undefined;
-        }
-        const { clip_url, duration, title } = clipInfo.clip;
-        return {
-            url: clip_url,
-            duration,
-            title,
-        };
+        return videoId.startsWith("videos")
+            ? await this.getVideoInfo(videoId.replace("videos/", ""))
+            : await this.getClipInfo(videoId.replace("clips/", ""));
     }
     async getVideoId(url) {
-        const videoId = /video\/([^/]+)/.exec(url.pathname)?.[0];
-        if (videoId) {
-            return videoId;
-        }
-
-        const clipId = url.searchParams.get("clip");
-        if (clipId) {
-            return clipId;
-        }
-
-        const player = document.getElementById("clip-video-player");
-        return /clip_([^/]+)/.exec(player?.getAttribute("poster"))?.[0]
+        return /([^/]+)\/((videos|clips)\/([^/]+))/.exec(url.pathname)?.[2];
     }
 }
 
@@ -3671,7 +3692,7 @@ class CourseraHelper extends BaseHelper {
 
 
 class SapHelper extends BaseHelper {
-    API_ORIGIN = "https://learning.sap.com/courses";
+    API_ORIGIN = "https://learning.sap.com/";
     async requestKaltura(kalturaDomain, partnerId, entryId) {
         const clientTag = "html5:v3.17.22";
         const apiVersion = "3.3.0";
@@ -3772,11 +3793,58 @@ class SapHelper extends BaseHelper {
         };
     }
     async getVideoId(url) {
-        return /courses\/(([^/]+)(\/[^/]+)?)/.exec(url.pathname)?.[1];
+        return /((courses|learning-journeys)\/([^/]+)(\/[^/]+)?)/.exec(url.pathname)?.[1];
+    }
+}
+
+;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/linkedin.js
+
+
+class LinkedinHelper extends BaseHelper {
+    API_ORIGIN = "https://www.linkedin.com/learning";
+    async getVideoData(videoId) {
+        try {
+            const videoEl = document.querySelector(".video-js");
+            if (!videoEl) {
+                throw new VideoHelperError(`Failed to find video element for videoID ${videoId}`);
+            }
+            const dataSource = (videoEl.getAttribute("data-sources") ?? "[]")
+                .replaceAll("&quot;", '"')
+                .replaceAll("&amp;", "&");
+            const sources = JSON.parse(dataSource);
+            const videoUrl = sources.find((source) => source.src.includes(".mp4"));
+            if (!videoUrl) {
+                throw new Error(`Failed to find video url for videoID ${videoId}`);
+            }
+            const url = new URL(videoUrl.src);
+            const captionUrl = videoEl.getAttribute("data-captions-url");
+            const subtitles = captionUrl
+                ? [
+                    {
+                        language: "en",
+                        format: "vtt",
+                        url: captionUrl,
+                    },
+                ]
+                : undefined;
+            return {
+                url: proxyMedia(url),
+                subtitles,
+            };
+        }
+        catch (err) {
+            console.error("Failed to get linkedin video data", err.message);
+            return undefined;
+        }
+    }
+    async getVideoId(url) {
+        return /\/learning\/(([^/]+)\/([^/]+))/.exec(url.pathname)?.[1];
     }
 }
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/index.js
+
+
 
 
 
@@ -3827,6 +3895,7 @@ class VideoHelper {
     static [VideoService.udemy] = new UdemyHelper();
     static [VideoService.coursera] = new CourseraHelper();
     static [VideoService.sap] = new SapHelper();
+    static [VideoService.linkedin] = new LinkedinHelper();
 }
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/utils/videoData.js
@@ -3981,6 +4050,8 @@ async function getVideoID(service, video) {
             return /v_show\/id_[\w=]+/.exec(url.pathname)?.[0];
         case VideoService.archive:
             return /(details|embed)\/([^/]+)/.exec(url.pathname)?.[2];
+        case VideoService.watchpornto:
+            return /\/(video|embed)\/(\d+)(\/[^/]+\/)?/.exec(url.pathname)?.[0];
         default:
             return undefined;
     }
@@ -4415,6 +4486,8 @@ var TypeName;
 })(TypeName || (TypeName = {}));
 
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/types/index.js
+
+
 
 
 
@@ -6821,8 +6894,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : (res.message ??
-              localizationProvider.get("translationTakeFewMinutes")),
+          : res.message ??
+              localizationProvider.get("translationTakeFewMinutes"),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
@@ -6992,6 +7065,25 @@ class VideoHandler {
     );
 
     console.log("[db] data from db: ", this.data);
+
+    // convert old m3u8-proxy-worker to new media-proxy
+    if (this.data.m3u8ProxyHost === "m3u8-proxy.toil.cc") {
+      this.data.m3u8ProxyHost = m3u8ProxyHost;
+      await votStorage.set("m3u8ProxyHost", m3u8ProxyHost);
+      console.log(
+        `[VOT] Old m3u8 proxy host converted to new ${this.data.m3u8ProxyHost} media-proxy`,
+      );
+    }
+
+    // convert old vot-worker domain to actual
+    // TODO: remove converter in one of the next versions after release 1.7.0
+    if (this.data.proxyWorkerHost === "vot.toil.cc") {
+      this.data.proxyWorkerHost = proxyWorkerHost;
+      await votStorage.set("proxyWorkerHost", proxyWorkerHost);
+      console.log(
+        `[VOT] Old proxy worker host converted to new ${this.data.proxyWorkerHost}`,
+      );
+    }
 
     if (
       !this.data.translateProxyEnabled &&
