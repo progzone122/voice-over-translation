@@ -734,6 +734,36 @@ Limitations:
 
 - To work, you must completely remove [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) with pages
 
+## Watchpornto
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `watchporn.to`
+
+Available paths:
+
+- /video/VIDEO_ID/VIDEO_NAME
+- /embed/VIDEO_ID
+
+## Linkedin
+
+Status: [⚠️] Works with limitations
+
+Available (sub)domains:
+
+- `.linkedin.com`
+- `www.linkedin.com`
+
+Available paths:
+
+- /learning/COURSE_NAME/LECTURE_NAME
+
+Limitations:
+
+- To work, you must completely remove [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) with pages
+
 ## Direct link to MP4
 
 Status: [✅] Working
