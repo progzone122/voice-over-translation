@@ -35,17 +35,9 @@ export default {
     ru: "Не доступен перевод прямых трансляций",
     en: "Translation of live broadcasts is not available",
   },
-  maybeNeedCSP: {
-    ru: "Для работы может потребоваться добавить скрипт в [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ)",
-    en: "To work, you may need to add a script to the [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ)",
-  },
-  needAddToCSP: {
-    ru: "Для работы необходимо добавить скрипт в [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ)",
-    en: "To work, you need to add a script to the [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ)",
-  },
-  needRemoveCSP: {
-    ru: "Для работы необходимо полностью удалить [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) со страницы",
-    en: "To work, you must completely remove [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) with pages",
+  needBypassCSP: {
+    ru: 'Для гарантированной работы скрипта необходимо [включить настройку "Обход Media CSP"](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) в расширение или удалить CSP другим способом',
+    en: 'To ensure that the script works, you need to [enable the "Bypass Media CSP" setting](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) in the extension or delete the CSP in another way',
   },
   cantTranslatePHPremium: {
     ru: "Недоступен перевод для PH Premium",

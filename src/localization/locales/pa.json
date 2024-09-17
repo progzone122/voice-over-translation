@@ -189,7 +189,6 @@
   "proxySettings": "ਪਰਾਕਸੀ ਸੈਟਿੰਗ",
   "translationTakeApproximatelyMinute2": "ਅਨੁਵਾਦ ਲਗਭਗ {0} ਮਿੰਟ ਲਵੇਗਾ",
   "VOTAudioBooster": "ਵਿਸਤ੍ਰਿਤ ਅਨੁਵਾਦ ਵਾਲੀਅਮ ਵਾਧਾ",
-  "VOTMediaCSPError": "ਆਡੀਓ ਲੋਡ ਕਰਨ ਲਈ ਫੇਲ੍ਹ (ਮੀਡਿਆ ਸੀਐਸਪੀ ਗਲਤੀ)",
   "VOTSubtitlesDesign": "ਉਪਸਿਰਲੇਖ ਡਿਜ਼ਾਈਨ",
   "VOTSubtitlesFontSize": "ਉਪਸਿਰਲੇਖਾਂ ਦਾ ਫੋਂਟ ਸਾਈਜ਼",
   "VOTSubtitlesOpacity": "ਉਪਸਿਰਲੇਖ ਪਿਛੋਕੜ ਦੀ ਪਾਰਦਰਸ਼ਤਾ",
@@ -200,5 +199,8 @@
   "VOTDownloadWithName": "ਵੀਡੀਓ ਨਾਂ ਨਾਲ ਫਾਇਲਾਂ ਡਾਊਨਲੋਡ ਕਰੋ",
   "VOTUpdateLocaleFiles": "ਸਥਾਨੀਕਰਨ ਫਾਇਲਾਂ ਅੱਪਡੇਟ",
   "VOTLocaleHash": "ਲੋਕੇਲ ਹੈਸ਼",
-  "VOTUpdatedAt": "ਵਜੇ ਅਪਡੇਟ ਕੀਤਾ ਗਿਆ"
+  "VOTUpdatedAt": "ਵਜੇ ਅਪਡੇਟ ਕੀਤਾ ਗਿਆ",
+  "VOTNeedWebAudioAPI": "ਇਸ ਨੂੰ ਯੋਗ ਕਰਨ ਲਈ, ਤੁਹਾਡੇ ਕੋਲ ਇੱਕ ਵੈਬ ਆਡੀਓ ਏਪੀਆਈ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ",
+  "VOTBypassMediaCSP": "ਮੀਡੀਆਸੀਐਸਪੀ ਨੂੰ ਬਾਈਪਾਸ ਕਰਨਾ",
+  "VOTMediaCSPEnabledOnSite": "ਮੀਡੀਆ ਸੀਐਸਪੀ ਇਸ ਸਾਈਟ ਤੇ ਸਮਰੱਥ ਹੈ"
 }

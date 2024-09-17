@@ -189,7 +189,6 @@
   "proxySettings": "Puhverserveri Seaded",
   "translationTakeApproximatelyMinute2": "Tõlge võtab umbes {0} minutit",
   "VOTAudioBooster": "Laiendatud tõlke mahu suurenemine",
-  "VOTMediaCSPError": "Heli laadimine nurjus (media csp viga)",
   "VOTSubtitlesDesign": "Subtiitrite kujundus",
   "VOTSubtitlesFontSize": "Subtiitrite fondi suurus",
   "VOTSubtitlesOpacity": "Subtiitrite tausta läbipaistvus",
@@ -200,5 +199,8 @@
   "VOTDownloadWithName": "Laadige alla video nimega failid",
   "VOTUpdateLocaleFiles": "Uuenda lokaliseerimisfaile",
   "VOTLocaleHash": "Locale hash",
-  "VOTUpdatedAt": "Uuendatud kell"
+  "VOTUpdatedAt": "Uuendatud kell",
+  "VOTNeedWebAudioAPI": "Selle lubamiseks peab teil olema Veebiheli API",
+  "VOTBypassMediaCSP": "Media CSP-St Mööda Minnes",
+  "VOTMediaCSPEnabledOnSite": "Meedia CSP on lubatud sellel saidil"
 }

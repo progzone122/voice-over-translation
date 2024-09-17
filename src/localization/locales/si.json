@@ -189,7 +189,6 @@
   "proxySettings": "ප්රොක්සි සැකසුම්",
   "translationTakeApproximatelyMinute2": "පරිවර්තනය සඳහා ආසන්න වශයෙන් {0} විනාඩි ගතවනු ඇත",
   "VOTAudioBooster": "දීර්ඝ පරිවර්තන පරිමාව වැඩි කිරීම",
-  "VOTMediaCSPError": "ශ්රව්ය පූරණය කිරීමට අසමත් (මාධ්ය csp දෝෂය)",
   "VOTSubtitlesDesign": "උපසිරැසි නිර්මාණය",
   "VOTSubtitlesFontSize": "උපසිරැසි වල අකුරු ප්රමාණය",
   "VOTSubtitlesOpacity": "උපසිරැසි පසුබිමේ විනිවිදභාවය",
@@ -200,5 +199,8 @@
   "VOTDownloadWithName": "වීඩියෝ නාමය සහිත ගොනු බාගත කරන්න",
   "VOTUpdateLocaleFiles": "දේශීයකරණ ගොනු යාවත්කාලීන කරන්න",
   "VOTLocaleHash": "දේශීය හැෂ්",
-  "VOTUpdatedAt": "ට යාවත්කාලීන කරන ලදි"
+  "VOTUpdatedAt": "ට යාවත්කාලීන කරන ලදි",
+  "VOTNeedWebAudioAPI": "මෙය සක් රීය කිරීම සඳහා, ඔබට වෙබ් ශ් රව් ය API එකක් තිබිය යුතුය",
+  "VOTBypassMediaCSP": "Media CSP මග හැරීම",
+  "VOTMediaCSPEnabledOnSite": "මෙම වෙබ් අඩවියේ csp මාධ් ය සක් රීය කර ඇත"
 }

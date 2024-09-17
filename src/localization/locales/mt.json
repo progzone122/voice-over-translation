@@ -189,7 +189,6 @@
   "proxySettings": "Settings Tal-Prokura",
   "translationTakeApproximatelyMinute2": "It-traduzzjoni tieħu madwar {0} minuti",
   "VOTAudioBooster": "Żieda estiża fil-volum tat-traduzzjoni",
-  "VOTMediaCSPError": "Naqas milli jgħabbi l-awdjo (żball tal-psp tal-midja)",
   "VOTSubtitlesDesign": "Disinn tas-sottotitoli",
   "VOTSubtitlesFontSize": "Daqs tat-tipa tas-sottotitoli",
   "VOTSubtitlesOpacity": "Trasparenza tal-isfond tas-sottotitolu",
@@ -200,5 +199,8 @@
   "VOTDownloadWithName": "Niżżel fajls bl-isem tal-vidjo",
   "VOTUpdateLocaleFiles": "Aġġorna l-fajls tal-lokalizzazzjoni",
   "VOTLocaleHash": "Hash lokali",
-  "VOTUpdatedAt": "Aġġornat fis-16: 40"
+  "VOTUpdatedAt": "Aġġornat fis-",
+  "VOTNeedWebAudioAPI": "Biex tippermetti dan, irid ikollok Api Awdjo Tal - Web",
+  "VOTBypassMediaCSP": "Jinjora Media CSP",
+  "VOTMediaCSPEnabledOnSite": "Il-PSK tal-midja huwa attivat fuq dan is-sit"
 }

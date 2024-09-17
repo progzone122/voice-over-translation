@@ -126,7 +126,7 @@
 
   &:active {
     & > input,
-    &:hover > input {
+    &:hover > input:not(:disabled) {
       border-color: rgb(var(--vot-helper-theme));
     }
 

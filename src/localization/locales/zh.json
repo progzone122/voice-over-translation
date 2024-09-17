@@ -189,7 +189,6 @@
   "proxySettings": "代理设置",
   "translationTakeApproximatelyMinute2": "翻译大约需要{0}分钟",
   "VOTAudioBooster": "扩展翻译量增加",
-  "VOTMediaCSPError": "加载音频失败（媒体csp错误）",
   "VOTSubtitlesDesign": "字幕设计",
   "VOTSubtitlesFontSize": "字幕的字体大小",
   "VOTSubtitlesOpacity": "字幕背景的透明度",
@@ -200,5 +199,8 @@
   "VOTDownloadWithName": "下载带有视频名称的文件",
   "VOTUpdateLocaleFiles": "更新本地化文件",
   "VOTLocaleHash": "区域设置哈希",
-  "VOTUpdatedAt": "更新于"
+  "VOTUpdatedAt": "更新于",
+  "VOTNeedWebAudioAPI": "要启用此功能，您必须具有Web音频API",
+  "VOTBypassMediaCSP": "绕过Media CSP",
+  "VOTMediaCSPEnabledOnSite": "媒体CSP在此站点上启用"
 }

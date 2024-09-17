@@ -7,7 +7,7 @@ const youtubeSiteData = {
 
 const youtubeAltSiteData = {
   paths: youtubeSiteData.paths,
-  limits: [...youtubeSiteData.limits, locales.needRemoveCSP],
+  limits: [...youtubeSiteData.limits],
 };
 
 const siteData = {
@@ -46,7 +46,6 @@ const siteData = {
   },
   xvideos: {
     paths: ["/VIDEO_ID/VIDEO_NAME"],
-    limits: [locales.maybeNeedCSP],
   },
   pornhub: {
     paths: ["/view_video.php?viewkey=VIDEO_ID", "/embed/VIDEO_ID"],
@@ -54,7 +53,7 @@ const siteData = {
   },
   twitter: {
     paths: ["/NAME/status/VIDEO_ID"],
-    limits: [locales.needAddToCSP, locales.noFeedVideos],
+    limits: [locales.noFeedVideos],
   },
   udemy: {
     paths: ["/course/NAME/learn/lecture/LECTURE_ID"],
@@ -66,7 +65,6 @@ const siteData = {
   },
   facebook: {
     paths: ["/reel/VIDEO_ID", "/videos/VIDEO_ID"],
-    limits: [locales.needAddToCSP],
   },
   rutube: {
     paths: ["/video/VIDEO_ID", "/?bvid=VIDEO_ID"],
@@ -104,7 +102,7 @@ const siteData = {
   },
   yandexdisk: {
     paths: ["/i/FILE_ID"],
-    limits: [locales.needAddToCSP, locales.workOnlyWithPublicLinks],
+    limits: [locales.workOnlyWithPublicLinks],
   },
   coursehunter: {
     paths: ["/course/COURSE_ID"],
@@ -141,7 +139,7 @@ const siteData = {
   },
   reddit: {
     paths: ["/r/SUB_REDDIT/comments/VIDEO_ID/VIDEO_NAME"],
-    limits: [locales.noSubtitles, locales.needRemoveCSP],
+    limits: [locales.noSubtitles],
   },
   kick: {
     paths: ["/video/VIDEO_ID", "/NICKNAME?clip=clip_CLIPID"],
@@ -165,14 +163,12 @@ const siteData = {
   },
   sap: {
     paths: ["/courses/COURSE_NAME", "/courses/COURSE_NAME/LECTURE_NAME"],
-    limits: [locales.needRemoveCSP],
   },
   watchpornto: {
     paths: ["/video/VIDEO_ID/VIDEO_NAME", "/embed/VIDEO_ID"],
   },
   linkedin: {
     paths: ["/learning/COURSE_NAME/LECTURE_NAME"],
-    limits: [locales.needRemoveCSP],
   },
   directlink: {
     paths: ["/*.mp4", "/*.webm"],
@@ -185,26 +181,26 @@ const extraData = {
     status: "⚠️",
     statusPhrase: locales.worksWithLimitations,
   },
-  twitter: {
-    status: "⚠️",
-    statusPhrase: locales.worksWithLimitations,
-  },
-  facebook: {
-    status: "⚠️",
-    statusPhrase: locales.worksWithLimitations,
-  },
-  yandexdisk: {
-    status: "⚠️",
-    statusPhrase: locales.worksWithLimitations,
-  },
-  sap: {
-    status: "⚠️",
-    statusPhrase: locales.worksWithLimitations,
-  },
-  linkedin: {
-    status: "⚠️",
-    statusPhrase: locales.worksWithLimitations,
-  },
+  // twitter: {
+  //   status: "⚠️",
+  //   statusPhrase: locales.worksWithLimitations,
+  // },
+  // facebook: {
+  //   status: "⚠️",
+  //   statusPhrase: locales.worksWithLimitations,
+  // },
+  // yandexdisk: {
+  //   status: "⚠️",
+  //   statusPhrase: locales.worksWithLimitations,
+  // },
+  // sap: {
+  //   status: "⚠️",
+  //   statusPhrase: locales.worksWithLimitations,
+  // },
+  // linkedin: {
+  //   status: "⚠️",
+  //   statusPhrase: locales.worksWithLimitations,
+  // },
 };
 
 export { siteData, extraData };

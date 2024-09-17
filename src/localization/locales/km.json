@@ -189,7 +189,6 @@
   "proxySettings": "ការកំណត់ប្រូកស៊ី",
   "translationTakeApproximatelyMinute2": "ការបកប្រែនេះនឹងចំណាយពេលប្រមាណ{0}នាទី",
   "VOTAudioBooster": "បង្កើនកម្រិតសំឡេងបកប្រែដែលបានពង្រីក",
-  "VOTMediaCSPError": "បានបរាជ័យក្នុងការផ្ទុកអូឌីយ៉ូ(កំហុសប្រព័ន្ធផ្សព្វផ្សាយ csp)",
   "VOTSubtitlesDesign": "រចនាអក្សររត់ពីក្រោម",
   "VOTSubtitlesFontSize": "ទំហំពុម្ពអក្សរនៃចំណងជើងរង",
   "VOTSubtitlesOpacity": "តម្លាភាពនៃផ្ទៃខាងក្រោយចំណងជើងរង",
@@ -200,5 +199,8 @@
   "VOTDownloadWithName": "ទាញយកឯកសារដែលមានឈ្មោះវីដេអូ",
   "VOTUpdateLocaleFiles": "ធ្វើឲ្យឯកសារមូលដ្ឋានីយកម្មទាន់សម័យ",
   "VOTLocaleHash": "សញ្ញាមូលដ្ឋាន",
-  "VOTUpdatedAt": "ធ្វើឱ្យទាន់សម័យនៅ"
+  "VOTUpdatedAt": "ធ្វើឱ្យទាន់សម័យនៅ",
+  "VOTNeedWebAudioAPI": "ដើម្បីអនុញ្ញាតនេះ,អ្នកត្រូវតែមានបណ្តាញ Api របស់អូឌីយ៉ូ",
+  "VOTBypassMediaCSP": "ឆ្លងកាត់ Media CSP",
+  "VOTMediaCSPEnabledOnSite": "ប្រព័ន្ធផ្សព្វផ្សាយ CSP ត្រូវបានបើកនៅលើតំបន់បណ្ដាញនេះ"
 }

@@ -189,7 +189,6 @@
   "proxySettings": "Fuldmagtsindstillinger",
   "translationTakeApproximatelyMinute2": "Oversættelsen tager cirka {0} minutter",
   "VOTAudioBooster": "Udvidet oversættelse volumen stigning",
-  "VOTMediaCSPError": "Kunne ikke indlæse lyd (media CSP-fejl)",
   "VOTSubtitlesDesign": "Undertekster design",
   "VOTSubtitlesFontSize": "Skriftstørrelse på undertekster",
   "VOTSubtitlesOpacity": "Gennemsigtighed i undertekstbaggrunden",
@@ -200,5 +199,8 @@
   "VOTDownloadWithName": "Hent filer med videonavnet",
   "VOTUpdateLocaleFiles": "Opdater lokaliseringsfiler",
   "VOTLocaleHash": "Locale hash",
-  "VOTUpdatedAt": "Opdateret kl."
+  "VOTUpdatedAt": "Opdateret kl.",
+  "VOTNeedWebAudioAPI": "For at aktivere dette skal du have en Internet Audio API",
+  "VOTBypassMediaCSP": "Omgå Media CSP",
+  "VOTMediaCSPEnabledOnSite": "Media CSP er aktiveret på dette site"
 }

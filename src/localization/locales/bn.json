@@ -189,7 +189,6 @@
   "proxySettings": "প্রক্সি সেটিংস",
   "translationTakeApproximatelyMinute2": "অনুবাদটি প্রায় {0} মিনিট সময় নেবে",
   "VOTAudioBooster": "বর্ধিত অনুবাদ ভলিউম বৃদ্ধি",
-  "VOTMediaCSPError": "অডিও লোড করতে ব্যর্থ (মিডিয়া সিএসপি ত্রুটি)",
   "VOTSubtitlesDesign": "সাবটাইটেল ডিজাইন",
   "VOTSubtitlesFontSize": "সাবটাইটেলের ফন্টের আকার",
   "VOTSubtitlesOpacity": "সাবটাইটেল পটভূমির স্বচ্ছতা",
@@ -200,5 +199,8 @@
   "VOTDownloadWithName": "ভিডিও নাম সহ ফাইলগুলি ডাউনলোড করুন",
   "VOTUpdateLocaleFiles": "স্থানীয়করণ ফাইল আপডেট করুন",
   "VOTLocaleHash": "লোকেল হ্যাশ",
-  "VOTUpdatedAt": "এ আপডেট হয়েছে"
+  "VOTUpdatedAt": "এ আপডেট হয়েছে",
+  "VOTNeedWebAudioAPI": "এটি সক্ষম করতে আপনার অবশ্যই একটি ওয়েব অডিও এপিআই থাকতে হবে",
+  "VOTBypassMediaCSP": "মিডিয়াসপি বাইপাস করা",
+  "VOTMediaCSPEnabledOnSite": "এই সাইটে মিডিয়া সিএসপি সক্ষম করা হয়েছে"
 }

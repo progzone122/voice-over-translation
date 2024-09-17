@@ -189,7 +189,6 @@
   "proxySettings": "Postavke opunomoćenika",
   "translationTakeApproximatelyMinute2": "Prijevod će trajati približno {0} minuta",
   "VOTAudioBooster": "Povećanje opsega proširenog prijevoda",
-  "VOTMediaCSPError": "Preuzimanje zvuka nije uspjelo (pogreška u NDR-u)",
   "VOTSubtitlesDesign": "Dizajn titlova",
   "VOTSubtitlesFontSize": "Veličina fonta titla",
   "VOTSubtitlesOpacity": "Transparentnost pozadine titlova",
@@ -200,5 +199,8 @@
   "VOTDownloadWithName": "Prenesite datoteke s nazivom videozapisa",
   "VOTUpdateLocaleFiles": "Ažurirajte datoteke lokalizacije",
   "VOTLocaleHash": "Lokalni hash",
-  "VOTUpdatedAt": "Ažurirano u"
+  "VOTUpdatedAt": "Ažurirano u",
+  "VOTNeedWebAudioAPI": "Da biste to omogućili, morate imati",
+  "VOTBypassMediaCSP": "Zaobilaženje",
+  "VOTMediaCSPEnabledOnSite": "Na ovoj je stranici omogućen"
 }

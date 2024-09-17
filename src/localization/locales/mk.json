@@ -189,7 +189,6 @@
   "proxySettings": "Поставки За Прокси",
   "translationTakeApproximatelyMinute2": "Преводот ќе трае приближно {0} минути",
   "VOTAudioBooster": "Зголемен обем на превод",
-  "VOTMediaCSPError": "Не успеа да вчита аудио (грешка во медиумскиот цсп)",
   "VOTSubtitlesDesign": "Преводи дизајн",
   "VOTSubtitlesFontSize": "Големина на фонт на преводи",
   "VOTSubtitlesOpacity": "Транспарентност на позадината на титлот",
@@ -200,5 +199,8 @@
   "VOTDownloadWithName": "Преземете датотеки со името на видеото",
   "VOTUpdateLocaleFiles": "Ажурирајте ги датотеките за локализација",
   "VOTLocaleHash": "Локал хаш",
-  "VOTUpdatedAt": "Ажурирано во"
+  "VOTUpdatedAt": "Ажурирано во",
+  "VOTNeedWebAudioAPI": "За да го овозможите ОВА, мора да имате ВЕБ АУДИО АПИ",
+  "VOTBypassMediaCSP": "Заобиколувајќи Медиацсп",
+  "VOTMediaCSPEnabledOnSite": "Медиумите CSP се овозможени на оваа страница"
 }

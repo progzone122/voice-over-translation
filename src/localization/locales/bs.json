@@ -189,7 +189,6 @@
   "proxySettings": "_postavke ... ",
   "translationTakeApproximatelyMinute2": "Prevod će trajati otprilike {0} minuta",
   "VOTAudioBooster": "Prošireno povećanje obima prevođenja",
-  "VOTMediaCSPError": "Neuspješno učitavanje zvuka (media csp greška)",
   "VOTSubtitlesDesign": "Subtitles design",
   "VOTSubtitlesFontSize": "Veličina titlova",
   "VOTSubtitlesOpacity": "Transparentnost pozadine titlova",
@@ -200,5 +199,8 @@
   "VOTDownloadWithName": "Preuzmite datoteke sa imenom video zapisa",
   "VOTUpdateLocaleFiles": "Ažurirajte datoteke za lokalizaciju",
   "VOTLocaleHash": "Locale hash",
-  "VOTUpdatedAt": "Ažurirano u"
+  "VOTUpdatedAt": "Ažurirano u",
+  "VOTNeedWebAudioAPI": "Da biste to omogućili, morate imati Web Audio API",
+  "VOTBypassMediaCSP": "Zaobilazeći Media CSP",
+  "VOTMediaCSPEnabledOnSite": "Media CSP je omogućen na ovom sajtu"
 }

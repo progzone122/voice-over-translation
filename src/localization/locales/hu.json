@@ -189,7 +189,6 @@
   "proxySettings": "Proxy Beállítások",
   "translationTakeApproximatelyMinute2": "A fordítás körülbelül {0} percet vesz igénybe",
   "VOTAudioBooster": "Bővített fordítási volumen növekedés",
-  "VOTMediaCSPError": "Nem sikerült betölteni a hangot (media csp hiba)",
   "VOTSubtitlesDesign": "Feliratok tervezése",
   "VOTSubtitlesFontSize": "A feliratok betűmérete",
   "VOTSubtitlesOpacity": "A felirat hátterének átláthatósága",
@@ -200,5 +199,8 @@
   "VOTDownloadWithName": "Töltsön le fájlokat a videó nevével",
   "VOTUpdateLocaleFiles": "Lokalizációs fájlok frissítése",
   "VOTLocaleHash": "Locale hash",
-  "VOTUpdatedAt": "Frissítve"
+  "VOTUpdatedAt": "Frissítve",
+  "VOTNeedWebAudioAPI": "Ennek engedélyezéséhez rendelkeznie kell egy Web Audio API-val",
+  "VOTBypassMediaCSP": "A Mediacp Megkerülése",
+  "VOTMediaCSPEnabledOnSite": "A Media CSP engedélyezve van ezen a webhelyen"
 }

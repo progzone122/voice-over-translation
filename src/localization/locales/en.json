@@ -189,7 +189,6 @@
   "proxySettings": "Proxy Settings",
   "translationTakeApproximatelyMinute2": "The translation will take approximately {0} minutes",
   "VOTAudioBooster": "Extended translation volume increase",
-  "VOTMediaCSPError": "Failed to load audio (media csp error)",
   "VOTSubtitlesDesign": "Subtitles design",
   "VOTSubtitlesFontSize": "Font size of subtitles",
   "VOTSubtitlesOpacity": "Transparency of the subtitle background",
@@ -200,5 +199,8 @@
   "VOTDownloadWithName": "Download files with the video name",
   "VOTUpdateLocaleFiles": "Update localization files",
   "VOTLocaleHash": "Locale hash",
-  "VOTUpdatedAt": "Updated at"
+  "VOTUpdatedAt": "Updated at",
+  "VOTNeedWebAudioAPI": "To enable this, you must have a Web Audio API",
+  "VOTBypassMediaCSP": "Bypassing Media CSP",
+  "VOTMediaCSPEnabledOnSite": "Media CSP is enabled on this site"
 }
