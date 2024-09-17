@@ -104,7 +104,8 @@ function genMarkdown(sites, lang = "ru") {
   return removeDuplicatesKeepLast(sitesData, "host").map((site) => {
     const hasData = Object.hasOwn(siteData, site.host);
     const limitsData = hasData ? siteData[site.host].limits ?? [] : [];
-    if (site.needBypassCSP) {
+    if (site.needBypassCSP && !limitsData.includes(locales.needBypassCSP)) {
+      console.log(site);
       limitsData.push(locales.needBypassCSP);
     }
 
@@ -154,7 +155,7 @@ async function main() {
         .replace("Yandexdisk", "Yandex Disk")
         .replace("Googledrive", "Google Drive")
         .replace("Okru", "OK.ru")
-        .replace("Custom", "Direct link to MP4")
+        .replace("Custom", "Direct link to MP4/WEBM")
         .replace("Bannedvideo", "Banned.Video")
         .replace(
           "geo.dailymotion.com",
