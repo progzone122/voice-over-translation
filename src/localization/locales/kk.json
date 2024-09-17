@@ -189,7 +189,6 @@
   "proxySettings": "Прокси параметрлері",
   "translationTakeApproximatelyMinute2": "Аударма шамамен {0} минутты алады",
   "VOTAudioBooster": "Аударма көлемінің ұлғаюы",
-  "VOTMediaCSPError": "Аудио жүктелмеді (медиа csp қатесі)",
   "VOTSubtitlesDesign": "Субтитрлер дизайны",
   "VOTSubtitlesFontSize": "Субтитрлердің қаріп өлшемі",
   "VOTSubtitlesOpacity": "Субтитр фонының мөлдірлігі",
@@ -200,5 +199,7 @@
   "VOTDownloadWithName": "Бейне атауы бар файлдарды жүктеңіз",
   "VOTUpdateLocaleFiles": "Локализация файлдарын жаңарту",
   "VOTLocaleHash": "Жергілікті хэш",
-  "VOTUpdatedAt": "жаңартылды"
+  "VOTUpdatedAt": "жаңартылды",
+  "VOTNeedWebAudioAPI": "Мұны қосу Үшін Сізде Web Audio API БОЛУЫ КЕРЕК",
+  "VOTBypassMediaCSP": "Media CSP Айналып Өту"
 }

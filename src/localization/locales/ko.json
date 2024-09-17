@@ -189,7 +189,6 @@
   "proxySettings": "프록시 설정",
   "translationTakeApproximatelyMinute2": "번역은 약{0}분이 소요됩니다",
   "VOTAudioBooster": "확장 번역 볼륨 증가",
-  "VOTMediaCSPError": "오디오 로드 실패",
   "VOTSubtitlesDesign": "자막 디자인",
   "VOTSubtitlesFontSize": "자막의 글꼴 크기",
   "VOTSubtitlesOpacity": "자막 배경의 투명도",
@@ -200,5 +199,7 @@
   "VOTDownloadWithName": "비디오 이름을 가진 파일 다운로드",
   "VOTUpdateLocaleFiles": "현지화 파일 업데이트",
   "VOTLocaleHash": "로캘 해시",
-  "VOTUpdatedAt": "에 업데이트 됨"
+  "VOTUpdatedAt": "에 업데이트 됨",
+  "VOTNeedWebAudioAPI": "이 기능을 사용하려면 웹 오디오가 있어야 합니다.",
+  "VOTBypassMediaCSP": "미디어스피 우회"
 }

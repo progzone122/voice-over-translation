@@ -189,7 +189,6 @@
   "proxySettings": "Proxyinställningar",
   "translationTakeApproximatelyMinute2": "Översättningen tar ungefär {0} minuter",
   "VOTAudioBooster": "Utökad volymökning av översättning",
-  "VOTMediaCSPError": "Det gick inte att ladda ljud (media csp-fel)",
   "VOTSubtitlesDesign": "Textning design",
   "VOTSubtitlesFontSize": "Teckenstorlek på undertexter",
   "VOTSubtitlesOpacity": "Öppenhet i undertextens bakgrund",
@@ -200,5 +199,7 @@
   "VOTDownloadWithName": "Ladda ner filer med videonamnet",
   "VOTUpdateLocaleFiles": "Uppdatera lokaliseringsfiler",
   "VOTLocaleHash": "Lokal hash",
-  "VOTUpdatedAt": "Uppdaterat klockan"
+  "VOTUpdatedAt": "Uppdaterat klockan",
+  "VOTNeedWebAudioAPI": "För att aktivera detta måste du ha ETT Web Audio API",
+  "VOTBypassMediaCSP": "Kringgå Media CSP"
 }

@@ -189,7 +189,6 @@
   "proxySettings": "Прокси Тохиргоо",
   "translationTakeApproximatelyMinute2": "Орчуулга нь ойролцоогоор {0} минут болно",
   "VOTAudioBooster": "Өргөтгөсөн орчуулгын хэмжээ нэмэгдэх",
-  "VOTMediaCSPError": "Аудио ачаалж чадаагүй (медиа csp алдаа)",
   "VOTSubtitlesDesign": "Хадмалтай дизайн",
   "VOTSubtitlesFontSize": "Хадмалтай үсгийн хэмжээ",
   "VOTSubtitlesOpacity": "Subtitle background-ийн ил тод байдал",
@@ -200,5 +199,7 @@
   "VOTDownloadWithName": "Видео нэртэй файлуудыг татаж авах",
   "VOTUpdateLocaleFiles": "Локалчлалын файлуудыг шинэчлэх",
   "VOTLocaleHash": "Локал хэш",
-  "VOTUpdatedAt": "цагт шинэчлэгдсэн"
+  "VOTUpdatedAt": "цагт шинэчлэгдсэн",
+  "VOTNeedWebAudioAPI": "Үүнийг идэвхжүүлэхийн тулд та вэб аудио API-тэй байх естой",
+  "VOTBypassMediaCSP": "Media CSP-Ийг Тойрч Гарах"
 }

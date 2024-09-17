@@ -189,7 +189,6 @@
   "proxySettings": "Pengaturan Proksi",
   "translationTakeApproximatelyMinute2": "Terjemahan akan memakan waktu sekitar {0} menit",
   "VOTAudioBooster": "Peningkatan volume terjemahan yang diperpanjang",
-  "VOTMediaCSPError": "Gagal memuat audio (kesalahan csp media)",
   "VOTSubtitlesDesign": "Desain subtitle",
   "VOTSubtitlesFontSize": "Ukuran font subtitle",
   "VOTSubtitlesOpacity": "Transparansi latar belakang subtitle",
@@ -200,5 +199,7 @@
   "VOTDownloadWithName": "Unduh file dengan nama video",
   "VOTUpdateLocaleFiles": "Perbarui file pelokalan",
   "VOTLocaleHash": "Hash lokal",
-  "VOTUpdatedAt": "Diperbarui pukul"
+  "VOTUpdatedAt": "Diperbarui pukul",
+  "VOTNeedWebAudioAPI": "Untuk mengaktifkan ini, Anda harus memiliki Web Audio API",
+  "VOTBypassMediaCSP": "Melewati Media CSP"
 }

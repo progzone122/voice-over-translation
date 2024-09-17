@@ -189,7 +189,6 @@
   "proxySettings": "Proxy Setting များ",
   "translationTakeApproximatelyMinute2": "ဘာသာပြန်ဆိုမှုသည်{0}မိနစ်ခန့်ကြာလိမ့်မည်။",
   "VOTAudioBooster": "ဘာသာပြန်မှုပမာဏတိုးမြှင့်",
-  "VOTMediaCSPError": "အသံတင်ရန်ပျက်ကွက်ခြင်း(မီဒီယာ csp အမှား)",
   "VOTSubtitlesDesign": "စာတန်းထိုးဒီဇိုင်း",
   "VOTSubtitlesFontSize": "စာတန်းထိုးများ၏စာလုံးအရွယ်အစား",
   "VOTSubtitlesOpacity": "စာတန်းထိုးနောက်ခံ၏ပွင့်လင်းမြင်သာမှု",
@@ -200,5 +199,7 @@
   "VOTDownloadWithName": "ဗီဒီယိုအမည်ပါဖိုင်များကိုဒေါင်းလုပ်ဆွဲပါ",
   "VOTUpdateLocaleFiles": "ဒေသတွင်းဖိုင်များကို Update လုပ်ပါ",
   "VOTLocaleHash": "ဒေသတွင်းဟက်ရှ်",
-  "VOTUpdatedAt": "၁၆:၄၀ တွင်အတည်ပြု"
+  "VOTUpdatedAt": "၁၆:၄၀ တွင်အတည်ပြု",
+  "VOTNeedWebAudioAPI": "ဒါကိုဖွင့်ဖို့ Web Audio API တစ်ခုရှိရပါမယ်။",
+  "VOTBypassMediaCSP": "Media CSP ကိုရှောင်လွှဲခြင်း"
 }

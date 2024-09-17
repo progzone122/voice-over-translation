@@ -189,7 +189,6 @@
   "proxySettings": "Setări Proxy",
   "translationTakeApproximatelyMinute2": "Traducerea va dura aproximativ {0} minute",
   "VOTAudioBooster": "Creșterea extinsă a volumului de traducere",
-  "VOTMediaCSPError": "Nu s-a încărcat audio (eroare media csp)",
   "VOTSubtitlesDesign": "Design subtitrari",
   "VOTSubtitlesFontSize": "Dimensiunea fontului subtitrărilor",
   "VOTSubtitlesOpacity": "Transparența fundalului subtitrării",
@@ -200,5 +199,7 @@
   "VOTDownloadWithName": "Descărcați fișiere cu numele videoclipului",
   "VOTUpdateLocaleFiles": "Actualizați fișierele de localizare",
   "VOTLocaleHash": "Hash Locale",
-  "VOTUpdatedAt": "Actualizat la 16: 40"
+  "VOTUpdatedAt": "Actualizat la",
+  "VOTNeedWebAudioAPI": "Pentru a activa acest lucru, trebuie să aveți un API Audio Web",
+  "VOTBypassMediaCSP": "Ocolind Media CSP"
 }

@@ -189,7 +189,6 @@
   "proxySettings": "Välityspalvelimen Asetukset",
   "translationTakeApproximatelyMinute2": "Käännös kestää noin {0} minuuttia",
   "VOTAudioBooster": "Laajennettu käännösmäärä kasvaa",
-  "VOTMediaCSPError": "Äänen lataaminen epäonnistui (median csp-virhe)",
   "VOTSubtitlesDesign": "Tekstitysten suunnittelu",
   "VOTSubtitlesFontSize": "Tekstityksen kirjasinkoko",
   "VOTSubtitlesOpacity": "Tekstityksen Taustan läpinäkyvyys",
@@ -200,5 +199,7 @@
   "VOTDownloadWithName": "Lataa tiedostoja videon nimellä",
   "VOTUpdateLocaleFiles": "Päivitä lokalisointitiedostot",
   "VOTLocaleHash": "Paikallinen hash",
-  "VOTUpdatedAt": "Päivitetty klo"
+  "VOTUpdatedAt": "Päivitetty klo",
+  "VOTNeedWebAudioAPI": "Jotta voit ottaa tämän käyttöön, sinulla on oltava Web Audio API",
+  "VOTBypassMediaCSP": "Media CSP: N Ohittaminen"
 }

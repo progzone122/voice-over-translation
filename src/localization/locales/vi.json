@@ -189,7 +189,6 @@
   "proxySettings": "Cài Đặt Proxy",
   "translationTakeApproximatelyMinute2": "Bản dịch sẽ mất khoảng {0} phút",
   "VOTAudioBooster": "Mở rộng khối lượng dịch tăng",
-  "VOTMediaCSPError": "Không tải được âm thanh (lỗi media csp)",
   "VOTSubtitlesDesign": "Thiết kế phụ đề",
   "VOTSubtitlesFontSize": "Kích thước phông chữ của phụ đề",
   "VOTSubtitlesOpacity": "Độ trong suốt của nền phụ đề",
@@ -200,5 +199,7 @@
   "VOTDownloadWithName": "Tải xuống các tệp có tên video",
   "VOTUpdateLocaleFiles": "Cập nhật tệp bản địa hóa",
   "VOTLocaleHash": "Ngôn ngữ băm",
-  "VOTUpdatedAt": "Cập nhật lúc 16: 40"
+  "VOTUpdatedAt": "Cập nhật lúc",
+  "VOTNeedWebAudioAPI": "Để kích hoạt ĐIỀU này, bạn phải có Api Âm Thanh Web",
+  "VOTBypassMediaCSP": "Bỏ Qua Media CSP"
 }

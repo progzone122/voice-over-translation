@@ -189,7 +189,6 @@
   "proxySettings": "プロキシ設定",
   "translationTakeApproximatelyMinute2": "翻訳には約{0}分かかります",
   "VOTAudioBooster": "翻訳量の増加を拡大しました",
-  "VOTMediaCSPError": "オーディオのロードに失敗しました（メディアcspエラー）",
   "VOTSubtitlesDesign": "字幕デザイン",
   "VOTSubtitlesFontSize": "字幕のフォントサイズ",
   "VOTSubtitlesOpacity": "字幕の背景の透明度",
@@ -200,5 +199,7 @@
   "VOTDownloadWithName": "ビデオ名のファイルをダウンロードする",
   "VOTUpdateLocaleFiles": "ローカリゼーションファイルの更新",
   "VOTLocaleHash": "ロケールハッシュ",
-  "VOTUpdatedAt": "更新"
+  "VOTUpdatedAt": "更新",
+  "VOTNeedWebAudioAPI": "これを有効にするには、Web Audio APIが必要です",
+  "VOTBypassMediaCSP": "Media CSPのバイパス"
 }

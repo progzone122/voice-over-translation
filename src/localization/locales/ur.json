@@ -189,7 +189,6 @@
   "proxySettings": "پراکسی کی ترتیبات",
   "translationTakeApproximatelyMinute2": "ترجمہ میں تقریبا {0} منٹ لگیں گے",
   "VOTAudioBooster": "توسیع شدہ ترجمہ حجم میں اضافہ",
-  "VOTMediaCSPError": "آڈیو لوڈ کرنے میں ناکام (میڈیا سی ایس پی کی خرابی)",
   "VOTSubtitlesDesign": "سب ٹائٹلز ڈیزائن",
   "VOTSubtitlesFontSize": "سب ٹائٹلز کا فونٹ سائز",
   "VOTSubtitlesOpacity": "ذیلی عنوان کے پس منظر کی شفافیت",
@@ -200,5 +199,7 @@
   "VOTDownloadWithName": "ویڈیو نام کے ساتھ فائلیں ڈاؤن لوڈ کریں",
   "VOTUpdateLocaleFiles": "لوکلائزیشن فائلوں کو اپ ڈیٹ کریں",
   "VOTLocaleHash": "مقامی ہیش",
-  "VOTUpdatedAt": "پر اپ ڈیٹ"
+  "VOTUpdatedAt": "پر اپ ڈیٹ",
+  "VOTNeedWebAudioAPI": "اس کو فعال کرنے کے ل you ، آپ کے پاس ویب آڈیو API ہونا ضروری ہے",
+  "VOTBypassMediaCSP": "میڈیا ایس پی کو نظرانداز کرنا"
 }

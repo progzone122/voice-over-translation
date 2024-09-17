@@ -189,7 +189,6 @@
   "proxySettings": "Mipangilio Ya Wakala",
   "translationTakeApproximatelyMinute2": "Tafsiri itachukua takriban {0} dakika",
   "VOTAudioBooster": "Kuongezeka kwa kiasi cha tafsiri",
-  "VOTMediaCSPError": "Imeshindwa kupakia sauti (kosa la media csp)",
   "VOTSubtitlesDesign": "Subtitles kubuni",
   "VOTSubtitlesFontSize": "Ukubwa wa fonti ya manukuu",
   "VOTSubtitlesOpacity": "Uwazi wa mandharinyuma ya manukuu",
@@ -200,5 +199,7 @@
   "VOTDownloadWithName": "Pakua faili zilizo na jina la video",
   "VOTUpdateLocaleFiles": "Sasisha faili za ujanibishaji",
   "VOTLocaleHash": "Eneo hash",
-  "VOTUpdatedAt": "Imesasishwa saa 16: 40"
+  "VOTUpdatedAt": "Imesasishwa saa",
+  "VOTNeedWebAudioAPI": "Ili kuwezesha hii, lazima uwe NA API Ya Sauti Ya Wavuti",
+  "VOTBypassMediaCSP": "Kupitia Media CSP"
 }

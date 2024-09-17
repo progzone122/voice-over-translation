@@ -189,7 +189,6 @@
   "proxySettings": "Վստահված սերվերի կարգավորումներ",
   "translationTakeApproximatelyMinute2": "Թարգմանությունը կտեւի մոտավորապես {0} րոպե",
   "VOTAudioBooster": "Ընդլայնված թարգմանության ծավալի ավելացում",
-  "VOTMediaCSPError": "Չհաջողվեց բեռնել աուդիո (media csp սխալ)",
   "VOTSubtitlesDesign": "Ենթագրերի ձևավորում",
   "VOTSubtitlesFontSize": "Ենթագրերի տառատեսակի չափը",
   "VOTSubtitlesOpacity": "Ենթագրերի ֆոնի թափանցիկություն",
@@ -200,5 +199,7 @@
   "VOTDownloadWithName": "Վերբեռնեք ֆայլեր տեսանյութի անունով",
   "VOTUpdateLocaleFiles": "Թարմացրեք տեղայնացման ֆայլերը",
   "VOTLocaleHash": "Հաշ locales",
-  "VOTUpdatedAt": "Թարմացվել է"
+  "VOTUpdatedAt": "Թարմացվել է",
+  "VOTNeedWebAudioAPI": "Սա միացնելու համար դուք պետք է ունենաք վեբ աուդիո API",
+  "VOTBypassMediaCSP": "Շրջանցելով Media CSP-Ը"
 }

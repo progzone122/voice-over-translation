@@ -189,7 +189,6 @@
   "proxySettings": "Proxy server parametrləri",
   "translationTakeApproximatelyMinute2": "Tərcümə təxminən {0} dəqiqə çəkəcək",
   "VOTAudioBooster": "Genişləndirilmiş tərcümə həcminin artırılması",
-  "VOTMediaCSPError": "Audio yükləyə bilmədi (media csp xətası)",
   "VOTSubtitlesDesign": "Altyazı dizaynı",
   "VOTSubtitlesFontSize": "Altyazı şrift ölçüsü",
   "VOTSubtitlesOpacity": "Altyazı fon şəffaflığı",
@@ -200,5 +199,7 @@
   "VOTDownloadWithName": "Video adı ilə faylları yükləyin",
   "VOTUpdateLocaleFiles": "Yerli faylları yeniləyin",
   "VOTLocaleHash": "Hash yerli",
-  "VOTUpdatedAt": "Saat yeniləndi"
+  "VOTUpdatedAt": "Saat yeniləndi",
+  "VOTNeedWebAudioAPI": "Bunu aktivləşdirmək üçün veb Audio API olmalıdır",
+  "VOTBypassMediaCSP": "Media CSP Bypass"
 }

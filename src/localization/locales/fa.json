@@ -189,7 +189,6 @@
   "proxySettings": "تنظیمات پروکسی",
   "translationTakeApproximatelyMinute2": "ترجمه تقریبا {0} دقیقه طول خواهد کشید",
   "VOTAudioBooster": "افزایش حجم ترجمه گسترده",
-  "VOTMediaCSPError": "نتوانست صدا را بارگذاری کند (خطای csp رسانه ای)",
   "VOTSubtitlesDesign": "طراحی زیرنویس",
   "VOTSubtitlesFontSize": "اندازه فونت زیرنویس",
   "VOTSubtitlesOpacity": "شفافیت پس زمینه زیرنویس",
@@ -200,5 +199,7 @@
   "VOTDownloadWithName": "دانلود فایل با نام تصویری",
   "VOTUpdateLocaleFiles": "به روز رسانی فایل های محلی سازی",
   "VOTLocaleHash": "هش محلی",
-  "VOTUpdatedAt": "به روز رسانی شده در 16: 40"
+  "VOTUpdatedAt": "به روز رسانی شده در",
+  "VOTNeedWebAudioAPI": "برای فعال کردن این ، شما باید یک API صوتی وب داشته باشید",
+  "VOTBypassMediaCSP": "دور زدن Media CSP"
 }

@@ -189,7 +189,6 @@
   "proxySettings": "ಪ್ರಾಕ್ಸಿ ಸೆಟ್ಟಿಂಗ್ಗಳು",
   "translationTakeApproximatelyMinute2": "ಅನುವಾದವು ಸರಿಸುಮಾರು {0} ನಿಮಿಷಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳುತ್ತದೆ",
   "VOTAudioBooster": "ವಿಸ್ತೃತ ಅನುವಾದ ಪರಿಮಾಣ ಹೆಚ್ಚಳ",
-  "VOTMediaCSPError": "ಆಡಿಯೋ ಲೋಡ್ ಮಾಡಲು ವಿಫಲವಾಗಿದೆ (ಮೀಡಿಯಾ csp ದೋಷ)",
   "VOTSubtitlesDesign": "ಉಪಶೀರ್ಷಿಕೆಗಳು ವಿನ್ಯಾಸ",
   "VOTSubtitlesFontSize": "ಉಪಶೀರ್ಷಿಕೆಗಳ ಫಾಂಟ್ ಗಾತ್ರ",
   "VOTSubtitlesOpacity": "ಉಪಶೀರ್ಷಿಕೆ ಹಿನ್ನೆಲೆ ಪಾರದರ್ಶಕತೆ",
@@ -200,5 +199,7 @@
   "VOTDownloadWithName": "ವೀಡಿಯೊ ಹೆಸರಿನೊಂದಿಗೆ ಫೈಲ್ಗಳನ್ನು ಡೌನ್ಲೋಡ್ ಮಾಡಿ",
   "VOTUpdateLocaleFiles": "ಅಪ್ಡೇಟ್ ಸ್ಥಳೀಕರಣ ಕಡತಗಳನ್ನು",
   "VOTLocaleHash": "ಲೊಕೇಲ್ ಹ್ಯಾಶ್",
-  "VOTUpdatedAt": "ಕ್ಕೆ ನವೀಕರಿಸಲಾಗಿದೆ"
+  "VOTUpdatedAt": "ಕ್ಕೆ ನವೀಕರಿಸಲಾಗಿದೆ",
+  "VOTNeedWebAudioAPI": "ಇದನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಲು, ನೀವು ವೆಬ್ ಆಡಿಯೊ API ಅನ್ನು ಹೊಂದಿರಬೇಕು",
+  "VOTBypassMediaCSP": "Media CSP ಅನ್ನು ಬೈಪಾಸ್ ಮಾಡುವುದು"
 }

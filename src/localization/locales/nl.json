@@ -189,7 +189,6 @@
   "proxySettings": "Proxy-Instellingen",
   "translationTakeApproximatelyMinute2": "De vertaling duurt ongeveer {0} minuten",
   "VOTAudioBooster": "Uitbreiding van het vertaalvolume",
-  "VOTMediaCSPError": "Laden van audio is mislukt (media csp-fout)",
   "VOTSubtitlesDesign": "Ondertitels ontwerp",
   "VOTSubtitlesFontSize": "Lettergrootte van ondertitels",
   "VOTSubtitlesOpacity": "Transparantie van de ondertitelingsachtergrond",
@@ -200,5 +199,7 @@
   "VOTDownloadWithName": "Download bestanden met de naam van de video",
   "VOTUpdateLocaleFiles": "Lokalisatiebestanden bijwerken",
   "VOTLocaleHash": "Lokale hash",
-  "VOTUpdatedAt": "Bijgewerkt op"
+  "VOTUpdatedAt": "Bijgewerkt op",
+  "VOTNeedWebAudioAPI": "Om dit in te schakelen, moet u een Web Audio API hebben",
+  "VOTBypassMediaCSP": "Omzeilen Van Media CSP"
 }

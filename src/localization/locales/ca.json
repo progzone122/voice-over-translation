@@ -189,7 +189,6 @@
   "proxySettings": "Arranjament Del Servidor Intermediari",
   "translationTakeApproximatelyMinute2": "La traducció trigarà aproximadament {0} minuts",
   "VOTAudioBooster": "Ampliació del volum de traducció",
-  "VOTMediaCSPError": "Ha fallat en carregar l ' àudio (error media csp)",
   "VOTSubtitlesDesign": "Disseny de subtítols",
   "VOTSubtitlesFontSize": "Mida del tipus de lletra dels subtítols",
   "VOTSubtitlesOpacity": "Transparència del fons dels subtítols",
@@ -200,5 +199,7 @@
   "VOTDownloadWithName": "Baixeu fitxers amb el nom del vídeo",
   "VOTUpdateLocaleFiles": "Actualitza els fitxers de localització",
   "VOTLocaleHash": "Hash de localització",
-  "VOTUpdatedAt": "Actualització a les 16: 40"
+  "VOTUpdatedAt": "Actualització a les",
+  "VOTNeedWebAudioAPI": "Per activar-ho, heu de tenir UNA API D'Àudio",
+  "VOTBypassMediaCSP": "Ignorant Media CSP"
 }

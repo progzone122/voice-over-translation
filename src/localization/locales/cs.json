@@ -189,7 +189,6 @@
   "proxySettings": "Nastavení Serveru Proxy",
   "translationTakeApproximatelyMinute2": "Překlad bude trvat přibližně {0} minut",
   "VOTAudioBooster": "Rozšíření objemu překladu",
-  "VOTMediaCSPError": "Nepodařilo se načíst zvuk (chyba media CSP)",
   "VOTSubtitlesDesign": "Titulky design",
   "VOTSubtitlesFontSize": "Velikost písma titulků",
   "VOTSubtitlesOpacity": "Průhlednost pozadí titulků",
@@ -200,5 +199,7 @@
   "VOTDownloadWithName": "Stahujte soubory s názvem videa",
   "VOTUpdateLocaleFiles": "Aktualizace lokalizačních souborů",
   "VOTLocaleHash": "Národní hash",
-  "VOTUpdatedAt": "Aktualizováno v 16: 40"
+  "VOTUpdatedAt": "Aktualizováno v",
+  "VOTNeedWebAudioAPI": "Chcete-li to povolit, musíte mít webové Audio API",
+  "VOTBypassMediaCSP": "Obcházení Media CSP"
 }

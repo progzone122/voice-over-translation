@@ -189,7 +189,6 @@
   "proxySettings": "Izilungiselelo Ze-Proxy",
   "translationTakeApproximatelyMinute2": "Ukuhumusha kuzothatha cishe imizuzu {0}",
   "VOTAudioBooster": "Ukwanda kwevolumu yokuhumusha okwandisiwe",
-  "VOTMediaCSPError": "Yehlulekile ukulayisha audio (media csp iphutha)",
   "VOTSubtitlesDesign": "Umklamo wemibhalo engezansi",
   "VOTSubtitlesFontSize": "Usayizi wefonti yemibhalo engezansi",
   "VOTSubtitlesOpacity": "Ukungafihli lutho kwesizinda sesihlokwana",
@@ -200,5 +199,7 @@
   "VOTDownloadWithName": "Thwebula amafayela ngegama video",
   "VOTUpdateLocaleFiles": "Buyekeza amafayela localization",
   "VOTLocaleHash": "I-hash yendawo",
-  "VOTUpdatedAt": "Kubuyekezwe"
+  "VOTUpdatedAt": "Kubuyekezwe",
+  "VOTNeedWebAudioAPI": "Ukuze ukwazi lokhu, kufanele UBE NE-WEB AUDIO API",
+  "VOTBypassMediaCSP": "Ukugwema I-Media CSP"
 }

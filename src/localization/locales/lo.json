@@ -189,7 +189,6 @@
   "proxySettings": "ການຕັ້ງຄ່າຕົວແທນ",
   "translationTakeApproximatelyMinute2": "ການແປພາສາຈະໃຊ້ເວລາປະມານ{0}ນາທີ",
   "VOTAudioBooster": "ການແປພາສາຂະຫຍາຍປະລິມານເພີ່ມຂຶ້ນ",
-  "VOTMediaCSPError": "ລົ້ມເຫລວໃນການໂຫຼດສຽງ(media csp error)",
   "VOTSubtitlesDesign": "ການອອກແບບຄໍາບັນຍາຍ",
   "VOTSubtitlesFontSize": "ຂະໜາດຕົວອັກສອນຂອງຄຳບັນຍາຍ",
   "VOTSubtitlesOpacity": "ຄວາມໂປ່ງໃສຂອງຄວາມເປັນມາ subtitle ໄດ້",
@@ -200,5 +199,7 @@
   "VOTDownloadWithName": "ດາວນ໌ໂຫລດໄຟລ໌ທີ່ມີຊື່ວິດີໂອໄດ້",
   "VOTUpdateLocaleFiles": "ອັບເດດໄຟລ໌ທ້ອງຖິ່ນ",
   "VOTLocaleHash": "Hash ທ້ອງຖິ່ນ",
-  "VOTUpdatedAt": "ອັບເດດເວລາ"
+  "VOTUpdatedAt": "ອັບເດດເວລາ",
+  "VOTNeedWebAudioAPI": "ເພື່ອເປີດໃຊ້ສິ່ງນີ້,ທ່ານຕ້ອງມີ Web Audio API",
+  "VOTBypassMediaCSP": "ຂ້າມຜ່ານ Media CSP"
 }

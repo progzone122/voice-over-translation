@@ -189,7 +189,6 @@
   "proxySettings": "Ustawienia Proxy",
   "translationTakeApproximatelyMinute2": "Tłumaczenie zajmie około {0} minut",
   "VOTAudioBooster": "Rozszerzony wzrost objętości tłumaczenia",
-  "VOTMediaCSPError": "Nie udało się załadować dźwięku (błąd media csp)",
   "VOTSubtitlesDesign": "Projektowanie napisów",
   "VOTSubtitlesFontSize": "Rozmiar czcionki napisów",
   "VOTSubtitlesOpacity": "Przezroczystość tła napisów",
@@ -200,5 +199,7 @@
   "VOTDownloadWithName": "Pobierz pliki z nazwą wideo",
   "VOTUpdateLocaleFiles": "Aktualizuj pliki lokalizacyjne",
   "VOTLocaleHash": "Locale hash",
-  "VOTUpdatedAt": "Aktualizacja:"
+  "VOTUpdatedAt": "Aktualizacja:",
+  "VOTNeedWebAudioAPI": "Aby to włączyć, musisz mieć Web Audio API",
+  "VOTBypassMediaCSP": "Omijanie Media CSP"
 }

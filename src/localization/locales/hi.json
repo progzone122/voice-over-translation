@@ -189,7 +189,6 @@
   "proxySettings": "प्रॉक्सी सेटिंग्स",
   "translationTakeApproximatelyMinute2": "अनुवाद में लगभग {0} मिनट लगेंगे",
   "VOTAudioBooster": "विस्तारित अनुवाद की मात्रा में वृद्धि",
-  "VOTMediaCSPError": "ऑडियो लोड करने में विफल (मीडिया सीएसपी त्रुटि)",
   "VOTSubtitlesDesign": "उपशीर्षक डिजाइन",
   "VOTSubtitlesFontSize": "उपशीर्षक का फ़ॉन्ट आकार",
   "VOTSubtitlesOpacity": "उपशीर्षक पृष्ठभूमि की पारदर्शिता",
@@ -200,5 +199,7 @@
   "VOTDownloadWithName": "वीडियो नाम के साथ फ़ाइलें डाउनलोड करें",
   "VOTUpdateLocaleFiles": "स्थानीयकरण फ़ाइलें अपडेट करें",
   "VOTLocaleHash": "लोकेल हैश",
-  "VOTUpdatedAt": "पर अपडेट किया गया"
+  "VOTUpdatedAt": "पर अपडेट किया गया",
+  "VOTNeedWebAudioAPI": "इसे सक्षम करने के लिए, आपके पास एक वेब ऑडियो एपीआई होना चाहिए",
+  "VOTBypassMediaCSP": "मीडियासीएसपी को दरकिनार"
 }

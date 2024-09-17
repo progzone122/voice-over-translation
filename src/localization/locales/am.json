@@ -189,7 +189,6 @@
   "proxySettings": "የተኪ ቅንብሮች",
   "translationTakeApproximatelyMinute2": "ትርጉሙ በግምት ይወስዳል {0} ደቂቃዎች",
   "VOTAudioBooster": "የተራዘመ የትርጉም መጠን መጨመር",
-  "VOTMediaCSPError": "ኦዲዮ መጫን አልተሳካም (ሚዲያ csp ስህተት)",
   "VOTSubtitlesDesign": "ንዑስ ርዕሶች ንድፍ",
   "VOTSubtitlesFontSize": "የትርጉም ጽሑፎች ቅርጸ-ቁምፊ መጠን",
   "VOTSubtitlesOpacity": "የትርጉም ዳራ ግልፅነት",
@@ -200,5 +199,7 @@
   "VOTDownloadWithName": "ፋይሎችን በቪዲዮ ስም ያውርዱ",
   "VOTUpdateLocaleFiles": "የአካባቢ ፋይሎችን አዘምን",
   "VOTLocaleHash": "አካባቢያዊ ሃሽ",
-  "VOTUpdatedAt": "ላይ የተዘመነ"
+  "VOTUpdatedAt": "ላይ የተዘመነ",
+  "VOTNeedWebAudioAPI": "ይህንን ለማስቻል, አንድ የድር ኦዲዮ ኤፒአይ ሊኖርዎት ይገባል",
+  "VOTBypassMediaCSP": "Media CSP ማለፍ"
 }

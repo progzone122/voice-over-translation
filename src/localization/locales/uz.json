@@ -189,7 +189,6 @@
   "proxySettings": "Proksi Moslamalari",
   "translationTakeApproximatelyMinute2": "Tarjima taxminan {0} daqiqa davom etadi",
   "VOTAudioBooster": "Kengaytirilgan tarjima hajmini oshirish",
-  "VOTMediaCSPError": "Ovozni yuklab bo'lmadi (media CSP xatosi)",
   "VOTSubtitlesDesign": "Subtitrlar dizayni",
   "VOTSubtitlesFontSize": "Subtitrlarning shrift o'lchami",
   "VOTSubtitlesOpacity": "Subtitr fonining shaffofligi",
@@ -200,5 +199,7 @@
   "VOTDownloadWithName": "Video nomi bilan fayllarni yuklab oling",
   "VOTUpdateLocaleFiles": "Mahalliylashtirish fayllarini yangilang",
   "VOTLocaleHash": "Mahalliy Xash",
-  "VOTUpdatedAt": "da yangilangan"
+  "VOTUpdatedAt": "da yangilangan",
+  "VOTNeedWebAudioAPI": "Buni yoqish uchun sizda veb-Audio API bo'lishi kerak",
+  "VOTBypassMediaCSP": "Mediacspni Chetlab O'tish"
 }
