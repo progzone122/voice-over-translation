@@ -103,7 +103,11 @@ function genMarkdown(sites, lang = "ru") {
 
   return removeDuplicatesKeepLast(sitesData, "host").map((site) => {
     const hasData = Object.hasOwn(siteData, site.host);
-    const limitsData = hasData ? siteData[site.host].limits : [];
+    const limitsData = hasData ? siteData[site.host].limits ?? [] : [];
+    if (site.needBypassCSP) {
+      limitsData.push(locales.needBypassCSP);
+    }
+
     let limits = "";
     if (limitsData?.length) {
       limits = `\n\n${locales.limitations[lang]}:\n\n- ${limitsData.map((limit) => limit[lang]).join("\n- ")}`;
@@ -136,27 +140,29 @@ async function main() {
       status: extra ? extraData[host].status : "✅",
       statusPhrase: extra ? extraData[host].statusPhrase : locales.working,
       additionalData: site.additionalData,
+      needBypassCSP: site.needBypassCSP,
     };
   });
 
   const langs = ["ru", "en"];
   for await (const lang of langs) {
-    const mdText = genMarkdown(supportedSites, lang)
-      .join("\n\n")
-      .replace("Nine_gag", "9GAG")
-      .replace("Mailru", "Mail.ru")
-      .replace("Yandexdisk", "Yandex Disk")
-      .replace("Googledrive", "Google Drive")
-      .replace("Okru", "OK.ru")
-      .replace("Custom", "Direct link to MP4")
-      .replace("Bannedvideo", "Banned.Video")
-      .replace(
-        "geo.dailymotion.com",
-        `geo.dailymotion.com (${locales.dailymotionNotice[lang]})`,
-      )
-      .replace("Nineanimetv", `9AnimeTV`)
-      .replace("rapid-cloud.co", `9animetv.to (vidstreaming / vidcloud)`)
-      .replaceAll("\\/", "/");
+    const mdText =
+      genMarkdown(supportedSites, lang)
+        .join("\n\n")
+        .replace("Nine_gag", "9GAG")
+        .replace("Mailru", "Mail.ru")
+        .replace("Yandexdisk", "Yandex Disk")
+        .replace("Googledrive", "Google Drive")
+        .replace("Okru", "OK.ru")
+        .replace("Custom", "Direct link to MP4")
+        .replace("Bannedvideo", "Banned.Video")
+        .replace(
+          "geo.dailymotion.com",
+          `geo.dailymotion.com (${locales.dailymotionNotice[lang]})`,
+        )
+        .replace("Nineanimetv", `9AnimeTV`)
+        .replace("rapid-cloud.co", `9animetv.to (vidstreaming / vidcloud)`)
+        .replaceAll("\\/", "/") + "\n";
 
     await Bun.write(
       path.join(__dirname, `SITES-${lang.toUpperCase()}.md`),

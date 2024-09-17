@@ -2217,13 +2217,7 @@ class VideoHandler {
     this.lipSync(event.type);
   };
 
-  needBypassCSP = () => {
-    if (!this.data.bypassMediaCSP) {
-      return false;
-    }
-
-    return this.site.needBypassCSP;
-  };
+  needBypassCSP = () => this.data.bypassMediaCSP && this.site.needBypassCSP;
 
   // Default actions on stop translate
   stopTranslate() {

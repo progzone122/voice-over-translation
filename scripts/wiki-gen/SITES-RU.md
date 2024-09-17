@@ -49,7 +49,7 @@
 Ограничения:
 
 - Не работает в предпросмотре видео
-- Для работы необходимо полностью удалить [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) со страницы
+- Для гарантированной работы скрипта необходимо [включить настройку "Обход Media CSP"](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) в расширение или удалить CSP другим способом
 
 ## Piped
 
@@ -97,7 +97,8 @@
 Ограничения:
 
 - Не работает в предпросмотре видео
-- Для работы необходимо полностью удалить [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) со страницы
+- Для гарантированной работы скрипта необходимо [включить настройку "Обход Media CSP"](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) в расширение или удалить CSP другим способом
+- Для гарантированной работы скрипта необходимо [включить настройку "Обход Media CSP"](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) в расширение или удалить CSP другим способом
 
 ## Poketube
 
@@ -235,7 +236,7 @@
 
 Ограничения:
 
-- Для работы может потребоваться добавить скрипт в [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ)
+- Для гарантированной работы скрипта необходимо [включить настройку "Обход Media CSP"](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) в расширение или удалить CSP другим способом
 
 ## Pornhub
 
@@ -257,7 +258,7 @@
 
 ## Twitter
 
-Статус: [⚠️] Работает с ограничениями
+Статус: [✅] Работает
 
 Доступные (под)домены:
 
@@ -270,8 +271,8 @@
 
 Ограничения:
 
-- Для работы необходимо добавить скрипт в [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ)
 - Не работает перевод в ленте (Работает только в открытых видео)
+- Для гарантированной работы скрипта необходимо [включить настройку "Обход Media CSP"](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) в расширение или удалить CSP другим способом
 
 ## Rumble
 
@@ -291,7 +292,7 @@
 
 ## Facebook
 
-Статус: [⚠️] Работает с ограничениями
+Статус: [✅] Работает
 
 Доступные (под)домены:
 
@@ -304,7 +305,7 @@
 
 Ограничения:
 
-- Для работы необходимо добавить скрипт в [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ)
+- Для гарантированной работы скрипта необходимо [включить настройку "Обход Media CSP"](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) в расширение или удалить CSP другим способом
 
 ## Rutube
 
@@ -431,7 +432,7 @@
 
 ## Yandex Disk
 
-Статус: [⚠️] Работает с ограничениями
+Статус: [✅] Работает
 
 Доступные (под)домены:
 
@@ -443,8 +444,8 @@
 
 Ограничения:
 
-- Для работы необходимо добавить скрипт в [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ)
 - Работает только с публичными ссылками
+- Для гарантированной работы скрипта необходимо [включить настройку "Обход Media CSP"](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) в расширение или удалить CSP другим способом
 
 ## OK.ru
 
@@ -592,7 +593,7 @@
 Ограничения:
 
 - Нет субтитров
-- Для работы необходимо полностью удалить [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) со страницы
+- Для гарантированной работы скрипта необходимо [включить настройку "Обход Media CSP"](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) в расширение или удалить CSP другим способом
 
 ## Kick
 
@@ -627,6 +628,7 @@
 Ограничения:
 
 - Нет субтитров
+- Для гарантированной работы скрипта необходимо [включить настройку "Обход Media CSP"](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) в расширение или удалить CSP другим способом
 
 ## Epicgames
 
@@ -719,7 +721,7 @@
 
 ## Sap
 
-Статус: [⚠️] Работает с ограничениями
+Статус: [✅] Работает
 
 Доступные (под)домены:
 
@@ -732,7 +734,7 @@
 
 Ограничения:
 
-- Для работы необходимо полностью удалить [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) со страницы
+- Для гарантированной работы скрипта необходимо [включить настройку "Обход Media CSP"](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) в расширение или удалить CSP другим способом
 
 ## Watchpornto
 
@@ -749,7 +751,7 @@
 
 ## Linkedin
 
-Статус: [⚠️] Работает с ограничениями
+Статус: [✅] Работает
 
 Доступные (под)домены:
 
@@ -762,7 +764,7 @@
 
 Ограничения:
 
-- Для работы необходимо полностью удалить [CSP](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) со страницы
+- Для гарантированной работы скрипта необходимо [включить настройку "Обход Media CSP"](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) в расширение или удалить CSP другим способом
 
 ## Direct link to MP4
 
