@@ -201,5 +201,6 @@
   "VOTLocaleHash": "Локален хеш",
   "VOTUpdatedAt": "Актуализирано в",
   "VOTNeedWebAudioAPI": "За да разрешите това, трябва да имате уеб аудио интерфейс",
-  "VOTBypassMediaCSP": "Заобикаляне На Медиаксп"
+  "VOTBypassMediaCSP": "Заобикаляне На Медиаксп",
+  "VOTMediaCSPEnabledOnSite": "Медиа ДУСП е активирана на този сайт"
 }

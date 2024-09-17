@@ -201,5 +201,6 @@
   "VOTLocaleHash": "Hash Locale",
   "VOTUpdatedAt": "Përditësuar në",
   "VOTNeedWebAudioAPI": "Për ta mundësuar këtë, duhet të keni NJË API Audio Në Internet",
-  "VOTBypassMediaCSP": "Duke Anashkaluar Media CSP"
+  "VOTBypassMediaCSP": "Duke Anashkaluar Media CSP",
+  "VOTMediaCSPEnabledOnSite": "Media CSP është aktivizuar në këtë faqe"
 }

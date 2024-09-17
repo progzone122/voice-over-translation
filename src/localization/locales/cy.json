@@ -201,5 +201,6 @@
   "VOTLocaleHash": "Hash Locale",
   "VOTUpdatedAt": "Diweddarwyd am",
   "VOTNeedWebAudioAPI": "I alluogi HYN, rhaid bod GENNYCH API Sain Gwe",
-  "VOTBypassMediaCSP": "Osgoi Media CSP"
+  "VOTBypassMediaCSP": "Osgoi Media CSP",
+  "VOTMediaCSPEnabledOnSite": "Mae csp cyfryngau wedi'i alluogi ar y wefan hon"
 }

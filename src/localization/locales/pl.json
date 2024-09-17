@@ -201,5 +201,6 @@
   "VOTLocaleHash": "Locale hash",
   "VOTUpdatedAt": "Aktualizacja:",
   "VOTNeedWebAudioAPI": "Aby to włączyć, musisz mieć Web Audio API",
-  "VOTBypassMediaCSP": "Omijanie Media CSP"
+  "VOTBypassMediaCSP": "Omijanie Media CSP",
+  "VOTMediaCSPEnabledOnSite": "Media CSP jest włączony na tej stronie"
 }

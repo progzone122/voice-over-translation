@@ -201,5 +201,6 @@
   "VOTLocaleHash": "مقامی ہیش",
   "VOTUpdatedAt": "پر اپ ڈیٹ",
   "VOTNeedWebAudioAPI": "اس کو فعال کرنے کے ل you ، آپ کے پاس ویب آڈیو API ہونا ضروری ہے",
-  "VOTBypassMediaCSP": "میڈیا ایس پی کو نظرانداز کرنا"
+  "VOTBypassMediaCSP": "میڈیا ایس پی کو نظرانداز کرنا",
+  "VOTMediaCSPEnabledOnSite": "اس سائٹ پر میڈیا سی ایس پی فعال ہے"
 }

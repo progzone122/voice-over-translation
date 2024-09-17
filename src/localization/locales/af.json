@@ -201,5 +201,6 @@
   "VOTLocaleHash": "Plaaslike hash",
   "VOTUpdatedAt": "Opgedateer om",
   "VOTNeedWebAudioAPI": "Om dit te aktiveer, moet jy'n Web Audio API",
-  "VOTBypassMediaCSP": "Omseil Media CSP"
+  "VOTBypassMediaCSP": "Omseil Media CSP",
+  "VOTMediaCSPEnabledOnSite": "MEDIA CSP is geaktiveer op hierdie webwerf"
 }

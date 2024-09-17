@@ -859,7 +859,10 @@ class VideoHandler {
       );
 
       this.votBypassMediaCSPCheckbox = ui.createCheckbox(
-        localizationProvider.get("VOTBypassMediaCSP"),
+        localizationProvider.get("VOTBypassMediaCSP") +
+          (this.site.needBypassCSP
+            ? ` (${localizationProvider.get("VOTMediaCSPEnabledOnSite")})`
+            : ""),
         this.data?.bypassMediaCSP ?? false,
       );
       if (!this.audioContext) {
@@ -2219,18 +2222,7 @@ class VideoHandler {
       return false;
     }
 
-    return [
-      "linkedin",
-      "sap",
-      "apple_developer",
-      "xvideos",
-      "twitter",
-      "facebook",
-      "yandexdisk",
-      "reddit",
-      "invidious",
-      "piped",
-    ].includes(this.site.host);
+    return this.site.needBypassCSP;
   };
 
   // Default actions on stop translate

@@ -201,5 +201,6 @@
   "VOTLocaleHash": "Mahalliy Xash",
   "VOTUpdatedAt": "da yangilangan",
   "VOTNeedWebAudioAPI": "Buni yoqish uchun sizda veb-Audio API bo'lishi kerak",
-  "VOTBypassMediaCSP": "Mediacspni Chetlab O'tish"
+  "VOTBypassMediaCSP": "Mediacspni Chetlab O'tish",
+  "VOTMediaCSPEnabledOnSite": "Media CSP ushbu saytda yoqilgan"
 }

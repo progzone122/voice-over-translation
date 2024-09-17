@@ -201,5 +201,6 @@
   "VOTLocaleHash": "区域设置哈希",
   "VOTUpdatedAt": "更新于",
   "VOTNeedWebAudioAPI": "要启用此功能，您必须具有Web音频API",
-  "VOTBypassMediaCSP": "绕过Media CSP"
+  "VOTBypassMediaCSP": "绕过Media CSP",
+  "VOTMediaCSPEnabledOnSite": "媒体CSP在此站点上启用"
 }

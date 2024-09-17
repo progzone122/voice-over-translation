@@ -201,5 +201,6 @@
   "VOTLocaleHash": "Хеш перевода",
   "VOTUpdatedAt": "Обновлено в",
   "VOTNeedWebAudioAPI": "Чтобы включить это, у вас должен быть Web Audio API",
-  "VOTBypassMediaCSP": "Обход Media CSP"
+  "VOTBypassMediaCSP": "Обход Media CSP",
+  "VOTMediaCSPEnabledOnSite": "На этом сайте включен Media CSP"
 }

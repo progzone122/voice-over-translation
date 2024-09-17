@@ -201,5 +201,6 @@
   "VOTLocaleHash": "ဒေသတွင်းဟက်ရှ်",
   "VOTUpdatedAt": "၁၆:၄၀ တွင်အတည်ပြု",
   "VOTNeedWebAudioAPI": "ဒါကိုဖွင့်ဖို့ Web Audio API တစ်ခုရှိရပါမယ်။",
-  "VOTBypassMediaCSP": "Media CSP ကိုရှောင်လွှဲခြင်း"
+  "VOTBypassMediaCSP": "Media CSP ကိုရှောင်လွှဲခြင်း",
+  "VOTMediaCSPEnabledOnSite": "ဤဆိုက်တွင်မီဒီယာ CSP ကိုခွင့်ပြုထားသည်။"
 }

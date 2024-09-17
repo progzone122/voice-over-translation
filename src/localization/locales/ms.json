@@ -201,5 +201,6 @@
   "VOTLocaleHash": "Hash tempatan",
   "VOTUpdatedAt": "Dikemaskini pada",
   "VOTNeedWebAudioAPI": "Untuk membolehkan ini, anda mesti mempunyai API Audio web",
-  "VOTBypassMediaCSP": "Memintas Media CSP"
+  "VOTBypassMediaCSP": "Memintas Media CSP",
+  "VOTMediaCSPEnabledOnSite": "Media CSP diaktifkan di laman web ini"
 }

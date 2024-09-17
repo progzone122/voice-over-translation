@@ -201,5 +201,6 @@
   "VOTLocaleHash": "Lokaleko hash-a",
   "VOTUpdatedAt": "etan eguneratua",
   "VOTNeedWebAudioAPI": "Hau gaitzeko, Audio API Bat Eduki Behar duzu",
-  "VOTBypassMediaCSP": "Media CSP Saihestea"
+  "VOTBypassMediaCSP": "Media CSP Saihestea",
+  "VOTMediaCSPEnabledOnSite": "Multimedia KSP gune honetan gaituta dago"
 }

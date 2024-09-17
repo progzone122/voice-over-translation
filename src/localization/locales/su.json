@@ -201,5 +201,6 @@
   "VOTLocaleHash": "Lokal hash",
   "VOTUpdatedAt": "Diperbarui jam",
   "VOTNeedWebAudioAPI": "Pikeun ngaktipkeun ieu, anjeun kudu boga API Audio Web",
-  "VOTBypassMediaCSP": "Ngalangkungan Media CSP"
+  "VOTBypassMediaCSP": "Ngalangkungan Media CSP",
+  "VOTMediaCSPEnabledOnSite": "Media csp diaktipkeun dina situs ieu"
 }
