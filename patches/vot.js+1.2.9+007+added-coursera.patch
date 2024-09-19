@@ -1,8 +1,8 @@
 diff --git a/node_modules/vot.js/dist/config/sites.js b/node_modules/vot.js/dist/config/sites.js
-index 6ff12e4..0530553 100644
+index f995980..a51805f 100644
 --- a/node_modules/vot.js/dist/config/sites.js
 +++ b/node_modules/vot.js/dist/config/sites.js
-@@ -342,6 +342,14 @@ export default [
+@@ -351,6 +351,14 @@ export default [
              'div[data-purpose="curriculum-item-viewer-content"] > section > div > div > div > div:nth-of-type(2)',
          needExtraData: true,
      },
