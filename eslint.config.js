@@ -20,7 +20,7 @@ export default [
       "sonarjs/max-switch-cases": 0,
       "sonarjs/prefer-for-of": 0,
       "sonarjs/new-cap": 0,
-      "sonarjs/todo-tag": 0,
+      "sonarjs/todo-tag": "warn",
       "sonarjs/no-commented-code": 0,
       "sonarjs/no-nested-assignment": 0,
       "sonarjs/cognitive-complexity": "warn",
