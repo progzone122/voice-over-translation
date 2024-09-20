@@ -5,6 +5,7 @@ import { getVideoData, getVideoID, getService } from "vot.js/utils/videoData";
 import { availableLangs, availableTTS, subtitlesFormats } from "vot.js/consts";
 import { convertSubs } from "vot.js/utils/subs";
 import { svg, html } from "lit-html";
+import { ID3Writer } from "browser-id3-writer";
 
 import {
   defaultAutoVolume,
@@ -1101,7 +1102,11 @@ class VideoHandler {
         const filename = clearFileName(
           this.videoData.title ?? this.videoData.videoId,
         );
-        downloadBlob(blob, `${filename}.mp3`);
+        const arrayBuffer = await blob.arrayBuffer();
+        const writer = new ID3Writer(arrayBuffer);
+        writer.setFrame("TIT2", filename);
+        writer.addTag();
+        downloadBlob(writer.getBlob(), `${filename}.mp3`);
       });
 
       this.votDownloadSubtitlesButton.addEventListener("click", async () => {
@@ -2173,6 +2178,9 @@ class VideoHandler {
               localizationProvider.get("grantPermissionToAutoPlay"),
             );
             throw new VOTLocalizedError("grantPermissionToAutoPlay");
+          } else if (e.name === "NotSupportedError") {
+            this.data.audioProxy = 1;
+            await votStorage.set("audioProxy", 1);
           }
         });
       }
@@ -2354,20 +2362,6 @@ class VideoHandler {
     return audioUrl;
   }
 
-  async setAudioSourceAndPlay(audioUrl) {
-    debug.log("setAudioSourceAndPlay");
-    this.audio.src = audioUrl;
-    try {
-      await this.audio.play();
-    } catch (e) {
-      console.error("[VOT]", e);
-      if (e.name === "NotSupportedError") {
-        this.data.audioProxy = 1;
-        await votStorage.set("audioProxy", 1);
-      }
-    }
-  }
-
   /**
    * Download audio file and connect it to audio context
    *
@@ -2422,7 +2416,7 @@ class VideoHandler {
     // eslint-disable-next-line sonarjs/no-unused-expressions
     this.needBypassCSP()
       ? await this.configurePlaySound(audioUrl)
-      : await this.setAudioSourceAndPlay(audioUrl);
+      : (this.audio.src = audioUrl);
 
     if (!this.volumeOnStart) {
       this.volumeOnStart = this.getVideoVolume();
