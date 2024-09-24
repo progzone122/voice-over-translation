@@ -160,7 +160,7 @@
 // @connect        onrender.com
 // @connect        workers.dev
 // @namespace      vot
-// @version        1.6.1
+// @version        1.7.0
 // @icon           https://translate.yandex.ru/icons/favicon.ico
 // @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation
@@ -2193,7 +2193,7 @@ const sitesPoketube = [
         host: VideoService.coursera,
         url: "https://www.coursera.org/",
         match: /coursera.org$/,
-        selector: ".vjs-v6",
+        selector: ".vjs-v8",
         needExtraData: true,
     },
     {
@@ -3623,7 +3623,7 @@ class CourseraHelper extends BaseHelper {
     }
 
     getPlayer() {
-        return document.querySelector(".vjs-v6");
+        return document.querySelector(".vjs-v8");
     }
 
     getPlayerData() {
@@ -3699,6 +3699,7 @@ class CourseraHelper extends BaseHelper {
         return /learn\/([^/]+)\/lecture\/([^/]+)/.exec(url.pathname)?.[0]; // <-- COURSE PASSING (IF YOU LOGINED TO COURSERA)
     }
 }
+
 ;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/sap.js
 
 
@@ -6907,8 +6908,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : (res.message ??
-              localizationProvider.get("translationTakeFewMinutes")),
+          : res.message ??
+              localizationProvider.get("translationTakeFewMinutes"),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
