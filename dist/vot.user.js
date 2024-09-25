@@ -155,6 +155,7 @@
 // @connect        timeweb.cloud
 // @connect        raw.githubusercontent.com
 // @connect        9animetv.to
+// @connect        vimeo.com
 // @connect        toil.cc
 // @connect        deno.dev
 // @connect        onrender.com
@@ -1941,6 +1942,7 @@ const sitesPoketube = [
         match: /^player.vimeo.com$/,
         additionalData: "embed",
         needExtraData: true,
+        needBypassCSP: true,
         selector: ".player",
     },
     {
@@ -2720,7 +2722,7 @@ class BaseHelper {
     extraInfo;
     referer;
     service;
-    constructor({ fetchFn = GM_fetch, extraInfo = true, referer = "", service, } = {}) {
+    constructor({ fetchFn = GM_fetch, extraInfo = true, referer = document.referrer ?? window.location.origin + "/", service, } = {}) {
         this.fetch = fetchFn;
         this.extraInfo = extraInfo;
         this.referer = referer;
@@ -3973,7 +3975,7 @@ class VimeoHelper extends BaseHelper {
     }
     async getPrivateVideoInfo(videoId) {
         try {
-            const playerConfig = window.playerConfig
+            // playerConfig is window.playerConfig
             const videoSource = await this.getPrivateVideoSource(playerConfig.request.files);
             if (!videoSource) {
                 throw new VideoHelperError("Failed to get private video source");
@@ -7158,8 +7160,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : (res.message ??
-              localizationProvider.get("translationTakeFewMinutes")),
+          : res.message ??
+              localizationProvider.get("translationTakeFewMinutes"),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
