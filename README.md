@@ -128,7 +128,7 @@
 NPM:
 
 ```bash
-npm install --legacy-peer-deps
+npm install
 ```
 
 Bun:

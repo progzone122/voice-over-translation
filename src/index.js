@@ -351,7 +351,7 @@ class VideoHandler {
       ),
     );
 
-    console.log("[db] data from db: ", this.data);
+    console.log("[VOT] data from db: ", this.data);
 
     // convert old m3u8-proxy-worker to new media-proxy
     if (this.data.m3u8ProxyHost === "m3u8-proxy.toil.cc") {

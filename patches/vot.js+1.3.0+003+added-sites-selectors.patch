@@ -1,5 +1,5 @@
 diff --git a/node_modules/vot.js/dist/config/sites.js b/node_modules/vot.js/dist/config/sites.js
-index 64e1530..0f0c9ac 100644
+index 8492641..e47e78f 100644
 --- a/node_modules/vot.js/dist/config/sites.js
 +++ b/node_modules/vot.js/dist/config/sites.js
 @@ -2,34 +2,71 @@ import { VideoService } from "../types/yandex.js";
@@ -53,18 +53,18 @@ index 64e1530..0f0c9ac 100644
 +        match: /^m.vk.(com|ru)$/,
 +        selector: "vk-video-player",
 +        shadowRoot: true,
-+    },
-+    {
-+        additionalData: "clips",
-+        host: VideoService.vk,
-+        url: "https://vk.com/video?z=",
-+        match: /^(www.|m.)?vk.(com|ru)$/,
-+        selector: 'div[data-testid="clipcontainer-video"]',
      },
      {
++        additionalData: "clips",
          host: VideoService.vk,
          url: "https://vk.com/video?z=",
          match: /^(www.|m.)?vk.(com|ru)$/,
++        selector: 'div[data-testid="clipcontainer-video"]',
++    },
++    {
++        host: VideoService.vk,
++        url: "https://vk.com/video?z=",
++        match: /^(www.|m.)?vk.(com|ru)$/,
 +        selector: ".videoplayer_media",
      },
      {
@@ -75,7 +75,7 @@ index 64e1530..0f0c9ac 100644
      },
      {
          host: VideoService.twitch,
-@@ -40,210 +77,294 @@ export default [
+@@ -40,22 +77,26 @@ export default [
              /^clips.twitch.tv$/,
              /^player.twitch.tv$/,
          ],
@@ -97,12 +97,15 @@ index 64e1530..0f0c9ac 100644
          host: VideoService.vimeo,
          url: "https://vimeo.com/",
          match: /^vimeo.com$/,
+         needExtraData: true,
 +        selector: ".player",
      },
      {
          host: VideoService.vimeo,
-         url: "https://player.vimeo.com/",
+@@ -63,190 +104,270 @@ export default [
          match: /^player.vimeo.com$/,
+         additionalData: "embed",
+         needExtraData: true,
 +        selector: ".player",
      },
      {
@@ -159,18 +162,18 @@ index 64e1530..0f0c9ac 100644
 +            url.host.includes("facebook.com") && url.pathname.includes("/reel/"),
 +        selector: 'div[role="main"]',
 +        needBypassCSP: true,
-     },
-     {
-         host: VideoService.rutube,
-         url: "https://rutube.ru/video/",
-         match: /^rutube.ru$/,
-+        selector: ".video-player > div > div > div:nth-child(2)",
 +    },
 +    {
-+        additionalData: "embed",
 +        host: VideoService.rutube,
 +        url: "https://rutube.ru/video/",
 +        match: /^rutube.ru$/,
++        selector: ".video-player > div > div > div:nth-child(2)",
+     },
+     {
++        additionalData: "embed",
+         host: VideoService.rutube,
+         url: "https://rutube.ru/video/",
+         match: /^rutube.ru$/,
 +        selector: "#app > div > div",
      },
      {
@@ -369,7 +372,7 @@ index 64e1530..0f0c9ac 100644
      {
          host: VideoService.linkedin,
          url: "https://www.linkedin.com/learning/",
-         match: /^(www)?.linkedin.com$/,
+         match: /^(www.)?linkedin.com$/,
 +        selector: ".vjs-v7",
          needExtraData: true,
 +        needBypassCSP: true,
