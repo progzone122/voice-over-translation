@@ -2,7 +2,7 @@ import js from "@eslint/js";
 import globals from "globals";
 import oxlint from "eslint-plugin-oxlint";
 import sonarjs from "eslint-plugin-sonarjs";
-import github from "eslint-plugin-github";
+// import github from "eslint-plugin-github";
 
 export default [
   {
@@ -11,9 +11,9 @@ export default [
   js.configs.recommended,
   sonarjs.configs.recommended,
   {
-    plugins: {
-      github: github,
-    },
+    // plugins: {
+    //   github: github,
+    // },
     rules: {
       "no-control-regex": 0,
       "no-async-promise-executor": 0,
@@ -27,12 +27,12 @@ export default [
       "sonarjs/slow-regex": 0,
       // sonarjs/sonar-no-fallthrough crashed in 2.0.1
       "sonarjs/sonar-no-fallthrough": 0,
-      "github/no-innerText": "error",
-      "github/no-inner-html": "error",
-      "github/no-useless-passive": "error",
-      "github/prefer-observers": "error",
-      "github/require-passive-events": "error",
-      // "github/unescaped-html-literal": "error",
+      // return after update github eslint plugin to full support eslint 9
+      // "github/no-innerText": "error",
+      // "github/no-inner-html": "error",
+      // "github/no-useless-passive": "error",
+      // "github/prefer-observers": "error",
+      // "github/require-passive-events": "error",
     },
     languageOptions: {
       ecmaVersion: "latest",

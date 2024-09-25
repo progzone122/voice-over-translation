@@ -1,18 +1,20 @@
 diff --git a/node_modules/vot.js/dist/utils/videoData.d.ts b/node_modules/vot.js/dist/utils/videoData.d.ts
-index 1627ef4..a0a4de3 100644
+index f69bc0a..158777c 100644
 --- a/node_modules/vot.js/dist/utils/videoData.d.ts
 +++ b/node_modules/vot.js/dist/utils/videoData.d.ts
 @@ -1,6 +1,6 @@
  import { ServiceConf } from "../types/yandex.js";
- import { VideoData } from "../types/client.js";
- export declare function getService(videoUrl: string): false | ServiceConf | undefined;
--export declare function getVideoID(service: ServiceConf, videoURL: string): Promise<string | null | undefined>;
-+export declare function getVideoID(service: ServiceConf, video: HTMLVideoElement): Promise<string | null | undefined>;
- export declare function getVideoData(url: string): Promise<VideoData>;
+ import { GetVideoDataOpts, VideoData } from "../types/client.js";
+-export declare function getService(videoUrl: string): false | ServiceConf | undefined;
+-export declare function getVideoID(service: ServiceConf, videoURL: string, opts?: GetVideoDataOpts): Promise<string | null | undefined>;
+-export declare function getVideoData(url: string, opts?: GetVideoDataOpts): Promise<VideoData>;
++export declare function getService(): false | ServiceConf | undefined;
++export declare function getVideoID(service: ServiceConf, video: HTMLVideoElement, opts?: GetVideoDataOpts): Promise<string | null | undefined>;
++export declare function getVideoData(service: ServiceConf, video: HTMLVideoElement, opts?: GetVideoDataOpts): Promise<VideoData>;
  //# sourceMappingURL=videoData.d.ts.map
 \ No newline at end of file
 diff --git a/node_modules/vot.js/dist/utils/videoData.js b/node_modules/vot.js/dist/utils/videoData.js
-index a2f68a2..319e1c8 100644
+index df560cd..42b0ee3 100644
 --- a/node_modules/vot.js/dist/utils/videoData.js
 +++ b/node_modules/vot.js/dist/utils/videoData.js
 @@ -8,18 +8,11 @@ class VideoDataError extends Error {
@@ -50,14 +52,14 @@ index a2f68a2..319e1c8 100644
              e.url);
      });
  }
--export async function getVideoID(service, videoURL) {
+-export async function getVideoID(service, videoURL, opts = {}) {
 -    const url = new URL(videoURL);
-+export async function getVideoID(service, video) {
++export async function getVideoID(service, video, opts = {}) {
 +    const url = new URL(window.location.href);
      const serviceHost = service.host;
-     if (Object.getOwnPropertyDescriptor(VideoHelper, serviceHost)) {
-         return await VideoHelper[serviceHost].getVideoId(url);
-@@ -71,6 +64,10 @@ export async function getVideoID(service, videoURL) {
+     if (Object.keys(availableHelpers).includes(serviceHost)) {
+         const helper = new VideoHelper(opts).getHelper(serviceHost);
+@@ -72,6 +65,10 @@ export async function getVideoID(service, videoURL, opts = {}) {
              else if (paramOID && paramID) {
                  return `video-${Math.abs(parseInt(paramOID))}_${paramID}`;
              }
@@ -68,7 +70,7 @@ index a2f68a2..319e1c8 100644
              return null;
          }
          case VideoService.nine_gag:
-@@ -115,9 +112,16 @@ export async function getVideoID(service, videoURL) {
+@@ -110,9 +107,16 @@ export async function getVideoID(service, videoURL, opts = {}) {
          case VideoService.peertube:
              return /\/w\/([^/]+)/.exec(url.pathname)?.[0];
          case VideoService.dailymotion: {
@@ -88,7 +90,7 @@ index a2f68a2..319e1c8 100644
          }
          case VideoService.trovo: {
              const vid = url.searchParams.get("vid");
-@@ -136,7 +140,7 @@ export async function getVideoID(service, videoURL) {
+@@ -131,7 +135,7 @@ export async function getVideoID(service, videoURL, opts = {}) {
              return /\/video\/(\d+)/.exec(url.pathname)?.[1];
          }
          case VideoService.googledrive:
@@ -97,18 +99,18 @@ index a2f68a2..319e1c8 100644
          case VideoService.newgrounds:
              return /([^/]+)\/(view)\/([^/]+)/.exec(url.pathname)?.[0];
          case VideoService.egghead:
-@@ -149,17 +153,13 @@ export async function getVideoID(service, videoURL) {
+@@ -146,17 +150,13 @@ export async function getVideoID(service, videoURL, opts = {}) {
              return undefined;
      }
  }
--export async function getVideoData(url) {
+-export async function getVideoData(url, opts = {}) {
 -    const service = getService(url);
 -    if (!service) {
 -        throw new VideoDataError(`URL: "${url}" is unknown service`);
 -    }
--    const videoId = await getVideoID(service, url);
-+export async function getVideoData(service, video) {
-+    const videoId = await getVideoID(service, video);
+-    const videoId = await getVideoID(service, url, opts);
++export async function getVideoData(service, video, opts = {}) {
++    const videoId = await getVideoID(service, video, opts);
      if (!videoId) {
 -        throw new VideoDataError(`Entered unsupported link: "${url}"`);
 +        throw new VideoDataError(`Entered unsupported link: "${service.host}"`);

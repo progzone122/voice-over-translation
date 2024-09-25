@@ -125,7 +125,7 @@ It's necessary to translate additional sites that use the `.m3u8` or `.mpd` vide
 2. Install dependencies:
 
 ```bash
-npm install --legacy-peer-deps
+npm install
 ```
 
 Bun:

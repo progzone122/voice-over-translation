@@ -155,6 +155,7 @@
 // @connect        timeweb.cloud
 // @connect        raw.githubusercontent.com
 // @connect        9animetv.to
+// @connect        vimeo.com
 // @connect        toil.cc
 // @connect        deno.dev
 // @connect        onrender.com
@@ -175,7 +176,7 @@
 /***/ "./src/styles/main.scss":
 /***/ (() => {
 
-GM_addStyle(".vot-button{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));--vot-helper-ontheme:var(--vot-ontheme-rgb,var(--vot-onprimary-rgb,255,255,255));box-sizing:border-box;vertical-align:middle;text-align:center;text-overflow:ellipsis;color:rgb(var(--vot-helper-ontheme));background-color:rgb(var(--vot-helper-theme));font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;border:none;border-radius:4px;outline:none;min-width:64px;height:36px;padding:0 16px;font-size:14px;font-weight:500;line-height:36px;transition:box-shadow .2s;display:inline-block;position:relative;box-shadow:0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px rgba(0,0,0,.14),0 1px 5px rgba(0,0,0,.12)}.vot-button[hidden]{display:none!important}.vot-button::-moz-focus-inner{border:none}.vot-button:before,.vot-button:after{content:\"\";border-radius:inherit;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0}.vot-button:before{background-color:rgb(var(--vot-helper-ontheme));transition:opacity .2s}.vot-button:after{background:radial-gradient(circle,currentColor 1%,transparent 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-button:hover{box-shadow:0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px rgba(0,0,0,.14),0 1px 10px rgba(0,0,0,.12)}.vot-button:hover:before{opacity:.08}.vot-button:active{box-shadow:0 5px 5px -3px rgba(0,0,0,.2),0 8px 10px 1px rgba(0,0,0,.14),0 3px 14px 2px rgba(0,0,0,.12)}.vot-button:active:after{opacity:.32;background-size:100% 100%;transition:background-size}.vot-button[disabled=true]{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.12);color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);box-shadow:none;cursor:initial}.vot-button[disabled=true]:before{opacity:0}.vot-button[disabled=true]:after{opacity:0}.vot-outlined-button{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));box-sizing:border-box;border:1px solid;border-color:rgba(var(--vot-onsurface-rgb,0,0,0),.24);vertical-align:middle;text-align:center;text-overflow:ellipsis;color:rgb(var(--vot-helper-theme));font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;background-color:transparent;border-radius:4px;outline:none;min-width:64px;height:36px;margin:0;padding:0 16px;font-size:14px;font-weight:500;line-height:34px;display:inline-block;position:relative}.vot-outlined-button[hidden]{display:none!important}.vot-outlined-button::-moz-focus-inner{border:none}.vot-outlined-button:before,.vot-outlined-button:after{content:\"\";opacity:0;border-radius:3px;position:absolute;top:0;bottom:0;left:0;right:0}.vot-outlined-button:before{background-color:rgb(var(--vot-helper-theme));transition:opacity .2s}.vot-outlined-button:after{background:radial-gradient(circle,currentColor 1%,transparent 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-outlined-button:hover:before{opacity:.04}.vot-outlined-button:active:after{opacity:.16;background-size:100% 100%;transition:background-size}.vot-outlined-button[disabled=true]{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial;background-color:transparent}.vot-outlined-button[disabled=true]:before{opacity:0}.vot-outlined-button[disabled=true]:after{opacity:0}.vot-text-button{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));box-sizing:border-box;vertical-align:middle;text-align:center;text-overflow:ellipsis;color:rgb(var(--vot-helper-theme));font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;background-color:transparent;border:none;border-radius:4px;outline:none;min-width:64px;height:36px;margin:0;padding:0 8px;font-size:14px;font-weight:500;line-height:36px;display:inline-block;position:relative}.vot-text-button[hidden]{display:none!important}.vot-text-button::-moz-focus-inner{border:none}.vot-text-button:before,.vot-text-button:after{content:\"\";border-radius:inherit;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0}.vot-text-button:before{background-color:rgb(var(--vot-helper-theme));transition:opacity .2s}.vot-text-button:after{background:radial-gradient(circle,currentColor 1%,transparent 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-text-button:hover:before{opacity:.04}.vot-text-button:active:after{opacity:.16;background-size:100% 100%;transition:background-size}.vot-text-button[disabled=true]{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial;background-color:transparent}.vot-text-button[disabled=true]:before{opacity:0}.vot-text-button[disabled=true]:after{opacity:0}.vot-icon-button{--vot-helper-onsurface:rgba(var(--vot-onsurface-rgb,0,0,0),.87);box-sizing:border-box;vertical-align:middle;text-align:center;text-overflow:ellipsis;fill:var(--vot-helper-onsurface);color:var(--vot-helper-onsurface);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;background-color:transparent;border:none;border-radius:50%;outline:none;width:36px;height:36px;margin:0;padding:0;font-size:14px;font-weight:500;line-height:36px;display:inline-block;position:relative}.vot-icon-button[hidden]{display:none!important}.vot-icon-button::-moz-focus-inner{border:none}.vot-icon-button:before,.vot-icon-button:after{content:\"\";border-radius:inherit;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0}.vot-icon-button:before{background-color:var(--vot-helper-onsurface);transition:opacity .2s}.vot-icon-button:after{background:radial-gradient(circle,currentColor 1%,transparent 1%) 50%/10000% 10000% no-repeat;transition:opacity .3s,background-size .4s}.vot-icon-button:hover:before{opacity:.04}.vot-icon-button:active:after{opacity:.32;background-size:100% 100%;transition:background-size,opacity}.vot-icon-button[disabled=true]{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);fill:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial;background-color:transparent}.vot-icon-button[disabled=true]:before{opacity:0}.vot-icon-button[disabled=true]:after{opacity:0}.vot-textfield{display:inline-block;--vot-helper-theme:rgb(var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243)))!important;--vot-helper-safari1:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important;--vot-helper-safari2:rgba(var(--vot-onsurface-rgb,0,0,0),.6)!important;--vot-helper-safari3:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important;font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system)!important;text-align:start!important;padding-top:6px!important;font-size:16px!important;line-height:1.5!important;position:relative!important}.vot-textfield[hidden]{display:none!important}.vot-textfield>input,.vot-textfield>textarea{box-sizing:border-box!important;border-style:solid!important;border-width:1px!important;border-color:transparent var(--vot-helper-safari2)var(--vot-helper-safari2)!important;height:inherit!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important;-webkit-text-fill-color:currentColor!important;font-family:inherit!important;font-size:inherit!important;line-height:inherit!important;caret-color:var(--vot-helper-theme)!important;background-color:transparent!important;border-radius:4px!important;width:100%!important;margin:0!important;padding:15px 13px!important;transition:border .2s,box-shadow .2s!important;box-shadow:inset 1px 0 transparent,inset -1px 0 transparent,inset 0 -1px transparent!important}.vot-textfield>input:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:transparent!important}.vot-textfield>textarea:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:transparent!important}.vot-textfield>input:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:transparent!important}.vot-textfield>textarea:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:transparent!important}.vot-textfield>input:not(:focus):not(.vot-show-placeholer)::-webkit-input-placeholder{color:transparent!important}.vot-textfield>textarea:not(:focus):not(.vot-show-placeholer)::-webkit-input-placeholder{color:transparent!important}.vot-textfield>input:not(:focus):placeholder-shown{border-top-color:var(--vot-helper-safari2)!important}.vot-textfield>textarea:not(:focus):placeholder-shown{border-top-color:var(--vot-helper-safari2)!important}.vot-textfield>input+span,.vot-textfield>textarea+span{color:rgba(var(--vot-onsurface-rgb,0,0,0),.6)!important;cursor:text!important;pointer-events:none!important;width:100%!important;max-height:100%!important;font-size:75%!important;line-height:15px!important;transition:color .2s,font-size .2s,line-height .2s!important;display:flex!important;position:absolute!important;top:0!important;left:0!important}.vot-textfield>input:not(:focus):placeholder-shown+span{font-size:inherit!important;line-height:68px!important}.vot-textfield>textarea:not(:focus):placeholder-shown+span{font-size:inherit!important;line-height:68px!important}.vot-textfield>input+span:before,.vot-textfield>input+span:after,.vot-textfield>textarea+span:before,.vot-textfield>textarea+span:after{content:\"\"!important;box-sizing:border-box!important;border-top:solid 1px var(--vot-helper-safari2)!important;pointer-events:none!important;min-width:10px!important;height:8px!important;margin-top:6px!important;transition:border .2s,box-shadow .2s!important;display:block!important;box-shadow:inset 0 1px transparent!important}.vot-textfield>input+span:before,.vot-textfield>textarea+span:before{border-left:1px solid transparent!important;border-radius:4px 0!important;margin-right:4px!important}.vot-textfield>input+span:after,.vot-textfield>textarea+span:after{border-right:1px solid transparent!important;border-radius:0 4px!important;flex-grow:1!important;margin-left:4px!important}.vot-textfield>input.vot-show-placeholer+span:before,.vot-textfield>textarea.vot-show-placeholer+span:before{margin-right:0!important}.vot-textfield>input.vot-show-placeholer+span:after,.vot-textfield>textarea.vot-show-placeholer+span:after{margin-left:0!important}.vot-textfield>input:not(:focus):placeholder-shown+span:before{border-top-color:transparent!important}.vot-textfield>input:not(:focus):placeholder-shown+span:after{border-top-color:transparent!important}.vot-textfield>textarea:not(:focus):placeholder-shown+span:before{border-top-color:transparent!important}.vot-textfield>textarea:not(:focus):placeholder-shown+span:after{border-top-color:transparent!important}.vot-textfield:hover>input:not(:disabled),.vot-textfield:hover>textarea:not(:disabled){border-color:transparent var(--vot-helper-safari3)var(--vot-helper-safari3)!important}.vot-textfield:hover>input:not(:disabled)+span:before,.vot-textfield:hover>input:not(:disabled)+span:after,.vot-textfield:hover>textarea:not(:disabled)+span:before,.vot-textfield:hover>textarea:not(:disabled)+span:after{border-top-color:var(--vot-helper-safari3)!important}.vot-textfield:hover>input:not(:disabled):not(:focus):placeholder-shown{border-color:var(--vot-helper-safari3)!important}.vot-textfield:hover>textarea:not(:disabled):not(:focus):placeholder-shown{border-color:var(--vot-helper-safari3)!important}.vot-textfield>input:focus,.vot-textfield>textarea:focus{border-color:transparent var(--vot-helper-theme)var(--vot-helper-theme)!important;box-shadow:inset 1px 0 var(--vot-helper-theme),inset -1px 0 var(--vot-helper-theme),inset 0 -1px var(--vot-helper-theme)!important;outline:none!important}.vot-textfield>input:focus+span,.vot-textfield>textarea:focus+span{color:var(--vot-helper-theme)!important}.vot-textfield>input:focus+span:before,.vot-textfield>input:focus+span:after,.vot-textfield>textarea:focus+span:before,.vot-textfield>textarea:focus+span:after{border-top-color:var(--vot-helper-theme)!important;box-shadow:inset 0 1px var(--vot-helper-theme)!important}.vot-textfield>input:disabled,.vot-textfield>input:disabled+span,.vot-textfield>textarea:disabled,.vot-textfield>textarea:disabled+span{border-color:transparent var(--vot-helper-safari1)var(--vot-helper-safari1)!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important;pointer-events:none!important}.vot-textfield>input:disabled+span:before,.vot-textfield>input:disabled+span:after,.vot-textfield>textarea:disabled+span:before,.vot-textfield>textarea:disabled+span:after{border-top-color:var(--vot-helper-safari1)!important}.vot-textfield>input:disabled:placeholder-shown{border-top-color:var(--vot-helper-safari1)!important}.vot-textfield>input:disabled:placeholder-shown+span{border-top-color:var(--vot-helper-safari1)!important}.vot-textfield>textarea:disabled:placeholder-shown{border-top-color:var(--vot-helper-safari1)!important}.vot-textfield>textarea:disabled:placeholder-shown+span{border-top-color:var(--vot-helper-safari1)!important}.vot-textfield>input:disabled:placeholder-shown+span:before{border-top-color:transparent!important}.vot-textfield>input:disabled:placeholder-shown+span:after{border-top-color:transparent!important}.vot-textfield>textarea:disabled:placeholder-shown+span:before{border-top-color:transparent!important}.vot-textfield>textarea:disabled:placeholder-shown+span:after{border-top-color:transparent!important}@media not all and (-webkit-min-device-pixel-ratio:.0000264583),not all and (min-resolution:.001dpcm){@supports ((-webkit-appearance:none)){.vot-textfield>input,.vot-textfield>input+span,.vot-textfield>textarea,.vot-textfield>textarea+span,.vot-textfield>input+span:before,.vot-textfield>input+span:after,.vot-textfield>textarea+span:before,.vot-textfield>textarea+span:after{transition-duration:.1s!important}}}.vot-checkbox{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));--vot-helper-ontheme:var(--vot-ontheme-rgb,var(--vot-onprimary-rgb,255,255,255));z-index:0;color:rgba(var(--vot-onsurface-rgb,0,0,0),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;font-size:16px;line-height:1.5;display:inline-block;position:relative}.vot-checkbox[hidden]{display:none!important}.vot-checkbox>input{-webkit-appearance:none;appearance:none;z-index:10000;box-sizing:border-box;border:2px solid;border-color:rgba(var(--vot-onsurface-rgb,0,0,0),.6);cursor:pointer;background:0 0;border-radius:2px;outline:none;width:18px;height:18px;margin:3px 1px;transition:border-color .2s,background-color .2s;display:block;position:absolute}.vot-checkbox>input+span{box-sizing:border-box;width:inherit;cursor:pointer;padding-left:30px;font-weight:400;display:inline-block}.vot-checkbox>input+span:before{content:\"\";background-color:rgb(var(--vot-onsurface-rgb,0,0,0));opacity:0;pointer-events:none;border-radius:50%;width:40px;height:40px;transition:opacity .3s,transform .2s;display:block;position:absolute;top:-8px;left:-10px;transform:scale(1)}.vot-checkbox>input+span:after{content:\"\";z-index:10000;pointer-events:none;border:0 solid transparent;border-width:0 0 2px 2px;width:10px;height:5px;transition:border-color .2s;display:block;position:absolute;top:3px;left:1px;transform:translate(3px,4px)rotate(-45deg);box-sizing:content-box!important}.vot-checkbox>input:checked{border-color:rgb(var(--vot-helper-theme));background-color:rgb(var(--vot-helper-theme))}.vot-checkbox>input:indeterminate{border-color:rgb(var(--vot-helper-theme));background-color:rgb(var(--vot-helper-theme))}.vot-checkbox>input:checked+span:before{background-color:rgb(var(--vot-helper-theme))}.vot-checkbox>input:indeterminate+span:before{background-color:rgb(var(--vot-helper-theme))}.vot-checkbox>input:checked+span:after{border-color:rgb(var(--vot-helper-ontheme,255,255,255))}.vot-checkbox>input:indeterminate+span:after{border-color:rgb(var(--vot-helper-ontheme,255,255,255))}.vot-checkbox>input:indeterminate+span:after{border-left-width:0;transform:translate(4px,3px)}.vot-checkbox:hover>input+span:before{opacity:.04}.vot-checkbox:active>input,.vot-checkbox:active:hover>input:not(:disabled){border-color:rgb(var(--vot-helper-theme))}.vot-checkbox:active>input:checked{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.6);border-color:transparent}.vot-checkbox:active>input+span:before{opacity:1;transition:transform,opacity;transform:scale(0)}.vot-checkbox>input:disabled{border-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial}.vot-checkbox>input:disabled:checked{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);border-color:transparent}.vot-checkbox>input:disabled:indeterminate{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);border-color:transparent}.vot-checkbox>input:disabled+span{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial}.vot-checkbox>input:disabled+span:before{opacity:0;transform:scale(0)}.vot-slider{display:inline-block;--vot-safari-helper1:rgba(var(--vot-primary-rgb,33,150,243),.04)!important;--vot-safari-helper2:rgba(var(--vot-primary-rgb,33,150,243),.12)!important;--vot-safari-helper3:rgba(var(--vot-primary-rgb,33,150,243),.16)!important;--vot-safari-helper4:rgba(var(--vot-primary-rgb,33,150,243),.24)!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important;font-family:var(--vot-font,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system)!important;text-align:start!important;width:100%!important;font-size:16px!important;line-height:1.5!important}.vot-slider[hidden]{display:none!important}.vot-slider>input{-webkit-appearance:none!important;appearance:none!important;cursor:pointer!important;background-color:transparent!important;width:100%!important;height:36px!important;margin:0 0 -36px!important;display:block!important;position:relative!important;top:24px!important}.vot-slider>input:last-child{margin:0!important;position:static!important}.vot-slider>input:before{content:\"\"!important;width:calc(100%*var(--vot-progress,0))!important;background:rgb(var(--vot-primary-rgb,33,150,243))!important;height:2px!important;display:block!important;position:absolute!important;top:calc(50% - 1px)!important}.vot-slider>input:disabled{cursor:default!important;opacity:.38!important}.vot-slider>input:disabled+span{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-webkit-slider-runnable-track{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-moz-range-track{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-ms-fill-lower{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-ms-fill-upper{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-moz-range-thumb{background-color:rgb(var(--vot-onsurface-rgb,0,0,0))!important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb,255,255,255))!important;transform:scale(4)!important}.vot-slider>input:disabled::-ms-thumb{background-color:rgb(var(--vot-onsurface-rgb,0,0,0))!important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb,255,255,255))!important;transform:scale(4)!important}.vot-slider>input:disabled::-webkit-slider-thumb{background-color:rgb(var(--vot-onsurface-rgb,0,0,0))!important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb,255,255,255))!important;transform:scale(4)!important}.vot-slider>input:disabled::-ms-fill-upper{opacity:.38!important}.vot-slider>input:disabled::-moz-range-progress{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important}.vot-slider>input:disabled:-webkit-slider-thumb{color:rgb(var(--vot-surface-rgb,255,255,255))!important}.vot-slider>input:active::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--vot-safari-helper4)!important}.vot-slider>input:active::-moz-range-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.24)!important}.vot-slider>input:active::-ms-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.24)!important}.vot-slider>input:focus{outline:none!important}.vot-slider>input::-webkit-slider-runnable-track{background-color:rgba(var(--vot-primary-rgb,33,150,243),.24)!important;border-radius:1px!important;width:100%!important;height:2px!important;margin:17px 0!important}.vot-slider>input::-moz-range-track{background-color:rgba(var(--vot-primary-rgb,33,150,243),.24)!important;border-radius:1px!important;width:100%!important;height:2px!important;margin:17px 0!important}.vot-slider>input::-ms-track{box-sizing:border-box!important;background-color:transparent!important;border:none!important;border-radius:1px!important;width:100%!important;height:2px!important;margin:17px 0!important;padding:0 17px!important}.vot-slider>input::-webkit-slider-thumb{-webkit-appearance:none!important;appearance:none!important;background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border:none!important;border-radius:50%!important;width:2px!important;height:2px!important;transition:box-shadow .2s!important;transform:scale(6)!important}.vot-slider>input::-moz-range-thumb{-webkit-appearance:none!important;appearance:none!important;background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border:none!important;border-radius:50%!important;width:2px!important;height:2px!important;transition:box-shadow .2s!important;transform:scale(6)!important}.vot-slider>input::-ms-thumb{-webkit-appearance:none!important;appearance:none!important;background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border:none!important;border-radius:50%!important;width:2px!important;height:2px!important;transition:box-shadow .2s!important;transform:scale(6)!important}.vot-slider>input::-webkit-slider-thumb{-webkit-appearance:none!important;margin:0!important}.vot-slider>input::-moz-range-thumb{-moz-appearance:none!important}.vot-slider>input::-ms-thumb{margin:0 17px!important}.vot-slider>input::-moz-range-progress{background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border-radius:1px!important;height:2px!important}.vot-slider>input::-ms-fill-lower{background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border-radius:1px!important;height:2px!important}.vot-slider>input::-ms-fill-upper{background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border-radius:1px!important;height:2px!important}.vot-slider>input::-moz-focus-outer{border:none!important}.vot-slider>span{margin-bottom:36px!important;display:inline-block!important}.vot-slider:hover>input::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--vot-safari-helper1)!important}.vot-slider:hover>input::-ms-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.04)!important}.vot-slider:hover>input:hover::-moz-range-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.04)!important}.vot-select{font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;color:var(--vot-helper-theme);fill:var(--vot-helper-theme);justify-content:space-between;align-items:center;font-size:14px;font-weight:400;line-height:1.5;display:flex;--vot-helper-theme-rgb:var(--vot-onsurface-rgb,0,0,0)!important;--vot-helper-theme:rgba(var(--vot-helper-theme-rgb),.87)!important;--vot-helper-safari1:rgba(var(--vot-onsurface-rgb,0,0,0),.6)!important;--vot-helper-safari2:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important}.vot-select[hidden]{display:none!important}.vot-select-label{font-size:16px}.vot-select-outer{cursor:pointer;justify-content:space-between;align-items:center;width:120px;max-width:120px;padding:0 5px;display:flex;border-style:solid!important;border-width:1px!important;border-color:var(--vot-helper-safari1)!important;border-radius:4px!important;transition:border .2s!important}.vot-select-outer:hover{border-color:var(--vot-helper-safari2)!important}.vot-select-title{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.vot-select-arrow-icon{justify-content:center;align-items:center;width:20px;height:32px;display:flex}.vot-select-content-list{flex-direction:column;display:flex}.vot-select-content-list .vot-select-content-item{cursor:pointer;border-radius:8px;padding:5px 10px}.vot-select-content-list .vot-select-content-item:not([inert]):hover{background-color:#2a2c31}.vot-select-content-list .vot-select-content-item[data-vot-selected=true]{color:rgb(var(--vot-primary-rgb,33,150,243));background-color:rgba(var(--vot-primary-rgb,33,150,243),.2)}.vot-select-content-list .vot-select-content-item[data-vot-selected=true]:hover{background-color:rgba(var(--vot-primary-rgb,33,150,243),.1)!important}.vot-select-content-list .vot-select-content-item[data-vot-disabled=true]{cursor:default}.vot-select-content-list .vot-select-content-item[hidden]{display:none!important}.vot-header{color:rgba(var(--vot-helper-onsurface-rgb),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;font-weight:700;line-height:1.5}.vot-header[hidden]{display:none!important}.vot-header:not(:first-child){padding-top:8px}.vot-header-level-1{font-size:2em}.vot-header-level-2{font-size:1.5em}.vot-header-level-3{font-size:1.17em}.vot-header-level-4{font-size:1em}.vot-header-level-5{font-size:.83em}.vot-header-level-6{font-size:.67em}.vot-info{color:rgba(var(--vot-helper-onsurface-rgb),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;-webkit-user-select:text;user-select:text;font-size:16px;line-height:1.5;display:flex}.vot-info[hidden]{display:none!important}.vot-info>:not(:first-child){color:rgba(var(--vot-helper-onsurface-rgb),.5);flex:1;margin-left:8px}.vot-details{color:rgba(var(--vot-helper-onsurface-rgb),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;cursor:pointer;border-radius:.5em;justify-content:space-between;align-items:center;margin:0 -.5em;padding:.5em;font-size:16px;line-height:1.5;transition:background .5s;display:flex}.vot-details[hidden]{display:none!important}.vot-details-arrow-icon{fill:rgba(var(--vot-helper-onsurface-rgb),.87);justify-content:center;align-items:center;width:20px;height:32px;display:flex;transform:scale(1.25)rotate(-90deg)}.vot-details:hover{background:rgba(var(--vot-onsurface-rgb,0,0,0),.04)}.vot-lang-select{--vot-helper-theme-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-theme:rgba(var(--vot-helper-theme-rgb),.87);color:var(--vot-helper-theme);fill:var(--vot-helper-theme);justify-content:space-between;align-items:center;display:flex}.vot-lang-select[hidden]{display:none!important}.vot-lang-select-icon{justify-content:center;align-items:center;width:32px;height:32px;display:flex}.vot-segmented-button{--vot-helper-theme-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-theme:rgba(var(--vot-helper-theme-rgb),.87);-webkit-user-select:none;user-select:none;background:rgb(var(--vot-surface-rgb,255,255,255));color:var(--vot-helper-theme);fill:var(--vot-helper-theme);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:default;z-index:2147483647;border-radius:4px;align-items:center;max-width:100vw;height:32px;font-size:16px;line-height:1.5;transition:opacity .5s;display:flex;position:absolute;top:5rem;left:50%;overflow:hidden;transform:translate(-50%)}.vot-segmented-button[hidden]{display:none!important}.vot-segmented-button *{box-sizing:border-box!important}.vot-segmented-button .vot-separator{background:rgba(var(--vot-helper-theme-rgb),.1);width:1px;height:50%}.vot-segmented-button .vot-separator[hidden]{display:none!important}.vot-segmented-button .vot-segment,.vot-segmented-button .vot-segment-only-icon{color:inherit;background-color:transparent;border:none;justify-content:center;align-items:center;height:100%;padding:0 8px;transition:background-color .1s ease-in-out;display:flex;position:relative;overflow:hidden}.vot-segmented-button .vot-segment[hidden],.vot-segmented-button [hidden].vot-segment-only-icon{display:none!important}.vot-segmented-button .vot-segment:before,.vot-segmented-button .vot-segment-only-icon:before,.vot-segmented-button .vot-segment:after,.vot-segmented-button .vot-segment-only-icon:after{content:\"\";border-radius:inherit;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0}.vot-segmented-button .vot-segment:before,.vot-segmented-button .vot-segment-only-icon:before{background-color:rgb(var(--vot-helper-theme-rgb));transition:opacity .2s}.vot-segmented-button .vot-segment:after,.vot-segmented-button .vot-segment-only-icon:after{background:radial-gradient(circle,currentColor 1%,transparent 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-segmented-button .vot-segment:hover:before,.vot-segmented-button .vot-segment-only-icon:hover:before{opacity:.04}.vot-segmented-button .vot-segment:active:after,.vot-segmented-button .vot-segment-only-icon:active:after{opacity:.16;background-size:100% 100%;transition:background-size}.vot-segmented-button .vot-segment-only-icon{min-width:32px;padding:0}.vot-segmented-button .vot-segment-label{white-space:nowrap;color:inherit;margin-left:8px;font-weight:400}.vot-segmented-button[data-status=success] .vot-translate-button{color:rgb(var(--vot-primary-rgb,33,150,243));fill:rgb(var(--vot-primary-rgb,33,150,243))}.vot-segmented-button[data-status=error] .vot-translate-button{color:#f28b82;fill:#f28b82}.vot-segmented-button[data-loading=true] #vot-loading-icon{display:block!important}.vot-segmented-button[data-loading=true] #vot-translate-icon{display:none!important}.vot-segmented-button[data-direction=column]{flex-direction:column;height:fit-content}.vot-segmented-button[data-direction=column] .vot-segment-label{display:none}.vot-segmented-button[data-direction=column]>.vot-segment-only-icon,.vot-segmented-button[data-direction=column]>.vot-segment{padding:8px}.vot-segmented-button[data-direction=column] .vot-separator{width:50%;height:1px}.vot-segmented-button[data-position=left]{top:12.5vh;left:50px}.vot-segmented-button[data-position=right]{top:12.5vh;left:auto;right:0}.vot-segmented-button svg{width:24px}.vot-menu{--vot-helper-surface-rgb:var(--vot-surface-rgb,255,255,255);--vot-helper-surface:rgb(var(--vot-helper-surface-rgb));--vot-helper-onsurface-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-onsurface:rgba(var(--vot-helper-onsurface-rgb),.87);-webkit-user-select:none;user-select:none;background-color:var(--vot-helper-surface);color:var(--vot-helper-onsurface);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:default;z-index:2147483647;visibility:visible;opacity:1;transform-origin:top;border-radius:8px;min-width:300px;font-size:16px;line-height:1.5;transition:opacity .3s,transform .1s;position:absolute;top:calc(5rem + 48px);left:50%;overflow:hidden;transform:translate(-50%)scale(1)}.vot-menu *{box-sizing:border-box!important}.vot-menu[hidden]{pointer-events:none;visibility:hidden;opacity:0;transform:translate(-50%)scale(0);display:block!important}.vot-menu-content-wrapper{max-height:calc(var(--vot-container-height,75vh) - (5rem + 32px + 16px)*2);flex-direction:column;min-height:100px;display:flex;overflow:auto}.vot-menu-header-container{flex-shrink:0;align-items:flex-start;min-height:31px;display:flex}.vot-menu-header-container:empty{padding:0 0 16px}.vot-menu-header-container>.vot-icon-button{margin-inline-end:4px;margin-top:4px}.vot-menu-title-container{font-size:inherit;font-weight:inherit;text-align:start;outline:0;flex:1;margin:0;display:flex}.vot-menu-title{padding-bottom:16px;padding-inline-start:16px;padding-inline-end:16px;flex:1;padding-top:16px;font-size:16px;font-weight:400;line-height:1}.vot-menu-body-container{box-sizing:border-box;overscroll-behavior:contain;flex-direction:column;gap:8px;min-height:1.375rem;padding:0 16px;display:flex;overflow:auto;scrollbar-color:rgba(var(--vot-helper-onsurface-rgb),.1)var(--vot-helper-surface)!important}.vot-menu-body-container::-webkit-scrollbar{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-menu-body-container::-webkit-scrollbar-track{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-menu-body-container::-webkit-scrollbar-thumb{background:rgba(var(--vot-helper-onsurface-rgb),.1)!important;border:5px solid var(--vot-helper-surface)!important;-webkit-border-radius:1ex!important}.vot-menu-body-container::-webkit-scrollbar-thumb:hover{border:3px solid var(--vot-helper-surface)!important}.vot-menu-body-container::-webkit-scrollbar-corner{background:var(--vot-helper-surface)!important}.vot-menu-footer-container{padding-bottom:16px;padding-inline-start:16px;padding-inline-end:16px;flex-shrink:0;justify-content:flex-end;padding-top:16px;display:flex}.vot-menu-footer-container:empty{padding:16px 0 0}.vot-menu[data-position=left]{top:12.5vh;left:240px}.vot-menu[data-position=right]{top:12.5vh;left:auto;right:-80px}.vot-dialog{--vot-helper-surface-rgb:var(--vot-surface-rgb,255,255,255);--vot-helper-surface:rgb(var(--vot-helper-surface-rgb));--vot-helper-onsurface-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-onsurface:rgba(var(--vot-helper-onsurface-rgb),.87);max-width:initial;max-height:initial;width:min(var(--vot-dialog-width,512px),100%);top:50%;bottom:50%;background-color:var(--vot-helper-surface);color:var(--vot-helper-onsurface);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);-webkit-user-select:none;user-select:none;visibility:visible;opacity:1;transform-origin:50%;border-radius:8px;height:fit-content;margin:auto;padding:0;font-size:16px;line-height:1.5;transition:opacity .3s,transform .1s;display:block;position:fixed;top:0;bottom:0;left:0;right:0;overflow-x:auto;overflow-y:hidden;transform:scale(1);box-shadow:0 0 16px rgba(0,0,0,.12),0 16px 16px rgba(0,0,0,.24)}[hidden]>.vot-dialog{pointer-events:none;opacity:0;transition:opacity .1s,transform .2s;transform:scale(.5)}.vot-dialog-container{visibility:visible;z-index:2147483647;position:absolute}.vot-dialog-container[hidden]{pointer-events:none;visibility:hidden;display:block!important}.vot-dialog-container *{box-sizing:border-box!important}.vot-dialog-backdrop{opacity:1;background-color:rgba(0,0,0,.6);transition:opacity .3s;position:fixed;top:0;bottom:0;left:0;right:0}[hidden]>.vot-dialog-backdrop{pointer-events:none;opacity:0}.vot-dialog-content-wrapper{flex-direction:column;max-height:75vh;display:flex;overflow:auto}.vot-dialog-header-container{flex-shrink:0;align-items:flex-start;min-height:31px;display:flex}.vot-dialog-header-container:empty{padding:0 0 20px}.vot-dialog-header-container>.vot-icon-button{margin-inline-end:4px;margin-top:4px}.vot-dialog-title-container{font-size:inherit;font-weight:inherit;outline:0;flex:1;margin:0;display:flex}.vot-dialog-title{padding-bottom:16px;padding-inline-start:20px;padding-inline-end:20px;flex:1;padding-top:20px;font-size:115.385%;font-weight:700;line-height:1}.vot-dialog-body-container{box-sizing:border-box;overscroll-behavior:contain;flex-direction:column;gap:16px;min-height:1.375rem;padding:0 20px;display:flex;overflow:auto;scrollbar-color:rgba(var(--vot-helper-onsurface-rgb),.1)var(--vot-helper-surface)!important}.vot-dialog-body-container::-webkit-scrollbar{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-dialog-body-container::-webkit-scrollbar-track{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-dialog-body-container::-webkit-scrollbar-thumb{background:rgba(var(--vot-helper-onsurface-rgb),.1)!important;border:5px solid var(--vot-helper-surface)!important;-webkit-border-radius:1ex!important}.vot-dialog-body-container::-webkit-scrollbar-thumb:hover{border:3px solid var(--vot-helper-surface)!important}.vot-dialog-body-container::-webkit-scrollbar-corner{background:var(--vot-helper-surface)!important}.vot-dialog-footer-container{padding-bottom:16px;padding-inline-start:16px;padding-inline-end:16px;flex-shrink:0;justify-content:flex-end;padding-top:16px;display:flex}.vot-dialog-footer-container:empty{padding:20px 0 0}.vot-subtitles-widget{z-index:2147483647;pointer-events:none;justify-content:center;align-items:center;width:50%;min-height:20%;max-height:100%;display:flex;position:absolute;top:75%;left:25%}.vot-subtitles{--vot-subtitles-background:rgba(var(--vot-surface-rgb,46,47,52),var(--vot-subtitles-opacity,.8));background:var(--vot-subtitles-background,rgba(46,47,52,.8));color:var(--vot-subtitles-color,#e3e3e3);pointer-events:all;box-sizing:border-box;-webkit-user-select:none;user-select:none;border-radius:.5em;width:max-content;max-width:100%;max-height:100%;padding:.5em;font-size:20px;line-height:normal;position:relative}.vot-subtitles span{-webkit-user-select:text;user-select:text;font-size:inherit!important;line-height:normal!important}.vot-subtitles .passed{color:var(--vot-subtitles-passed-color,#2196f3)}:root{--vot-font-family:\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system;--vot-primary-rgb:139,180,245;--vot-onprimary-rgb:32,33,36;--vot-surface-rgb:32,33,36;--vot-onsurface-rgb:227,227,227;--vot-subtitles-color:rgb(var(--vot-onsurface-rgb,227,227,227));--vot-subtitles-passed-color:rgb(var(--vot-primary-rgb,33,150,243))}vot-block{display:block;visibility:visible!important}")
+GM_addStyle(".vot-button{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));--vot-helper-ontheme:var(--vot-ontheme-rgb,var(--vot-onprimary-rgb,255,255,255));box-sizing:border-box;vertical-align:middle;text-align:center;text-overflow:ellipsis;color:rgb(var(--vot-helper-ontheme));background-color:rgb(var(--vot-helper-theme));font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;border:none;border-radius:4px;outline:none;min-width:64px;height:36px;padding:0 16px;font-size:14px;font-weight:500;line-height:36px;transition:box-shadow .2s;display:inline-block;position:relative;box-shadow:0 3px 1px -2px #0003,0 2px 2px #00000024,0 1px 5px #0000001f}.vot-button[hidden]{display:none!important}.vot-button::-moz-focus-inner{border:none}.vot-button:before,.vot-button:after{content:\"\";border-radius:inherit;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0}.vot-button:before{background-color:rgb(var(--vot-helper-ontheme));transition:opacity .2s}.vot-button:after{background:radial-gradient(circle,currentColor 1%,#0000 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-button:hover{box-shadow:0 2px 4px -1px #0003,0 4px 5px #00000024,0 1px 10px #0000001f}.vot-button:hover:before{opacity:.08}.vot-button:active{box-shadow:0 5px 5px -3px #0003,0 8px 10px 1px #00000024,0 3px 14px 2px #0000001f}.vot-button:active:after{opacity:.32;background-size:100% 100%;transition:background-size}.vot-button[disabled=true]{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.12);color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);box-shadow:none;cursor:initial}.vot-button[disabled=true]:before,.vot-button[disabled=true]:after{opacity:0}.vot-outlined-button{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));box-sizing:border-box;border:1px solid;border-color:rgba(var(--vot-onsurface-rgb,0,0,0),.24);vertical-align:middle;text-align:center;text-overflow:ellipsis;color:rgb(var(--vot-helper-theme));font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;background-color:#0000;border-radius:4px;outline:none;min-width:64px;height:36px;margin:0;padding:0 16px;font-size:14px;font-weight:500;line-height:34px;display:inline-block;position:relative}.vot-outlined-button[hidden]{display:none!important}.vot-outlined-button::-moz-focus-inner{border:none}.vot-outlined-button:before,.vot-outlined-button:after{content:\"\";opacity:0;border-radius:3px;position:absolute;top:0;bottom:0;left:0;right:0}.vot-outlined-button:before{background-color:rgb(var(--vot-helper-theme));transition:opacity .2s}.vot-outlined-button:after{background:radial-gradient(circle,currentColor 1%,#0000 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-outlined-button:hover:before{opacity:.04}.vot-outlined-button:active:after{opacity:.16;background-size:100% 100%;transition:background-size}.vot-outlined-button[disabled=true]{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial;background-color:#0000}.vot-outlined-button[disabled=true]:before,.vot-outlined-button[disabled=true]:after{opacity:0}.vot-text-button{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));box-sizing:border-box;vertical-align:middle;text-align:center;text-overflow:ellipsis;color:rgb(var(--vot-helper-theme));font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;background-color:#0000;border:none;border-radius:4px;outline:none;min-width:64px;height:36px;margin:0;padding:0 8px;font-size:14px;font-weight:500;line-height:36px;display:inline-block;position:relative}.vot-text-button[hidden]{display:none!important}.vot-text-button::-moz-focus-inner{border:none}.vot-text-button:before,.vot-text-button:after{content:\"\";border-radius:inherit;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0}.vot-text-button:before{background-color:rgb(var(--vot-helper-theme));transition:opacity .2s}.vot-text-button:after{background:radial-gradient(circle,currentColor 1%,#0000 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-text-button:hover:before{opacity:.04}.vot-text-button:active:after{opacity:.16;background-size:100% 100%;transition:background-size}.vot-text-button[disabled=true]{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial;background-color:#0000}.vot-text-button[disabled=true]:before,.vot-text-button[disabled=true]:after{opacity:0}.vot-icon-button{--vot-helper-onsurface:rgba(var(--vot-onsurface-rgb,0,0,0),.87);box-sizing:border-box;vertical-align:middle;text-align:center;text-overflow:ellipsis;fill:var(--vot-helper-onsurface);color:var(--vot-helper-onsurface);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;background-color:#0000;border:none;border-radius:50%;outline:none;width:36px;height:36px;margin:0;padding:0;font-size:14px;font-weight:500;line-height:36px;display:inline-block;position:relative}.vot-icon-button[hidden]{display:none!important}.vot-icon-button::-moz-focus-inner{border:none}.vot-icon-button:before,.vot-icon-button:after{content:\"\";border-radius:inherit;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0}.vot-icon-button:before{background-color:var(--vot-helper-onsurface);transition:opacity .2s}.vot-icon-button:after{background:radial-gradient(circle,currentColor 1%,#0000 1%) 50%/10000% 10000% no-repeat;transition:opacity .3s,background-size .4s}.vot-icon-button:hover:before{opacity:.04}.vot-icon-button:active:after{opacity:.32;background-size:100% 100%;transition:background-size,opacity}.vot-icon-button[disabled=true]{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);fill:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial;background-color:#0000}.vot-icon-button[disabled=true]:before,.vot-icon-button[disabled=true]:after{opacity:0}.vot-textfield{display:inline-block;--vot-helper-theme:rgb(var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243)))!important;--vot-helper-safari1:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important;--vot-helper-safari2:rgba(var(--vot-onsurface-rgb,0,0,0),.6)!important;--vot-helper-safari3:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important;font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system)!important;text-align:start!important;padding-top:6px!important;font-size:16px!important;line-height:1.5!important;position:relative!important}.vot-textfield[hidden]{display:none!important}.vot-textfield>input,.vot-textfield>textarea{box-sizing:border-box!important;border-style:solid!important;border-width:1px!important;border-color:transparent var(--vot-helper-safari2)var(--vot-helper-safari2)!important;height:inherit!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important;-webkit-text-fill-color:currentColor!important;font-family:inherit!important;font-size:inherit!important;line-height:inherit!important;caret-color:var(--vot-helper-theme)!important;background-color:#0000!important;border-radius:4px!important;width:100%!important;margin:0!important;padding:15px 13px!important;transition:border .2s,box-shadow .2s!important;box-shadow:inset 1px 0 #0000,inset -1px 0 #0000,inset 0 -1px #0000!important}.vot-textfield>input:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:#0000!important}.vot-textfield>textarea:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:#0000!important}.vot-textfield>input:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:#0000!important}.vot-textfield>textarea:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:#0000!important}.vot-textfield>input:not(:focus):not(.vot-show-placeholer)::-webkit-input-placeholder{color:#0000!important}.vot-textfield>textarea:not(:focus):not(.vot-show-placeholer)::-webkit-input-placeholder{color:#0000!important}.vot-textfield>input:not(:focus):placeholder-shown,.vot-textfield>textarea:not(:focus):placeholder-shown{border-top-color:var(--vot-helper-safari2)!important}.vot-textfield>input+span,.vot-textfield>textarea+span{color:rgba(var(--vot-onsurface-rgb,0,0,0),.6)!important;cursor:text!important;pointer-events:none!important;width:100%!important;max-height:100%!important;font-size:75%!important;line-height:15px!important;transition:color .2s,font-size .2s,line-height .2s!important;display:flex!important;position:absolute!important;top:0!important;left:0!important}.vot-textfield>input:not(:focus):placeholder-shown+span,.vot-textfield>textarea:not(:focus):placeholder-shown+span{font-size:inherit!important;line-height:68px!important}.vot-textfield>input+span:before,.vot-textfield>input+span:after,.vot-textfield>textarea+span:before,.vot-textfield>textarea+span:after{content:\"\"!important;box-sizing:border-box!important;border-top:solid 1px var(--vot-helper-safari2)!important;pointer-events:none!important;min-width:10px!important;height:8px!important;margin-top:6px!important;transition:border .2s,box-shadow .2s!important;display:block!important;box-shadow:inset 0 1px #0000!important}.vot-textfield>input+span:before,.vot-textfield>textarea+span:before{border-left:1px solid #0000!important;border-radius:4px 0!important;margin-right:4px!important}.vot-textfield>input+span:after,.vot-textfield>textarea+span:after{border-right:1px solid #0000!important;border-radius:0 4px!important;flex-grow:1!important;margin-left:4px!important}.vot-textfield>input.vot-show-placeholer+span:before,.vot-textfield>textarea.vot-show-placeholer+span:before{margin-right:0!important}.vot-textfield>input.vot-show-placeholer+span:after,.vot-textfield>textarea.vot-show-placeholer+span:after{margin-left:0!important}.vot-textfield>input:not(:focus):placeholder-shown+span:before,.vot-textfield>input:not(:focus):placeholder-shown+span:after,.vot-textfield>textarea:not(:focus):placeholder-shown+span:before,.vot-textfield>textarea:not(:focus):placeholder-shown+span:after{border-top-color:#0000!important}.vot-textfield:hover>input:not(:disabled),.vot-textfield:hover>textarea:not(:disabled){border-color:transparent var(--vot-helper-safari3)var(--vot-helper-safari3)!important}.vot-textfield:hover>input:not(:disabled)+span:before,.vot-textfield:hover>input:not(:disabled)+span:after,.vot-textfield:hover>textarea:not(:disabled)+span:before,.vot-textfield:hover>textarea:not(:disabled)+span:after{border-top-color:var(--vot-helper-safari3)!important}.vot-textfield:hover>input:not(:disabled):not(:focus):placeholder-shown,.vot-textfield:hover>textarea:not(:disabled):not(:focus):placeholder-shown{border-color:var(--vot-helper-safari3)!important}.vot-textfield>input:focus,.vot-textfield>textarea:focus{border-color:transparent var(--vot-helper-theme)var(--vot-helper-theme)!important;box-shadow:inset 1px 0 var(--vot-helper-theme),inset -1px 0 var(--vot-helper-theme),inset 0 -1px var(--vot-helper-theme)!important;outline:none!important}.vot-textfield>input:focus+span,.vot-textfield>textarea:focus+span{color:var(--vot-helper-theme)!important}.vot-textfield>input:focus+span:before,.vot-textfield>input:focus+span:after,.vot-textfield>textarea:focus+span:before,.vot-textfield>textarea:focus+span:after{border-top-color:var(--vot-helper-theme)!important;box-shadow:inset 0 1px var(--vot-helper-theme)!important}.vot-textfield>input:disabled,.vot-textfield>input:disabled+span,.vot-textfield>textarea:disabled,.vot-textfield>textarea:disabled+span{border-color:transparent var(--vot-helper-safari1)var(--vot-helper-safari1)!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important;pointer-events:none!important}.vot-textfield>input:disabled+span:before,.vot-textfield>input:disabled+span:after,.vot-textfield>textarea:disabled+span:before,.vot-textfield>textarea:disabled+span:after,.vot-textfield>input:disabled:placeholder-shown,.vot-textfield>input:disabled:placeholder-shown+span,.vot-textfield>textarea:disabled:placeholder-shown,.vot-textfield>textarea:disabled:placeholder-shown+span{border-top-color:var(--vot-helper-safari1)!important}.vot-textfield>input:disabled:placeholder-shown+span:before,.vot-textfield>input:disabled:placeholder-shown+span:after,.vot-textfield>textarea:disabled:placeholder-shown+span:before,.vot-textfield>textarea:disabled:placeholder-shown+span:after{border-top-color:#0000!important}@media not all and (-webkit-min-device-pixel-ratio:.0000264583),not all and (min-resolution:.001dpcm){@supports ((-webkit-appearance:none)){.vot-textfield>input,.vot-textfield>input+span,.vot-textfield>textarea,.vot-textfield>textarea+span,.vot-textfield>input+span:before,.vot-textfield>input+span:after,.vot-textfield>textarea+span:before,.vot-textfield>textarea+span:after{transition-duration:.1s!important}}}.vot-checkbox{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));--vot-helper-ontheme:var(--vot-ontheme-rgb,var(--vot-onprimary-rgb,255,255,255));z-index:0;color:rgba(var(--vot-onsurface-rgb,0,0,0),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;font-size:16px;line-height:1.5;display:inline-block;position:relative}.vot-checkbox[hidden]{display:none!important}.vot-checkbox>input{-webkit-appearance:none;appearance:none;z-index:10000;box-sizing:border-box;border:2px solid;border-color:rgba(var(--vot-onsurface-rgb,0,0,0),.6);cursor:pointer;background:0 0;border-radius:2px;outline:none;width:18px;height:18px;margin:3px 1px;transition:border-color .2s,background-color .2s;display:block;position:absolute}.vot-checkbox>input+span{box-sizing:border-box;width:inherit;cursor:pointer;padding-left:30px;font-weight:400;display:inline-block}.vot-checkbox>input+span:before{content:\"\";background-color:rgb(var(--vot-onsurface-rgb,0,0,0));opacity:0;pointer-events:none;border-radius:50%;width:40px;height:40px;transition:opacity .3s,transform .2s;display:block;position:absolute;top:-8px;left:-10px;transform:scale(1)}.vot-checkbox>input+span:after{content:\"\";z-index:10000;pointer-events:none;border:0 solid #0000;border-width:0 0 2px 2px;width:10px;height:5px;transition:border-color .2s;display:block;position:absolute;top:3px;left:1px;transform:translate(3px,4px)rotate(-45deg);box-sizing:content-box!important}.vot-checkbox>input:checked,.vot-checkbox>input:indeterminate{border-color:rgb(var(--vot-helper-theme));background-color:rgb(var(--vot-helper-theme))}.vot-checkbox>input:checked+span:before,.vot-checkbox>input:indeterminate+span:before{background-color:rgb(var(--vot-helper-theme))}.vot-checkbox>input:checked+span:after,.vot-checkbox>input:indeterminate+span:after{border-color:rgb(var(--vot-helper-ontheme,255,255,255))}.vot-checkbox>input:indeterminate+span:after{border-left-width:0;transform:translate(4px,3px)}.vot-checkbox:hover>input+span:before{opacity:.04}.vot-checkbox:active>input,.vot-checkbox:active:hover>input:not(:disabled){border-color:rgb(var(--vot-helper-theme))}.vot-checkbox:active>input:checked{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.6);border-color:#0000}.vot-checkbox:active>input+span:before{opacity:1;transition:transform,opacity;transform:scale(0)}.vot-checkbox>input:disabled{border-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial}.vot-checkbox>input:disabled:checked,.vot-checkbox>input:disabled:indeterminate{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);border-color:#0000}.vot-checkbox>input:disabled+span{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial}.vot-checkbox>input:disabled+span:before{opacity:0;transform:scale(0)}.vot-slider{display:inline-block;--vot-safari-helper1:rgba(var(--vot-primary-rgb,33,150,243),.04)!important;--vot-safari-helper2:rgba(var(--vot-primary-rgb,33,150,243),.12)!important;--vot-safari-helper3:rgba(var(--vot-primary-rgb,33,150,243),.16)!important;--vot-safari-helper4:rgba(var(--vot-primary-rgb,33,150,243),.24)!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important;font-family:var(--vot-font,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system)!important;text-align:start!important;width:100%!important;font-size:16px!important;line-height:1.5!important}.vot-slider[hidden]{display:none!important}.vot-slider>input{-webkit-appearance:none!important;appearance:none!important;cursor:pointer!important;background-color:#0000!important;width:100%!important;height:36px!important;margin:0 0 -36px!important;display:block!important;position:relative!important;top:24px!important}.vot-slider>input:last-child{margin:0!important;position:static!important}.vot-slider>input:before{content:\"\"!important;width:calc(100%*var(--vot-progress,0))!important;background:rgb(var(--vot-primary-rgb,33,150,243))!important;height:2px!important;display:block!important;position:absolute!important;top:calc(50% - 1px)!important}.vot-slider>input:disabled{cursor:default!important;opacity:.38!important}.vot-slider>input:disabled+span{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-webkit-slider-runnable-track{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-moz-range-track{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-ms-fill-lower{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-ms-fill-upper{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-moz-range-thumb{background-color:rgb(var(--vot-onsurface-rgb,0,0,0))!important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb,255,255,255))!important;transform:scale(4)!important}.vot-slider>input:disabled::-ms-thumb{background-color:rgb(var(--vot-onsurface-rgb,0,0,0))!important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb,255,255,255))!important;transform:scale(4)!important}.vot-slider>input:disabled::-webkit-slider-thumb{background-color:rgb(var(--vot-onsurface-rgb,0,0,0))!important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb,255,255,255))!important;transform:scale(4)!important}.vot-slider>input:disabled::-ms-fill-upper{opacity:.38!important}.vot-slider>input:disabled::-moz-range-progress{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important}.vot-slider>input:disabled:-webkit-slider-thumb{color:rgb(var(--vot-surface-rgb,255,255,255))!important}.vot-slider>input:active::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--vot-safari-helper4)!important}.vot-slider>input:active::-moz-range-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.24)!important}.vot-slider>input:active::-ms-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.24)!important}.vot-slider>input:focus{outline:none!important}.vot-slider>input::-webkit-slider-runnable-track{background-color:rgba(var(--vot-primary-rgb,33,150,243),.24)!important;border-radius:1px!important;width:100%!important;height:2px!important;margin:17px 0!important}.vot-slider>input::-moz-range-track{background-color:rgba(var(--vot-primary-rgb,33,150,243),.24)!important;border-radius:1px!important;width:100%!important;height:2px!important;margin:17px 0!important}.vot-slider>input::-ms-track{box-sizing:border-box!important;background-color:#0000!important;border:none!important;border-radius:1px!important;width:100%!important;height:2px!important;margin:17px 0!important;padding:0 17px!important}.vot-slider>input::-webkit-slider-thumb{-webkit-appearance:none!important;appearance:none!important;background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border:none!important;border-radius:50%!important;width:2px!important;height:2px!important;transition:box-shadow .2s!important;transform:scale(6)!important}.vot-slider>input::-moz-range-thumb{-webkit-appearance:none!important;appearance:none!important;background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border:none!important;border-radius:50%!important;width:2px!important;height:2px!important;transition:box-shadow .2s!important;transform:scale(6)!important}.vot-slider>input::-ms-thumb{-webkit-appearance:none!important;appearance:none!important;background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border:none!important;border-radius:50%!important;width:2px!important;height:2px!important;transition:box-shadow .2s!important;transform:scale(6)!important}.vot-slider>input::-webkit-slider-thumb{-webkit-appearance:none!important;margin:0!important}.vot-slider>input::-moz-range-thumb{-moz-appearance:none!important}.vot-slider>input::-ms-thumb{margin:0 17px!important}.vot-slider>input::-moz-range-progress{background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border-radius:1px!important;height:2px!important}.vot-slider>input::-ms-fill-lower{background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border-radius:1px!important;height:2px!important}.vot-slider>input::-ms-fill-upper{background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border-radius:1px!important;height:2px!important}.vot-slider>input::-moz-focus-outer{border:none!important}.vot-slider>span{margin-bottom:36px!important;display:inline-block!important}.vot-slider:hover>input::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--vot-safari-helper1)!important}.vot-slider:hover>input::-ms-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.04)!important}.vot-slider:hover>input:hover::-moz-range-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.04)!important}.vot-select{font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;color:var(--vot-helper-theme);fill:var(--vot-helper-theme);justify-content:space-between;align-items:center;font-size:14px;font-weight:400;line-height:1.5;display:flex;--vot-helper-theme-rgb:var(--vot-onsurface-rgb,0,0,0)!important;--vot-helper-theme:rgba(var(--vot-helper-theme-rgb),.87)!important;--vot-helper-safari1:rgba(var(--vot-onsurface-rgb,0,0,0),.6)!important;--vot-helper-safari2:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important}.vot-select[hidden]{display:none!important}.vot-select-label{font-size:16px}.vot-select-outer{cursor:pointer;justify-content:space-between;align-items:center;width:120px;max-width:120px;padding:0 5px;display:flex;border-style:solid!important;border-width:1px!important;border-color:var(--vot-helper-safari1)!important;border-radius:4px!important;transition:border .2s!important}.vot-select-outer:hover{border-color:var(--vot-helper-safari2)!important}.vot-select-title{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.vot-select-arrow-icon{justify-content:center;align-items:center;width:20px;height:32px;display:flex}.vot-select-content-list{flex-direction:column;display:flex}.vot-select-content-list .vot-select-content-item{cursor:pointer;border-radius:8px;padding:5px 10px}.vot-select-content-list .vot-select-content-item:not([inert]):hover{background-color:#2a2c31}.vot-select-content-list .vot-select-content-item[data-vot-selected=true]{color:rgb(var(--vot-primary-rgb,33,150,243));background-color:rgba(var(--vot-primary-rgb,33,150,243),.2)}.vot-select-content-list .vot-select-content-item[data-vot-selected=true]:hover{background-color:rgba(var(--vot-primary-rgb,33,150,243),.1)!important}.vot-select-content-list .vot-select-content-item[data-vot-disabled=true]{cursor:default}.vot-select-content-list .vot-select-content-item[hidden]{display:none!important}.vot-header{color:rgba(var(--vot-helper-onsurface-rgb),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;font-weight:700;line-height:1.5}.vot-header[hidden]{display:none!important}.vot-header:not(:first-child){padding-top:8px}.vot-header-level-1{font-size:2em}.vot-header-level-2{font-size:1.5em}.vot-header-level-3{font-size:1.17em}.vot-header-level-4{font-size:1em}.vot-header-level-5{font-size:.83em}.vot-header-level-6{font-size:.67em}.vot-info{color:rgba(var(--vot-helper-onsurface-rgb),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;-webkit-user-select:text;user-select:text;font-size:16px;line-height:1.5;display:flex}.vot-info[hidden]{display:none!important}.vot-info>:not(:first-child){color:rgba(var(--vot-helper-onsurface-rgb),.5);flex:1;margin-left:8px}.vot-details{color:rgba(var(--vot-helper-onsurface-rgb),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;cursor:pointer;border-radius:.5em;justify-content:space-between;align-items:center;margin:0 -.5em;padding:.5em;font-size:16px;line-height:1.5;transition:background .5s;display:flex}.vot-details[hidden]{display:none!important}.vot-details-arrow-icon{fill:rgba(var(--vot-helper-onsurface-rgb),.87);justify-content:center;align-items:center;width:20px;height:32px;display:flex;transform:scale(1.25)rotate(-90deg)}.vot-details:hover{background:rgba(var(--vot-onsurface-rgb,0,0,0),.04)}.vot-lang-select{--vot-helper-theme-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-theme:rgba(var(--vot-helper-theme-rgb),.87);color:var(--vot-helper-theme);fill:var(--vot-helper-theme);justify-content:space-between;align-items:center;display:flex}.vot-lang-select[hidden]{display:none!important}.vot-lang-select-icon{justify-content:center;align-items:center;width:32px;height:32px;display:flex}.vot-segmented-button{--vot-helper-theme-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-theme:rgba(var(--vot-helper-theme-rgb),.87);-webkit-user-select:none;user-select:none;background:rgb(var(--vot-surface-rgb,255,255,255));color:var(--vot-helper-theme);fill:var(--vot-helper-theme);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:default;z-index:2147483647;border-radius:4px;align-items:center;max-width:100vw;height:32px;font-size:16px;line-height:1.5;transition:opacity .5s;display:flex;position:absolute;top:5rem;left:50%;overflow:hidden;transform:translate(-50%)}.vot-segmented-button[hidden]{display:none!important}.vot-segmented-button *{box-sizing:border-box!important}.vot-segmented-button .vot-separator{background:rgba(var(--vot-helper-theme-rgb),.1);width:1px;height:50%}.vot-segmented-button .vot-separator[hidden]{display:none!important}.vot-segmented-button .vot-segment,.vot-segmented-button .vot-segment-only-icon{color:inherit;background-color:#0000;border:none;justify-content:center;align-items:center;height:100%;padding:0 8px;transition:background-color .1s ease-in-out;display:flex;position:relative;overflow:hidden}.vot-segmented-button .vot-segment[hidden],.vot-segmented-button [hidden].vot-segment-only-icon{display:none!important}.vot-segmented-button .vot-segment:before,.vot-segmented-button .vot-segment-only-icon:before,.vot-segmented-button .vot-segment:after,.vot-segmented-button .vot-segment-only-icon:after{content:\"\";border-radius:inherit;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0}.vot-segmented-button .vot-segment:before,.vot-segmented-button .vot-segment-only-icon:before{background-color:rgb(var(--vot-helper-theme-rgb));transition:opacity .2s}.vot-segmented-button .vot-segment:after,.vot-segmented-button .vot-segment-only-icon:after{background:radial-gradient(circle,currentColor 1%,#0000 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-segmented-button .vot-segment:hover:before,.vot-segmented-button .vot-segment-only-icon:hover:before{opacity:.04}.vot-segmented-button .vot-segment:active:after,.vot-segmented-button .vot-segment-only-icon:active:after{opacity:.16;background-size:100% 100%;transition:background-size}.vot-segmented-button .vot-segment-only-icon{min-width:32px;padding:0}.vot-segmented-button .vot-segment-label{white-space:nowrap;color:inherit;margin-left:8px;font-weight:400}.vot-segmented-button[data-status=success] .vot-translate-button{color:rgb(var(--vot-primary-rgb,33,150,243));fill:rgb(var(--vot-primary-rgb,33,150,243))}.vot-segmented-button[data-status=error] .vot-translate-button{color:#f28b82;fill:#f28b82}.vot-segmented-button[data-loading=true] #vot-loading-icon{display:block!important}.vot-segmented-button[data-loading=true] #vot-translate-icon{display:none!important}.vot-segmented-button[data-direction=column]{flex-direction:column;height:fit-content}.vot-segmented-button[data-direction=column] .vot-segment-label{display:none}.vot-segmented-button[data-direction=column]>.vot-segment-only-icon,.vot-segmented-button[data-direction=column]>.vot-segment{padding:8px}.vot-segmented-button[data-direction=column] .vot-separator{width:50%;height:1px}.vot-segmented-button[data-position=left]{top:12.5vh;left:50px}.vot-segmented-button[data-position=right]{top:12.5vh;left:auto;right:0}.vot-segmented-button svg{width:24px}.vot-menu{--vot-helper-surface-rgb:var(--vot-surface-rgb,255,255,255);--vot-helper-surface:rgb(var(--vot-helper-surface-rgb));--vot-helper-onsurface-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-onsurface:rgba(var(--vot-helper-onsurface-rgb),.87);-webkit-user-select:none;user-select:none;background-color:var(--vot-helper-surface);color:var(--vot-helper-onsurface);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:default;z-index:2147483647;visibility:visible;opacity:1;transform-origin:top;border-radius:8px;min-width:300px;font-size:16px;line-height:1.5;transition:opacity .3s,transform .1s;position:absolute;top:calc(5rem + 48px);left:50%;overflow:hidden;transform:translate(-50%)scale(1)}.vot-menu *{box-sizing:border-box!important}.vot-menu[hidden]{pointer-events:none;visibility:hidden;opacity:0;transform:translate(-50%)scale(0);display:block!important}.vot-menu-content-wrapper{max-height:calc(var(--vot-container-height,75vh) - (5rem + 32px + 16px)*2);flex-direction:column;min-height:100px;display:flex;overflow:auto}.vot-menu-header-container{flex-shrink:0;align-items:flex-start;min-height:31px;display:flex}.vot-menu-header-container:empty{padding:0 0 16px}.vot-menu-header-container>.vot-icon-button{margin-inline-end:4px;margin-top:4px}.vot-menu-title-container{font-size:inherit;font-weight:inherit;text-align:start;outline:0;flex:1;margin:0;display:flex}.vot-menu-title{padding-bottom:16px;padding-inline-start:16px;padding-inline-end:16px;flex:1;padding-top:16px;font-size:16px;font-weight:400;line-height:1}.vot-menu-body-container{box-sizing:border-box;overscroll-behavior:contain;flex-direction:column;gap:8px;min-height:1.375rem;padding:0 16px;display:flex;overflow:auto;scrollbar-color:rgba(var(--vot-helper-onsurface-rgb),.1)var(--vot-helper-surface)!important}.vot-menu-body-container::-webkit-scrollbar{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-menu-body-container::-webkit-scrollbar-track{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-menu-body-container::-webkit-scrollbar-thumb{background:rgba(var(--vot-helper-onsurface-rgb),.1)!important;border:5px solid var(--vot-helper-surface)!important;-webkit-border-radius:1ex!important}.vot-menu-body-container::-webkit-scrollbar-thumb:hover{border:3px solid var(--vot-helper-surface)!important}.vot-menu-body-container::-webkit-scrollbar-corner{background:var(--vot-helper-surface)!important}.vot-menu-footer-container{padding-bottom:16px;padding-inline-start:16px;padding-inline-end:16px;flex-shrink:0;justify-content:flex-end;padding-top:16px;display:flex}.vot-menu-footer-container:empty{padding:16px 0 0}.vot-menu[data-position=left]{top:12.5vh;left:240px}.vot-menu[data-position=right]{top:12.5vh;left:auto;right:-80px}.vot-dialog{--vot-helper-surface-rgb:var(--vot-surface-rgb,255,255,255);--vot-helper-surface:rgb(var(--vot-helper-surface-rgb));--vot-helper-onsurface-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-onsurface:rgba(var(--vot-helper-onsurface-rgb),.87);max-width:initial;max-height:initial;width:min(var(--vot-dialog-width,512px),100%);top:50%;bottom:50%;background-color:var(--vot-helper-surface);color:var(--vot-helper-onsurface);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);-webkit-user-select:none;user-select:none;visibility:visible;opacity:1;transform-origin:50%;border-radius:8px;height:fit-content;margin:auto;padding:0;font-size:16px;line-height:1.5;transition:opacity .3s,transform .1s;display:block;position:fixed;top:0;bottom:0;left:0;right:0;overflow-x:auto;overflow-y:hidden;transform:scale(1);box-shadow:0 0 16px #0000001f,0 16px 16px #0000003d}[hidden]>.vot-dialog{pointer-events:none;opacity:0;transition:opacity .1s,transform .2s;transform:scale(.5)}.vot-dialog-container{visibility:visible;z-index:2147483647;position:absolute}.vot-dialog-container[hidden]{pointer-events:none;visibility:hidden;display:block!important}.vot-dialog-container *{box-sizing:border-box!important}.vot-dialog-backdrop{opacity:1;background-color:#0009;transition:opacity .3s;position:fixed;top:0;bottom:0;left:0;right:0}[hidden]>.vot-dialog-backdrop{pointer-events:none;opacity:0}.vot-dialog-content-wrapper{flex-direction:column;max-height:75vh;display:flex;overflow:auto}.vot-dialog-header-container{flex-shrink:0;align-items:flex-start;min-height:31px;display:flex}.vot-dialog-header-container:empty{padding:0 0 20px}.vot-dialog-header-container>.vot-icon-button{margin-inline-end:4px;margin-top:4px}.vot-dialog-title-container{font-size:inherit;font-weight:inherit;outline:0;flex:1;margin:0;display:flex}.vot-dialog-title{padding-bottom:16px;padding-inline-start:20px;padding-inline-end:20px;flex:1;padding-top:20px;font-size:115.385%;font-weight:700;line-height:1}.vot-dialog-body-container{box-sizing:border-box;overscroll-behavior:contain;flex-direction:column;gap:16px;min-height:1.375rem;padding:0 20px;display:flex;overflow:auto;scrollbar-color:rgba(var(--vot-helper-onsurface-rgb),.1)var(--vot-helper-surface)!important}.vot-dialog-body-container::-webkit-scrollbar{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-dialog-body-container::-webkit-scrollbar-track{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-dialog-body-container::-webkit-scrollbar-thumb{background:rgba(var(--vot-helper-onsurface-rgb),.1)!important;border:5px solid var(--vot-helper-surface)!important;-webkit-border-radius:1ex!important}.vot-dialog-body-container::-webkit-scrollbar-thumb:hover{border:3px solid var(--vot-helper-surface)!important}.vot-dialog-body-container::-webkit-scrollbar-corner{background:var(--vot-helper-surface)!important}.vot-dialog-footer-container{padding-bottom:16px;padding-inline-start:16px;padding-inline-end:16px;flex-shrink:0;justify-content:flex-end;padding-top:16px;display:flex}.vot-dialog-footer-container:empty{padding:20px 0 0}.vot-subtitles-widget{z-index:2147483647;pointer-events:none;justify-content:center;align-items:center;width:50%;min-height:20%;max-height:100%;display:flex;position:absolute;top:75%;left:25%}.vot-subtitles{--vot-subtitles-background:rgba(var(--vot-surface-rgb,46,47,52),var(--vot-subtitles-opacity,.8));background:var(--vot-subtitles-background,#2e2f34cc);color:var(--vot-subtitles-color,#e3e3e3);pointer-events:all;box-sizing:border-box;-webkit-user-select:none;user-select:none;border-radius:.5em;width:max-content;max-width:100%;max-height:100%;padding:.5em;font-size:20px;line-height:normal;position:relative}.vot-subtitles span{-webkit-user-select:text;user-select:text;font-size:inherit!important;line-height:normal!important}.vot-subtitles .passed{color:var(--vot-subtitles-passed-color,#2196f3)}:root{--vot-font-family:\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system;--vot-primary-rgb:139,180,245;--vot-onprimary-rgb:32,33,36;--vot-surface-rgb:32,33,36;--vot-onsurface-rgb:227,227,227;--vot-subtitles-color:rgb(var(--vot-onsurface-rgb,227,227,227));--vot-subtitles-passed-color:rgb(var(--vot-primary-rgb,33,150,243))}vot-block{display:block;visibility:visible!important}")
 
 /***/ }),
 
@@ -245,7 +246,7 @@ window.cancelIdleCallback =
 
 // EXTERNAL MODULE: ./node_modules/bowser/es5.js
 var es5 = __webpack_require__("./node_modules/bowser/es5.js");
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/protos/yandex.js
+;// ./node_modules/vot.js/dist/protos/yandex.js
 const _m0 = protobuf;
 const protobufPackage = "";
 var StreamInterval;
@@ -1432,7 +1433,7 @@ function isSet(value) {
     return value !== null && value !== undefined;
 }
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/protobuf.js
+;// ./node_modules/vot.js/dist/protobuf.js
 
 const yandexProtobuf = {
     encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp) {
@@ -1489,20 +1490,20 @@ const yandexProtobuf = {
     },
 };
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/config/config.js
+;// ./node_modules/vot.js/dist/config/config.js
 /* harmony default export */ const config = ({
     host: "api.browser.yandex.ru",
     hostVOT: "vot-api.toil.cc/v1",
     mediaProxy: "media-proxy.toil.cc",
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 YaBrowser/24.7.0.0 Safari/537.36",
-    componentVersion: "24.7.3.1081",
+    componentVersion: "24.7.3.1250",
     hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
     defaultDuration: 343,
 });
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/package.json
-const package_namespaceObject = {"rE":"1.2.9"};
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/secure.js
+;// ./node_modules/vot.js/package.json
+const package_namespaceObject = {"rE":"1.3.0"};
+;// ./node_modules/vot.js/dist/secure.js
 
 const utf8Encoder = new TextEncoder();
 async function signHMAC(hashName, hmac, data) {
@@ -1534,7 +1535,7 @@ async function getHmacSha1(hmacKey, salt) {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/types/yandex.js
+;// ./node_modules/vot.js/dist/types/yandex.js
 var VideoService;
 (function (VideoService) {
     VideoService["custom"] = "custom";
@@ -1585,9 +1586,9 @@ var VideoService;
     VideoService["nineanimetv"] = "nineanimetv";
     VideoService["odysee"] = "odysee";
     VideoService["coursehunter"] = "coursehunter";
+    VideoService["sap"] = "sap";
     VideoService["udemy"] = "udemy";
     VideoService["coursera"] = "coursera";
-    VideoService["sap"] = "sap";
     VideoService["watchpornto"] = "watchpornto";
     VideoService["linkedin"] = "linkedin";
 })(VideoService || (VideoService = {}));
@@ -1601,7 +1602,7 @@ var VideoTranslationStatus;
     VideoTranslationStatus[VideoTranslationStatus["LONG_WAITING_2"] = 6] = "LONG_WAITING_2";
 })(VideoTranslationStatus || (VideoTranslationStatus = {}));
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/utils/utils.js
+;// ./node_modules/vot.js/dist/utils/utils.js
 
 const iso6392to6391 = {
     afr: "af",
@@ -1749,7 +1750,7 @@ function proxyMedia(url, format = "mp4") {
     return `https://${config.mediaProxy}/v1/proxy/video.${format}?url=${encodeURIComponent(url.href)}&origin=${url.origin}&referer=${url.origin}`;
 }
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/config/alternativeUrls.js
+;// ./node_modules/vot.js/dist/config/alternativeUrls.js
 const sitesInvidious = [
     "yewtu.be",
     "yt.artemislena.eu",
@@ -1834,7 +1835,7 @@ const sitesPoketube = [
 ];
 
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/config/sites.js
+;// ./node_modules/vot.js/dist/config/sites.js
 
 
 /* harmony default export */ const sites = ([
@@ -1932,12 +1933,16 @@ const sitesPoketube = [
         host: VideoService.vimeo,
         url: "https://vimeo.com/",
         match: /^vimeo.com$/,
+        needExtraData: true,
         selector: ".player",
     },
     {
         host: VideoService.vimeo,
         url: "https://player.vimeo.com/",
         match: /^player.vimeo.com$/,
+        additionalData: "embed",
+        needExtraData: true,
+        needBypassCSP: true,
         selector: ".player",
     },
     {
@@ -2181,6 +2186,15 @@ const sitesPoketube = [
         needExtraData: true,
     },
     {
+        host: VideoService.sap,
+        url: "https://learning.sap.com/courses/",
+        match: /^learning.sap.com$/,
+        selector: ".playkit-container",
+        eventSelector: ".playkit-player",
+        needExtraData: true,
+        needBypassCSP: true,
+    },
+    {
         host: VideoService.udemy,
         url: "https://www.udemy.com/",
         match: /udemy.com$/,
@@ -2197,15 +2211,6 @@ const sitesPoketube = [
         needExtraData: true,
     },
     {
-        host: VideoService.sap,
-        url: "https://learning.sap.com/courses/",
-        match: /^learning.sap.com$/,
-        selector: ".playkit-container",
-        eventSelector: ".playkit-player",
-        needExtraData: true,
-        needBypassCSP: true,
-    },
-    {
         host: VideoService.watchpornto,
         url: "https://watchporn.to/",
         match: /^watchporn.to$/,
@@ -2214,7 +2219,7 @@ const sitesPoketube = [
     {
         host: VideoService.linkedin,
         url: "https://www.linkedin.com/learning/",
-        match: /^(www)?.linkedin.com$/,
+        match: /^(www.)?linkedin.com$/,
         selector: ".vjs-v7",
         needExtraData: true,
         needBypassCSP: true,
@@ -2227,9 +2232,9 @@ const sitesPoketube = [
     },
 ]);
 
-;// CONCATENATED MODULE: ./src/localization/locales/en.json
+;// ./src/localization/locales/en.json
 const en_namespaceObject = /*#__PURE__*/JSON.parse('{"__version__":5,"recommended":"recommended","translateVideo":"Translate video","disableTranslate":"Turn off","translationSettings":"Translation settings","subtitlesSettings":"Subtitles settings","about":"About extension","resetSettings":"Reset settings","videoBeingTranslated":"The video is being translated","videoLanguage":"Video language","translationLanguage":"Translation language","translationTake":"The translation will take","translationTakeMoreThanHour":"The translation will take more than an hour","translationTakeAboutMinute":"The translation will take about a minute","translationTakeFewMinutes":"The translation will take a few minutes","translationTakeApproximatelyMinutes":"The translation will take approximately {0} minutes","translationTakeApproximatelyMinute":"The translation will take approximately {0} minutes","unSupportedExtensionError":"Error! {0} is not supported by this version of the extension!\\n\\nPlease use the cloudflare version of the VOT extension.","requestTranslationFailed":"Failed to request video translation","audioNotReceived":"Audio link not received","grantPermissionToAutoPlay":"Grant permission to autoplay","audioFormatNotSupported":"The audio format is not supported","VOTAutoTranslate":"Translate on open","VOTDontTranslateYourLang":"Do not translate from my language","VOTVolume":"Video volume","VOTVolumeTranslation":"Translation Volume","VOTAutoSetVolume":"Reduce video volume to ","VOTShowVideoSlider":"Video volume slider","VOTSyncVolume":"Link translation and video volume","VOTAudioProxy":"Proxy received audio","VOTDisableFromYourLang":"You have disabled the translation of the video in your language","VOTLiveNotSupported":"Translation of live streams is not supported","VOTPremiere":"Wait for the premiere to end before translating","VOTVideoIsTooLong":"Video is too long","VOTNoVideoIDFound":"No video ID found","VOTSubtitles":"Subtitles","VOTSubtitlesDisabled":"Disabled","VOTSubtitlesMaxLength":"Subtitles max length","VOTHighlightWords":"Highlight words","VOTTranslatedFrom":"translated from","VOTAutogenerated":"autogenerated","VOTSettings":"VOT Settings","VOTMenuLanguage":"Menu language","VOTAuthors":"Authors","VOTVersion":"Version","VOTLoader":"Loader","VOTBrowser":"Browser","VOTShowPiPButton":"Show PiP button","langs":{"auto":"Auto","af":"Afrikaans","ak":"Akan","sq":"Albanian","am":"Amharic","ar":"Arabic","hy":"Armenian","as":"Assamese","ay":"Aymara","az":"Azerbaijani","bn":"Bangla","eu":"Basque","be":"Belarusian","bho":"Bhojpuri","bs":"Bosnian","bg":"Bulgarian","my":"Burmese","ca":"Catalan","ceb":"Cebuano","zh":"Chinese","zh-Hans":"Chinese (Simplified)","zh-Hant":"Chinese (Traditional)","co":"Corsican","hr":"Croatian","cs":"Czech","da":"Danish","dv":"Divehi","nl":"Dutch","en":"English","eo":"Esperanto","et":"Estonian","ee":"Ewe","fil":"Filipino","fi":"Finnish","fr":"French","gl":"Galician","lg":"Ganda","ka":"Georgian","de":"German","el":"Greek","gn":"Guarani","gu":"Gujarati","ht":"Haitian Creole","ha":"Hausa","haw":"Hawaiian","iw":"Hebrew","hi":"Hindi","hmn":"Hmong","hu":"Hungarian","is":"Icelandic","ig":"Igbo","id":"Indonesian","ga":"Irish","it":"Italian","ja":"Japanese","jv":"Javanese","kn":"Kannada","kk":"Kazakh","km":"Khmer","rw":"Kinyarwanda","ko":"Korean","kri":"Krio","ku":"Kurdish","ky":"Kyrgyz","lo":"Lao","la":"Latin","lv":"Latvian","ln":"Lingala","lt":"Lithuanian","lb":"Luxembourgish","mk":"Macedonian","mg":"Malagasy","ms":"Malay","ml":"Malayalam","mt":"Maltese","mi":"Māori","mr":"Marathi","mn":"Mongolian","ne":"Nepali","nso":"Northern Sotho","no":"Norwegian","ny":"Nyanja","or":"Odia","om":"Oromo","ps":"Pashto","fa":"Persian","pl":"Polish","pt":"Portuguese","pa":"Punjabi","qu":"Quechua","ro":"Romanian","ru":"Russian","sm":"Samoan","sa":"Sanskrit","gd":"Scottish Gaelic","sr":"Serbian","sn":"Shona","sd":"Sindhi","si":"Sinhala","sk":"Slovak","sl":"Slovenian","so":"Somali","st":"Southern Sotho","es":"Spanish","su":"Sundanese","sw":"Swahili","sv":"Swedish","tg":"Tajik","ta":"Tamil","tt":"Tatar","te":"Telugu","th":"Thai","ti":"Tigrinya","ts":"Tsonga","tr":"Turkish","tk":"Turkmen","uk":"Ukrainian","ur":"Urdu","ug":"Uyghur","uz":"Uzbek","vi":"Vietnamese","cy":"Welsh","fy":"Western Frisian","xh":"Xhosa","yi":"Yiddish","yo":"Yoruba","zu":"Zulu"},"udemyModuleArgsNotFound":"Could not get udemy module data due to the fact that ModuleArgs was not found","VOTTranslationHelpNull":"Could not get the data required for the translate","streamNoConnectionToServer":"There is no connection to the server","searchField":"Search...","VOTTranslateAPIErrors":"Translate errors from the API","VOTTranslationService":"Translation Service","VOTDetectService":"Detect Service","VOTTranslatingError":"Translating the error","VOTProxyWorkerHost":"Enter the proxy worker address","VOTM3u8ProxyHost":"Enter the address of the m3u8 proxy worker","proxySettings":"Proxy Settings","translationTakeApproximatelyMinute2":"The translation will take approximately {0} minutes","VOTAudioBooster":"Extended translation volume increase","VOTSubtitlesDesign":"Subtitles design","VOTSubtitlesFontSize":"Font size of subtitles","VOTSubtitlesOpacity":"Transparency of the subtitle background","VOTPressNewHotkey":"Press the new hotkey...","VOTCreateTranslationHotkey":"Create Hotkey for Translation","VOTChangeHotkeyWithCurrent":"Change Hotkey (Current: {0})","VOTSubtitlesDownloadFormat":"The format for downloading subtitles","VOTDownloadWithName":"Download files with the video name","VOTUpdateLocaleFiles":"Update localization files","VOTLocaleHash":"Locale hash","VOTUpdatedAt":"Updated at","VOTNeedWebAudioAPI":"To enable this, you must have a Web Audio API","VOTBypassMediaCSP":"Bypassing Media CSP","VOTMediaCSPEnabledOnSite":"Media CSP is enabled on this site"}');
-;// CONCATENATED MODULE: ./src/utils/debug.js
+;// ./src/utils/debug.js
 const debug = {};
 debug.log = (...text) => {
   if (true) {
@@ -2244,7 +2249,7 @@ debug.log = (...text) => {
 
 /* harmony default export */ const utils_debug = (debug);
 
-;// CONCATENATED MODULE: ./src/config/config.js
+;// ./src/config/config.js
 // CONFIGURATION
 const workerHost = "api.browser.yandex.ru";
 const m3u8ProxyHost = "media-proxy.toil.cc/v1/proxy/m3u8"; // used for streaming
@@ -2271,7 +2276,7 @@ const translateUrls = {
 
 
 
-;// CONCATENATED MODULE: ./src/utils/storage.js
+;// ./src/utils/storage.js
 
 
 const votStorage = new (class {
@@ -2376,7 +2381,7 @@ const votStorage = new (class {
   }
 })();
 
-;// CONCATENATED MODULE: ./src/localization/localizationProvider.js
+;// ./src/localization/localizationProvider.js
 
 
 
@@ -2525,7 +2530,7 @@ const localizationProvider = new (class {
   }
 })();
 
-;// CONCATENATED MODULE: ./src/utils/utils.js
+;// ./src/utils/utils.js
 
 
 
@@ -2702,7 +2707,7 @@ function utils_getTimestamp() {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/base.js
+;// ./node_modules/vot.js/dist/helpers/base.js
 
 class VideoHelperError extends Error {
     constructor(message) {
@@ -2714,8 +2719,14 @@ class VideoHelperError extends Error {
 class BaseHelper {
     API_ORIGIN = "https://example.com";
     fetch;
-    constructor({ fetchFn = GM_fetch } = {}) {
+    extraInfo;
+    referer;
+    service;
+    constructor({ fetchFn = GM_fetch, extraInfo = true, referer = document.referrer ?? window.location.origin + "/", service, } = {}) {
         this.fetch = fetchFn;
+        this.extraInfo = extraInfo;
+        this.referer = referer;
+        this.service = service;
     }
     async getVideoData(videoId) {
         return undefined;
@@ -2723,9 +2734,20 @@ class BaseHelper {
     async getVideoId(url) {
         return undefined;
     }
+    returnBaseData(videoId) {
+        if (!this.service) {
+            return undefined;
+        }
+        return {
+            url: this.service.url + videoId,
+            videoId,
+            host: this.service.host,
+            duration: undefined,
+        };
+    }
 }
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/mailru.js
+;// ./node_modules/vot.js/dist/helpers/mailru.js
 
 class MailRuHelper extends BaseHelper {
     API_ORIGIN = "https://my.mail.ru";
@@ -2756,7 +2778,7 @@ class MailRuHelper extends BaseHelper {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/weverse.js
+;// ./node_modules/vot.js/dist/helpers/weverse.js
 
 
 class WeverseHelper extends BaseHelper {
@@ -2896,7 +2918,7 @@ class WeverseHelper extends BaseHelper {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/kodik.js
+;// ./node_modules/vot.js/dist/helpers/kodik.js
 
 
 class KodikHelper extends BaseHelper {
@@ -2998,7 +3020,7 @@ class KodikHelper extends BaseHelper {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/patreon.js
+;// ./node_modules/vot.js/dist/helpers/patreon.js
 
 class PatreonHelper extends BaseHelper {
     API_ORIGIN = "https://www.patreon.com/api";
@@ -3034,29 +3056,35 @@ class PatreonHelper extends BaseHelper {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/reddit.js
+;// ./node_modules/vot.js/dist/helpers/reddit.js
 
 class RedditHelper extends BaseHelper {
     API_ORIGIN = "https://www.reddit.com";
     async getVideoData(videoId) {
-        const contentUrl = document
-            .querySelector("[data-hls-url]")
-            ?.dataset
-            .hlsUrl
-            .replaceAll("&amp;", "&");
-        if (!contentUrl) {
+        try {
+            const contentUrl = document
+                .querySelector("[data-hls-url]")
+                ?.dataset
+                .hlsUrl
+                .replaceAll("&amp;", "&");
+            if (!contentUrl) {
+                throw new VideoHelperError("Failed to find content url");
+            }
+            return {
+                url: decodeURIComponent(contentUrl),
+            };
+        }
+        catch (err) {
+            console.error(`Failed to get reddit video data by video ID: ${videoId}`, err.message);
             return undefined;
         }
-        return {
-            url: decodeURIComponent(contentUrl),
-        };
     }
     async getVideoId(url) {
         return /\/r\/(([^/]+)\/([^/]+)\/([^/]+)\/([^/]+))/.exec(url.pathname)?.[1];
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/bannedvideo.js
+;// ./node_modules/vot.js/dist/helpers/bannedvideo.js
 
 class BannedVideoHelper extends BaseHelper {
     API_ORIGIN = "https://api.banned.video";
@@ -3112,7 +3140,7 @@ class BannedVideoHelper extends BaseHelper {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/kick.js
+;// ./node_modules/vot.js/dist/helpers/kick.js
 
 class KickHelper extends BaseHelper {
     API_ORIGIN = "https://kick.com/api";
@@ -3159,25 +3187,31 @@ class KickHelper extends BaseHelper {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/appledeveloper.js
+;// ./node_modules/vot.js/dist/helpers/appledeveloper.js
 
 class AppleDeveloperHelper extends BaseHelper {
     API_ORIGIN = "https://developer.apple.com";
     async getVideoData(videoId) {
-        const contentUrl = document.querySelector("meta[property='og:video']")?.content
-        if (!contentUrl) {
+        try {
+            const contentUrl = document.querySelector("meta[property='og:video']")?.content
+            if (!contentUrl) {
+                throw new VideoHelperError("Failed to find content url");
+            }
+            return {
+                url: contentUrl,
+            };
+        }
+        catch (err) {
+            console.error(`Failed to get apple developer video data by video ID: ${videoId}`, err.message);
             return undefined;
         }
-        return {
-            url: contentUrl,
-        };
     }
     async getVideoId(url) {
         return /videos\/play\/([^/]+)\/([\d]+)/.exec(url.pathname)?.[0];
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/epicgames.js
+;// ./node_modules/vot.js/dist/helpers/epicgames.js
 
 
 class EpicGamesHelper extends BaseHelper {
@@ -3220,7 +3254,7 @@ class EpicGamesHelper extends BaseHelper {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/nineanimetv.js
+;// ./node_modules/vot.js/dist/helpers/nineanimetv.js
 
 
 class NineAnimeTVHelper extends BaseHelper {
@@ -3330,7 +3364,7 @@ class NineAnimeTVHelper extends BaseHelper {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/odysee.js
+;// ./node_modules/vot.js/dist/helpers/odysee.js
 
 class OdyseeHelper extends BaseHelper {
     API_ORIGIN = "https://odysee.com";
@@ -3345,7 +3379,7 @@ class OdyseeHelper extends BaseHelper {
             return { url };
         }
         catch (err) {
-            console.error("Failed to get odysee video data", err.message);
+            console.error(`Failed to get odysee video data by video ID: ${videoId}`, err.message);
             return undefined;
         }
     }
@@ -3354,7 +3388,7 @@ class OdyseeHelper extends BaseHelper {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/coursehunter.js
+;// ./node_modules/vot.js/dist/helpers/coursehunter.js
 
 class CoursehunterHelper extends BaseHelper {
     API_ORIGIN = "https://coursehunter.net/api/v1";
@@ -3402,7 +3436,7 @@ class CoursehunterHelper extends BaseHelper {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/twitch.js
+;// ./node_modules/vot.js/dist/helpers/twitch.js
 
 class TwitchHelper extends BaseHelper {
     API_ORIGIN = "https://clips.twitch.tv";
@@ -3457,250 +3491,7 @@ class TwitchHelper extends BaseHelper {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/consts.js
-const availableLangs = [
-    "auto",
-    "ru",
-    "en",
-    "zh",
-    "ko",
-    "lt",
-    "lv",
-    "ar",
-    "fr",
-    "it",
-    "es",
-    "de",
-    "ja",
-];
-const availableTTS = ["ru", "en", "kk"];
-const subtitlesFormats = ["srt", "vtt", "json"];
-
-
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/udemy.js
-
-
-
-
-
-
-
-
-class UdemyHelper extends BaseHelper {
-  API_ORIGIN = "https://www.udemy.com/api-2.0";
-
-  getModuleData() {
-      const moduleArgs = document.querySelector(
-          ".ud-app-loader[data-module-id='course-taking']",
-      )?.dataset?.moduleArgs;
-      if (!moduleArgs) {
-          console.error(localizationProvider.get("udemyModuleArgsNotFound"));
-          return {};
-      }
-      return JSON.parse(moduleArgs);
-  }
-
-  getLectureId() {
-      return /learn\/lecture\/([^/]+)/.exec(window.location.pathname)?.[1];
-  }
-
-  async getLectureData(courseId, lectureId) {
-      const res = await this.fetch(
-          `${this.API_ORIGIN}/users/me/subscribed-courses/${courseId}/lectures/${lectureId}/?` +
-          new URLSearchParams({
-              "fields[lecture]": "title,description,asset",
-              "fields[asset]": "length,media_sources,captions",
-          })
-      );
-      return await res.json();
-  }
-
-  async getCourseLang(courseId) {
-      const res = await this.fetch(
-          `${this.API_ORIGIN}/users/me/subscribed-courses/${courseId}?` +
-          new URLSearchParams({
-              "fields[course]": "locale",
-          })
-      );
-      return await res.json();
-  }
-
-  findVideoUrl(sources) {
-      return sources?.find((src) => src.type === "video/mp4")?.src;
-  }
-
-  findSubtitleUrl(captions, detectedLanguage) {
-      let subtitle = captions?.find(
-          (caption) => langTo6391(caption.locale_id) === detectedLanguage,
-      );
-
-      if (!subtitle) {
-          subtitle = captions?.find(
-              (caption) => langTo6391(caption.locale_id) === "en",
-          ) ?? captions?.[0];
-      }
-
-      return subtitle?.url;
-  }
-
-  async getVideoData(videoId) {
-      const { courseId } = this.getModuleData();
-      if (!courseId) {
-          return undefined;
-      }
-
-      const lectureId = this.getLectureId();
-      utils_debug.log(`[Udemy] courseId: ${courseId}, lectureId: ${lectureId}`)
-      if (!lectureId) {
-          return undefined;
-      }
-
-      const { title, description, asset } = await this.getLectureData(courseId, lectureId);
-      const { length: duration, media_sources, captions } = asset;
-
-      const videoUrl = this.findVideoUrl(media_sources);
-      if (!videoUrl) {
-          console.log("Failed to find .mp4 video file in media_sources", media_sources);
-          return undefined;
-      }
-
-      const courseLangData = await this.getCourseLang(courseId);
-      let { locale: { locale: courseLang } } = courseLangData;
-      courseLang = courseLang ? langTo6391(courseLang) : "en";
-      if (!availableLangs.includes(courseLang)) {
-          courseLang = "en";
-      }
-
-      const subtitleUrl = this.findSubtitleUrl(captions, courseLang);
-      if (!subtitleUrl) {
-          console.log("Failed to find subtitle file in captions", captions)
-      }
-
-      return {
-          ...subtitleUrl ? {
-              url: sites.find((s) => s.host === VideoService.udemy).url + videoId,
-              translationHelp: [
-                  {
-                      target: "subtitles_file_url",
-                      targetUrl: subtitleUrl,
-                  },
-                  {
-                      target: "video_file_url",
-                      targetUrl: videoUrl,
-                  },
-              ],
-              detectedLanguage: courseLang,
-          } : {
-              url: videoUrl,
-              translationHelp: null,
-          },
-          duration,
-          title,
-          description,
-      };
-  }
-
-  async getVideoId(url) {
-      return url.pathname.slice(1);
-  }
-}
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/coursera.js
-
-
-
-
-
-
-class CourseraHelper extends BaseHelper {
-    API_ORIGIN = "https://www.coursera.org/api";
-
-    async getCourseData(courseId) {
-        const response = await this.fetch(
-            `${this.API_ORIGIN}/onDemandCourses.v1/${courseId}`,
-        );
-        const resJSON = await response.json();
-        return resJSON?.elements?.[0];
-    }
-
-    getPlayer() {
-        return document.querySelector(".vjs-v8");
-    }
-
-    getPlayerData() {
-        return this.getPlayer()?.player;
-    }
-
-    findVideoUrl(sources) {
-        return sources?.find((src) => src.type === "video/mp4")?.src;
-    }
-
-    findSubtitleUrl(captions, detectedLanguage) {
-        let subtitle = captions?.find(
-            (caption) => langTo6391(caption.srclang) === detectedLanguage,
-        );
-
-        if (!subtitle) {
-            subtitle = captions?.find(
-                (caption) => langTo6391(caption.srclang) === "en",
-            ) || captions?.[0];
-        }
-
-        return subtitle?.src;
-    }
-
-    async getVideoData(videoId) {
-        const data = this.getPlayerData();
-
-        const { duration } = data?.cache_ || {};
-        const { courseId, tracks, sources } = data?.options_ || {};
-
-        const videoUrl = this.findVideoUrl(sources);
-        if (!videoUrl) {
-            console.log("Failed to find .mp4 video file in sources", sources);
-            return undefined;
-        }
-
-        const { primaryLanguageCodes } = await this.getCourseData(courseId);
-        let courseLang = primaryLanguageCodes?.[0];
-        courseLang = courseLang ? langTo6391(courseLang) : "en";
-
-        if (!availableLangs.includes(courseLang)) {
-            courseLang = "en";
-        }
-
-        const subtitleUrl = this.findSubtitleUrl(tracks, courseLang);
-        if (!subtitleUrl) {
-            console.log("Failed to find subtitle file in tracks", tracks)
-        }
-
-        return {
-            ...subtitleUrl ? {
-                url: sites.find((s) => s.host === VideoService.coursera).url + videoId,
-                translationHelp: [
-                    {
-                        target: "subtitles_file_url",
-                        targetUrl: subtitleUrl,
-                    },
-                    {
-                        target: "video_file_url",
-                        targetUrl: videoUrl,
-                    },
-                ],
-                detectedLanguage: courseLang,
-            } : {
-                url: videoUrl,
-                translationHelp: null,
-            },
-            duration,
-        };
-    }
-
-    async getVideoId(url) {
-        return /learn\/([^/]+)\/lecture\/([^/]+)/.exec(url.pathname)?.[0]; // <-- COURSE PASSING (IF YOU LOGINED TO COURSERA)
-    }
-}
-
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/sap.js
+;// ./node_modules/vot.js/dist/helpers/sap.js
 
 
 class SapHelper extends BaseHelper {
@@ -3809,7 +3600,250 @@ class SapHelper extends BaseHelper {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/linkedin.js
+;// ./node_modules/vot.js/dist/consts.js
+const availableLangs = [
+    "auto",
+    "ru",
+    "en",
+    "zh",
+    "ko",
+    "lt",
+    "lv",
+    "ar",
+    "fr",
+    "it",
+    "es",
+    "de",
+    "ja",
+];
+const availableTTS = ["ru", "en", "kk"];
+const subtitlesFormats = ["srt", "vtt", "json"];
+
+
+;// ./node_modules/vot.js/dist/helpers/udemy.js
+
+
+
+
+
+
+
+
+class UdemyHelper extends BaseHelper {
+  API_ORIGIN = "https://www.udemy.com/api-2.0";
+
+  getModuleData() {
+      const moduleArgs = document.querySelector(
+          ".ud-app-loader[data-module-id='course-taking']",
+      )?.dataset?.moduleArgs;
+      if (!moduleArgs) {
+          console.error(localizationProvider.get("udemyModuleArgsNotFound"));
+          return {};
+      }
+      return JSON.parse(moduleArgs);
+  }
+
+  getLectureId() {
+      return /learn\/lecture\/([^/]+)/.exec(window.location.pathname)?.[1];
+  }
+
+  async getLectureData(courseId, lectureId) {
+      const res = await this.fetch(
+          `${this.API_ORIGIN}/users/me/subscribed-courses/${courseId}/lectures/${lectureId}/?` +
+          new URLSearchParams({
+              "fields[lecture]": "title,description,asset",
+              "fields[asset]": "length,media_sources,captions",
+          })
+      );
+      return await res.json();
+  }
+
+  async getCourseLang(courseId) {
+      const res = await this.fetch(
+          `${this.API_ORIGIN}/users/me/subscribed-courses/${courseId}?` +
+          new URLSearchParams({
+              "fields[course]": "locale",
+          })
+      );
+      return await res.json();
+  }
+
+  findVideoUrl(sources) {
+      return sources?.find((src) => src.type === "video/mp4")?.src;
+  }
+
+  findSubtitleUrl(captions, detectedLanguage) {
+      let subtitle = captions?.find(
+          (caption) => langTo6391(caption.locale_id) === detectedLanguage,
+      );
+
+      if (!subtitle) {
+          subtitle = captions?.find(
+              (caption) => langTo6391(caption.locale_id) === "en",
+          ) ?? captions?.[0];
+      }
+
+      return subtitle?.url;
+  }
+
+  async getVideoData(videoId) {
+      const { courseId } = this.getModuleData();
+      if (!courseId) {
+          return undefined;
+      }
+
+      const lectureId = this.getLectureId();
+      utils_debug.log(`[Udemy] courseId: ${courseId}, lectureId: ${lectureId}`)
+      if (!lectureId) {
+          return undefined;
+      }
+
+      const { title, description, asset } = await this.getLectureData(courseId, lectureId);
+      const { length: duration, media_sources, captions } = asset;
+
+      const videoUrl = this.findVideoUrl(media_sources);
+      if (!videoUrl) {
+          console.log("Failed to find .mp4 video file in media_sources", media_sources);
+          return undefined;
+      }
+
+      const courseLangData = await this.getCourseLang(courseId);
+      let { locale: { locale: courseLang } } = courseLangData;
+      courseLang = courseLang ? langTo6391(courseLang) : "en";
+      if (!availableLangs.includes(courseLang)) {
+          courseLang = "en";
+      }
+
+      const subtitleUrl = this.findSubtitleUrl(captions, courseLang);
+      if (!subtitleUrl) {
+          console.log("Failed to find subtitle file in captions", captions)
+      }
+
+      return {
+          ...subtitleUrl ? {
+              url: this.service?.url + videoId,
+              translationHelp: [
+                  {
+                      target: "subtitles_file_url",
+                      targetUrl: subtitleUrl,
+                  },
+                  {
+                      target: "video_file_url",
+                      targetUrl: videoUrl,
+                  },
+              ],
+              detectedLanguage: courseLang,
+          } : {
+              url: videoUrl,
+              translationHelp: null,
+          },
+          duration,
+          title,
+          description,
+      };
+  }
+
+  async getVideoId(url) {
+      return url.pathname.slice(1);
+  }
+}
+
+;// ./node_modules/vot.js/dist/helpers/coursera.js
+
+
+
+
+
+
+class CourseraHelper extends BaseHelper {
+    API_ORIGIN = "https://www.coursera.org/api";
+
+    async getCourseData(courseId) {
+        const response = await this.fetch(
+            `${this.API_ORIGIN}/onDemandCourses.v1/${courseId}`,
+        );
+        const resJSON = await response.json();
+        return resJSON?.elements?.[0];
+    }
+
+    getPlayer() {
+        return document.querySelector(".vjs-v8");
+    }
+
+    getPlayerData() {
+        return this.getPlayer()?.player;
+    }
+
+    findVideoUrl(sources) {
+        return sources?.find((src) => src.type === "video/mp4")?.src;
+    }
+
+    findSubtitleUrl(captions, detectedLanguage) {
+        let subtitle = captions?.find(
+            (caption) => langTo6391(caption.srclang) === detectedLanguage,
+        );
+
+        if (!subtitle) {
+            subtitle = captions?.find(
+                (caption) => langTo6391(caption.srclang) === "en",
+            ) || captions?.[0];
+        }
+
+        return subtitle?.src;
+    }
+
+    async getVideoData(videoId) {
+        const data = this.getPlayerData();
+
+        const { duration } = data?.cache_ || {};
+        const { courseId, tracks, sources } = data?.options_ || {};
+
+        const videoUrl = this.findVideoUrl(sources);
+        if (!videoUrl) {
+            console.log("Failed to find .mp4 video file in sources", sources);
+            return undefined;
+        }
+
+        const { primaryLanguageCodes } = await this.getCourseData(courseId);
+        let courseLang = primaryLanguageCodes?.[0];
+        courseLang = courseLang ? langTo6391(courseLang) : "en";
+
+        if (!availableLangs.includes(courseLang)) {
+            courseLang = "en";
+        }
+
+        const subtitleUrl = this.findSubtitleUrl(tracks, courseLang);
+        if (!subtitleUrl) {
+            console.log("Failed to find subtitle file in tracks", tracks)
+        }
+
+        return {
+            ...subtitleUrl ? {
+                url: this.service?.url + videoId,
+                translationHelp: [
+                    {
+                        target: "subtitles_file_url",
+                        targetUrl: subtitleUrl,
+                    },
+                    {
+                        target: "video_file_url",
+                        targetUrl: videoUrl,
+                    },
+                ],
+            } : {
+                url: videoUrl,
+                translationHelp: null,
+            },
+            detectedLanguage: courseLang,
+            duration,
+        };
+    }
+
+    async getVideoId(url) {
+        return /learn\/([^/]+)\/lecture\/([^/]+)/.exec(url.pathname)?.[0]; // <-- COURSE PASSING (IF YOU LOGINED TO COURSERA)
+    }
+}
+;// ./node_modules/vot.js/dist/helpers/linkedin.js
 
 
 class LinkedinHelper extends BaseHelper {
@@ -3854,63 +3888,284 @@ class LinkedinHelper extends BaseHelper {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/helpers/index.js
+;// ./node_modules/vot.js/dist/helpers/vimeo.js
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class VideoHelper {
-    static [VideoService.mailru] = new MailRuHelper();
-    static [VideoService.weverse] = new WeverseHelper();
-    static [VideoService.kodik] = new KodikHelper();
-    static [VideoService.patreon] = new PatreonHelper();
-    static [VideoService.reddit] = new RedditHelper();
-    static [VideoService.bannedvideo] = new BannedVideoHelper();
-    static [VideoService.kick] = new KickHelper();
-    static [VideoService.appledeveloper] = new AppleDeveloperHelper();
-    static [VideoService.epicgames] = new EpicGamesHelper();
-    static [VideoService.nineanimetv] = new NineAnimeTVHelper();
-    static [VideoService.odysee] = new OdyseeHelper();
-    static [VideoService.twitch] = new TwitchHelper();
-    static [VideoService.coursehunter] = new CoursehunterHelper();
-    static [VideoService.udemy] = new UdemyHelper();
-    static [VideoService.coursera] = new CourseraHelper();
-    static [VideoService.sap] = new SapHelper();
-    static [VideoService.linkedin] = new LinkedinHelper();
+class VimeoHelper extends BaseHelper {
+    API_KEY = "";
+    DEFAULT_SITE_ORIGIN = "https://vimeo.com";
+    SITE_ORIGIN = this.isPrivatePlayer()
+        ? this.service?.url?.slice(0, -1) ?? this.DEFAULT_SITE_ORIGIN
+        : this.DEFAULT_SITE_ORIGIN;
+    isErrorData(data) {
+        return Object.hasOwn(data, "error");
+    }
+    isPrivatePlayer() {
+        return this.referer && !this.referer.includes("vimeo.com");
+    }
+    async getViewerData() {
+        try {
+            const res = await this.fetch(`https://vimeo.com/_next/viewer`);
+            const data = (await res.json());
+            const { apiUrl, jwt } = data;
+            this.API_ORIGIN = `https://${apiUrl}`;
+            this.API_KEY = `jwt ${jwt}`;
+            return data;
+        }
+        catch (err) {
+            console.error(`Failed to get default viewer data.`, err.message);
+            return false;
+        }
+    }
+    async getVideoInfo(videoId) {
+        try {
+            const params = new URLSearchParams({
+                fields: "name,link,description,duration",
+            }).toString();
+            const res = await this.fetch(`${this.API_ORIGIN}/videos/${videoId}?${params}`, {
+                headers: {
+                    Authorization: this.API_KEY,
+                },
+            });
+            const data = (await res.json());
+            if (this.isErrorData(data)) {
+                throw new Error(data.developer_message ?? data.error);
+            }
+            return data;
+        }
+        catch (err) {
+            console.error(`Failed to get video info by video ID: ${videoId}`, err.message);
+            return false;
+        }
+    }
+    async getPrivateVideoSource(files) {
+        try {
+            const { default_cdn, cdns } = files.dash;
+            const cdnUrl = cdns[default_cdn].url;
+            const res = await this.fetch(cdnUrl);
+            if (res.status !== 200) {
+                throw new VideoHelperError(await res.text());
+            }
+            const data = (await res.json());
+            const baseUrl = new URL(cdnUrl);
+            const pathLength = Array.from(data.base_url.matchAll(/\.\.\//g)).length + 1;
+            const pathFragments = baseUrl.pathname.split("/");
+            baseUrl.pathname = pathFragments
+                .slice(0, pathFragments.length - pathLength)
+                .join("/");
+            const videoData = data.audio.find((v) => v.mime_type === "audio/mp4" && v.format === "dash");
+            if (!videoData) {
+                throw new VideoHelperError("Failed to find video data");
+            }
+            const segmentUrl = videoData.segments?.[0]?.url;
+            if (!segmentUrl) {
+                throw new VideoHelperError("Failed to find first segment url");
+            }
+            const [videoName, videoParams] = segmentUrl.split("?", 2);
+            baseUrl.pathname += `/${videoData.base_url}${videoName}`;
+            const params = new URLSearchParams(videoParams);
+            params.delete("range");
+            baseUrl.href = baseUrl.href.split("?")[0] + "?" + params.toString();
+            return baseUrl.href;
+        }
+        catch (err) {
+            console.error(`Failed to get private video source`, err.message);
+            return false;
+        }
+    }
+    async getPrivateVideoInfo(videoId) {
+        try {
+            // playerConfig is window.playerConfig
+            const videoSource = await this.getPrivateVideoSource(playerConfig.request.files);
+            if (!videoSource) {
+                throw new VideoHelperError("Failed to get private video source");
+            }
+            const { title, duration } = playerConfig.video;
+            const { text_tracks: subs } = playerConfig.request;
+            return {
+                url: `${this.SITE_ORIGIN}/${videoId}`,
+                video_url: videoSource,
+                title,
+                duration,
+                subs,
+            };
+        }
+        catch (err) {
+            console.error(`Failed to get private video info by video ID: ${videoId}`, err.message);
+            return false;
+        }
+    }
+    async getSubsInfo(videoId) {
+        try {
+            const params = new URLSearchParams({
+                per_page: "100",
+                fields: "language,type,link",
+            }).toString();
+            const res = await this.fetch(`${this.API_ORIGIN}/videos/${videoId}/texttracks?${params}`, {
+                headers: {
+                    Authorization: this.API_KEY,
+                },
+            });
+            const data = (await res.json());
+            if (this.isErrorData(data)) {
+                throw new Error(data.developer_message ?? data.error);
+            }
+            return data;
+        }
+        catch (err) {
+            console.error(`Failed to get subtitles info by video ID: ${videoId}`, err.message);
+            return false;
+        }
+    }
+    async getVideoData(videoId) {
+        const isPrivate = this.isPrivatePlayer();
+        if (!this.extraInfo) {
+            return this.returnBaseData(videoId);
+        }
+        if (isPrivate) {
+            const videoInfo = await this.getPrivateVideoInfo(videoId);
+            if (!videoInfo) {
+                return undefined;
+            }
+            const { url, subs, video_url, title, duration } = videoInfo;
+            const subtitles = subs.map((sub) => ({
+                language: normalizeLang(sub.lang),
+                format: "vtt",
+                url: this.SITE_ORIGIN + sub.url,
+                isAutoGenerated: sub.lang.includes("autogenerated"),
+            }));
+            const translationHelp = subtitles.length
+                ? [
+                    { target: "video_file_url", targetUrl: video_url },
+                    { target: "subtitles_file_url", targetUrl: subtitles[0].url },
+                ]
+                : null;
+            return {
+                ...(translationHelp
+                    ? {
+                        url,
+                        translationHelp,
+                    }
+                    : {
+                        url: video_url,
+                    }),
+                subtitles,
+                title,
+                duration,
+            };
+        }
+        if (videoId.startsWith("video/")) {
+            videoId = videoId.replace("video/", "");
+        }
+        if (videoId.includes("/")) {
+            videoId = videoId.replace("/", ":");
+        }
+        const viewerData = await this.getViewerData();
+        if (!viewerData) {
+            return this.returnBaseData(videoId);
+        }
+        const videoInfo = await this.getVideoInfo(videoId);
+        if (!videoInfo) {
+            return this.returnBaseData(videoId);
+        }
+        const subsData = await this.getSubsInfo(videoId);
+        const subtitles = subsData
+            ? subsData.data.map((caption) => ({
+                language: normalizeLang(caption.language),
+                format: "vtt",
+                url: caption.link,
+                isAutoGenerated: caption.language.includes("autogen"),
+            }))
+            : [];
+        const { link, duration, name: title, description } = videoInfo;
+        return {
+            url: link,
+            title,
+            description,
+            subtitles,
+            duration,
+        };
+    }
+    async getVideoId(url) {
+        const embedId = /[^/]+\/[^/]+$/.exec(url.pathname)?.[0];
+        if (this.isPrivatePlayer()) {
+            return embedId;
+        }
+        return embedId?.startsWith("video/")
+            ? embedId.replace("video/", "")
+            : embedId ?? /[^/]+$/.exec(url.pathname)?.[0];
+    }
 }
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/utils/videoData.js
+;// ./node_modules/vot.js/dist/helpers/index.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const availableHelpers = {
+    [VideoService.mailru]: MailRuHelper,
+    [VideoService.weverse]: WeverseHelper,
+    [VideoService.kodik]: KodikHelper,
+    [VideoService.patreon]: PatreonHelper,
+    [VideoService.reddit]: RedditHelper,
+    [VideoService.bannedvideo]: BannedVideoHelper,
+    [VideoService.kick]: KickHelper,
+    [VideoService.appledeveloper]: AppleDeveloperHelper,
+    [VideoService.epicgames]: EpicGamesHelper,
+    [VideoService.nineanimetv]: NineAnimeTVHelper,
+    [VideoService.odysee]: OdyseeHelper,
+    [VideoService.coursehunter]: CoursehunterHelper,
+    [VideoService.twitch]: TwitchHelper,
+    [VideoService.sap]: SapHelper,
+    [VideoService.udemy]: UdemyHelper,
+    [VideoService.coursera]: CourseraHelper,
+    [VideoService.linkedin]: LinkedinHelper,
+    [VideoService.vimeo]: VimeoHelper,
+};
+class VideoHelper {
+    helpersData;
+    constructor(helpersData = {}) {
+        this.helpersData = helpersData;
+    }
+    getHelper(service) {
+        return new availableHelpers[service](this.helpersData);
+    }
+}
+
+;// ./node_modules/vot.js/dist/utils/videoData.js
 
 
 
@@ -3944,11 +4199,12 @@ function getService() {
             e.url);
     });
 }
-async function getVideoID(service, video) {
+async function getVideoID(service, video, opts = {}) {
     const url = new URL(window.location.href);
     const serviceHost = service.host;
-    if (Object.getOwnPropertyDescriptor(VideoHelper, serviceHost)) {
-        return await VideoHelper[serviceHost].getVideoId(url);
+    if (Object.keys(availableHelpers).includes(serviceHost)) {
+        const helper = new VideoHelper(opts).getHelper(serviceHost);
+        return await helper.getVideoId(url);
     }
     switch (serviceHost) {
         case VideoService.custom:
@@ -3989,12 +4245,6 @@ async function getVideoID(service, video) {
         case VideoService.proxitok:
         case VideoService.tiktok:
             return /([^/]+)\/video\/([^/]+)/.exec(url.pathname)?.[0];
-        case VideoService.vimeo: {
-            const appId = url.searchParams.get("app_id");
-            const videoId = /[^/]+\/[^/]+$/.exec(url.pathname)?.[0] ??
-                /[^/]+$/.exec(url.pathname)?.[0];
-            return appId ? `${videoId}?app_id=${appId}` : videoId;
-        }
         case VideoService.xvideos:
             return /[^/]+\/[^/]+$/.exec(url.pathname)?.[0];
         case VideoService.pornhub:
@@ -4063,13 +4313,13 @@ async function getVideoID(service, video) {
         case VideoService.archive:
             return /(details|embed)\/([^/]+)/.exec(url.pathname)?.[2];
         case VideoService.watchpornto:
-            return /\/(video|embed)\/(\d+)(\/[^/]+\/)?/.exec(url.pathname)?.[0];
+            return /(video|embed)\/(\d+)(\/[^/]+\/)?/.exec(url.pathname)?.[0];
         default:
             return undefined;
     }
 }
-async function getVideoData(service, video) {
-    const videoId = await getVideoID(service, video);
+async function getVideoData(service, video, opts = {}) {
+    const videoId = await getVideoID(service, video, opts);
     if (!videoId) {
         throw new VideoDataError(`Entered unsupported link: "${service.host}"`);
     }
@@ -4092,7 +4342,8 @@ async function getVideoData(service, video) {
             duration: undefined,
         };
     }
-    const result = await VideoHelper[service.host].getVideoData(videoId);
+    const helper = new VideoHelper({ ...opts, service }).getHelper(service.host);
+    const result = await helper.getVideoData(videoId);
     if (!result) {
         throw new VideoDataError(`Failed to get video raw url for ${service.host}`);
     }
@@ -4103,7 +4354,7 @@ async function getVideoData(service, video) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/utils/vot.js
+;// ./node_modules/vot.js/dist/utils/vot.js
 
 function convertVOT(service, videoId, url) {
     if (service === VideoService.patreon) {
@@ -4118,7 +4369,7 @@ function convertVOT(service, videoId, url) {
     };
 }
 
-;// CONCATENATED MODULE: ./src/utils/VOTLocalizedError.js
+;// ./src/utils/VOTLocalizedError.js
 
 
 class VOTLocalizedError extends Error {
@@ -4130,7 +4381,7 @@ class VOTLocalizedError extends Error {
   }
 }
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/client.js
+;// ./node_modules/vot.js/dist/client.js
 
 
 
@@ -4490,14 +4741,14 @@ class VOTWorkerClient extends VOTClient {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/types/helpers/bannedvideo.js
+;// ./node_modules/vot.js/dist/types/helpers/bannedvideo.js
 var TypeName;
 (function (TypeName) {
     TypeName["Channel"] = "Channel";
     TypeName["Video"] = "Video";
 })(TypeName || (TypeName = {}));
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/types/index.js
+;// ./node_modules/vot.js/dist/types/index.js
 
 
 
@@ -4517,14 +4768,15 @@ var TypeName;
 
 
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/index.js
+
+;// ./node_modules/vot.js/dist/index.js
 
 
 
 
 
 
-;// CONCATENATED MODULE: ./node_modules/vot.js/dist/utils/subs.js
+;// ./node_modules/vot.js/dist/utils/subs.js
 function convertToStrTime(ms, delimiter = ",") {
     const seconds = ms / 1000;
     const hours = Math.floor(seconds / 3600);
@@ -4619,7 +4871,7 @@ function convertSubs(data, output = "srt") {
     return convertSubsFromJSON(data, output);
 }
 
-;// CONCATENATED MODULE: ./node_modules/lit-html/lit-html.js
+;// ./node_modules/lit-html/lit-html.js
 /**
  * @license
  * Copyright 2017 Google LLC
@@ -4628,11 +4880,11 @@ function convertSubs(data, output = "srt") {
 const n=globalThis,c=n.trustedTypes,h=c?c.createPolicy("lit-html",{createHTML:t=>t}):void 0,f="$lit$",v=`lit$${Math.random().toFixed(9).slice(2)}$`,m="?"+v,_=`<${m}>`,w=document,lt=()=>w.createComment(""),st=t=>null===t||"object"!=typeof t&&"function"!=typeof t,g=Array.isArray,$=t=>g(t)||"function"==typeof t?.[Symbol.iterator],x="[ \t\n\f\r]",T=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,E=/-->/g,k=/>/g,O=RegExp(`>|${x}(?:([^\\s"'>=/]+)(${x}*=${x}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),S=/'/g,j=/"/g,M=/^(?:script|style|textarea|title)$/i,P=t=>(i,...s)=>({_$litType$:t,strings:i,values:s}),ke=P(1),Oe=P(2),Se=P(3),R=Symbol.for("lit-noChange"),D=Symbol.for("lit-nothing"),V=new WeakMap,I=w.createTreeWalker(w,129);function N(t,i){if(!g(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==h?h.createHTML(i):i}const U=(t,i)=>{const s=t.length-1,e=[];let h,o=2===i?"<svg>":3===i?"<math>":"",n=T;for(let i=0;i<s;i++){const s=t[i];let r,l,c=-1,a=0;for(;a<s.length&&(n.lastIndex=a,l=n.exec(s),null!==l);)a=n.lastIndex,n===T?"!--"===l[1]?n=E:void 0!==l[1]?n=k:void 0!==l[2]?(M.test(l[2])&&(h=RegExp("</"+l[2],"g")),n=O):void 0!==l[3]&&(n=O):n===O?">"===l[0]?(n=h??T,c=-1):void 0===l[1]?c=-2:(c=n.lastIndex-l[2].length,r=l[1],n=void 0===l[3]?O:'"'===l[3]?j:S):n===j||n===S?n=O:n===E||n===k?n=T:(n=O,h=void 0);const u=n===O&&t[i+1].startsWith("/>")?" ":"";o+=n===T?s+_:c>=0?(e.push(r),s.slice(0,c)+f+s.slice(c)+v+u):s+v+(-2===c?i:u)}return[N(t,o+(t[s]||"<?>")+(2===i?"</svg>":3===i?"</math>":"")),e]};class B{constructor({strings:t,_$litType$:i},s){let e;this.parts=[];let h=0,o=0;const n=t.length-1,r=this.parts,[l,a]=U(t,i);if(this.el=B.createElement(l,s),I.currentNode=this.el.content,2===i||3===i){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(e=I.nextNode())&&r.length<n;){if(1===e.nodeType){if(e.hasAttributes())for(const t of e.getAttributeNames())if(t.endsWith(f)){const i=a[o++],s=e.getAttribute(t).split(v),n=/([.?@])?(.*)/.exec(i);r.push({type:1,index:h,name:n[2],strings:s,ctor:"."===n[1]?Y:"?"===n[1]?Z:"@"===n[1]?q:G}),e.removeAttribute(t)}else t.startsWith(v)&&(r.push({type:6,index:h}),e.removeAttribute(t));if(M.test(e.tagName)){const t=e.textContent.split(v),i=t.length-1;if(i>0){e.textContent=c?c.emptyScript:"";for(let s=0;s<i;s++)e.append(t[s],lt()),I.nextNode(),r.push({type:2,index:++h});e.append(t[i],lt())}}}else if(8===e.nodeType)if(e.data===m)r.push({type:2,index:h});else{let t=-1;for(;-1!==(t=e.data.indexOf(v,t+1));)r.push({type:7,index:h}),t+=v.length-1}h++}}static createElement(t,i){const s=w.createElement("template");return s.innerHTML=t,s}}function z(t,i,s=t,e){if(i===R)return i;let h=void 0!==e?s.o?.[e]:s.l;const o=st(i)?void 0:i._$litDirective$;return h?.constructor!==o&&(h?._$AO?.(!1),void 0===o?h=void 0:(h=new o(t),h._$AT(t,s,e)),void 0!==e?(s.o??=[])[e]=h:s.l=h),void 0!==h&&(i=z(t,h._$AS(t,i.values),h,e)),i}class F{constructor(t,i){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=i}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:i},parts:s}=this._$AD,e=(t?.creationScope??w).importNode(i,!0);I.currentNode=e;let h=I.nextNode(),o=0,n=0,r=s[0];for(;void 0!==r;){if(o===r.index){let i;2===r.type?i=new et(h,h.nextSibling,this,t):1===r.type?i=new r.ctor(h,r.name,r.strings,this,t):6===r.type&&(i=new K(h,this,t)),this._$AV.push(i),r=s[++n]}o!==r?.index&&(h=I.nextNode(),o++)}return I.currentNode=w,e}p(t){let i=0;for(const s of this._$AV)void 0!==s&&(void 0!==s.strings?(s._$AI(t,s,i),i+=s.strings.length-2):s._$AI(t[i])),i++}}class et{get _$AU(){return this._$AM?._$AU??this.v}constructor(t,i,s,e){this.type=2,this._$AH=D,this._$AN=void 0,this._$AA=t,this._$AB=i,this._$AM=s,this.options=e,this.v=e?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const i=this._$AM;return void 0!==i&&11===t?.nodeType&&(t=i.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,i=this){t=z(this,t,i),st(t)?t===D||null==t||""===t?(this._$AH!==D&&this._$AR(),this._$AH=D):t!==this._$AH&&t!==R&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):$(t)?this.k(t):this._(t)}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t))}_(t){this._$AH!==D&&st(this._$AH)?this._$AA.nextSibling.data=t:this.T(w.createTextNode(t)),this._$AH=t}$(t){const{values:i,_$litType$:s}=t,e="number"==typeof s?this._$AC(t):(void 0===s.el&&(s.el=B.createElement(N(s.h,s.h[0]),this.options)),s);if(this._$AH?._$AD===e)this._$AH.p(i);else{const t=new F(e,this),s=t.u(this.options);t.p(i),this.T(s),this._$AH=t}}_$AC(t){let i=V.get(t.strings);return void 0===i&&V.set(t.strings,i=new B(t)),i}k(t){g(this._$AH)||(this._$AH=[],this._$AR());const i=this._$AH;let s,e=0;for(const h of t)e===i.length?i.push(s=new et(this.O(lt()),this.O(lt()),this,this.options)):s=i[e],s._$AI(h),e++;e<i.length&&(this._$AR(s&&s._$AB.nextSibling,e),i.length=e)}_$AR(t=this._$AA.nextSibling,i){for(this._$AP?.(!1,!0,i);t&&t!==this._$AB;){const i=t.nextSibling;t.remove(),t=i}}setConnected(t){void 0===this._$AM&&(this.v=t,this._$AP?.(t))}}class G{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,i,s,e,h){this.type=1,this._$AH=D,this._$AN=void 0,this.element=t,this.name=i,this._$AM=e,this.options=h,s.length>2||""!==s[0]||""!==s[1]?(this._$AH=Array(s.length-1).fill(new String),this.strings=s):this._$AH=D}_$AI(t,i=this,s,e){const h=this.strings;let o=!1;if(void 0===h)t=z(this,t,i,0),o=!st(t)||t!==this._$AH&&t!==R,o&&(this._$AH=t);else{const e=t;let n,r;for(t=h[0],n=0;n<h.length-1;n++)r=z(this,e[s+n],i,n),r===R&&(r=this._$AH[n]),o||=!st(r)||r!==this._$AH[n],r===D?t=D:t!==D&&(t+=(r??"")+h[n+1]),this._$AH[n]=r}o&&!e&&this.j(t)}j(t){t===D?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class Y extends G{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===D?void 0:t}}class Z extends G{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==D)}}class q extends G{constructor(t,i,s,e,h){super(t,i,s,e,h),this.type=5}_$AI(t,i=this){if((t=z(this,t,i,0)??D)===R)return;const s=this._$AH,e=t===D&&s!==D||t.capture!==s.capture||t.once!==s.once||t.passive!==s.passive,h=t!==D&&(s===D||e);e&&this.element.removeEventListener(this.name,this,s),h&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class K{constructor(t,i,s){this.element=t,this.type=6,this._$AN=void 0,this._$AM=i,this.options=s}get _$AU(){return this._$AM._$AU}_$AI(t){z(this,t)}}const si={M:f,P:v,A:m,C:1,L:U,R:F,D:$,V:z,I:et,H:G,N:Z,U:q,B:Y,F:K},Re=n.litHtmlPolyfillSupport;Re?.(B,et),(n.litHtmlVersions??=[]).push("3.2.0");const Q=(t,i,s)=>{const e=s?.renderBefore??i;let h=e._$litPart$;if(void 0===h){const t=s?.renderBefore??null;e._$litPart$=h=new et(i.insertBefore(lt(),t),t,void 0,s??{})}return h._$AI(t),h};
 //# sourceMappingURL=lit-html.js.map
 
-;// CONCATENATED MODULE: ./node_modules/browser-id3-writer/dist/browser-id3-writer.mjs
+;// ./node_modules/browser-id3-writer/dist/browser-id3-writer.mjs
 function e(e){return String(e).split("").map((e=>e.charCodeAt(0)))}function t(t){return new Uint8Array(e(t))}function a(t){const a=new ArrayBuffer(2*t.length),r=new Uint8Array(a);return new Uint16Array(a).set(e(t)),r}function r(e){const t=255;return[e>>>24&t,e>>>16&t,e>>>8&t,e&t]}function browser_id3_writer_n(e){return 11+e}function s(e,t,a,r){return 11+t+1+1+(r?2+2*(a+1):a+1)+e}function i(e){let t=0;return e.forEach((e=>{t+=2+2*e[0].length+2+2+2*e[1].length+2})),11+t}function browser_id3_writer_c(e,t){const a=2*t;let r=0;return e.forEach((e=>{r+=2+2*e[0].length+2+4})),18+a+2+r}class o{_setIntegerFrame(e,t){const a=parseInt(t,10);this.frames.push({name:e,value:a,size:browser_id3_writer_n(a.toString().length)})}_setStringFrame(e,t){const a=t.toString();let r=13+2*a.length;"TDAT"===e&&(r=browser_id3_writer_n(a.length)),this.frames.push({name:e,value:a,size:r})}_setPictureFrame(e,t,a,r){const n=function(e){if(!e||!e.length)return null;if(255===e[0]&&216===e[1]&&255===e[2])return"image/jpeg";if(137===e[0]&&80===e[1]&&78===e[2]&&71===e[3])return"image/png";if(71===e[0]&&73===e[1]&&70===e[2])return"image/gif";if(87===e[8]&&69===e[9]&&66===e[10]&&80===e[11])return"image/webp";const t=73===e[0]&&73===e[1]&&42===e[2]&&0===e[3],a=77===e[0]&&77===e[1]&&0===e[2]&&42===e[3];return t||a?"image/tiff":66===e[0]&&77===e[1]?"image/bmp":0===e[0]&&0===e[1]&&1===e[2]&&0===e[3]?"image/x-icon":null}(new Uint8Array(t)),i=a.toString();if(!n)throw new Error("Unknown picture MIME type");a||(r=!1),this.frames.push({name:"APIC",value:t,pictureType:e,mimeType:n,useUnicodeEncoding:r,description:i,size:s(t.byteLength,n.length,i.length,r)})}_setLyricsFrame(e,t,a){const r=e.split("").map((e=>e.charCodeAt(0))),n=t.toString(),s=a.toString();var i,c;this.frames.push({name:"USLT",value:s,language:r,description:n,size:(i=n.length,c=s.length,16+2*i+2+2+2*c)})}_setCommentFrame(e,t,a){const r=e.split("").map((e=>e.charCodeAt(0))),n=t.toString(),s=a.toString();var i,c;this.frames.push({name:"COMM",value:s,language:r,description:n,size:(i=n.length,c=s.length,16+2*i+2+2+2*c)})}_setPrivateFrame(e,t){const a=e.toString();var r,n;this.frames.push({name:"PRIV",value:t,id:a,size:(r=a.length,n=t.byteLength,10+r+1+n)})}_setUserStringFrame(e,t){const a=e.toString(),r=t.toString();var n,s;this.frames.push({name:"TXXX",description:a,value:r,size:(n=a.length,s=r.length,13+2*n+2+2+2*s)})}_setUrlLinkFrame(e,t){const a=t.toString();var r;this.frames.push({name:e,value:a,size:(r=a.length,10+r)})}_setPairedTextFrame(e,t){this.frames.push({name:e,value:t,size:i(t)})}_setSynchronisedLyricsFrame(e,t,a,r,n){const s=n.toString(),i=r.split("").map((e=>e.charCodeAt(0)));this.frames.push({name:"SYLT",value:t,language:i,description:s,type:e,timestampFormat:a,size:browser_id3_writer_c(t,s.length)})}constructor(e){if(!e||"object"!=typeof e||!("byteLength"in e))throw new Error("First argument should be an instance of ArrayBuffer or Buffer");this.arrayBuffer=e,this.padding=4096,this.frames=[],this.url=""}setFrame(e,t){switch(e){case"TPE1":case"TCOM":case"TCON":{if(!Array.isArray(t))throw new Error(`${e} frame value should be an array of strings`);const a="TCON"===e?";":"/",r=t.join(a);this._setStringFrame(e,r);break}case"TLAN":case"TIT1":case"TIT2":case"TIT3":case"TALB":case"TPE2":case"TPE3":case"TPE4":case"TRCK":case"TPOS":case"TMED":case"TPUB":case"TCOP":case"TKEY":case"TEXT":case"TDAT":case"TSRC":this._setStringFrame(e,t);break;case"TBPM":case"TLEN":case"TYER":this._setIntegerFrame(e,t);break;case"USLT":if(t.language=t.language||"eng","object"!=typeof t||!("description"in t)||!("lyrics"in t))throw new Error("USLT frame value should be an object with keys description and lyrics");if(t.language&&!t.language.match(/[a-z]{3}/i))throw new Error("Language must be coded following the ISO 639-2 standards");this._setLyricsFrame(t.language,t.description,t.lyrics);break;case"APIC":if("object"!=typeof t||!("type"in t)||!("data"in t)||!("description"in t))throw new Error("APIC frame value should be an object with keys type, data and description");if(t.type<0||t.type>20)throw new Error("Incorrect APIC frame picture type");this._setPictureFrame(t.type,t.data,t.description,!!t.useUnicodeEncoding);break;case"TXXX":if("object"!=typeof t||!("description"in t)||!("value"in t))throw new Error("TXXX frame value should be an object with keys description and value");this._setUserStringFrame(t.description,t.value);break;case"WCOM":case"WCOP":case"WOAF":case"WOAR":case"WOAS":case"WORS":case"WPAY":case"WPUB":this._setUrlLinkFrame(e,t);break;case"COMM":if(t.language=t.language||"eng","object"!=typeof t||!("description"in t)||!("text"in t))throw new Error("COMM frame value should be an object with keys description and text");if(t.language&&!t.language.match(/[a-z]{3}/i))throw new Error("Language must be coded following the ISO 639-2 standards");this._setCommentFrame(t.language,t.description,t.text);break;case"PRIV":if("object"!=typeof t||!("id"in t)||!("data"in t))throw new Error("PRIV frame value should be an object with keys id and data");this._setPrivateFrame(t.id,t.data);break;case"IPLS":if(!Array.isArray(t)||!Array.isArray(t[0]))throw new Error("IPLS frame value should be an array of pairs");this._setPairedTextFrame(e,t);break;case"SYLT":if("object"!=typeof t||!("type"in t)||!("text"in t)||!("timestampFormat"in t))throw new Error("SYLT frame value should be an object with keys type, text and timestampFormat");if(!Array.isArray(t.text)||!Array.isArray(t.text[0]))throw new Error("SYLT frame text value should be an array of pairs");if(t.type<0||t.type>6)throw new Error("Incorrect SYLT frame content type");if(t.timestampFormat<1||t.timestampFormat>2)throw new Error("Incorrect SYLT frame time stamp format");t.language=t.language||"eng",t.description=t.description||"",this._setSynchronisedLyricsFrame(t.type,t.text,t.timestampFormat,t.language,t.description);break;default:throw new Error(`Unsupported frame ${e}`)}return this}removeTag(){if(this.arrayBuffer.byteLength<10)return;const e=new Uint8Array(this.arrayBuffer),t=e[3],a=((r=[e[6],e[7],e[8],e[9]])[0]<<21)+(r[1]<<14)+(r[2]<<7)+r[3]+10;var r,n;73!==(n=e)[0]||68!==n[1]||51!==n[2]||t<2||t>4||(this.arrayBuffer=new Uint8Array(e.subarray(a)).buffer)}addTag(){this.removeTag();const e=[255,254],n=10+this.frames.reduce(((e,t)=>e+t.size),0)+this.padding,s=new ArrayBuffer(this.arrayBuffer.byteLength+n),i=new Uint8Array(s);let c=0,o=[];return o=[73,68,51,3],i.set(o,c),c+=o.length,c++,c++,o=function(e){const t=127;return[e>>>21&t,e>>>14&t,e>>>7&t,e&t]}(n-10),i.set(o,c),c+=o.length,this.frames.forEach((n=>{switch(o=t(n.name),i.set(o,c),c+=o.length,o=r(n.size-10),i.set(o,c),c+=o.length,c+=2,n.name){case"WCOM":case"WCOP":case"WOAF":case"WOAR":case"WOAS":case"WORS":case"WPAY":case"WPUB":o=t(n.value),i.set(o,c),c+=o.length;break;case"TPE1":case"TCOM":case"TCON":case"TLAN":case"TIT1":case"TIT2":case"TIT3":case"TALB":case"TPE2":case"TPE3":case"TPE4":case"TRCK":case"TPOS":case"TKEY":case"TMED":case"TPUB":case"TCOP":case"TEXT":case"TSRC":o=[1].concat(e),i.set(o,c),c+=o.length,o=a(n.value),i.set(o,c),c+=o.length;break;case"TXXX":case"USLT":case"COMM":o=[1],"USLT"!==n.name&&"COMM"!==n.name||(o=o.concat(n.language)),o=o.concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,o=[0,0].concat(e),i.set(o,c),c+=o.length,o=a(n.value),i.set(o,c),c+=o.length;break;case"TBPM":case"TLEN":case"TDAT":case"TYER":c++,o=t(n.value),i.set(o,c),c+=o.length;break;case"PRIV":o=t(n.id),i.set(o,c),c+=o.length,c++,i.set(new Uint8Array(n.value),c),c+=n.value.byteLength;break;case"APIC":o=[n.useUnicodeEncoding?1:0],i.set(o,c),c+=o.length,o=t(n.mimeType),i.set(o,c),c+=o.length,o=[0,n.pictureType],i.set(o,c),c+=o.length,n.useUnicodeEncoding?(o=[].concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,c+=2):(o=t(n.description),i.set(o,c),c+=o.length,c++),i.set(new Uint8Array(n.value),c),c+=n.value.byteLength;break;case"IPLS":o=[1],i.set(o,c),c+=o.length,n.value.forEach((t=>{o=[].concat(e),i.set(o,c),c+=o.length,o=a(t[0].toString()),i.set(o,c),c+=o.length,o=[0,0].concat(e),i.set(o,c),c+=o.length,o=a(t[1].toString()),i.set(o,c),c+=o.length,o=[0,0],i.set(o,c),c+=o.length}));break;case"SYLT":o=[1].concat(n.language).concat(n.timestampFormat).concat(n.type),i.set(o,c),c+=o.length,o=[].concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,c+=2,n.value.forEach((t=>{o=[].concat(e),i.set(o,c),c+=o.length,o=a(t[0].toString()),i.set(o,c),c+=o.length,o=[0,0],i.set(o,c),c+=o.length,o=r(t[1]),i.set(o,c),c+=o.length}))}})),c+=this.padding,i.set(new Uint8Array(this.arrayBuffer),c),this.arrayBuffer=s,s}getBlob(){return new Blob([this.arrayBuffer],{type:"audio/mpeg"})}getURL(){return this.url||(this.url=URL.createObjectURL(this.getBlob())),this.url}revokeURL(){URL.revokeObjectURL(this.url)}}
 // EXTERNAL MODULE: ./src/styles/main.scss
 var main = __webpack_require__("./src/styles/main.scss");
-;// CONCATENATED MODULE: ./src/ui.js
+;// ./src/ui.js
 
 
 
@@ -5493,7 +5745,7 @@ function afterAnimateLoader(votLoader, primaryColor = "139, 180, 245") {
   createDetails,
 });
 
-;// CONCATENATED MODULE: ./src/utils/volume.js
+;// ./src/utils/volume.js
 // element - audio / video element
 function syncVolume(element, sliderVolume, otherSliderVolume, tempVolume) {
   let finalValue = sliderVolume;
@@ -5524,7 +5776,7 @@ function syncVolume(element, sliderVolume, otherSliderVolume, tempVolume) {
 
 
 
-;// CONCATENATED MODULE: ./src/utils/translateApis.js
+;// ./src/utils/translateApis.js
 
 
 
@@ -5688,7 +5940,7 @@ const detectServices = Object.keys(detectUrls).map((k) =>
 
 
 
-;// CONCATENATED MODULE: ./src/utils/youtubeUtils.js
+;// ./src/utils/youtubeUtils.js
 
 
 
@@ -5979,7 +6231,7 @@ async function youtubeUtils_getVideoData() {
   isMusic,
 });
 
-;// CONCATENATED MODULE: ./src/subtitles.js
+;// ./src/subtitles.js
 
 
 
@@ -6516,7 +6768,7 @@ class SubtitlesWidget {
 
 // EXTERNAL MODULE: ./node_modules/requestidlecallback-polyfill/index.js
 var requestidlecallback_polyfill = __webpack_require__("./node_modules/requestidlecallback-polyfill/index.js");
-;// CONCATENATED MODULE: ./src/utils/EventImpl.js
+;// ./src/utils/EventImpl.js
 class EventImpl {
   constructor() {
     this.listeners = new Set();
@@ -6555,7 +6807,7 @@ class EventImpl {
   }
 }
 
-;// CONCATENATED MODULE: ./src/utils/VideoObserver.js
+;// ./src/utils/VideoObserver.js
 
 
 
@@ -6754,7 +7006,7 @@ class VideoObserver {
   };
 }
 
-;// CONCATENATED MODULE: ./src/index.js
+;// ./src/index.js
 
 
 
@@ -7082,7 +7334,7 @@ class VideoHandler {
       ),
     );
 
-    console.log("[db] data from db: ", this.data);
+    console.log("[VOT] data from db: ", this.data);
 
     // convert old m3u8-proxy-worker to new media-proxy
     if (this.data.m3u8ProxyHost === "m3u8-proxy.toil.cc") {

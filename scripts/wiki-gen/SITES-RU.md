@@ -685,6 +685,23 @@
 
 - /course/COURSE_ID
 
+## Sap
+
+Статус: [✅] Работает
+
+Доступные (под)домены:
+
+- `learning.sap.com`
+
+Доступные пути:
+
+- /courses/COURSE_NAME
+- /courses/COURSE_NAME/LECTURE_NAME
+
+Ограничения:
+
+- Для гарантированной работы скрипта необходимо [включить настройку "Обход Media CSP"](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) в расширение или удалить CSP другим способом
+
 ## Udemy
 
 Статус: [⚠️] Работает с ограничениями
@@ -718,23 +735,6 @@
 - Необходимо быть авторизованным на сайте
 - Если у видео нет субтитров на вашем языке, то перевод не будет выполнен
 
-## Sap
-
-Статус: [✅] Работает
-
-Доступные (под)домены:
-
-- `learning.sap.com`
-
-Доступные пути:
-
-- /courses/COURSE_NAME
-- /courses/COURSE_NAME/LECTURE_NAME
-
-Ограничения:
-
-- Для гарантированной работы скрипта необходимо [включить настройку "Обход Media CSP"](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) в расширение или удалить CSP другим способом
-
 ## Watchpornto
 
 Статус: [✅] Работает
@@ -754,8 +754,7 @@
 
 Доступные (под)домены:
 
-- `.linkedin.com`
-- `www.linkedin.com`
+- `(www.)?linkedin.com`
 
 Доступные пути:
 

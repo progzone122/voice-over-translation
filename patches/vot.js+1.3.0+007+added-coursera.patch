@@ -1,8 +1,8 @@
 diff --git a/node_modules/vot.js/dist/config/sites.js b/node_modules/vot.js/dist/config/sites.js
-index f995980..2d58378 100644
+index 410e593..2b01301 100644
 --- a/node_modules/vot.js/dist/config/sites.js
 +++ b/node_modules/vot.js/dist/config/sites.js
-@@ -351,6 +351,14 @@ export default [
+@@ -363,6 +363,14 @@ export default [
              'div[data-purpose="curriculum-item-viewer-content"] > section > div > div > div > div:nth-of-type(2)',
          needExtraData: true,
      },
@@ -15,11 +15,11 @@ index f995980..2d58378 100644
 +        needExtraData: true,
 +    },
      {
-         host: VideoService.sap,
-         url: "https://learning.sap.com/courses/",
+         host: VideoService.watchpornto,
+         url: "https://watchporn.to/",
 diff --git a/node_modules/vot.js/dist/helpers/coursera.d.ts b/node_modules/vot.js/dist/helpers/coursera.d.ts
 new file mode 100644
-index 0000000..a06a152
+index 0000000..fc46e72
 --- /dev/null
 +++ b/node_modules/vot.js/dist/helpers/coursera.d.ts
 @@ -0,0 +1,16 @@
@@ -42,7 +42,7 @@ index 0000000..a06a152
 \ No newline at end of file
 diff --git a/node_modules/vot.js/dist/helpers/coursera.js b/node_modules/vot.js/dist/helpers/coursera.js
 new file mode 100644
-index 0000000..c5f09d5
+index 0000000..0b07c60
 --- /dev/null
 +++ b/node_modules/vot.js/dist/helpers/coursera.js
 @@ -0,0 +1,94 @@
@@ -116,7 +116,7 @@ index 0000000..c5f09d5
 +
 +        return {
 +            ...subtitleUrl ? {
-+                url: sites.find((s) => s.host === VideoService.coursera).url + videoId,
++                url: this.service?.url + videoId,
 +                translationHelp: [
 +                    {
 +                        target: "subtitles_file_url",
@@ -127,11 +127,11 @@ index 0000000..c5f09d5
 +                        targetUrl: videoUrl,
 +                    },
 +                ],
-+                detectedLanguage: courseLang,
 +            } : {
 +                url: videoUrl,
 +                translationHelp: null,
 +            },
++            detectedLanguage: courseLang,
 +            duration,
 +        };
 +    }
@@ -140,65 +140,66 @@ index 0000000..c5f09d5
 +        return /learn\/([^/]+)\/lecture\/([^/]+)/.exec(url.pathname)?.[0]; // <-- COURSE PASSING (IF YOU LOGINED TO COURSERA)
 +    }
 +}
+\ No newline at end of file
 diff --git a/node_modules/vot.js/dist/helpers/index.d.ts b/node_modules/vot.js/dist/helpers/index.d.ts
-index 59b2575..fcac90a 100644
+index a27aac5..403a7a7 100644
 --- a/node_modules/vot.js/dist/helpers/index.d.ts
 +++ b/node_modules/vot.js/dist/helpers/index.d.ts
-@@ -12,6 +12,7 @@ import NineAnimeTVHelper from "./nineanimetv.js";
- import OdyseeHelper from "./odysee.js";
- import CoursehunterHelper from "./coursehunter.js";
- import UdemyHelper from "./udemy.js";
-+import CourseraHelper from "./coursera.js";
+@@ -14,6 +14,7 @@ import CoursehunterHelper from "./coursehunter.js";
  import TwitchHelper from "./twitch.js";
  import SapHelper from "./sap.js";
+ import UdemyHelper from "./udemy.js";
++import CourseraHelper from "./coursera.js";
  import LinkedinHelper from "./linkedin.js";
-@@ -29,6 +30,7 @@ export * as OdyseeHelper from "./odysee.js";
- export * as CoursehunterHelper from "./coursehunter.js";
+ import VimeoHelper from "./vimeo.js";
+ export * as MailRuHelper from "./mailru.js";
+@@ -31,6 +32,7 @@ export * as CoursehunterHelper from "./coursehunter.js";
  export * as TwitchHelper from "./twitch.js";
+ export * as SapHelper from "./sap.js";
  export * as UdemyHelper from "./udemy.js";
 +export * as CourseraHelper from "./coursera.js";
- export * as SapHelper from "./sap.js";
  export * as LinkedinHelper from "./linkedin.js";
- export default class VideoHelper {
-@@ -46,6 +48,7 @@ export default class VideoHelper {
-     static readonly [VideoService.twitch]: TwitchHelper;
-     static readonly [VideoService.coursehunter]: CoursehunterHelper;
-     static readonly [VideoService.udemy]: UdemyHelper;
-+    static readonly [VideoService.coursera]: CourseraHelper;
-     static readonly [VideoService.sap]: SapHelper;
-     static readonly [VideoService.linkedin]: LinkedinHelper;
- }
+ export * as VimeoHelper from "./vimeo.js";
+ export declare const availableHelpers: {
+@@ -49,6 +51,7 @@ export declare const availableHelpers: {
+     twitch: typeof TwitchHelper;
+     sap: typeof SapHelper;
+     udemy: typeof UdemyHelper;
++    coursera: typeof CourseraHelper;
+     linkedin: typeof LinkedinHelper;
+     vimeo: typeof VimeoHelper;
+ };
 diff --git a/node_modules/vot.js/dist/helpers/index.js b/node_modules/vot.js/dist/helpers/index.js
-index 966d2c1..b804d61 100644
+index e52597f..496d6bd 100644
 --- a/node_modules/vot.js/dist/helpers/index.js
 +++ b/node_modules/vot.js/dist/helpers/index.js
-@@ -13,6 +13,7 @@ import OdyseeHelper from "./odysee.js";
- import CoursehunterHelper from "./coursehunter.js";
+@@ -14,6 +14,7 @@ import CoursehunterHelper from "./coursehunter.js";
  import TwitchHelper from "./twitch.js";
+ import SapHelper from "./sap.js";
  import UdemyHelper from "./udemy.js";
 +import CourseraHelper from "./coursera.js";
- import SapHelper from "./sap.js";
  import LinkedinHelper from "./linkedin.js";
+ import VimeoHelper from "./vimeo.js";
  export * as MailRuHelper from "./mailru.js";
-@@ -29,6 +30,7 @@ export * as OdyseeHelper from "./odysee.js";
- export * as CoursehunterHelper from "./coursehunter.js";
+@@ -31,6 +32,7 @@ export * as CoursehunterHelper from "./coursehunter.js";
  export * as TwitchHelper from "./twitch.js";
- export * as UdemyHelper from "./udemy.js";
-+export * as CourseraHelper from "./udemy.js";
  export * as SapHelper from "./sap.js";
+ export * as UdemyHelper from "./udemy.js";
++export * as CourseraHelper from "./coursera.js";
  export * as LinkedinHelper from "./linkedin.js";
- export default class VideoHelper {
-@@ -46,6 +48,7 @@ export default class VideoHelper {
-     static [VideoService.twitch] = new TwitchHelper();
-     static [VideoService.coursehunter] = new CoursehunterHelper();
-     static [VideoService.udemy] = new UdemyHelper();
-+    static [VideoService.coursera] = new CourseraHelper();
-     static [VideoService.sap] = new SapHelper();
-     static [VideoService.linkedin] = new LinkedinHelper();
- }
+ export * as VimeoHelper from "./vimeo.js";
+ export const availableHelpers = {
+@@ -49,6 +51,7 @@ export const availableHelpers = {
+     [VideoService.twitch]: TwitchHelper,
+     [VideoService.sap]: SapHelper,
+     [VideoService.udemy]: UdemyHelper,
++    [VideoService.coursera]: CourseraHelper,
+     [VideoService.linkedin]: LinkedinHelper,
+     [VideoService.vimeo]: VimeoHelper,
+ };
 diff --git a/node_modules/vot.js/dist/types/helpers/coursera.d.ts b/node_modules/vot.js/dist/types/helpers/coursera.d.ts
 new file mode 100644
-index 0000000..15d378e
+index 0000000..2803fc9
 --- /dev/null
 +++ b/node_modules/vot.js/dist/types/helpers/coursera.d.ts
 @@ -0,0 +1,52 @@
@@ -257,33 +258,33 @@ index 0000000..15d378e
 \ No newline at end of file
 diff --git a/node_modules/vot.js/dist/types/helpers/coursera.js b/node_modules/vot.js/dist/types/helpers/coursera.js
 new file mode 100644
-index 0000000..0aacd4e
+index 0000000..693da49
 --- /dev/null
 +++ b/node_modules/vot.js/dist/types/helpers/coursera.js
 @@ -0,0 +1 @@
 +export {}
 \ No newline at end of file
 diff --git a/node_modules/vot.js/dist/types/yandex.d.ts b/node_modules/vot.js/dist/types/yandex.d.ts
-index 7c7e7d7..396141c 100644
+index 76b3521..e9bd65d 100644
 --- a/node_modules/vot.js/dist/types/yandex.d.ts
 +++ b/node_modules/vot.js/dist/types/yandex.d.ts
-@@ -59,6 +59,7 @@ export declare enum VideoService {
-     odysee = "odysee",
+@@ -60,6 +60,7 @@ export declare enum VideoService {
      coursehunter = "coursehunter",
+     sap = "sap",
      udemy = "udemy",
 +    coursera = "coursera",
-     sap = "sap",
      watchpornto = "watchpornto",
      linkedin = "linkedin"
+ }
 diff --git a/node_modules/vot.js/dist/types/yandex.js b/node_modules/vot.js/dist/types/yandex.js
-index b7178bc..59184fa 100644
+index 3ca4e11..2dcd661 100644
 --- a/node_modules/vot.js/dist/types/yandex.js
 +++ b/node_modules/vot.js/dist/types/yandex.js
-@@ -49,6 +49,7 @@ export var VideoService;
-     VideoService["odysee"] = "odysee";
+@@ -50,6 +50,7 @@ export var VideoService;
      VideoService["coursehunter"] = "coursehunter";
+     VideoService["sap"] = "sap";
      VideoService["udemy"] = "udemy";
 +    VideoService["coursera"] = "coursera";
-     VideoService["sap"] = "sap";
      VideoService["watchpornto"] = "watchpornto";
      VideoService["linkedin"] = "linkedin";
+ })(VideoService || (VideoService = {}));

@@ -105,7 +105,6 @@ function genMarkdown(sites, lang = "ru") {
     const hasData = Object.hasOwn(siteData, site.host);
     const limitsData = hasData ? siteData[site.host].limits ?? [] : [];
     if (site.needBypassCSP && !limitsData.includes(locales.needBypassCSP)) {
-      console.log(site);
       limitsData.push(locales.needBypassCSP);
     }
 

@@ -1,20 +1,20 @@
 diff --git a/node_modules/vot.js/dist/helpers/appledeveloper.js b/node_modules/vot.js/dist/helpers/appledeveloper.js
-index 6c58ec0..20aa5cc 100644
+index 95db232..effa2b8 100644
 --- a/node_modules/vot.js/dist/helpers/appledeveloper.js
 +++ b/node_modules/vot.js/dist/helpers/appledeveloper.js
-@@ -2,9 +2,7 @@ import { BaseHelper } from "./base.js";
- export default class AppleDeveloperHelper extends BaseHelper {
+@@ -3,9 +3,7 @@ export default class AppleDeveloperHelper extends BaseHelper {
      API_ORIGIN = "https://developer.apple.com";
      async getVideoData(videoId) {
--        const res = await this.fetch(`${this.API_ORIGIN}/${videoId}`);
--        const content = await res.text();
--        const contentUrl = /https:\/\/devstreaming-cdn\.apple\.com\/videos\/([^.]+)\/(cmaf\.m3u8)/.exec(content)?.[0];
-+        const contentUrl = document.querySelector("meta[property='og:video']")?.content
-         if (!contentUrl) {
-             return undefined;
-         }
+         try {
+-            const res = await this.fetch(`${this.API_ORIGIN}/${videoId}`);
+-            const content = await res.text();
+-            const contentUrl = /https:\/\/devstreaming-cdn\.apple\.com\/videos\/([^.]+)\/(cmaf\.m3u8)/.exec(content)?.[0];
++            const contentUrl = document.querySelector("meta[property='og:video']")?.content
+             if (!contentUrl) {
+                 throw new VideoHelperError("Failed to find content url");
+             }
 diff --git a/node_modules/vot.js/dist/helpers/base.js b/node_modules/vot.js/dist/helpers/base.js
-index 8dd3123..a2a7ac6 100644
+index 08b294b..474b98a 100644
 --- a/node_modules/vot.js/dist/helpers/base.js
 +++ b/node_modules/vot.js/dist/helpers/base.js
 @@ -1,4 +1,4 @@
@@ -23,15 +23,15 @@ index 8dd3123..a2a7ac6 100644
  export class VideoHelperError extends Error {
      constructor(message) {
          super(message);
-@@ -9,7 +9,7 @@ export class VideoHelperError extends Error {
- export class BaseHelper {
-     API_ORIGIN = "https://example.com";
-     fetch;
--    constructor({ fetchFn = fetchWithTimeout } = {}) {
-+    constructor({ fetchFn = GM_fetch } = {}) {
+@@ -12,7 +12,7 @@ export class BaseHelper {
+     extraInfo;
+     referer;
+     service;
+-    constructor({ fetchFn = fetchWithTimeout, extraInfo = true, referer = "", service, } = {}) {
++    constructor({ fetchFn = GM_fetch, extraInfo = true, referer = document.referrer ?? window.location.origin + "/", service, } = {}) {
          this.fetch = fetchFn;
-     }
-     async getVideoData(videoId) {
+         this.extraInfo = extraInfo;
+         this.referer = referer;
 diff --git a/node_modules/vot.js/dist/helpers/coursehunter.js b/node_modules/vot.js/dist/helpers/coursehunter.js
 index 3e7181b..a24039b 100644
 --- a/node_modules/vot.js/dist/helpers/coursehunter.js
@@ -153,26 +153,26 @@ index 1519156..8493047 100644
      }
  }
 diff --git a/node_modules/vot.js/dist/helpers/reddit.js b/node_modules/vot.js/dist/helpers/reddit.js
-index 346f79f..6bf653e 100644
+index da527bd..c0dc090 100644
 --- a/node_modules/vot.js/dist/helpers/reddit.js
 +++ b/node_modules/vot.js/dist/helpers/reddit.js
-@@ -2,11 +2,11 @@ import { BaseHelper } from "./base.js";
- export default class RedditHelper extends BaseHelper {
+@@ -3,11 +3,11 @@ export default class RedditHelper extends BaseHelper {
      API_ORIGIN = "https://www.reddit.com";
      async getVideoData(videoId) {
--        const res = await this.fetch(`${this.API_ORIGIN}/r/${videoId}`);
--        const content = await res.text();
--        const contentUrl = /https:\/\/v\.redd\.it\/([^/]+)\/HLSPlaylist\.m3u8\?([^"]+)/
--            .exec(content)?.[0]
--            ?.replaceAll("&amp;", "&");
-+        const contentUrl = document
-+            .querySelector("[data-hls-url]")
-+            ?.dataset
-+            .hlsUrl
-+            .replaceAll("&amp;", "&");
-         if (!contentUrl) {
-             return undefined;
-         }
+         try {
+-            const res = await this.fetch(`${this.API_ORIGIN}/r/${videoId}`);
+-            const content = await res.text();
+-            const contentUrl = /https:\/\/v\.redd\.it\/([^/]+)\/HLSPlaylist\.m3u8\?([^"]+)/
+-                .exec(content)?.[0]
+-                ?.replaceAll("&amp;", "&");
++            const contentUrl = document
++                .querySelector("[data-hls-url]")
++                ?.dataset
++                .hlsUrl
++                .replaceAll("&amp;", "&");
+             if (!contentUrl) {
+                 throw new VideoHelperError("Failed to find content url");
+             }
 diff --git a/node_modules/vot.js/dist/helpers/sap.js b/node_modules/vot.js/dist/helpers/sap.js
 index 323ad90..404d658 100644
 --- a/node_modules/vot.js/dist/helpers/sap.js
@@ -209,10 +209,10 @@ index 323ad90..404d658 100644
              if (!kalturaDomain || Number.isNaN(+partnerId) || !entryId) {
                  throw new VideoHelperError(`One of the necessary parameters for getting a link to a sap video in wasn't found for ${videoId}. Params: kalturaDomain = ${kalturaDomain}, partnerId = ${partnerId}, entryId = ${entryId}`);
 diff --git a/node_modules/vot.js/dist/helpers/twitch.js b/node_modules/vot.js/dist/helpers/twitch.js
-index 5e9416e..2bb8343 100644
+index 7c9ba46..ab35bc8 100644
 --- a/node_modules/vot.js/dist/helpers/twitch.js
 +++ b/node_modules/vot.js/dist/helpers/twitch.js
-@@ -2,20 +2,35 @@ import { BaseHelper } from "./base.js";
+@@ -2,26 +2,35 @@ import { BaseHelper, VideoHelperError } from "./base.js";
  export default class TwitchHelper extends BaseHelper {
      API_ORIGIN = "https://clips.twitch.tv";
      async getClipLink(pathname, clipId) {
@@ -220,6 +220,20 @@ index 5e9416e..2bb8343 100644
 +            "script[type='application/ld+json']",
 +        );
          const clearPathname = pathname.slice(1);
+-        const isEmbed = clearPathname === "embed";
+-        const videoPath = isEmbed ? clipId : clearPathname;
+-        try {
+-            const res = await this.fetch(`${this.API_ORIGIN}/${videoPath}`, {
+-                headers: {
+-                    "User-Agent": "Googlebot/2.1 (+http://www.googlebot.com/bot.html)",
+-                },
+-            });
+-            const content = await res.text();
+-            const channelLink = /"url":"https:\/\/www\.twitch\.tv\/([^"]+)"/.exec(content);
+-            if (!channelLink) {
+-                throw new VideoHelperError("Failed to find channel link");
+-            }
+-            return `${channelLink[1]}/clip/${videoPath}`;
 +        if (schema) {
 +            const schemaJSON = JSON.parse(schema.innerText);
 +            const channelLink = schemaJSON["@graph"].find(
@@ -228,25 +242,18 @@ index 5e9416e..2bb8343 100644
 +
 +            const channelName = channelLink.replace("https://www.twitch.tv/", "");
 +            return `${channelName}/clip/${clearPathname}`;
-+        }
-         const isEmbed = clearPathname === "embed";
--        const videoPath = isEmbed ? clipId : clearPathname;
--        const res = await this.fetch(`${this.API_ORIGIN}/${videoPath}`, {
--            headers: {
--                "User-Agent": "Googlebot/2.1 (+http://www.googlebot.com/bot.html)",
--            },
--        });
--        const content = await res.text();
--        const channelLink = /"url":"https:\/\/www\.twitch\.tv\/([^"]+)"/.exec(content);
+         }
+-        catch (err) {
+-            console.error(`Failed to get twitch clip link by pathname: ${pathname} and clip ID: ${clipId}`, err.message);
++        const isEmbed = clearPathname === "embed";
 +        const channelLink = document.querySelector(
 +            isEmbed
 +                ? ".tw-link[data-test-selector='stream-info-card-component__stream-avatar-link']"
 +                : ".clips-player a:not([class])",
 +        );
-         if (!channelLink) {
++        if (!channelLink) {
              return undefined;
          }
--        return `${channelLink[1]}/clip/${videoPath}`;
 +
 +        const channelName = channelLink.href.replace(
 +            "https://www.twitch.tv/",
@@ -257,3 +264,34 @@ index 5e9416e..2bb8343 100644
      }
      async getVideoId(url) {
          const pathname = url.pathname;
+diff --git a/node_modules/vot.js/dist/helpers/vimeo.js b/node_modules/vot.js/dist/helpers/vimeo.js
+index e8b0a2a..68ea746 100644
+--- a/node_modules/vot.js/dist/helpers/vimeo.js
++++ b/node_modules/vot.js/dist/helpers/vimeo.js
+@@ -1,4 +1,3 @@
+-import { parseFromString } from "dom-parser";
+ import { BaseHelper, VideoHelperError } from "./base.js";
+ import { normalizeLang } from "../utils/utils.js";
+ export default class VimeoHelper extends BaseHelper {
+@@ -85,20 +84,7 @@ export default class VimeoHelper extends BaseHelper {
+     }
+     async getPrivateVideoInfo(videoId) {
+         try {
+-            const res = await this.fetch(`${this.SITE_ORIGIN}/${videoId}`, {
+-                headers: {
+-                    Referer: this.referer,
+-                },
+-            });
+-            const content = await res.text();
+-            const doc = parseFromString(content.replace("<!DOCTYPE html>", ""));
+-            const playerConfigScript = doc
+-                .getElementsByTagName("script")
+-                .filter((s) => s.innerHTML.startsWith(`window.playerConfig`))?.[0];
+-            if (!playerConfigScript) {
+-                throw new VideoHelperError("Failed to find player config script");
+-            }
+-            const playerConfig = JSON.parse(playerConfigScript.textContent.replace(/window\.playerConfig(\s)?=(\s)?/, ""));
++            // playerConfig is window.playerConfig
+             const videoSource = await this.getPrivateVideoSource(playerConfig.request.files);
+             if (!videoSource) {
+                 throw new VideoHelperError("Failed to get private video source");
