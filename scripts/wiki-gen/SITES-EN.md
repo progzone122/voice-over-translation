@@ -685,6 +685,23 @@ Available paths:
 
 - /course/COURSE_ID
 
+## Sap
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `learning.sap.com`
+
+Available paths:
+
+- /courses/COURSE_NAME
+- /courses/COURSE_NAME/LECTURE_NAME
+
+Limitations:
+
+- To ensure that the script works, you need to [enable the "Bypass Media CSP" setting](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) in the extension or delete the CSP in another way
+
 ## Udemy
 
 Status: [⚠️] Works with limitations
@@ -718,23 +735,6 @@ Limitations:
 - You must be logged in to the site
 - If the video doesn't have subtitles in your language, then the translation will not be performed
 
-## Sap
-
-Status: [✅] Working
-
-Available (sub)domains:
-
-- `learning.sap.com`
-
-Available paths:
-
-- /courses/COURSE_NAME
-- /courses/COURSE_NAME/LECTURE_NAME
-
-Limitations:
-
-- To ensure that the script works, you need to [enable the "Bypass Media CSP" setting](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) in the extension or delete the CSP in another way
-
 ## Watchpornto
 
 Status: [✅] Working
@@ -754,8 +754,7 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- `.linkedin.com`
-- `www.linkedin.com`
+- `(www.)?linkedin.com`
 
 Available paths:
 
