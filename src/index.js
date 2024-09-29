@@ -746,8 +746,8 @@ class VideoHandler {
         this.data?.audioBooster ?? false,
       );
       if (!this.audioContext) {
-        this.votBypassMediaCSPCheckbox.input.disabled = true;
-        this.votBypassMediaCSPCheckbox.container.title =
+        this.votAudioBoosterCheckbox.input.disabled = true;
+        this.votAudioBoosterCheckbox.container.title =
           localizationProvider.get("VOTNeedWebAudioAPI");
       }
       this.votSettingsDialog.bodyContainer.appendChild(
