@@ -7735,8 +7735,8 @@ class VideoHandler {
         this.data?.audioBooster ?? false,
       );
       if (!this.audioContext) {
-        this.votBypassMediaCSPCheckbox.input.disabled = true;
-        this.votBypassMediaCSPCheckbox.container.title =
+        this.votAudioBoosterCheckbox.input.disabled = true;
+        this.votAudioBoosterCheckbox.container.title =
           localizationProvider.get("VOTNeedWebAudioAPI");
       }
       this.votSettingsDialog.bodyContainer.appendChild(
@@ -8127,8 +8127,9 @@ class VideoHandler {
 
       this.votVideoVolumeSlider.input.addEventListener("input", (e) => {
         const value = Number(e.target.value);
-        this.votVideoVolumeSlider.label.querySelector("strong").textContent =
-          `${value}%`;
+        this.votVideoVolumeSlider.label.querySelector(
+          "strong",
+        ).textContent = `${value}%`;
         this.setVideoVolume(value / 100);
         if (this.data.syncVolume) {
           this.syncVolumeWrapper("video", value);
@@ -8951,8 +8952,9 @@ class VideoHandler {
     const newSlidersVolume = Math.round(videoVolume);
 
     this.votVideoVolumeSlider.input.value = newSlidersVolume;
-    this.votVideoVolumeSlider.label.querySelector("strong").textContent =
-      `${newSlidersVolume}%`;
+    this.votVideoVolumeSlider.label.querySelector(
+      "strong",
+    ).textContent = `${newSlidersVolume}%`;
     ui.updateSlider(this.votVideoVolumeSlider.input);
 
     if (this.data.syncVolume === 1) {
