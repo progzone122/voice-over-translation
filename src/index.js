@@ -326,6 +326,10 @@ class VideoHandler {
         "bypassMediaCSP",
         Number(!!this.audioContext),
       ),
+      restoreMultiMediaKeys: votStorage.get(
+        "restoreMultiMediaKeys",
+        Number(!!this.audioContext),
+      ),
       showPiPButton: votStorage.get("showPiPButton", 0),
       translateAPIErrors: votStorage.get("translateAPIErrors", 1),
       translationService: votStorage.get(
@@ -873,6 +877,19 @@ class VideoHandler {
       }
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votBypassMediaCSPCheckbox.container,
+      );
+
+      this.votRestoreMultiMediaKeysCheckbox = ui.createCheckbox(
+        localizationProvider.get("VOTRestoreMultiMediaKeys"),
+        this.data?.restoreMultiMediaKeys ?? false,
+      );
+      if (!this.audioContext) {
+        this.votRestoreMultiMediaKeysCheckbox.input.disabled = true;
+        this.votRestoreMultiMediaKeysCheckbox.container.title =
+          localizationProvider.get("VOTNeedWebAudioAPI");
+      }
+      this.votSettingsDialog.bodyContainer.appendChild(
+        this.votRestoreMultiMediaKeysCheckbox.container,
       );
 
       // ABOUT
@@ -1534,6 +1551,28 @@ class VideoHandler {
           this.stopTranslate();
         })();
       });
+
+      this.votRestoreMultiMediaKeysCheckbox.input.addEventListener(
+        "change",
+        (e) => {
+          (async () => {
+            this.data.restoreMultiMediaKeys = Number(e.target.checked);
+            await votStorage.set(
+              "restoreMultiMediaKeys",
+              this.data.restoreMultiMediaKeys,
+            );
+            debug.log(
+              "restoreMultiMediaKeys value changed. New value: ",
+              this.data.restoreMultiMediaKeys,
+            );
+            this.stopTranslate();
+            // TODO: delete if everything goes well
+            this.votBypassMediaCSPCheckbox.input.disabled = e.target.checked;
+            this.votBypassMediaCSPCheckbox.input.value =
+              e.target.checked ?? this.data.bypassMediaCSP;
+          })();
+        },
+      );
 
       this.votUpdateLocaleFilesButton.addEventListener("click", () => {
         (async () => {
@@ -2214,7 +2253,7 @@ class VideoHandler {
     this.audio.currentTime = this.video.currentTime;
     this.audio.playbackRate = this.video.playbackRate;
 
-    return this.needBypassCSP()
+    return this.needUseAudioContext()
       ? this.lipsyncAudioContext(mode)
       : this.lipsyncAudio(mode);
   }
@@ -2225,7 +2264,9 @@ class VideoHandler {
     this.lipSync(event.type);
   };
 
-  needBypassCSP = () => this.data.bypassMediaCSP && this.site.needBypassCSP;
+  needUseAudioContext = () =>
+    (this.data.bypassMediaCSP && this.site.needBypassCSP) ||
+    this.data.restoreMultiMediaKeys;
 
   // Default actions on stop translate
   stopTranslate() {
@@ -2414,7 +2455,7 @@ class VideoHandler {
     }
 
     // eslint-disable-next-line sonarjs/no-unused-expressions
-    this.needBypassCSP()
+    this.needUseAudioContext()
       ? await this.configurePlaySound(audioUrl)
       : (this.audio.src = audioUrl);
 

@@ -161,12 +161,12 @@
 // @connect        onrender.com
 // @connect        workers.dev
 // @namespace      vot
-// @version        1.7.0
+// @version        1.7.1-beta1
 // @icon           https://translate.yandex.ru/icons/favicon.ico
 // @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation
-// @updateURL      https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot.user.js
-// @downloadURL    https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot.user.js
+// @updateURL      https://raw.githubusercontent.com/ilyhalight/voice-over-translation/dev/dist/vot.user.js
+// @downloadURL    https://raw.githubusercontent.com/ilyhalight/voice-over-translation/dev/dist/vot.user.js
 // @supportURL     https://github.com/ilyhalight/voice-over-translation/issues
 // ==/UserScript==
 
@@ -2391,7 +2391,7 @@ const votStorage = new (class {
 
 const localeCacheTTL = 7200;
 const localizationUrl = `${contentUrl}/${
-   false ? 0 : "master"
+   true ? "dev" : 0
 }/src/localization`;
 
 // TODO: add get from hashes.json or use DEFAULT_LOCALES
@@ -7315,6 +7315,10 @@ class VideoHandler {
         "bypassMediaCSP",
         Number(!!this.audioContext),
       ),
+      restoreMultiMediaKeys: votStorage.get(
+        "restoreMultiMediaKeys",
+        Number(!!this.audioContext),
+      ),
       showPiPButton: votStorage.get("showPiPButton", 0),
       translateAPIErrors: votStorage.get("translateAPIErrors", 1),
       translationService: votStorage.get(
@@ -7862,6 +7866,19 @@ class VideoHandler {
       }
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votBypassMediaCSPCheckbox.container,
+      );
+
+      this.votRestoreMultiMediaKeysCheckbox = ui.createCheckbox(
+        localizationProvider.get("VOTRestoreMultiMediaKeys"),
+        this.data?.restoreMultiMediaKeys ?? false,
+      );
+      if (!this.audioContext) {
+        this.votRestoreMultiMediaKeysCheckbox.input.disabled = true;
+        this.votRestoreMultiMediaKeysCheckbox.container.title =
+          localizationProvider.get("VOTNeedWebAudioAPI");
+      }
+      this.votSettingsDialog.bodyContainer.appendChild(
+        this.votRestoreMultiMediaKeysCheckbox.container,
       );
 
       // ABOUT
@@ -8524,6 +8541,28 @@ class VideoHandler {
           this.stopTranslate();
         })();
       });
+
+      this.votRestoreMultiMediaKeysCheckbox.input.addEventListener(
+        "change",
+        (e) => {
+          (async () => {
+            this.data.restoreMultiMediaKeys = Number(e.target.checked);
+            await votStorage.set(
+              "restoreMultiMediaKeys",
+              this.data.restoreMultiMediaKeys,
+            );
+            utils_debug.log(
+              "restoreMultiMediaKeys value changed. New value: ",
+              this.data.restoreMultiMediaKeys,
+            );
+            this.stopTranslate();
+            // TODO: delete if everything goes well
+            this.votBypassMediaCSPCheckbox.input.disabled = e.target.checked;
+            this.votBypassMediaCSPCheckbox.input.value =
+              e.target.checked ?? this.data.bypassMediaCSP;
+          })();
+        },
+      );
 
       this.votUpdateLocaleFilesButton.addEventListener("click", () => {
         (async () => {
@@ -9205,7 +9244,7 @@ class VideoHandler {
     this.audio.currentTime = this.video.currentTime;
     this.audio.playbackRate = this.video.playbackRate;
 
-    return this.needBypassCSP()
+    return this.needUseAudioContext()
       ? this.lipsyncAudioContext(mode)
       : this.lipsyncAudio(mode);
   }
@@ -9216,7 +9255,9 @@ class VideoHandler {
     this.lipSync(event.type);
   };
 
-  needBypassCSP = () => this.data.bypassMediaCSP && this.site.needBypassCSP;
+  needUseAudioContext = () =>
+    (this.data.bypassMediaCSP && this.site.needBypassCSP) ||
+    this.data.restoreMultiMediaKeys;
 
   // Default actions on stop translate
   stopTranslate() {
@@ -9405,7 +9446,7 @@ class VideoHandler {
     }
 
     // eslint-disable-next-line sonarjs/no-unused-expressions
-    this.needBypassCSP()
+    this.needUseAudioContext()
       ? await this.configurePlaySound(audioUrl)
       : (this.audio.src = audioUrl);
 
