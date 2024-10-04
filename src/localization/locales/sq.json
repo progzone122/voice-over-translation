@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Përditësuar në",
   "VOTNeedWebAudioAPI": "Për ta mundësuar këtë, duhet të keni NJË API Audio Në Internet",
   "VOTBypassMediaCSP": "Duke Anashkaluar Media CSP",
-  "VOTMediaCSPEnabledOnSite": "Media CSP është aktivizuar në këtë faqe"
+  "VOTMediaCSPEnabledOnSite": "Media CSP është aktivizuar në këtë faqe",
+  "VOTRestoreMultiMediaKeys": "Rivendosja e çelësave multimedialë"
 }

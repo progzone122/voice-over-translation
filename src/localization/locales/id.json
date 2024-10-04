@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Diperbarui pukul",
   "VOTNeedWebAudioAPI": "Untuk mengaktifkan ini, Anda harus memiliki Web Audio API",
   "VOTBypassMediaCSP": "Melewati Media CSP",
-  "VOTMediaCSPEnabledOnSite": "Media CSP diaktifkan di situs ini"
+  "VOTMediaCSPEnabledOnSite": "Media CSP diaktifkan di situs ini",
+  "VOTRestoreMultiMediaKeys": "Memulihkan tombol multimedia"
 }

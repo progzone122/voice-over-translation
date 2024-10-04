@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Opdateret kl.",
   "VOTNeedWebAudioAPI": "For at aktivere dette skal du have en Internet Audio API",
   "VOTBypassMediaCSP": "Omgå Media CSP",
-  "VOTMediaCSPEnabledOnSite": "Media CSP er aktiveret på dette site"
+  "VOTMediaCSPEnabledOnSite": "Media CSP er aktiveret på dette site",
+  "VOTRestoreMultiMediaKeys": "Gendannelse af multimedietaster"
 }

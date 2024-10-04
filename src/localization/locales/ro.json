@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Actualizat la",
   "VOTNeedWebAudioAPI": "Pentru a activa acest lucru, trebuie să aveți un API Audio Web",
   "VOTBypassMediaCSP": "Ocolind Media CSP",
-  "VOTMediaCSPEnabledOnSite": "Media CSP este activat pe acest site"
+  "VOTMediaCSPEnabledOnSite": "Media CSP este activat pe acest site",
+  "VOTRestoreMultiMediaKeys": "Restaurarea tastelor multimedia"
 }

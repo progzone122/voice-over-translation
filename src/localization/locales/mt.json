@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Aġġornat fis-",
   "VOTNeedWebAudioAPI": "Biex tippermetti dan, irid ikollok Api Awdjo Tal - Web",
   "VOTBypassMediaCSP": "Jinjora Media CSP",
-  "VOTMediaCSPEnabledOnSite": "Il-PSK tal-midja huwa attivat fuq dan is-sit"
+  "VOTMediaCSPEnabledOnSite": "Il-PSK tal-midja huwa attivat fuq dan is-sit",
+  "VOTRestoreMultiMediaKeys": "Restawr taċ-ċwievet multimedjali"
 }

@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Dianyari jam",
   "VOTNeedWebAudioAPI": "Kanggo ngaktifake IKI, SAMPEYAN kudu DUWE API Audio Web",
   "VOTBypassMediaCSP": "Ngliwati Media CSP",
-  "VOTMediaCSPEnabledOnSite": "Media CSP diaktifake ing situs iki"
+  "VOTMediaCSPEnabledOnSite": "Media CSP diaktifake ing situs iki",
+  "VOTRestoreMultiMediaKeys": "Mulihake tombol multimedia"
 }

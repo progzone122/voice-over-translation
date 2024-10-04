@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "ላይ የተዘመነ",
   "VOTNeedWebAudioAPI": "ይህንን ለማስቻል, አንድ የድር ኦዲዮ ኤፒአይ ሊኖርዎት ይገባል",
   "VOTBypassMediaCSP": "Media CSP ማለፍ",
-  "VOTMediaCSPEnabledOnSite": "በዚህ ድረ ገጽ ላይ የፒ"
+  "VOTMediaCSPEnabledOnSite": "በዚህ ድረ ገጽ ላይ የፒ",
+  "VOTRestoreMultiMediaKeys": "የመልቲሚዲያ ቁልፎችን ወደነበረበት መመለስ"
 }

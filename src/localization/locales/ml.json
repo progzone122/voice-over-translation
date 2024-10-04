@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "അപ്ഡേറ്റ്",
   "VOTNeedWebAudioAPI": "ഇത് ചെയ്യുന്നതിന്, നിങ്ങൾക്ക് ഒരു വെബ് ഓഡിയോ എപിഐ ഉണ്ടായിരിക്കണം.",
   "VOTBypassMediaCSP": "മീഡിയ എസ്പിയെ മറികടന്ന്",
-  "VOTMediaCSPEnabledOnSite": "മീഡിയ സിഎസ്പി ഈ സൈറ്റിൽ പ്രാപ്തമാക്കിയിരിക്കുന്നു"
+  "VOTMediaCSPEnabledOnSite": "മീഡിയ സിഎസ്പി ഈ സൈറ്റിൽ പ്രാപ്തമാക്കിയിരിക്കുന്നു",
+  "VOTRestoreMultiMediaKeys": "മൾട്ടിമീഡിയ കീകൾ പുനഃസ്ഥാപിക്കുക"
 }

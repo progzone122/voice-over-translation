@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Imesasishwa saa",
   "VOTNeedWebAudioAPI": "Ili kuwezesha hii, lazima uwe NA API Ya Sauti Ya Wavuti",
   "VOTBypassMediaCSP": "Kupitia Media CSP",
-  "VOTMediaCSPEnabledOnSite": "Media CSP imewezeshwa kwenye tovuti hii"
+  "VOTMediaCSPEnabledOnSite": "Media CSP imewezeshwa kwenye tovuti hii",
+  "VOTRestoreMultiMediaKeys": "Kurejesha funguo za multimedia"
 }

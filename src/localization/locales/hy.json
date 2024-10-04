@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Թարմացվել է",
   "VOTNeedWebAudioAPI": "Սա միացնելու համար դուք պետք է ունենաք վեբ աուդիո API",
   "VOTBypassMediaCSP": "Շրջանցելով Media CSP-Ը",
-  "VOTMediaCSPEnabledOnSite": "Media CSP-ն միացված է այս կայքում"
+  "VOTMediaCSPEnabledOnSite": "Media CSP-ն միացված է այս կայքում",
+  "VOTRestoreMultiMediaKeys": "Մուլտիմեդիա ստեղների վերականգնում"
 }

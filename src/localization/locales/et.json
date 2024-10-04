@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Uuendatud kell",
   "VOTNeedWebAudioAPI": "Selle lubamiseks peab teil olema Veebiheli API",
   "VOTBypassMediaCSP": "Media CSP-St Mööda Minnes",
-  "VOTMediaCSPEnabledOnSite": "Meedia CSP on lubatud sellel saidil"
+  "VOTMediaCSPEnabledOnSite": "Meedia CSP on lubatud sellel saidil",
+  "VOTRestoreMultiMediaKeys": "Multimeediumiklahvide taastamine"
 }

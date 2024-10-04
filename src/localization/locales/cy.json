@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Diweddarwyd am",
   "VOTNeedWebAudioAPI": "I alluogi HYN, rhaid bod GENNYCH API Sain Gwe",
   "VOTBypassMediaCSP": "Osgoi Media CSP",
-  "VOTMediaCSPEnabledOnSite": "Mae csp cyfryngau wedi'i alluogi ar y wefan hon"
+  "VOTMediaCSPEnabledOnSite": "Mae csp cyfryngau wedi'i alluogi ar y wefan hon",
+  "VOTRestoreMultiMediaKeys": "Adfer allweddi amlgyfrwng"
 }

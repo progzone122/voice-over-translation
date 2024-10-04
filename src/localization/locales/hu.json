@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Frissítve",
   "VOTNeedWebAudioAPI": "Ennek engedélyezéséhez rendelkeznie kell egy Web Audio API-val",
   "VOTBypassMediaCSP": "A Mediacp Megkerülése",
-  "VOTMediaCSPEnabledOnSite": "A Media CSP engedélyezve van ezen a webhelyen"
+  "VOTMediaCSPEnabledOnSite": "A Media CSP engedélyezve van ezen a webhelyen",
+  "VOTRestoreMultiMediaKeys": "Multimédia kulcsok visszaállítása"
 }

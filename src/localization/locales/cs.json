@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Aktualizováno v",
   "VOTNeedWebAudioAPI": "Chcete-li to povolit, musíte mít webové Audio API",
   "VOTBypassMediaCSP": "Obcházení Media CSP",
-  "VOTMediaCSPEnabledOnSite": "Media CSP je povoleno na tomto webu"
+  "VOTMediaCSPEnabledOnSite": "Media CSP je povoleno na tomto webu",
+  "VOTRestoreMultiMediaKeys": "Obnovení multimediálních kláves"
 }

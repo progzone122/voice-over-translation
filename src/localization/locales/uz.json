@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "da yangilangan",
   "VOTNeedWebAudioAPI": "Buni yoqish uchun sizda veb-Audio API bo'lishi kerak",
   "VOTBypassMediaCSP": "Mediacspni Chetlab O'tish",
-  "VOTMediaCSPEnabledOnSite": "Media CSP ushbu saytda yoqilgan"
+  "VOTMediaCSPEnabledOnSite": "Media CSP ushbu saytda yoqilgan",
+  "VOTRestoreMultiMediaKeys": "Multimedia tugmachalarini tiklash"
 }

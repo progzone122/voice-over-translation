@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Ažurirano u",
   "VOTNeedWebAudioAPI": "Da biste to omogućili, morate imati Web Audio API",
   "VOTBypassMediaCSP": "Zaobilazeći Media CSP",
-  "VOTMediaCSPEnabledOnSite": "Media CSP je omogućen na ovom sajtu"
+  "VOTMediaCSPEnabledOnSite": "Media CSP je omogućen na ovom sajtu",
+  "VOTRestoreMultiMediaKeys": "Vraćanje multimedijalnih tastera"
 }

@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Posodobljeno ob",
   "VOTNeedWebAudioAPI": "Če želite to omogočiti, morate imeti spletni avdio API",
   "VOTBypassMediaCSP": "Obhod Media CSP",
-  "VOTMediaCSPEnabledOnSite": "Media CSP je omogočen na tej spletni strani"
+  "VOTMediaCSPEnabledOnSite": "Media CSP je omogočen na tej spletni strani",
+  "VOTRestoreMultiMediaKeys": "Obnovitev večpredstavnostnih tipk"
 }

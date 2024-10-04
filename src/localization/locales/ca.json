@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Actualització a les",
   "VOTNeedWebAudioAPI": "Per activar-ho, heu de tenir UNA API D'Àudio",
   "VOTBypassMediaCSP": "Ignorant Media CSP",
-  "VOTMediaCSPEnabledOnSite": "Media CSP està habilitat en aquest lloc"
+  "VOTMediaCSPEnabledOnSite": "Media CSP està habilitat en aquest lloc",
+  "VOTRestoreMultiMediaKeys": "Restauració de claus multimèdia"
 }

@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Saat yeniləndi",
   "VOTNeedWebAudioAPI": "Bunu aktivləşdirmək üçün veb Audio API olmalıdır",
   "VOTBypassMediaCSP": "Media CSP Bypass",
-  "VOTMediaCSPEnabledOnSite": "Media CSP bu saytda aktivdir"
+  "VOTMediaCSPEnabledOnSite": "Media CSP bu saytda aktivdir",
+  "VOTRestoreMultiMediaKeys": "Multimedia düymələrinin bərpası"
 }
