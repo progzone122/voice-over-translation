@@ -7860,9 +7860,15 @@ class VideoHandler {
         this.data?.bypassMediaCSP ?? false,
       );
       if (!this.audioContext) {
-        this.votBypassMediaCSPCheckbox.input.disabled = true;
         this.votBypassMediaCSPCheckbox.container.title =
           localizationProvider.get("VOTNeedWebAudioAPI");
+      }
+      if (!this.audioContext || this.data.restoreMultiMediaKeys) {
+        this.votBypassMediaCSPCheckbox.input.disabled = true;
+      }
+      if (this.data.restoreMultiMediaKeys) {
+        // TODO: delete if everything goes well
+        this.votBypassMediaCSPCheckbox.input.checked = true;
       }
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votBypassMediaCSPCheckbox.container,
@@ -8144,8 +8150,9 @@ class VideoHandler {
 
       this.votVideoVolumeSlider.input.addEventListener("input", (e) => {
         const value = Number(e.target.value);
-        this.votVideoVolumeSlider.label.querySelector("strong").textContent =
-          `${value}%`;
+        this.votVideoVolumeSlider.label.querySelector(
+          "strong",
+        ).textContent = `${value}%`;
         this.setVideoVolume(value / 100);
         if (this.data.syncVolume) {
           this.syncVolumeWrapper("video", value);
@@ -8545,7 +8552,8 @@ class VideoHandler {
         "change",
         (e) => {
           (async () => {
-            this.data.restoreMultiMediaKeys = Number(e.target.checked);
+            const checked = e.target.checked;
+            this.data.restoreMultiMediaKeys = Number(checked);
             await votStorage.set(
               "restoreMultiMediaKeys",
               this.data.restoreMultiMediaKeys,
@@ -8556,9 +8564,10 @@ class VideoHandler {
             );
             this.stopTranslate();
             // TODO: delete if everything goes well
-            this.votBypassMediaCSPCheckbox.input.disabled = e.target.checked;
-            this.votBypassMediaCSPCheckbox.input.value =
-              e.target.checked ?? this.data.bypassMediaCSP;
+            this.votBypassMediaCSPCheckbox.input.disabled = checked;
+            this.votBypassMediaCSPCheckbox.input.checked = checked
+              ? checked
+              : Boolean(this.data.bypassMediaCSP);
           })();
         },
       );
@@ -8990,8 +8999,9 @@ class VideoHandler {
     const newSlidersVolume = Math.round(videoVolume);
 
     this.votVideoVolumeSlider.input.value = newSlidersVolume;
-    this.votVideoVolumeSlider.label.querySelector("strong").textContent =
-      `${newSlidersVolume}%`;
+    this.votVideoVolumeSlider.label.querySelector(
+      "strong",
+    ).textContent = `${newSlidersVolume}%`;
     ui.updateSlider(this.votVideoVolumeSlider.input);
 
     if (this.data.syncVolume === 1) {
