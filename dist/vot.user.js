@@ -4888,6 +4888,794 @@ const n=globalThis,c=n.trustedTypes,h=c?c.createPolicy("lit-html",{createHTML:t=
 
 ;// ./node_modules/browser-id3-writer/dist/browser-id3-writer.mjs
 function e(e){return String(e).split("").map((e=>e.charCodeAt(0)))}function t(t){return new Uint8Array(e(t))}function a(t){const a=new ArrayBuffer(2*t.length),r=new Uint8Array(a);return new Uint16Array(a).set(e(t)),r}function r(e){const t=255;return[e>>>24&t,e>>>16&t,e>>>8&t,e&t]}function browser_id3_writer_n(e){return 11+e}function s(e,t,a,r){return 11+t+1+1+(r?2+2*(a+1):a+1)+e}function i(e){let t=0;return e.forEach((e=>{t+=2+2*e[0].length+2+2+2*e[1].length+2})),11+t}function browser_id3_writer_c(e,t){const a=2*t;let r=0;return e.forEach((e=>{r+=2+2*e[0].length+2+4})),18+a+2+r}class o{_setIntegerFrame(e,t){const a=parseInt(t,10);this.frames.push({name:e,value:a,size:browser_id3_writer_n(a.toString().length)})}_setStringFrame(e,t){const a=t.toString();let r=13+2*a.length;"TDAT"===e&&(r=browser_id3_writer_n(a.length)),this.frames.push({name:e,value:a,size:r})}_setPictureFrame(e,t,a,r){const n=function(e){if(!e||!e.length)return null;if(255===e[0]&&216===e[1]&&255===e[2])return"image/jpeg";if(137===e[0]&&80===e[1]&&78===e[2]&&71===e[3])return"image/png";if(71===e[0]&&73===e[1]&&70===e[2])return"image/gif";if(87===e[8]&&69===e[9]&&66===e[10]&&80===e[11])return"image/webp";const t=73===e[0]&&73===e[1]&&42===e[2]&&0===e[3],a=77===e[0]&&77===e[1]&&0===e[2]&&42===e[3];return t||a?"image/tiff":66===e[0]&&77===e[1]?"image/bmp":0===e[0]&&0===e[1]&&1===e[2]&&0===e[3]?"image/x-icon":null}(new Uint8Array(t)),i=a.toString();if(!n)throw new Error("Unknown picture MIME type");a||(r=!1),this.frames.push({name:"APIC",value:t,pictureType:e,mimeType:n,useUnicodeEncoding:r,description:i,size:s(t.byteLength,n.length,i.length,r)})}_setLyricsFrame(e,t,a){const r=e.split("").map((e=>e.charCodeAt(0))),n=t.toString(),s=a.toString();var i,c;this.frames.push({name:"USLT",value:s,language:r,description:n,size:(i=n.length,c=s.length,16+2*i+2+2+2*c)})}_setCommentFrame(e,t,a){const r=e.split("").map((e=>e.charCodeAt(0))),n=t.toString(),s=a.toString();var i,c;this.frames.push({name:"COMM",value:s,language:r,description:n,size:(i=n.length,c=s.length,16+2*i+2+2+2*c)})}_setPrivateFrame(e,t){const a=e.toString();var r,n;this.frames.push({name:"PRIV",value:t,id:a,size:(r=a.length,n=t.byteLength,10+r+1+n)})}_setUserStringFrame(e,t){const a=e.toString(),r=t.toString();var n,s;this.frames.push({name:"TXXX",description:a,value:r,size:(n=a.length,s=r.length,13+2*n+2+2+2*s)})}_setUrlLinkFrame(e,t){const a=t.toString();var r;this.frames.push({name:e,value:a,size:(r=a.length,10+r)})}_setPairedTextFrame(e,t){this.frames.push({name:e,value:t,size:i(t)})}_setSynchronisedLyricsFrame(e,t,a,r,n){const s=n.toString(),i=r.split("").map((e=>e.charCodeAt(0)));this.frames.push({name:"SYLT",value:t,language:i,description:s,type:e,timestampFormat:a,size:browser_id3_writer_c(t,s.length)})}constructor(e){if(!e||"object"!=typeof e||!("byteLength"in e))throw new Error("First argument should be an instance of ArrayBuffer or Buffer");this.arrayBuffer=e,this.padding=4096,this.frames=[],this.url=""}setFrame(e,t){switch(e){case"TPE1":case"TCOM":case"TCON":{if(!Array.isArray(t))throw new Error(`${e} frame value should be an array of strings`);const a="TCON"===e?";":"/",r=t.join(a);this._setStringFrame(e,r);break}case"TLAN":case"TIT1":case"TIT2":case"TIT3":case"TALB":case"TPE2":case"TPE3":case"TPE4":case"TRCK":case"TPOS":case"TMED":case"TPUB":case"TCOP":case"TKEY":case"TEXT":case"TDAT":case"TSRC":this._setStringFrame(e,t);break;case"TBPM":case"TLEN":case"TYER":this._setIntegerFrame(e,t);break;case"USLT":if(t.language=t.language||"eng","object"!=typeof t||!("description"in t)||!("lyrics"in t))throw new Error("USLT frame value should be an object with keys description and lyrics");if(t.language&&!t.language.match(/[a-z]{3}/i))throw new Error("Language must be coded following the ISO 639-2 standards");this._setLyricsFrame(t.language,t.description,t.lyrics);break;case"APIC":if("object"!=typeof t||!("type"in t)||!("data"in t)||!("description"in t))throw new Error("APIC frame value should be an object with keys type, data and description");if(t.type<0||t.type>20)throw new Error("Incorrect APIC frame picture type");this._setPictureFrame(t.type,t.data,t.description,!!t.useUnicodeEncoding);break;case"TXXX":if("object"!=typeof t||!("description"in t)||!("value"in t))throw new Error("TXXX frame value should be an object with keys description and value");this._setUserStringFrame(t.description,t.value);break;case"WCOM":case"WCOP":case"WOAF":case"WOAR":case"WOAS":case"WORS":case"WPAY":case"WPUB":this._setUrlLinkFrame(e,t);break;case"COMM":if(t.language=t.language||"eng","object"!=typeof t||!("description"in t)||!("text"in t))throw new Error("COMM frame value should be an object with keys description and text");if(t.language&&!t.language.match(/[a-z]{3}/i))throw new Error("Language must be coded following the ISO 639-2 standards");this._setCommentFrame(t.language,t.description,t.text);break;case"PRIV":if("object"!=typeof t||!("id"in t)||!("data"in t))throw new Error("PRIV frame value should be an object with keys id and data");this._setPrivateFrame(t.id,t.data);break;case"IPLS":if(!Array.isArray(t)||!Array.isArray(t[0]))throw new Error("IPLS frame value should be an array of pairs");this._setPairedTextFrame(e,t);break;case"SYLT":if("object"!=typeof t||!("type"in t)||!("text"in t)||!("timestampFormat"in t))throw new Error("SYLT frame value should be an object with keys type, text and timestampFormat");if(!Array.isArray(t.text)||!Array.isArray(t.text[0]))throw new Error("SYLT frame text value should be an array of pairs");if(t.type<0||t.type>6)throw new Error("Incorrect SYLT frame content type");if(t.timestampFormat<1||t.timestampFormat>2)throw new Error("Incorrect SYLT frame time stamp format");t.language=t.language||"eng",t.description=t.description||"",this._setSynchronisedLyricsFrame(t.type,t.text,t.timestampFormat,t.language,t.description);break;default:throw new Error(`Unsupported frame ${e}`)}return this}removeTag(){if(this.arrayBuffer.byteLength<10)return;const e=new Uint8Array(this.arrayBuffer),t=e[3],a=((r=[e[6],e[7],e[8],e[9]])[0]<<21)+(r[1]<<14)+(r[2]<<7)+r[3]+10;var r,n;73!==(n=e)[0]||68!==n[1]||51!==n[2]||t<2||t>4||(this.arrayBuffer=new Uint8Array(e.subarray(a)).buffer)}addTag(){this.removeTag();const e=[255,254],n=10+this.frames.reduce(((e,t)=>e+t.size),0)+this.padding,s=new ArrayBuffer(this.arrayBuffer.byteLength+n),i=new Uint8Array(s);let c=0,o=[];return o=[73,68,51,3],i.set(o,c),c+=o.length,c++,c++,o=function(e){const t=127;return[e>>>21&t,e>>>14&t,e>>>7&t,e&t]}(n-10),i.set(o,c),c+=o.length,this.frames.forEach((n=>{switch(o=t(n.name),i.set(o,c),c+=o.length,o=r(n.size-10),i.set(o,c),c+=o.length,c+=2,n.name){case"WCOM":case"WCOP":case"WOAF":case"WOAR":case"WOAS":case"WORS":case"WPAY":case"WPUB":o=t(n.value),i.set(o,c),c+=o.length;break;case"TPE1":case"TCOM":case"TCON":case"TLAN":case"TIT1":case"TIT2":case"TIT3":case"TALB":case"TPE2":case"TPE3":case"TPE4":case"TRCK":case"TPOS":case"TKEY":case"TMED":case"TPUB":case"TCOP":case"TEXT":case"TSRC":o=[1].concat(e),i.set(o,c),c+=o.length,o=a(n.value),i.set(o,c),c+=o.length;break;case"TXXX":case"USLT":case"COMM":o=[1],"USLT"!==n.name&&"COMM"!==n.name||(o=o.concat(n.language)),o=o.concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,o=[0,0].concat(e),i.set(o,c),c+=o.length,o=a(n.value),i.set(o,c),c+=o.length;break;case"TBPM":case"TLEN":case"TDAT":case"TYER":c++,o=t(n.value),i.set(o,c),c+=o.length;break;case"PRIV":o=t(n.id),i.set(o,c),c+=o.length,c++,i.set(new Uint8Array(n.value),c),c+=n.value.byteLength;break;case"APIC":o=[n.useUnicodeEncoding?1:0],i.set(o,c),c+=o.length,o=t(n.mimeType),i.set(o,c),c+=o.length,o=[0,n.pictureType],i.set(o,c),c+=o.length,n.useUnicodeEncoding?(o=[].concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,c+=2):(o=t(n.description),i.set(o,c),c+=o.length,c++),i.set(new Uint8Array(n.value),c),c+=n.value.byteLength;break;case"IPLS":o=[1],i.set(o,c),c+=o.length,n.value.forEach((t=>{o=[].concat(e),i.set(o,c),c+=o.length,o=a(t[0].toString()),i.set(o,c),c+=o.length,o=[0,0].concat(e),i.set(o,c),c+=o.length,o=a(t[1].toString()),i.set(o,c),c+=o.length,o=[0,0],i.set(o,c),c+=o.length}));break;case"SYLT":o=[1].concat(n.language).concat(n.timestampFormat).concat(n.type),i.set(o,c),c+=o.length,o=[].concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,c+=2,n.value.forEach((t=>{o=[].concat(e),i.set(o,c),c+=o.length,o=a(t[0].toString()),i.set(o,c),c+=o.length,o=[0,0],i.set(o,c),c+=o.length,o=r(t[1]),i.set(o,c),c+=o.length}))}})),c+=this.padding,i.set(new Uint8Array(this.arrayBuffer),c),this.arrayBuffer=s,s}getBlob(){return new Blob([this.arrayBuffer],{type:"audio/mpeg"})}getURL(){return this.url||(this.url=URL.createObjectURL(this.getBlob())),this.url}revokeURL(){URL.revokeObjectURL(this.url)}}
+;// ./node_modules/soundtouchjs/dist/soundtouch.js
+/*
+ * SoundTouch JS v0.1.30 audio processing library
+ * Copyright (c) Olli Parviainen
+ * Copyright (c) Ryan Berdeen
+ * Copyright (c) Jakub Fiala
+ * Copyright (c) Steve 'Cutter' Blades
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
+class FifoSampleBuffer {
+  constructor() {
+    this._vector = new Float32Array();
+    this._position = 0;
+    this._frameCount = 0;
+  }
+  get vector() {
+    return this._vector;
+  }
+  get position() {
+    return this._position;
+  }
+  get startIndex() {
+    return this._position * 2;
+  }
+  get frameCount() {
+    return this._frameCount;
+  }
+  get endIndex() {
+    return (this._position + this._frameCount) * 2;
+  }
+  clear() {
+    this.receive(this._frameCount);
+    this.rewind();
+  }
+  put(numFrames) {
+    this._frameCount += numFrames;
+  }
+  putSamples(samples, position, numFrames = 0) {
+    position = position || 0;
+    const sourceOffset = position * 2;
+    if (!(numFrames >= 0)) {
+      numFrames = (samples.length - sourceOffset) / 2;
+    }
+    const numSamples = numFrames * 2;
+    this.ensureCapacity(numFrames + this._frameCount);
+    const destOffset = this.endIndex;
+    this.vector.set(samples.subarray(sourceOffset, sourceOffset + numSamples), destOffset);
+    this._frameCount += numFrames;
+  }
+  putBuffer(buffer, position, numFrames = 0) {
+    position = position || 0;
+    if (!(numFrames >= 0)) {
+      numFrames = buffer.frameCount - position;
+    }
+    this.putSamples(buffer.vector, buffer.position + position, numFrames);
+  }
+  receive(numFrames) {
+    if (!(numFrames >= 0) || numFrames > this._frameCount) {
+      numFrames = this.frameCount;
+    }
+    this._frameCount -= numFrames;
+    this._position += numFrames;
+  }
+  receiveSamples(output, numFrames = 0) {
+    const numSamples = numFrames * 2;
+    const sourceOffset = this.startIndex;
+    output.set(this._vector.subarray(sourceOffset, sourceOffset + numSamples));
+    this.receive(numFrames);
+  }
+  extract(output, position = 0, numFrames = 0) {
+    const sourceOffset = this.startIndex + position * 2;
+    const numSamples = numFrames * 2;
+    output.set(this._vector.subarray(sourceOffset, sourceOffset + numSamples));
+  }
+  ensureCapacity(numFrames = 0) {
+    const minLength = parseInt(numFrames * 2);
+    if (this._vector.length < minLength) {
+      const newVector = new Float32Array(minLength);
+      newVector.set(this._vector.subarray(this.startIndex, this.endIndex));
+      this._vector = newVector;
+      this._position = 0;
+    } else {
+      this.rewind();
+    }
+  }
+  ensureAdditionalCapacity(numFrames = 0) {
+    this.ensureCapacity(this._frameCount + numFrames);
+  }
+  rewind() {
+    if (this._position > 0) {
+      this._vector.set(this._vector.subarray(this.startIndex, this.endIndex));
+      this._position = 0;
+    }
+  }
+}
+
+class AbstractFifoSamplePipe {
+  constructor(createBuffers) {
+    if (createBuffers) {
+      this._inputBuffer = new FifoSampleBuffer();
+      this._outputBuffer = new FifoSampleBuffer();
+    } else {
+      this._inputBuffer = this._outputBuffer = null;
+    }
+  }
+  get inputBuffer() {
+    return this._inputBuffer;
+  }
+  set inputBuffer(inputBuffer) {
+    this._inputBuffer = inputBuffer;
+  }
+  get outputBuffer() {
+    return this._outputBuffer;
+  }
+  set outputBuffer(outputBuffer) {
+    this._outputBuffer = outputBuffer;
+  }
+  clear() {
+    this._inputBuffer.clear();
+    this._outputBuffer.clear();
+  }
+}
+
+class RateTransposer extends AbstractFifoSamplePipe {
+  constructor(createBuffers) {
+    super(createBuffers);
+    this.reset();
+    this._rate = 1;
+  }
+  set rate(rate) {
+    this._rate = rate;
+  }
+  reset() {
+    this.slopeCount = 0;
+    this.prevSampleL = 0;
+    this.prevSampleR = 0;
+  }
+  clone() {
+    const result = new RateTransposer();
+    result.rate = this._rate;
+    return result;
+  }
+  process() {
+    const numFrames = this._inputBuffer.frameCount;
+    this._outputBuffer.ensureAdditionalCapacity(numFrames / this._rate + 1);
+    const numFramesOutput = this.transpose(numFrames);
+    this._inputBuffer.receive();
+    this._outputBuffer.put(numFramesOutput);
+  }
+  transpose(numFrames = 0) {
+    if (numFrames === 0) {
+      return 0;
+    }
+    const src = this._inputBuffer.vector;
+    const srcOffset = this._inputBuffer.startIndex;
+    const dest = this._outputBuffer.vector;
+    const destOffset = this._outputBuffer.endIndex;
+    let used = 0;
+    let i = 0;
+    while (this.slopeCount < 1.0) {
+      dest[destOffset + 2 * i] = (1.0 - this.slopeCount) * this.prevSampleL + this.slopeCount * src[srcOffset];
+      dest[destOffset + 2 * i + 1] = (1.0 - this.slopeCount) * this.prevSampleR + this.slopeCount * src[srcOffset + 1];
+      i = i + 1;
+      this.slopeCount += this._rate;
+    }
+    this.slopeCount -= 1.0;
+    if (numFrames !== 1) {
+      out: while (true) {
+        while (this.slopeCount > 1.0) {
+          this.slopeCount -= 1.0;
+          used = used + 1;
+          if (used >= numFrames - 1) {
+            break out;
+          }
+        }
+        const srcIndex = srcOffset + 2 * used;
+        dest[destOffset + 2 * i] = (1.0 - this.slopeCount) * src[srcIndex] + this.slopeCount * src[srcIndex + 2];
+        dest[destOffset + 2 * i + 1] = (1.0 - this.slopeCount) * src[srcIndex + 1] + this.slopeCount * src[srcIndex + 3];
+        i = i + 1;
+        this.slopeCount += this._rate;
+      }
+    }
+    this.prevSampleL = src[srcOffset + 2 * numFrames - 2];
+    this.prevSampleR = src[srcOffset + 2 * numFrames - 1];
+    return i;
+  }
+}
+
+class FilterSupport {
+  constructor(pipe) {
+    this._pipe = pipe;
+  }
+  get pipe() {
+    return this._pipe;
+  }
+  get inputBuffer() {
+    return this._pipe.inputBuffer;
+  }
+  get outputBuffer() {
+    return this._pipe.outputBuffer;
+  }
+  fillInputBuffer() {
+    throw new Error('fillInputBuffer() not overridden');
+  }
+  fillOutputBuffer(numFrames = 0) {
+    while (this.outputBuffer.frameCount < numFrames) {
+      const numInputFrames = 8192 * 2 - this.inputBuffer.frameCount;
+      this.fillInputBuffer(numInputFrames);
+      if (this.inputBuffer.frameCount < 8192 * 2) {
+        break;
+      }
+      this._pipe.process();
+    }
+  }
+  clear() {
+    this._pipe.clear();
+  }
+}
+
+const noop = function () {
+  return;
+};
+
+class SimpleFilter extends FilterSupport {
+  constructor(sourceSound, pipe, callback = noop) {
+    super(pipe);
+    this.callback = callback;
+    this.sourceSound = sourceSound;
+    this.historyBufferSize = 22050;
+    this._sourcePosition = 0;
+    this.outputBufferPosition = 0;
+    this._position = 0;
+  }
+  get position() {
+    return this._position;
+  }
+  set position(position) {
+    if (position > this._position) {
+      throw new RangeError('New position may not be greater than current position');
+    }
+    const newOutputBufferPosition = this.outputBufferPosition - (this._position - position);
+    if (newOutputBufferPosition < 0) {
+      throw new RangeError('New position falls outside of history buffer');
+    }
+    this.outputBufferPosition = newOutputBufferPosition;
+    this._position = position;
+  }
+  get sourcePosition() {
+    return this._sourcePosition;
+  }
+  set sourcePosition(sourcePosition) {
+    this.clear();
+    this._sourcePosition = sourcePosition;
+  }
+  onEnd() {
+    this.callback();
+  }
+  fillInputBuffer(numFrames = 0) {
+    const samples = new Float32Array(numFrames * 2);
+    const numFramesExtracted = this.sourceSound.extract(samples, numFrames, this._sourcePosition);
+    this._sourcePosition += numFramesExtracted;
+    this.inputBuffer.putSamples(samples, 0, numFramesExtracted);
+  }
+  extract(target, numFrames = 0) {
+    this.fillOutputBuffer(this.outputBufferPosition + numFrames);
+    const numFramesExtracted = Math.min(numFrames, this.outputBuffer.frameCount - this.outputBufferPosition);
+    this.outputBuffer.extract(target, this.outputBufferPosition, numFramesExtracted);
+    const currentFrames = this.outputBufferPosition + numFramesExtracted;
+    this.outputBufferPosition = Math.min(this.historyBufferSize, currentFrames);
+    this.outputBuffer.receive(Math.max(currentFrames - this.historyBufferSize, 0));
+    this._position += numFramesExtracted;
+    return numFramesExtracted;
+  }
+  handleSampleData(event) {
+    this.extract(event.data, 4096);
+  }
+  clear() {
+    super.clear();
+    this.outputBufferPosition = 0;
+  }
+}
+
+const USE_AUTO_SEQUENCE_LEN = 0;
+const DEFAULT_SEQUENCE_MS = USE_AUTO_SEQUENCE_LEN;
+const USE_AUTO_SEEKWINDOW_LEN = 0;
+const DEFAULT_SEEKWINDOW_MS = USE_AUTO_SEEKWINDOW_LEN;
+const DEFAULT_OVERLAP_MS = 8;
+const _SCAN_OFFSETS = [[124, 186, 248, 310, 372, 434, 496, 558, 620, 682, 744, 806, 868, 930, 992, 1054, 1116, 1178, 1240, 1302, 1364, 1426, 1488, 0], [-100, -75, -50, -25, 25, 50, 75, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [-20, -15, -10, -5, 5, 10, 15, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [-4, -3, -2, -1, 1, 2, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
+const AUTOSEQ_TEMPO_LOW = 0.5;
+const AUTOSEQ_TEMPO_TOP = 2.0;
+const AUTOSEQ_AT_MIN = 125.0;
+const AUTOSEQ_AT_MAX = 50.0;
+const AUTOSEQ_K = (AUTOSEQ_AT_MAX - AUTOSEQ_AT_MIN) / (AUTOSEQ_TEMPO_TOP - AUTOSEQ_TEMPO_LOW);
+const AUTOSEQ_C = AUTOSEQ_AT_MIN - AUTOSEQ_K * AUTOSEQ_TEMPO_LOW;
+const AUTOSEEK_AT_MIN = 25.0;
+const AUTOSEEK_AT_MAX = 15.0;
+const AUTOSEEK_K = (AUTOSEEK_AT_MAX - AUTOSEEK_AT_MIN) / (AUTOSEQ_TEMPO_TOP - AUTOSEQ_TEMPO_LOW);
+const AUTOSEEK_C = AUTOSEEK_AT_MIN - AUTOSEEK_K * AUTOSEQ_TEMPO_LOW;
+class Stretch extends AbstractFifoSamplePipe {
+  constructor(createBuffers) {
+    super(createBuffers);
+    this._quickSeek = true;
+    this.midBufferDirty = false;
+    this.midBuffer = null;
+    this.overlapLength = 0;
+    this.autoSeqSetting = true;
+    this.autoSeekSetting = true;
+    this._tempo = 1;
+    this.setParameters(44100, DEFAULT_SEQUENCE_MS, DEFAULT_SEEKWINDOW_MS, DEFAULT_OVERLAP_MS);
+  }
+  clear() {
+    super.clear();
+    this.clearMidBuffer();
+  }
+  clearMidBuffer() {
+    if (this.midBufferDirty) {
+      this.midBufferDirty = false;
+      this.midBuffer = null;
+    }
+  }
+  setParameters(sampleRate, sequenceMs, seekWindowMs, overlapMs) {
+    if (sampleRate > 0) {
+      this.sampleRate = sampleRate;
+    }
+    if (overlapMs > 0) {
+      this.overlapMs = overlapMs;
+    }
+    if (sequenceMs > 0) {
+      this.sequenceMs = sequenceMs;
+      this.autoSeqSetting = false;
+    } else {
+      this.autoSeqSetting = true;
+    }
+    if (seekWindowMs > 0) {
+      this.seekWindowMs = seekWindowMs;
+      this.autoSeekSetting = false;
+    } else {
+      this.autoSeekSetting = true;
+    }
+    this.calculateSequenceParameters();
+    this.calculateOverlapLength(this.overlapMs);
+    this.tempo = this._tempo;
+  }
+  set tempo(newTempo) {
+    let intskip;
+    this._tempo = newTempo;
+    this.calculateSequenceParameters();
+    this.nominalSkip = this._tempo * (this.seekWindowLength - this.overlapLength);
+    this.skipFract = 0;
+    intskip = Math.floor(this.nominalSkip + 0.5);
+    this.sampleReq = Math.max(intskip + this.overlapLength, this.seekWindowLength) + this.seekLength;
+  }
+  get tempo() {
+    return this._tempo;
+  }
+  get inputChunkSize() {
+    return this.sampleReq;
+  }
+  get outputChunkSize() {
+    return this.overlapLength + Math.max(0, this.seekWindowLength - 2 * this.overlapLength);
+  }
+  calculateOverlapLength(overlapInMsec = 0) {
+    let newOvl;
+    newOvl = this.sampleRate * overlapInMsec / 1000;
+    newOvl = newOvl < 16 ? 16 : newOvl;
+    newOvl -= newOvl % 8;
+    this.overlapLength = newOvl;
+    this.refMidBuffer = new Float32Array(this.overlapLength * 2);
+    this.midBuffer = new Float32Array(this.overlapLength * 2);
+  }
+  checkLimits(x, mi, ma) {
+    return x < mi ? mi : x > ma ? ma : x;
+  }
+  calculateSequenceParameters() {
+    let seq;
+    let seek;
+    if (this.autoSeqSetting) {
+      seq = AUTOSEQ_C + AUTOSEQ_K * this._tempo;
+      seq = this.checkLimits(seq, AUTOSEQ_AT_MAX, AUTOSEQ_AT_MIN);
+      this.sequenceMs = Math.floor(seq + 0.5);
+    }
+    if (this.autoSeekSetting) {
+      seek = AUTOSEEK_C + AUTOSEEK_K * this._tempo;
+      seek = this.checkLimits(seek, AUTOSEEK_AT_MAX, AUTOSEEK_AT_MIN);
+      this.seekWindowMs = Math.floor(seek + 0.5);
+    }
+    this.seekWindowLength = Math.floor(this.sampleRate * this.sequenceMs / 1000);
+    this.seekLength = Math.floor(this.sampleRate * this.seekWindowMs / 1000);
+  }
+  set quickSeek(enable) {
+    this._quickSeek = enable;
+  }
+  clone() {
+    const result = new Stretch();
+    result.tempo = this._tempo;
+    result.setParameters(this.sampleRate, this.sequenceMs, this.seekWindowMs, this.overlapMs);
+    return result;
+  }
+  seekBestOverlapPosition() {
+    return this._quickSeek ? this.seekBestOverlapPositionStereoQuick() : this.seekBestOverlapPositionStereo();
+  }
+  seekBestOverlapPositionStereo() {
+    let bestOffset;
+    let bestCorrelation;
+    let correlation;
+    let i = 0;
+    this.preCalculateCorrelationReferenceStereo();
+    bestOffset = 0;
+    bestCorrelation = Number.MIN_VALUE;
+    for (; i < this.seekLength; i = i + 1) {
+      correlation = this.calculateCrossCorrelationStereo(2 * i, this.refMidBuffer);
+      if (correlation > bestCorrelation) {
+        bestCorrelation = correlation;
+        bestOffset = i;
+      }
+    }
+    return bestOffset;
+  }
+  seekBestOverlapPositionStereoQuick() {
+    let bestOffset;
+    let bestCorrelation;
+    let correlation;
+    let scanCount = 0;
+    let correlationOffset;
+    let tempOffset;
+    this.preCalculateCorrelationReferenceStereo();
+    bestCorrelation = Number.MIN_VALUE;
+    bestOffset = 0;
+    correlationOffset = 0;
+    tempOffset = 0;
+    for (; scanCount < 4; scanCount = scanCount + 1) {
+      let j = 0;
+      while (_SCAN_OFFSETS[scanCount][j]) {
+        tempOffset = correlationOffset + _SCAN_OFFSETS[scanCount][j];
+        if (tempOffset >= this.seekLength) {
+          break;
+        }
+        correlation = this.calculateCrossCorrelationStereo(2 * tempOffset, this.refMidBuffer);
+        if (correlation > bestCorrelation) {
+          bestCorrelation = correlation;
+          bestOffset = tempOffset;
+        }
+        j = j + 1;
+      }
+      correlationOffset = bestOffset;
+    }
+    return bestOffset;
+  }
+  preCalculateCorrelationReferenceStereo() {
+    let i = 0;
+    let context;
+    let temp;
+    for (; i < this.overlapLength; i = i + 1) {
+      temp = i * (this.overlapLength - i);
+      context = i * 2;
+      this.refMidBuffer[context] = this.midBuffer[context] * temp;
+      this.refMidBuffer[context + 1] = this.midBuffer[context + 1] * temp;
+    }
+  }
+  calculateCrossCorrelationStereo(mixingPosition, compare) {
+    const mixing = this._inputBuffer.vector;
+    mixingPosition += this._inputBuffer.startIndex;
+    let correlation = 0;
+    let i = 2;
+    const calcLength = 2 * this.overlapLength;
+    let mixingOffset;
+    for (; i < calcLength; i = i + 2) {
+      mixingOffset = i + mixingPosition;
+      correlation += mixing[mixingOffset] * compare[i] + mixing[mixingOffset + 1] * compare[i + 1];
+    }
+    return correlation;
+  }
+  overlap(overlapPosition) {
+    this.overlapStereo(2 * overlapPosition);
+  }
+  overlapStereo(inputPosition) {
+    const input = this._inputBuffer.vector;
+    inputPosition += this._inputBuffer.startIndex;
+    const output = this._outputBuffer.vector;
+    const outputPosition = this._outputBuffer.endIndex;
+    let i = 0;
+    let context;
+    let tempFrame;
+    const frameScale = 1 / this.overlapLength;
+    let fi;
+    let inputOffset;
+    let outputOffset;
+    for (; i < this.overlapLength; i = i + 1) {
+      tempFrame = (this.overlapLength - i) * frameScale;
+      fi = i * frameScale;
+      context = 2 * i;
+      inputOffset = context + inputPosition;
+      outputOffset = context + outputPosition;
+      output[outputOffset + 0] = input[inputOffset + 0] * fi + this.midBuffer[context + 0] * tempFrame;
+      output[outputOffset + 1] = input[inputOffset + 1] * fi + this.midBuffer[context + 1] * tempFrame;
+    }
+  }
+  process() {
+    let offset;
+    let temp;
+    let overlapSkip;
+    if (this.midBuffer === null) {
+      if (this._inputBuffer.frameCount < this.overlapLength) {
+        return;
+      }
+      this.midBuffer = new Float32Array(this.overlapLength * 2);
+      this._inputBuffer.receiveSamples(this.midBuffer, this.overlapLength);
+    }
+    while (this._inputBuffer.frameCount >= this.sampleReq) {
+      offset = this.seekBestOverlapPosition();
+      this._outputBuffer.ensureAdditionalCapacity(this.overlapLength);
+      this.overlap(Math.floor(offset));
+      this._outputBuffer.put(this.overlapLength);
+      temp = this.seekWindowLength - 2 * this.overlapLength;
+      if (temp > 0) {
+        this._outputBuffer.putBuffer(this._inputBuffer, offset + this.overlapLength, temp);
+      }
+      const start = this._inputBuffer.startIndex + 2 * (offset + this.seekWindowLength - this.overlapLength);
+      this.midBuffer.set(this._inputBuffer.vector.subarray(start, start + 2 * this.overlapLength));
+      this.skipFract += this.nominalSkip;
+      overlapSkip = Math.floor(this.skipFract);
+      this.skipFract -= overlapSkip;
+      this._inputBuffer.receive(overlapSkip);
+    }
+  }
+}
+
+const testFloatEqual = function (a, b) {
+  return (a > b ? a - b : b - a) > 1e-10;
+};
+
+class SoundTouch {
+  constructor() {
+    this.transposer = new RateTransposer(false);
+    this.stretch = new Stretch(false);
+    this._inputBuffer = new FifoSampleBuffer();
+    this._intermediateBuffer = new FifoSampleBuffer();
+    this._outputBuffer = new FifoSampleBuffer();
+    this._rate = 0;
+    this._tempo = 0;
+    this.virtualPitch = 1.0;
+    this.virtualRate = 1.0;
+    this.virtualTempo = 1.0;
+    this.calculateEffectiveRateAndTempo();
+  }
+  clear() {
+    this.transposer.clear();
+    this.stretch.clear();
+  }
+  clone() {
+    const result = new SoundTouch();
+    result.rate = this.rate;
+    result.tempo = this.tempo;
+    return result;
+  }
+  get rate() {
+    return this._rate;
+  }
+  set rate(rate) {
+    this.virtualRate = rate;
+    this.calculateEffectiveRateAndTempo();
+  }
+  set rateChange(rateChange) {
+    this._rate = 1.0 + 0.01 * rateChange;
+  }
+  get tempo() {
+    return this._tempo;
+  }
+  set tempo(tempo) {
+    this.virtualTempo = tempo;
+    this.calculateEffectiveRateAndTempo();
+  }
+  set tempoChange(tempoChange) {
+    this.tempo = 1.0 + 0.01 * tempoChange;
+  }
+  set pitch(pitch) {
+    this.virtualPitch = pitch;
+    this.calculateEffectiveRateAndTempo();
+  }
+  set pitchOctaves(pitchOctaves) {
+    this.pitch = Math.exp(0.69314718056 * pitchOctaves);
+    this.calculateEffectiveRateAndTempo();
+  }
+  set pitchSemitones(pitchSemitones) {
+    this.pitchOctaves = pitchSemitones / 12.0;
+  }
+  get inputBuffer() {
+    return this._inputBuffer;
+  }
+  get outputBuffer() {
+    return this._outputBuffer;
+  }
+  calculateEffectiveRateAndTempo() {
+    const previousTempo = this._tempo;
+    const previousRate = this._rate;
+    this._tempo = this.virtualTempo / this.virtualPitch;
+    this._rate = this.virtualRate * this.virtualPitch;
+    if (testFloatEqual(this._tempo, previousTempo)) {
+      this.stretch.tempo = this._tempo;
+    }
+    if (testFloatEqual(this._rate, previousRate)) {
+      this.transposer.rate = this._rate;
+    }
+    if (this._rate > 1.0) {
+      if (this._outputBuffer != this.transposer.outputBuffer) {
+        this.stretch.inputBuffer = this._inputBuffer;
+        this.stretch.outputBuffer = this._intermediateBuffer;
+        this.transposer.inputBuffer = this._intermediateBuffer;
+        this.transposer.outputBuffer = this._outputBuffer;
+      }
+    } else {
+      if (this._outputBuffer != this.stretch.outputBuffer) {
+        this.transposer.inputBuffer = this._inputBuffer;
+        this.transposer.outputBuffer = this._intermediateBuffer;
+        this.stretch.inputBuffer = this._intermediateBuffer;
+        this.stretch.outputBuffer = this._outputBuffer;
+      }
+    }
+  }
+  process() {
+    if (this._rate > 1.0) {
+      this.stretch.process();
+      this.transposer.process();
+    } else {
+      this.transposer.process();
+      this.stretch.process();
+    }
+  }
+}
+
+class WebAudioBufferSource {
+  constructor(buffer) {
+    this.buffer = buffer;
+    this._position = 0;
+  }
+  get dualChannel() {
+    return this.buffer.numberOfChannels > 1;
+  }
+  get position() {
+    return this._position;
+  }
+  set position(value) {
+    this._position = value;
+  }
+  extract(target, numFrames = 0, position = 0) {
+    this.position = position;
+    let left = this.buffer.getChannelData(0);
+    let right = this.dualChannel ? this.buffer.getChannelData(1) : this.buffer.getChannelData(0);
+    let i = 0;
+    for (; i < numFrames; i++) {
+      target[i * 2] = left[i + position];
+      target[i * 2 + 1] = right[i + position];
+    }
+    return Math.min(numFrames, left.length - position);
+  }
+}
+
+const getWebAudioNode = function (context, filter, sourcePositionCallback = noop, bufferSize = 4096) {
+  const node = context.createScriptProcessor(bufferSize, 2, 2);
+  const samples = new Float32Array(bufferSize * 2);
+  node.onaudioprocess = event => {
+    let left = event.outputBuffer.getChannelData(0);
+    let right = event.outputBuffer.getChannelData(1);
+    let framesExtracted = filter.extract(samples, bufferSize);
+    sourcePositionCallback(filter.sourcePosition);
+    if (framesExtracted === 0) {
+      filter.onEnd();
+    }
+    let i = 0;
+    for (; i < framesExtracted; i++) {
+      left[i] = samples[i * 2];
+      right[i] = samples[i * 2 + 1];
+    }
+  };
+  return node;
+};
+
+const pad = function (n, width, z) {
+  z = z || '0';
+  n = n + '';
+  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+};
+const minsSecs = function (secs) {
+  const mins = Math.floor(secs / 60);
+  const seconds = secs - mins * 60;
+  return `${mins}:${pad(parseInt(seconds), 2)}`;
+};
+
+const onUpdate = function (sourcePosition) {
+  const currentTimePlayed = this.timePlayed;
+  const sampleRate = this.sampleRate;
+  this.sourcePosition = sourcePosition;
+  this.timePlayed = sourcePosition / sampleRate;
+  if (currentTimePlayed !== this.timePlayed) {
+    const timePlayed = new CustomEvent('play', {
+      detail: {
+        timePlayed: this.timePlayed,
+        formattedTimePlayed: this.formattedTimePlayed,
+        percentagePlayed: this.percentagePlayed
+      }
+    });
+    this._node.dispatchEvent(timePlayed);
+  }
+};
+class PitchShifter {
+  constructor(context, buffer, bufferSize, onEnd = noop) {
+    this._soundtouch = new SoundTouch();
+    const source = new WebAudioBufferSource(buffer);
+    this.timePlayed = 0;
+    this.sourcePosition = 0;
+    this._filter = new SimpleFilter(source, this._soundtouch, onEnd);
+    this._node = getWebAudioNode(context, this._filter, sourcePostion => onUpdate.call(this, sourcePostion), bufferSize);
+    this.tempo = 1;
+    this.rate = 1;
+    this.duration = buffer.duration;
+    this.sampleRate = context.sampleRate;
+    this.listeners = [];
+  }
+  get formattedDuration() {
+    return minsSecs(this.duration);
+  }
+  get formattedTimePlayed() {
+    return minsSecs(this.timePlayed);
+  }
+  get percentagePlayed() {
+    return 100 * this._filter.sourcePosition / (this.duration * this.sampleRate);
+  }
+  set percentagePlayed(perc) {
+    this._filter.sourcePosition = parseInt(perc * this.duration * this.sampleRate);
+    this.sourcePosition = this._filter.sourcePosition;
+    this.timePlayed = this.sourcePosition / this.sampleRate;
+  }
+  get node() {
+    return this._node;
+  }
+  set pitch(pitch) {
+    this._soundtouch.pitch = pitch;
+  }
+  set pitchSemitones(semitone) {
+    this._soundtouch.pitchSemitones = semitone;
+  }
+  set rate(rate) {
+    this._soundtouch.rate = rate;
+  }
+  set tempo(tempo) {
+    this._soundtouch.tempo = tempo;
+  }
+  connect(toNode) {
+    this._node.connect(toNode);
+  }
+  disconnect() {
+    this._node.disconnect();
+  }
+  on(eventName, cb) {
+    this.listeners.push({
+      name: eventName,
+      cb: cb
+    });
+    this._node.addEventListener(eventName, event => cb(event.detail));
+  }
+  off(eventName = null) {
+    let listeners = this.listeners;
+    if (eventName) {
+      listeners = listeners.filter(e => e.name === eventName);
+    }
+    listeners.forEach(e => {
+      this._node.removeEventListener(e.name, event => e.cb(event.detail));
+    });
+  }
+}
+
+
+//# sourceMappingURL=soundtouch.js.map
+
 // EXTERNAL MODULE: ./src/styles/main.scss
 var main = __webpack_require__("./src/styles/main.scss");
 ;// ./src/ui.js
@@ -7038,6 +7826,7 @@ class VideoObserver {
 
 
 
+
 const browserInfo = es5.getParser(window.navigator.userAgent).getResult();
 const cfOnlyExtensions = [
   "Violentmonkey",
@@ -7415,7 +8204,7 @@ class VideoHandler {
 
     this.initUI();
     this.initUIEvents();
-    this.initAudioBooster();
+    await this.initAudioBooster();
 
     this.videoData = await this.getVideoData();
     this.setSelectMenuValues(
@@ -7456,14 +8245,35 @@ class VideoHandler {
     this.votButton.container.dataset.loading = loading;
   }
 
-  initAudioBooster() {
+  async initAudioBooster() {
     this.audio.crossOrigin = "anonymous";
-    if (this.audioContext) {
-      this.gainNode = this.audioContext.createGain();
-      this.gainNode.connect(this.audioContext.destination);
-      this.audioSource = this.audioContext.createMediaElementSource(this.audio);
-      this.audioSource.connect(this.gainNode);
+    if (!this.audioContext) {
+      return;
     }
+
+    this.gainNode = this.audioContext.createGain();
+    this.gainNode.connect(this.audioContext.destination);
+    this.audioSource = this.audioContext.createMediaElementSource(this.audio);
+    this.audioSource.connect(this.gainNode);
+
+    // if (!this.audioContext.audioWorklet) {
+    //   console.log(
+    //     "Failed to find audio worklet",
+    //     this.audioContext.audioWorklet,
+    //   );
+    //   return;
+    // }
+
+    // // TODO: CHANGE LINK TO VOT REPO OR CDN
+    // await this.audioContext.audioWorklet.addModule(
+    //   "https://raw.githubusercontent.com/olvb/phaze/refs/heads/master/www/phase-vocoder.min.js",
+    // );
+
+    // this.phaseVocoderNode = new AudioWorkletNode(
+    //   this.audioContext,
+    //   "phase-vocoder-processor",
+    // );
+    // this.gainNode.connect(this.phaseVocoderNode);
   }
 
   initUI() {
@@ -7987,7 +8797,7 @@ class VideoHandler {
   }
 
   async handleTranslationBtnClick() {
-    if (this.audio.src || this.playSound) {
+    if (this.audio.src || this.audioShifter) {
       utils_debug.log("[click translationBtn] audio.src is not empty");
       this.stopTranslate();
       return;
@@ -9148,8 +9958,18 @@ class VideoHandler {
    * @return {void}
    */
   lipsyncAudioContext(mode = false) {
-    if (this.playSound) {
-      this.playSound.playbackRate.value = this.video.playbackRate;
+    // if (this.phaseVocoderNode) {
+    //   let pitchFactorParam =
+    //     this.phaseVocoderNode.parameters.get("pitchFactor");
+    //   console.log(pitchFactorParam);
+    //   pitchFactorParam.value = 1 / this.video.playbackRate;
+    //   console.log("new pitchFactor: " + pitchFactorParam);
+    // } else if (this.playSound) {
+    //   this.playSound.playbackRate.value = this.video.playbackRate;
+    // }
+    console.log(this.audioContext);
+    if (this.audioShifter) {
+      this.audioShifter.tempo = this.video.playbackRate;
     }
 
     if (!mode) {
@@ -9157,37 +9977,35 @@ class VideoHandler {
       return;
     }
 
-    if (mode == "play") {
-      utils_debug.log("lipsync mode is play");
-      try {
-        this.playSound.start(0, this.audio.currentTime);
-      } catch {
-        /* empty */
-      }
-      return;
-    }
+    utils_debug.log(`lipsync mode is ${mode}`);
+    switch (mode) {
+      case "play":
+      case "playing":
+        try {
+          this.audioShifter.node.start(0, this.audio.currentTime);
+        } catch {
+          /* empty */
+        }
+        return;
+      case "pause":
+      case "stop":
+      case "waiting": {
+        try {
+          this.audioShifter.disconnect();
+          this.audioShifter.node.stop();
+        } catch {
+          /* empty */
+        }
 
-    // video is inactive
-    if (["pause", "stop", "waiting"].includes(mode)) {
-      utils_debug.log(`lipsync mode is ${mode}`);
-      try {
-        this.playSound.stop();
-      } catch {
-        /* empty */
-      }
-
-      this.playSound = this.audioContext.createBufferSource();
-      this.playSound.buffer = this.audioBuffer;
-      this.playSound.connect(this.gainNode);
-      return;
-    }
-
-    if (mode == "playing") {
-      utils_debug.log("lipsync mode is playing");
-      try {
-        this.playSound.start(0, this.audio.currentTime);
-      } catch {
-        /* empty */
+        this.audioShifter = new PitchShifter(
+          this.audioContext,
+          this.audioBuffer,
+          1024,
+        );
+        this.audioShifter.connect(this.gainNode);
+        this.audioShifter.tempo = 1;
+        this.audioShifter.pitch = 1;
+        return;
       }
     }
   }
@@ -9272,10 +10090,11 @@ class VideoHandler {
     for (const e of videoLipSyncEvents) {
       this.video.removeEventListener(e, this.handleVideoEvent);
     }
-    if (this.playSound) {
+    if (this.audioShifter) {
       try {
-        this.playSound.stop();
-        this.playSound = null;
+        this.audioShifter.disconnect();
+        this.audioShifter.node.stop();
+        this.audioShifter = null;
       } catch {
         /* empty */
       }
@@ -9416,9 +10235,19 @@ class VideoHandler {
       const data = await res.arrayBuffer();
 
       this.audioBuffer = await this.audioContext.decodeAudioData(data);
-      this.playSound = this.audioContext.createBufferSource();
-      this.playSound.buffer = this.audioBuffer;
-      this.playSound.connect(this.gainNode);
+
+      // this.playSound = this.audioContext.createBufferSource();
+      // this.playSound.buffer = this.audioBuffer;
+      // this.playSound.connect(this.gainNode);
+      this.audioShifter = new PitchShifter(
+        this.audioContext,
+        this.audioBuffer,
+        1024,
+      );
+      this.audioShifter.connect(this.gainNode);
+      this.audioShifter.tempo = 1;
+      this.audioShifter.pitch = 1;
+
       // this.playSound.start();
     } catch (err) {
       console.error("[VOT] Failed to bypass CSP", err);
@@ -9463,15 +10292,10 @@ class VideoHandler {
     }
 
     this.setupAudioSettings();
-    switch (this.site.host) {
-      case "twitter":
-        document
-          .querySelector('button[data-testid="app-bar-back"][role="button"]')
-          .addEventListener("click", this.stopTranslation);
-        break;
-      case "invidious":
-      case "piped":
-        break;
+    if (this.site.host === "twitter") {
+      document
+        .querySelector('button[data-testid="app-bar-back"][role="button"]')
+        .addEventListener("click", this.stopTranslation);
     }
 
     if (this.video && !this.video.paused) this.lipSync("play");

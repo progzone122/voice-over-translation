@@ -6,6 +6,7 @@ import { availableLangs, availableTTS, subtitlesFormats } from "vot.js/consts";
 import { convertSubs } from "vot.js/utils/subs";
 import { svg, html } from "lit-html";
 import { ID3Writer } from "browser-id3-writer";
+import { PitchShifter } from "soundtouchjs";
 
 import {
   defaultAutoVolume,
@@ -426,7 +427,7 @@ class VideoHandler {
 
     this.initUI();
     this.initUIEvents();
-    this.initAudioBooster();
+    await this.initAudioBooster();
 
     this.videoData = await this.getVideoData();
     this.setSelectMenuValues(
@@ -467,14 +468,35 @@ class VideoHandler {
     this.votButton.container.dataset.loading = loading;
   }
 
-  initAudioBooster() {
+  async initAudioBooster() {
     this.audio.crossOrigin = "anonymous";
-    if (this.audioContext) {
-      this.gainNode = this.audioContext.createGain();
-      this.gainNode.connect(this.audioContext.destination);
-      this.audioSource = this.audioContext.createMediaElementSource(this.audio);
-      this.audioSource.connect(this.gainNode);
+    if (!this.audioContext) {
+      return;
     }
+
+    this.gainNode = this.audioContext.createGain();
+    this.gainNode.connect(this.audioContext.destination);
+    this.audioSource = this.audioContext.createMediaElementSource(this.audio);
+    this.audioSource.connect(this.gainNode);
+
+    // if (!this.audioContext.audioWorklet) {
+    //   console.log(
+    //     "Failed to find audio worklet",
+    //     this.audioContext.audioWorklet,
+    //   );
+    //   return;
+    // }
+
+    // // TODO: CHANGE LINK TO VOT REPO OR CDN
+    // await this.audioContext.audioWorklet.addModule(
+    //   "https://raw.githubusercontent.com/olvb/phaze/refs/heads/master/www/phase-vocoder.min.js",
+    // );
+
+    // this.phaseVocoderNode = new AudioWorkletNode(
+    //   this.audioContext,
+    //   "phase-vocoder-processor",
+    // );
+    // this.gainNode.connect(this.phaseVocoderNode);
   }
 
   initUI() {
@@ -998,7 +1020,7 @@ class VideoHandler {
   }
 
   async handleTranslationBtnClick() {
-    if (this.audio.src || this.playSound) {
+    if (this.audio.src || this.audioShifter) {
       debug.log("[click translationBtn] audio.src is not empty");
       this.stopTranslate();
       return;
@@ -2157,8 +2179,18 @@ class VideoHandler {
    * @return {void}
    */
   lipsyncAudioContext(mode = false) {
-    if (this.playSound) {
-      this.playSound.playbackRate.value = this.video.playbackRate;
+    // if (this.phaseVocoderNode) {
+    //   let pitchFactorParam =
+    //     this.phaseVocoderNode.parameters.get("pitchFactor");
+    //   console.log(pitchFactorParam);
+    //   pitchFactorParam.value = 1 / this.video.playbackRate;
+    //   console.log("new pitchFactor: " + pitchFactorParam);
+    // } else if (this.playSound) {
+    //   this.playSound.playbackRate.value = this.video.playbackRate;
+    // }
+    console.log(this.audioContext);
+    if (this.audioShifter) {
+      this.audioShifter.tempo = this.video.playbackRate;
     }
 
     if (!mode) {
@@ -2166,37 +2198,35 @@ class VideoHandler {
       return;
     }
 
-    if (mode == "play") {
-      debug.log("lipsync mode is play");
-      try {
-        this.playSound.start(0, this.audio.currentTime);
-      } catch {
-        /* empty */
-      }
-      return;
-    }
+    debug.log(`lipsync mode is ${mode}`);
+    switch (mode) {
+      case "play":
+      case "playing":
+        try {
+          this.audioShifter.node.start(0, this.audio.currentTime);
+        } catch {
+          /* empty */
+        }
+        return;
+      case "pause":
+      case "stop":
+      case "waiting": {
+        try {
+          this.audioShifter.disconnect();
+          this.audioShifter.node.stop();
+        } catch {
+          /* empty */
+        }
 
-    // video is inactive
-    if (["pause", "stop", "waiting"].includes(mode)) {
-      debug.log(`lipsync mode is ${mode}`);
-      try {
-        this.playSound.stop();
-      } catch {
-        /* empty */
-      }
-
-      this.playSound = this.audioContext.createBufferSource();
-      this.playSound.buffer = this.audioBuffer;
-      this.playSound.connect(this.gainNode);
-      return;
-    }
-
-    if (mode == "playing") {
-      debug.log("lipsync mode is playing");
-      try {
-        this.playSound.start(0, this.audio.currentTime);
-      } catch {
-        /* empty */
+        this.audioShifter = new PitchShifter(
+          this.audioContext,
+          this.audioBuffer,
+          1024,
+        );
+        this.audioShifter.connect(this.gainNode);
+        this.audioShifter.tempo = 1;
+        this.audioShifter.pitch = 1;
+        return;
       }
     }
   }
@@ -2281,10 +2311,11 @@ class VideoHandler {
     for (const e of videoLipSyncEvents) {
       this.video.removeEventListener(e, this.handleVideoEvent);
     }
-    if (this.playSound) {
+    if (this.audioShifter) {
       try {
-        this.playSound.stop();
-        this.playSound = null;
+        this.audioShifter.disconnect();
+        this.audioShifter.node.stop();
+        this.audioShifter = null;
       } catch {
         /* empty */
       }
@@ -2425,9 +2456,19 @@ class VideoHandler {
       const data = await res.arrayBuffer();
 
       this.audioBuffer = await this.audioContext.decodeAudioData(data);
-      this.playSound = this.audioContext.createBufferSource();
-      this.playSound.buffer = this.audioBuffer;
-      this.playSound.connect(this.gainNode);
+
+      // this.playSound = this.audioContext.createBufferSource();
+      // this.playSound.buffer = this.audioBuffer;
+      // this.playSound.connect(this.gainNode);
+      this.audioShifter = new PitchShifter(
+        this.audioContext,
+        this.audioBuffer,
+        1024,
+      );
+      this.audioShifter.connect(this.gainNode);
+      this.audioShifter.tempo = 1;
+      this.audioShifter.pitch = 1;
+
       // this.playSound.start();
     } catch (err) {
       console.error("[VOT] Failed to bypass CSP", err);
@@ -2472,15 +2513,10 @@ class VideoHandler {
     }
 
     this.setupAudioSettings();
-    switch (this.site.host) {
-      case "twitter":
-        document
-          .querySelector('button[data-testid="app-bar-back"][role="button"]')
-          .addEventListener("click", this.stopTranslation);
-        break;
-      case "invidious":
-      case "piped":
-        break;
+    if (this.site.host === "twitter") {
+      document
+        .querySelector('button[data-testid="app-bar-back"][role="button"]')
+        .addEventListener("click", this.stopTranslation);
     }
 
     if (this.video && !this.video.paused) this.lipSync("play");
