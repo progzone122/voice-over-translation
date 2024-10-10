@@ -1,5 +1,5 @@
 diff --git a/node_modules/vot.js/dist/config/sites.js b/node_modules/vot.js/dist/config/sites.js
-index 4542dbc..1633a27 100644
+index 4542dbc..6f30fef 100644
 --- a/node_modules/vot.js/dist/config/sites.js
 +++ b/node_modules/vot.js/dist/config/sites.js
 @@ -1,40 +1,78 @@
@@ -61,18 +61,18 @@ index 4542dbc..1633a27 100644
 +        match: /^m.vk.(com|ru)$/,
 +        selector: "vk-video-player",
 +        shadowRoot: true,
-+    },
-+    {
-+        additionalData: "clips",
-+        host: VideoService.vk,
-+        url: "https://vk.com/video?z=",
-+        match: /^(www.|m.)?vk.(com|ru)$/,
-+        selector: 'div[data-testid="clipcontainer-video"]',
      },
      {
++        additionalData: "clips",
          host: VideoService.vk,
          url: "https://vk.com/video?z=",
          match: /^(www.|m.)?vk.(com|ru)$/,
++        selector: 'div[data-testid="clipcontainer-video"]',
++    },
++    {
++        host: VideoService.vk,
++        url: "https://vk.com/video?z=",
++        match: /^(www.|m.)?vk.(com|ru)$/,
 +        selector: ".videoplayer_media",
      },
      {
@@ -110,7 +110,7 @@ index 4542dbc..1633a27 100644
      },
      {
          host: VideoService.vimeo,
-@@ -68,207 +110,307 @@ export default [
+@@ -68,207 +110,291 @@ export default [
          match: /^player.vimeo.com$/,
          additionalData: "embed",
          needExtraData: true,
@@ -152,37 +152,37 @@ index 4542dbc..1633a27 100644
          url: "https://rumble.com/",
          match: /^rumble.com$/,
 +        selector: "#videoPlayer > .videoPlayer-Rumble-cls > div",
-+    },
-+    {
-+        host: VideoService.facebook,
-+        url: "https://facebook.com/",
-+        match: (url) =>
-+            url.host.includes("facebook.com") && url.pathname.includes("/videos/"),
-+        selector: 'div[role="main"] div[data-pagelet$="video" i]',
-+        needBypassCSP: true,
      },
      {
-+        additionalData: "reels",
          host: VideoService.facebook,
          url: "https://facebook.com/",
 -        match: (url) => url.host.includes("facebook.com") &&
 -            (url.pathname.includes("/videos/") || url.pathname.includes("/reel/")),
 +        match: (url) =>
++            url.host.includes("facebook.com") && url.pathname.includes("/videos/"),
++        selector: 'div[role="main"] div[data-pagelet$="video" i]',
++        needBypassCSP: true,
++    },
++    {
++        additionalData: "reels",
++        host: VideoService.facebook,
++        url: "https://facebook.com/",
++        match: (url) =>
 +            url.host.includes("facebook.com") && url.pathname.includes("/reel/"),
 +        selector: 'div[role="main"]',
 +        needBypassCSP: true,
-     },
-     {
-         host: VideoService.rutube,
-         url: "https://rutube.ru/video/",
-         match: /^rutube.ru$/,
-+        selector: ".video-player > div > div > div:nth-child(2)",
 +    },
 +    {
-+        additionalData: "embed",
 +        host: VideoService.rutube,
 +        url: "https://rutube.ru/video/",
 +        match: /^rutube.ru$/,
++        selector: ".video-player > div > div > div:nth-child(2)",
+     },
+     {
++        additionalData: "embed",
+         host: VideoService.rutube,
+         url: "https://rutube.ru/video/",
+         match: /^rutube.ru$/,
 +        selector: "#app > div > div",
      },
      {
@@ -369,24 +369,8 @@ index 4542dbc..1633a27 100644
          match: /^learning.sap.com$/,
 +        selector: ".playkit-container",
 +        eventSelector: ".playkit-player",
-+        needExtraData: true,
-+        needBypassCSP: true,
-+    },
-+    {
-+        host: VideoService.udemy,
-+        url: "https://www.udemy.com/",
-+        match: /udemy.com$/,
-+        selector:
-+            'div[data-purpose="curriculum-item-viewer-content"] > section > div > div > div > div:nth-of-type(2)',
-+        needExtraData: true,
-+    },
-+    {
-+        // ONLY IF YOU LOGINED TO COURSERA /learn/NAME/lecture/XXXX
-+        host: VideoService.coursera,
-+        url: "https://www.coursera.org/",
-+        match: /coursera.org$/,
-+        selector: ".vjs-v8",
          needExtraData: true,
++        needBypassCSP: true,
      },
      {
          host: VideoService.watchpornto,
