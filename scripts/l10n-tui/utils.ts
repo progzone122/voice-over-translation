@@ -38,7 +38,9 @@ export async function translate(text: string, langPair: string = "en-ru") {
     return ((await res.json()) as { text: string[] }).text[0];
   } catch (err) {
     console.log(
-      `Failed to fetch translation for ${text}. Reason: ${err.message}`,
+      `Failed to fetch translation for ${text}. Reason: ${
+        (err as Error).message
+      }`,
     );
     throw new Error("Internal server error");
   }
