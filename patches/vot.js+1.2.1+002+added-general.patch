@@ -7,7 +7,7 @@ index ea3a8cd..4857f88 100644
  import { convertVOT } from "./utils/vot.js";
  import { StreamInterval } from "./protos/yandex.js";
 +import { VOTLocalizedError } from "../../../src/utils/VOTLocalizedError.js";
-+import debug from "../../../src/utils/debug.js";
++import debug from "../../../src/utils/debug.ts";
  const { version } = packageInfo;
  class VOTJSError extends Error {
      data;

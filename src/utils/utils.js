@@ -29,11 +29,6 @@ function secsToStrTime(secs) {
     .replace("{0}", minutes);
 }
 
-function langTo6391(lang) {
-  // convert lang to ISO 639-1
-  return lang.toLowerCase().split(/[_;-]/)[0].trim();
-}
-
 function isPiPAvailable() {
   return (
     "pictureInPictureEnabled" in document && document.pictureInPictureEnabled
@@ -169,7 +164,6 @@ function getTimestamp() {
 
 export {
   secsToStrTime,
-  langTo6391,
   isPiPAvailable,
   initHls,
   cleanText,
