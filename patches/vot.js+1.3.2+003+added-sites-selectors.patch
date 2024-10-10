@@ -1,11 +1,9 @@
 diff --git a/node_modules/vot.js/dist/config/sites.js b/node_modules/vot.js/dist/config/sites.js
-index 4542dbc..6f30fef 100644
+index 4542dbc..5fafeaf 100644
 --- a/node_modules/vot.js/dist/config/sites.js
 +++ b/node_modules/vot.js/dist/config/sites.js
-@@ -1,40 +1,78 @@
- import { VideoService } from "../types/yandex.js";
--import { sitesInvidious, sitesPiped, sitesProxiTok, sitesPeertube, sitesPoketube, sitesRicktube, } from "./alternativeUrls.js";
-+import { sitesInvidious, sitesPiped, sitesProxiTok, sitesPeertube, sitesPoketube, sitesRicktube } from "./alternativeUrls.js";
+@@ -2,39 +2,77 @@ import { VideoService } from "../types/yandex.js";
+ import { sitesInvidious, sitesPiped, sitesProxiTok, sitesPeertube, sitesPoketube, sitesRicktube, } from "./alternativeUrls.js";
  export default [
      {
 +        additionalData: "mobile",
