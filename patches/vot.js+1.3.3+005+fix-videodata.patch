@@ -14,7 +14,7 @@ index f69bc0a..158777c 100644
  //# sourceMappingURL=videoData.d.ts.map
 \ No newline at end of file
 diff --git a/node_modules/vot.js/dist/utils/videoData.js b/node_modules/vot.js/dist/utils/videoData.js
-index b538d1c..e1c89fa 100644
+index 2173bc2..f789f28 100644
 --- a/node_modules/vot.js/dist/utils/videoData.js
 +++ b/node_modules/vot.js/dist/utils/videoData.js
 @@ -8,18 +8,11 @@ class VideoDataError extends Error {
@@ -86,7 +86,7 @@ index b538d1c..e1c89fa 100644
          case VideoService.newgrounds:
              return /([^/]+)\/(view)\/([^/]+)/.exec(url.pathname)?.[0];
          case VideoService.egghead:
-@@ -122,17 +122,13 @@ export async function getVideoID(service, videoURL, opts = {}) {
+@@ -122,16 +122,12 @@ export async function getVideoID(service, videoURL, opts = {}) {
              return undefined;
      }
  }
@@ -102,9 +102,8 @@ index b538d1c..e1c89fa 100644
 -        throw new VideoDataError(`Entered unsupported link: "${url}"`);
 +        throw new VideoDataError(`Entered unsupported link: "${service.host}"`);
      }
-     if (service.host === VideoService.peertube) {
--        service.url = new URL(url).origin;
-+        service.url = window.location.origin;
+-    const origin = new URL(url).origin;
++    const origin = window.location.origin;
+     if ([VideoService.peertube, VideoService.coursehunterLike].includes(service.host)) {
+         service.url = origin;
      }
-     if (service.rawResult) {
-         return {

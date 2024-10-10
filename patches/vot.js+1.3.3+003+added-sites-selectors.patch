@@ -1,9 +1,9 @@
 diff --git a/node_modules/vot.js/dist/config/sites.js b/node_modules/vot.js/dist/config/sites.js
-index 4542dbc..5fafeaf 100644
+index b197df5..7efee76 100644
 --- a/node_modules/vot.js/dist/config/sites.js
 +++ b/node_modules/vot.js/dist/config/sites.js
 @@ -2,39 +2,77 @@ import { VideoService } from "../types/yandex.js";
- import { sitesInvidious, sitesPiped, sitesProxiTok, sitesPeertube, sitesPoketube, sitesRicktube, } from "./alternativeUrls.js";
+ import { sitesInvidious, sitesPiped, sitesProxiTok, sitesPeertube, sitesPoketube, sitesRicktube, sitesCoursehunterLike, } from "./alternativeUrls.js";
  export default [
      {
 +        additionalData: "mobile",
@@ -108,7 +108,7 @@ index 4542dbc..5fafeaf 100644
      },
      {
          host: VideoService.vimeo,
-@@ -68,207 +110,291 @@ export default [
+@@ -68,201 +110,284 @@ export default [
          match: /^player.vimeo.com$/,
          additionalData: "embed",
          needExtraData: true,
@@ -169,23 +169,24 @@ index 4542dbc..5fafeaf 100644
 +            url.host.includes("facebook.com") && url.pathname.includes("/reel/"),
 +        selector: 'div[role="main"]',
 +        needBypassCSP: true,
-+    },
-+    {
-+        host: VideoService.rutube,
-+        url: "https://rutube.ru/video/",
-+        match: /^rutube.ru$/,
-+        selector: ".video-player > div > div > div:nth-child(2)",
      },
      {
-+        additionalData: "embed",
          host: VideoService.rutube,
          url: "https://rutube.ru/video/",
          match: /^rutube.ru$/,
++        selector: ".video-player > div > div > div:nth-child(2)",
++    },
++    {
++        additionalData: "embed",
++        host: VideoService.rutube,
++        url: "https://rutube.ru/video/",
++        match: /^rutube.ru$/,
 +        selector: "#app > div > div",
      },
      {
          host: VideoService.bilibili,
-         url: "https://www.bilibili.com/",
+-        url: "https://www.bilibili.com/",
++        url: "https://www.bilibili.com/video/",
          match: /^(www|m|player).bilibili.com$/,
 +        selector: ".bpx-player-video-wrap",
 +    },
@@ -193,7 +194,7 @@ index 4542dbc..5fafeaf 100644
 +    {
 +        additionalData: "old", // /blackboard/webplayer/embed-old.html
 +        host: VideoService.bilibili,
-+        url: "https://www.bilibili.com/",
++        url: "https://www.bilibili.com/video/",
 +        match: /^(www|m).bilibili.com$/,
 +        selector: null,
      },
@@ -355,10 +356,10 @@ index 4542dbc..5fafeaf 100644
          needExtraData: true,
      },
      {
-         host: VideoService.coursehunter,
-         url: "https://coursehunter.net/course/",
-         match: /^coursehunter.net$/,
-+        selector: "#oframeplayer > pjsdiv:nth-of-type(1)",
+         host: VideoService.coursehunterLike,
+         url: "stub",
+         match: sitesCoursehunterLike,
++        selector: "#oframeplayer > pjsdiv:has(video)",
          needExtraData: true,
      },
      {
@@ -383,13 +384,6 @@ index 4542dbc..5fafeaf 100644
 +        selector: ".vjs-v7",
          needExtraData: true,
 +        needBypassCSP: true,
-     },
-     {
-         host: VideoService.coursetrain,
-         url: "https://coursetrain.net/course/",
-         match: /^coursetrain.net$/,
-+        selector: "#oframeplayer > pjsdiv:has(video)",
-         needExtraData: true,
      },
      {
          host: VideoService.incestflix,

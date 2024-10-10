@@ -33,7 +33,6 @@
     "*://*.ok.ru/*",
     "*://trovo.live/*",
     "*://disk.yandex.ru/i/*",
-    "*://coursehunter.net/*",
     "*://youtube.googleapis.com/embed/*",
     "*://*.banned.video/*",
     "*://*.weverse.io/*",
@@ -55,7 +54,6 @@
     "*://learning.sap.com/*",
     "*://*.watchporn.to/*",
     "*://*.linkedin.com/*",
-    "*://*.coursetrain.net/*",
     "*://*.ricktube.ru/*",
     "*://*/*.mp4*",
     "*://*/*.webm*"

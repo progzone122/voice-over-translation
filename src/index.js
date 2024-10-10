@@ -2120,7 +2120,7 @@ class VideoHandler {
         "dailymotion",
         "trovo",
         "yandexdisk",
-        "coursehunter",
+        "coursehunterLike",
         "archive",
         "nineanimetv",
         "directlink",
