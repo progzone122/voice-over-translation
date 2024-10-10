@@ -22,6 +22,14 @@ const translateUrls = {
   deepl: "https://translate-deepl.toil.cc/translate",
 };
 
+const proxyOnlyExtensions = [
+  "Violentmonkey",
+  "FireMonkey",
+  "Greasemonkey",
+  "AdGuard",
+  "OrangeMonkey",
+];
+
 export {
   workerHost,
   m3u8ProxyHost,
@@ -35,4 +43,5 @@ export {
   defaultDetectService,
   defaultAutoVolume,
   maxAudioVolume,
+  proxyOnlyExtensions,
 };

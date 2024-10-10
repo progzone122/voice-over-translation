@@ -16,6 +16,7 @@ import {
   maxAudioVolume,
   votBackendUrl,
   workerHost,
+  proxyOnlyExtensions,
 } from "./config/config.js";
 import {
   availableLocales,
@@ -49,13 +50,6 @@ import {
 import { AudioPlayer, TonePlayer, initAudioContext } from "./utils/player.ts";
 
 const browserInfo = Bowser.getParser(window.navigator.userAgent).getResult();
-const cfOnlyExtensions = [
-  "Violentmonkey",
-  "FireMonkey",
-  "Greasemonkey",
-  "AdGuard",
-  "OrangeMonkey",
-];
 
 function genOptionsByOBJ(obj, conditionString) {
   return obj.map((code) => ({
@@ -73,15 +67,38 @@ const createHotkeyText = (hotkey) =>
     : localizationProvider.get("VOTCreateTranslationHotkey");
 
 class VideoHandler {
-  // translate properties
-  translateFromLang = "en"; // default language of video
-  translateToLang = lang; // default language of audio response
+  /**
+   * default language of video
+   *
+   * @type {import("./index").VideoHandler['translateFromLang']}
+   */
+  translateFromLang = "en";
 
+  /**
+   * default language of audio response
+   *
+   * @type {import("./index").VideoHandler['translateToLang']}
+   */
+  translateToLang = lang;
+
+  /**
+   * @type {import("./index").VideoHandler['timer']}
+   */
   timer;
 
+  /**
+   * @type {import("./index").VideoHandler['videoData']}
+   */
   videoData = "";
+
+  /**
+   * @type {import("./index").VideoHandler['firstPlay']}
+   */
   firstPlay = true;
-  audio = new Audio();
+
+  /**
+   * @type {import("./index").VideoHandler['audioContext']}
+   */
   audioContext = initAudioContext();
   audioPlayer = new AudioPlayer(this);
 
@@ -105,7 +122,11 @@ class VideoHandler {
   subtitlesList = [];
   subtitlesListVideoId = null;
 
-  // button move
+  /**
+   * button move
+   *
+   * @type {import("./index").VideoHandler['dragging']}
+   */
   dragging;
 
   /**
@@ -372,7 +393,7 @@ class VideoHandler {
     if (
       !this.data.translateProxyEnabled &&
       GM_info?.scriptHandler &&
-      cfOnlyExtensions.includes(GM_info.scriptHandler)
+      proxyOnlyExtensions.includes(GM_info.scriptHandler)
     ) {
       this.data.translateProxyEnabled = 1;
       await votStorage.set("translateProxyEnabled", 1);
