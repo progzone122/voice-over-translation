@@ -1,5 +1,5 @@
 diff --git a/node_modules/vot.js/dist/config/sites.js b/node_modules/vot.js/dist/config/sites.js
-index b197df5..7efee76 100644
+index b197df5..55fb313 100644
 --- a/node_modules/vot.js/dist/config/sites.js
 +++ b/node_modules/vot.js/dist/config/sites.js
 @@ -2,39 +2,77 @@ import { VideoService } from "../types/yandex.js";
@@ -169,24 +169,23 @@ index b197df5..7efee76 100644
 +            url.host.includes("facebook.com") && url.pathname.includes("/reel/"),
 +        selector: 'div[role="main"]',
 +        needBypassCSP: true,
-     },
-     {
-         host: VideoService.rutube,
-         url: "https://rutube.ru/video/",
-         match: /^rutube.ru$/,
-+        selector: ".video-player > div > div > div:nth-child(2)",
 +    },
 +    {
-+        additionalData: "embed",
 +        host: VideoService.rutube,
 +        url: "https://rutube.ru/video/",
 +        match: /^rutube.ru$/,
++        selector: ".video-player > div > div > div:nth-child(2)",
+     },
+     {
++        additionalData: "embed",
+         host: VideoService.rutube,
+         url: "https://rutube.ru/video/",
+         match: /^rutube.ru$/,
 +        selector: "#app > div > div",
      },
      {
          host: VideoService.bilibili,
--        url: "https://www.bilibili.com/",
-+        url: "https://www.bilibili.com/video/",
+         url: "https://www.bilibili.com/",
          match: /^(www|m|player).bilibili.com$/,
 +        selector: ".bpx-player-video-wrap",
 +    },
@@ -194,7 +193,7 @@ index b197df5..7efee76 100644
 +    {
 +        additionalData: "old", // /blackboard/webplayer/embed-old.html
 +        host: VideoService.bilibili,
-+        url: "https://www.bilibili.com/video/",
++        url: "https://www.bilibili.com/",
 +        match: /^(www|m).bilibili.com$/,
 +        selector: null,
      },
