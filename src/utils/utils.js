@@ -1,5 +1,5 @@
 import { localizationProvider } from "../localization/localizationProvider.js";
-import debug from "./debug.js";
+import debug from "./debug.ts";
 
 const userlang = navigator.language || navigator.userLanguage;
 export const lang = userlang?.substr(0, 2)?.toLowerCase() ?? "en";

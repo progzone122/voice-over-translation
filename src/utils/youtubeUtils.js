@@ -1,6 +1,6 @@
 import { availableLangs } from "vot.js/consts";
 
-import debug from "./debug.js";
+import debug from "./debug.ts";
 import { localizationProvider } from "../localization/localizationProvider.js";
 import { langTo6391, cleanText } from "./utils.js";
 import { detect } from "./translateApis.js";

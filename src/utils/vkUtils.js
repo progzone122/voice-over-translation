@@ -1,5 +1,5 @@
 import { langTo6391, cleanText } from "./utils.js";
-import debug from "./debug.js";
+import debug from "./debug.ts";
 
 // TODO?: move to vot.js patches
 function getPlayer() {
