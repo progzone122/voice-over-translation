@@ -23,6 +23,10 @@
   line-height: 1.5;
   text-align: start;
 
+  &-sub {
+    padding-left: 16px;
+  }
+
   &[hidden] {
     display: none !important;
   }
@@ -53,6 +57,7 @@
       background-color 0.2s;
 
     & + span {
+      position: relative;
       display: inline-block;
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
