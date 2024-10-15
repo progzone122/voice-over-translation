@@ -5,7 +5,11 @@ import * as path from "node:path";
 import sites from "vot.js/sites";
 
 import locales from "./locales";
-import { siteData, extraData } from "./data";
+import { siteData, extraData, sitesBlackList } from "./data";
+
+const availableSites = sites.filter(
+  (site) => !sitesBlackList.includes(site.host),
+);
 
 function ucFirst(str) {
   if (!str) return str;
@@ -86,10 +90,10 @@ function removeDuplicatesKeepLast(arr, key) {
   return Array.from(map.values());
 }
 
-function genMarkdown(sites, lang = "ru") {
-  let sitesData = sites.map((site, idx) => {
+function genMarkdown(supportedSites, lang = "ru") {
+  let sitesData = supportedSites.map((site, idx) => {
     let domains = getDomains(site.match);
-    let prev = idx > 0 ? sites[idx - 1] : null;
+    let prev = idx > 0 ? supportedSites[idx - 1] : null;
     if (prev?.host === site.host) {
       let previousDomains = getDomains(prev.match);
       domains = Array.from(new Set([...domains, ...previousDomains]));
@@ -110,13 +114,17 @@ function genMarkdown(sites, lang = "ru") {
 
     let limits = "";
     if (limitsData?.length) {
-      limits = `\n\n${locales.limitations[lang]}:\n\n- ${limitsData.map((limit) => limit[lang]).join("\n- ")}`;
+      limits = `\n\n${locales.limitations[lang]}:\n\n- ${limitsData
+        .map((limit) => limit[lang])
+        .join("\n- ")}`;
     }
 
     const pathsData = hasData ? Array.from(siteData[site.host].paths) : [];
     let paths = "";
     if (pathsData.length) {
-      paths = `\n\n${locales.availabledPaths[lang]}:\n\n- ${pathsData.join("\n- ")}`;
+      paths = `\n\n${locales.availabledPaths[lang]}:\n\n- ${pathsData.join(
+        "\n- ",
+      )}`;
     }
 
     return `## ${ucFirst(site.host)}
@@ -130,7 +138,7 @@ ${locales.availabledDomains[lang]}:
 }
 
 async function main() {
-  const supportedSites = sites.map((site) => {
+  const supportedSites = availableSites.map((site) => {
     const host = site.host.toLowerCase();
     const extra = Object.hasOwn(extraData, host);
 
