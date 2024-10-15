@@ -111,6 +111,14 @@
 - `poke.uk2.littlekai.co.uk`
 - `poke.blahai.gay`
 
+## Ricktube
+
+Статус: [✅] Работает
+
+Доступные (под)домены:
+
+- `ricktube.ru`
+
 ## Vk
 
 Статус: [✅] Работает
@@ -219,6 +227,10 @@
 
 - /CHANNEL_ID/VIDEO_ID
 - /VIDEO_ID
+
+Ограничения:
+
+- Для гарантированной работы скрипта необходимо [включить настройку "Обход Media CSP"](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) в расширение или удалить CSP другим способом
 
 ## Xvideos
 
@@ -673,17 +685,14 @@
 
 - /@USERNAME/VIDEO_NAME
 
-## Coursehunter
+## Coursehunterlike
 
 Статус: [✅] Работает
 
 Доступные (под)домены:
 
 - `coursehunter.net`
-
-Доступные пути:
-
-- /course/COURSE_ID
+- `coursetrain.net`
 
 ## Sap
 
@@ -763,6 +772,20 @@
 Ограничения:
 
 - Для гарантированной работы скрипта необходимо [включить настройку "Обход Media CSP"](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) в расширение или удалить CSP другим способом
+
+## Incestflix
+
+Статус: [✅] Работает
+
+Доступные (под)домены:
+
+- `(www.)?incestflix.net`
+- `(www.)?incestflix.to`
+- `(www.)?incestflix.com`
+
+Доступные пути:
+
+- /watch/VIDEO_ID
 
 ## Direct link to MP4/WEBM
 

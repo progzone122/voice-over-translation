@@ -45,54 +45,7 @@
 
 ## Список поддерживаемых сайтов:
 
-Все ограничения, связанные с поддержкой сайтов вы можете увидеть в [вики](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-Supported-sites).
-
-- **[YouTube](https://www.youtube.com)**
-- **[Twitch](https://www.twitch.tv)**
-- **[VK](https://vk.com)**
-- **[OK](https://ok.ru/)**
-- **[Twitter](https://twitter.com/)**
-- **[9GAG](https://9gag.com/gag/)**
-- **[Rutube](https://rutube.ru/)**
-- **[Bilibili](https://bilibili.com/)**
-- **[Видео Mail.ru](https://my.mail.ru/video)**
-- **[Vimeo](https://vimeo.com/)**
-- **[XVideos](https://xvideos.com/)**
-- **[PornHub](https://rt.pornhub.com/)**
-- **[Bitchute](https://www.bitchute.com/)**
-- **[Coursera](https://www.coursera.org/)**
-- **[[⚠️] Udemy](https://www.udemy.com/)**
-- **[Facebook\*](https://facebook.com/)**
-- **[TikTok](https://tiktok.com/)**
-- **[Rumble](https://rumble.com/)**
-- **[EPorner](https://www.eporner.com/)**
-- **[Peertube](https://tube.shanti.cafe/)**
-- **[Dailymotion](https://www.dailymotion.com/)**
-- **[Trovo](https://trovo.live/)**
-- **[Yandex Disk](https://disk.yandex.ru/)**
-- **[Google Drive](https://drive.google.com/)**
-- **[Banned Video](https://banned.video/)**
-- **[Weverse](https://weverse.io/)**
-- **[Egghead](https://egghead.io)**
-- **[Youku](https://youku.com)**
-- **[Archive.org](https://archive.org)**
-- **[Newgrounds](https://newgrounds.com)**
-- **[ProxiTok](https://proxitok.pabloferreiro.es/)**
-- **[Invidious](https://yewtu.be)**
-- **[Piped](https://piped.video)**
-- **[Kodik (player)](https://kodik.cc)**
-- **[Patreon](https://patreon.com)**
-- **[Reddit](https://reddit.com)**
-- **[Kick](https://kick.com)**
-- **[Apple Developer](https://developer.apple.com)**
-- **[EpicGames Developers](https://dev.epicgames.com)**
-- **[9AnimeTV](https://9animetv.to/)**
-- **[Sap learning](https://learning.sap.com/)**
-- **[Watchporn.to](https://watchporn.to/)**
-- **[Linkedin learning](https://www.linkedin.com/)**
-- **Любые прямые веб-ссылки на `.mp4` или `.webm`**
-
-⚠️ - Требует дополнительных действий, подробнее в **[Wiki](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-Supported-sites)**
+Полный список поддерживаемых веб-сайтов и все ограничения, связанные с их поддержкой, вы можете увидеть в **[вики](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-Supported-sites)**
 
 ### Наши домены:
 
@@ -266,5 +219,3 @@ bun l10n
 | ⠀[Гайд по установке](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ#%D0%BA%D0%B0%D0%BA-%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D1%8C-%D1%80%D0%B0%D1%81%D1%88%D0%B8%D1%80%D0%B5%D0%BD%D0%B8%D0%B5-%D1%81-user-js-and-css) | Любой   | User Javascript and CSS                                                            |
 
 ![example btn](https://github.com/ilyhalight/voice-over-translation/blob/master/img/example.png "btn")
-
-\*: Запрещена на территории РФ
