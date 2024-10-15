@@ -66,7 +66,7 @@ export class AudioPlayer {
    * Synchronizes the lipsync of the video and audio elements
    */
   lipSync(mode: false | string = false) {
-    debug.log("lipsync video", this.videoHandler.video);
+    debug.log("[AudioPlayer] lipsync video", this.videoHandler.video);
     if (!this.videoHandler.video) {
       return this;
     }
@@ -125,16 +125,19 @@ export class AudioPlayer {
   }
 
   syncPlay() {
+    debug.log("[AudioPlayer] sync play called");
     this.audio.play().catch(this.audioErrorHandle);
     return this;
   }
 
   async play() {
+    debug.log("[AudioPlayer] play called");
     await this.audio.play().catch(this.audioErrorHandle);
     return this;
   }
 
   pause() {
+    debug.log("[AudioPlayer] pause called");
     this.audio.pause();
     return this;
   }
@@ -240,6 +243,7 @@ export class TonePlayer extends AudioPlayer {
   }
 
   syncPlay() {
+    debug.log("[TonePlayer] play called");
     if (!this.grainPlayer) {
       return this;
     }
@@ -259,6 +263,7 @@ export class TonePlayer extends AudioPlayer {
   }
 
   pause() {
+    debug.log("[TonePlayer] pause called");
     if (!this.grainPlayer) {
       return this;
     }
