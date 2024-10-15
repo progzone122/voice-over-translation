@@ -201,7 +201,6 @@
   "VOTLocaleHash": "Hash lokal",
   "VOTUpdatedAt": "Diperbarui pukul",
   "VOTNeedWebAudioAPI": "Untuk mengaktifkan ini, Anda harus memiliki Web Audio API",
-  "VOTBypassMediaCSP": "Melewati Media CSP",
   "VOTMediaCSPEnabledOnSite": "Media CSP diaktifkan di situs ini",
-  "VOTRestoreMultiMediaKeys": "Memulihkan tombol multimedia"
+  "VOTOnlyBypassMediaCSP": "Gunakan hanya untuk melewati Media CSP"
 }

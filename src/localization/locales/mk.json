@@ -201,7 +201,6 @@
   "VOTLocaleHash": "Локал хаш",
   "VOTUpdatedAt": "Ажурирано во",
   "VOTNeedWebAudioAPI": "За да го овозможите ОВА, мора да имате ВЕБ АУДИО АПИ",
-  "VOTBypassMediaCSP": "Заобиколувајќи Медиацсп",
   "VOTMediaCSPEnabledOnSite": "Медиумите CSP се овозможени на оваа страница",
-  "VOTRestoreMultiMediaKeys": "Враќање на мултимедијални клучеви"
+  "VOTOnlyBypassMediaCSP": "Користете го само За Заобиколување На МЕДИУМИТЕ ЦСП"
 }

@@ -201,7 +201,6 @@
   "VOTLocaleHash": "አካባቢያዊ ሃሽ",
   "VOTUpdatedAt": "ላይ የተዘመነ",
   "VOTNeedWebAudioAPI": "ይህንን ለማስቻል, አንድ የድር ኦዲዮ ኤፒአይ ሊኖርዎት ይገባል",
-  "VOTBypassMediaCSP": "Media CSP ማለፍ",
   "VOTMediaCSPEnabledOnSite": "በዚህ ድረ ገጽ ላይ የፒ",
-  "VOTRestoreMultiMediaKeys": "የመልቲሚዲያ ቁልፎችን ወደነበረበት መመለስ"
+  "VOTOnlyBypassMediaCSP": "የሚዲያ ሲ ኤስ ፒ ለማለፍ ብቻ ይጠቀሙ"
 }

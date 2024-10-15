@@ -201,7 +201,6 @@
   "VOTLocaleHash": "Жергілікті хэш",
   "VOTUpdatedAt": "жаңартылды",
   "VOTNeedWebAudioAPI": "Мұны қосу Үшін Сізде Web Audio API БОЛУЫ КЕРЕК",
-  "VOTBypassMediaCSP": "Media CSP Айналып Өту",
   "VOTMediaCSPEnabledOnSite": "Бұл сайтта медиа CSP қосылған",
-  "VOTRestoreMultiMediaKeys": "Мультимедиялық кілттерді қалпына келтіру"
+  "VOTOnlyBypassMediaCSP": "Оны Тек Csp Медиасын айналып өту үшін пайдаланыңыз"
 }

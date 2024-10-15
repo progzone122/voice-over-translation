@@ -336,8 +336,8 @@ class VideoHandler {
       responseLanguage: votStorage.get("responseLanguage", lang),
       defaultVolume: votStorage.get("defaultVolume", 100),
       audioProxy: votStorage.get("audioProxy", 0),
-      bypassMediaCSP: votStorage.get(
-        "bypassMediaCSP",
+      onlyBypassMediaCSP: votStorage.get(
+        "onlyBypassMediaCSP",
         Number(!!this.audioContext),
       ),
       newAudioPlayer: votStorage.get(
@@ -868,27 +868,6 @@ class VideoHandler {
         this.votAudioProxyCheckbox.container,
       );
 
-      this.votBypassMediaCSPCheckbox = ui.createCheckbox(
-        localizationProvider.get("VOTBypassMediaCSP") +
-          (this.site.needBypassCSP
-            ? ` (${localizationProvider.get("VOTMediaCSPEnabledOnSite")})`
-            : ""),
-        this.data?.bypassMediaCSP ?? false,
-      );
-      if (!this.audioContext) {
-        this.votBypassMediaCSPCheckbox.container.title =
-          localizationProvider.get("VOTNeedWebAudioAPI");
-      }
-      this.votBypassMediaCSPCheckbox.input.disabled =
-        !this.data.newAudioPlayer && this.audioContext;
-      if (this.data.newAudioPlayer) {
-        // TODO: delete if everything goes well
-        this.votBypassMediaCSPCheckbox.input.checked = true;
-      }
-      this.votSettingsDialog.bodyContainer.appendChild(
-        this.votBypassMediaCSPCheckbox.container,
-      );
-
       this.votNewAudioPlayerCheckbox = ui.createCheckbox(
         localizationProvider.get("VOTNewAudioPlayer"),
         this.data?.newAudioPlayer ?? false,
@@ -900,6 +879,29 @@ class VideoHandler {
       }
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votNewAudioPlayerCheckbox.container,
+      );
+
+      this.votOnlyBypassMediaCSPCheckbox = ui.createCheckbox(
+        localizationProvider.get("VOTOnlyBypassMediaCSP") +
+          (this.site.needBypassCSP
+            ? ` (${localizationProvider.get("VOTMediaCSPEnabledOnSite")})`
+            : ""),
+        this.data?.onlyBypassMediaCSP ?? false,
+      );
+      this.votOnlyBypassMediaCSPCheckbox.container.classList.add(
+        "vot-checkbox-sub",
+      );
+      if (!this.audioContext) {
+        this.votOnlyBypassMediaCSPCheckbox.container.title =
+          localizationProvider.get("VOTNeedWebAudioAPI");
+      }
+      this.votOnlyBypassMediaCSPCheckbox.input.disabled =
+        !this.data.newAudioPlayer && this.audioContext;
+      if (!this.data.newAudioPlayer) {
+        this.votOnlyBypassMediaCSPCheckbox.container.hidden = true;
+      }
+      this.votSettingsDialog.bodyContainer.appendChild(
+        this.votOnlyBypassMediaCSPCheckbox.container,
       );
 
       // ABOUT
@@ -1551,17 +1553,23 @@ class VideoHandler {
         })();
       });
 
-      this.votBypassMediaCSPCheckbox.input.addEventListener("change", (e) => {
-        (async () => {
-          this.data.bypassMediaCSP = Number(e.target.checked);
-          await votStorage.set("bypassMediaCSP", this.data.bypassMediaCSP);
-          debug.log(
-            "bypassMediaCSP value changed. New value: ",
-            this.data.bypassMediaCSP,
-          );
-          this.stopTranslate();
-        })();
-      });
+      this.votOnlyBypassMediaCSPCheckbox.input.addEventListener(
+        "change",
+        (e) => {
+          (async () => {
+            this.data.onlyBypassMediaCSP = Number(e.target.checked);
+            await votStorage.set(
+              "onlyBypassMediaCSP",
+              this.data.onlyBypassMediaCSP,
+            );
+            debug.log(
+              "onlyBypassMediaCSP value changed. New value: ",
+              this.data.onlyBypassMediaCSP,
+            );
+            this.stopTranslate();
+          })();
+        },
+      );
 
       this.votNewAudioPlayerCheckbox.input.addEventListener("change", (e) => {
         (async () => {
@@ -1573,11 +1581,9 @@ class VideoHandler {
             this.data.newAudioPlayer,
           );
           this.stopTranslate();
-          // TODO: delete if everything goes well
-          this.votBypassMediaCSPCheckbox.input.disabled = checked;
-          this.votBypassMediaCSPCheckbox.input.checked = checked
-            ? checked
-            : Boolean(this.data.bypassMediaCSP);
+
+          this.votOnlyBypassMediaCSPCheckbox.input.disabled =
+            this.votOnlyBypassMediaCSPCheckbox.container.hidden = !checked;
         })();
       });
 
@@ -2151,13 +2157,15 @@ class VideoHandler {
 
   needUseAudioContext = () =>
     this.data.newAudioPlayer &&
-    (!this.data.bypassMediaCSP ||
-      (this.data.bypassMediaCSP && this.site.needBypassCSP));
+    (this.data.onlyBypassMediaCSP
+      ? this.data.onlyBypassMediaCSP && this.site.needBypassCSP
+      : true);
 
   // Default actions on stop translate
   stopTranslate() {
     this.audioPlayer.removeVideoEvents();
     this.audioPlayer.clear();
+    this.audioPlayer = new AudioPlayer(this);
 
     this.votVideoVolumeSlider.container.hidden = true;
     this.votVideoTranslationVolumeSlider.container.hidden = true;
@@ -2301,7 +2309,6 @@ class VideoHandler {
     this.needUseAudioContext()
       ? await this.configurePlaySound(audioUrl)
       : (this.audioPlayer.src = audioUrl);
-    await this.audioPlayer.play();
 
     if (
       this.data.audioProxy === 1 &&

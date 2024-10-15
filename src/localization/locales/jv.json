@@ -201,7 +201,6 @@
   "VOTLocaleHash": "Hash lokal",
   "VOTUpdatedAt": "Dianyari jam",
   "VOTNeedWebAudioAPI": "Kanggo ngaktifake IKI, SAMPEYAN kudu DUWE API Audio Web",
-  "VOTBypassMediaCSP": "Ngliwati Media CSP",
   "VOTMediaCSPEnabledOnSite": "Media CSP diaktifake ing situs iki",
-  "VOTRestoreMultiMediaKeys": "Mulihake tombol multimedia"
+  "VOTOnlyBypassMediaCSP": "Gunakna Mung Kanggo Ngliwati MEDIA CSP"
 }

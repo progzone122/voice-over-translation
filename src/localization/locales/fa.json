@@ -201,7 +201,6 @@
   "VOTLocaleHash": "هش محلی",
   "VOTUpdatedAt": "به روز رسانی شده در",
   "VOTNeedWebAudioAPI": "برای فعال کردن این ، شما باید یک API صوتی وب داشته باشید",
-  "VOTBypassMediaCSP": "دور زدن Media CSP",
   "VOTMediaCSPEnabledOnSite": "Media CSP در این سایت فعال شده است",
-  "VOTRestoreMultiMediaKeys": "بازگرداندن کلیدهای چند رسانه ای"
+  "VOTOnlyBypassMediaCSP": "از آن فقط برای دور زدن Csp رسانه استفاده کنید"
 }
