@@ -96,6 +96,29 @@ index 3e7181b..a24039b 100644
          const currentLesson = lessonsData?.[lessonId - 1];
          const { file: videoUrl, duration, title } = currentLesson;
          if (!videoUrl) {
+diff --git a/node_modules/vot.js/dist/helpers/incestflix.js b/node_modules/vot.js/dist/helpers/incestflix.js
+index 73fab88..5659b7f 100644
+--- a/node_modules/vot.js/dist/helpers/incestflix.js
++++ b/node_modules/vot.js/dist/helpers/incestflix.js
+@@ -1,17 +1,9 @@
+-import { parseFromString } from "dom-parser";
+ import { BaseHelper, VideoHelperError } from "./base.js";
+ import { proxyMedia } from "../utils/utils.js";
+ export default class IncestflixHelper extends BaseHelper {
+     async getVideoData(videoId) {
+         try {
+-            const res = await this.fetch(this.service?.url + videoId);
+-            const content = await res.text();
+-            const doc = parseFromString(content.replace("<!DOCTYPE html>", ""));
+-            const videoEl = doc.getElementById("incflix-stream");
+-            if (!videoEl) {
+-                throw new VideoHelperError(`Failed to find video element for videoID ${videoId}`);
+-            }
+-            const sourceEl = videoEl.getElementsByTagName("source")?.[0];
++            const sourceEl = document.querySelector("#incflix-stream source:first-of-type");
+             if (!sourceEl) {
+                 throw new VideoHelperError("Failed to find source element");
+             }
 diff --git a/node_modules/vot.js/dist/helpers/kodik.js b/node_modules/vot.js/dist/helpers/kodik.js
 index fbdab60..91c8c4f 100644
 --- a/node_modules/vot.js/dist/helpers/kodik.js
