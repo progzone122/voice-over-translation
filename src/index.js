@@ -191,8 +191,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : res.message ??
-              localizationProvider.get("translationTakeFewMinutes"),
+          : (res.message ??
+              localizationProvider.get("translationTakeFewMinutes")),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
@@ -2176,7 +2176,6 @@ class VideoHandler {
     if (this.volumeOnStart) {
       this.setVideoVolume(this.volumeOnStart);
     }
-    this.volumeOnStart = "";
     clearInterval(this.streamPing);
     clearTimeout(this.autoRetry);
     this.hls?.destroy();
@@ -2322,10 +2321,6 @@ class VideoHandler {
       console.log(`[VOT] Audio proxied via ${audioUrl}`);
     }
 
-    if (!this.volumeOnStart) {
-      this.volumeOnStart = this.getVideoVolume();
-    }
-
     this.setupAudioSettings();
     if (this.site.host === "twitter") {
       document
@@ -2355,6 +2350,7 @@ class VideoHandler {
     debug.log("Run videoValidator");
     this.videoValidator();
     this.setLoadingBtn(true);
+    this.volumeOnStart = this.getVideoVolume();
 
     if (isStream) {
       let translateRes = await this.translateStreamImpl(
@@ -2539,11 +2535,9 @@ class VideoHandler {
       this.container.append(this.votButton.container, this.votMenu.container);
     }
 
-    await Promise.all([
-      (this.videoData = await this.getVideoData()),
-      this.updateSubtitles(),
-      (this.translateToLang = this.data.responseLanguage ?? "ru"),
-    ]);
+    this.videoData = await this.getVideoData();
+    await this.updateSubtitles();
+    this.translateToLang = this.data.responseLanguage ?? "ru";
     this.setSelectMenuValues(
       this.videoData.detectedLanguage,
       this.videoData.responseLanguage,
