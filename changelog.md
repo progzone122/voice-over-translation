@@ -22,7 +22,6 @@
 Перейти с TONE.JS на что-то другое или вернуться на дефолтный AudioContext
 
 Осн. проблемы (характерны новому плееру):
-- весит ОЧЕНЬ много (собранный вариант >1.5Mb!, min ~480kb)
 - эхо при увеличение/уменьшение скорости
 - при запуске аудио (ивенты play, playing) может выдавать ошибку [Start time must be strictly greater than previous start time](https://github.com/Tonejs/Tone.js/issues/1256).
 
