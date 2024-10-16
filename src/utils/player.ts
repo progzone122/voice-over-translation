@@ -5,6 +5,7 @@ import { localizationProvider } from "../localization/localizationProvider.js";
 import { votStorage } from "./storage.js";
 import { VOTLocalizedError } from "./VOTLocalizedError.js";
 import { decibelsToPercent, percentToDecibels } from "./volume.js";
+// import { Tone } from "../global";
 
 const videoLipSyncEvents = [
   "playing",
