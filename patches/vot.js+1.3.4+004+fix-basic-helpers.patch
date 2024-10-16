@@ -187,6 +187,27 @@ index 1519156..8493047 100644
 +        });
      }
  }
+diff --git a/node_modules/vot.js/dist/helpers/porntn.js b/node_modules/vot.js/dist/helpers/porntn.js
+index deb8470..8b3600f 100644
+--- a/node_modules/vot.js/dist/helpers/porntn.js
++++ b/node_modules/vot.js/dist/helpers/porntn.js
+@@ -1,14 +1,11 @@
+-import { parseFromString } from "dom-parser";
+ import { BaseHelper, VideoHelperError } from "./base.js";
+ import { proxyMedia } from "../utils/utils.js";
+ export default class PornTNHelper extends BaseHelper {
+     async getVideoData(videoId) {
+         try {
+-            const res = await this.fetch(this.service?.url + videoId);
+-            const content = await res.text();
+-            const doc = parseFromString(content.replace("<!DOCTYPE html>", ""));
++            const content =  document.body.innerHTML;
+             const varDelimiter = /var flashvars\s=\s/;
+-            const dataScript = doc
++            const dataScript = document
+                 .getElementsByTagName("script")
+                 .find((node) => varDelimiter.exec(node.textContent));
+             if (!dataScript) {
 diff --git a/node_modules/vot.js/dist/helpers/reddit.js b/node_modules/vot.js/dist/helpers/reddit.js
 index da527bd..c0dc090 100644
 --- a/node_modules/vot.js/dist/helpers/reddit.js

@@ -192,306 +192,6 @@ GM_addStyle(".vot-button{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primar
 
 /***/ }),
 
-/***/ "./node_modules/dom-parser/dist/index.js":
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.parseFromString = void 0;
-const Dom_1 = __webpack_require__("./node_modules/dom-parser/dist/lib/Dom.js");
-function parseFromString(html) {
-    return new Dom_1.Dom(html);
-}
-exports.parseFromString = parseFromString;
-__exportStar(__webpack_require__("./node_modules/dom-parser/dist/lib/Dom.js"), exports);
-__exportStar(__webpack_require__("./node_modules/dom-parser/dist/lib/Node.js"), exports);
-
-
-/***/ }),
-
-/***/ "./node_modules/dom-parser/dist/lib/Dom.js":
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Dom = void 0;
-const Node_1 = __webpack_require__("./node_modules/dom-parser/dist/lib/Node.js");
-const NodeAttribute_1 = __webpack_require__("./node_modules/dom-parser/dist/lib/NodeAttribute.js");
-const tagRegExp = /(<\/?(?:[a-z][a-z0-9]*:)?[a-z][a-z0-9-_.]*?[a-z0-9]*\s*(?:\s+[a-z0-9-_:]+(?:=(?:(?:'[\s\S]*?')|(?:"[\s\S]*?")))?)*\s*\/?>)|([^<]|<(?![a-z/]))*/gi;
-const attrRegExp = /\s[a-z0-9-_:]+\b(\s*=\s*('|")[\s\S]*?\2)?/gi;
-const splitAttrRegExp = /(\s[a-z0-9-_:]+\b\s*)(?:=(\s*('|")[\s\S]*?\3))?/gi;
-const startTagExp = /^<[a-z]/;
-const selfCloseTagExp = /\/>$/;
-const closeTagExp = /^<\//;
-const textNodeExp = /^[^<]/;
-const nodeNameExp = /<\/?((?:([a-z][a-z0-9]*):)?(?:[a-z](?:[a-z0-9-_.]*[a-z0-9])?))/i;
-const attributeQuotesExp = /^('|")|('|")$/g;
-const noClosingTagsExp = /^(?:area|base|br|col|command|embed|hr|img|input|link|meta|param|source)/i;
-class Dom {
-    constructor(rawHTML) {
-        this.rawHTML = rawHTML;
-    }
-    find(conditionFn, findFirst) {
-        const result = find(this.rawHTML, conditionFn, findFirst);
-        return findFirst ? result[0] || null : result;
-    }
-    getElementsByClassName(className) {
-        const expr = new RegExp(`^(.*?\\s)?${className}(\\s.*?)?$`);
-        return this.find((node) => Boolean(node.attributes.length && expr.test(node.getAttribute('class') || '')));
-    }
-    getElementsByTagName(tagName) {
-        return this.find((node) => node.nodeName.toUpperCase() === tagName.toUpperCase());
-    }
-    getElementById(id) {
-        return this.find((node) => node.getAttribute('id') === id, true);
-    }
-    getElementsByName(name) {
-        return this.find((node) => node.getAttribute('name') === name);
-    }
-    getElementsByAttribute(attributeName, attributeValue) {
-        return this.find((node) => node.getAttribute(attributeName) === attributeValue);
-    }
-}
-exports.Dom = Dom;
-// private
-function find(html, conditionFn, onlyFirst = false) {
-    const generator = domGenerator(html);
-    const result = [];
-    for (const node of generator) {
-        if (node && conditionFn(node)) {
-            result.push(node);
-            if (onlyFirst) {
-                return result;
-            }
-        }
-    }
-    return result;
-}
-function* domGenerator(html) {
-    const tags = getAllTags(html);
-    let cursor = null;
-    for (let i = 0, l = tags.length; i < l; i++) {
-        const tag = tags[i];
-        const node = createNode(tag, cursor);
-        cursor = node || cursor;
-        if (isElementComposed(cursor, tag)) {
-            yield cursor;
-            cursor = cursor.parentNode;
-        }
-    }
-    while (cursor) {
-        yield cursor;
-        cursor = cursor.parentNode;
-    }
-}
-function isElementComposed(element, tag) {
-    if (!tag) {
-        return false;
-    }
-    const isCloseTag = closeTagExp.test(tag);
-    const [, nodeName] = tag.match(nodeNameExp) || [];
-    const isElementClosedByTag = isCloseTag && element.nodeName === nodeName;
-    return isElementClosedByTag || element.isSelfCloseTag || element.nodeType === Node_1.NodeType.text;
-}
-function getAllTags(html) {
-    return html.match(tagRegExp) || [];
-}
-function createNode(tag, parentNode) {
-    const isTextNode = textNodeExp.test(tag);
-    const isStartTag = startTagExp.test(tag);
-    if (isTextNode) {
-        return createTextNode(tag, parentNode);
-    }
-    if (isStartTag) {
-        return createElementNode(tag, parentNode);
-    }
-    return null;
-}
-function createElementNode(tag, parentNode) {
-    var _a;
-    const [, nodeName, namespace] = tag.match(nodeNameExp) || [];
-    const selfCloseTag = selfCloseTagExp.test(tag) || noClosingTagsExp.test(nodeName);
-    const attributes = parseAttributes(tag);
-    const elementNode = new Node_1.Node({
-        nodeType: Node_1.NodeType.element,
-        nodeName,
-        namespace,
-        attributes,
-        childNodes: [],
-        parentNode,
-        selfCloseTag,
-    });
-    (_a = parentNode === null || parentNode === void 0 ? void 0 : parentNode.childNodes) === null || _a === void 0 ? void 0 : _a.push(elementNode);
-    return elementNode;
-}
-function parseAttributes(tag) {
-    return (tag.match(attrRegExp) || []).map((attributeString) => {
-        splitAttrRegExp.lastIndex = 0;
-        const exec = splitAttrRegExp.exec(attributeString) || [];
-        const [, name = '', value = ''] = exec;
-        return new NodeAttribute_1.NodeAttribute({
-            name: name.trim(),
-            value: value.trim().replace(attributeQuotesExp, ''),
-        });
-    });
-}
-function createTextNode(text, parentNode) {
-    var _a;
-    const textNode = new Node_1.Node({
-        nodeType: Node_1.NodeType.text,
-        nodeName: '#text',
-        text,
-        parentNode,
-    });
-    (_a = parentNode === null || parentNode === void 0 ? void 0 : parentNode.childNodes) === null || _a === void 0 ? void 0 : _a.push(textNode);
-    return textNode;
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/dom-parser/dist/lib/Node.js":
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-// https://developer.mozilla.org/en-US/docs/Web/API/Node
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Node = exports.NodeType = void 0;
-var NodeType;
-(function (NodeType) {
-    NodeType[NodeType["element"] = 1] = "element";
-    NodeType[NodeType["text"] = 3] = "text";
-})(NodeType || (exports.NodeType = NodeType = {}));
-class Node {
-    constructor({ nodeType, namespace, selfCloseTag, text, nodeName, childNodes, parentNode, attributes, }) {
-        this.namespace = namespace || null;
-        this.nodeType = nodeType;
-        this.isSelfCloseTag = Boolean(selfCloseTag);
-        this.text = text || null;
-        this.nodeName = nodeType === NodeType.element ? nodeName : '#text';
-        this.childNodes = childNodes || [];
-        this.parentNode = parentNode;
-        this.attributes = attributes || [];
-    }
-    get firstChild() {
-        return this.childNodes[0] || null;
-    }
-    get lastChild() {
-        return this.childNodes[this.childNodes.length - 1] || null;
-    }
-    get innerHTML() {
-        return this.childNodes.reduce((html, node) => html + (node.nodeType === NodeType.text ? node.text : node.outerHTML), '');
-    }
-    get outerHTML() {
-        if (this.nodeType === NodeType.text) {
-            return this.textContent;
-        }
-        const attributesString = stringifyAttributes(this.attributes);
-        const openTag = `<${this.nodeName}${attributesString.length ? ' ' : ''}${attributesString}${this.isSelfCloseTag ? '/' : ''}>`;
-        if (this.isSelfCloseTag) {
-            return openTag;
-        }
-        const childs = this.childNodes.map((child) => child.outerHTML).join('');
-        const closeTag = `</${this.nodeName}>`;
-        return [openTag, childs, closeTag].join('');
-    }
-    get textContent() {
-        if (this.nodeType === NodeType.text) {
-            return this.text;
-        }
-        return this.childNodes
-            .map((node) => node.textContent)
-            .join('')
-            .replace(/\x20+/g, ' ');
-    }
-    getAttribute(name) {
-        const attribute = this.attributes.find((a) => a.name === name);
-        return attribute ? attribute.value : null;
-    }
-    getElementsByTagName(tagName) {
-        return searchElements(this, (elem) => elem.nodeName.toUpperCase() === tagName.toUpperCase());
-    }
-    getElementsByClassName(className) {
-        const expr = new RegExp(`^(.*?\\s)?${className}(\\s.*?)?$`);
-        return searchElements(this, (node) => Boolean(node.attributes.length && expr.test(node.getAttribute('class') || '')));
-    }
-    getElementsByName(name) {
-        return searchElements(this, (node) => Boolean(node.attributes.length && node.getAttribute('name') === name));
-    }
-    getElementById(id) {
-        return searchElement(this, (node) => Boolean(node.attributes.length && node.getAttribute('id') === id));
-    }
-}
-exports.Node = Node;
-Node.ELEMENT_NODE = NodeType.element;
-Node.TEXT_NODE = NodeType.text;
-// private
-function searchElements(root, conditionFn) {
-    if (root.nodeType === NodeType.text) {
-        return [];
-    }
-    return root.childNodes.reduce((accumulator, childNode) => {
-        if (childNode.nodeType !== NodeType.text && conditionFn(childNode)) {
-            return [...accumulator, childNode, ...searchElements(childNode, conditionFn)];
-        }
-        return [...accumulator, ...searchElements(childNode, conditionFn)];
-    }, []);
-}
-function searchElement(root, conditionFn) {
-    for (let i = 0, l = root.childNodes.length; i < l; i++) {
-        const childNode = root.childNodes[i];
-        if (conditionFn(childNode)) {
-            return childNode;
-        }
-        const node = searchElement(childNode, conditionFn);
-        if (node) {
-            return node;
-        }
-    }
-    return null;
-}
-function stringifyAttributes(attributes) {
-    return attributes.map((elem) => elem.name + (elem.value ? `="${elem.value}"` : '')).join(' ');
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/dom-parser/dist/lib/NodeAttribute.js":
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.NodeAttribute = void 0;
-class NodeAttribute {
-    constructor({ name, value }) {
-        this.name = name;
-        this.value = value;
-    }
-}
-exports.NodeAttribute = NodeAttribute;
-
-
-/***/ }),
-
 /***/ "./node_modules/requestidlecallback-polyfill/index.js":
 /***/ (() => {
 
@@ -545,7 +245,6 @@ window.cancelIdleCallback =
 /******/ 	}
 /******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
@@ -4499,20 +4198,15 @@ class IncestflixHelper extends BaseHelper {
     }
 }
 
-// EXTERNAL MODULE: ./node_modules/dom-parser/dist/index.js
-var dist = __webpack_require__("./node_modules/dom-parser/dist/index.js");
 ;// ./node_modules/vot.js/dist/helpers/porntn.js
-
 
 
 class PornTNHelper extends BaseHelper {
     async getVideoData(videoId) {
         try {
-            const res = await this.fetch(this.service?.url + videoId);
-            const content = await res.text();
-            const doc = (0,dist.parseFromString)(content.replace("<!DOCTYPE html>", ""));
+            const content =  document.body.innerHTML;
             const varDelimiter = /var flashvars\s=\s/;
-            const dataScript = doc
+            const dataScript = document
                 .getElementsByTagName("script")
                 .find((node) => varDelimiter.exec(node.textContent));
             if (!dataScript) {
@@ -7459,7 +7153,6 @@ class VideoObserver {
 
 
 
-// import { Tone } from "../global";
 const videoLipSyncEvents = [
     "playing",
     "ratechange",
