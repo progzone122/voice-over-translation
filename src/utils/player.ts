@@ -1,5 +1,3 @@
-import * as Tone from "tone";
-
 import debug from "./debug";
 
 import { VideoHandler } from "../index.js";
