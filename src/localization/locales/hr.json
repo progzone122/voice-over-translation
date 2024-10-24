@@ -201,7 +201,7 @@
   "VOTLocaleHash": "Lokalni hash",
   "VOTUpdatedAt": "Ažurirano u",
   "VOTNeedWebAudioAPI": "Da biste to omogućili, morate imati",
-  "VOTBypassMediaCSP": "Zaobilaženje",
   "VOTMediaCSPEnabledOnSite": "Na ovoj je stranici omogućen",
-  "VOTRestoreMultiMediaKeys": "Vraćanje medijskih tipki"
+  "VOTOnlyBypassMediaCSP": "Koristite ga samo za zaobilaženje",
+  "VOTNewAudioPlayer": "Koristite novi audio uređaj"
 }

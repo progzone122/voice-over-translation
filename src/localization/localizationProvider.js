@@ -1,6 +1,6 @@
 import defaultLocale from "./locales/en.json";
 
-import debug from "../utils/debug.js";
+import debug from "../utils/debug.ts";
 import { contentUrl } from "../config/config.js";
 import { votStorage } from "../utils/storage.js";
 import { getTimestamp, GM_fetch } from "../utils/utils.js";
@@ -19,20 +19,19 @@ export const localizationProvider = new (class {
   gmValues = [
     "locale-phrases",
     "locale-lang",
-    "locale-version",
+    "locale-hash",
+    "locale-updated-at",
     "locale-lang-override",
   ];
 
   constructor() {
     const langOverride = votStorage.syncGet("locale-lang-override", "auto");
-    if (langOverride && langOverride !== "auto") {
-      this.lang = langOverride;
-    } else {
-      this.lang =
-        (navigator.language || navigator.userLanguage)
-          ?.substr(0, 2)
-          ?.toLowerCase() ?? "en";
-    }
+    this.lang =
+      langOverride && langOverride !== "auto"
+        ? langOverride
+        : (navigator.language || navigator.userLanguage)
+            ?.substr(0, 2)
+            ?.toLowerCase() ?? "en";
     this.setLocaleFromJsonString(votStorage.syncGet("locale-phrases", ""));
   }
 

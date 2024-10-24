@@ -1,5 +1,5 @@
 import { localizationProvider } from "../localization/localizationProvider.js";
-import debug from "./debug.js";
+import debug from "./debug.ts";
 
 const userlang = navigator.language || navigator.userLanguage;
 export const lang = userlang?.substr(0, 2)?.toLowerCase() ?? "en";
@@ -29,11 +29,6 @@ function secsToStrTime(secs) {
     .replace("{0}", minutes);
 }
 
-function langTo6391(lang) {
-  // convert lang to ISO 639-1
-  return lang.toLowerCase().split(/[_;-]/)[0].trim();
-}
-
 function isPiPAvailable() {
   return (
     "pictureInPictureEnabled" in document && document.pictureInPictureEnabled
@@ -48,11 +43,6 @@ function initHls() {
         backBufferLength: 90,
       })
     : undefined;
-}
-
-function initAudioContext() {
-  const audioContext = window.AudioContext || window.webkitAudioContext;
-  return audioContext ? new audioContext() : undefined;
 }
 
 const deletefilter = [
@@ -174,10 +164,8 @@ function getTimestamp() {
 
 export {
   secsToStrTime,
-  langTo6391,
   isPiPAvailable,
   initHls,
-  initAudioContext,
   cleanText,
   downloadBlob,
   clearFileName,

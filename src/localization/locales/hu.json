@@ -201,7 +201,7 @@
   "VOTLocaleHash": "Locale hash",
   "VOTUpdatedAt": "Frissítve",
   "VOTNeedWebAudioAPI": "Ennek engedélyezéséhez rendelkeznie kell egy Web Audio API-val",
-  "VOTBypassMediaCSP": "A Mediacp Megkerülése",
   "VOTMediaCSPEnabledOnSite": "A Media CSP engedélyezve van ezen a webhelyen",
-  "VOTRestoreMultiMediaKeys": "Multimédia kulcsok visszaállítása"
+  "VOTOnlyBypassMediaCSP": "Csak a Media CSP megkerülésére használja",
+  "VOTNewAudioPlayer": "Az új audiolejátszó használata"
 }

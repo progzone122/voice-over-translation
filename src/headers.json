@@ -1,7 +1,7 @@
 {
   "name": "[VOT] - Voice Over Translation",
   "description": "A small extension that adds a Yandex Browser video translation to other browsers",
-  "version": "1.7.1-beta1",
+  "version": "1.7.1-beta2",
   "author": "sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD",
   "namespace": "vot",
   "icon": "https://translate.yandex.ru/icons/favicon.ico",
@@ -33,7 +33,6 @@
     "*://*.ok.ru/*",
     "*://trovo.live/*",
     "*://disk.yandex.ru/i/*",
-    "*://coursehunter.net/*",
     "*://youtube.googleapis.com/embed/*",
     "*://*.banned.video/*",
     "*://*.weverse.io/*",
@@ -55,6 +54,9 @@
     "*://learning.sap.com/*",
     "*://*.watchporn.to/*",
     "*://*.linkedin.com/*",
+    "*://*.ricktube.ru/*",
+    "*://*.incestflix.net/*",
+    "*://*.incestflix.to/*",
     "*://*/*.mp4*",
     "*://*/*.webm*"
   ],
@@ -67,6 +69,7 @@
     "https://cdn.jsdelivr.net/npm/protobufjs/dist/light/protobuf.min.js",
     "https://cdn.jsdelivr.net/npm/hls.js/dist/hls.light.min.js",
     "https://cdn.jsdelivr.net/npm/animejs@3/lib/anime.min.js",
+    "https://cdn.jsdelivr.net/npm/tone/build/Tone.min.js",
     "https://gist.githubusercontent.com/ilyhalight/6eb5bb4dffc7ca9e3c57d6933e2452f3/raw/7ab38af2228d0bed13912e503bc8a9ee4b11828d/gm-addstyle-polyfill.js"
   ],
   "connect": [

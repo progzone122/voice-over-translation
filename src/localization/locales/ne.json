@@ -201,7 +201,7 @@
   "VOTLocaleHash": "स्थानीय ह्यास",
   "VOTUpdatedAt": "मा अपडेट गरिएको",
   "VOTNeedWebAudioAPI": "यो सक्षम गर्न, तपाईं एक वेब अडियो एपीआई हुनुपर्छ",
-  "VOTBypassMediaCSP": "मिडियासीएसपीलाई बाइपास गर्दै",
   "VOTMediaCSPEnabledOnSite": "यस साइटमा मिडिया सीएसपी सक्षम छ",
-  "VOTRestoreMultiMediaKeys": "मल्टिमिडिया कुञ्जीहरू पुनर्स्थापना गर्दै"
+  "VOTOnlyBypassMediaCSP": "यसलाई केवल मिडिया सीएसपीलाई बाइपास गर्नका लागि प्रयोग गर्नुहोस्",
+  "VOTNewAudioPlayer": "नयाँ अडियो प्लेयर प्रयोग गर्नुहोस्"
 }

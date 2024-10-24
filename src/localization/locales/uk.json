@@ -201,7 +201,7 @@
   "VOTLocaleHash": "Хеш локалі",
   "VOTUpdatedAt": "Оновлено о",
   "VOTNeedWebAudioAPI": "Щоб увімкнути це, ви повинні мати Web Audio API",
-  "VOTBypassMediaCSP": "Обхід Media CSP",
   "VOTMediaCSPEnabledOnSite": "На цьому сайті включено Media CSP",
-  "VOTRestoreMultiMediaKeys": "Відновлення мультимедійних клавіш"
+  "VOTOnlyBypassMediaCSP": "Використовуйте його лише для обходу Media CSP",
+  "VOTNewAudioPlayer": "Використовуйте новий аудіоплеєр"
 }

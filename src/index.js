@@ -16,18 +16,22 @@ import {
   maxAudioVolume,
   votBackendUrl,
   workerHost,
+  proxyOnlyExtensions,
 } from "./config/config.js";
 import {
   availableLocales,
   localizationProvider,
 } from "./localization/localizationProvider.js";
+import { SubtitlesWidget, fetchSubtitles, getSubtitles } from "./subtitles.js";
+
 import ui from "./ui.js";
+import youtubeUtils from "./utils/youtubeUtils.js";
+import debug from "./utils/debug.ts";
+
 import { VOTLocalizedError } from "./utils/VOTLocalizedError.js";
-import debug from "./utils/debug.js";
 import {
   GM_fetch,
   initHls,
-  initAudioContext,
   isPiPAvailable,
   lang,
   secsToStrTime,
@@ -36,11 +40,6 @@ import {
   getTimestamp,
 } from "./utils/utils.js";
 import { syncVolume } from "./utils/volume.js";
-
-import { SubtitlesWidget, fetchSubtitles, getSubtitles } from "./subtitles.js";
-
-import youtubeUtils from "./utils/youtubeUtils.js";
-
 import { VideoObserver } from "./utils/VideoObserver.js";
 import { votStorage } from "./utils/storage.js";
 import {
@@ -48,22 +47,9 @@ import {
   translate,
   translateServices,
 } from "./utils/translateApis.js";
+import { AudioPlayer, TonePlayer, initAudioContext } from "./utils/player.ts";
 
 const browserInfo = Bowser.getParser(window.navigator.userAgent).getResult();
-const cfOnlyExtensions = [
-  "Violentmonkey",
-  "FireMonkey",
-  "Greasemonkey",
-  "AdGuard",
-  "OrangeMonkey",
-];
-const videoLipSyncEvents = [
-  "playing",
-  "ratechange",
-  "play",
-  "waiting",
-  "pause",
-];
 
 function genOptionsByOBJ(obj, conditionString) {
   return obj.map((code) => ({
@@ -81,16 +67,40 @@ const createHotkeyText = (hotkey) =>
     : localizationProvider.get("VOTCreateTranslationHotkey");
 
 class VideoHandler {
-  // translate properties
-  translateFromLang = "en"; // default language of video
-  translateToLang = lang; // default language of audio response
+  /**
+   * default language of video
+   *
+   * @type {import("./index").VideoHandler['translateFromLang']}
+   */
+  translateFromLang = "en";
 
+  /**
+   * default language of audio response
+   *
+   * @type {import("./index").VideoHandler['translateToLang']}
+   */
+  translateToLang = lang;
+
+  /**
+   * @type {import("./index").VideoHandler['timer']}
+   */
   timer;
 
+  /**
+   * @type {import("./index").VideoHandler['videoData']}
+   */
   videoData = "";
+
+  /**
+   * @type {import("./index").VideoHandler['firstPlay']}
+   */
   firstPlay = true;
-  audio = new Audio();
+
+  /**
+   * @type {import("./index").VideoHandler['audioContext']}
+   */
   audioContext = initAudioContext();
+  audioPlayer = new AudioPlayer(this);
 
   hls = initHls(); // debug enabled only in dev mode
   votClient;
@@ -112,7 +122,11 @@ class VideoHandler {
   subtitlesList = [];
   subtitlesListVideoId = null;
 
-  // button move
+  /**
+   * button move
+   *
+   * @type {import("./index").VideoHandler['dragging']}
+   */
   dragging;
 
   /**
@@ -177,8 +191,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : res.message ??
-              localizationProvider.get("translationTakeFewMinutes"),
+          : (res.message ??
+              localizationProvider.get("translationTakeFewMinutes")),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
@@ -322,12 +336,12 @@ class VideoHandler {
       responseLanguage: votStorage.get("responseLanguage", lang),
       defaultVolume: votStorage.get("defaultVolume", 100),
       audioProxy: votStorage.get("audioProxy", 0),
-      bypassMediaCSP: votStorage.get(
-        "bypassMediaCSP",
+      onlyBypassMediaCSP: votStorage.get(
+        "onlyBypassMediaCSP",
         Number(!!this.audioContext),
       ),
-      restoreMultiMediaKeys: votStorage.get(
-        "restoreMultiMediaKeys",
+      newAudioPlayer: votStorage.get(
+        "newAudioPlayer",
         Number(!!this.audioContext),
       ),
       showPiPButton: votStorage.get("showPiPButton", 0),
@@ -379,7 +393,7 @@ class VideoHandler {
     if (
       !this.data.translateProxyEnabled &&
       GM_info?.scriptHandler &&
-      cfOnlyExtensions.includes(GM_info.scriptHandler)
+      proxyOnlyExtensions.includes(GM_info.scriptHandler)
     ) {
       this.data.translateProxyEnabled = 1;
       await votStorage.set("translateProxyEnabled", 1);
@@ -426,7 +440,7 @@ class VideoHandler {
 
     this.initUI();
     this.initUIEvents();
-    this.initAudioBooster();
+    this.audioPlayer.initAudioBooster();
 
     this.videoData = await this.getVideoData();
     this.setSelectMenuValues(
@@ -445,8 +459,7 @@ class VideoHandler {
   /**
    * Set translation button status and text
    *
-   * @param {"none"|"success"|"error"} status - button status
-   * @param {string} text - visible button text
+   * @type {import('./index').VideoHandler['transformBtn']}
    */
   transformBtn(status, text) {
     this.votButton.container.dataset.status = status;
@@ -456,25 +469,17 @@ class VideoHandler {
     this.setLoadingBtn(isLoading);
     this.votButton.label.textContent = text;
     this.votButton.container.title = status === "error" ? text : "";
+    return this;
   }
 
   /**
    * Set loading icon to translation button
    *
-   * @param {boolean} loading
+   * @type {import('./index').VideoHandler['setLoadingBtn']}
    */
   setLoadingBtn(loading = false) {
     this.votButton.container.dataset.loading = loading;
-  }
-
-  initAudioBooster() {
-    this.audio.crossOrigin = "anonymous";
-    if (this.audioContext) {
-      this.gainNode = this.audioContext.createGain();
-      this.gainNode.connect(this.audioContext.destination);
-      this.audioSource = this.audioContext.createMediaElementSource(this.audio);
-      this.audioSource.connect(this.gainNode);
-    }
+    return this;
   }
 
   initUI() {
@@ -863,39 +868,40 @@ class VideoHandler {
         this.votAudioProxyCheckbox.container,
       );
 
-      this.votBypassMediaCSPCheckbox = ui.createCheckbox(
-        localizationProvider.get("VOTBypassMediaCSP") +
+      this.votNewAudioPlayerCheckbox = ui.createCheckbox(
+        localizationProvider.get("VOTNewAudioPlayer"),
+        this.data?.newAudioPlayer ?? false,
+      );
+      if (!this.audioContext) {
+        this.votNewAudioPlayerCheckbox.input.disabled = true;
+        this.votNewAudioPlayerCheckbox.container.title =
+          localizationProvider.get("VOTNeedWebAudioAPI");
+      }
+      this.votSettingsDialog.bodyContainer.appendChild(
+        this.votNewAudioPlayerCheckbox.container,
+      );
+
+      this.votOnlyBypassMediaCSPCheckbox = ui.createCheckbox(
+        localizationProvider.get("VOTOnlyBypassMediaCSP") +
           (this.site.needBypassCSP
             ? ` (${localizationProvider.get("VOTMediaCSPEnabledOnSite")})`
             : ""),
-        this.data?.bypassMediaCSP ?? false,
+        this.data?.onlyBypassMediaCSP ?? false,
+      );
+      this.votOnlyBypassMediaCSPCheckbox.container.classList.add(
+        "vot-checkbox-sub",
       );
       if (!this.audioContext) {
-        this.votBypassMediaCSPCheckbox.container.title =
+        this.votOnlyBypassMediaCSPCheckbox.container.title =
           localizationProvider.get("VOTNeedWebAudioAPI");
       }
-      if (!this.audioContext || this.data.restoreMultiMediaKeys) {
-        this.votBypassMediaCSPCheckbox.input.disabled = true;
-      }
-      if (this.data.restoreMultiMediaKeys) {
-        // TODO: delete if everything goes well
-        this.votBypassMediaCSPCheckbox.input.checked = true;
+      this.votOnlyBypassMediaCSPCheckbox.input.disabled =
+        !this.data.newAudioPlayer && this.audioContext;
+      if (!this.data.newAudioPlayer) {
+        this.votOnlyBypassMediaCSPCheckbox.container.hidden = true;
       }
       this.votSettingsDialog.bodyContainer.appendChild(
-        this.votBypassMediaCSPCheckbox.container,
-      );
-
-      this.votRestoreMultiMediaKeysCheckbox = ui.createCheckbox(
-        localizationProvider.get("VOTRestoreMultiMediaKeys"),
-        this.data?.restoreMultiMediaKeys ?? false,
-      );
-      if (!this.audioContext) {
-        this.votRestoreMultiMediaKeysCheckbox.input.disabled = true;
-        this.votRestoreMultiMediaKeysCheckbox.container.title =
-          localizationProvider.get("VOTNeedWebAudioAPI");
-      }
-      this.votSettingsDialog.bodyContainer.appendChild(
-        this.votRestoreMultiMediaKeysCheckbox.container,
+        this.votOnlyBypassMediaCSPCheckbox.container,
       );
 
       // ABOUT
@@ -998,7 +1004,8 @@ class VideoHandler {
   }
 
   async handleTranslationBtnClick() {
-    if (this.audio.src || this.playSound) {
+    debug.log("[click translationBtn]", this.audioPlayer, this.audioPlayer.src);
+    if (this.audioPlayer.src) {
       debug.log("[click translationBtn] audio.src is not empty");
       this.stopTranslate();
       return;
@@ -1178,7 +1185,7 @@ class VideoHandler {
             this.votVideoTranslationVolumeSlider.label.querySelector(
               "strong",
             ).textContent = `${this.data.defaultVolume}%`;
-            this.setAudioVolume(this.data.defaultVolume / 100);
+            this.audioPlayer.volume = this.data.defaultVolume / 100;
             if (!this.data.syncVolume) {
               return;
             }
@@ -1546,41 +1553,39 @@ class VideoHandler {
         })();
       });
 
-      this.votBypassMediaCSPCheckbox.input.addEventListener("change", (e) => {
-        (async () => {
-          this.data.bypassMediaCSP = Number(e.target.checked);
-          await votStorage.set("bypassMediaCSP", this.data.bypassMediaCSP);
-          debug.log(
-            "bypassMediaCSP value changed. New value: ",
-            this.data.bypassMediaCSP,
-          );
-          this.stopTranslate();
-        })();
-      });
-
-      this.votRestoreMultiMediaKeysCheckbox.input.addEventListener(
+      this.votOnlyBypassMediaCSPCheckbox.input.addEventListener(
         "change",
         (e) => {
           (async () => {
-            const checked = e.target.checked;
-            this.data.restoreMultiMediaKeys = Number(checked);
+            this.data.onlyBypassMediaCSP = Number(e.target.checked);
             await votStorage.set(
-              "restoreMultiMediaKeys",
-              this.data.restoreMultiMediaKeys,
+              "onlyBypassMediaCSP",
+              this.data.onlyBypassMediaCSP,
             );
             debug.log(
-              "restoreMultiMediaKeys value changed. New value: ",
-              this.data.restoreMultiMediaKeys,
+              "onlyBypassMediaCSP value changed. New value: ",
+              this.data.onlyBypassMediaCSP,
             );
             this.stopTranslate();
-            // TODO: delete if everything goes well
-            this.votBypassMediaCSPCheckbox.input.disabled = checked;
-            this.votBypassMediaCSPCheckbox.input.checked = checked
-              ? checked
-              : Boolean(this.data.bypassMediaCSP);
           })();
         },
       );
+
+      this.votNewAudioPlayerCheckbox.input.addEventListener("change", (e) => {
+        (async () => {
+          const checked = e.target.checked;
+          this.data.newAudioPlayer = Number(checked);
+          await votStorage.set("newAudioPlayer", this.data.newAudioPlayer);
+          debug.log(
+            "newAudioPlayer value changed. New value: ",
+            this.data.newAudioPlayer,
+          );
+          this.stopTranslate();
+
+          this.votOnlyBypassMediaCSPCheckbox.input.disabled =
+            this.votOnlyBypassMediaCSPCheckbox.container.hidden = !checked;
+        })();
+      });
 
       this.votUpdateLocaleFilesButton.addEventListener("click", () => {
         (async () => {
@@ -1672,7 +1677,7 @@ class VideoHandler {
       this.site.additionalData !== "mobile"
     ) {
       this.syncVolumeObserver = new MutationObserver((mutations) => {
-        if (!this.audio.src || !this.data.syncVolume) {
+        if (!this.audioPlayer.src || !this.data.syncVolume) {
           return;
         }
 
@@ -1696,7 +1701,7 @@ class VideoHandler {
 
             const finalVolume = Math.round(videoVolume);
             this.data.defaultVolume = finalVolume;
-            this.setAudioVolume(this.data.defaultVolume / 100);
+            this.audioPlayer.volume = this.data.defaultVolume / 100;
             this.syncVolumeWrapper("video", finalVolume);
           }
         }
@@ -1963,7 +1968,11 @@ class VideoHandler {
     await this.updateSubtitlesLangSelect();
   }
 
-  // Get video volume in 0.00-1.00 format
+  /**
+   * Get video volume in 0.00-1.00 format
+   *
+   * @type {import('./index').VideoHandler['getVideoVolume']}
+   */
   getVideoVolume() {
     let videoVolume = this.video?.volume;
     if (["youtube", "googledrive"].includes(this.site.host)) {
@@ -1973,30 +1982,26 @@ class VideoHandler {
     return videoVolume;
   }
 
-  // Set video volume in 0.00-1.00 format
+  /**
+   * Set video volume in 0.00-1.00 format
+   *
+   * @type {import('./index').VideoHandler['setVideoVolume']}
+   */
   setVideoVolume(volume) {
     if (["youtube", "googledrive"].includes(this.site.host)) {
       const videoVolume = youtubeUtils.setVideoVolume(volume);
       if (videoVolume) {
-        return;
+        return this;
       }
     }
 
     this.video.volume = volume;
+    return this;
   }
 
-  getAudioVolume() {
-    return this.gainNode ? this.gainNode.gain.value : this.audio.volume;
-  }
-
-  setAudioVolume(volume) {
-    if (this.gainNode) {
-      return (this.gainNode.gain.value = volume);
-    }
-
-    return (this.audio.volume = volume);
-  }
-
+  /**
+   * @type {import('./index').VideoHandler['isMuted']}
+   */
   isMuted() {
     return ["youtube", "googledrive"].includes(this.site.host)
       ? youtubeUtils.isMuted()
@@ -2047,7 +2052,7 @@ class VideoHandler {
     const currentSliderValue = Number(slider.input.value);
 
     const finalValue = syncVolume(
-      fromType === "translation" ? this.video : this.audio,
+      fromType === "translation" ? this.video : this.audioPlayer.audio,
       newVolume,
       currentSliderValue,
       fromType === "translation" ? this.tempVolume : this.tempOriginalVolume,
@@ -2121,7 +2126,7 @@ class VideoHandler {
         "dailymotion",
         "trovo",
         "yandexdisk",
-        "coursehunter",
+        "coursehunterLike",
         "archive",
         "nineanimetv",
         "directlink",
@@ -2150,148 +2155,18 @@ class VideoHandler {
     return true;
   }
 
-  /**
-   * Synchronizes the lip sync of the video and audio context.
-   *
-   * @param {boolean|string} [mode=false] - The lip sync mode.
-   * @return {void}
-   */
-  lipsyncAudioContext(mode = false) {
-    if (this.playSound) {
-      this.playSound.playbackRate.value = this.video.playbackRate;
-    }
-
-    if (!mode) {
-      debug.log("lipsync mode is not set");
-      return;
-    }
-
-    if (mode == "play") {
-      debug.log("lipsync mode is play");
-      try {
-        this.playSound.start(0, this.audio.currentTime);
-      } catch {
-        /* empty */
-      }
-      return;
-    }
-
-    // video is inactive
-    if (["pause", "stop", "waiting"].includes(mode)) {
-      debug.log(`lipsync mode is ${mode}`);
-      try {
-        this.playSound.stop();
-      } catch {
-        /* empty */
-      }
-
-      this.playSound = this.audioContext.createBufferSource();
-      this.playSound.buffer = this.audioBuffer;
-      this.playSound.connect(this.gainNode);
-      return;
-    }
-
-    if (mode == "playing") {
-      debug.log("lipsync mode is playing");
-      try {
-        this.playSound.start(0, this.audio.currentTime);
-      } catch {
-        /* empty */
-      }
-    }
-  }
-
-  /**
-   * Synchronizes the lip sync of the video and audio element.
-   *
-   * @param {boolean|string} [mode=false] - The lip sync mode.
-   * @return {void}
-   */
-  lipsyncAudio(mode = false) {
-    if (!mode) {
-      debug.log("lipsync mode is not set");
-      return;
-    }
-
-    if (mode == "play") {
-      debug.log("lipsync mode is play");
-      const audioPromise = this.audio.play();
-      if (audioPromise !== undefined) {
-        audioPromise.catch(async (e) => {
-          console.error("[VOT]", e);
-          if (e.name === "NotAllowedError") {
-            this.transformBtn(
-              "error",
-              localizationProvider.get("grantPermissionToAutoPlay"),
-            );
-            throw new VOTLocalizedError("grantPermissionToAutoPlay");
-          } else if (e.name === "NotSupportedError") {
-            this.data.audioProxy = 1;
-            await votStorage.set("audioProxy", 1);
-          }
-        });
-      }
-      return;
-    }
-
-    // video is inactive
-    if (["pause", "stop", "waiting"].includes(mode)) {
-      debug.log(`lipsync mode is ${mode}`);
-      this.audio.pause();
-      return;
-    }
-
-    if (mode == "playing") {
-      debug.log("lipsync mode is playing");
-      this.audio.play();
-    }
-  }
-
-  /**
-   * Synchronizes the lip sync of the video and audio elements.
-   *
-   * @param {boolean|string} [mode=false] - The lip sync mode.
-   * @return {void}
-   */
-  lipSync(mode = false) {
-    debug.log("lipsync video", this.video);
-    if (!this.video) {
-      return;
-    }
-    this.audio.currentTime = this.video.currentTime;
-    this.audio.playbackRate = this.video.playbackRate;
-
-    return this.needUseAudioContext()
-      ? this.lipsyncAudioContext(mode)
-      : this.lipsyncAudio(mode);
-  }
-
-  // Define a function to handle common events
-  handleVideoEvent = (event) => {
-    debug.log(`video ${event.type}`);
-    this.lipSync(event.type);
-  };
-
   needUseAudioContext = () =>
-    (this.data.bypassMediaCSP && this.site.needBypassCSP) ||
-    this.data.restoreMultiMediaKeys;
+    this.data.newAudioPlayer &&
+    (this.data.onlyBypassMediaCSP
+      ? this.data.onlyBypassMediaCSP && this.site.needBypassCSP
+      : true);
 
   // Default actions on stop translate
   stopTranslate() {
-    for (const e of videoLipSyncEvents) {
-      this.video.removeEventListener(e, this.handleVideoEvent);
-    }
-    if (this.playSound) {
-      try {
-        this.playSound.stop();
-        this.playSound = null;
-      } catch {
-        /* empty */
-      }
-    }
-    this.audio.pause();
-    this.audio.src = "";
-    this.audio.removeAttribute("src");
+    this.audioPlayer.removeVideoEvents();
+    this.audioPlayer.clear();
+    this.audioPlayer = new AudioPlayer(this);
+
     this.votVideoVolumeSlider.container.hidden = true;
     this.votVideoTranslationVolumeSlider.container.hidden = true;
     this.votDownloadButton.hidden = true;
@@ -2301,7 +2176,6 @@ class VideoHandler {
     if (this.volumeOnStart) {
       this.setVideoVolume(this.volumeOnStart);
     }
-    this.volumeOnStart = "";
     clearInterval(this.streamPing);
     clearTimeout(this.autoRetry);
     this.hls?.destroy();
@@ -2419,36 +2293,21 @@ class VideoHandler {
    * @memberof VideoHandler
    */
   async configurePlaySound(audioUrl) {
-    try {
-      debug.log("[VOT] Trying bypass audio CSP...");
-      const res = await GM_fetch(audioUrl);
-      const data = await res.arrayBuffer();
-
-      this.audioBuffer = await this.audioContext.decodeAudioData(data);
-      this.playSound = this.audioContext.createBufferSource();
-      this.playSound.buffer = this.audioBuffer;
-      this.playSound.connect(this.gainNode);
-      // this.playSound.start();
-    } catch (err) {
-      console.error("[VOT] Failed to bypass CSP", err);
-      if (err.message === "Timeout") {
-        debug.log("Request timed out. Handling timeout error...");
-        this.data.audioProxy = 1;
-        await votStorage.set("audioProxy", 1);
-      }
-    }
+    this.audioPlayer = new TonePlayer(this, audioUrl);
+    await this.audioPlayer.init();
   }
 
   // update translation audio src
   async updateTranslation(audioUrl) {
     // ! Don't use this function for streams
-    //debug.log("cachedTranslation", this.cachedTranslation?.url, this.audio.currentSrc);
-    if (this.cachedTranslation?.url === this.audio.currentSrc) {
-      debug.log("[translateFunc] Audio src is the same");
-      this.audio.src = audioUrl;
-    } else {
+    if (this.cachedTranslation?.url !== this.audioPlayer.currentSrc) {
       audioUrl = await this.validateAudioUrl(audioUrl);
     }
+
+    // eslint-disable-next-line sonarjs/no-unused-expressions
+    this.needUseAudioContext()
+      ? await this.configurePlaySound(audioUrl)
+      : (this.audioPlayer.src = audioUrl);
 
     if (
       this.data.audioProxy === 1 &&
@@ -2462,31 +2321,18 @@ class VideoHandler {
       console.log(`[VOT] Audio proxied via ${audioUrl}`);
     }
 
-    // eslint-disable-next-line sonarjs/no-unused-expressions
-    this.needUseAudioContext()
-      ? await this.configurePlaySound(audioUrl)
-      : (this.audio.src = audioUrl);
-
-    if (!this.volumeOnStart) {
-      this.volumeOnStart = this.getVideoVolume();
-    }
-
     this.setupAudioSettings();
-    switch (this.site.host) {
-      case "twitter":
-        document
-          .querySelector('button[data-testid="app-bar-back"][role="button"]')
-          .addEventListener("click", this.stopTranslation);
-        break;
-      case "invidious":
-      case "piped":
-        break;
+    if (this.site.host === "twitter") {
+      document
+        .querySelector('button[data-testid="app-bar-back"][role="button"]')
+        .addEventListener("click", this.stopTranslation);
     }
 
-    if (this.video && !this.video.paused) this.lipSync("play");
-    for (const e of videoLipSyncEvents) {
-      this.video.addEventListener(e, this.handleVideoEvent);
+    if (this.video && !this.video.paused) {
+      this.audioPlayer.lipSync("play");
     }
+
+    this.audioPlayer.addVideoEvents();
     this.transformBtn("success", localizationProvider.get("disableTranslate"));
     this.afterUpdateTranslation(audioUrl);
   }
@@ -2504,6 +2350,7 @@ class VideoHandler {
     debug.log("Run videoValidator");
     this.videoValidator();
     this.setLoadingBtn(true);
+    this.volumeOnStart = this.getVideoVolume();
 
     if (isStream) {
       let translateRes = await this.translateStreamImpl(
@@ -2531,10 +2378,11 @@ class VideoHandler {
         return this.stopTranslation();
       }
 
-      if (this.video && !this.video.paused) this.lipSync("play");
-      for (const e of videoLipSyncEvents) {
-        this.video.addEventListener(e, this.handleVideoEvent);
+      if (this.video && !this.video.paused) {
+        this.audioPlayer.lipSync("play");
       }
+
+      this.audioPlayer.addVideoEvents();
 
       return this.afterUpdateTranslation(streamURL);
     }
@@ -2600,7 +2448,7 @@ class VideoHandler {
       );
     });
     this.hls.loadSource(streamURL);
-    this.hls.attachMedia(this.audio);
+    this.hls.attachMedia(this.audioPlayer.audio);
     this.hls.on(Hls.Events.ERROR, function (data) {
       if (data.fatal) {
         switch (data.type) {
@@ -2635,9 +2483,11 @@ class VideoHandler {
     )}&url=${encodeURIComponent(url)}`;
     if (this.hls) {
       this.setupHLS(streamURL);
-    } else if (this.audio.canPlayType("application/vnd.apple.mpegurl")) {
+    } else if (
+      this.audioPlayer.audio.canPlayType("application/vnd.apple.mpegurl")
+    ) {
       // safari
-      this.audio.src = streamURL;
+      this.audioPlayer.audio.src = streamURL; // TODO: make class for HLS audio player
     } else {
       // browser doesn't support m3u8 (hls unsupported and it isn't a safari)
       throw new VOTLocalizedError("audioFormatNotSupported");
@@ -2648,7 +2498,7 @@ class VideoHandler {
 
   setupAudioSettings() {
     if (typeof this.data.defaultVolume === "number") {
-      this.setAudioVolume(this.data.defaultVolume / 100);
+      this.audioPlayer.volume = this.data.defaultVolume / 100;
     }
 
     if (
@@ -2685,11 +2535,9 @@ class VideoHandler {
       this.container.append(this.votButton.container, this.votMenu.container);
     }
 
-    await Promise.all([
-      (this.videoData = await this.getVideoData()),
-      this.updateSubtitles(),
-      (this.translateToLang = this.data.responseLanguage ?? "ru"),
-    ]);
+    this.videoData = await this.getVideoData();
+    await this.updateSubtitles();
+    this.translateToLang = this.data.responseLanguage ?? "ru";
     this.setSelectMenuValues(
       this.videoData.detectedLanguage,
       this.videoData.responseLanguage,

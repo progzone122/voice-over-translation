@@ -201,7 +201,7 @@
   "VOTLocaleHash": "Хеш локали",
   "VOTUpdatedAt": "Ажурирано у",
   "VOTNeedWebAudioAPI": "Да бисте то омогућили, морате имати Веб Аудио АПИ",
-  "VOTBypassMediaCSP": "Заобилажење Медиацсп-А",
   "VOTMediaCSPEnabledOnSite": "На овој веб локацији је омогућен Медиа ЦСП",
-  "VOTRestoreMultiMediaKeys": "Опоравак мултимедијалних тастера"
+  "VOTOnlyBypassMediaCSP": "Користите га само за заобилажење Медиа ЦСП-а",
+  "VOTNewAudioPlayer": "Користите нови аудио плејер"
 }

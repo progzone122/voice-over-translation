@@ -201,7 +201,7 @@
   "VOTLocaleHash": "Yerel ayar karması",
   "VOTUpdatedAt": "güncellendi",
   "VOTNeedWebAudioAPI": "Bunu etkinleştirmek için bir Web Ses API'sine sahip olmanız gerekir",
-  "VOTBypassMediaCSP": "Media CSP'yi atlamak",
   "VOTMediaCSPEnabledOnSite": "Media CSP bu sitede etkindir",
-  "VOTRestoreMultiMediaKeys": "Multimedya tuşlarını geri yükleme"
+  "VOTOnlyBypassMediaCSP": "Yalnızca Medya csp'sini atlamak için kullanın",
+  "VOTNewAudioPlayer": "Yeni ses çaları kullanma"
 }

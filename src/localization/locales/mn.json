@@ -201,7 +201,7 @@
   "VOTLocaleHash": "Локал хэш",
   "VOTUpdatedAt": "цагт шинэчлэгдсэн",
   "VOTNeedWebAudioAPI": "Үүнийг идэвхжүүлэхийн тулд та вэб аудио API-тэй байх естой",
-  "VOTBypassMediaCSP": "Media CSP-Ийг Тойрч Гарах",
   "VOTMediaCSPEnabledOnSite": "Хэвлэл мэдээллийн CSP энэ сайт дээр идэвхжүүлсэн байна",
-  "VOTRestoreMultiMediaKeys": "Мультимедиа түлхүүрүүдийг сэргээх"
+  "VOTOnlyBypassMediaCSP": "Зөвхөн хэвлэл мэдээллийн ОНХХ алгасан үүнийг ашиглах",
+  "VOTNewAudioPlayer": "Шинэ аудио тоглуулагч ашиглах"
 }

@@ -201,7 +201,7 @@
   "VOTLocaleHash": "Hash yerli",
   "VOTUpdatedAt": "Saat yeniləndi",
   "VOTNeedWebAudioAPI": "Bunu aktivləşdirmək üçün veb Audio API olmalıdır",
-  "VOTBypassMediaCSP": "Media CSP Bypass",
   "VOTMediaCSPEnabledOnSite": "Media CSP bu saytda aktivdir",
-  "VOTRestoreMultiMediaKeys": "Multimedia düymələrinin bərpası"
+  "VOTOnlyBypassMediaCSP": "Yalnız Media CSP-ni keçmək üçün istifadə edin",
+  "VOTNewAudioPlayer": "Yeni audio pleyerdən istifadə edin"
 }

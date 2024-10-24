@@ -44,54 +44,7 @@ The voice-over translation of the video is now available not only in YandexBrows
 
 ## List of supported sites:
 
-You can see all the restrictions related to site support in [wiki](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-Supported-sites).
-
-- **[YouTube](https://www.youtube.com)**
-- **[Twitch](https://www.twitch.tv)**
-- **[VK](https://vk.com)**
-- **[OK](https://ok.ru/)**
-- **[Twitter](https://twitter.com/)**
-- **[9GAG](https://9gag.com/gag/)**
-- **[Rutube](https://rutube.ru/)**
-- **[Bilibili](https://bilibili.com/)**
-- **[Video Mail.ru](https://my.mail.ru/video)**
-- **[Vimeo](https://vimeo.com/)**
-- **[XVideos](https://xvideos.com/)**
-- **[PornHub](https://rt.pornhub.com/)**
-- **[Bitchute](https://www.bitchute.com/)**
-- **[Coursera](https://www.coursera.org/)**
-- **[[⚠️] Udemy](https://www.udemy.com/)**
-- **[Facebook\*](https://facebook.com/)**
-- **[TikTok](https://tiktok.com/)**
-- **[Rumble](https://rumble.com/)**
-- **[EPorner](https://www.eporner.com/)**
-- **[Peertube](https://tube.shanti.cafe/)**
-- **[Dailymotion](https://www.dailymotion.com/)**
-- **[Trovo](https://trovo.live/)**
-- **[Yandex Disk](https://disk.yandex.ru/)**
-- **[Google Drive](https://drive.google.com/)**
-- **[Banned Video](https://banned.video/)**
-- **[Weverse](https://weverse.io/)**
-- **[Egghead](https://egghead.io)**
-- **[Youku](https://youku.com)**
-- **[Archive.org](https://archive.org)**
-- **[Newgrounds](https://newgrounds.com)**
-- **[ProxiTok](https://proxitok.pabloferreiro.es/)**
-- **[Invidious](https://yewtu.be)**
-- **[Piped](https://piped.video)**
-- **[Kodik (player)](https://kodik.cc)**
-- **[Patreon](https://patreon.com)**
-- **[Reddit](https://reddit.com)**
-- **[Kick](https://kick.com)**
-- **[Apple Developer](https://developer.apple.com)**
-- **[EpicGames Developers](https://dev.epicgames.com)**
-- **[9AnimeTV](https://9animetv.to/)**
-- **[Sap learning](https://learning.sap.com/)**
-- **[Watchporn.to](https://watchporn.to/)**
-- **[Linkedin learning](https://www.linkedin.com/)**
-- **Any direct web links to `.mp4` or `.webm`**
-
-⚠️ - Requires additional actions, more in **[Wiki](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-Supported-sites)**
+You can see the full list of supported websites and all restrictions related to their support in **[wiki](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-Supported-sites)**
 
 ### Our domains:
 
@@ -263,5 +216,3 @@ To activate the script in Tampermonkey (MV3), you must [enable "Developer Mode"]
 | ⠀[Install guide](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ#how-to-use-the-extension-with-user-js-and-css) | Any     | User Javascript and CSS                                                            |
 
 ![example btn](https://github.com/ilyhalight/voice-over-translation/blob/master/img/example_en.png "btn")
-
-\*: Banned on the territory of the Russian Federation

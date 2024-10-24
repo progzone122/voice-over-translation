@@ -201,7 +201,7 @@
   "VOTLocaleHash": "Հաշ locales",
   "VOTUpdatedAt": "Թարմացվել է",
   "VOTNeedWebAudioAPI": "Սա միացնելու համար դուք պետք է ունենաք վեբ աուդիո API",
-  "VOTBypassMediaCSP": "Շրջանցելով Media CSP-Ը",
   "VOTMediaCSPEnabledOnSite": "Media CSP-ն միացված է այս կայքում",
-  "VOTRestoreMultiMediaKeys": "Մուլտիմեդիա ստեղների վերականգնում"
+  "VOTOnlyBypassMediaCSP": "Օգտագործեք այն միայն Media CSP-ն շրջանցելու համար",
+  "VOTNewAudioPlayer": "Օգտագործեք նոր աուդիո նվագարկիչ"
 }

@@ -201,7 +201,7 @@
   "VOTLocaleHash": "Hash Locale",
   "VOTUpdatedAt": "Actualizat la",
   "VOTNeedWebAudioAPI": "Pentru a activa acest lucru, trebuie să aveți un API Audio Web",
-  "VOTBypassMediaCSP": "Ocolind Media CSP",
   "VOTMediaCSPEnabledOnSite": "Media CSP este activat pe acest site",
-  "VOTRestoreMultiMediaKeys": "Restaurarea tastelor multimedia"
+  "VOTOnlyBypassMediaCSP": "Utilizați-l numai pentru ocolirea CSP Media",
+  "VOTNewAudioPlayer": "Utilizați noul player audio"
 }

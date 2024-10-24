@@ -201,7 +201,7 @@
   "VOTLocaleHash": "تجزئة اللغة",
   "VOTUpdatedAt": "تحديث في",
   "VOTNeedWebAudioAPI": "لتمكين هذا ، يجب أن يكون لديك واجهة برمجة تطبيقات صوت الويب",
-  "VOTBypassMediaCSP": "تجاوز ميدياسب",
   "VOTMediaCSPEnabledOnSite": "يتم تمكين الطاقة الشمسية المركزة وسائل الإعلام على هذا الموقع",
-  "VOTRestoreMultiMediaKeys": "استعادة مفاتيح الوسائط المتعددة"
+  "VOTOnlyBypassMediaCSP": "استخدامه فقط لتجاوز وسائل الإعلام سب",
+  "VOTNewAudioPlayer": "استخدم مشغل الصوت الجديد"
 }
