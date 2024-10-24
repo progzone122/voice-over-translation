@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Përditësuar në",
   "VOTNeedWebAudioAPI": "Për ta mundësuar këtë, duhet të keni NJË API Audio Në Internet",
   "VOTMediaCSPEnabledOnSite": "Media CSP është aktivizuar në këtë faqe",
-  "VOTOnlyBypassMediaCSP": "Përdoreni atë vetëm për anashkalimin E CSP-Së Mediatike"
+  "VOTOnlyBypassMediaCSP": "Përdoreni atë vetëm për anashkalimin E CSP-Së Mediatike",
+  "VOTNewAudioPlayer": "Përdorni luajtësin e ri audio"
 }

@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "ធ្វើឱ្យទាន់សម័យនៅ",
   "VOTNeedWebAudioAPI": "ដើម្បីអនុញ្ញាតនេះ,អ្នកត្រូវតែមានបណ្តាញ Api របស់អូឌីយ៉ូ",
   "VOTMediaCSPEnabledOnSite": "ប្រព័ន្ធផ្សព្វផ្សាយ CSP ត្រូវបានបើកនៅលើតំបន់បណ្ដាញនេះ",
-  "VOTOnlyBypassMediaCSP": "ប្រើវាសម្រាប់តែឆ្លងកាត់ប្រព័ន្ធផ្សព្វផ្សាយ CSP"
+  "VOTOnlyBypassMediaCSP": "ប្រើវាសម្រាប់តែឆ្លងកាត់ប្រព័ន្ធផ្សព្វផ្សាយ CSP",
+  "VOTNewAudioPlayer": "ប្រើកម្មវិធីចាក់អូឌីយ៉ូថ្មី"
 }

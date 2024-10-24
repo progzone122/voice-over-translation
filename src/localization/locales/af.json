@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Opgedateer om",
   "VOTNeedWebAudioAPI": "Om dit te aktiveer, moet jy'n Web Audio API",
   "VOTMediaCSPEnabledOnSite": "MEDIA CSP is geaktiveer op hierdie webwerf",
-  "VOTOnlyBypassMediaCSP": "Gebruik dit slegs vir omseil Media CSP"
+  "VOTOnlyBypassMediaCSP": "Gebruik dit slegs vir omseil Media CSP",
+  "VOTNewAudioPlayer": "Gebruik die nuwe oudiospeler"
 }

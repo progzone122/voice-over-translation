@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Aktualizováno v",
   "VOTNeedWebAudioAPI": "Chcete-li to povolit, musíte mít webové Audio API",
   "VOTMediaCSPEnabledOnSite": "Media CSP je povoleno na tomto webu",
-  "VOTOnlyBypassMediaCSP": "Použijte jej pouze pro obcházení médií CSP"
+  "VOTOnlyBypassMediaCSP": "Použijte jej pouze pro obcházení médií CSP",
+  "VOTNewAudioPlayer": "Použijte nový audio přehrávač"
 }

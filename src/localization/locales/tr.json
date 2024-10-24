@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "güncellendi",
   "VOTNeedWebAudioAPI": "Bunu etkinleştirmek için bir Web Ses API'sine sahip olmanız gerekir",
   "VOTMediaCSPEnabledOnSite": "Media CSP bu sitede etkindir",
-  "VOTOnlyBypassMediaCSP": "Yalnızca Medya csp'sini atlamak için kullanın"
+  "VOTOnlyBypassMediaCSP": "Yalnızca Medya csp'sini atlamak için kullanın",
+  "VOTNewAudioPlayer": "Yeni ses çaları kullanma"
 }

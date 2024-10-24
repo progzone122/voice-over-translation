@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "ਵਜੇ ਅਪਡੇਟ ਕੀਤਾ ਗਿਆ",
   "VOTNeedWebAudioAPI": "ਇਸ ਨੂੰ ਯੋਗ ਕਰਨ ਲਈ, ਤੁਹਾਡੇ ਕੋਲ ਇੱਕ ਵੈਬ ਆਡੀਓ ਏਪੀਆਈ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ",
   "VOTMediaCSPEnabledOnSite": "ਮੀਡੀਆ ਸੀਐਸਪੀ ਇਸ ਸਾਈਟ ਤੇ ਸਮਰੱਥ ਹੈ",
-  "VOTOnlyBypassMediaCSP": "ਇਸ ਨੂੰ ਸਿਰਫ ਮੀਡੀਆ ਸੀਐਸਪੀ ਨੂੰ ਬਾਈਪਾਸ ਕਰਨ ਲਈ ਵਰਤੋ"
+  "VOTOnlyBypassMediaCSP": "ਇਸ ਨੂੰ ਸਿਰਫ ਮੀਡੀਆ ਸੀਐਸਪੀ ਨੂੰ ਬਾਈਪਾਸ ਕਰਨ ਲਈ ਵਰਤੋ",
+  "VOTNewAudioPlayer": "ਨਵਾਂ ਆਡੀਓ ਪਲੇਅਰ ਵਰਤੋਂ"
 }

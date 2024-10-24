@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Diperbarui jam",
   "VOTNeedWebAudioAPI": "Pikeun ngaktipkeun ieu, anjeun kudu boga API Audio Web",
   "VOTMediaCSPEnabledOnSite": "Media csp diaktipkeun dina situs ieu",
-  "VOTOnlyBypassMediaCSP": "Ngagunakeun eta ngan Pikeun Bypassing Media Csp"
+  "VOTOnlyBypassMediaCSP": "Ngagunakeun eta ngan Pikeun Bypassing Media Csp",
+  "VOTNewAudioPlayer": "Paké pamuter audio anyar"
 }

@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Aktualisiert um",
   "VOTNeedWebAudioAPI": "Um dies zu aktivieren, benötigen Sie eine Web-Audio-API",
   "VOTMediaCSPEnabledOnSite": "Medien-CSP ist auf dieser Site aktiviert",
-  "VOTOnlyBypassMediaCSP": "Verwenden Sie es nur zum Umgehen von Medien-CSP"
+  "VOTOnlyBypassMediaCSP": "Verwenden Sie es nur zum Umgehen von Medien-CSP",
+  "VOTNewAudioPlayer": "Verwenden Sie den neuen Audioplayer"
 }

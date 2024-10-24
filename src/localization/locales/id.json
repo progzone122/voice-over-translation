@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Diperbarui pukul",
   "VOTNeedWebAudioAPI": "Untuk mengaktifkan ini, Anda harus memiliki Web Audio API",
   "VOTMediaCSPEnabledOnSite": "Media CSP diaktifkan di situs ini",
-  "VOTOnlyBypassMediaCSP": "Gunakan hanya untuk melewati Media CSP"
+  "VOTOnlyBypassMediaCSP": "Gunakan hanya untuk melewati Media CSP",
+  "VOTNewAudioPlayer": "Gunakan pemutar audio baru"
 }

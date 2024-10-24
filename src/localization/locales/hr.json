@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Ažurirano u",
   "VOTNeedWebAudioAPI": "Da biste to omogućili, morate imati",
   "VOTMediaCSPEnabledOnSite": "Na ovoj je stranici omogućen",
-  "VOTOnlyBypassMediaCSP": "Koristite ga samo za zaobilaženje"
+  "VOTOnlyBypassMediaCSP": "Koristite ga samo za zaobilaženje",
+  "VOTNewAudioPlayer": "Koristite novi audio uređaj"
 }

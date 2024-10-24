@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Uuendatud kell",
   "VOTNeedWebAudioAPI": "Selle lubamiseks peab teil olema Veebiheli API",
   "VOTMediaCSPEnabledOnSite": "Meedia CSP on lubatud sellel saidil",
-  "VOTOnlyBypassMediaCSP": "Kasutage seda ainult mööda meedia CSP"
+  "VOTOnlyBypassMediaCSP": "Kasutage seda ainult mööda meedia CSP",
+  "VOTNewAudioPlayer": "Kasutage uut helipleierit"
 }

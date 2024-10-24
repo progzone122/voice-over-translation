@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "更新于",
   "VOTNeedWebAudioAPI": "要启用此功能，您必须具有Web音频API",
   "VOTMediaCSPEnabledOnSite": "媒体CSP在此站点上启用",
-  "VOTOnlyBypassMediaCSP": "仅将其用于绕过媒体CSP"
+  "VOTOnlyBypassMediaCSP": "仅将其用于绕过媒体CSP",
+  "VOTNewAudioPlayer": "使用新的音频播放器"
 }

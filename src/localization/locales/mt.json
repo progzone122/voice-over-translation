@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Aġġornat fis-",
   "VOTNeedWebAudioAPI": "Biex tippermetti dan, irid ikollok Api Awdjo Tal - Web",
   "VOTMediaCSPEnabledOnSite": "Il-PSK tal-midja huwa attivat fuq dan is-sit",
-  "VOTOnlyBypassMediaCSP": "Użaha biss Biex tevita L-PSK Tal-Midja"
+  "VOTOnlyBypassMediaCSP": "Użaha biss Biex tevita L-PSK Tal-Midja",
+  "VOTNewAudioPlayer": "Uża l-plejer tal-awdjo l-ġdid"
 }

@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Imesasishwa saa",
   "VOTNeedWebAudioAPI": "Ili kuwezesha hii, lazima uwe NA API Ya Sauti Ya Wavuti",
   "VOTMediaCSPEnabledOnSite": "Media CSP imewezeshwa kwenye tovuti hii",
-  "VOTOnlyBypassMediaCSP": "Tumia Tu kwa kupitisha Vyombo VYA Habari CSP"
+  "VOTOnlyBypassMediaCSP": "Tumia Tu kwa kupitisha Vyombo VYA Habari CSP",
+  "VOTNewAudioPlayer": "Tumia kicheza sauti kipya"
 }

@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "etan eguneratua",
   "VOTNeedWebAudioAPI": "Hau gaitzeko, Audio API Bat Eduki Behar duzu",
   "VOTMediaCSPEnabledOnSite": "Multimedia KSP gune honetan gaituta dago",
-  "VOTOnlyBypassMediaCSP": "Erabili Media ksp saihesteko bakarrik"
+  "VOTOnlyBypassMediaCSP": "Erabili Media ksp saihesteko bakarrik",
+  "VOTNewAudioPlayer": "Erabili audio-erreproduzitzaile berria"
 }

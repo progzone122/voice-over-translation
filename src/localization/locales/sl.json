@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Posodobljeno ob",
   "VOTNeedWebAudioAPI": "Če želite to omogočiti, morate imeti spletni avdio API",
   "VOTMediaCSPEnabledOnSite": "Media CSP je omogočen na tej spletni strani",
-  "VOTOnlyBypassMediaCSP": "Uporabite ga samo za obhod medijev CSP"
+  "VOTOnlyBypassMediaCSP": "Uporabite ga samo za obhod medijev CSP",
+  "VOTNewAudioPlayer": "Uporabite nov predvajalnik zvoka"
 }

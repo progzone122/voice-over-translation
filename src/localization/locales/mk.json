@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Ажурирано во",
   "VOTNeedWebAudioAPI": "За да го овозможите ОВА, мора да имате ВЕБ АУДИО АПИ",
   "VOTMediaCSPEnabledOnSite": "Медиумите CSP се овозможени на оваа страница",
-  "VOTOnlyBypassMediaCSP": "Користете го само За Заобиколување На МЕДИУМИТЕ ЦСП"
+  "VOTOnlyBypassMediaCSP": "Користете го само За Заобиколување На МЕДИУМИТЕ ЦСП",
+  "VOTNewAudioPlayer": "Користете го новиот аудио плеер"
 }

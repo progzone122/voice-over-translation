@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "ላይ የተዘመነ",
   "VOTNeedWebAudioAPI": "ይህንን ለማስቻል, አንድ የድር ኦዲዮ ኤፒአይ ሊኖርዎት ይገባል",
   "VOTMediaCSPEnabledOnSite": "በዚህ ድረ ገጽ ላይ የፒ",
-  "VOTOnlyBypassMediaCSP": "የሚዲያ ሲ ኤስ ፒ ለማለፍ ብቻ ይጠቀሙ"
+  "VOTOnlyBypassMediaCSP": "የሚዲያ ሲ ኤስ ፒ ለማለፍ ብቻ ይጠቀሙ",
+  "VOTNewAudioPlayer": "አዲሱን የድምፅ ማጫወቻ ይጠቀሙ"
 }

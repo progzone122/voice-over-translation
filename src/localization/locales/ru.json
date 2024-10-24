@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Обновлено в",
   "VOTNeedWebAudioAPI": "Чтобы включить это, у вас должен быть Web Audio API",
   "VOTMediaCSPEnabledOnSite": "На этом сайте включен Media CSP",
-  "VOTOnlyBypassMediaCSP": "Использовать только для обхода Media CSP"
+  "VOTOnlyBypassMediaCSP": "Использовать только для обхода Media CSP",
+  "VOTNewAudioPlayer": "Использовать новый аудиоплеер"
 }

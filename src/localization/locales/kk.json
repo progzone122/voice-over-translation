@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "жаңартылды",
   "VOTNeedWebAudioAPI": "Мұны қосу Үшін Сізде Web Audio API БОЛУЫ КЕРЕК",
   "VOTMediaCSPEnabledOnSite": "Бұл сайтта медиа CSP қосылған",
-  "VOTOnlyBypassMediaCSP": "Оны Тек Csp Медиасын айналып өту үшін пайдаланыңыз"
+  "VOTOnlyBypassMediaCSP": "Оны Тек Csp Медиасын айналып өту үшін пайдаланыңыз",
+  "VOTNewAudioPlayer": "Жаңа аудио ойнатқышты пайдаланыңыз"
 }

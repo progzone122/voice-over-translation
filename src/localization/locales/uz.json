@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "da yangilangan",
   "VOTNeedWebAudioAPI": "Buni yoqish uchun sizda veb-Audio API bo'lishi kerak",
   "VOTMediaCSPEnabledOnSite": "Media CSP ushbu saytda yoqilgan",
-  "VOTOnlyBypassMediaCSP": "Uni faqat Media CSP-ni chetlab o'tish uchun foydalaning"
+  "VOTOnlyBypassMediaCSP": "Uni faqat Media CSP-ni chetlab o'tish uchun foydalaning",
+  "VOTNewAudioPlayer": "Yangi audio pleerdan foydalaning"
 }

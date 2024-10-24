@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "၁၆:၄၀ တွင်အတည်ပြု",
   "VOTNeedWebAudioAPI": "ဒါကိုဖွင့်ဖို့ Web Audio API တစ်ခုရှိရပါမယ်။",
   "VOTMediaCSPEnabledOnSite": "ဤဆိုက်တွင်မီဒီယာ CSP ကိုခွင့်ပြုထားသည်။",
-  "VOTOnlyBypassMediaCSP": "မီဒီယာ CSP ကိုရှောင်လွှဲဖို့ပဲသုံးပါ။"
+  "VOTOnlyBypassMediaCSP": "မီဒီယာ CSP ကိုရှောင်လွှဲဖို့ပဲသုံးပါ။",
+  "VOTNewAudioPlayer": "အသံဖွင့်စက်အသစ်ကိုအသုံးပြုပါ"
 }

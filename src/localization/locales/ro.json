@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Actualizat la",
   "VOTNeedWebAudioAPI": "Pentru a activa acest lucru, trebuie să aveți un API Audio Web",
   "VOTMediaCSPEnabledOnSite": "Media CSP este activat pe acest site",
-  "VOTOnlyBypassMediaCSP": "Utilizați-l numai pentru ocolirea CSP Media"
+  "VOTOnlyBypassMediaCSP": "Utilizați-l numai pentru ocolirea CSP Media",
+  "VOTNewAudioPlayer": "Utilizați noul player audio"
 }

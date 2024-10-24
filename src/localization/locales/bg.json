@@ -202,5 +202,6 @@
   "VOTUpdatedAt": "Актуализирано в",
   "VOTNeedWebAudioAPI": "За да разрешите това, трябва да имате уеб аудио интерфейс",
   "VOTMediaCSPEnabledOnSite": "Медиа ДУСП е активирана на този сайт",
-  "VOTOnlyBypassMediaCSP": "Използвайте го само за заобикаляне на медийния ДУУ"
+  "VOTOnlyBypassMediaCSP": "Използвайте го само за заобикаляне на медийния ДУУ",
+  "VOTNewAudioPlayer": "Използвайте новия аудио плейър"
 }
