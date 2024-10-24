@@ -2529,7 +2529,9 @@ const en_namespaceObject = /*#__PURE__*/JSON.parse('{"__version__":5,"recommende
 ;// ./src/utils/debug.ts
 /* harmony default export */ const debug = ({
     log: (...text) => {
-        if (false) {}
+        if (true) {
+            return;
+        }
         return console.log("%c[VOT DEBUG]", "background: #F2452D; color: #fff; padding: 5px;", ...text);
     },
 });
@@ -2863,7 +2865,7 @@ function isPiPAvailable() {
 function initHls() {
   return typeof Hls != "undefined" && Hls?.isSupported()
     ? new Hls({
-        debug: true, // turn it on manually if necessary
+        debug: false, // turn it on manually if necessary
         lowLatencyMode: true,
         backBufferLength: 90,
       })
@@ -4977,7 +4979,6 @@ class VOTClient {
             case VideoTranslationStatus.LONG_WAITING:
             case VideoTranslationStatus.LONG_WAITING_2:
                 if (url.startsWith("https://youtu.be/") && shouldSendFailedAudio) {
-                  console.log("test shouldsend")
                     await this.requestVtransFailAudio(url);
                     await this.requestVtransAudio(url, translationData.translationId);
                     return await this.translateVideoYAImpl({
