@@ -372,6 +372,7 @@ function createBaseVideoTranslationRequest() {
         unknown2: 0,
         unknown3: 0,
         bypassCache: false,
+        unknown4: 0,
     };
 }
 const VideoTranslationRequest = {
@@ -414,6 +415,9 @@ const VideoTranslationRequest = {
         }
         if (message.bypassCache !== false) {
             writer.uint32(136).bool(message.bypassCache);
+        }
+        if (message.unknown4 !== 0) {
+            writer.uint32(144).int32(message.unknown4);
         }
         return writer;
     },
@@ -502,6 +506,12 @@ const VideoTranslationRequest = {
                     }
                     message.bypassCache = reader.bool();
                     continue;
+                case 18:
+                    if (tag !== 144) {
+                        break;
+                    }
+                    message.unknown4 = reader.int32();
+                    continue;
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -527,6 +537,7 @@ const VideoTranslationRequest = {
             unknown2: isSet(object.unknown2) ? globalThis.Number(object.unknown2) : 0,
             unknown3: isSet(object.unknown3) ? globalThis.Number(object.unknown3) : 0,
             bypassCache: isSet(object.bypassCache) ? globalThis.Boolean(object.bypassCache) : false,
+            unknown4: isSet(object.unknown4) ? globalThis.Number(object.unknown4) : 0,
         };
     },
     toJSON(message) {
@@ -570,6 +581,9 @@ const VideoTranslationRequest = {
         if (message.bypassCache !== false) {
             obj.bypassCache = message.bypassCache;
         }
+        if (message.unknown4 !== 0) {
+            obj.unknown4 = Math.round(message.unknown4);
+        }
         return obj;
     },
     create(base) {
@@ -590,6 +604,7 @@ const VideoTranslationRequest = {
         message.unknown2 = object.unknown2 ?? 0;
         message.unknown3 = object.unknown3 ?? 0;
         message.bypassCache = object.bypassCache ?? false;
+        message.unknown4 = object.unknown4 ?? 0;
         return message;
     },
 };
@@ -749,6 +764,204 @@ const VideoTranslationResponse = {
         message.translationId = object.translationId ?? "";
         message.language = object.language ?? undefined;
         message.message = object.message ?? undefined;
+        return message;
+    },
+};
+function createBaseAudioObject() {
+    return { audioFile: new Uint8Array(0), message: "" };
+}
+const AudioObject = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.audioFile.length !== 0) {
+            writer.uint32(18).bytes(message.audioFile);
+        }
+        if (message.message !== "") {
+            writer.uint32(10).string(message.message);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseAudioObject();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.audioFile = reader.bytes();
+                    continue;
+                case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.message = reader.string();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            audioFile: isSet(object.audioFile) ? bytesFromBase64(object.audioFile) : new Uint8Array(0),
+            message: isSet(object.message) ? globalThis.String(object.message) : "",
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.audioFile.length !== 0) {
+            obj.audioFile = base64FromBytes(message.audioFile);
+        }
+        if (message.message !== "") {
+            obj.message = message.message;
+        }
+        return obj;
+    },
+    create(base) {
+        return AudioObject.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseAudioObject();
+        message.audioFile = object.audioFile ?? new Uint8Array(0);
+        message.message = object.message ?? "";
+        return message;
+    },
+};
+function createBaseVideoTranslationAudioRequest() {
+    return { translationId: "", url: "", audioInfo: undefined };
+}
+const VideoTranslationAudioRequest = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.translationId !== "") {
+            writer.uint32(10).string(message.translationId);
+        }
+        if (message.url !== "") {
+            writer.uint32(18).string(message.url);
+        }
+        if (message.audioInfo !== undefined) {
+            AudioObject.encode(message.audioInfo, writer.uint32(50).fork()).ldelim();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseVideoTranslationAudioRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.translationId = reader.string();
+                    continue;
+                case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.url = reader.string();
+                    continue;
+                case 6:
+                    if (tag !== 50) {
+                        break;
+                    }
+                    message.audioInfo = AudioObject.decode(reader, reader.uint32());
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            translationId: isSet(object.translationId) ? globalThis.String(object.translationId) : "",
+            url: isSet(object.url) ? globalThis.String(object.url) : "",
+            audioInfo: isSet(object.audioInfo) ? AudioObject.fromJSON(object.audioInfo) : undefined,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.translationId !== "") {
+            obj.translationId = message.translationId;
+        }
+        if (message.url !== "") {
+            obj.url = message.url;
+        }
+        if (message.audioInfo !== undefined) {
+            obj.audioInfo = AudioObject.toJSON(message.audioInfo);
+        }
+        return obj;
+    },
+    create(base) {
+        return VideoTranslationAudioRequest.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseVideoTranslationAudioRequest();
+        message.translationId = object.translationId ?? "";
+        message.url = object.url ?? "";
+        message.audioInfo = (object.audioInfo !== undefined && object.audioInfo !== null)
+            ? AudioObject.fromPartial(object.audioInfo)
+            : undefined;
+        return message;
+    },
+};
+function createBaseVideoTranslationAudioResponse() {
+    return { status: 0 };
+}
+const VideoTranslationAudioResponse = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.status !== 0) {
+            writer.uint32(32).int32(message.status);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseVideoTranslationAudioResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 4:
+                    if (tag !== 32) {
+                        break;
+                    }
+                    message.status = reader.int32();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { status: isSet(object.status) ? globalThis.Number(object.status) : 0 };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.status !== 0) {
+            obj.status = Math.round(message.status);
+        }
+        return obj;
+    },
+    create(base) {
+        return VideoTranslationAudioResponse.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseVideoTranslationAudioResponse();
+        message.status = object.status ?? 0;
         return message;
     },
 };
@@ -1434,110 +1647,33 @@ const YandexSessionResponse = {
         return message;
     },
 };
+function bytesFromBase64(b64) {
+    if (globalThis.Buffer) {
+        return Uint8Array.from(globalThis.Buffer.from(b64, "base64"));
+    }
+    else {
+        const bin = globalThis.atob(b64);
+        const arr = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; ++i) {
+            arr[i] = bin.charCodeAt(i);
+        }
+        return arr;
+    }
+}
+function base64FromBytes(arr) {
+    if (globalThis.Buffer) {
+        return globalThis.Buffer.from(arr).toString("base64");
+    }
+    else {
+        const bin = [];
+        arr.forEach((byte) => {
+            bin.push(globalThis.String.fromCharCode(byte));
+        });
+        return globalThis.btoa(bin.join(""));
+    }
+}
 function isSet(value) {
     return value !== null && value !== undefined;
-}
-
-;// ./node_modules/vot.js/dist/protobuf.js
-
-const yandexProtobuf = {
-    encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp) {
-        return VideoTranslationRequest.encode({
-            url,
-            firstRequest: true,
-            duration,
-            unknown0: 1,
-            language: requestLang,
-            forceSourceLang: false,
-            unknown1: 0,
-            translationHelp: translationHelp ? translationHelp : [],
-            responseLanguage: responseLang,
-            unknown2: 0,
-            unknown3: 1,
-            bypassCache: false,
-        }).finish();
-    },
-    decodeTranslationResponse(response) {
-        return VideoTranslationResponse.decode(new Uint8Array(response));
-    },
-    encodeSubtitlesRequest(url, requestLang) {
-        return SubtitlesRequest.encode({
-            url,
-            language: requestLang,
-        }).finish();
-    },
-    decodeSubtitlesResponse(response) {
-        return SubtitlesResponse.decode(new Uint8Array(response));
-    },
-    encodeStreamPingRequest(pingId) {
-        return StreamPingRequest.encode({
-            pingId,
-        }).finish();
-    },
-    encodeStreamRequest(url, requestLang, responseLang) {
-        return StreamTranslationRequest.encode({
-            url,
-            language: requestLang,
-            responseLanguage: responseLang,
-        }).finish();
-    },
-    decodeStreamResponse(response) {
-        return StreamTranslationResponse.decode(new Uint8Array(response));
-    },
-    encodeYandexSessionRequest(uuid, module) {
-        return YandexSessionRequest.encode({
-            uuid,
-            module,
-        }).finish();
-    },
-    decodeYandexSessionResponse(response) {
-        return YandexSessionResponse.decode(new Uint8Array(response));
-    },
-};
-
-;// ./node_modules/vot.js/dist/config/config.js
-/* harmony default export */ const config = ({
-    host: "api.browser.yandex.ru",
-    hostVOT: "vot-api.toil.cc/v1",
-    mediaProxy: "media-proxy.toil.cc",
-    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 YaBrowser/24.7.0.0 Safari/537.36",
-    componentVersion: "24.7.6.972",
-    hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
-    defaultDuration: 343,
-});
-
-;// ./node_modules/vot.js/package.json
-const package_namespaceObject = {"rE":"1.3.4"};
-;// ./node_modules/vot.js/dist/secure.js
-
-const utf8Encoder = new TextEncoder();
-async function signHMAC(hashName, hmac, data) {
-    const key = await crypto.subtle.importKey("raw", utf8Encoder.encode(hmac), { name: "HMAC", hash: { name: hashName } }, false, ["sign", "verify"]);
-    return await crypto.subtle.sign("HMAC", key, data);
-}
-async function getSignature(body) {
-    const signature = await signHMAC("SHA-256", config.hmac, body);
-    return new Uint8Array(signature).reduce((str, byte) => str + byte.toString(16).padStart(2, "0"), "");
-}
-function getUUID() {
-    const hexDigits = "0123456789ABCDEF";
-    let uuid = "";
-    for (let i = 0; i < 32; i++) {
-        const randomDigit = Math.floor(Math.random() * 16);
-        uuid += hexDigits[randomDigit];
-    }
-    return uuid;
-}
-async function getHmacSha1(hmacKey, salt) {
-    try {
-        const hmacSalt = utf8Encoder.encode(salt);
-        const signature = await signHMAC("SHA-1", hmacKey, hmacSalt);
-        return btoa(String.fromCharCode(...new Uint8Array(signature)));
-    }
-    catch (err) {
-        console.error(err);
-        return false;
-    }
 }
 
 ;// ./node_modules/vot.js/dist/types/yandex.js
@@ -1609,6 +1745,132 @@ var VideoTranslationStatus;
     VideoTranslationStatus[VideoTranslationStatus["PART_CONTENT"] = 5] = "PART_CONTENT";
     VideoTranslationStatus[VideoTranslationStatus["LONG_WAITING_2"] = 6] = "LONG_WAITING_2";
 })(VideoTranslationStatus || (VideoTranslationStatus = {}));
+var AudioInfoMessage;
+(function (AudioInfoMessage) {
+    AudioInfoMessage["WEB_API_GET_ALL_GENERATING_URLS_DATA_FROM_IFRAME"] = "web_api_get_all_generating_urls_data_from_iframe";
+    AudioInfoMessage["WEB_API_REPLACED_FETCH_INSIDE_IFRAME"] = "web_api_replaced_fetch_inside_iframe";
+    AudioInfoMessage["WEB_API_REPLACED_FETCH_FORCE_REQUEST_WITH_SEEK"] = "web_api_replaced_fetch_force_request_with_seek";
+    AudioInfoMessage["WEB_API_REPLACED_FETCH"] = "web_api_replaced_fetch";
+    AudioInfoMessage["ANDROID_API"] = "android_api";
+    AudioInfoMessage["WEB_API_SLOW"] = "web_api_slow";
+})(AudioInfoMessage || (AudioInfoMessage = {}));
+
+;// ./node_modules/vot.js/dist/protobuf.js
+
+
+const yandexProtobuf = {
+    encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp) {
+        return VideoTranslationRequest.encode({
+            url,
+            firstRequest: true,
+            duration,
+            unknown0: 1,
+            language: requestLang,
+            forceSourceLang: false,
+            unknown1: 0,
+            translationHelp: translationHelp ? translationHelp : [],
+            responseLanguage: responseLang,
+            unknown2: 0,
+            unknown3: 1,
+            bypassCache: false,
+            unknown4: 1,
+        }).finish();
+    },
+    decodeTranslationResponse(response) {
+        return VideoTranslationResponse.decode(new Uint8Array(response));
+    },
+    encodeTranslationAudioRequest(url, translationId) {
+        return VideoTranslationAudioRequest.encode({
+            url,
+            translationId,
+            audioInfo: {
+                audioFile: new Uint8Array(0),
+                message: AudioInfoMessage.WEB_API_GET_ALL_GENERATING_URLS_DATA_FROM_IFRAME,
+            },
+        }).finish();
+    },
+    decodeTranslationAudioResponse(response) {
+        return VideoTranslationResponse.decode(new Uint8Array(response));
+    },
+    encodeSubtitlesRequest(url, requestLang) {
+        return SubtitlesRequest.encode({
+            url,
+            language: requestLang,
+        }).finish();
+    },
+    decodeSubtitlesResponse(response) {
+        return SubtitlesResponse.decode(new Uint8Array(response));
+    },
+    encodeStreamPingRequest(pingId) {
+        return StreamPingRequest.encode({
+            pingId,
+        }).finish();
+    },
+    encodeStreamRequest(url, requestLang, responseLang) {
+        return StreamTranslationRequest.encode({
+            url,
+            language: requestLang,
+            responseLanguage: responseLang,
+        }).finish();
+    },
+    decodeStreamResponse(response) {
+        return StreamTranslationResponse.decode(new Uint8Array(response));
+    },
+    encodeYandexSessionRequest(uuid, module) {
+        return YandexSessionRequest.encode({
+            uuid,
+            module,
+        }).finish();
+    },
+    decodeYandexSessionResponse(response) {
+        return YandexSessionResponse.decode(new Uint8Array(response));
+    },
+};
+
+;// ./node_modules/vot.js/dist/config/config.js
+/* harmony default export */ const config = ({
+    host: "api.browser.yandex.ru",
+    hostVOT: "vot-api.toil.cc/v1",
+    mediaProxy: "media-proxy.toil.cc",
+    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 YaBrowser/24.10.0.0 Safari/537.36",
+    componentVersion: "24.10.1.598",
+    hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
+    defaultDuration: 343,
+});
+
+;// ./node_modules/vot.js/package.json
+const package_namespaceObject = {"rE":"1.3.5"};
+;// ./node_modules/vot.js/dist/secure.js
+
+const utf8Encoder = new TextEncoder();
+async function signHMAC(hashName, hmac, data) {
+    const key = await crypto.subtle.importKey("raw", utf8Encoder.encode(hmac), { name: "HMAC", hash: { name: hashName } }, false, ["sign", "verify"]);
+    return await crypto.subtle.sign("HMAC", key, data);
+}
+async function getSignature(body) {
+    const signature = await signHMAC("SHA-256", config.hmac, body);
+    return new Uint8Array(signature).reduce((str, byte) => str + byte.toString(16).padStart(2, "0"), "");
+}
+function getUUID() {
+    const hexDigits = "0123456789ABCDEF";
+    let uuid = "";
+    for (let i = 0; i < 32; i++) {
+        const randomDigit = Math.floor(Math.random() * 16);
+        uuid += hexDigits[randomDigit];
+    }
+    return uuid;
+}
+async function getHmacSha1(hmacKey, salt) {
+    try {
+        const hmacSalt = utf8Encoder.encode(salt);
+        const signature = await signHMAC("SHA-1", hmacKey, hmacSalt);
+        return btoa(String.fromCharCode(...new Uint8Array(signature)));
+    }
+    catch (err) {
+        console.error(err);
+        return false;
+    }
+}
 
 ;// ./node_modules/vot.js/dist/utils/utils.js
 
@@ -4554,6 +4816,8 @@ class VOTClient {
     componentVersion = config.componentVersion;
     paths = {
         videoTranslation: "/video-translation/translate",
+        videoTranslationFailAudio: "/video-translation/fail-audio-js",
+        videoTranslationAudio: "/video-translation/audio",
         videoSubtitles: "/video-subtitles/get-subtitles",
         streamPing: "/stream-translation/ping-stream",
         streamTranslation: "/stream-translation/translate-stream",
@@ -4593,9 +4857,9 @@ class VOTClient {
         this.responseLang = responseLang;
         this.headers = { ...this.headers, ...headers };
     }
-    getOpts(body, headers = {}) {
+    getOpts(body, headers = {}, method = "POST") {
         return {
-            method: "POST",
+            method,
             headers: {
                 ...this.headers,
                 ...headers,
@@ -4604,11 +4868,31 @@ class VOTClient {
             ...this.fetchOpts,
         };
     }
-    async request(path, body, headers = {}) {
-        const options = this.getOpts(new Blob([body]), headers);
+    async request(path, body, headers = {}, method = "POST") {
+        const options = this.getOpts(new Blob([body]), headers, method);
         try {
             const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
-            const data = await res.arrayBuffer();
+            const data = (await res.arrayBuffer());
+            return {
+                success: res.status === 200,
+                data,
+            };
+        }
+        catch (err) {
+            return {
+                success: false,
+                data: err?.message,
+            };
+        }
+    }
+    async requestJSON(path, body = null, headers = {}, method = "POST") {
+        const options = this.getOpts(body, {
+            "Content-Type": "application/json",
+            ...headers,
+        }, method);
+        try {
+            const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
+            const data = (await res.json());
             return {
                 success: res.status === 200,
                 data,
@@ -4656,7 +4940,7 @@ class VOTClient {
         };
         return this.sessions[module];
     }
-    async translateVideoYAImpl({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, }) {
+    async translateVideoYAImpl({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, shouldSendFailedAudio = true, }) {
         const { url, duration = config.defaultDuration } = videoData;
         const { secretKey, uuid } = await this.getSession("video-translation");
         const body = yandexProtobuf.encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp);
@@ -4692,6 +4976,19 @@ class VOTClient {
                 };
             case VideoTranslationStatus.LONG_WAITING:
             case VideoTranslationStatus.LONG_WAITING_2:
+                if (url.startsWith("https://youtu.be/") && shouldSendFailedAudio) {
+                  console.log("test shouldsend")
+                    await this.requestVtransFailAudio(url);
+                    await this.requestVtransAudio(url, translationData.translationId);
+                    return await this.translateVideoYAImpl({
+                        videoData,
+                        requestLang,
+                        responseLang,
+                        translationHelp,
+                        headers,
+                        shouldSendFailedAudio: false,
+                    });
+                }
                 return {
                     translated: false,
                     remainingTime: translationData.remainingTime ?? -1,
@@ -4734,6 +5031,30 @@ class VOTClient {
                     message: translationData.message,
                 };
         }
+    }
+    async requestVtransFailAudio(url) {
+        const res = await this.requestJSON(this.paths.videoTranslationFailAudio, JSON.stringify({
+            video_url: url,
+        }), undefined, "PUT");
+        if (!res.data || typeof res.data === "string" || res.data.status !== 1) {
+            throw new VOTJSError("Failed to request to fake video translation fail audio js", res);
+        }
+        return res;
+    }
+    async requestVtransAudio(url, translationId, headers = {}) {
+        const { secretKey, uuid } = await this.getSession("video-translation");
+        const body = yandexProtobuf.encodeTranslationAudioRequest(url, translationId);
+        const sign = await getSignature(body);
+        const res = await this.request(this.paths.videoTranslationAudio, body, {
+            "Vtrans-Signature": sign,
+            "Sec-Vtrans-Sk": secretKey,
+            "Sec-Vtrans-Token": `${sign}:${uuid}:${this.paths.videoTranslationAudio}:${this.componentVersion}`,
+            ...headers,
+        }, "PUT");
+        if (!res.success) {
+            throw new VOTJSError("Failed to request video translation audio", res);
+        }
+        return yandexProtobuf.decodeTranslationAudioResponse(res.data);
     }
     async translateVideo({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, }) {
         const { url, videoId, host } = videoData;
@@ -4862,7 +5183,7 @@ class VOTWorkerClient extends VOTClient {
         });
         try {
             const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
-            const data = await res.arrayBuffer();
+            const data = (await res.arrayBuffer());
             return {
                 success: res.status === 200,
                 data,
