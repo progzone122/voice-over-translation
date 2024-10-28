@@ -23,7 +23,6 @@
 // @require        https://cdn.jsdelivr.net/npm/protobufjs/dist/light/protobuf.min.js
 // @require        https://cdn.jsdelivr.net/npm/hls.js/dist/hls.light.min.js
 // @require        https://cdn.jsdelivr.net/npm/animejs@3/lib/anime.min.js
-// @require        https://cdn.jsdelivr.net/npm/tone/build/Tone.min.js
 // @require        https://gist.githubusercontent.com/ilyhalight/6eb5bb4dffc7ca9e3c57d6933e2452f3/raw/7ab38af2228d0bed13912e503bc8a9ee4b11828d/gm-addstyle-polyfill.js
 // @match          *://*.youtube.com/*
 // @match          *://*.youtube-nocookie.com/*
@@ -166,7 +165,7 @@
 // @connect        onrender.com
 // @connect        workers.dev
 // @namespace      vot
-// @version        1.7.1-beta2
+// @version        1.7.1-beta3
 // @icon           https://translate.yandex.ru/icons/favicon.ico
 // @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation
@@ -1839,7 +1838,7 @@ const yandexProtobuf = {
 });
 
 ;// ./node_modules/vot.js/package.json
-const package_namespaceObject = {"rE":"1.3.5"};
+const package_namespaceObject = {"rE":"1.3.6"};
 ;// ./node_modules/vot.js/dist/secure.js
 
 const utf8Encoder = new TextEncoder();
@@ -5172,7 +5171,7 @@ class VOTClient {
     }
 }
 class VOTWorkerClient extends VOTClient {
-    async request(path, body, headers = {}) {
+    async request(path, body, headers = {}, method = "POST") {
         const options = this.getOpts(JSON.stringify({
             headers: {
                 ...this.headers,
@@ -5181,10 +5180,38 @@ class VOTWorkerClient extends VOTClient {
             body: Array.from(body),
         }), {
             "Content-Type": "application/json",
-        });
+        }, method);
         try {
             const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
             const data = (await res.arrayBuffer());
+            return {
+                success: res.status === 200,
+                data,
+            };
+        }
+        catch (err) {
+            return {
+                success: false,
+                data: err?.message,
+            };
+        }
+    }
+    async requestJSON(path, body = null, headers = {}, method = "POST") {
+        const options = this.getOpts(JSON.stringify({
+            headers: {
+                ...this.headers,
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                ...headers,
+            },
+            body,
+        }), {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        }, method);
+        try {
+            const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
+            const data = (await res.json());
             return {
                 success: res.status === 200,
                 data,
@@ -7469,9 +7496,813 @@ class VideoObserver {
   };
 }
 
-;// ./src/utils/player.ts
+;// ./node_modules/chaimu/dist/config.js
+/* harmony default export */ const dist_config = ({
+    version: "1.0.1",
+    debug: false,
+    fetchFn: fetch.bind(window),
+});
+
+;// ./node_modules/soundtouchjs/dist/soundtouch.js
+/*
+ * SoundTouch JS v0.1.30 audio processing library
+ * Copyright (c) Olli Parviainen
+ * Copyright (c) Ryan Berdeen
+ * Copyright (c) Jakub Fiala
+ * Copyright (c) Steve 'Cutter' Blades
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
+class FifoSampleBuffer {
+  constructor() {
+    this._vector = new Float32Array();
+    this._position = 0;
+    this._frameCount = 0;
+  }
+  get vector() {
+    return this._vector;
+  }
+  get position() {
+    return this._position;
+  }
+  get startIndex() {
+    return this._position * 2;
+  }
+  get frameCount() {
+    return this._frameCount;
+  }
+  get endIndex() {
+    return (this._position + this._frameCount) * 2;
+  }
+  clear() {
+    this.receive(this._frameCount);
+    this.rewind();
+  }
+  put(numFrames) {
+    this._frameCount += numFrames;
+  }
+  putSamples(samples, position, numFrames = 0) {
+    position = position || 0;
+    const sourceOffset = position * 2;
+    if (!(numFrames >= 0)) {
+      numFrames = (samples.length - sourceOffset) / 2;
+    }
+    const numSamples = numFrames * 2;
+    this.ensureCapacity(numFrames + this._frameCount);
+    const destOffset = this.endIndex;
+    this.vector.set(samples.subarray(sourceOffset, sourceOffset + numSamples), destOffset);
+    this._frameCount += numFrames;
+  }
+  putBuffer(buffer, position, numFrames = 0) {
+    position = position || 0;
+    if (!(numFrames >= 0)) {
+      numFrames = buffer.frameCount - position;
+    }
+    this.putSamples(buffer.vector, buffer.position + position, numFrames);
+  }
+  receive(numFrames) {
+    if (!(numFrames >= 0) || numFrames > this._frameCount) {
+      numFrames = this.frameCount;
+    }
+    this._frameCount -= numFrames;
+    this._position += numFrames;
+  }
+  receiveSamples(output, numFrames = 0) {
+    const numSamples = numFrames * 2;
+    const sourceOffset = this.startIndex;
+    output.set(this._vector.subarray(sourceOffset, sourceOffset + numSamples));
+    this.receive(numFrames);
+  }
+  extract(output, position = 0, numFrames = 0) {
+    const sourceOffset = this.startIndex + position * 2;
+    const numSamples = numFrames * 2;
+    output.set(this._vector.subarray(sourceOffset, sourceOffset + numSamples));
+  }
+  ensureCapacity(numFrames = 0) {
+    const minLength = parseInt(numFrames * 2);
+    if (this._vector.length < minLength) {
+      const newVector = new Float32Array(minLength);
+      newVector.set(this._vector.subarray(this.startIndex, this.endIndex));
+      this._vector = newVector;
+      this._position = 0;
+    } else {
+      this.rewind();
+    }
+  }
+  ensureAdditionalCapacity(numFrames = 0) {
+    this.ensureCapacity(this._frameCount + numFrames);
+  }
+  rewind() {
+    if (this._position > 0) {
+      this._vector.set(this._vector.subarray(this.startIndex, this.endIndex));
+      this._position = 0;
+    }
+  }
+}
+
+class AbstractFifoSamplePipe {
+  constructor(createBuffers) {
+    if (createBuffers) {
+      this._inputBuffer = new FifoSampleBuffer();
+      this._outputBuffer = new FifoSampleBuffer();
+    } else {
+      this._inputBuffer = this._outputBuffer = null;
+    }
+  }
+  get inputBuffer() {
+    return this._inputBuffer;
+  }
+  set inputBuffer(inputBuffer) {
+    this._inputBuffer = inputBuffer;
+  }
+  get outputBuffer() {
+    return this._outputBuffer;
+  }
+  set outputBuffer(outputBuffer) {
+    this._outputBuffer = outputBuffer;
+  }
+  clear() {
+    this._inputBuffer.clear();
+    this._outputBuffer.clear();
+  }
+}
+
+class RateTransposer extends AbstractFifoSamplePipe {
+  constructor(createBuffers) {
+    super(createBuffers);
+    this.reset();
+    this._rate = 1;
+  }
+  set rate(rate) {
+    this._rate = rate;
+  }
+  reset() {
+    this.slopeCount = 0;
+    this.prevSampleL = 0;
+    this.prevSampleR = 0;
+  }
+  clone() {
+    const result = new RateTransposer();
+    result.rate = this._rate;
+    return result;
+  }
+  process() {
+    const numFrames = this._inputBuffer.frameCount;
+    this._outputBuffer.ensureAdditionalCapacity(numFrames / this._rate + 1);
+    const numFramesOutput = this.transpose(numFrames);
+    this._inputBuffer.receive();
+    this._outputBuffer.put(numFramesOutput);
+  }
+  transpose(numFrames = 0) {
+    if (numFrames === 0) {
+      return 0;
+    }
+    const src = this._inputBuffer.vector;
+    const srcOffset = this._inputBuffer.startIndex;
+    const dest = this._outputBuffer.vector;
+    const destOffset = this._outputBuffer.endIndex;
+    let used = 0;
+    let i = 0;
+    while (this.slopeCount < 1.0) {
+      dest[destOffset + 2 * i] = (1.0 - this.slopeCount) * this.prevSampleL + this.slopeCount * src[srcOffset];
+      dest[destOffset + 2 * i + 1] = (1.0 - this.slopeCount) * this.prevSampleR + this.slopeCount * src[srcOffset + 1];
+      i = i + 1;
+      this.slopeCount += this._rate;
+    }
+    this.slopeCount -= 1.0;
+    if (numFrames !== 1) {
+      out: while (true) {
+        while (this.slopeCount > 1.0) {
+          this.slopeCount -= 1.0;
+          used = used + 1;
+          if (used >= numFrames - 1) {
+            break out;
+          }
+        }
+        const srcIndex = srcOffset + 2 * used;
+        dest[destOffset + 2 * i] = (1.0 - this.slopeCount) * src[srcIndex] + this.slopeCount * src[srcIndex + 2];
+        dest[destOffset + 2 * i + 1] = (1.0 - this.slopeCount) * src[srcIndex + 1] + this.slopeCount * src[srcIndex + 3];
+        i = i + 1;
+        this.slopeCount += this._rate;
+      }
+    }
+    this.prevSampleL = src[srcOffset + 2 * numFrames - 2];
+    this.prevSampleR = src[srcOffset + 2 * numFrames - 1];
+    return i;
+  }
+}
+
+class FilterSupport {
+  constructor(pipe) {
+    this._pipe = pipe;
+  }
+  get pipe() {
+    return this._pipe;
+  }
+  get inputBuffer() {
+    return this._pipe.inputBuffer;
+  }
+  get outputBuffer() {
+    return this._pipe.outputBuffer;
+  }
+  fillInputBuffer() {
+    throw new Error('fillInputBuffer() not overridden');
+  }
+  fillOutputBuffer(numFrames = 0) {
+    while (this.outputBuffer.frameCount < numFrames) {
+      const numInputFrames = 8192 * 2 - this.inputBuffer.frameCount;
+      this.fillInputBuffer(numInputFrames);
+      if (this.inputBuffer.frameCount < 8192 * 2) {
+        break;
+      }
+      this._pipe.process();
+    }
+  }
+  clear() {
+    this._pipe.clear();
+  }
+}
+
+const noop = function () {
+  return;
+};
+
+class SimpleFilter extends FilterSupport {
+  constructor(sourceSound, pipe, callback = noop) {
+    super(pipe);
+    this.callback = callback;
+    this.sourceSound = sourceSound;
+    this.historyBufferSize = 22050;
+    this._sourcePosition = 0;
+    this.outputBufferPosition = 0;
+    this._position = 0;
+  }
+  get position() {
+    return this._position;
+  }
+  set position(position) {
+    if (position > this._position) {
+      throw new RangeError('New position may not be greater than current position');
+    }
+    const newOutputBufferPosition = this.outputBufferPosition - (this._position - position);
+    if (newOutputBufferPosition < 0) {
+      throw new RangeError('New position falls outside of history buffer');
+    }
+    this.outputBufferPosition = newOutputBufferPosition;
+    this._position = position;
+  }
+  get sourcePosition() {
+    return this._sourcePosition;
+  }
+  set sourcePosition(sourcePosition) {
+    this.clear();
+    this._sourcePosition = sourcePosition;
+  }
+  onEnd() {
+    this.callback();
+  }
+  fillInputBuffer(numFrames = 0) {
+    const samples = new Float32Array(numFrames * 2);
+    const numFramesExtracted = this.sourceSound.extract(samples, numFrames, this._sourcePosition);
+    this._sourcePosition += numFramesExtracted;
+    this.inputBuffer.putSamples(samples, 0, numFramesExtracted);
+  }
+  extract(target, numFrames = 0) {
+    this.fillOutputBuffer(this.outputBufferPosition + numFrames);
+    const numFramesExtracted = Math.min(numFrames, this.outputBuffer.frameCount - this.outputBufferPosition);
+    this.outputBuffer.extract(target, this.outputBufferPosition, numFramesExtracted);
+    const currentFrames = this.outputBufferPosition + numFramesExtracted;
+    this.outputBufferPosition = Math.min(this.historyBufferSize, currentFrames);
+    this.outputBuffer.receive(Math.max(currentFrames - this.historyBufferSize, 0));
+    this._position += numFramesExtracted;
+    return numFramesExtracted;
+  }
+  handleSampleData(event) {
+    this.extract(event.data, 4096);
+  }
+  clear() {
+    super.clear();
+    this.outputBufferPosition = 0;
+  }
+}
+
+const USE_AUTO_SEQUENCE_LEN = 0;
+const DEFAULT_SEQUENCE_MS = USE_AUTO_SEQUENCE_LEN;
+const USE_AUTO_SEEKWINDOW_LEN = 0;
+const DEFAULT_SEEKWINDOW_MS = USE_AUTO_SEEKWINDOW_LEN;
+const DEFAULT_OVERLAP_MS = 8;
+const _SCAN_OFFSETS = [[124, 186, 248, 310, 372, 434, 496, 558, 620, 682, 744, 806, 868, 930, 992, 1054, 1116, 1178, 1240, 1302, 1364, 1426, 1488, 0], [-100, -75, -50, -25, 25, 50, 75, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [-20, -15, -10, -5, 5, 10, 15, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [-4, -3, -2, -1, 1, 2, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
+const AUTOSEQ_TEMPO_LOW = 0.5;
+const AUTOSEQ_TEMPO_TOP = 2.0;
+const AUTOSEQ_AT_MIN = 125.0;
+const AUTOSEQ_AT_MAX = 50.0;
+const AUTOSEQ_K = (AUTOSEQ_AT_MAX - AUTOSEQ_AT_MIN) / (AUTOSEQ_TEMPO_TOP - AUTOSEQ_TEMPO_LOW);
+const AUTOSEQ_C = AUTOSEQ_AT_MIN - AUTOSEQ_K * AUTOSEQ_TEMPO_LOW;
+const AUTOSEEK_AT_MIN = 25.0;
+const AUTOSEEK_AT_MAX = 15.0;
+const AUTOSEEK_K = (AUTOSEEK_AT_MAX - AUTOSEEK_AT_MIN) / (AUTOSEQ_TEMPO_TOP - AUTOSEQ_TEMPO_LOW);
+const AUTOSEEK_C = AUTOSEEK_AT_MIN - AUTOSEEK_K * AUTOSEQ_TEMPO_LOW;
+class Stretch extends AbstractFifoSamplePipe {
+  constructor(createBuffers) {
+    super(createBuffers);
+    this._quickSeek = true;
+    this.midBufferDirty = false;
+    this.midBuffer = null;
+    this.overlapLength = 0;
+    this.autoSeqSetting = true;
+    this.autoSeekSetting = true;
+    this._tempo = 1;
+    this.setParameters(44100, DEFAULT_SEQUENCE_MS, DEFAULT_SEEKWINDOW_MS, DEFAULT_OVERLAP_MS);
+  }
+  clear() {
+    super.clear();
+    this.clearMidBuffer();
+  }
+  clearMidBuffer() {
+    if (this.midBufferDirty) {
+      this.midBufferDirty = false;
+      this.midBuffer = null;
+    }
+  }
+  setParameters(sampleRate, sequenceMs, seekWindowMs, overlapMs) {
+    if (sampleRate > 0) {
+      this.sampleRate = sampleRate;
+    }
+    if (overlapMs > 0) {
+      this.overlapMs = overlapMs;
+    }
+    if (sequenceMs > 0) {
+      this.sequenceMs = sequenceMs;
+      this.autoSeqSetting = false;
+    } else {
+      this.autoSeqSetting = true;
+    }
+    if (seekWindowMs > 0) {
+      this.seekWindowMs = seekWindowMs;
+      this.autoSeekSetting = false;
+    } else {
+      this.autoSeekSetting = true;
+    }
+    this.calculateSequenceParameters();
+    this.calculateOverlapLength(this.overlapMs);
+    this.tempo = this._tempo;
+  }
+  set tempo(newTempo) {
+    let intskip;
+    this._tempo = newTempo;
+    this.calculateSequenceParameters();
+    this.nominalSkip = this._tempo * (this.seekWindowLength - this.overlapLength);
+    this.skipFract = 0;
+    intskip = Math.floor(this.nominalSkip + 0.5);
+    this.sampleReq = Math.max(intskip + this.overlapLength, this.seekWindowLength) + this.seekLength;
+  }
+  get tempo() {
+    return this._tempo;
+  }
+  get inputChunkSize() {
+    return this.sampleReq;
+  }
+  get outputChunkSize() {
+    return this.overlapLength + Math.max(0, this.seekWindowLength - 2 * this.overlapLength);
+  }
+  calculateOverlapLength(overlapInMsec = 0) {
+    let newOvl;
+    newOvl = this.sampleRate * overlapInMsec / 1000;
+    newOvl = newOvl < 16 ? 16 : newOvl;
+    newOvl -= newOvl % 8;
+    this.overlapLength = newOvl;
+    this.refMidBuffer = new Float32Array(this.overlapLength * 2);
+    this.midBuffer = new Float32Array(this.overlapLength * 2);
+  }
+  checkLimits(x, mi, ma) {
+    return x < mi ? mi : x > ma ? ma : x;
+  }
+  calculateSequenceParameters() {
+    let seq;
+    let seek;
+    if (this.autoSeqSetting) {
+      seq = AUTOSEQ_C + AUTOSEQ_K * this._tempo;
+      seq = this.checkLimits(seq, AUTOSEQ_AT_MAX, AUTOSEQ_AT_MIN);
+      this.sequenceMs = Math.floor(seq + 0.5);
+    }
+    if (this.autoSeekSetting) {
+      seek = AUTOSEEK_C + AUTOSEEK_K * this._tempo;
+      seek = this.checkLimits(seek, AUTOSEEK_AT_MAX, AUTOSEEK_AT_MIN);
+      this.seekWindowMs = Math.floor(seek + 0.5);
+    }
+    this.seekWindowLength = Math.floor(this.sampleRate * this.sequenceMs / 1000);
+    this.seekLength = Math.floor(this.sampleRate * this.seekWindowMs / 1000);
+  }
+  set quickSeek(enable) {
+    this._quickSeek = enable;
+  }
+  clone() {
+    const result = new Stretch();
+    result.tempo = this._tempo;
+    result.setParameters(this.sampleRate, this.sequenceMs, this.seekWindowMs, this.overlapMs);
+    return result;
+  }
+  seekBestOverlapPosition() {
+    return this._quickSeek ? this.seekBestOverlapPositionStereoQuick() : this.seekBestOverlapPositionStereo();
+  }
+  seekBestOverlapPositionStereo() {
+    let bestOffset;
+    let bestCorrelation;
+    let correlation;
+    let i = 0;
+    this.preCalculateCorrelationReferenceStereo();
+    bestOffset = 0;
+    bestCorrelation = Number.MIN_VALUE;
+    for (; i < this.seekLength; i = i + 1) {
+      correlation = this.calculateCrossCorrelationStereo(2 * i, this.refMidBuffer);
+      if (correlation > bestCorrelation) {
+        bestCorrelation = correlation;
+        bestOffset = i;
+      }
+    }
+    return bestOffset;
+  }
+  seekBestOverlapPositionStereoQuick() {
+    let bestOffset;
+    let bestCorrelation;
+    let correlation;
+    let scanCount = 0;
+    let correlationOffset;
+    let tempOffset;
+    this.preCalculateCorrelationReferenceStereo();
+    bestCorrelation = Number.MIN_VALUE;
+    bestOffset = 0;
+    correlationOffset = 0;
+    tempOffset = 0;
+    for (; scanCount < 4; scanCount = scanCount + 1) {
+      let j = 0;
+      while (_SCAN_OFFSETS[scanCount][j]) {
+        tempOffset = correlationOffset + _SCAN_OFFSETS[scanCount][j];
+        if (tempOffset >= this.seekLength) {
+          break;
+        }
+        correlation = this.calculateCrossCorrelationStereo(2 * tempOffset, this.refMidBuffer);
+        if (correlation > bestCorrelation) {
+          bestCorrelation = correlation;
+          bestOffset = tempOffset;
+        }
+        j = j + 1;
+      }
+      correlationOffset = bestOffset;
+    }
+    return bestOffset;
+  }
+  preCalculateCorrelationReferenceStereo() {
+    let i = 0;
+    let context;
+    let temp;
+    for (; i < this.overlapLength; i = i + 1) {
+      temp = i * (this.overlapLength - i);
+      context = i * 2;
+      this.refMidBuffer[context] = this.midBuffer[context] * temp;
+      this.refMidBuffer[context + 1] = this.midBuffer[context + 1] * temp;
+    }
+  }
+  calculateCrossCorrelationStereo(mixingPosition, compare) {
+    const mixing = this._inputBuffer.vector;
+    mixingPosition += this._inputBuffer.startIndex;
+    let correlation = 0;
+    let i = 2;
+    const calcLength = 2 * this.overlapLength;
+    let mixingOffset;
+    for (; i < calcLength; i = i + 2) {
+      mixingOffset = i + mixingPosition;
+      correlation += mixing[mixingOffset] * compare[i] + mixing[mixingOffset + 1] * compare[i + 1];
+    }
+    return correlation;
+  }
+  overlap(overlapPosition) {
+    this.overlapStereo(2 * overlapPosition);
+  }
+  overlapStereo(inputPosition) {
+    const input = this._inputBuffer.vector;
+    inputPosition += this._inputBuffer.startIndex;
+    const output = this._outputBuffer.vector;
+    const outputPosition = this._outputBuffer.endIndex;
+    let i = 0;
+    let context;
+    let tempFrame;
+    const frameScale = 1 / this.overlapLength;
+    let fi;
+    let inputOffset;
+    let outputOffset;
+    for (; i < this.overlapLength; i = i + 1) {
+      tempFrame = (this.overlapLength - i) * frameScale;
+      fi = i * frameScale;
+      context = 2 * i;
+      inputOffset = context + inputPosition;
+      outputOffset = context + outputPosition;
+      output[outputOffset + 0] = input[inputOffset + 0] * fi + this.midBuffer[context + 0] * tempFrame;
+      output[outputOffset + 1] = input[inputOffset + 1] * fi + this.midBuffer[context + 1] * tempFrame;
+    }
+  }
+  process() {
+    let offset;
+    let temp;
+    let overlapSkip;
+    if (this.midBuffer === null) {
+      if (this._inputBuffer.frameCount < this.overlapLength) {
+        return;
+      }
+      this.midBuffer = new Float32Array(this.overlapLength * 2);
+      this._inputBuffer.receiveSamples(this.midBuffer, this.overlapLength);
+    }
+    while (this._inputBuffer.frameCount >= this.sampleReq) {
+      offset = this.seekBestOverlapPosition();
+      this._outputBuffer.ensureAdditionalCapacity(this.overlapLength);
+      this.overlap(Math.floor(offset));
+      this._outputBuffer.put(this.overlapLength);
+      temp = this.seekWindowLength - 2 * this.overlapLength;
+      if (temp > 0) {
+        this._outputBuffer.putBuffer(this._inputBuffer, offset + this.overlapLength, temp);
+      }
+      const start = this._inputBuffer.startIndex + 2 * (offset + this.seekWindowLength - this.overlapLength);
+      this.midBuffer.set(this._inputBuffer.vector.subarray(start, start + 2 * this.overlapLength));
+      this.skipFract += this.nominalSkip;
+      overlapSkip = Math.floor(this.skipFract);
+      this.skipFract -= overlapSkip;
+      this._inputBuffer.receive(overlapSkip);
+    }
+  }
+}
+
+const testFloatEqual = function (a, b) {
+  return (a > b ? a - b : b - a) > 1e-10;
+};
+
+class SoundTouch {
+  constructor() {
+    this.transposer = new RateTransposer(false);
+    this.stretch = new Stretch(false);
+    this._inputBuffer = new FifoSampleBuffer();
+    this._intermediateBuffer = new FifoSampleBuffer();
+    this._outputBuffer = new FifoSampleBuffer();
+    this._rate = 0;
+    this._tempo = 0;
+    this.virtualPitch = 1.0;
+    this.virtualRate = 1.0;
+    this.virtualTempo = 1.0;
+    this.calculateEffectiveRateAndTempo();
+  }
+  clear() {
+    this.transposer.clear();
+    this.stretch.clear();
+  }
+  clone() {
+    const result = new SoundTouch();
+    result.rate = this.rate;
+    result.tempo = this.tempo;
+    return result;
+  }
+  get rate() {
+    return this._rate;
+  }
+  set rate(rate) {
+    this.virtualRate = rate;
+    this.calculateEffectiveRateAndTempo();
+  }
+  set rateChange(rateChange) {
+    this._rate = 1.0 + 0.01 * rateChange;
+  }
+  get tempo() {
+    return this._tempo;
+  }
+  set tempo(tempo) {
+    this.virtualTempo = tempo;
+    this.calculateEffectiveRateAndTempo();
+  }
+  set tempoChange(tempoChange) {
+    this.tempo = 1.0 + 0.01 * tempoChange;
+  }
+  set pitch(pitch) {
+    this.virtualPitch = pitch;
+    this.calculateEffectiveRateAndTempo();
+  }
+  set pitchOctaves(pitchOctaves) {
+    this.pitch = Math.exp(0.69314718056 * pitchOctaves);
+    this.calculateEffectiveRateAndTempo();
+  }
+  set pitchSemitones(pitchSemitones) {
+    this.pitchOctaves = pitchSemitones / 12.0;
+  }
+  get inputBuffer() {
+    return this._inputBuffer;
+  }
+  get outputBuffer() {
+    return this._outputBuffer;
+  }
+  calculateEffectiveRateAndTempo() {
+    const previousTempo = this._tempo;
+    const previousRate = this._rate;
+    this._tempo = this.virtualTempo / this.virtualPitch;
+    this._rate = this.virtualRate * this.virtualPitch;
+    if (testFloatEqual(this._tempo, previousTempo)) {
+      this.stretch.tempo = this._tempo;
+    }
+    if (testFloatEqual(this._rate, previousRate)) {
+      this.transposer.rate = this._rate;
+    }
+    if (this._rate > 1.0) {
+      if (this._outputBuffer != this.transposer.outputBuffer) {
+        this.stretch.inputBuffer = this._inputBuffer;
+        this.stretch.outputBuffer = this._intermediateBuffer;
+        this.transposer.inputBuffer = this._intermediateBuffer;
+        this.transposer.outputBuffer = this._outputBuffer;
+      }
+    } else {
+      if (this._outputBuffer != this.stretch.outputBuffer) {
+        this.transposer.inputBuffer = this._inputBuffer;
+        this.transposer.outputBuffer = this._intermediateBuffer;
+        this.stretch.inputBuffer = this._intermediateBuffer;
+        this.stretch.outputBuffer = this._outputBuffer;
+      }
+    }
+  }
+  process() {
+    if (this._rate > 1.0) {
+      this.stretch.process();
+      this.transposer.process();
+    } else {
+      this.transposer.process();
+      this.stretch.process();
+    }
+  }
+}
+
+class WebAudioBufferSource {
+  constructor(buffer) {
+    this.buffer = buffer;
+    this._position = 0;
+  }
+  get dualChannel() {
+    return this.buffer.numberOfChannels > 1;
+  }
+  get position() {
+    return this._position;
+  }
+  set position(value) {
+    this._position = value;
+  }
+  extract(target, numFrames = 0, position = 0) {
+    this.position = position;
+    let left = this.buffer.getChannelData(0);
+    let right = this.dualChannel ? this.buffer.getChannelData(1) : this.buffer.getChannelData(0);
+    let i = 0;
+    for (; i < numFrames; i++) {
+      target[i * 2] = left[i + position];
+      target[i * 2 + 1] = right[i + position];
+    }
+    return Math.min(numFrames, left.length - position);
+  }
+}
+
+const getWebAudioNode = function (context, filter, sourcePositionCallback = noop, bufferSize = 4096) {
+  const node = context.createScriptProcessor(bufferSize, 2, 2);
+  const samples = new Float32Array(bufferSize * 2);
+  node.onaudioprocess = event => {
+    let left = event.outputBuffer.getChannelData(0);
+    let right = event.outputBuffer.getChannelData(1);
+    let framesExtracted = filter.extract(samples, bufferSize);
+    sourcePositionCallback(filter.sourcePosition);
+    if (framesExtracted === 0) {
+      filter.onEnd();
+    }
+    let i = 0;
+    for (; i < framesExtracted; i++) {
+      left[i] = samples[i * 2];
+      right[i] = samples[i * 2 + 1];
+    }
+  };
+  return node;
+};
+
+const pad = function (n, width, z) {
+  z = z || '0';
+  n = n + '';
+  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+};
+const minsSecs = function (secs) {
+  const mins = Math.floor(secs / 60);
+  const seconds = secs - mins * 60;
+  return `${mins}:${pad(parseInt(seconds), 2)}`;
+};
+
+const onUpdate = function (sourcePosition) {
+  const currentTimePlayed = this.timePlayed;
+  const sampleRate = this.sampleRate;
+  this.sourcePosition = sourcePosition;
+  this.timePlayed = sourcePosition / sampleRate;
+  if (currentTimePlayed !== this.timePlayed) {
+    const timePlayed = new CustomEvent('play', {
+      detail: {
+        timePlayed: this.timePlayed,
+        formattedTimePlayed: this.formattedTimePlayed,
+        percentagePlayed: this.percentagePlayed
+      }
+    });
+    this._node.dispatchEvent(timePlayed);
+  }
+};
+class PitchShifter {
+  constructor(context, buffer, bufferSize, onEnd = noop) {
+    this._soundtouch = new SoundTouch();
+    const source = new WebAudioBufferSource(buffer);
+    this.timePlayed = 0;
+    this.sourcePosition = 0;
+    this._filter = new SimpleFilter(source, this._soundtouch, onEnd);
+    this._node = getWebAudioNode(context, this._filter, sourcePostion => onUpdate.call(this, sourcePostion), bufferSize);
+    this.tempo = 1;
+    this.rate = 1;
+    this.duration = buffer.duration;
+    this.sampleRate = context.sampleRate;
+    this.listeners = [];
+  }
+  get formattedDuration() {
+    return minsSecs(this.duration);
+  }
+  get formattedTimePlayed() {
+    return minsSecs(this.timePlayed);
+  }
+  get percentagePlayed() {
+    return 100 * this._filter.sourcePosition / (this.duration * this.sampleRate);
+  }
+  set percentagePlayed(perc) {
+    this._filter.sourcePosition = parseInt(perc * this.duration * this.sampleRate);
+    this.sourcePosition = this._filter.sourcePosition;
+    this.timePlayed = this.sourcePosition / this.sampleRate;
+  }
+  get node() {
+    return this._node;
+  }
+  set pitch(pitch) {
+    this._soundtouch.pitch = pitch;
+  }
+  set pitchSemitones(semitone) {
+    this._soundtouch.pitchSemitones = semitone;
+  }
+  set rate(rate) {
+    this._soundtouch.rate = rate;
+  }
+  set tempo(tempo) {
+    this._soundtouch.tempo = tempo;
+  }
+  connect(toNode) {
+    this._node.connect(toNode);
+  }
+  disconnect() {
+    this._node.disconnect();
+  }
+  on(eventName, cb) {
+    this.listeners.push({
+      name: eventName,
+      cb: cb
+    });
+    this._node.addEventListener(eventName, event => cb(event.detail));
+  }
+  off(eventName = null) {
+    let listeners = this.listeners;
+    if (eventName) {
+      listeners = listeners.filter(e => e.name === eventName);
+    }
+    listeners.forEach(e => {
+      this._node.removeEventListener(e.name, event => e.cb(event.detail));
+    });
+  }
+}
 
 
+//# sourceMappingURL=soundtouch.js.map
+
+;// ./node_modules/chaimu/dist/debug.js
+
+/* harmony default export */ const dist_debug = ({
+    log: (...text) => {
+        if (!dist_config.debug) {
+            return;
+        }
+        return console.log(`%c✦ chaimu.js v${dist_config.version} ✦`, "background: #000; color: #fff; padding: 0 8px", ...text);
+    },
+});
+
+;// ./node_modules/chaimu/dist/player.js
 
 
 
@@ -7481,109 +8312,178 @@ const videoLipSyncEvents = [
     "play",
     "waiting",
     "pause",
+    "seeked",
 ];
 function initAudioContext() {
     const audioContext = window.AudioContext || window.webkitAudioContext;
     return audioContext ? new audioContext() : undefined;
 }
-class AudioPlayer {
+class BasePlayer {
+    static name = "BasePlayer";
+    chaimu;
+    _src;
+    fetch;
+    constructor(chaimu, src) {
+        this.chaimu = chaimu;
+        this._src = src;
+        this.fetch = dist_config.fetchFn;
+    }
+    async init() {
+        return new Promise((resolve) => {
+            return resolve(this);
+        });
+    }
+    clear() {
+        return new Promise((resolve) => {
+            return resolve(this);
+        });
+    }
+    lipSync(mode = false) {
+        return this;
+    }
+    handleVideoEvent = (event) => {
+        dist_debug.log(`handle video ${event.type}`);
+        this.lipSync(event.type);
+        return this;
+    };
+    removeVideoEvents() {
+        for (const e of videoLipSyncEvents) {
+            this.chaimu.video.removeEventListener(e, this.handleVideoEvent);
+        }
+        return this;
+    }
+    addVideoEvents() {
+        for (const e of videoLipSyncEvents) {
+            this.chaimu.video.addEventListener(e, this.handleVideoEvent);
+        }
+        return this;
+    }
+    async play() {
+        return new Promise((resolve) => {
+            return resolve(this);
+        });
+    }
+    async pause() {
+        return new Promise((resolve) => {
+            return resolve(this);
+        });
+    }
+    get name() {
+        return this.constructor.name;
+    }
+    set src(url) {
+        this._src = url;
+    }
+    get src() {
+        return this._src;
+    }
+    get currentSrc() {
+        return this._src;
+    }
+    set volume(value) {
+        return;
+    }
+    get volume() {
+        return 0;
+    }
+    get playbackRate() {
+        return 0;
+    }
+    set playbackRate(value) {
+        return;
+    }
+    get currentTime() {
+        return 0;
+    }
+}
+class AudioPlayer extends BasePlayer {
+    static name = "AudioPlayer";
     audio;
-    videoHandler;
     gainNode;
     audioSource;
-    constructor(videoHandler, src = undefined) {
+    constructor(chaimu, src) {
+        super(chaimu, src);
         this.audio = new Audio(src);
         this.audio.crossOrigin = "anonymous";
-        this.videoHandler = videoHandler;
     }
     initAudioBooster() {
-        if (!this.videoHandler.audioContext) {
+        if (!this.chaimu.audioContext) {
             return this;
         }
-        this.gainNode = this.videoHandler.audioContext.createGain();
-        this.gainNode.connect(this.videoHandler.audioContext.destination);
-        this.audioSource = this.videoHandler.audioContext.createMediaElementSource(this.audio);
+        if (this.gainNode && this.audioSource) {
+            this.audioSource.disconnect(this.gainNode);
+            this.gainNode.disconnect();
+        }
+        this.gainNode = this.chaimu.audioContext.createGain();
+        this.gainNode.connect(this.chaimu.audioContext.destination);
+        this.audioSource = this.chaimu.audioContext.createMediaElementSource(this.audio);
         this.audioSource.connect(this.gainNode);
         return this;
     }
-    audioErrorHandle = async (e) => {
-        console.error("[VOT]", e);
-        if (e.name === "NotAllowedError") {
-            this.videoHandler.transformBtn("error", localizationProvider.get("grantPermissionToAutoPlay"));
-            throw new VOTLocalizedError("grantPermissionToAutoPlay");
-        }
-        else if (e.name === "NotSupportedError") {
-            this.videoHandler.data.audioProxy = 1;
-            await votStorage.set("audioProxy", 1);
-        }
+    async init() {
+        return new Promise((resolve) => {
+            this.initAudioBooster();
+            return resolve(this);
+        });
+    }
+    audioErrorHandle = (e) => {
+        console.error("[AudioPlayer]", e);
     };
-    /**
-     * Synchronizes the lipsync of the video and audio elements
-     */
     lipSync(mode = false) {
-        debug.log("[AudioPlayer] lipsync video", this.videoHandler.video);
-        if (!this.videoHandler.video) {
+        dist_debug.log("[AudioPlayer] lipsync video", this.chaimu.video);
+        if (!this.chaimu.video) {
             return this;
         }
-        this.audio.currentTime = this.videoHandler.video.currentTime;
-        this.audio.playbackRate = this.videoHandler.video.playbackRate;
+        this.audio.currentTime = this.chaimu.video.currentTime;
+        this.audio.playbackRate = this.chaimu.video.playbackRate;
         if (!mode) {
-            debug.log("lipsync mode isn't set");
+            dist_debug.log("[AudioPlayer] lipsync mode isn't set");
             return this;
         }
-        debug.log(`lipsync mode is ${mode}`);
+        dist_debug.log(`[AudioPlayer] lipsync mode is ${mode}`);
         switch (mode) {
             case "play":
-            case "playing": {
-                return this.syncPlay();
+            case "playing":
+            case "seeked": {
+                if (!this.chaimu.video.paused) {
+                    this.syncPlay();
+                }
+                return this;
             }
             case "pause":
-            case "stop":
             case "waiting": {
-                return this.pause();
+                void this.pause();
+                return this;
             }
             default: {
                 return this;
             }
         }
     }
-    handleVideoEvent = (event) => {
-        debug.log(`handle video ${event.type}`);
-        this.lipSync(event.type);
-        return this;
-    };
-    removeVideoEvents() {
-        for (const e of videoLipSyncEvents) {
-            this.videoHandler.video.removeEventListener(e, this.handleVideoEvent);
-        }
-        return this;
-    }
-    addVideoEvents() {
-        for (const e of videoLipSyncEvents) {
-            this.videoHandler.video.addEventListener(e, this.handleVideoEvent);
-        }
-        return this;
-    }
-    clear() {
-        this.audio.pause();
-        this.audio.src = "";
-        this.audio.removeAttribute("src");
-        return this;
+    async clear() {
+        return new Promise((resolve) => {
+            this.audio.pause();
+            this.audio.src = "";
+            this.audio.removeAttribute("src");
+            return resolve(this);
+        });
     }
     syncPlay() {
-        debug.log("[AudioPlayer] sync play called");
+        dist_debug.log("[AudioPlayer] sync play called");
         this.audio.play().catch(this.audioErrorHandle);
         return this;
     }
     async play() {
-        debug.log("[AudioPlayer] play called");
+        dist_debug.log("[AudioPlayer] play called");
         await this.audio.play().catch(this.audioErrorHandle);
         return this;
     }
-    pause() {
-        debug.log("[AudioPlayer] pause called");
-        this.audio.pause();
-        return this;
+    async pause() {
+        return new Promise((resolve) => {
+            dist_debug.log("[AudioPlayer] pause called");
+            this.audio.pause();
+            return resolve(this);
+        });
     }
     set src(url) {
         this.audio.src = url;
@@ -7594,9 +8494,6 @@ class AudioPlayer {
     get currentSrc() {
         return this.audio.currentSrc;
     }
-    /**
-     * set audio volume in range 0.00 - 1.00
-     */
     set volume(value) {
         if (this.gainNode) {
             this.gainNode.gain.value = value;
@@ -7604,116 +8501,243 @@ class AudioPlayer {
         }
         this.audio.volume = value;
     }
-    /**
-     * return audio volume in range 0.00 - 1.00
-     */
     get volume() {
         return this.gainNode ? this.gainNode.gain.value : this.audio.volume;
     }
-}
-class TonePlayer extends AudioPlayer {
-    grainPlayer;
-    constructor(videoHandler, src = undefined) {
-        super(videoHandler, src);
+    get playbackRate() {
+        return this.audio.playbackRate;
     }
-    waitAudioPlay() {
-        return new Promise((resolve) => {
-            if (!this.grainPlayer) {
-                return resolve(false);
-            }
-            let interval = setInterval(async () => {
-                if (!this.grainPlayer.loaded) {
-                    return null;
-                }
-                clearInterval(interval);
-                resolve(true);
-            }, 100);
-        });
+    set playbackRate(value) {
+        this.audio.playbackRate = value;
+    }
+    get currentTime() {
+        return this.audio.currentTime;
+    }
+}
+class ChaimuPlayer extends BasePlayer {
+    static name = "ChaimuPlayer";
+    audioBuffer;
+    sourceNode;
+    gainNode;
+    audioShifter;
+    cleanerRunned = false;
+    async fetchAudio() {
+        if (!this._src) {
+            throw new Error("No audio source provided");
+        }
+        if (!this.chaimu.audioContext) {
+            throw new Error("No audio context available");
+        }
+        dist_debug.log(`[ChaimuPlayer] Fetching audio from ${this._src}...`);
+        try {
+            const res = await this.fetch(this._src);
+            dist_debug.log(`[ChaimuPlayer] Decoding fetched audio...`);
+            const data = await res.arrayBuffer();
+            this.audioBuffer = await this.chaimu.audioContext.decodeAudioData(data);
+        }
+        catch (err) {
+            throw new Error(`Failed to fetch audio file, because ${err.message}`);
+        }
+        return this;
     }
     initAudioBooster() {
-        // tone player has embedded gain node
+        if (!this.chaimu.audioContext) {
+            return this;
+        }
+        if (this.gainNode) {
+            this.gainNode.disconnect();
+        }
+        this.gainNode = this.chaimu.audioContext.createGain();
         return this;
     }
     async init() {
-        this.grainPlayer = new Tone.GrainPlayer({
-            playbackRate: this.videoHandler.video.playbackRate,
-            url: this.audio.src,
-            grainSize: 0.1,
-        }).toDestination();
-        await this.waitAudioPlay();
+        await this.fetchAudio();
+        this.initAudioBooster();
+        return this;
     }
     lipSync(mode = false) {
-        debug.log("[TonePlayer] lipsync video", this.videoHandler.video);
-        if (!this.videoHandler.video || !this.grainPlayer) {
+        dist_debug.log("[ChaimuPlayer] lipsync video", this.chaimu.video, this);
+        if (!this.chaimu.video) {
             return this;
         }
-        this.audio.currentTime = this.videoHandler.video.currentTime;
-        this.grainPlayer.playbackRate = this.videoHandler.video.playbackRate;
         if (!mode) {
-            debug.log("lipsync mode isn't set");
+            dist_debug.log("[ChaimuPlayer] lipsync mode isn't set");
             return this;
         }
-        debug.log(`lipsync mode is ${mode}`);
+        dist_debug.log(`[ChaimuPlayer] lipsync mode is ${mode}`);
         switch (mode) {
             case "play":
-            case "playing": {
-                this.syncPlay();
+            case "playing":
+            case "ratechange":
+            case "seeked": {
+                if (!this.chaimu.video.paused) {
+                    void this.start();
+                }
                 return this;
             }
             case "pause":
-            case "stop":
             case "waiting": {
-                return this.pause();
+                void this.pause();
+                return this;
             }
             default: {
                 return this;
             }
         }
     }
-    syncPlay() {
-        debug.log("[TonePlayer] play called");
-        if (!this.grainPlayer) {
-            return this;
+    async reopenCtx() {
+        if (!this.chaimu.audioContext) {
+            throw new Error("No audio context available");
         }
         try {
-            this.grainPlayer.start(undefined, this.audio.currentTime);
+            await this.chaimu.audioContext.close();
         }
-        catch (err) {
-            // ! Start time must be strictly greater than previous start time
-            console.error("Failed to start", err.message);
+        catch { }
+        return this;
+    }
+    async clear() {
+        if (!this.chaimu.audioContext) {
+            throw new Error("No audio context available");
         }
+        dist_debug.log("clear audio context");
+        this.cleanerRunned = true;
+        await this.pause();
+        if (!this.gainNode) {
+            this.cleanerRunned = false;
+            return this;
+        }
+        if (this.sourceNode) {
+            this.sourceNode.stop();
+            this.sourceNode.disconnect(this.gainNode);
+            this.sourceNode = undefined;
+        }
+        if (this.audioShifter) {
+            this.audioShifter._node.disconnect(this.gainNode);
+            this.audioShifter = undefined;
+        }
+        this.gainNode.disconnect();
+        const oldVolume = this.volume;
+        this.gainNode = undefined;
+        await this.reopenCtx();
+        this.chaimu.audioContext = initAudioContext();
+        this.initAudioBooster();
+        this.volume = oldVolume;
+        this.cleanerRunned = false;
+        return this;
+    }
+    async start() {
+        if (!this.chaimu.audioContext) {
+            throw new Error("No audio context available");
+        }
+        if (!this.audioBuffer) {
+            throw new Error("The player isn't initialized");
+        }
+        if (!this.gainNode ||
+            (this.audioShifter && this.audioShifter.duration < this.chaimu.video.currentTime)) {
+            dist_debug.log("Skip starting player");
+            return this;
+        }
+        if (this.cleanerRunned) {
+            dist_debug.log("The other cleaner is still running, waiting...");
+            return this;
+        }
+        dist_debug.log("starting audio");
+        await this.clear();
+        await this.play();
+        this.audioShifter = new PitchShifter(this.chaimu.audioContext, this.audioBuffer, 1024);
+        this.audioShifter.tempo = this.chaimu.video.playbackRate;
+        this.audioShifter.percentagePlayed = this.chaimu.video.currentTime / this.audioShifter.duration;
+        this.sourceNode = this.chaimu.audioContext.createBufferSource();
+        this.sourceNode.buffer = null;
+        this.sourceNode.connect(this.gainNode);
+        this.audioShifter.connect(this.gainNode);
+        this.gainNode.connect(this.chaimu.audioContext.destination);
+        this.sourceNode.start(undefined, this.chaimu.video.currentTime);
+        return this;
+    }
+    async pause() {
+        if (!this.chaimu.audioContext) {
+            throw new Error("No audio context available");
+        }
+        if (this.chaimu.audioContext.state !== "running") {
+            return this;
+        }
+        await this.chaimu.audioContext.suspend();
         return this;
     }
     async play() {
-        return Promise.resolve(this.syncPlay());
-    }
-    pause() {
-        debug.log("[TonePlayer] pause called");
-        if (!this.grainPlayer) {
-            return this;
+        if (!this.chaimu.audioContext) {
+            throw new Error("No audio context available");
         }
-        this.grainPlayer.stop();
+        await this.chaimu.audioContext.resume();
         return this;
     }
-    clear() {
-        if (this.grainPlayer) {
-            this.grainPlayer.stop();
-            this.grainPlayer = undefined;
-        }
-        return super.clear();
+    set src(url) {
+        this._src = url;
+    }
+    get src() {
+        return this._src;
+    }
+    get currentSrc() {
+        return this._src;
     }
     set volume(value) {
-        if (!this.grainPlayer) {
-            return;
+        if (this.gainNode) {
+            this.gainNode.gain.value = value;
         }
-        this.grainPlayer.volume.value = percentToDecibels(value);
     }
     get volume() {
-        return this.grainPlayer
-            ? decibelsToPercent(this.grainPlayer.volume.value)
-            : 0;
+        return this.gainNode ? this.gainNode.gain.value : 0;
+    }
+    set playbackRate(value) {
+        if (!this.audioShifter) {
+            throw new Error("No audio source available");
+        }
+        this.audioShifter.pitch = value;
+    }
+    get playbackRate() {
+        return this.audioShifter?._soundtouch?.tempo ?? 0;
+    }
+    get currentTime() {
+        return this.chaimu.video.currentTime;
     }
 }
+
+;// ./node_modules/chaimu/dist/client.js
+
+
+class Chaimu {
+    _debug = false;
+    audioContext;
+    player;
+    video;
+    constructor({ url, video, debug = false, fetchFn = dist_config.fetchFn, preferAudio = false, }) {
+        this._debug = dist_config.debug = debug;
+        dist_config.fetchFn = fetchFn;
+        this.audioContext = initAudioContext();
+        this.player =
+            this.audioContext && !preferAudio ? new ChaimuPlayer(this, url) : new AudioPlayer(this, url);
+        this.video = video;
+    }
+    async init() {
+        await this.player.init();
+        if (this.video && !this.video.paused) {
+            this.player.lipSync("play");
+        }
+        this.player.addVideoEvents();
+    }
+    set debug(value) {
+        this._debug = dist_config.debug = value;
+    }
+    get debug() {
+        return this._debug;
+    }
+}
+
+;// ./node_modules/chaimu/dist/index.js
+
+
+
 
 ;// ./src/index.js
 
@@ -7792,10 +8816,11 @@ class VideoHandler {
    * @type {import("./index").VideoHandler['audioContext']}
    */
   audioContext = initAudioContext();
-  audioPlayer = new AudioPlayer(this);
+  // audioPlayer = new AudioPlayer(this);
 
   hls = initHls(); // debug enabled only in dev mode
   votClient;
+  audioPlayer;
 
   videoTranslations = [];
   videoTranslationTTL = 7200;
@@ -7883,8 +8908,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : (res.message ??
-              localizationProvider.get("translationTakeFewMinutes")),
+          : res.message ??
+              localizationProvider.get("translationTakeFewMinutes"),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
@@ -8002,6 +9027,40 @@ class VideoHandler {
         err?.name === "VOTLocalizedError" ? err.localizedMessage : err,
       );
     }
+  }
+
+  getPreferAudio() {
+    if (!this.audioContext) {
+      return true;
+    }
+
+    if (!this.data.newAudioPlayer) {
+      return true;
+    }
+
+    if (this.videoData.isStream) {
+      // streams use old player for work with hls
+      return true;
+    }
+
+    if (this.data.newAudioPlayer && !this.data.onlyBypassMediaCSP) {
+      return false;
+    }
+
+    return !this.site.needBypassCSP;
+  }
+
+  createPlayer() {
+    const preferAudio = this.getPreferAudio();
+    debug.log("preferAudio:", preferAudio);
+    this.audioPlayer = new Chaimu({
+      video: this.video,
+      debug: false,
+      // debug: true,
+      fetchFn: GM_fetch,
+      preferAudio,
+    });
+    return this;
   }
 
   /**
@@ -8132,9 +9191,9 @@ class VideoHandler {
 
     this.initUI();
     this.initUIEvents();
-    this.audioPlayer.initAudioBooster();
 
     this.videoData = await this.getVideoData();
+    this.createPlayer();
     this.setSelectMenuValues(
       this.videoData.detectedLanguage,
       this.data.responseLanguage ?? "ru",
@@ -8696,8 +9755,12 @@ class VideoHandler {
   }
 
   async handleTranslationBtnClick() {
-    debug.log("[click translationBtn]", this.audioPlayer, this.audioPlayer.src);
-    if (this.audioPlayer.src) {
+    debug.log(
+      "[click translationBtn]",
+      this.audioPlayer,
+      this.audioPlayer.player,
+    );
+    if (this.audioPlayer.player.src) {
       debug.log("[click translationBtn] audio.src is not empty");
       this.stopTranslate();
       return;
@@ -8860,8 +9923,9 @@ class VideoHandler {
 
       this.votVideoVolumeSlider.input.addEventListener("input", (e) => {
         const value = Number(e.target.value);
-        this.votVideoVolumeSlider.label.querySelector("strong").textContent =
-          `${value}%`;
+        this.votVideoVolumeSlider.label.querySelector(
+          "strong",
+        ).textContent = `${value}%`;
         this.setVideoVolume(value / 100);
         if (this.data.syncVolume) {
           this.syncVolumeWrapper("video", value);
@@ -8877,7 +9941,7 @@ class VideoHandler {
             this.votVideoTranslationVolumeSlider.label.querySelector(
               "strong",
             ).textContent = `${this.data.defaultVolume}%`;
-            this.audioPlayer.volume = this.data.defaultVolume / 100;
+            this.audioPlayer.player.volume = this.data.defaultVolume / 100;
             if (!this.data.syncVolume) {
               return;
             }
@@ -9259,6 +10323,7 @@ class VideoHandler {
               this.data.onlyBypassMediaCSP,
             );
             this.stopTranslate();
+            this.createPlayer();
           })();
         },
       );
@@ -9273,6 +10338,7 @@ class VideoHandler {
             this.data.newAudioPlayer,
           );
           this.stopTranslate();
+          this.createPlayer();
 
           this.votOnlyBypassMediaCSPCheckbox.input.disabled =
             this.votOnlyBypassMediaCSPCheckbox.container.hidden = !checked;
@@ -9369,7 +10435,7 @@ class VideoHandler {
       this.site.additionalData !== "mobile"
     ) {
       this.syncVolumeObserver = new MutationObserver((mutations) => {
-        if (!this.audioPlayer.src || !this.data.syncVolume) {
+        if (!this.audioPlayer.player.src || !this.data.syncVolume) {
           return;
         }
 
@@ -9393,7 +10459,7 @@ class VideoHandler {
 
             const finalVolume = Math.round(videoVolume);
             this.data.defaultVolume = finalVolume;
-            this.audioPlayer.volume = this.data.defaultVolume / 100;
+            this.audioPlayer.player.volume = this.data.defaultVolume / 100;
             this.syncVolumeWrapper("video", finalVolume);
           }
         }
@@ -9706,8 +10772,9 @@ class VideoHandler {
     const newSlidersVolume = Math.round(videoVolume);
 
     this.votVideoVolumeSlider.input.value = newSlidersVolume;
-    this.votVideoVolumeSlider.label.querySelector("strong").textContent =
-      `${newSlidersVolume}%`;
+    this.votVideoVolumeSlider.label.querySelector(
+      "strong",
+    ).textContent = `${newSlidersVolume}%`;
     ui.updateSlider(this.votVideoVolumeSlider.input);
 
     if (this.data.syncVolume === 1) {
@@ -9744,7 +10811,7 @@ class VideoHandler {
     const currentSliderValue = Number(slider.input.value);
 
     const finalValue = syncVolume(
-      fromType === "translation" ? this.video : this.audioPlayer.audio,
+      fromType === "translation" ? this.video : this.audioPlayer.player,
       newVolume,
       currentSliderValue,
       fromType === "translation" ? this.tempVolume : this.tempOriginalVolume,
@@ -9847,17 +10914,11 @@ class VideoHandler {
     return true;
   }
 
-  needUseAudioContext = () =>
-    this.data.newAudioPlayer &&
-    (this.data.onlyBypassMediaCSP
-      ? this.data.onlyBypassMediaCSP && this.site.needBypassCSP
-      : true);
-
   // Default actions on stop translate
   stopTranslate() {
-    this.audioPlayer.removeVideoEvents();
-    this.audioPlayer.clear();
-    this.audioPlayer = new AudioPlayer(this);
+    this.audioPlayer.player.removeVideoEvents();
+    this.audioPlayer.player.clear();
+    this.audioPlayer.player.src = undefined;
 
     this.votVideoVolumeSlider.container.hidden = true;
     this.votVideoTranslationVolumeSlider.container.hidden = true;
@@ -9947,23 +11008,24 @@ class VideoHandler {
         timeout: 5000,
       });
       debug.log("Test audio response", response);
-      if (response.status === 404) {
-        debug.log("Yandex returned not valid audio, trying to fix...");
-        let translateRes = await this.translateVideoImpl(
-          this.videoData,
-          (this.videoData.detectedLanguage = "auto"),
-          this.videoData.responseLanguage,
-          this.videoData.translationHelp,
-        );
-        this.setSelectMenuValues(
-          this.videoData.detectedLanguage,
-          this.videoData.responseLanguage,
-        );
-        audioUrl = translateRes.url;
-        debug.log("Fixed audio audioUrl", audioUrl);
-      } else {
+      if (response.status !== 404) {
         debug.log("Valid audioUrl", audioUrl);
+        return audioUrl;
       }
+
+      debug.log("Yandex returned not valid audio, trying to fix...");
+      let translateRes = await this.translateVideoImpl(
+        this.videoData,
+        (this.videoData.detectedLanguage = "auto"),
+        this.videoData.responseLanguage,
+        this.videoData.translationHelp,
+      );
+      this.setSelectMenuValues(
+        this.videoData.detectedLanguage,
+        this.videoData.responseLanguage,
+      );
+      audioUrl = translateRes.url;
+      debug.log("Fixed audio audioUrl", audioUrl);
     } catch (err) {
       if (err.message === "Timeout") {
         debug.log("Request timed out. Handling timeout error...");
@@ -9977,29 +11039,12 @@ class VideoHandler {
     return audioUrl;
   }
 
-  /**
-   * Download audio file and connect it to audio context
-   *
-   * @param {string} audioUrl
-   * @return {Promise<void>}
-   * @memberof VideoHandler
-   */
-  async configurePlaySound(audioUrl) {
-    this.audioPlayer = new TonePlayer(this, audioUrl);
-    await this.audioPlayer.init();
-  }
-
   // update translation audio src
   async updateTranslation(audioUrl) {
     // ! Don't use this function for streams
-    if (this.cachedTranslation?.url !== this.audioPlayer.currentSrc) {
+    if (this.cachedTranslation?.url !== this.audioPlayer.player.currentSrc) {
       audioUrl = await this.validateAudioUrl(audioUrl);
     }
-
-    // eslint-disable-next-line sonarjs/no-unused-expressions
-    this.needUseAudioContext()
-      ? await this.configurePlaySound(audioUrl)
-      : (this.audioPlayer.src = audioUrl);
 
     if (
       this.data.audioProxy === 1 &&
@@ -10013,6 +11058,21 @@ class VideoHandler {
       console.log(`[VOT] Audio proxied via ${audioUrl}`);
     }
 
+    if (this.audioPlayer.player.src !== audioUrl) {
+      this.audioPlayer.player.src = audioUrl;
+    }
+
+    try {
+      this.audioPlayer.init();
+    } catch (err) {
+      if (err.message.includes("Failed to fetch audio file")) {
+        this.videoHandler.data.audioProxy = 1;
+        await votStorage.set("audioProxy", 1);
+      } else {
+        this.videoHandler.transformBtn("error", err.message);
+      }
+    }
+
     this.setupAudioSettings();
     if (this.site.host === "twitter") {
       document
@@ -10020,11 +11080,6 @@ class VideoHandler {
         .addEventListener("click", this.stopTranslation);
     }
 
-    if (this.video && !this.video.paused) {
-      this.audioPlayer.lipSync("play");
-    }
-
-    this.audioPlayer.addVideoEvents();
     this.transformBtn("success", localizationProvider.get("disableTranslate"));
     this.afterUpdateTranslation(audioUrl);
   }
@@ -10069,12 +11124,6 @@ class VideoHandler {
       if (!this.video.src && !this.video.currentSrc && !this.video.srcObject) {
         return this.stopTranslation();
       }
-
-      if (this.video && !this.video.paused) {
-        this.audioPlayer.lipSync("play");
-      }
-
-      this.audioPlayer.addVideoEvents();
 
       return this.afterUpdateTranslation(streamURL);
     }
@@ -10140,7 +11189,8 @@ class VideoHandler {
       );
     });
     this.hls.loadSource(streamURL);
-    this.hls.attachMedia(this.audioPlayer.audio);
+    // doesn't work
+    this.hls.attachMedia(this.audioPlayer.player.audio);
     this.hls.on(Hls.Events.ERROR, function (data) {
       if (data.fatal) {
         switch (data.type) {
@@ -10176,10 +11226,10 @@ class VideoHandler {
     if (this.hls) {
       this.setupHLS(streamURL);
     } else if (
-      this.audioPlayer.audio.canPlayType("application/vnd.apple.mpegurl")
+      this.audioPlayer.player.audio.canPlayType("application/vnd.apple.mpegurl")
     ) {
       // safari
-      this.audioPlayer.audio.src = streamURL; // TODO: make class for HLS audio player
+      this.audioPlayer.player.src = streamURL; // TODO: make class for HLS audio player
     } else {
       // browser doesn't support m3u8 (hls unsupported and it isn't a safari)
       throw new VOTLocalizedError("audioFormatNotSupported");
@@ -10190,7 +11240,7 @@ class VideoHandler {
 
   setupAudioSettings() {
     if (typeof this.data.defaultVolume === "number") {
-      this.audioPlayer.volume = this.data.defaultVolume / 100;
+      this.audioPlayer.player.volume = this.data.defaultVolume / 100;
     }
 
     if (

@@ -47,7 +47,7 @@ import {
   translate,
   translateServices,
 } from "./utils/translateApis.js";
-import { AudioPlayer, TonePlayer, initAudioContext } from "./utils/player.ts";
+import Chaimu, { initAudioContext } from "chaimu";
 
 const browserInfo = Bowser.getParser(window.navigator.userAgent).getResult();
 
@@ -100,10 +100,11 @@ class VideoHandler {
    * @type {import("./index").VideoHandler['audioContext']}
    */
   audioContext = initAudioContext();
-  audioPlayer = new AudioPlayer(this);
+  // audioPlayer = new AudioPlayer(this);
 
   hls = initHls(); // debug enabled only in dev mode
   votClient;
+  audioPlayer;
 
   videoTranslations = [];
   videoTranslationTTL = 7200;
@@ -191,8 +192,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : (res.message ??
-              localizationProvider.get("translationTakeFewMinutes")),
+          : res.message ??
+              localizationProvider.get("translationTakeFewMinutes"),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
@@ -310,6 +311,40 @@ class VideoHandler {
         err?.name === "VOTLocalizedError" ? err.localizedMessage : err,
       );
     }
+  }
+
+  getPreferAudio() {
+    if (!this.audioContext) {
+      return true;
+    }
+
+    if (!this.data.newAudioPlayer) {
+      return true;
+    }
+
+    if (this.videoData.isStream) {
+      // streams use old player for work with hls
+      return true;
+    }
+
+    if (this.data.newAudioPlayer && !this.data.onlyBypassMediaCSP) {
+      return false;
+    }
+
+    return !this.site.needBypassCSP;
+  }
+
+  createPlayer() {
+    const preferAudio = this.getPreferAudio();
+    debug.log("preferAudio:", preferAudio);
+    this.audioPlayer = new Chaimu({
+      video: this.video,
+      debug: DEBUG_MODE,
+      // debug: true,
+      fetchFn: GM_fetch,
+      preferAudio,
+    });
+    return this;
   }
 
   /**
@@ -440,9 +475,9 @@ class VideoHandler {
 
     this.initUI();
     this.initUIEvents();
-    this.audioPlayer.initAudioBooster();
 
     this.videoData = await this.getVideoData();
+    this.createPlayer();
     this.setSelectMenuValues(
       this.videoData.detectedLanguage,
       this.data.responseLanguage ?? "ru",
@@ -1004,8 +1039,12 @@ class VideoHandler {
   }
 
   async handleTranslationBtnClick() {
-    debug.log("[click translationBtn]", this.audioPlayer, this.audioPlayer.src);
-    if (this.audioPlayer.src) {
+    debug.log(
+      "[click translationBtn]",
+      this.audioPlayer,
+      this.audioPlayer.player,
+    );
+    if (this.audioPlayer.player.src) {
       debug.log("[click translationBtn] audio.src is not empty");
       this.stopTranslate();
       return;
@@ -1185,7 +1224,7 @@ class VideoHandler {
             this.votVideoTranslationVolumeSlider.label.querySelector(
               "strong",
             ).textContent = `${this.data.defaultVolume}%`;
-            this.audioPlayer.volume = this.data.defaultVolume / 100;
+            this.audioPlayer.player.volume = this.data.defaultVolume / 100;
             if (!this.data.syncVolume) {
               return;
             }
@@ -1567,6 +1606,7 @@ class VideoHandler {
               this.data.onlyBypassMediaCSP,
             );
             this.stopTranslate();
+            this.createPlayer();
           })();
         },
       );
@@ -1581,6 +1621,7 @@ class VideoHandler {
             this.data.newAudioPlayer,
           );
           this.stopTranslate();
+          this.createPlayer();
 
           this.votOnlyBypassMediaCSPCheckbox.input.disabled =
             this.votOnlyBypassMediaCSPCheckbox.container.hidden = !checked;
@@ -1677,7 +1718,7 @@ class VideoHandler {
       this.site.additionalData !== "mobile"
     ) {
       this.syncVolumeObserver = new MutationObserver((mutations) => {
-        if (!this.audioPlayer.src || !this.data.syncVolume) {
+        if (!this.audioPlayer.player.src || !this.data.syncVolume) {
           return;
         }
 
@@ -1701,7 +1742,7 @@ class VideoHandler {
 
             const finalVolume = Math.round(videoVolume);
             this.data.defaultVolume = finalVolume;
-            this.audioPlayer.volume = this.data.defaultVolume / 100;
+            this.audioPlayer.player.volume = this.data.defaultVolume / 100;
             this.syncVolumeWrapper("video", finalVolume);
           }
         }
@@ -2052,7 +2093,7 @@ class VideoHandler {
     const currentSliderValue = Number(slider.input.value);
 
     const finalValue = syncVolume(
-      fromType === "translation" ? this.video : this.audioPlayer.audio,
+      fromType === "translation" ? this.video : this.audioPlayer.player,
       newVolume,
       currentSliderValue,
       fromType === "translation" ? this.tempVolume : this.tempOriginalVolume,
@@ -2155,17 +2196,11 @@ class VideoHandler {
     return true;
   }
 
-  needUseAudioContext = () =>
-    this.data.newAudioPlayer &&
-    (this.data.onlyBypassMediaCSP
-      ? this.data.onlyBypassMediaCSP && this.site.needBypassCSP
-      : true);
-
   // Default actions on stop translate
   stopTranslate() {
-    this.audioPlayer.removeVideoEvents();
-    this.audioPlayer.clear();
-    this.audioPlayer = new AudioPlayer(this);
+    this.audioPlayer.player.removeVideoEvents();
+    this.audioPlayer.player.clear();
+    this.audioPlayer.player.src = undefined;
 
     this.votVideoVolumeSlider.container.hidden = true;
     this.votVideoTranslationVolumeSlider.container.hidden = true;
@@ -2255,23 +2290,24 @@ class VideoHandler {
         timeout: 5000,
       });
       debug.log("Test audio response", response);
-      if (response.status === 404) {
-        debug.log("Yandex returned not valid audio, trying to fix...");
-        let translateRes = await this.translateVideoImpl(
-          this.videoData,
-          (this.videoData.detectedLanguage = "auto"),
-          this.videoData.responseLanguage,
-          this.videoData.translationHelp,
-        );
-        this.setSelectMenuValues(
-          this.videoData.detectedLanguage,
-          this.videoData.responseLanguage,
-        );
-        audioUrl = translateRes.url;
-        debug.log("Fixed audio audioUrl", audioUrl);
-      } else {
+      if (response.status !== 404) {
         debug.log("Valid audioUrl", audioUrl);
+        return audioUrl;
       }
+
+      debug.log("Yandex returned not valid audio, trying to fix...");
+      let translateRes = await this.translateVideoImpl(
+        this.videoData,
+        (this.videoData.detectedLanguage = "auto"),
+        this.videoData.responseLanguage,
+        this.videoData.translationHelp,
+      );
+      this.setSelectMenuValues(
+        this.videoData.detectedLanguage,
+        this.videoData.responseLanguage,
+      );
+      audioUrl = translateRes.url;
+      debug.log("Fixed audio audioUrl", audioUrl);
     } catch (err) {
       if (err.message === "Timeout") {
         debug.log("Request timed out. Handling timeout error...");
@@ -2285,29 +2321,12 @@ class VideoHandler {
     return audioUrl;
   }
 
-  /**
-   * Download audio file and connect it to audio context
-   *
-   * @param {string} audioUrl
-   * @return {Promise<void>}
-   * @memberof VideoHandler
-   */
-  async configurePlaySound(audioUrl) {
-    this.audioPlayer = new TonePlayer(this, audioUrl);
-    await this.audioPlayer.init();
-  }
-
   // update translation audio src
   async updateTranslation(audioUrl) {
     // ! Don't use this function for streams
-    if (this.cachedTranslation?.url !== this.audioPlayer.currentSrc) {
+    if (this.cachedTranslation?.url !== this.audioPlayer.player.currentSrc) {
       audioUrl = await this.validateAudioUrl(audioUrl);
     }
-
-    // eslint-disable-next-line sonarjs/no-unused-expressions
-    this.needUseAudioContext()
-      ? await this.configurePlaySound(audioUrl)
-      : (this.audioPlayer.src = audioUrl);
 
     if (
       this.data.audioProxy === 1 &&
@@ -2321,6 +2340,21 @@ class VideoHandler {
       console.log(`[VOT] Audio proxied via ${audioUrl}`);
     }
 
+    if (this.audioPlayer.player.src !== audioUrl) {
+      this.audioPlayer.player.src = audioUrl;
+    }
+
+    try {
+      this.audioPlayer.init();
+    } catch (err) {
+      if (err.message.includes("Failed to fetch audio file")) {
+        this.videoHandler.data.audioProxy = 1;
+        await votStorage.set("audioProxy", 1);
+      } else {
+        this.videoHandler.transformBtn("error", err.message);
+      }
+    }
+
     this.setupAudioSettings();
     if (this.site.host === "twitter") {
       document
@@ -2328,11 +2362,6 @@ class VideoHandler {
         .addEventListener("click", this.stopTranslation);
     }
 
-    if (this.video && !this.video.paused) {
-      this.audioPlayer.lipSync("play");
-    }
-
-    this.audioPlayer.addVideoEvents();
     this.transformBtn("success", localizationProvider.get("disableTranslate"));
     this.afterUpdateTranslation(audioUrl);
   }
@@ -2377,12 +2406,6 @@ class VideoHandler {
       if (!this.video.src && !this.video.currentSrc && !this.video.srcObject) {
         return this.stopTranslation();
       }
-
-      if (this.video && !this.video.paused) {
-        this.audioPlayer.lipSync("play");
-      }
-
-      this.audioPlayer.addVideoEvents();
 
       return this.afterUpdateTranslation(streamURL);
     }
@@ -2448,7 +2471,8 @@ class VideoHandler {
       );
     });
     this.hls.loadSource(streamURL);
-    this.hls.attachMedia(this.audioPlayer.audio);
+    // doesn't work
+    this.hls.attachMedia(this.audioPlayer.player.audio);
     this.hls.on(Hls.Events.ERROR, function (data) {
       if (data.fatal) {
         switch (data.type) {
@@ -2484,10 +2508,10 @@ class VideoHandler {
     if (this.hls) {
       this.setupHLS(streamURL);
     } else if (
-      this.audioPlayer.audio.canPlayType("application/vnd.apple.mpegurl")
+      this.audioPlayer.player.audio.canPlayType("application/vnd.apple.mpegurl")
     ) {
       // safari
-      this.audioPlayer.audio.src = streamURL; // TODO: make class for HLS audio player
+      this.audioPlayer.player.src = streamURL; // TODO: make class for HLS audio player
     } else {
       // browser doesn't support m3u8 (hls unsupported and it isn't a safari)
       throw new VOTLocalizedError("audioFormatNotSupported");
@@ -2498,7 +2522,7 @@ class VideoHandler {
 
   setupAudioSettings() {
     if (typeof this.data.defaultVolume === "number") {
-      this.audioPlayer.volume = this.data.defaultVolume / 100;
+      this.audioPlayer.player.volume = this.data.defaultVolume / 100;
     }
 
     if (
