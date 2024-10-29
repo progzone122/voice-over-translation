@@ -100,10 +100,13 @@ class VideoHandler {
    * @type {import("./index").VideoHandler['audioContext']}
    */
   audioContext = initAudioContext();
-  // audioPlayer = new AudioPlayer(this);
 
   hls = initHls(); // debug enabled only in dev mode
   votClient;
+
+  /**
+   * @type {import("chaimu").default}
+   */
   audioPlayer;
 
   videoTranslations = [];
@@ -1045,13 +1048,16 @@ class VideoHandler {
       this.audioPlayer.player,
     );
     if (this.audioPlayer.player.src) {
-      debug.log("[click translationBtn] audio.src is not empty");
+      debug.log(
+        "[click translationBtn] audio.src is not empty",
+        this.audioPlayer.player.src,
+      );
       this.stopTranslate();
       return;
     }
 
     if (this.hls.url) {
-      debug.log("[click translationBtn] hls is not empty");
+      debug.log("[click translationBtn] hls is not empty", this.hls.url);
       this.stopTranslate();
       return;
     }
@@ -2201,6 +2207,7 @@ class VideoHandler {
     this.audioPlayer.player.removeVideoEvents();
     this.audioPlayer.player.clear();
     this.audioPlayer.player.src = undefined;
+    debug.log("audioPlayer after stopTranslate", this.audioPlayer);
 
     this.votVideoVolumeSlider.container.hidden = true;
     this.votVideoTranslationVolumeSlider.container.hidden = true;
