@@ -165,12 +165,12 @@
 // @connect        onrender.com
 // @connect        workers.dev
 // @namespace      vot
-// @version        1.7.1-beta4
+// @version        1.7.1
 // @icon           https://translate.yandex.ru/icons/favicon.ico
 // @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation
-// @updateURL      https://raw.githubusercontent.com/ilyhalight/voice-over-translation/dev/dist/vot.user.js
-// @downloadURL    https://raw.githubusercontent.com/ilyhalight/voice-over-translation/dev/dist/vot.user.js
+// @updateURL      https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot.user.js
+// @downloadURL    https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot.user.js
 // @supportURL     https://github.com/ilyhalight/voice-over-translation/issues
 // ==/UserScript==
 
@@ -180,7 +180,7 @@
 /***/ "./src/styles/main.scss":
 /***/ (() => {
 
-GM_addStyle(".vot-button{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));--vot-helper-ontheme:var(--vot-ontheme-rgb,var(--vot-onprimary-rgb,255,255,255));box-sizing:border-box;vertical-align:middle;text-align:center;text-overflow:ellipsis;color:rgb(var(--vot-helper-ontheme));background-color:rgb(var(--vot-helper-theme));font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;border:none;border-radius:4px;outline:none;min-width:64px;height:36px;padding:0 16px;font-size:14px;font-weight:500;line-height:36px;transition:box-shadow .2s;display:inline-block;position:relative;box-shadow:0 3px 1px -2px #0003,0 2px 2px #00000024,0 1px 5px #0000001f}.vot-button[hidden]{display:none!important}.vot-button::-moz-focus-inner{border:none}.vot-button:before,.vot-button:after{content:\"\";border-radius:inherit;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0}.vot-button:before{background-color:rgb(var(--vot-helper-ontheme));transition:opacity .2s}.vot-button:after{background:radial-gradient(circle,currentColor 1%,#0000 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-button:hover{box-shadow:0 2px 4px -1px #0003,0 4px 5px #00000024,0 1px 10px #0000001f}.vot-button:hover:before{opacity:.08}.vot-button:active{box-shadow:0 5px 5px -3px #0003,0 8px 10px 1px #00000024,0 3px 14px 2px #0000001f}.vot-button:active:after{opacity:.32;background-size:100% 100%;transition:background-size}.vot-button[disabled=true]{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.12);color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);box-shadow:none;cursor:initial}.vot-button[disabled=true]:before,.vot-button[disabled=true]:after{opacity:0}.vot-outlined-button{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));box-sizing:border-box;border:1px solid;border-color:rgba(var(--vot-onsurface-rgb,0,0,0),.24);vertical-align:middle;text-align:center;text-overflow:ellipsis;color:rgb(var(--vot-helper-theme));font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;background-color:#0000;border-radius:4px;outline:none;min-width:64px;height:36px;margin:0;padding:0 16px;font-size:14px;font-weight:500;line-height:34px;display:inline-block;position:relative}.vot-outlined-button[hidden]{display:none!important}.vot-outlined-button::-moz-focus-inner{border:none}.vot-outlined-button:before,.vot-outlined-button:after{content:\"\";opacity:0;border-radius:3px;position:absolute;top:0;bottom:0;left:0;right:0}.vot-outlined-button:before{background-color:rgb(var(--vot-helper-theme));transition:opacity .2s}.vot-outlined-button:after{background:radial-gradient(circle,currentColor 1%,#0000 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-outlined-button:hover:before{opacity:.04}.vot-outlined-button:active:after{opacity:.16;background-size:100% 100%;transition:background-size}.vot-outlined-button[disabled=true]{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial;background-color:#0000}.vot-outlined-button[disabled=true]:before,.vot-outlined-button[disabled=true]:after{opacity:0}.vot-text-button{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));box-sizing:border-box;vertical-align:middle;text-align:center;text-overflow:ellipsis;color:rgb(var(--vot-helper-theme));font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;background-color:#0000;border:none;border-radius:4px;outline:none;min-width:64px;height:36px;margin:0;padding:0 8px;font-size:14px;font-weight:500;line-height:36px;display:inline-block;position:relative}.vot-text-button[hidden]{display:none!important}.vot-text-button::-moz-focus-inner{border:none}.vot-text-button:before,.vot-text-button:after{content:\"\";border-radius:inherit;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0}.vot-text-button:before{background-color:rgb(var(--vot-helper-theme));transition:opacity .2s}.vot-text-button:after{background:radial-gradient(circle,currentColor 1%,#0000 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-text-button:hover:before{opacity:.04}.vot-text-button:active:after{opacity:.16;background-size:100% 100%;transition:background-size}.vot-text-button[disabled=true]{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial;background-color:#0000}.vot-text-button[disabled=true]:before,.vot-text-button[disabled=true]:after{opacity:0}.vot-icon-button{--vot-helper-onsurface:rgba(var(--vot-onsurface-rgb,0,0,0),.87);box-sizing:border-box;vertical-align:middle;text-align:center;text-overflow:ellipsis;fill:var(--vot-helper-onsurface);color:var(--vot-helper-onsurface);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;background-color:#0000;border:none;border-radius:50%;outline:none;width:36px;height:36px;margin:0;padding:0;font-size:14px;font-weight:500;line-height:36px;display:inline-block;position:relative}.vot-icon-button[hidden]{display:none!important}.vot-icon-button::-moz-focus-inner{border:none}.vot-icon-button:before,.vot-icon-button:after{content:\"\";border-radius:inherit;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0}.vot-icon-button:before{background-color:var(--vot-helper-onsurface);transition:opacity .2s}.vot-icon-button:after{background:radial-gradient(circle,currentColor 1%,#0000 1%) 50%/10000% 10000% no-repeat;transition:opacity .3s,background-size .4s}.vot-icon-button:hover:before{opacity:.04}.vot-icon-button:active:after{opacity:.32;background-size:100% 100%;transition:background-size,opacity}.vot-icon-button[disabled=true]{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);fill:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial;background-color:#0000}.vot-icon-button[disabled=true]:before,.vot-icon-button[disabled=true]:after{opacity:0}.vot-textfield{display:inline-block;--vot-helper-theme:rgb(var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243)))!important;--vot-helper-safari1:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important;--vot-helper-safari2:rgba(var(--vot-onsurface-rgb,0,0,0),.6)!important;--vot-helper-safari3:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important;font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system)!important;text-align:start!important;padding-top:6px!important;font-size:16px!important;line-height:1.5!important;position:relative!important}.vot-textfield[hidden]{display:none!important}.vot-textfield>input,.vot-textfield>textarea{box-sizing:border-box!important;border-style:solid!important;border-width:1px!important;border-color:transparent var(--vot-helper-safari2)var(--vot-helper-safari2)!important;height:inherit!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important;-webkit-text-fill-color:currentColor!important;font-family:inherit!important;font-size:inherit!important;line-height:inherit!important;caret-color:var(--vot-helper-theme)!important;background-color:#0000!important;border-radius:4px!important;width:100%!important;margin:0!important;padding:15px 13px!important;transition:border .2s,box-shadow .2s!important;box-shadow:inset 1px 0 #0000,inset -1px 0 #0000,inset 0 -1px #0000!important}.vot-textfield>input:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:#0000!important}.vot-textfield>textarea:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:#0000!important}.vot-textfield>input:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:#0000!important}.vot-textfield>textarea:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:#0000!important}.vot-textfield>input:not(:focus):not(.vot-show-placeholer)::-webkit-input-placeholder{color:#0000!important}.vot-textfield>textarea:not(:focus):not(.vot-show-placeholer)::-webkit-input-placeholder{color:#0000!important}.vot-textfield>input:not(:focus):placeholder-shown,.vot-textfield>textarea:not(:focus):placeholder-shown{border-top-color:var(--vot-helper-safari2)!important}.vot-textfield>input+span,.vot-textfield>textarea+span{color:rgba(var(--vot-onsurface-rgb,0,0,0),.6)!important;cursor:text!important;pointer-events:none!important;width:100%!important;max-height:100%!important;font-size:75%!important;line-height:15px!important;transition:color .2s,font-size .2s,line-height .2s!important;display:flex!important;position:absolute!important;top:0!important;left:0!important}.vot-textfield>input:not(:focus):placeholder-shown+span,.vot-textfield>textarea:not(:focus):placeholder-shown+span{font-size:inherit!important;line-height:68px!important}.vot-textfield>input+span:before,.vot-textfield>input+span:after,.vot-textfield>textarea+span:before,.vot-textfield>textarea+span:after{content:\"\"!important;box-sizing:border-box!important;border-top:solid 1px var(--vot-helper-safari2)!important;pointer-events:none!important;min-width:10px!important;height:8px!important;margin-top:6px!important;transition:border .2s,box-shadow .2s!important;display:block!important;box-shadow:inset 0 1px #0000!important}.vot-textfield>input+span:before,.vot-textfield>textarea+span:before{border-left:1px solid #0000!important;border-radius:4px 0!important;margin-right:4px!important}.vot-textfield>input+span:after,.vot-textfield>textarea+span:after{border-right:1px solid #0000!important;border-radius:0 4px!important;flex-grow:1!important;margin-left:4px!important}.vot-textfield>input.vot-show-placeholer+span:before,.vot-textfield>textarea.vot-show-placeholer+span:before{margin-right:0!important}.vot-textfield>input.vot-show-placeholer+span:after,.vot-textfield>textarea.vot-show-placeholer+span:after{margin-left:0!important}.vot-textfield>input:not(:focus):placeholder-shown+span:before,.vot-textfield>input:not(:focus):placeholder-shown+span:after,.vot-textfield>textarea:not(:focus):placeholder-shown+span:before,.vot-textfield>textarea:not(:focus):placeholder-shown+span:after{border-top-color:#0000!important}.vot-textfield:hover>input:not(:disabled),.vot-textfield:hover>textarea:not(:disabled){border-color:transparent var(--vot-helper-safari3)var(--vot-helper-safari3)!important}.vot-textfield:hover>input:not(:disabled)+span:before,.vot-textfield:hover>input:not(:disabled)+span:after,.vot-textfield:hover>textarea:not(:disabled)+span:before,.vot-textfield:hover>textarea:not(:disabled)+span:after{border-top-color:var(--vot-helper-safari3)!important}.vot-textfield:hover>input:not(:disabled):not(:focus):placeholder-shown,.vot-textfield:hover>textarea:not(:disabled):not(:focus):placeholder-shown{border-color:var(--vot-helper-safari3)!important}.vot-textfield>input:focus,.vot-textfield>textarea:focus{border-color:transparent var(--vot-helper-theme)var(--vot-helper-theme)!important;box-shadow:inset 1px 0 var(--vot-helper-theme),inset -1px 0 var(--vot-helper-theme),inset 0 -1px var(--vot-helper-theme)!important;outline:none!important}.vot-textfield>input:focus+span,.vot-textfield>textarea:focus+span{color:var(--vot-helper-theme)!important}.vot-textfield>input:focus+span:before,.vot-textfield>input:focus+span:after,.vot-textfield>textarea:focus+span:before,.vot-textfield>textarea:focus+span:after{border-top-color:var(--vot-helper-theme)!important;box-shadow:inset 0 1px var(--vot-helper-theme)!important}.vot-textfield>input:disabled,.vot-textfield>input:disabled+span,.vot-textfield>textarea:disabled,.vot-textfield>textarea:disabled+span{border-color:transparent var(--vot-helper-safari1)var(--vot-helper-safari1)!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important;pointer-events:none!important}.vot-textfield>input:disabled+span:before,.vot-textfield>input:disabled+span:after,.vot-textfield>textarea:disabled+span:before,.vot-textfield>textarea:disabled+span:after,.vot-textfield>input:disabled:placeholder-shown,.vot-textfield>input:disabled:placeholder-shown+span,.vot-textfield>textarea:disabled:placeholder-shown,.vot-textfield>textarea:disabled:placeholder-shown+span{border-top-color:var(--vot-helper-safari1)!important}.vot-textfield>input:disabled:placeholder-shown+span:before,.vot-textfield>input:disabled:placeholder-shown+span:after,.vot-textfield>textarea:disabled:placeholder-shown+span:before,.vot-textfield>textarea:disabled:placeholder-shown+span:after{border-top-color:#0000!important}@media not all and (-webkit-min-device-pixel-ratio:.0000264583),not all and (min-resolution:.001dpcm){@supports ((-webkit-appearance:none)){.vot-textfield>input,.vot-textfield>input+span,.vot-textfield>textarea,.vot-textfield>textarea+span,.vot-textfield>input+span:before,.vot-textfield>input+span:after,.vot-textfield>textarea+span:before,.vot-textfield>textarea+span:after{transition-duration:.1s!important}}}.vot-checkbox{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));--vot-helper-ontheme:var(--vot-ontheme-rgb,var(--vot-onprimary-rgb,255,255,255));z-index:0;color:rgba(var(--vot-onsurface-rgb,0,0,0),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;font-size:16px;line-height:1.5;display:inline-block;position:relative}.vot-checkbox-sub{padding-left:16px}.vot-checkbox[hidden]{display:none!important}.vot-checkbox>input{-webkit-appearance:none;appearance:none;z-index:10000;box-sizing:border-box;border:2px solid;border-color:rgba(var(--vot-onsurface-rgb,0,0,0),.6);cursor:pointer;background:0 0;border-radius:2px;outline:none;width:18px;height:18px;margin:3px 1px;padding:0;transition:border-color .2s,background-color .2s;display:block;position:absolute}.vot-checkbox>input+span{box-sizing:border-box;width:inherit;cursor:pointer;padding-left:30px;font-weight:400;display:inline-block;position:relative}.vot-checkbox>input+span:before{content:\"\";background-color:rgb(var(--vot-onsurface-rgb,0,0,0));opacity:0;pointer-events:none;border-radius:50%;width:40px;height:40px;transition:opacity .3s,transform .2s;display:block;position:absolute;top:-8px;left:-10px;transform:scale(1)}.vot-checkbox>input+span:after{content:\"\";z-index:10000;pointer-events:none;border:0 solid #0000;border-width:0 0 2px 2px;width:10px;height:5px;transition:border-color .2s;display:block;position:absolute;top:3px;left:1px;transform:translate(3px,4px)rotate(-45deg);box-sizing:content-box!important}.vot-checkbox>input:checked,.vot-checkbox>input:indeterminate{border-color:rgb(var(--vot-helper-theme));background-color:rgb(var(--vot-helper-theme))}.vot-checkbox>input:checked+span:before,.vot-checkbox>input:indeterminate+span:before{background-color:rgb(var(--vot-helper-theme))}.vot-checkbox>input:checked+span:after,.vot-checkbox>input:indeterminate+span:after{border-color:rgb(var(--vot-helper-ontheme,255,255,255))}.vot-checkbox>input:indeterminate+span:after{border-left-width:0;transform:translate(4px,3px)}.vot-checkbox:hover>input+span:before{opacity:.04}.vot-checkbox:active>input,.vot-checkbox:active:hover>input:not(:disabled){border-color:rgb(var(--vot-helper-theme))}.vot-checkbox:active>input:checked{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.6);border-color:#0000}.vot-checkbox:active>input+span:before{opacity:1;transition:transform,opacity;transform:scale(0)}.vot-checkbox>input:disabled{border-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial}.vot-checkbox>input:disabled:checked,.vot-checkbox>input:disabled:indeterminate{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);border-color:#0000}.vot-checkbox>input:disabled+span{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial}.vot-checkbox>input:disabled+span:before{opacity:0;transform:scale(0)}.vot-slider{display:inline-block;--vot-safari-helper1:rgba(var(--vot-primary-rgb,33,150,243),.04)!important;--vot-safari-helper2:rgba(var(--vot-primary-rgb,33,150,243),.12)!important;--vot-safari-helper3:rgba(var(--vot-primary-rgb,33,150,243),.16)!important;--vot-safari-helper4:rgba(var(--vot-primary-rgb,33,150,243),.24)!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important;font-family:var(--vot-font,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system)!important;text-align:start!important;width:100%!important;font-size:16px!important;line-height:1.5!important}.vot-slider[hidden]{display:none!important}.vot-slider>input{-webkit-appearance:none!important;appearance:none!important;cursor:pointer!important;background-color:#0000!important;border:none!important;width:100%!important;height:36px!important;margin:0 0 -36px!important;padding:0!important;display:block!important;position:relative!important;top:24px!important}.vot-slider>input:last-child{margin:0!important;position:static!important}.vot-slider>input:before{content:\"\"!important;width:calc(100%*var(--vot-progress,0))!important;background:rgb(var(--vot-primary-rgb,33,150,243))!important;height:2px!important;display:block!important;position:absolute!important;top:calc(50% - 1px)!important}.vot-slider>input:disabled{cursor:default!important;opacity:.38!important}.vot-slider>input:disabled+span{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-webkit-slider-runnable-track{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-moz-range-track{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-ms-fill-lower{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-ms-fill-upper{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-moz-range-thumb{background-color:rgb(var(--vot-onsurface-rgb,0,0,0))!important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb,255,255,255))!important;transform:scale(4)!important}.vot-slider>input:disabled::-ms-thumb{background-color:rgb(var(--vot-onsurface-rgb,0,0,0))!important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb,255,255,255))!important;transform:scale(4)!important}.vot-slider>input:disabled::-webkit-slider-thumb{background-color:rgb(var(--vot-onsurface-rgb,0,0,0))!important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb,255,255,255))!important;transform:scale(4)!important}.vot-slider>input:disabled::-ms-fill-upper{opacity:.38!important}.vot-slider>input:disabled::-moz-range-progress{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important}.vot-slider>input:disabled:-webkit-slider-thumb{color:rgb(var(--vot-surface-rgb,255,255,255))!important}.vot-slider>input:active::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--vot-safari-helper4)!important}.vot-slider>input:active::-moz-range-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.24)!important}.vot-slider>input:active::-ms-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.24)!important}.vot-slider>input:focus{outline:none!important}.vot-slider>input::-webkit-slider-runnable-track{background-color:rgba(var(--vot-primary-rgb,33,150,243),.24)!important;border-radius:1px!important;width:100%!important;height:2px!important;margin:17px 0!important}.vot-slider>input::-moz-range-track{background-color:rgba(var(--vot-primary-rgb,33,150,243),.24)!important;border-radius:1px!important;width:100%!important;height:2px!important;margin:17px 0!important}.vot-slider>input::-ms-track{box-sizing:border-box!important;background-color:#0000!important;border:none!important;border-radius:1px!important;width:100%!important;height:2px!important;margin:17px 0!important;padding:0 17px!important}.vot-slider>input::-webkit-slider-thumb{-webkit-appearance:none!important;appearance:none!important;background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border:none!important;border-radius:50%!important;width:2px!important;height:2px!important;transition:box-shadow .2s!important;transform:scale(6)!important}.vot-slider>input::-moz-range-thumb{-webkit-appearance:none!important;appearance:none!important;background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border:none!important;border-radius:50%!important;width:2px!important;height:2px!important;transition:box-shadow .2s!important;transform:scale(6)!important}.vot-slider>input::-ms-thumb{-webkit-appearance:none!important;appearance:none!important;background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border:none!important;border-radius:50%!important;width:2px!important;height:2px!important;transition:box-shadow .2s!important;transform:scale(6)!important}.vot-slider>input::-webkit-slider-thumb{-webkit-appearance:none!important;margin:0!important}.vot-slider>input::-moz-range-thumb{-moz-appearance:none!important}.vot-slider>input::-ms-thumb{margin:0 17px!important}.vot-slider>input::-moz-range-progress{background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border-radius:1px!important;height:2px!important}.vot-slider>input::-ms-fill-lower{background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border-radius:1px!important;height:2px!important}.vot-slider>input::-ms-fill-upper{background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border-radius:1px!important;height:2px!important}.vot-slider>input::-moz-focus-outer{border:none!important}.vot-slider>span{margin-bottom:36px!important;display:inline-block!important}.vot-slider:hover>input::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--vot-safari-helper1)!important}.vot-slider:hover>input::-ms-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.04)!important}.vot-slider:hover>input:hover::-moz-range-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.04)!important}.vot-select{font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;color:var(--vot-helper-theme);fill:var(--vot-helper-theme);justify-content:space-between;align-items:center;font-size:14px;font-weight:400;line-height:1.5;display:flex;--vot-helper-theme-rgb:var(--vot-onsurface-rgb,0,0,0)!important;--vot-helper-theme:rgba(var(--vot-helper-theme-rgb),.87)!important;--vot-helper-safari1:rgba(var(--vot-onsurface-rgb,0,0,0),.6)!important;--vot-helper-safari2:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important}.vot-select[hidden]{display:none!important}.vot-select-label{font-size:16px}.vot-select-outer{cursor:pointer;justify-content:space-between;align-items:center;width:120px;max-width:120px;padding:0 5px;display:flex;border-style:solid!important;border-width:1px!important;border-color:var(--vot-helper-safari1)!important;border-radius:4px!important;transition:border .2s!important}.vot-select-outer:hover{border-color:var(--vot-helper-safari2)!important}.vot-select-title{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.vot-select-arrow-icon{justify-content:center;align-items:center;width:20px;height:32px;display:flex}.vot-select-content-list{flex-direction:column;display:flex}.vot-select-content-list .vot-select-content-item{cursor:pointer;border-radius:8px;padding:5px 10px}.vot-select-content-list .vot-select-content-item:not([inert]):hover{background-color:#2a2c31}.vot-select-content-list .vot-select-content-item[data-vot-selected=true]{color:rgb(var(--vot-primary-rgb,33,150,243));background-color:rgba(var(--vot-primary-rgb,33,150,243),.2)}.vot-select-content-list .vot-select-content-item[data-vot-selected=true]:hover{background-color:rgba(var(--vot-primary-rgb,33,150,243),.1)!important}.vot-select-content-list .vot-select-content-item[data-vot-disabled=true]{cursor:default}.vot-select-content-list .vot-select-content-item[hidden]{display:none!important}.vot-header{color:rgba(var(--vot-helper-onsurface-rgb),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;font-weight:700;line-height:1.5}.vot-header[hidden]{display:none!important}.vot-header:not(:first-child){padding-top:8px}.vot-header-level-1{font-size:2em}.vot-header-level-2{font-size:1.5em}.vot-header-level-3{font-size:1.17em}.vot-header-level-4{font-size:1em}.vot-header-level-5{font-size:.83em}.vot-header-level-6{font-size:.67em}.vot-info{color:rgba(var(--vot-helper-onsurface-rgb),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;-webkit-user-select:text;user-select:text;font-size:16px;line-height:1.5;display:flex}.vot-info[hidden]{display:none!important}.vot-info>:not(:first-child){color:rgba(var(--vot-helper-onsurface-rgb),.5);flex:1;margin-left:8px}.vot-details{color:rgba(var(--vot-helper-onsurface-rgb),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;cursor:pointer;border-radius:.5em;justify-content:space-between;align-items:center;margin:0 -.5em;padding:.5em;font-size:16px;line-height:1.5;transition:background .5s;display:flex}.vot-details[hidden]{display:none!important}.vot-details-arrow-icon{fill:rgba(var(--vot-helper-onsurface-rgb),.87);justify-content:center;align-items:center;width:20px;height:32px;display:flex;transform:scale(1.25)rotate(-90deg)}.vot-details:hover{background:rgba(var(--vot-onsurface-rgb,0,0,0),.04)}.vot-lang-select{--vot-helper-theme-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-theme:rgba(var(--vot-helper-theme-rgb),.87);color:var(--vot-helper-theme);fill:var(--vot-helper-theme);justify-content:space-between;align-items:center;display:flex}.vot-lang-select[hidden]{display:none!important}.vot-lang-select-icon{justify-content:center;align-items:center;width:32px;height:32px;display:flex}.vot-segmented-button{--vot-helper-theme-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-theme:rgba(var(--vot-helper-theme-rgb),.87);-webkit-user-select:none;user-select:none;background:rgb(var(--vot-surface-rgb,255,255,255));color:var(--vot-helper-theme);fill:var(--vot-helper-theme);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:default;z-index:2147483647;border-radius:4px;align-items:center;max-width:100vw;height:32px;font-size:16px;line-height:1.5;transition:opacity .5s;display:flex;position:absolute;top:5rem;left:50%;overflow:hidden;transform:translate(-50%)}.vot-segmented-button[hidden]{display:none!important}.vot-segmented-button *{box-sizing:border-box!important}.vot-segmented-button .vot-separator{background:rgba(var(--vot-helper-theme-rgb),.1);width:1px;height:50%}.vot-segmented-button .vot-separator[hidden]{display:none!important}.vot-segmented-button .vot-segment,.vot-segmented-button .vot-segment-only-icon{color:inherit;background-color:#0000;border:none;justify-content:center;align-items:center;height:100%;padding:0 8px;transition:background-color .1s ease-in-out;display:flex;position:relative;overflow:hidden}.vot-segmented-button .vot-segment[hidden],.vot-segmented-button [hidden].vot-segment-only-icon{display:none!important}.vot-segmented-button .vot-segment:before,.vot-segmented-button .vot-segment-only-icon:before,.vot-segmented-button .vot-segment:after,.vot-segmented-button .vot-segment-only-icon:after{content:\"\";border-radius:inherit;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0}.vot-segmented-button .vot-segment:before,.vot-segmented-button .vot-segment-only-icon:before{background-color:rgb(var(--vot-helper-theme-rgb));transition:opacity .2s}.vot-segmented-button .vot-segment:after,.vot-segmented-button .vot-segment-only-icon:after{background:radial-gradient(circle,currentColor 1%,#0000 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-segmented-button .vot-segment:hover:before,.vot-segmented-button .vot-segment-only-icon:hover:before{opacity:.04}.vot-segmented-button .vot-segment:active:after,.vot-segmented-button .vot-segment-only-icon:active:after{opacity:.16;background-size:100% 100%;transition:background-size}.vot-segmented-button .vot-segment-only-icon{min-width:32px;padding:0}.vot-segmented-button .vot-segment-label{white-space:nowrap;color:inherit;margin-left:8px;font-weight:400}.vot-segmented-button[data-status=success] .vot-translate-button{color:rgb(var(--vot-primary-rgb,33,150,243));fill:rgb(var(--vot-primary-rgb,33,150,243))}.vot-segmented-button[data-status=error] .vot-translate-button{color:#f28b82;fill:#f28b82}.vot-segmented-button[data-loading=true] #vot-loading-icon{display:block!important}.vot-segmented-button[data-loading=true] #vot-translate-icon{display:none!important}.vot-segmented-button[data-direction=column]{flex-direction:column;height:fit-content}.vot-segmented-button[data-direction=column] .vot-segment-label{display:none}.vot-segmented-button[data-direction=column]>.vot-segment-only-icon,.vot-segmented-button[data-direction=column]>.vot-segment{padding:8px}.vot-segmented-button[data-direction=column] .vot-separator{width:50%;height:1px}.vot-segmented-button[data-position=left]{top:12.5vh;left:50px}.vot-segmented-button[data-position=right]{top:12.5vh;left:auto;right:0}.vot-segmented-button svg{width:24px}.vot-menu{--vot-helper-surface-rgb:var(--vot-surface-rgb,255,255,255);--vot-helper-surface:rgb(var(--vot-helper-surface-rgb));--vot-helper-onsurface-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-onsurface:rgba(var(--vot-helper-onsurface-rgb),.87);-webkit-user-select:none;user-select:none;background-color:var(--vot-helper-surface);color:var(--vot-helper-onsurface);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:default;z-index:2147483647;visibility:visible;opacity:1;transform-origin:top;border-radius:8px;min-width:300px;font-size:16px;line-height:1.5;transition:opacity .3s,transform .1s;position:absolute;top:calc(5rem + 48px);left:50%;overflow:hidden;transform:translate(-50%)scale(1)}.vot-menu *{box-sizing:border-box!important}.vot-menu[hidden]{pointer-events:none;visibility:hidden;opacity:0;transform:translate(-50%)scale(0);display:block!important}.vot-menu-content-wrapper{max-height:calc(var(--vot-container-height,75vh) - (5rem + 32px + 16px)*2);flex-direction:column;min-height:100px;display:flex;overflow:auto}.vot-menu-header-container{flex-shrink:0;align-items:flex-start;min-height:31px;display:flex}.vot-menu-header-container:empty{padding:0 0 16px}.vot-menu-header-container>.vot-icon-button{margin-inline-end:4px;margin-top:4px}.vot-menu-title-container{font-size:inherit;font-weight:inherit;text-align:start;outline:0;flex:1;margin:0;display:flex}.vot-menu-title{padding-bottom:16px;padding-inline-start:16px;padding-inline-end:16px;flex:1;padding-top:16px;font-size:16px;font-weight:400;line-height:1}.vot-menu-body-container{box-sizing:border-box;overscroll-behavior:contain;flex-direction:column;gap:8px;min-height:1.375rem;padding:0 16px;display:flex;overflow:auto;scrollbar-color:rgba(var(--vot-helper-onsurface-rgb),.1)var(--vot-helper-surface)!important}.vot-menu-body-container::-webkit-scrollbar{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-menu-body-container::-webkit-scrollbar-track{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-menu-body-container::-webkit-scrollbar-thumb{background:rgba(var(--vot-helper-onsurface-rgb),.1)!important;border:5px solid var(--vot-helper-surface)!important;-webkit-border-radius:1ex!important}.vot-menu-body-container::-webkit-scrollbar-thumb:hover{border:3px solid var(--vot-helper-surface)!important}.vot-menu-body-container::-webkit-scrollbar-corner{background:var(--vot-helper-surface)!important}.vot-menu-footer-container{padding-bottom:16px;padding-inline-start:16px;padding-inline-end:16px;flex-shrink:0;justify-content:flex-end;padding-top:16px;display:flex}.vot-menu-footer-container:empty{padding:16px 0 0}.vot-menu[data-position=left]{top:12.5vh;left:240px}.vot-menu[data-position=right]{top:12.5vh;left:auto;right:-80px}.vot-dialog{--vot-helper-surface-rgb:var(--vot-surface-rgb,255,255,255);--vot-helper-surface:rgb(var(--vot-helper-surface-rgb));--vot-helper-onsurface-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-onsurface:rgba(var(--vot-helper-onsurface-rgb),.87);max-width:initial;max-height:initial;width:min(var(--vot-dialog-width,512px),100%);top:50%;bottom:50%;background-color:var(--vot-helper-surface);color:var(--vot-helper-onsurface);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);-webkit-user-select:none;user-select:none;visibility:visible;opacity:1;transform-origin:50%;border-radius:8px;height:fit-content;margin:auto;padding:0;font-size:16px;line-height:1.5;transition:opacity .3s,transform .1s;display:block;position:fixed;top:0;bottom:0;left:0;right:0;overflow-x:auto;overflow-y:hidden;transform:scale(1);box-shadow:0 0 16px #0000001f,0 16px 16px #0000003d}[hidden]>.vot-dialog{pointer-events:none;opacity:0;transition:opacity .1s,transform .2s;transform:scale(.5)}.vot-dialog-container{visibility:visible;z-index:2147483647;position:absolute}.vot-dialog-container[hidden]{pointer-events:none;visibility:hidden;display:block!important}.vot-dialog-container *{box-sizing:border-box!important}.vot-dialog-backdrop{opacity:1;background-color:#0009;transition:opacity .3s;position:fixed;top:0;bottom:0;left:0;right:0}[hidden]>.vot-dialog-backdrop{pointer-events:none;opacity:0}.vot-dialog-content-wrapper{flex-direction:column;max-height:75vh;display:flex;overflow:auto}.vot-dialog-header-container{flex-shrink:0;align-items:flex-start;min-height:31px;display:flex}.vot-dialog-header-container:empty{padding:0 0 20px}.vot-dialog-header-container>.vot-icon-button{margin-inline-end:4px;margin-top:4px}.vot-dialog-title-container{font-size:inherit;font-weight:inherit;outline:0;flex:1;margin:0;display:flex}.vot-dialog-title{padding-bottom:16px;padding-inline-start:20px;padding-inline-end:20px;flex:1;padding-top:20px;font-size:115.385%;font-weight:700;line-height:1}.vot-dialog-body-container{box-sizing:border-box;overscroll-behavior:contain;flex-direction:column;gap:16px;min-height:1.375rem;padding:0 20px;display:flex;overflow:auto;scrollbar-color:rgba(var(--vot-helper-onsurface-rgb),.1)var(--vot-helper-surface)!important}.vot-dialog-body-container::-webkit-scrollbar{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-dialog-body-container::-webkit-scrollbar-track{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-dialog-body-container::-webkit-scrollbar-thumb{background:rgba(var(--vot-helper-onsurface-rgb),.1)!important;border:5px solid var(--vot-helper-surface)!important;-webkit-border-radius:1ex!important}.vot-dialog-body-container::-webkit-scrollbar-thumb:hover{border:3px solid var(--vot-helper-surface)!important}.vot-dialog-body-container::-webkit-scrollbar-corner{background:var(--vot-helper-surface)!important}.vot-dialog-footer-container{padding-bottom:16px;padding-inline-start:16px;padding-inline-end:16px;flex-shrink:0;justify-content:flex-end;padding-top:16px;display:flex}.vot-dialog-footer-container:empty{padding:20px 0 0}.vot-subtitles-widget{z-index:2147483647;pointer-events:none;justify-content:center;align-items:center;width:50%;min-height:20%;max-height:100%;display:flex;position:absolute;top:75%;left:25%}.vot-subtitles{--vot-subtitles-background:rgba(var(--vot-surface-rgb,46,47,52),var(--vot-subtitles-opacity,.8));background:var(--vot-subtitles-background,#2e2f34cc);color:var(--vot-subtitles-color,#e3e3e3);pointer-events:all;box-sizing:border-box;-webkit-user-select:none;user-select:none;border-radius:.5em;width:max-content;max-width:100%;max-height:100%;padding:.5em;font-size:20px;line-height:normal;position:relative}.vot-subtitles span{-webkit-user-select:text;user-select:text;font-size:inherit!important;line-height:normal!important}.vot-subtitles .passed{color:var(--vot-subtitles-passed-color,#2196f3)}:root{--vot-font-family:\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system;--vot-primary-rgb:139,180,245;--vot-onprimary-rgb:32,33,36;--vot-surface-rgb:32,33,36;--vot-onsurface-rgb:227,227,227;--vot-subtitles-color:rgb(var(--vot-onsurface-rgb,227,227,227));--vot-subtitles-passed-color:rgb(var(--vot-primary-rgb,33,150,243))}vot-block{display:block;visibility:visible!important}")
+GM_addStyle(".vot-button{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));--vot-helper-ontheme:var(--vot-ontheme-rgb,var(--vot-onprimary-rgb,255,255,255));box-sizing:border-box;vertical-align:middle;text-align:center;text-overflow:ellipsis;min-width:64px;height:36px;color:rgb(var(--vot-helper-ontheme));background-color:rgb(var(--vot-helper-theme));font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;border:none;border-radius:4px;outline:none;padding:0 16px;font-size:14px;font-weight:500;line-height:36px;transition:box-shadow .2s;display:inline-block;position:relative;box-shadow:0 3px 1px -2px #0003,0 2px 2px #00000024,0 1px 5px #0000001f}.vot-button[hidden]{display:none!important}.vot-button::-moz-focus-inner{border:none}.vot-button:before,.vot-button:after{content:\"\";border-radius:inherit;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0}.vot-button:before{background-color:rgb(var(--vot-helper-ontheme));transition:opacity .2s}.vot-button:after{background:radial-gradient(circle,currentColor 1%,#0000 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-button:hover{box-shadow:0 2px 4px -1px #0003,0 4px 5px #00000024,0 1px 10px #0000001f}.vot-button:hover:before{opacity:.08}.vot-button:active{box-shadow:0 5px 5px -3px #0003,0 8px 10px 1px #00000024,0 3px 14px 2px #0000001f}.vot-button:active:after{opacity:.32;background-size:100% 100%;transition:background-size}.vot-button[disabled=true]{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.12);color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);box-shadow:none;cursor:initial}.vot-button[disabled=true]:before,.vot-button[disabled=true]:after{opacity:0}.vot-outlined-button{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));box-sizing:border-box;border:1px solid;border-color:rgba(var(--vot-onsurface-rgb,0,0,0),.24);vertical-align:middle;text-align:center;text-overflow:ellipsis;min-width:64px;height:36px;color:rgb(var(--vot-helper-theme));font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;background-color:#0000;border-radius:4px;outline:none;margin:0;padding:0 16px;font-size:14px;font-weight:500;line-height:34px;display:inline-block;position:relative}.vot-outlined-button[hidden]{display:none!important}.vot-outlined-button::-moz-focus-inner{border:none}.vot-outlined-button:before,.vot-outlined-button:after{content:\"\";opacity:0;border-radius:3px;position:absolute;top:0;bottom:0;left:0;right:0}.vot-outlined-button:before{background-color:rgb(var(--vot-helper-theme));transition:opacity .2s}.vot-outlined-button:after{background:radial-gradient(circle,currentColor 1%,#0000 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-outlined-button:hover:before{opacity:.04}.vot-outlined-button:active:after{opacity:.16;background-size:100% 100%;transition:background-size}.vot-outlined-button[disabled=true]{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial;background-color:#0000}.vot-outlined-button[disabled=true]:before,.vot-outlined-button[disabled=true]:after{opacity:0}.vot-text-button{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));box-sizing:border-box;vertical-align:middle;text-align:center;text-overflow:ellipsis;min-width:64px;height:36px;color:rgb(var(--vot-helper-theme));font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;background-color:#0000;border:none;border-radius:4px;outline:none;margin:0;padding:0 8px;font-size:14px;font-weight:500;line-height:36px;display:inline-block;position:relative}.vot-text-button[hidden]{display:none!important}.vot-text-button::-moz-focus-inner{border:none}.vot-text-button:before,.vot-text-button:after{content:\"\";border-radius:inherit;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0}.vot-text-button:before{background-color:rgb(var(--vot-helper-theme));transition:opacity .2s}.vot-text-button:after{background:radial-gradient(circle,currentColor 1%,#0000 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-text-button:hover:before{opacity:.04}.vot-text-button:active:after{opacity:.16;background-size:100% 100%;transition:background-size}.vot-text-button[disabled=true]{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial;background-color:#0000}.vot-text-button[disabled=true]:before,.vot-text-button[disabled=true]:after{opacity:0}.vot-icon-button{--vot-helper-onsurface:rgba(var(--vot-onsurface-rgb,0,0,0),.87);box-sizing:border-box;vertical-align:middle;text-align:center;text-overflow:ellipsis;width:36px;height:36px;fill:var(--vot-helper-onsurface);color:var(--vot-helper-onsurface);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;background-color:#0000;border:none;border-radius:50%;outline:none;margin:0;padding:0;font-size:14px;font-weight:500;line-height:36px;display:inline-block;position:relative}.vot-icon-button[hidden]{display:none!important}.vot-icon-button::-moz-focus-inner{border:none}.vot-icon-button:before,.vot-icon-button:after{content:\"\";border-radius:inherit;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0}.vot-icon-button:before{background-color:var(--vot-helper-onsurface);transition:opacity .2s}.vot-icon-button:after{background:radial-gradient(circle,currentColor 1%,#0000 1%) 50%/10000% 10000% no-repeat;transition:opacity .3s,background-size .4s}.vot-icon-button:hover:before{opacity:.04}.vot-icon-button:active:after{opacity:.32;background-size:100% 100%;transition:background-size,opacity}.vot-icon-button[disabled=true]{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);fill:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial;background-color:#0000}.vot-icon-button[disabled=true]:before,.vot-icon-button[disabled=true]:after{opacity:0}.vot-textfield{display:inline-block;--vot-helper-theme:rgb(var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243)))!important;--vot-helper-safari1:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important;--vot-helper-safari2:rgba(var(--vot-onsurface-rgb,0,0,0),.6)!important;--vot-helper-safari3:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important;font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system)!important;text-align:start!important;padding-top:6px!important;font-size:16px!important;line-height:1.5!important;position:relative!important}.vot-textfield[hidden]{display:none!important}.vot-textfield>input,.vot-textfield>textarea{box-sizing:border-box!important;border-style:solid!important;border-width:1px!important;border-color:transparent var(--vot-helper-safari2)var(--vot-helper-safari2)!important;width:100%!important;height:inherit!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important;-webkit-text-fill-color:currentColor!important;font-family:inherit!important;font-size:inherit!important;line-height:inherit!important;caret-color:var(--vot-helper-theme)!important;background-color:#0000!important;border-radius:4px!important;margin:0!important;padding:15px 13px!important;transition:border .2s,box-shadow .2s!important;box-shadow:inset 1px 0 #0000,inset -1px 0 #0000,inset 0 -1px #0000!important}.vot-textfield>input:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:#0000!important}.vot-textfield>textarea:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:#0000!important}.vot-textfield>input:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:#0000!important}.vot-textfield>textarea:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:#0000!important}.vot-textfield>input:not(:focus):not(.vot-show-placeholer)::-webkit-input-placeholder{color:#0000!important}.vot-textfield>textarea:not(:focus):not(.vot-show-placeholer)::-webkit-input-placeholder{color:#0000!important}.vot-textfield>input:not(:focus):placeholder-shown,.vot-textfield>textarea:not(:focus):placeholder-shown{border-top-color:var(--vot-helper-safari2)!important}.vot-textfield>input+span,.vot-textfield>textarea+span{width:100%!important;max-height:100%!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.6)!important;cursor:text!important;pointer-events:none!important;font-size:75%!important;line-height:15px!important;transition:color .2s,font-size .2s,line-height .2s!important;display:flex!important;position:absolute!important;top:0!important;left:0!important}.vot-textfield>input:not(:focus):placeholder-shown+span,.vot-textfield>textarea:not(:focus):placeholder-shown+span{font-size:inherit!important;line-height:68px!important}.vot-textfield>input+span:before,.vot-textfield>input+span:after,.vot-textfield>textarea+span:before,.vot-textfield>textarea+span:after{content:\"\"!important;box-sizing:border-box!important;border-top:solid 1px var(--vot-helper-safari2)!important;pointer-events:none!important;min-width:10px!important;height:8px!important;margin-top:6px!important;transition:border .2s,box-shadow .2s!important;display:block!important;box-shadow:inset 0 1px #0000!important}.vot-textfield>input+span:before,.vot-textfield>textarea+span:before{border-left:1px solid #0000!important;border-radius:4px 0!important;margin-right:4px!important}.vot-textfield>input+span:after,.vot-textfield>textarea+span:after{border-right:1px solid #0000!important;border-radius:0 4px!important;flex-grow:1!important;margin-left:4px!important}.vot-textfield>input.vot-show-placeholer+span:before,.vot-textfield>textarea.vot-show-placeholer+span:before{margin-right:0!important}.vot-textfield>input.vot-show-placeholer+span:after,.vot-textfield>textarea.vot-show-placeholer+span:after{margin-left:0!important}.vot-textfield>input:not(:focus):placeholder-shown+span:before,.vot-textfield>input:not(:focus):placeholder-shown+span:after,.vot-textfield>textarea:not(:focus):placeholder-shown+span:before,.vot-textfield>textarea:not(:focus):placeholder-shown+span:after{border-top-color:#0000!important}.vot-textfield:hover>input:not(:disabled),.vot-textfield:hover>textarea:not(:disabled){border-color:transparent var(--vot-helper-safari3)var(--vot-helper-safari3)!important}.vot-textfield:hover>input:not(:disabled)+span:before,.vot-textfield:hover>input:not(:disabled)+span:after,.vot-textfield:hover>textarea:not(:disabled)+span:before,.vot-textfield:hover>textarea:not(:disabled)+span:after{border-top-color:var(--vot-helper-safari3)!important}.vot-textfield:hover>input:not(:disabled):not(:focus):placeholder-shown,.vot-textfield:hover>textarea:not(:disabled):not(:focus):placeholder-shown{border-color:var(--vot-helper-safari3)!important}.vot-textfield>input:focus,.vot-textfield>textarea:focus{border-color:transparent var(--vot-helper-theme)var(--vot-helper-theme)!important;box-shadow:inset 1px 0 var(--vot-helper-theme),inset -1px 0 var(--vot-helper-theme),inset 0 -1px var(--vot-helper-theme)!important;outline:none!important}.vot-textfield>input:focus+span,.vot-textfield>textarea:focus+span{color:var(--vot-helper-theme)!important}.vot-textfield>input:focus+span:before,.vot-textfield>input:focus+span:after,.vot-textfield>textarea:focus+span:before,.vot-textfield>textarea:focus+span:after{border-top-color:var(--vot-helper-theme)!important;box-shadow:inset 0 1px var(--vot-helper-theme)!important}.vot-textfield>input:disabled,.vot-textfield>input:disabled+span,.vot-textfield>textarea:disabled,.vot-textfield>textarea:disabled+span{border-color:transparent var(--vot-helper-safari1)var(--vot-helper-safari1)!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important;pointer-events:none!important}.vot-textfield>input:disabled+span:before,.vot-textfield>input:disabled+span:after,.vot-textfield>textarea:disabled+span:before,.vot-textfield>textarea:disabled+span:after,.vot-textfield>input:disabled:placeholder-shown,.vot-textfield>input:disabled:placeholder-shown+span,.vot-textfield>textarea:disabled:placeholder-shown,.vot-textfield>textarea:disabled:placeholder-shown+span{border-top-color:var(--vot-helper-safari1)!important}.vot-textfield>input:disabled:placeholder-shown+span:before,.vot-textfield>input:disabled:placeholder-shown+span:after,.vot-textfield>textarea:disabled:placeholder-shown+span:before,.vot-textfield>textarea:disabled:placeholder-shown+span:after{border-top-color:#0000!important}@media not all and (-webkit-min-device-pixel-ratio:.0000264583),not all and (min-resolution:.001dpcm){@supports ((-webkit-appearance:none)){.vot-textfield>input,.vot-textfield>input+span,.vot-textfield>textarea,.vot-textfield>textarea+span,.vot-textfield>input+span:before,.vot-textfield>input+span:after,.vot-textfield>textarea+span:before,.vot-textfield>textarea+span:after{transition-duration:.1s!important}}}.vot-checkbox{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));--vot-helper-ontheme:var(--vot-ontheme-rgb,var(--vot-onprimary-rgb,255,255,255));z-index:0;color:rgba(var(--vot-onsurface-rgb,0,0,0),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;font-size:16px;line-height:1.5;display:inline-block;position:relative}.vot-checkbox-sub{padding-left:16px}.vot-checkbox[hidden]{display:none!important}.vot-checkbox>input{-webkit-appearance:none;appearance:none;z-index:10000;box-sizing:border-box;border:2px solid;border-color:rgba(var(--vot-onsurface-rgb,0,0,0),.6);cursor:pointer;background:0 0;border-radius:2px;outline:none;width:18px;height:18px;margin:3px 1px;padding:0;transition:border-color .2s,background-color .2s;display:block;position:absolute}.vot-checkbox>input+span{box-sizing:border-box;width:inherit;cursor:pointer;padding-left:30px;font-weight:400;display:inline-block;position:relative}.vot-checkbox>input+span:before{content:\"\";background-color:rgb(var(--vot-onsurface-rgb,0,0,0));opacity:0;pointer-events:none;border-radius:50%;width:40px;height:40px;transition:opacity .3s,transform .2s;display:block;position:absolute;top:-8px;left:-10px;transform:scale(1)}.vot-checkbox>input+span:after{content:\"\";z-index:10000;pointer-events:none;border:0 solid #0000;border-width:0 0 2px 2px;width:10px;height:5px;transition:border-color .2s;display:block;position:absolute;top:3px;left:1px;transform:translate(3px,4px)rotate(-45deg);box-sizing:content-box!important}.vot-checkbox>input:checked,.vot-checkbox>input:indeterminate{border-color:rgb(var(--vot-helper-theme));background-color:rgb(var(--vot-helper-theme))}.vot-checkbox>input:checked+span:before,.vot-checkbox>input:indeterminate+span:before{background-color:rgb(var(--vot-helper-theme))}.vot-checkbox>input:checked+span:after,.vot-checkbox>input:indeterminate+span:after{border-color:rgb(var(--vot-helper-ontheme,255,255,255))}.vot-checkbox>input:indeterminate+span:after{border-left-width:0;transform:translate(4px,3px)}.vot-checkbox:hover>input+span:before{opacity:.04}.vot-checkbox:active>input,.vot-checkbox:active:hover>input:not(:disabled){border-color:rgb(var(--vot-helper-theme))}.vot-checkbox:active>input:checked{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.6);border-color:#0000}.vot-checkbox:active>input+span:before{opacity:1;transition:transform,opacity;transform:scale(0)}.vot-checkbox>input:disabled{border-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial}.vot-checkbox>input:disabled:checked,.vot-checkbox>input:disabled:indeterminate{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);border-color:#0000}.vot-checkbox>input:disabled+span{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial}.vot-checkbox>input:disabled+span:before{opacity:0;transform:scale(0)}.vot-slider{display:inline-block;--vot-safari-helper1:rgba(var(--vot-primary-rgb,33,150,243),.04)!important;--vot-safari-helper2:rgba(var(--vot-primary-rgb,33,150,243),.12)!important;--vot-safari-helper3:rgba(var(--vot-primary-rgb,33,150,243),.16)!important;--vot-safari-helper4:rgba(var(--vot-primary-rgb,33,150,243),.24)!important;width:100%!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important;font-family:var(--vot-font,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system)!important;text-align:start!important;font-size:16px!important;line-height:1.5!important}.vot-slider[hidden]{display:none!important}.vot-slider>input{-webkit-appearance:none!important;appearance:none!important;cursor:pointer!important;background-color:#0000!important;border:none!important;width:100%!important;height:36px!important;margin:0 0 -36px!important;padding:0!important;display:block!important;position:relative!important;top:24px!important}.vot-slider>input:last-child{margin:0!important;position:static!important}.vot-slider>input:before{content:\"\"!important;width:calc(100%*var(--vot-progress,0))!important;background:rgb(var(--vot-primary-rgb,33,150,243))!important;height:2px!important;display:block!important;position:absolute!important;top:calc(50% - 1px)!important}.vot-slider>input:disabled{cursor:default!important;opacity:.38!important}.vot-slider>input:disabled+span{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-webkit-slider-runnable-track{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-moz-range-track{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-ms-fill-lower{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-ms-fill-upper{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-moz-range-thumb{background-color:rgb(var(--vot-onsurface-rgb,0,0,0))!important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb,255,255,255))!important;transform:scale(4)!important}.vot-slider>input:disabled::-ms-thumb{background-color:rgb(var(--vot-onsurface-rgb,0,0,0))!important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb,255,255,255))!important;transform:scale(4)!important}.vot-slider>input:disabled::-webkit-slider-thumb{background-color:rgb(var(--vot-onsurface-rgb,0,0,0))!important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb,255,255,255))!important;transform:scale(4)!important}.vot-slider>input:disabled::-ms-fill-upper{opacity:.38!important}.vot-slider>input:disabled::-moz-range-progress{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important}.vot-slider>input:disabled:-webkit-slider-thumb{color:rgb(var(--vot-surface-rgb,255,255,255))!important}.vot-slider>input:active::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--vot-safari-helper4)!important}.vot-slider>input:active::-moz-range-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.24)!important}.vot-slider>input:active::-ms-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.24)!important}.vot-slider>input:focus{outline:none!important}.vot-slider>input::-webkit-slider-runnable-track{background-color:rgba(var(--vot-primary-rgb,33,150,243),.24)!important;border-radius:1px!important;width:100%!important;height:2px!important;margin:17px 0!important}.vot-slider>input::-moz-range-track{background-color:rgba(var(--vot-primary-rgb,33,150,243),.24)!important;border-radius:1px!important;width:100%!important;height:2px!important;margin:17px 0!important}.vot-slider>input::-ms-track{box-sizing:border-box!important;background-color:#0000!important;border:none!important;border-radius:1px!important;width:100%!important;height:2px!important;margin:17px 0!important;padding:0 17px!important}.vot-slider>input::-webkit-slider-thumb{-webkit-appearance:none!important;appearance:none!important;background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border:none!important;border-radius:50%!important;width:2px!important;height:2px!important;transition:box-shadow .2s!important;transform:scale(6)!important}.vot-slider>input::-moz-range-thumb{-webkit-appearance:none!important;appearance:none!important;background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border:none!important;border-radius:50%!important;width:2px!important;height:2px!important;transition:box-shadow .2s!important;transform:scale(6)!important}.vot-slider>input::-ms-thumb{-webkit-appearance:none!important;appearance:none!important;background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border:none!important;border-radius:50%!important;width:2px!important;height:2px!important;transition:box-shadow .2s!important;transform:scale(6)!important}.vot-slider>input::-webkit-slider-thumb{-webkit-appearance:none!important;margin:0!important}.vot-slider>input::-moz-range-thumb{-moz-appearance:none!important}.vot-slider>input::-ms-thumb{margin:0 17px!important}.vot-slider>input::-moz-range-progress{background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border-radius:1px!important;height:2px!important}.vot-slider>input::-ms-fill-lower{background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border-radius:1px!important;height:2px!important}.vot-slider>input::-ms-fill-upper{background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border-radius:1px!important;height:2px!important}.vot-slider>input::-moz-focus-outer{border:none!important}.vot-slider>span{margin-bottom:36px!important;display:inline-block!important}.vot-slider:hover>input::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--vot-safari-helper1)!important}.vot-slider:hover>input::-ms-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.04)!important}.vot-slider:hover>input:hover::-moz-range-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.04)!important}.vot-select{font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;color:var(--vot-helper-theme);fill:var(--vot-helper-theme);justify-content:space-between;align-items:center;font-size:14px;font-weight:400;line-height:1.5;display:flex;--vot-helper-theme-rgb:var(--vot-onsurface-rgb,0,0,0)!important;--vot-helper-theme:rgba(var(--vot-helper-theme-rgb),.87)!important;--vot-helper-safari1:rgba(var(--vot-onsurface-rgb,0,0,0),.6)!important;--vot-helper-safari2:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important}.vot-select[hidden]{display:none!important}.vot-select-label{font-size:16px}.vot-select-outer{cursor:pointer;justify-content:space-between;align-items:center;width:120px;max-width:120px;padding:0 5px;display:flex;border-style:solid!important;border-width:1px!important;border-color:var(--vot-helper-safari1)!important;border-radius:4px!important;transition:border .2s!important}.vot-select-outer:hover{border-color:var(--vot-helper-safari2)!important}.vot-select-title{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.vot-select-arrow-icon{justify-content:center;align-items:center;width:20px;height:32px;display:flex}.vot-select-content-list{flex-direction:column;display:flex}.vot-select-content-list .vot-select-content-item{cursor:pointer;border-radius:8px;padding:5px 10px}.vot-select-content-list .vot-select-content-item:not([inert]):hover{background-color:#2a2c31}.vot-select-content-list .vot-select-content-item[data-vot-selected=true]{color:rgb(var(--vot-primary-rgb,33,150,243));background-color:rgba(var(--vot-primary-rgb,33,150,243),.2)}.vot-select-content-list .vot-select-content-item[data-vot-selected=true]:hover{background-color:rgba(var(--vot-primary-rgb,33,150,243),.1)!important}.vot-select-content-list .vot-select-content-item[data-vot-disabled=true]{cursor:default}.vot-select-content-list .vot-select-content-item[hidden]{display:none!important}.vot-header{color:rgba(var(--vot-helper-onsurface-rgb),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;font-weight:700;line-height:1.5}.vot-header[hidden]{display:none!important}.vot-header:not(:first-child){padding-top:8px}.vot-header-level-1{font-size:2em}.vot-header-level-2{font-size:1.5em}.vot-header-level-3{font-size:1.17em}.vot-header-level-4{font-size:1em}.vot-header-level-5{font-size:.83em}.vot-header-level-6{font-size:.67em}.vot-info{color:rgba(var(--vot-helper-onsurface-rgb),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;-webkit-user-select:text;user-select:text;font-size:16px;line-height:1.5;display:flex}.vot-info[hidden]{display:none!important}.vot-info>:not(:first-child){color:rgba(var(--vot-helper-onsurface-rgb),.5);flex:1;margin-left:8px}.vot-details{color:rgba(var(--vot-helper-onsurface-rgb),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;cursor:pointer;border-radius:.5em;justify-content:space-between;align-items:center;margin:0 -.5em;padding:.5em;font-size:16px;line-height:1.5;transition:background .5s;display:flex}.vot-details[hidden]{display:none!important}.vot-details-arrow-icon{width:20px;height:32px;fill:rgba(var(--vot-helper-onsurface-rgb),.87);justify-content:center;align-items:center;display:flex;transform:scale(1.25)rotate(-90deg)}.vot-details:hover{background:rgba(var(--vot-onsurface-rgb,0,0,0),.04)}.vot-lang-select{--vot-helper-theme-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-theme:rgba(var(--vot-helper-theme-rgb),.87);color:var(--vot-helper-theme);fill:var(--vot-helper-theme);justify-content:space-between;align-items:center;display:flex}.vot-lang-select[hidden]{display:none!important}.vot-lang-select-icon{justify-content:center;align-items:center;width:32px;height:32px;display:flex}.vot-segmented-button{--vot-helper-theme-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-theme:rgba(var(--vot-helper-theme-rgb),.87);-webkit-user-select:none;user-select:none;background:rgb(var(--vot-surface-rgb,255,255,255));max-width:100vw;height:32px;color:var(--vot-helper-theme);fill:var(--vot-helper-theme);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:default;z-index:2147483647;border-radius:4px;align-items:center;font-size:16px;line-height:1.5;transition:opacity .5s;display:flex;position:absolute;top:5rem;left:50%;overflow:hidden;transform:translate(-50%)}.vot-segmented-button[hidden]{display:none!important}.vot-segmented-button *{box-sizing:border-box!important}.vot-segmented-button .vot-separator{background:rgba(var(--vot-helper-theme-rgb),.1);width:1px;height:50%}.vot-segmented-button .vot-separator[hidden]{display:none!important}.vot-segmented-button .vot-segment,.vot-segmented-button .vot-segment-only-icon{height:100%;color:inherit;background-color:#0000;border:none;justify-content:center;align-items:center;padding:0 8px;transition:background-color .1s ease-in-out;display:flex;position:relative;overflow:hidden}.vot-segmented-button .vot-segment[hidden],.vot-segmented-button [hidden].vot-segment-only-icon{display:none!important}.vot-segmented-button .vot-segment:before,.vot-segmented-button .vot-segment-only-icon:before,.vot-segmented-button .vot-segment:after,.vot-segmented-button .vot-segment-only-icon:after{content:\"\";border-radius:inherit;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0}.vot-segmented-button .vot-segment:before,.vot-segmented-button .vot-segment-only-icon:before{background-color:rgb(var(--vot-helper-theme-rgb));transition:opacity .2s}.vot-segmented-button .vot-segment:after,.vot-segmented-button .vot-segment-only-icon:after{background:radial-gradient(circle,currentColor 1%,#0000 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-segmented-button .vot-segment:hover:before,.vot-segmented-button .vot-segment-only-icon:hover:before{opacity:.04}.vot-segmented-button .vot-segment:active:after,.vot-segmented-button .vot-segment-only-icon:active:after{opacity:.16;background-size:100% 100%;transition:background-size}.vot-segmented-button .vot-segment-only-icon{min-width:32px;padding:0}.vot-segmented-button .vot-segment-label{white-space:nowrap;color:inherit;margin-left:8px;font-weight:400}.vot-segmented-button[data-status=success] .vot-translate-button{color:rgb(var(--vot-primary-rgb,33,150,243));fill:rgb(var(--vot-primary-rgb,33,150,243))}.vot-segmented-button[data-status=error] .vot-translate-button{color:#f28b82;fill:#f28b82}.vot-segmented-button[data-loading=true] #vot-loading-icon{display:block!important}.vot-segmented-button[data-loading=true] #vot-translate-icon{display:none!important}.vot-segmented-button[data-direction=column]{flex-direction:column;height:fit-content}.vot-segmented-button[data-direction=column] .vot-segment-label{display:none}.vot-segmented-button[data-direction=column]>.vot-segment-only-icon,.vot-segmented-button[data-direction=column]>.vot-segment{padding:8px}.vot-segmented-button[data-direction=column] .vot-separator{width:50%;height:1px}.vot-segmented-button[data-position=left]{top:12.5vh;left:50px}.vot-segmented-button[data-position=right]{top:12.5vh;left:auto;right:0}.vot-segmented-button svg{width:24px}.vot-menu{--vot-helper-surface-rgb:var(--vot-surface-rgb,255,255,255);--vot-helper-surface:rgb(var(--vot-helper-surface-rgb));--vot-helper-onsurface-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-onsurface:rgba(var(--vot-helper-onsurface-rgb),.87);-webkit-user-select:none;user-select:none;background-color:var(--vot-helper-surface);color:var(--vot-helper-onsurface);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:default;z-index:2147483647;visibility:visible;opacity:1;transform-origin:top;border-radius:8px;min-width:300px;font-size:16px;line-height:1.5;transition:opacity .3s,transform .1s;position:absolute;top:calc(5rem + 48px);left:50%;overflow:hidden;transform:translate(-50%)scale(1)}.vot-menu *{box-sizing:border-box!important}.vot-menu[hidden]{pointer-events:none;visibility:hidden;opacity:0;transform:translate(-50%)scale(0);display:block!important}.vot-menu-content-wrapper{min-height:100px;max-height:calc(var(--vot-container-height,75vh) - (5rem + 32px + 16px)*2);flex-direction:column;display:flex;overflow:auto}.vot-menu-header-container{flex-shrink:0;align-items:flex-start;min-height:31px;display:flex}.vot-menu-header-container:empty{padding:0 0 16px}.vot-menu-header-container>.vot-icon-button{margin-inline-end:4px;margin-top:4px}.vot-menu-title-container{font-size:inherit;font-weight:inherit;text-align:start;outline:0;flex:1;margin:0;display:flex}.vot-menu-title{padding-bottom:16px;padding-inline-start:16px;padding-inline-end:16px;flex:1;padding-top:16px;font-size:16px;font-weight:400;line-height:1}.vot-menu-body-container{box-sizing:border-box;overscroll-behavior:contain;flex-direction:column;gap:8px;min-height:1.375rem;padding:0 16px;display:flex;overflow:auto;scrollbar-color:rgba(var(--vot-helper-onsurface-rgb),.1)var(--vot-helper-surface)!important}.vot-menu-body-container::-webkit-scrollbar{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-menu-body-container::-webkit-scrollbar-track{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-menu-body-container::-webkit-scrollbar-thumb{background:rgba(var(--vot-helper-onsurface-rgb),.1)!important;border:5px solid var(--vot-helper-surface)!important;-webkit-border-radius:1ex!important}.vot-menu-body-container::-webkit-scrollbar-thumb:hover{border:3px solid var(--vot-helper-surface)!important}.vot-menu-body-container::-webkit-scrollbar-corner{background:var(--vot-helper-surface)!important}.vot-menu-footer-container{padding-bottom:16px;padding-inline-start:16px;padding-inline-end:16px;flex-shrink:0;justify-content:flex-end;padding-top:16px;display:flex}.vot-menu-footer-container:empty{padding:16px 0 0}.vot-menu[data-position=left]{top:12.5vh;left:240px}.vot-menu[data-position=right]{top:12.5vh;left:auto;right:-80px}.vot-dialog{--vot-helper-surface-rgb:var(--vot-surface-rgb,255,255,255);--vot-helper-surface:rgb(var(--vot-helper-surface-rgb));--vot-helper-onsurface-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-onsurface:rgba(var(--vot-helper-onsurface-rgb),.87);max-width:initial;max-height:initial;width:min(var(--vot-dialog-width,512px),100%);top:50%;bottom:50%;background-color:var(--vot-helper-surface);height:fit-content;color:var(--vot-helper-onsurface);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);-webkit-user-select:none;user-select:none;visibility:visible;opacity:1;transform-origin:50%;border-radius:8px;margin:auto;padding:0;font-size:16px;line-height:1.5;transition:opacity .3s,transform .1s;display:block;position:fixed;top:0;bottom:0;left:0;right:0;overflow-x:auto;overflow-y:hidden;transform:scale(1);box-shadow:0 0 16px #0000001f,0 16px 16px #0000003d}[hidden]>.vot-dialog{pointer-events:none;opacity:0;transition:opacity .1s,transform .2s;transform:scale(.5)}.vot-dialog-container{visibility:visible;z-index:2147483647;position:absolute}.vot-dialog-container[hidden]{pointer-events:none;visibility:hidden;display:block!important}.vot-dialog-container *{box-sizing:border-box!important}.vot-dialog-backdrop{opacity:1;background-color:#0009;transition:opacity .3s;position:fixed;top:0;bottom:0;left:0;right:0}[hidden]>.vot-dialog-backdrop{pointer-events:none;opacity:0}.vot-dialog-content-wrapper{flex-direction:column;max-height:75vh;display:flex;overflow:auto}.vot-dialog-header-container{flex-shrink:0;align-items:flex-start;min-height:31px;display:flex}.vot-dialog-header-container:empty{padding:0 0 20px}.vot-dialog-header-container>.vot-icon-button{margin-inline-end:4px;margin-top:4px}.vot-dialog-title-container{font-size:inherit;font-weight:inherit;outline:0;flex:1;margin:0;display:flex}.vot-dialog-title{padding-bottom:16px;padding-inline-start:20px;padding-inline-end:20px;flex:1;padding-top:20px;font-size:115.385%;font-weight:700;line-height:1}.vot-dialog-body-container{box-sizing:border-box;overscroll-behavior:contain;flex-direction:column;gap:16px;min-height:1.375rem;padding:0 20px;display:flex;overflow:auto;scrollbar-color:rgba(var(--vot-helper-onsurface-rgb),.1)var(--vot-helper-surface)!important}.vot-dialog-body-container::-webkit-scrollbar{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-dialog-body-container::-webkit-scrollbar-track{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-dialog-body-container::-webkit-scrollbar-thumb{background:rgba(var(--vot-helper-onsurface-rgb),.1)!important;border:5px solid var(--vot-helper-surface)!important;-webkit-border-radius:1ex!important}.vot-dialog-body-container::-webkit-scrollbar-thumb:hover{border:3px solid var(--vot-helper-surface)!important}.vot-dialog-body-container::-webkit-scrollbar-corner{background:var(--vot-helper-surface)!important}.vot-dialog-footer-container{padding-bottom:16px;padding-inline-start:16px;padding-inline-end:16px;flex-shrink:0;justify-content:flex-end;padding-top:16px;display:flex}.vot-dialog-footer-container:empty{padding:20px 0 0}.vot-subtitles-widget{z-index:2147483647;pointer-events:none;justify-content:center;align-items:center;width:50%;min-height:20%;max-height:100%;display:flex;position:absolute;top:75%;left:25%}.vot-subtitles{--vot-subtitles-background:rgba(var(--vot-surface-rgb,46,47,52),var(--vot-subtitles-opacity,.8));background:var(--vot-subtitles-background,#2e2f34cc);width:max-content;max-width:100%;max-height:100%;color:var(--vot-subtitles-color,#e3e3e3);pointer-events:all;box-sizing:border-box;-webkit-user-select:none;user-select:none;border-radius:.5em;padding:.5em;font-size:20px;line-height:normal;position:relative}.vot-subtitles span{-webkit-user-select:text;user-select:text;font-size:inherit!important;line-height:normal!important}.vot-subtitles .passed{color:var(--vot-subtitles-passed-color,#2196f3)}:root{--vot-font-family:\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system;--vot-primary-rgb:139,180,245;--vot-onprimary-rgb:32,33,36;--vot-surface-rgb:32,33,36;--vot-onsurface-rgb:227,227,227;--vot-subtitles-color:rgb(var(--vot-onsurface-rgb,227,227,227));--vot-subtitles-passed-color:rgb(var(--vot-primary-rgb,33,150,243))}vot-block{display:block;visibility:visible!important}")
 
 /***/ }),
 
@@ -244,7 +244,7 @@ window.cancelIdleCallback =
 /******/ 	}
 /******/ 	
 /************************************************************************/
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+// This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
 (() => {
 "use strict";
 
@@ -1835,11 +1835,56 @@ const yandexProtobuf = {
     componentVersion: "24.10.1.598",
     hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
     defaultDuration: 343,
+    loggerLevel: 1,
+    version: "1.3.8",
 });
 
-;// ./node_modules/vot.js/package.json
-const package_namespaceObject = {"rE":"1.3.6"};
+;// ./node_modules/vot.js/dist/types/logger.js
+var LoggerLevel;
+(function (LoggerLevel) {
+    LoggerLevel[LoggerLevel["DEBUG"] = 0] = "DEBUG";
+    LoggerLevel[LoggerLevel["INFO"] = 1] = "INFO";
+    LoggerLevel[LoggerLevel["WARN"] = 2] = "WARN";
+    LoggerLevel[LoggerLevel["ERROR"] = 3] = "ERROR";
+    LoggerLevel[LoggerLevel["SILENCE"] = 4] = "SILENCE";
+})(LoggerLevel || (LoggerLevel = {}));
+
+;// ./node_modules/vot.js/dist/utils/logger.js
+
+
+class Logger {
+    static prefix = `[vot.js v${config.version}]`;
+    static canLog(level) {
+        return config.loggerLevel <= level;
+    }
+    static log(...messages) {
+        if (!Logger.canLog(LoggerLevel.DEBUG)) {
+            return;
+        }
+        console.log(Logger.prefix, ...messages);
+    }
+    static info(...messages) {
+        if (!Logger.canLog(LoggerLevel.INFO)) {
+            return;
+        }
+        console.info(Logger.prefix, ...messages);
+    }
+    static warn(...messages) {
+        if (!Logger.canLog(LoggerLevel.WARN)) {
+            return;
+        }
+        console.warn(Logger.prefix, ...messages);
+    }
+    static error(...messages) {
+        if (!Logger.canLog(LoggerLevel.ERROR)) {
+            return;
+        }
+        console.error(Logger.prefix, ...messages);
+    }
+}
+
 ;// ./node_modules/vot.js/dist/secure.js
+
 
 const utf8Encoder = new TextEncoder();
 async function signHMAC(hashName, hmac, data) {
@@ -1866,7 +1911,7 @@ async function getHmacSha1(hmacKey, salt) {
         return btoa(String.fromCharCode(...new Uint8Array(signature)));
     }
     catch (err) {
-        console.error(err);
+        Logger.error(err);
         return false;
     }
 }
@@ -2685,7 +2730,7 @@ const votStorage = new (class {
 
 const localeCacheTTL = 7200;
 const localizationUrl = `${contentUrl}/${
-   true ? "dev" : 0
+   false ? 0 : "master"
 }/src/localization`;
 
 // TODO: add get from hashes.json or use DEFAULT_LOCALES
@@ -2828,11 +2873,20 @@ const localizationProvider = new (class {
 
 
 const userlang = navigator.language || navigator.userLanguage;
+const MAX_SECS_FRACTION = 0.66;
 const lang = userlang?.substr(0, 2)?.toLowerCase() ?? "en";
 
 function secsToStrTime(secs) {
-  const minutes = Math.floor(secs / 60);
-  const seconds = Math.floor(secs % 60);
+  let minutes = Math.floor(secs / 60);
+  let seconds = Math.floor(secs % 60);
+  const fraction = seconds / 60;
+  if (fraction >= MAX_SECS_FRACTION) {
+    // rounding to the next minute if it has already been more than N%
+    // e.g. 100 -> 2 minutes
+    minutes += 1;
+    seconds = 0;
+  }
+
   if (minutes >= 60) {
     return localizationProvider.get("translationTakeMoreThanHour");
   } else if (minutes === 1 || (minutes === 0 && seconds > 0)) {
@@ -3034,6 +3088,7 @@ class BaseHelper {
 
 ;// ./node_modules/vot.js/dist/helpers/mailru.js
 
+
 class MailRuHelper extends BaseHelper {
     API_ORIGIN = "https://my.mail.ru";
     async getVideoMeta(videoId) {
@@ -3042,7 +3097,7 @@ class MailRuHelper extends BaseHelper {
             return (await res.json());
         }
         catch (err) {
-            console.error("Failed to get mail.ru video data", err.message);
+            Logger.error("Failed to get mail.ru video data", err.message);
             return undefined;
         }
     }
@@ -3064,6 +3119,7 @@ class MailRuHelper extends BaseHelper {
 }
 
 ;// ./node_modules/vot.js/dist/helpers/weverse.js
+
 
 
 class WeverseHelper extends BaseHelper {
@@ -3114,7 +3170,7 @@ class WeverseHelper extends BaseHelper {
             return (await res.json());
         }
         catch (err) {
-            console.error(`Failed to get weverse post preview by postId: ${postId}`, err.message);
+            Logger.error(`Failed to get weverse post preview by postId: ${postId}`, err.message);
             return false;
         }
     }
@@ -3133,7 +3189,7 @@ class WeverseHelper extends BaseHelper {
             return (await res.json());
         }
         catch (err) {
-            console.error(`Failed to get weverse InKey by videoId: ${videoId}`, err.message);
+            Logger.error(`Failed to get weverse InKey by videoId: ${videoId}`, err.message);
             return false;
         }
     }
@@ -3165,7 +3221,7 @@ class WeverseHelper extends BaseHelper {
             return (await res.json());
         }
         catch (err) {
-            console.error(`Failed to get weverse video info (infraVideoId: ${infraVideoId}, inkey: ${inkey}, serviceId: ${serviceId}`, err.message);
+            Logger.error(`Failed to get weverse video info (infraVideoId: ${infraVideoId}, inkey: ${inkey}, serviceId: ${serviceId}`, err.message);
             return false;
         }
     }
@@ -3206,6 +3262,7 @@ class WeverseHelper extends BaseHelper {
 ;// ./node_modules/vot.js/dist/helpers/kodik.js
 
 
+
 class KodikHelper extends BaseHelper {
     API_ORIGIN = window.location.origin;
     async getSecureData(videoPath) {
@@ -3238,7 +3295,7 @@ class KodikHelper extends BaseHelper {
             };
         }
         catch (err) {
-            console.error(`Failed to get kodik secure data by videoPath: ${videoPath}.`, err.message);
+            Logger.error(`Failed to get kodik secure data by videoPath: ${videoPath}.`, err.message);
             return false;
         }
     }
@@ -3270,7 +3327,7 @@ class KodikHelper extends BaseHelper {
             return (await res.json());
         }
         catch (err) {
-            console.error(`Failed to get kodik video data (type: ${videoType}, id: ${id}, hash: ${hash})`, err.message);
+            Logger.error(`Failed to get kodik video data (type: ${videoType}, id: ${id}, hash: ${hash})`, err.message);
             return false;
         }
     }
@@ -3307,6 +3364,7 @@ class KodikHelper extends BaseHelper {
 
 ;// ./node_modules/vot.js/dist/helpers/patreon.js
 
+
 class PatreonHelper extends BaseHelper {
     API_ORIGIN = "https://www.patreon.com/api";
     async getPosts(postId) {
@@ -3315,7 +3373,7 @@ class PatreonHelper extends BaseHelper {
             return (await res.json());
         }
         catch (err) {
-            console.error(`Failed to get patreon posts by postId: ${postId}.`, err.message);
+            Logger.error(`Failed to get patreon posts by postId: ${postId}.`, err.message);
             return false;
         }
     }
@@ -3343,6 +3401,7 @@ class PatreonHelper extends BaseHelper {
 
 ;// ./node_modules/vot.js/dist/helpers/reddit.js
 
+
 class RedditHelper extends BaseHelper {
     API_ORIGIN = "https://www.reddit.com";
     async getVideoData(videoId) {
@@ -3360,7 +3419,7 @@ class RedditHelper extends BaseHelper {
             };
         }
         catch (err) {
-            console.error(`Failed to get reddit video data by video ID: ${videoId}`, err.message);
+            Logger.error(`Failed to get reddit video data by video ID: ${videoId}`, err.message);
             return undefined;
         }
     }
@@ -3427,6 +3486,7 @@ class BannedVideoHelper extends BaseHelper {
 
 ;// ./node_modules/vot.js/dist/helpers/kick.js
 
+
 class KickHelper extends BaseHelper {
     API_ORIGIN = "https://kick.com/api";
     async getClipInfo(clipId) {
@@ -3441,7 +3501,7 @@ class KickHelper extends BaseHelper {
             };
         }
         catch (err) {
-            console.error(`Failed to get kick clip info by clipId: ${clipId}.`, err.message);
+            Logger.error(`Failed to get kick clip info by clipId: ${clipId}.`, err.message);
             return undefined;
         }
     }
@@ -3458,7 +3518,7 @@ class KickHelper extends BaseHelper {
             };
         }
         catch (err) {
-            console.error(`Failed to get kick video info by videoId: ${videoId}.`, err.message);
+            Logger.error(`Failed to get kick video info by videoId: ${videoId}.`, err.message);
             return undefined;
         }
     }
@@ -3474,6 +3534,7 @@ class KickHelper extends BaseHelper {
 
 ;// ./node_modules/vot.js/dist/helpers/appledeveloper.js
 
+
 class AppleDeveloperHelper extends BaseHelper {
     API_ORIGIN = "https://developer.apple.com";
     async getVideoData(videoId) {
@@ -3487,7 +3548,7 @@ class AppleDeveloperHelper extends BaseHelper {
             };
         }
         catch (err) {
-            console.error(`Failed to get apple developer video data by video ID: ${videoId}`, err.message);
+            Logger.error(`Failed to get apple developer video data by video ID: ${videoId}`, err.message);
             return undefined;
         }
     }
@@ -3499,6 +3560,7 @@ class AppleDeveloperHelper extends BaseHelper {
 ;// ./node_modules/vot.js/dist/helpers/epicgames.js
 
 
+
 class EpicGamesHelper extends BaseHelper {
     API_ORIGIN = "https://dev.epicgames.com/community/api/learning";
     async getPostInfo(videoId) {
@@ -3507,7 +3569,7 @@ class EpicGamesHelper extends BaseHelper {
             return (await res.json());
         }
         catch (err) {
-            console.error(`Failed to get epicgames post info by videoId: ${videoId}.`, err.message);
+            Logger.error(`Failed to get epicgames post info by videoId: ${videoId}.`, err.message);
             return false;
         }
     }
@@ -3542,6 +3604,7 @@ class EpicGamesHelper extends BaseHelper {
 ;// ./node_modules/vot.js/dist/helpers/nineanimetv.js
 
 
+
 class NineAnimeTVHelper extends BaseHelper {
     API_ORIGIN = "https://9animetv.to/ajax/episode";
     RAPID_CLOUD_ORIGIN = "https://rapid-cloud.co/ajax/embed-6-v2";
@@ -3555,7 +3618,7 @@ class NineAnimeTVHelper extends BaseHelper {
             return /data-id="(\d+)"/.exec(content.html)?.[1];
         }
         catch (err) {
-            console.error(`Failed to get 9animetv servers info by episodeId: ${episodeId}.`, err.message);
+            Logger.error(`Failed to get 9animetv servers info by episodeId: ${episodeId}.`, err.message);
             return false;
         }
     }
@@ -3569,7 +3632,7 @@ class NineAnimeTVHelper extends BaseHelper {
             return content.link;
         }
         catch (err) {
-            console.error(`Failed to get player link by sourceId: ${sourceId}.`, err.message);
+            Logger.error(`Failed to get player link by sourceId: ${sourceId}.`, err.message);
             return false;
         }
     }
@@ -3578,13 +3641,13 @@ class NineAnimeTVHelper extends BaseHelper {
             const res = await this.fetch(`${this.RAPID_CLOUD_ORIGIN}/getSources?id=${rapidId}`);
             const content = (await res.json());
             if (content.encrypted) {
-                console.warn("Encrypted RapidCloud data found. Let us know about it", content);
+                Logger.warn("Encrypted RapidCloud data found. Let us know about it", content);
                 return false;
             }
             return content;
         }
         catch (err) {
-            console.error(`Failed to get rapid cloud data by rapidId: ${rapidId}.`, err.message);
+            Logger.error(`Failed to get rapid cloud data by rapidId: ${rapidId}.`, err.message);
             return false;
         }
     }
@@ -3651,6 +3714,7 @@ class NineAnimeTVHelper extends BaseHelper {
 
 ;// ./node_modules/vot.js/dist/helpers/odysee.js
 
+
 class OdyseeHelper extends BaseHelper {
     API_ORIGIN = "https://odysee.com";
     async getVideoData(videoId) {
@@ -3664,7 +3728,7 @@ class OdyseeHelper extends BaseHelper {
             return { url };
         }
         catch (err) {
-            console.error(`Failed to get odysee video data by video ID: ${videoId}`, err.message);
+            Logger.error(`Failed to get odysee video data by video ID: ${videoId}`, err.message);
             return undefined;
         }
     }
@@ -3675,6 +3739,7 @@ class OdyseeHelper extends BaseHelper {
 
 ;// ./node_modules/vot.js/dist/helpers/coursehunterLike.js
 
+
 class CoursehunterLikeHelper extends BaseHelper {
     API_ORIGIN = this.origin ?? "https://coursehunter.net";
     async getCourseId(videoId) {
@@ -3684,7 +3749,7 @@ class CoursehunterLikeHelper extends BaseHelper {
             return /course_id(\s)?=(\s)?([\d]+)/.exec(content)?.[3];
         }
         catch (err) {
-            console.error(`Failed to get CoursehunterLike courseId by videoId: ${videoId}, because ${err.message}`);
+            Logger.error(`Failed to get CoursehunterLike courseId by videoId: ${videoId}, because ${err.message}`);
             return false;
         }
     }
@@ -3694,7 +3759,7 @@ class CoursehunterLikeHelper extends BaseHelper {
             return (await res.json());
         }
         catch (err) {
-            console.error(`Failed to get CoursehunterLike lessons data by courseId: ${courseId}, because ${err.message}`);
+            Logger.error(`Failed to get CoursehunterLike lessons data by courseId: ${courseId}, because ${err.message}`);
             return false;
         }
     }
@@ -3726,6 +3791,7 @@ class CoursehunterLikeHelper extends BaseHelper {
 }
 
 ;// ./node_modules/vot.js/dist/helpers/twitch.js
+
 
 class TwitchHelper extends BaseHelper {
     API_ORIGIN = "https://clips.twitch.tv";
@@ -3783,6 +3849,7 @@ class TwitchHelper extends BaseHelper {
 ;// ./node_modules/vot.js/dist/helpers/sap.js
 
 
+
 class SapHelper extends BaseHelper {
     API_ORIGIN = "https://learning.sap.com/";
     async requestKaltura(kalturaDomain, partnerId, entryId) {
@@ -3830,7 +3897,7 @@ class SapHelper extends BaseHelper {
             return (await res.json());
         }
         catch (err) {
-            console.error("Failed to request kaltura data", err.message);
+            Logger.error("Failed to request kaltura data", err.message);
             return undefined;
         }
     }
@@ -3853,7 +3920,7 @@ class SapHelper extends BaseHelper {
             return await this.requestKaltura(kalturaDomain, partnerId, entryId);
         }
         catch (err) {
-            console.error("Failed to get kaltura data", err.message);
+            Logger.error("Failed to get kaltura data", err.message);
             return undefined;
         }
     }
@@ -4135,6 +4202,7 @@ class CourseraHelper extends BaseHelper {
 ;// ./node_modules/vot.js/dist/helpers/linkedin.js
 
 
+
 class LinkedinHelper extends BaseHelper {
     API_ORIGIN = "https://www.linkedin.com/learning";
     async getVideoData(videoId) {
@@ -4168,7 +4236,7 @@ class LinkedinHelper extends BaseHelper {
             };
         }
         catch (err) {
-            console.error("Failed to get linkedin video data", err.message);
+            Logger.error("Failed to get linkedin video data", err.message);
             return undefined;
         }
     }
@@ -4180,11 +4248,12 @@ class LinkedinHelper extends BaseHelper {
 ;// ./node_modules/vot.js/dist/helpers/vimeo.js
 
 
+
 class VimeoHelper extends BaseHelper {
     API_KEY = "";
     DEFAULT_SITE_ORIGIN = "https://vimeo.com";
     SITE_ORIGIN = this.isPrivatePlayer()
-        ? (this.service?.url?.slice(0, -1) ?? this.DEFAULT_SITE_ORIGIN)
+        ? this.service?.url?.slice(0, -1) ?? this.DEFAULT_SITE_ORIGIN
         : this.DEFAULT_SITE_ORIGIN;
     isErrorData(data) {
         return Object.hasOwn(data, "error");
@@ -4202,7 +4271,7 @@ class VimeoHelper extends BaseHelper {
             return data;
         }
         catch (err) {
-            console.error(`Failed to get default viewer data.`, err.message);
+            Logger.error(`Failed to get default viewer data.`, err.message);
             return false;
         }
     }
@@ -4223,7 +4292,7 @@ class VimeoHelper extends BaseHelper {
             return data;
         }
         catch (err) {
-            console.error(`Failed to get video info by video ID: ${videoId}`, err.message);
+            Logger.error(`Failed to get video info by video ID: ${videoId}`, err.message);
             return false;
         }
     }
@@ -4264,7 +4333,7 @@ class VimeoHelper extends BaseHelper {
             return baseUrl.href;
         }
         catch (err) {
-            console.error(`Failed to get private video source`, err.message);
+            Logger.error(`Failed to get private video source`, err.message);
             return false;
         }
     }
@@ -4286,7 +4355,7 @@ class VimeoHelper extends BaseHelper {
             };
         }
         catch (err) {
-            console.error(`Failed to get private video info by video ID: ${videoId}`, err.message);
+            Logger.error(`Failed to get private video info by video ID: ${videoId}`, err.message);
             return false;
         }
     }
@@ -4308,7 +4377,7 @@ class VimeoHelper extends BaseHelper {
             return data;
         }
         catch (err) {
-            console.error(`Failed to get subtitles info by video ID: ${videoId}`, err.message);
+            Logger.error(`Failed to get subtitles info by video ID: ${videoId}`, err.message);
             return false;
         }
     }
@@ -4388,7 +4457,7 @@ class VimeoHelper extends BaseHelper {
         }
         return embedId?.startsWith("video/")
             ? embedId.replace("video/", "")
-            : (embedId ?? /[^/]+$/.exec(url.pathname)?.[0]);
+            : embedId ?? /[^/]+$/.exec(url.pathname)?.[0];
     }
 }
 
@@ -4437,6 +4506,7 @@ class TrovoHelper extends BaseHelper {
 ;// ./node_modules/vot.js/dist/helpers/incestflix.js
 
 
+
 class IncestflixHelper extends BaseHelper {
     async getVideoData(videoId) {
         try {
@@ -4452,7 +4522,7 @@ class IncestflixHelper extends BaseHelper {
             };
         }
         catch (err) {
-            console.error(`Failed to get Incestflix data by videoId: ${videoId}`, err.message);
+            Logger.error(`Failed to get Incestflix data by videoId: ${videoId}`, err.message);
             return undefined;
         }
     }
@@ -4462,6 +4532,7 @@ class IncestflixHelper extends BaseHelper {
 }
 
 ;// ./node_modules/vot.js/dist/helpers/porntn.js
+
 
 
 class PornTNHelper extends BaseHelper {
@@ -4479,7 +4550,7 @@ class PornTNHelper extends BaseHelper {
                 .split(varDelimiter)?.[1]
                 ?.split(";\n", 1)[0]
                 .replace(/(\t|\n)/g, "");
-            console.log(scriptText);
+            Logger.log(scriptText);
             const source = /video_url: 'function\/0\/([^']+)'/.exec(content)?.[1];
             const rnd = /rnd: '([^']+)'/.exec(content)?.[1];
             if (!source || !rnd) {
@@ -4488,14 +4559,14 @@ class PornTNHelper extends BaseHelper {
             const title = /video_title: '([^']+)'/.exec(content)?.[1];
             const url = new URL(source);
             url.searchParams.append("rnd", rnd);
-            console.log(url.href);
+            Logger.log(url.href);
             return {
                 url: proxyMedia(url),
                 title,
             };
         }
         catch (err) {
-            console.error(`Failed to get PornTN data by videoId: ${videoId}`, err.message);
+            Logger.error(`Failed to get PornTN data by videoId: ${videoId}`, err.message);
             return undefined;
         }
     }
@@ -4792,7 +4863,6 @@ class VOTLocalizedError extends Error {
 
 
 
-const { /* version */ "rE": version } = package_namespaceObject;
 class VOTJSError extends Error {
     data;
     constructor(message, data = undefined) {
@@ -4838,7 +4908,7 @@ class VOTClient {
         "Sec-Fetch-Mode": "no-cors",
     };
     headersVOT = {
-        "User-Agent": `vot.js/${version}`,
+        "User-Agent": `vot.js/${config.version}`,
         "Content-Type": "application/json",
         Pragma: "no-cache",
         "Cache-Control": "no-cache",
@@ -4994,7 +5064,7 @@ class VOTClient {
                     remainingTime: translationData.remainingTime ?? -1,
                 };
             default:
-                console.error("[vot.js] Unknown response", translationData);
+                Logger.error("Unknown response", translationData);
                 throw new VOTJSError("Unknown response from Yandex", translationData);
         }
     }
@@ -5150,7 +5220,7 @@ class VOTClient {
                 };
             }
             default:
-                console.error("[vot.js] Unknown response", translateResponse);
+                Logger.error("Unknown response", translateResponse);
                 throw new VOTJSError("Unknown response from Yandex", translateResponse);
         }
     }
@@ -5234,6 +5304,7 @@ var TypeName;
 })(TypeName || (TypeName = {}));
 
 ;// ./node_modules/vot.js/dist/types/index.js
+
 
 
 
@@ -9935,9 +10006,8 @@ class VideoHandler {
 
       this.votVideoVolumeSlider.input.addEventListener("input", (e) => {
         const value = Number(e.target.value);
-        this.votVideoVolumeSlider.label.querySelector(
-          "strong",
-        ).textContent = `${value}%`;
+        this.votVideoVolumeSlider.label.querySelector("strong").textContent =
+          `${value}%`;
         this.setVideoVolume(value / 100);
         if (this.data.syncVolume) {
           this.syncVolumeWrapper("video", value);
@@ -10784,9 +10854,8 @@ class VideoHandler {
     const newSlidersVolume = Math.round(videoVolume);
 
     this.votVideoVolumeSlider.input.value = newSlidersVolume;
-    this.votVideoVolumeSlider.label.querySelector(
-      "strong",
-    ).textContent = `${newSlidersVolume}%`;
+    this.votVideoVolumeSlider.label.querySelector("strong").textContent =
+      `${newSlidersVolume}%`;
     ui.updateSlider(this.votVideoVolumeSlider.input);
 
     if (this.data.syncVolume === 1) {
