@@ -50,7 +50,7 @@
 // @match          *://*.dailymotion.com/*
 // @match          *://*.ok.ru/*
 // @match          *://trovo.live/*
-// @match          *://disk.yandex.ru/i/*
+// @match          *://disk.yandex.ru/*
 // @match          *://youtube.googleapis.com/embed/*
 // @match          *://*.banned.video/*
 // @match          *://*.weverse.io/*
@@ -2385,11 +2385,12 @@ const sitesCoursehunterLike = ["coursehunter.net", "coursetrain.net"];
     },
     {
         host: VideoService.yandexdisk,
-        url: "https://yadi.sk/i/",
+        url: "https://yadi.sk/",
         match: /^disk.yandex.ru$/,
         selector: ".video-player__player > div:nth-child(1)",
         eventSelector: ".video-player__player",
         needBypassCSP: true,
+        needExtraData: true,
     },
     {
         host: VideoService.okru,
@@ -4461,11 +4462,109 @@ class VimeoHelper extends BaseHelper {
     }
 }
 
+;// ./src/utils/VOTLocalizedError.js
+
+
+class VOTLocalizedError extends Error {
+  constructor(message) {
+    super(localizationProvider.getDefault(message));
+    this.name = "VOTLocalizedError";
+    this.unlocalizedMessage = message;
+    this.localizedMessage = localizationProvider.get(message);
+  }
+}
+
 ;// ./node_modules/vot.js/dist/helpers/yandexdisk.js
 
+
 class YandexDiskHelper extends BaseHelper {
+    API_ORIGIN = "https://disk.yandex.ru";
+    CLIENT_PREFIX = "/client/disk";
+    async getVideoData(videoId) {
+        if (!videoId.startsWith(this.CLIENT_PREFIX)) {
+            return {
+                url: this.service.url + videoId,
+            };
+        }
+
+        const url = new URL(window.location);
+        const dialogId = url.searchParams.get("idDialog");
+        if (!dialogId) {
+            return undefined;
+        }
+
+        const preloadedScript = document.querySelector("#preloaded-data");
+        if (!preloadedScript) {
+            return undefined;
+        }
+
+        try {
+            const preloadedData = JSON.parse(preloadedScript.innerText);
+            const { idClient, sk } = preloadedData.config;
+            const res = await this.fetch(this.API_ORIGIN + "/models/?_m=resource", {
+                method: "POST",
+                body: new URLSearchParams({
+                idClient,
+                sk,
+                "_model.0": "resource",
+                "id.0": dialogId.replaceAll(" ", "+"),
+                })
+                .toString()
+                .replaceAll(/%2B/g, "+"), // yandex requires this
+                headers: {
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                },
+            });
+
+            const data = await res.json();
+            if (!data.models) {
+                throw new VideoHelperError("Failed to get resource info");
+            }
+
+            const model = data.models[0];
+            const modelData = model.data;
+            if (Object.hasOwn(modelData, "error")) {
+                throw new VideoHelperError(modelData.error?.message);
+            }
+
+            const { meta, name } = modelData;
+            const { short_url, video_info } = meta;
+            if (!video_info) {
+                throw new VideoHelperError("There's no video open right now");
+            }
+
+            if (!short_url) {
+                throw new VideoHelperError("VOTLimitedVideoAccess");
+            }
+
+            const title = name.replace(/(\.[^.]+)$/, "");
+
+            return {
+                url: short_url,
+                title,
+                duration: video_info.duration,
+            };
+        } catch (err) {
+            if (err.message?.startsWith("VOT")) {
+                throw new VOTLocalizedError(err.message);
+            }
+
+            console.error(
+                `Failed to get yandex disk video data by video ID: ${videoId}`,
+                err.message,
+            );
+            return undefined;
+        }
+    }
     async getVideoId(url) {
-        return /\/i\/([^/]+)/.exec(url.pathname)?.[1];
+        const fileId = /\/i\/([^/]+)/.exec(url.pathname)?.[1];
+        if (fileId) {
+            return fileId;
+        }
+
+        return url.pathname.startsWith(this.CLIENT_PREFIX)
+            ? url.pathname + url.search
+            : undefined;
     }
 }
 
@@ -4837,18 +4936,6 @@ function convertVOT(service, videoId, url) {
         service,
         videoId,
     };
-}
-
-;// ./src/utils/VOTLocalizedError.js
-
-
-class VOTLocalizedError extends Error {
-  constructor(message) {
-    super(localizationProvider.getDefault(message));
-    this.name = "VOTLocalizedError";
-    this.unlocalizedMessage = message;
-    this.localizedMessage = localizationProvider.get(message);
-  }
 }
 
 ;// ./node_modules/vot.js/dist/client.js

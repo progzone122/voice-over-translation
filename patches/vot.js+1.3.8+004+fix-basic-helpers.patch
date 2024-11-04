@@ -355,3 +355,116 @@ index e0baf75..f66c02c 100644
              const videoSource = await this.getPrivateVideoSource(playerConfig.request.files);
              if (!videoSource) {
                  throw new VideoHelperError("Failed to get private video source");
+diff --git a/node_modules/vot.js/dist/helpers/yandexdisk.d.ts b/node_modules/vot.js/dist/helpers/yandexdisk.d.ts
+index 2507c45..c5fe05f 100644
+--- a/node_modules/vot.js/dist/helpers/yandexdisk.d.ts
++++ b/node_modules/vot.js/dist/helpers/yandexdisk.d.ts
+@@ -1,5 +1,8 @@
+ import { BaseHelper } from "./base.js";
+ export default class YandexDiskHelper extends BaseHelper {
++    API_ORIGIN: string;
++    CLIENT_PREFIX: string;
++    getVideoData(videoId: string): Promise<MinimalVideoData | undefined>;
+     getVideoId(url: URL): Promise<string | undefined>;
+ }
+ //# sourceMappingURL=yandexdisk.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/vot.js/dist/helpers/yandexdisk.js b/node_modules/vot.js/dist/helpers/yandexdisk.js
+index 8ecc67a..e7ea816 100644
+--- a/node_modules/vot.js/dist/helpers/yandexdisk.js
++++ b/node_modules/vot.js/dist/helpers/yandexdisk.js
+@@ -1,6 +1,92 @@
+-import { BaseHelper } from "./base.js";
++import { BaseHelper, VideoHelperError } from "./base.js";
++import { VOTLocalizedError } from "../../../../src/utils/VOTLocalizedError.js";
+ export default class YandexDiskHelper extends BaseHelper {
++    API_ORIGIN = "https://disk.yandex.ru";
++    CLIENT_PREFIX = "/client/disk";
++    async getVideoData(videoId) {
++        if (!videoId.startsWith(this.CLIENT_PREFIX)) {
++            return {
++                url: this.service.url + videoId,
++            };
++        }
++
++        const url = new URL(window.location);
++        const dialogId = url.searchParams.get("idDialog");
++        if (!dialogId) {
++            return undefined;
++        }
++
++        const preloadedScript = document.querySelector("#preloaded-data");
++        if (!preloadedScript) {
++            return undefined;
++        }
++
++        try {
++            const preloadedData = JSON.parse(preloadedScript.innerText);
++            const { idClient, sk } = preloadedData.config;
++            const res = await this.fetch(this.API_ORIGIN + "/models/?_m=resource", {
++                method: "POST",
++                body: new URLSearchParams({
++                idClient,
++                sk,
++                "_model.0": "resource",
++                "id.0": dialogId.replaceAll(" ", "+"),
++                })
++                .toString()
++                .replaceAll(/%2B/g, "+"), // yandex requires this
++                headers: {
++                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
++                },
++            });
++
++            const data = await res.json();
++            if (!data.models) {
++                throw new VideoHelperError("Failed to get resource info");
++            }
++
++            const model = data.models[0];
++            const modelData = model.data;
++            if (Object.hasOwn(modelData, "error")) {
++                throw new VideoHelperError(modelData.error?.message);
++            }
++
++            const { meta, name } = modelData;
++            const { short_url, video_info } = meta;
++            if (!video_info) {
++                throw new VideoHelperError("There's no video open right now");
++            }
++
++            if (!short_url) {
++                throw new VideoHelperError("VOTLimitedVideoAccess");
++            }
++
++            const title = name.replace(/(\.[^.]+)$/, "");
++
++            return {
++                url: short_url,
++                title,
++                duration: video_info.duration,
++            };
++        } catch (err) {
++            if (err.message?.startsWith("VOT")) {
++                throw new VOTLocalizedError(err.message);
++            }
++
++            console.error(
++                `Failed to get yandex disk video data by video ID: ${videoId}`,
++                err.message,
++            );
++            return undefined;
++        }
++    }
+     async getVideoId(url) {
+-        return /\/i\/([^/]+)/.exec(url.pathname)?.[1];
++        const fileId = /\/i\/([^/]+)/.exec(url.pathname)?.[1];
++        if (fileId) {
++            return fileId;
++        }
++
++        return url.pathname.startsWith(this.CLIENT_PREFIX)
++            ? url.pathname + url.search
++            : undefined;
+     }
+ }

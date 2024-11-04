@@ -32,7 +32,7 @@
     "*://*.dailymotion.com/*",
     "*://*.ok.ru/*",
     "*://trovo.live/*",
-    "*://disk.yandex.ru/i/*",
+    "*://disk.yandex.ru/*",
     "*://youtube.googleapis.com/embed/*",
     "*://*.banned.video/*",
     "*://*.weverse.io/*",
