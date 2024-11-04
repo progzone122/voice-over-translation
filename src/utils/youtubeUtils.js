@@ -1,8 +1,9 @@
 import { availableLangs } from "vot.js/consts";
+import { normalizeLang } from "vot.js/utils/utils";
 
-import debug from "./debug.js";
+import debug from "./debug.ts";
 import { localizationProvider } from "../localization/localizationProvider.js";
-import { langTo6391, cleanText } from "./utils.js";
+import { cleanText } from "./utils.js";
 import { detect } from "./translateApis.js";
 
 // Get the language code from the response or the text
@@ -15,7 +16,7 @@ async function getLanguage(player, response, title, description) {
     const audioTracks = player.getAudioTrack();
     const trackInfo = audioTracks?.getLanguageInfo(); // get selected track info (id === "und" if tracks are not available)
     if (trackInfo?.id !== "und") {
-      return langTo6391(trackInfo.id.split(".")[0]);
+      return normalizeLang(trackInfo.id.split(".")[0]);
     }
   }
 
@@ -26,7 +27,7 @@ async function getLanguage(player, response, title, description) {
   if (captionTracks?.length) {
     const autoCaption = captionTracks.find((caption) => caption.kind === "asr");
     if (autoCaption && autoCaption.languageCode) {
-      return langTo6391(autoCaption.languageCode);
+      return normalizeLang(autoCaption.languageCode);
     }
   }
 
@@ -206,7 +207,7 @@ function getSubtitles() {
     }
 
     const language = captionTrack.languageCode
-      ? langTo6391(captionTrack.languageCode)
+      ? normalizeLang(captionTrack.languageCode)
       : undefined;
     const url = captionTrack?.url || captionTrack?.baseUrl;
     if (!language || !url) {

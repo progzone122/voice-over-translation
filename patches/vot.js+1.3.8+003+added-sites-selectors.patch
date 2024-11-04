@@ -1,9 +1,9 @@
 diff --git a/node_modules/vot.js/dist/config/sites.js b/node_modules/vot.js/dist/config/sites.js
-index 8492641..58a98ee 100644
+index f92d874..8cfbfe2 100644
 --- a/node_modules/vot.js/dist/config/sites.js
 +++ b/node_modules/vot.js/dist/config/sites.js
-@@ -2,34 +2,71 @@ import { VideoService } from "../types/yandex.js";
- import { sitesInvidious, sitesPiped, sitesProxiTok, sitesPeertube, sitesPoketube, } from "./alternativeUrls.js";
+@@ -2,39 +2,77 @@ import { VideoService } from "../types/yandex.js";
+ import { sitesInvidious, sitesPiped, sitesProxiTok, sitesPeertube, sitesPoketube, sitesRicktube, sitesCoursehunterLike, } from "./alternativeUrls.js";
  export default [
      {
 +        additionalData: "mobile",
@@ -45,16 +45,22 @@ index 8492641..58a98ee 100644
          url: "https://youtu.be/",
          match: sitesPoketube,
 +        selector: ".video-player-container",
-+    },
-+    {
+     },
+     {
+         host: VideoService.ricktube,
+         url: "https://youtu.be/",
+         match: sitesRicktube,
++        selector: "#oframeplayer > pjsdiv:has(video)"
+     },
+     {
 +        additionalData: "mobile",
 +        host: VideoService.vk,
 +        url: "https://vk.com/video?z=",
 +        match: /^m.vk.(com|ru)$/,
 +        selector: "vk-video-player",
 +        shadowRoot: true,
-     },
-     {
++    },
++    {
 +        additionalData: "clips",
          host: VideoService.vk,
          url: "https://vk.com/video?z=",
@@ -75,7 +81,7 @@ index 8492641..58a98ee 100644
      },
      {
          host: VideoService.twitch,
-@@ -40,22 +77,26 @@ export default [
+@@ -45,22 +83,26 @@ export default [
              /^clips.twitch.tv$/,
              /^player.twitch.tv$/,
          ],
@@ -102,7 +108,7 @@ index 8492641..58a98ee 100644
      },
      {
          host: VideoService.vimeo,
-@@ -63,190 +104,271 @@ export default [
+@@ -68,201 +110,285 @@ export default [
          match: /^player.vimeo.com$/,
          additionalData: "embed",
          needExtraData: true,
@@ -179,7 +185,7 @@ index 8492641..58a98ee 100644
      },
      {
          host: VideoService.bilibili,
-         url: "https://www.bilibili.com/video/",
+         url: "https://www.bilibili.com/",
          match: /^(www|m|player).bilibili.com$/,
 +        selector: ".bpx-player-video-wrap",
 +    },
@@ -187,7 +193,7 @@ index 8492641..58a98ee 100644
 +    {
 +        additionalData: "old", // /blackboard/webplayer/embed-old.html
 +        host: VideoService.bilibili,
-+        url: "https://www.bilibili.com/video/",
++        url: "https://www.bilibili.com/",
 +        match: /^(www|m).bilibili.com$/,
 +        selector: null,
      },
@@ -230,12 +236,14 @@ index 8492641..58a98ee 100644
      },
      {
          host: VideoService.yandexdisk,
-         url: "https://yadi.sk/i/",
+-        url: "https://yadi.sk/i/",
 -        match: /^disk.yandex.ru|yadi.sk$/,
++        url: "https://yadi.sk/",
 +        match: /^disk.yandex.ru$/,
 +        selector: ".video-player__player > div:nth-child(1)",
 +        eventSelector: ".video-player__player",
 +        needBypassCSP: true,
++        needExtraData: true,
      },
      {
          host: VideoService.okru,
@@ -349,10 +357,10 @@ index 8492641..58a98ee 100644
          needExtraData: true,
      },
      {
-         host: VideoService.coursehunter,
-         url: "https://coursehunter.net/course/",
-         match: /^coursehunter.net$/,
-+        selector: "#oframeplayer > pjsdiv:nth-of-type(1)",
+         host: VideoService.coursehunterLike,
+         url: "stub",
+         match: sitesCoursehunterLike,
++        selector: "#oframeplayer > pjsdiv:has(video)",
          needExtraData: true,
      },
      {
@@ -379,4 +387,17 @@ index 8492641..58a98ee 100644
 +        needBypassCSP: true,
      },
      {
-         host: VideoService.custom,
+         host: VideoService.incestflix,
+         url: "https://www.incestflix.net/watch/",
+         match: /^(www.)?incestflix.(net|to|com)$/,
++        selector: "#incflix-stream",
+         needExtraData: true,
+     },
+     {
+         host: VideoService.porntn,
+         url: "https://porntn.com/videos/",
+         match: /^porntn.com$/,
++        selector: null,
+         needExtraData: true,
+     },
+     {

@@ -1,4 +1,4 @@
-import debug from "./debug.js";
+import debug from "./debug.ts";
 
 export const votStorage = new (class {
   constructor() {

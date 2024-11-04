@@ -201,6 +201,7 @@
   "VOTLocaleHash": "Lokal hash",
   "VOTUpdatedAt": "Uppdaterat klockan",
   "VOTNeedWebAudioAPI": "För att aktivera detta måste du ha ETT Web Audio API",
-  "VOTBypassMediaCSP": "Kringgå Media CSP",
-  "VOTMediaCSPEnabledOnSite": "Media CSP är aktiverat på den här webbplatsen"
+  "VOTMediaCSPEnabledOnSite": "Media CSP är aktiverat på den här webbplatsen",
+  "VOTOnlyBypassMediaCSP": "Använd den bara för att kringgå Media CSP",
+  "VOTNewAudioPlayer": "Använd den nya ljudspelaren"
 }

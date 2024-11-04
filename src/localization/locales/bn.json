@@ -201,6 +201,7 @@
   "VOTLocaleHash": "লোকেল হ্যাশ",
   "VOTUpdatedAt": "এ আপডেট হয়েছে",
   "VOTNeedWebAudioAPI": "এটি সক্ষম করতে আপনার অবশ্যই একটি ওয়েব অডিও এপিআই থাকতে হবে",
-  "VOTBypassMediaCSP": "মিডিয়াসপি বাইপাস করা",
-  "VOTMediaCSPEnabledOnSite": "এই সাইটে মিডিয়া সিএসপি সক্ষম করা হয়েছে"
+  "VOTMediaCSPEnabledOnSite": "এই সাইটে মিডিয়া সিএসপি সক্ষম করা হয়েছে",
+  "VOTOnlyBypassMediaCSP": "মিডিয়া সিএসপি বাইপাস করার জন্য এটি ব্যবহার করুন",
+  "VOTNewAudioPlayer": "নতুন অডিও প্লেয়ার ব্যবহার করুন"
 }

@@ -201,6 +201,7 @@
   "VOTLocaleHash": "Ngôn ngữ băm",
   "VOTUpdatedAt": "Cập nhật lúc",
   "VOTNeedWebAudioAPI": "Để kích hoạt ĐIỀU này, bạn phải có Api Âm Thanh Web",
-  "VOTBypassMediaCSP": "Bỏ Qua Media CSP",
-  "VOTMediaCSPEnabledOnSite": "Media CSP được kích hoạt trên trang web này"
+  "VOTMediaCSPEnabledOnSite": "Media CSP được kích hoạt trên trang web này",
+  "VOTOnlyBypassMediaCSP": "Chỉ sử dụng Nó để bỏ QUA Media Csp",
+  "VOTNewAudioPlayer": "Sử dụng trình phát âm thanh mới"
 }

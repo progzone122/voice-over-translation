@@ -201,6 +201,7 @@
   "VOTLocaleHash": "Hash local",
   "VOTUpdatedAt": "Actualizado ás",
   "VOTNeedWebAudioAPI": "Para activar isto, debes ter UNHA API De Audio Web",
-  "VOTBypassMediaCSP": "Evitar Media CSP",
-  "VOTMediaCSPEnabledOnSite": "Os medios de COMUNICACIÓN csp están habilitados neste sitio"
+  "VOTMediaCSPEnabledOnSite": "Os medios de COMUNICACIÓN csp están habilitados neste sitio",
+  "VOTOnlyBypassMediaCSP": "Usalo só para evitar A MEDIA CSP",
+  "VOTNewAudioPlayer": "Use o novo reproductor de audio"
 }

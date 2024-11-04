@@ -201,6 +201,7 @@
   "VOTLocaleHash": "ಲೊಕೇಲ್ ಹ್ಯಾಶ್",
   "VOTUpdatedAt": "ಕ್ಕೆ ನವೀಕರಿಸಲಾಗಿದೆ",
   "VOTNeedWebAudioAPI": "ಇದನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಲು, ನೀವು ವೆಬ್ ಆಡಿಯೊ API ಅನ್ನು ಹೊಂದಿರಬೇಕು",
-  "VOTBypassMediaCSP": "Media CSP ಅನ್ನು ಬೈಪಾಸ್ ಮಾಡುವುದು",
-  "VOTMediaCSPEnabledOnSite": "ಈ ಸೈಟ್ನಲ್ಲಿ ಮೀಡಿಯಾ CSP ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ"
+  "VOTMediaCSPEnabledOnSite": "ಈ ಸೈಟ್ನಲ್ಲಿ ಮೀಡಿಯಾ CSP ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ",
+  "VOTOnlyBypassMediaCSP": "ಮಾಧ್ಯಮ ಸಿಎಸ್ಪಿ ಬೈಪಾಸ್ ಮಾಡಲು ಮಾತ್ರ ಇದನ್ನು ಬಳಸಿ",
+  "VOTNewAudioPlayer": "ಹೊಸ ಆಡಿಯೋ ಪ್ಲೇಯರ್ ಬಳಸಿ"
 }

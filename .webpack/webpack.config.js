@@ -15,6 +15,7 @@ import {
   sitesProxiTok,
   sitesPeertube,
   sitesPoketube,
+  sitesCoursehunterLike,
 } from "vot.js/alternativeUrls";
 import configShared from "./config.shared.js";
 
@@ -78,6 +79,7 @@ export default (env) => {
       sitesProxiTok,
       sitesPeertube,
       sitesPoketube,
+      sitesCoursehunterLike,
     ]
       .map((sites) =>
         sites.map((site) => {
@@ -144,6 +146,7 @@ export default (env) => {
       }),
       new webpack.DefinePlugin({
         DEBUG_MODE: dev,
+        // DEBUG_MODE: true,
         IS_BETA_VERSION: isBeta,
         AVAILABLE_LOCALES: JSON.stringify(availableLocales),
         ...(() => {

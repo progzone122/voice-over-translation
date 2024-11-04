@@ -1,6 +1,6 @@
 import "requestidlecallback-polyfill";
 import { EventImpl } from "./EventImpl.js";
-import debug from "./debug.js";
+import debug from "./debug.ts";
 
 const adKeywords = new Set([
   "advertise",

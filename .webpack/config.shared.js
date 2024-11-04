@@ -6,7 +6,7 @@ const __dirname = path.resolve(path.dirname(__filename));
 
 export default {
   resolve: {
-    extensions: [".js"],
+    extensions: [".js", ".ts"],
   },
   performance: {
     hints: "error",
@@ -24,6 +24,11 @@ export default {
         test: /\.(css|scss|sass)$/i,
         // use: ["style-loader", "css-loader", "sass-loader"],
         use: ["lightning-loader"],
+      },
+      {
+        test: /\.ts$/,
+        use: "ts-loader",
+        exclude: /node_modules/,
       },
     ],
   },

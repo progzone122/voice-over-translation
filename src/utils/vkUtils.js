@@ -1,5 +1,6 @@
-import { langTo6391, cleanText } from "./utils.js";
-import debug from "./debug.js";
+import { normalizeLang } from "vot.js/utils/utils";
+import { cleanText } from "./utils.js";
+import debug from "./debug.ts";
 
 // TODO?: move to vot.js patches
 function getPlayer() {
@@ -26,7 +27,7 @@ function getSubtitles() {
     }
 
     const language = captionTrack.lang
-      ? langTo6391(captionTrack.lang)
+      ? normalizeLang(captionTrack.lang)
       : undefined;
     const url = captionTrack?.url;
     if (!language || !url) {

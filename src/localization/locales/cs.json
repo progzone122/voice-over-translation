@@ -201,6 +201,7 @@
   "VOTLocaleHash": "Národní hash",
   "VOTUpdatedAt": "Aktualizováno v",
   "VOTNeedWebAudioAPI": "Chcete-li to povolit, musíte mít webové Audio API",
-  "VOTBypassMediaCSP": "Obcházení Media CSP",
-  "VOTMediaCSPEnabledOnSite": "Media CSP je povoleno na tomto webu"
+  "VOTMediaCSPEnabledOnSite": "Media CSP je povoleno na tomto webu",
+  "VOTOnlyBypassMediaCSP": "Použijte jej pouze pro obcházení médií CSP",
+  "VOTNewAudioPlayer": "Použijte nový audio přehrávač"
 }

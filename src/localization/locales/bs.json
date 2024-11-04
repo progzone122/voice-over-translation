@@ -201,6 +201,7 @@
   "VOTLocaleHash": "Locale hash",
   "VOTUpdatedAt": "Ažurirano u",
   "VOTNeedWebAudioAPI": "Da biste to omogućili, morate imati Web Audio API",
-  "VOTBypassMediaCSP": "Zaobilazeći Media CSP",
-  "VOTMediaCSPEnabledOnSite": "Media CSP je omogućen na ovom sajtu"
+  "VOTMediaCSPEnabledOnSite": "Media CSP je omogućen na ovom sajtu",
+  "VOTOnlyBypassMediaCSP": "Koristi ga samo za zaobilaženje medija CSP",
+  "VOTNewAudioPlayer": "Koristi novi audio player"
 }

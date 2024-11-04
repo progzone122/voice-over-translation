@@ -201,6 +201,7 @@
   "VOTLocaleHash": "Hash de configuración regional",
   "VOTUpdatedAt": "Actualizado a las",
   "VOTNeedWebAudioAPI": "Para habilitar esto, debe tener una API de audio web",
-  "VOTBypassMediaCSP": "Omitiendo Media CSP",
-  "VOTMediaCSPEnabledOnSite": "Media CSP está habilitado en este sitio"
+  "VOTMediaCSPEnabledOnSite": "Media CSP está habilitado en este sitio",
+  "VOTOnlyBypassMediaCSP": "Úselo solo para omitir CSP de medios",
+  "VOTNewAudioPlayer": "Usa el nuevo reproductor de audio"
 }

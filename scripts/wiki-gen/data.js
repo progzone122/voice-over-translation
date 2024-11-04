@@ -104,7 +104,7 @@ const siteData = {
     paths: ["/i/FILE_ID"],
     limits: [locales.workOnlyWithPublicLinks],
   },
-  coursehunter: {
+  coursehunterLike: {
     paths: ["/course/COURSE_ID"],
   },
   "ok.ru": {
@@ -170,6 +170,9 @@ const siteData = {
   linkedin: {
     paths: ["/learning/COURSE_NAME/LECTURE_NAME"],
   },
+  incestflix: {
+    paths: ["/watch/VIDEO_ID"],
+  },
   directlink: {
     paths: ["/*.mp4", "/*.webm"],
     limits: [locales.noLocalLinks],
@@ -203,4 +206,6 @@ const extraData = {
   // },
 };
 
-export { siteData, extraData };
+const sitesBlackList = ["porntn"];
+
+export { siteData, extraData, sitesBlackList };

@@ -1,12 +1,21 @@
 import { localizationProvider } from "../localization/localizationProvider.js";
-import debug from "./debug.js";
+import debug from "./debug.ts";
 
 const userlang = navigator.language || navigator.userLanguage;
+const MAX_SECS_FRACTION = 0.66;
 export const lang = userlang?.substr(0, 2)?.toLowerCase() ?? "en";
 
 function secsToStrTime(secs) {
-  const minutes = Math.floor(secs / 60);
-  const seconds = Math.floor(secs % 60);
+  let minutes = Math.floor(secs / 60);
+  let seconds = Math.floor(secs % 60);
+  const fraction = seconds / 60;
+  if (fraction >= MAX_SECS_FRACTION) {
+    // rounding to the next minute if it has already been more than N%
+    // e.g. 100 -> 2 minutes
+    minutes += 1;
+    seconds = 0;
+  }
+
   if (minutes >= 60) {
     return localizationProvider.get("translationTakeMoreThanHour");
   } else if (minutes === 1 || (minutes === 0 && seconds > 0)) {
@@ -29,11 +38,6 @@ function secsToStrTime(secs) {
     .replace("{0}", minutes);
 }
 
-function langTo6391(lang) {
-  // convert lang to ISO 639-1
-  return lang.toLowerCase().split(/[_;-]/)[0].trim();
-}
-
 function isPiPAvailable() {
   return (
     "pictureInPictureEnabled" in document && document.pictureInPictureEnabled
@@ -48,11 +52,6 @@ function initHls() {
         backBufferLength: 90,
       })
     : undefined;
-}
-
-function initAudioContext() {
-  const audioContext = window.AudioContext || window.webkitAudioContext;
-  return audioContext ? new audioContext() : undefined;
 }
 
 const deletefilter = [
@@ -174,10 +173,8 @@ function getTimestamp() {
 
 export {
   secsToStrTime,
-  langTo6391,
   isPiPAvailable,
   initHls,
-  initAudioContext,
   cleanText,
   downloadBlob,
   clearFileName,

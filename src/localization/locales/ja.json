@@ -201,6 +201,7 @@
   "VOTLocaleHash": "ロケールハッシュ",
   "VOTUpdatedAt": "更新",
   "VOTNeedWebAudioAPI": "これを有効にするには、Web Audio APIが必要です",
-  "VOTBypassMediaCSP": "Media CSPのバイパス",
-  "VOTMediaCSPEnabledOnSite": "メディアCSPはこのサイトで有効になっています"
+  "VOTMediaCSPEnabledOnSite": "メディアCSPはこのサイトで有効になっています",
+  "VOTOnlyBypassMediaCSP": "メディアCSPをバイパスするためにのみ使用します",
+  "VOTNewAudioPlayer": "新しいオーディオプレーヤーを使用する"
 }

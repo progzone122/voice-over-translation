@@ -201,6 +201,7 @@
   "VOTLocaleHash": "Eneo hash",
   "VOTUpdatedAt": "Imesasishwa saa",
   "VOTNeedWebAudioAPI": "Ili kuwezesha hii, lazima uwe NA API Ya Sauti Ya Wavuti",
-  "VOTBypassMediaCSP": "Kupitia Media CSP",
-  "VOTMediaCSPEnabledOnSite": "Media CSP imewezeshwa kwenye tovuti hii"
+  "VOTMediaCSPEnabledOnSite": "Media CSP imewezeshwa kwenye tovuti hii",
+  "VOTOnlyBypassMediaCSP": "Tumia Tu kwa kupitisha Vyombo VYA Habari CSP",
+  "VOTNewAudioPlayer": "Tumia kicheza sauti kipya"
 }
