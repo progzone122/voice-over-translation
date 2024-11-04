@@ -1204,9 +1204,7 @@ class VideoHandler {
         this.votSettingsDialog.container.hidden =
           !this.votSettingsDialog.container.hidden;
         if (document.fullscreenElement || document.webkitFullscreenElement) {
-          // eslint-disable-next-line sonarjs/no-unused-expressions
           document.webkitExitFullscreen && document.webkitExitFullscreen();
-          // eslint-disable-next-line sonarjs/no-unused-expressions
           document.exitFullscreen && document.exitFullscreen();
         }
       });
