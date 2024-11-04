@@ -2,11 +2,20 @@ import { localizationProvider } from "../localization/localizationProvider.js";
 import debug from "./debug.ts";
 
 const userlang = navigator.language || navigator.userLanguage;
+const MAX_SECS_FRACTION = 0.66;
 export const lang = userlang?.substr(0, 2)?.toLowerCase() ?? "en";
 
 function secsToStrTime(secs) {
-  const minutes = Math.floor(secs / 60);
-  const seconds = Math.floor(secs % 60);
+  let minutes = Math.floor(secs / 60);
+  let seconds = Math.floor(secs % 60);
+  const fraction = seconds / 60;
+  if (fraction >= MAX_SECS_FRACTION) {
+    // rounding to the next minute if it has already been more than N%
+    // e.g. 100 -> 2 minutes
+    minutes += 1;
+    seconds = 0;
+  }
+
   if (minutes >= 60) {
     return localizationProvider.get("translationTakeMoreThanHour");
   } else if (minutes === 1 || (minutes === 0 && seconds > 0)) {
