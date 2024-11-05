@@ -1836,7 +1836,7 @@ const yandexProtobuf = {
     hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
     defaultDuration: 343,
     loggerLevel: 1,
-    version: "1.3.8",
+    version: "1.3.9",
 });
 
 ;// ./node_modules/vot.js/dist/types/logger.js
@@ -1894,6 +1894,18 @@ async function signHMAC(hashName, hmac, data) {
 async function getSignature(body) {
     const signature = await signHMAC("SHA-256", config.hmac, body);
     return new Uint8Array(signature).reduce((str, byte) => str + byte.toString(16).padStart(2, "0"), "");
+}
+async function getSecYaHeaders(secType, session, body, path) {
+    const { secretKey, uuid } = session;
+    const sign = await getSignature(body);
+    const token = `${uuid}:${path}:${config.componentVersion}`;
+    const tokenBody = utf8Encoder.encode(token);
+    const tokenSign = await getSignature(tokenBody);
+    return {
+        [`${secType}-Signature`]: sign,
+        [`Sec-${secType}-Sk`]: secretKey,
+        [`Sec-${secType}-Token`]: `${tokenSign}:${token}`,
+    };
 }
 function getUUID() {
     const hexDigits = "0123456789ABCDEF";
@@ -4254,7 +4266,7 @@ class VimeoHelper extends BaseHelper {
     API_KEY = "";
     DEFAULT_SITE_ORIGIN = "https://vimeo.com";
     SITE_ORIGIN = this.isPrivatePlayer()
-        ? this.service?.url?.slice(0, -1) ?? this.DEFAULT_SITE_ORIGIN
+        ? (this.service?.url?.slice(0, -1) ?? this.DEFAULT_SITE_ORIGIN)
         : this.DEFAULT_SITE_ORIGIN;
     isErrorData(data) {
         return Object.hasOwn(data, "error");
@@ -4458,7 +4470,7 @@ class VimeoHelper extends BaseHelper {
         }
         return embedId?.startsWith("video/")
             ? embedId.replace("video/", "")
-            : embedId ?? /[^/]+$/.exec(url.pathname)?.[0];
+            : (embedId ?? /[^/]+$/.exec(url.pathname)?.[0]);
     }
 }
 
@@ -4971,7 +4983,6 @@ class VOTClient {
     requestLang;
     responseLang;
     userAgent = config.userAgent;
-    componentVersion = config.componentVersion;
     paths = {
         videoTranslation: "/video-translation/translate",
         videoTranslationFailAudio: "/video-translation/fail-audio-js",
@@ -5100,13 +5111,12 @@ class VOTClient {
     }
     async translateVideoYAImpl({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, shouldSendFailedAudio = true, }) {
         const { url, duration = config.defaultDuration } = videoData;
-        const { secretKey, uuid } = await this.getSession("video-translation");
+        const session = await this.getSession("video-translation");
         const body = yandexProtobuf.encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp);
-        const sign = await getSignature(body);
-        const res = await this.request(this.paths.videoTranslation, body, {
-            "Vtrans-Signature": sign,
-            "Sec-Vtrans-Sk": secretKey,
-            "Sec-Vtrans-Token": `${sign}:${uuid}:${this.paths.videoTranslation}:${this.componentVersion}`,
+        const path = this.paths.videoTranslation;
+        const vtransHeaders = await getSecYaHeaders("Vtrans", session, body, path);
+        const res = await this.request(path, body, {
+            ...vtransHeaders,
             ...headers,
         });
         if (!res.success) {
@@ -5199,13 +5209,12 @@ class VOTClient {
         return res;
     }
     async requestVtransAudio(url, translationId, headers = {}) {
-        const { secretKey, uuid } = await this.getSession("video-translation");
+        const session = await this.getSession("video-translation");
         const body = yandexProtobuf.encodeTranslationAudioRequest(url, translationId);
-        const sign = await getSignature(body);
-        const res = await this.request(this.paths.videoTranslationAudio, body, {
-            "Vtrans-Signature": sign,
-            "Sec-Vtrans-Sk": secretKey,
-            "Sec-Vtrans-Token": `${sign}:${uuid}:${this.paths.videoTranslationAudio}:${this.componentVersion}`,
+        const path = this.paths.videoTranslationAudio;
+        const vtransHeaders = await getSecYaHeaders("Vtrans", session, body, path);
+        const res = await this.request(path, body, {
+            ...vtransHeaders,
             ...headers,
         }, "PUT");
         if (!res.success) {
@@ -5240,13 +5249,12 @@ class VOTClient {
                 subtitles: []
             }
         }
-        const { secretKey, uuid } = await this.getSession("video-translation");
+        const session = await this.getSession("video-translation");
         const body = yandexProtobuf.encodeSubtitlesRequest(url, requestLang);
-        const sign = await getSignature(body);
-        const res = await this.request(this.paths.videoSubtitles, body, {
-            "Vsubs-Signature": await getSignature(body),
-            "Sec-Vsubs-Sk": secretKey,
-            "Sec-Vsubs-Token": `${sign}:${uuid}:${this.paths.videoSubtitles}:${this.componentVersion}`,
+        const path = this.paths.videoSubtitles;
+        const vsubsHeaders = await getSecYaHeaders("Vsubs", session, body, path);
+        const res = await this.request(path, body, {
+            ...vsubsHeaders,
             ...headers,
         });
         if (!res.success) {
@@ -5255,13 +5263,12 @@ class VOTClient {
         return yandexProtobuf.decodeSubtitlesResponse(res.data);
     }
     async pingStream({ pingId, headers = {} }) {
-        const { secretKey, uuid } = await this.getSession("video-translation");
+        const session = await this.getSession("video-translation");
         const body = yandexProtobuf.encodeStreamPingRequest(pingId);
-        const sign = await getSignature(body);
-        const res = await this.request(this.paths.streamPing, body, {
-            "Vtrans-Signature": await getSignature(body),
-            "Sec-Vtrans-Sk": secretKey,
-            "Sec-Vtrans-Token": `${sign}:${uuid}:${this.paths.streamPing}:${this.componentVersion}`,
+        const path = this.paths.streamPing;
+        const vtransHeaders = await getSecYaHeaders("Vtrans", session, body, path);
+        const res = await this.request(path, body, {
+            ...vtransHeaders,
             ...headers,
         });
         if (!res.success) {
@@ -5274,13 +5281,12 @@ class VOTClient {
         if (this.isCustomLink(url)) {
             throw new VOTLocalizedError("VOTStreamNotSupportedUrl");
         }
-        const { secretKey, uuid } = await this.getSession("video-translation");
+        const session = await this.getSession("video-translation");
         const body = yandexProtobuf.encodeStreamRequest(url, requestLang, responseLang);
-        const sign = await getSignature(body);
-        const res = await this.request(this.paths.streamTranslation, body, {
-            "Vtrans-Signature": await getSignature(body),
-            "Sec-Vtrans-Sk": secretKey,
-            "Sec-Vtrans-Token": `${sign}:${uuid}:${this.paths.streamTranslation}:${this.componentVersion}`,
+        const path = this.paths.streamTranslation;
+        const vtransHeaders = await getSecYaHeaders("Vtrans", session, body, path);
+        const res = await this.request(path, body, {
+            ...vtransHeaders,
             ...headers,
         });
         if (!res.success) {
@@ -10091,9 +10097,8 @@ class VideoHandler {
 
       this.votVideoVolumeSlider.input.addEventListener("input", (e) => {
         const value = Number(e.target.value);
-        this.votVideoVolumeSlider.label.querySelector(
-          "strong",
-        ).textContent = `${value}%`;
+        this.votVideoVolumeSlider.label.querySelector("strong").textContent =
+          `${value}%`;
         this.setVideoVolume(value / 100);
         if (this.data.syncVolume) {
           this.syncVolumeWrapper("video", value);
@@ -10940,9 +10945,8 @@ class VideoHandler {
     const newSlidersVolume = Math.round(videoVolume);
 
     this.votVideoVolumeSlider.input.value = newSlidersVolume;
-    this.votVideoVolumeSlider.label.querySelector(
-      "strong",
-    ).textContent = `${newSlidersVolume}%`;
+    this.votVideoVolumeSlider.label.querySelector("strong").textContent =
+      `${newSlidersVolume}%`;
     ui.updateSlider(this.votVideoVolumeSlider.input);
 
     if (this.data.syncVolume === 1) {
