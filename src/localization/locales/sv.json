@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "För att aktivera detta måste du ha ETT Web Audio API",
   "VOTMediaCSPEnabledOnSite": "Media CSP är aktiverat på den här webbplatsen",
   "VOTOnlyBypassMediaCSP": "Använd den bara för att kringgå Media CSP",
-  "VOTNewAudioPlayer": "Använd den nya ljudspelaren"
+  "VOTNewAudioPlayer": "Använd den nya ljudspelaren",
+  "VOTUseNewModel": "Använd en experimentell variant av Yandex-Röster För vissa videor"
 }

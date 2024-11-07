@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "Ili kuwezesha hii, lazima uwe NA API Ya Sauti Ya Wavuti",
   "VOTMediaCSPEnabledOnSite": "Media CSP imewezeshwa kwenye tovuti hii",
   "VOTOnlyBypassMediaCSP": "Tumia Tu kwa kupitisha Vyombo VYA Habari CSP",
-  "VOTNewAudioPlayer": "Tumia kicheza sauti kipya"
+  "VOTNewAudioPlayer": "Tumia kicheza sauti kipya",
+  "VOTUseNewModel": "Tumia tofauti ya majaribio Ya sauti Za Yandex kwa video zingine"
 }

@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "Bunu aktivləşdirmək üçün veb Audio API olmalıdır",
   "VOTMediaCSPEnabledOnSite": "Media CSP bu saytda aktivdir",
   "VOTOnlyBypassMediaCSP": "Yalnız Media CSP-ni keçmək üçün istifadə edin",
-  "VOTNewAudioPlayer": "Yeni audio pleyerdən istifadə edin"
+  "VOTNewAudioPlayer": "Yeni audio pleyerdən istifadə edin",
+  "VOTUseNewModel": "Bəzi videolar üçün Yandex voices-in eksperimental versiyasından istifadə edin"
 }

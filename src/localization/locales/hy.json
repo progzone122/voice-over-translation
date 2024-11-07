@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "Սա միացնելու համար դուք պետք է ունենաք վեբ աուդիո API",
   "VOTMediaCSPEnabledOnSite": "Media CSP-ն միացված է այս կայքում",
   "VOTOnlyBypassMediaCSP": "Օգտագործեք այն միայն Media CSP-ն շրջանցելու համար",
-  "VOTNewAudioPlayer": "Օգտագործեք նոր աուդիո նվագարկիչ"
+  "VOTNewAudioPlayer": "Օգտագործեք նոր աուդիո նվագարկիչ",
+  "VOTUseNewModel": "Որոշ տեսանյութերի համար օգտագործեք Yandex voices-ի փորձնական տարբերակը"
 }

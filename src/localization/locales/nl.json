@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "Om dit in te schakelen, moet u een Web Audio API hebben",
   "VOTMediaCSPEnabledOnSite": "Media CSP is ingeschakeld op deze site",
   "VOTOnlyBypassMediaCSP": "Gebruik het alleen voor het omzeilen van Media CSP",
-  "VOTNewAudioPlayer": "De nieuwe audiospeler gebruiken"
+  "VOTNewAudioPlayer": "De nieuwe audiospeler gebruiken",
+  "VOTUseNewModel": "Gebruik een experimentele variant van Yandex voices voor sommige video ' s"
 }

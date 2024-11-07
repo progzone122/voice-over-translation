@@ -1,8 +1,8 @@
 diff --git a/node_modules/vot.js/dist/config/sites.js b/node_modules/vot.js/dist/config/sites.js
-index 9c2d6a0..199665d 100644
+index c2db3cc..e7ffb83 100644
 --- a/node_modules/vot.js/dist/config/sites.js
 +++ b/node_modules/vot.js/dist/config/sites.js
-@@ -370,6 +370,14 @@ export default [
+@@ -371,6 +371,14 @@ export default [
              'div[data-purpose="curriculum-item-viewer-content"] > section > div > div > div > div:nth-of-type(2)',
          needExtraData: true,
      },
@@ -265,10 +265,10 @@ index 0000000..693da49
 +export {}
 \ No newline at end of file
 diff --git a/node_modules/vot.js/dist/types/yandex.d.ts b/node_modules/vot.js/dist/types/yandex.d.ts
-index 555b4ac..783def9 100644
+index 4715dab..6b4fd96 100644
 --- a/node_modules/vot.js/dist/types/yandex.d.ts
 +++ b/node_modules/vot.js/dist/types/yandex.d.ts
-@@ -60,6 +60,7 @@ export declare enum VideoService {
+@@ -66,6 +66,7 @@ export declare enum VideoService {
      coursehunterLike = "coursehunterLike",
      sap = "sap",
      udemy = "udemy",
@@ -277,7 +277,7 @@ index 555b4ac..783def9 100644
      linkedin = "linkedin",
      ricktube = "ricktube",
 diff --git a/node_modules/vot.js/dist/types/yandex.js b/node_modules/vot.js/dist/types/yandex.js
-index 520989c..963c358 100644
+index 3811fda..9bd062d 100644
 --- a/node_modules/vot.js/dist/types/yandex.js
 +++ b/node_modules/vot.js/dist/types/yandex.js
 @@ -50,6 +50,7 @@ export var VideoService;

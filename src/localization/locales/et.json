@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "Selle lubamiseks peab teil olema Veebiheli API",
   "VOTMediaCSPEnabledOnSite": "Meedia CSP on lubatud sellel saidil",
   "VOTOnlyBypassMediaCSP": "Kasutage seda ainult mööda meedia CSP",
-  "VOTNewAudioPlayer": "Kasutage uut helipleierit"
+  "VOTNewAudioPlayer": "Kasutage uut helipleierit",
+  "VOTUseNewModel": "Mõne video jaoks kasutage Yandexi häälte eksperimentaalset variatsiooni"
 }

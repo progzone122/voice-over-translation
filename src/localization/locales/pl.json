@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "Aby to włączyć, musisz mieć Web Audio API",
   "VOTMediaCSPEnabledOnSite": "Media CSP jest włączony na tej stronie",
   "VOTOnlyBypassMediaCSP": "Używaj go tylko do omijania mediów CSP",
-  "VOTNewAudioPlayer": "Użyj nowego odtwarzacza audio"
+  "VOTNewAudioPlayer": "Użyj nowego odtwarzacza audio",
+  "VOTUseNewModel": "Użyj eksperymentalnej odmiany głosów Yandex dla niektórych filmów"
 }

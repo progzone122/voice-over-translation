@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "For at aktivere dette skal du have en Internet Audio API",
   "VOTMediaCSPEnabledOnSite": "Media CSP er aktiveret på dette site",
   "VOTOnlyBypassMediaCSP": "Brug den kun til at omgå Media CSP",
-  "VOTNewAudioPlayer": "Brug den nye lydafspiller"
+  "VOTNewAudioPlayer": "Brug den nye lydafspiller",
+  "VOTUseNewModel": "Brug en eksperimentel variation af Yandeks stemmer til nogle videoer"
 }

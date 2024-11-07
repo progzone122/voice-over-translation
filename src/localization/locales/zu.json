@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "Ukuze ukwazi lokhu, kufanele UBE NE-WEB AUDIO API",
   "VOTMediaCSPEnabledOnSite": "I-Media csp inikwe amandla kule sayithi",
   "VOTOnlyBypassMediaCSP": "Sebenzisa kuphela Bypassing Media Csp",
-  "VOTNewAudioPlayer": "Sebenzisa umdlali omusha audio"
+  "VOTNewAudioPlayer": "Sebenzisa umdlali omusha audio",
+  "VOTUseNewModel": "Sebenzisa ukuhlukahluka kokuhlola kwamazwi E Yandex kwamanye amavidiyo"
 }

@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "Per activar-ho, heu de tenir UNA API D'Àudio",
   "VOTMediaCSPEnabledOnSite": "Media CSP està habilitat en aquest lloc",
   "VOTOnlyBypassMediaCSP": "Utilitzeu lo només per evitar Els Mitjans Csp",
-  "VOTNewAudioPlayer": "Utilitzeu el nou reproductor d'àudio"
+  "VOTNewAudioPlayer": "Utilitzeu el nou reproductor d'àudio",
+  "VOTUseNewModel": "Utilitzeu una variació experimental De veus De Yandex per a alguns vídeos"
 }

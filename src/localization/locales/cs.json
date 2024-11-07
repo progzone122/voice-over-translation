@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "Chcete-li to povolit, musíte mít webové Audio API",
   "VOTMediaCSPEnabledOnSite": "Media CSP je povoleno na tomto webu",
   "VOTOnlyBypassMediaCSP": "Použijte jej pouze pro obcházení médií CSP",
-  "VOTNewAudioPlayer": "Použijte nový audio přehrávač"
+  "VOTNewAudioPlayer": "Použijte nový audio přehrávač",
+  "VOTUseNewModel": "U některých videí použijte experimentální variantu hlasů Yandex"
 }

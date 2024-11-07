@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "برای فعال کردن این ، شما باید یک API صوتی وب داشته باشید",
   "VOTMediaCSPEnabledOnSite": "Media CSP در این سایت فعال شده است",
   "VOTOnlyBypassMediaCSP": "از آن فقط برای دور زدن Csp رسانه استفاده کنید",
-  "VOTNewAudioPlayer": "از پخش کننده صوتی جدید استفاده کنید"
+  "VOTNewAudioPlayer": "از پخش کننده صوتی جدید استفاده کنید",
+  "VOTUseNewModel": "برای برخی از فیلم ها از یک تغییر تجربی از صداهای Yandex استفاده کنید"
 }

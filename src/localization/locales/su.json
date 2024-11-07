@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "Pikeun ngaktipkeun ieu, anjeun kudu boga API Audio Web",
   "VOTMediaCSPEnabledOnSite": "Media csp diaktipkeun dina situs ieu",
   "VOTOnlyBypassMediaCSP": "Ngagunakeun eta ngan Pikeun Bypassing Media Csp",
-  "VOTNewAudioPlayer": "Paké pamuter audio anyar"
+  "VOTNewAudioPlayer": "Paké pamuter audio anyar",
+  "VOTUseNewModel": "Paké variasi ékspérimén sora Yandex pikeun sababaraha video"
 }

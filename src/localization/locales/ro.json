@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "Pentru a activa acest lucru, trebuie să aveți un API Audio Web",
   "VOTMediaCSPEnabledOnSite": "Media CSP este activat pe acest site",
   "VOTOnlyBypassMediaCSP": "Utilizați-l numai pentru ocolirea CSP Media",
-  "VOTNewAudioPlayer": "Utilizați noul player audio"
+  "VOTNewAudioPlayer": "Utilizați noul player audio",
+  "VOTUseNewModel": "Utilizați o variantă experimentală a vocilor Yandex pentru unele videoclipuri"
 }

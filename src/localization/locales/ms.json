@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "Untuk membolehkan ini, anda mesti mempunyai API Audio web",
   "VOTMediaCSPEnabledOnSite": "Media CSP diaktifkan di laman web ini",
   "VOTOnlyBypassMediaCSP": "Gunakan ia hanya untuk memintas media CSP",
-  "VOTNewAudioPlayer": "Gunakan pemain audio baru"
+  "VOTNewAudioPlayer": "Gunakan pemain audio baru",
+  "VOTUseNewModel": "Gunakan variasi percubaan suara Yandex untuk beberapa video"
 }

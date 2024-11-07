@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "Biex tippermetti dan, irid ikollok Api Awdjo Tal - Web",
   "VOTMediaCSPEnabledOnSite": "Il-PSK tal-midja huwa attivat fuq dan is-sit",
   "VOTOnlyBypassMediaCSP": "Użaha biss Biex tevita L-PSK Tal-Midja",
-  "VOTNewAudioPlayer": "Uża l-plejer tal-awdjo l-ġdid"
+  "VOTNewAudioPlayer": "Uża l-plejer tal-awdjo l-ġdid",
+  "VOTUseNewModel": "Uża varjazzjoni sperimentali ta'vuċijiet Yandex għal xi vidjows"
 }

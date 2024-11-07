@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "Hau gaitzeko, Audio API Bat Eduki Behar duzu",
   "VOTMediaCSPEnabledOnSite": "Multimedia KSP gune honetan gaituta dago",
   "VOTOnlyBypassMediaCSP": "Erabili Media ksp saihesteko bakarrik",
-  "VOTNewAudioPlayer": "Erabili audio-erreproduzitzaile berria"
+  "VOTNewAudioPlayer": "Erabili audio-erreproduzitzaile berria",
+  "VOTUseNewModel": "Erabili Yandex ahotsen aldaera esperimentala bideo batzuetarako"
 }

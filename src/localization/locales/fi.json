@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "Jotta voit ottaa tämän käyttöön, sinulla on oltava Web Audio API",
   "VOTMediaCSPEnabledOnSite": "Media CSP on käytössä tällä sivustolla",
   "VOTOnlyBypassMediaCSP": "Käytä sitä vain Media CSP: n ohittamiseen",
-  "VOTNewAudioPlayer": "Käytä uutta soittinta"
+  "VOTNewAudioPlayer": "Käytä uutta soittinta",
+  "VOTUseNewModel": "Käytä kokeellista muunnelmaa Yandex-äänistä joissakin videoissa"
 }
