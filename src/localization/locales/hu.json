@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "Ennek engedélyezéséhez rendelkeznie kell egy Web Audio API-val",
   "VOTMediaCSPEnabledOnSite": "A Media CSP engedélyezve van ezen a webhelyen",
   "VOTOnlyBypassMediaCSP": "Csak a Media CSP megkerülésére használja",
-  "VOTNewAudioPlayer": "Az új audiolejátszó használata"
+  "VOTNewAudioPlayer": "Az új audiolejátszó használata",
+  "VOTUseNewModel": "Használja a Yandex voices kísérleti változatát néhány videóhoz"
 }

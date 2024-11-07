@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "Kanggo ngaktifake IKI, SAMPEYAN kudu DUWE API Audio Web",
   "VOTMediaCSPEnabledOnSite": "Media CSP diaktifake ing situs iki",
   "VOTOnlyBypassMediaCSP": "Gunakna Mung Kanggo Ngliwati MEDIA CSP",
-  "VOTNewAudioPlayer": "Gunakake pamuter audio anyar"
+  "VOTNewAudioPlayer": "Gunakake pamuter audio anyar",
+  "VOTUseNewModel": "Gunakake variasi eksperimen Swara Yandex kanggo sawetara video"
 }

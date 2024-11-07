@@ -102,6 +102,9 @@ class VideoHandler {
   audioContext = initAudioContext();
 
   hls = initHls(); // debug enabled only in dev mode
+  /**
+   * @type {import("vot.js").default}
+   */
   votClient;
 
   /**
@@ -185,6 +188,9 @@ class VideoHandler {
         requestLang,
         responseLang,
         translationHelp,
+        extraOpts: {
+          useNewModel: this.data?.useNewModel,
+        },
       });
       debug.log("Translate video result", res);
       if (res.translated && res.remainingTime < 1) {
@@ -343,7 +349,6 @@ class VideoHandler {
     this.audioPlayer = new Chaimu({
       video: this.video,
       debug: DEBUG_MODE,
-      // debug: true,
       fetchFn: GM_fetch,
       preferAudio,
     });
@@ -394,6 +399,7 @@ class VideoHandler {
       translateProxyEnabled: votStorage.get("translateProxyEnabled", 0),
       proxyWorkerHost: votStorage.get("proxyWorkerHost", proxyWorkerHost),
       audioBooster: votStorage.get("audioBooster", 0),
+      useNewModel: votStorage.get("useNewModel", 1),
       localeHash: votStorage.get("locale-hash", ""),
       localeUpdatedAt: votStorage.get("locale-updated-at", 0),
     };
@@ -815,6 +821,14 @@ class VideoHandler {
       );
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votDownloadWithNameCheckbox.container,
+      );
+
+      this.votUseNewModelCheckbox = ui.createCheckbox(
+        localizationProvider.get("VOTUseNewModel"),
+        this.data?.useNewModel ?? false,
+      );
+      this.votSettingsDialog.bodyContainer.appendChild(
+        this.votUseNewModelCheckbox.container,
       );
 
       this.votTranslationServiceSelect = ui.createVOTSelect(
@@ -1380,6 +1394,18 @@ class VideoHandler {
             "downloadWithName value changed. New value: ",
             this.data.downloadWithName,
           );
+        })();
+      });
+
+      this.votUseNewModelCheckbox.input.addEventListener("change", (e) => {
+        (async () => {
+          this.data.useNewModel = Number(e.target.checked);
+          await votStorage.set("useNewModel", this.data.useNewModel);
+          debug.log(
+            "useNewModel value changed. New value: ",
+            this.data.useNewModel,
+          );
+          this.stopTranslate();
         })();
       });
 
@@ -2420,7 +2446,8 @@ class VideoHandler {
         t.videoId === VIDEO_ID &&
         t.expires > getTimestamp() &&
         t.from === requestLang &&
-        t.to === responseLang,
+        t.to === responseLang &&
+        t.useNewModel === this.data.useNewModel,
     );
 
     if (this.cachedTranslation) {
@@ -2462,6 +2489,7 @@ class VideoHandler {
       to: responseLang,
       url: this.downloadTranslationUrl,
       expires: getTimestamp() + this.videoTranslationTTL,
+      useNewModel: this.data?.useNewModel,
     });
   }
 

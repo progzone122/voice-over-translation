@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "ይህንን ለማስቻል, አንድ የድር ኦዲዮ ኤፒአይ ሊኖርዎት ይገባል",
   "VOTMediaCSPEnabledOnSite": "በዚህ ድረ ገጽ ላይ የፒ",
   "VOTOnlyBypassMediaCSP": "የሚዲያ ሲ ኤስ ፒ ለማለፍ ብቻ ይጠቀሙ",
-  "VOTNewAudioPlayer": "አዲሱን የድምፅ ማጫወቻ ይጠቀሙ"
+  "VOTNewAudioPlayer": "አዲሱን የድምፅ ማጫወቻ ይጠቀሙ",
+  "VOTUseNewModel": "ለአንዳንድ ቪዲዮዎች የ Yandex ድምፆች የሙከራ ልዩነት ይጠቀሙ"
 }

@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "ເພື່ອເປີດໃຊ້ສິ່ງນີ້,ທ່ານຕ້ອງມີ Web Audio API",
   "VOTMediaCSPEnabledOnSite": "Media CSP ຖືກເປີດໃຊ້ໃນເວັບໄຊທ໌ນີ້",
   "VOTOnlyBypassMediaCSP": "ໃຊ້ມັນພຽງແຕ່ສໍາລັບການ bypassing ສື່ CSP",
-  "VOTNewAudioPlayer": "ໃຊ້ເຄື່ອງຫຼີ້ນສຽງໃໝ່"
+  "VOTNewAudioPlayer": "ໃຊ້ເຄື່ອງຫຼີ້ນສຽງໃໝ່",
+  "VOTUseNewModel": "ໃຊ້ການປ່ຽນແປງການທົດລອງຂອງ yandex voices ສໍາລັບບາງວິດີໂອ"
 }

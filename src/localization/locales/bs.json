@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "Da biste to omogućili, morate imati Web Audio API",
   "VOTMediaCSPEnabledOnSite": "Media CSP je omogućen na ovom sajtu",
   "VOTOnlyBypassMediaCSP": "Koristi ga samo za zaobilaženje medija CSP",
-  "VOTNewAudioPlayer": "Koristi novi audio player"
+  "VOTNewAudioPlayer": "Koristi novi audio player",
+  "VOTUseNewModel": "Upotrijebite eksperimentalnu varijaciju Yandex glasova za neke videozapise"
 }

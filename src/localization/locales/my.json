@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "ဒါကိုဖွင့်ဖို့ Web Audio API တစ်ခုရှိရပါမယ်။",
   "VOTMediaCSPEnabledOnSite": "ဤဆိုက်တွင်မီဒီယာ CSP ကိုခွင့်ပြုထားသည်။",
   "VOTOnlyBypassMediaCSP": "မီဒီယာ CSP ကိုရှောင်လွှဲဖို့ပဲသုံးပါ။",
-  "VOTNewAudioPlayer": "အသံဖွင့်စက်အသစ်ကိုအသုံးပြုပါ"
+  "VOTNewAudioPlayer": "အသံဖွင့်စက်အသစ်ကိုအသုံးပြုပါ",
+  "VOTUseNewModel": "ဗီဒီယိုအချို့အတွက် Yandex အသံများ၏စမ်းသပ်ပြောင်းလဲမှုတစ်ခုကိုအသုံးပြုပါ။"
 }

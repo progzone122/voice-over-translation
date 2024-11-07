@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "اس کو فعال کرنے کے ل you ، آپ کے پاس ویب آڈیو API ہونا ضروری ہے",
   "VOTMediaCSPEnabledOnSite": "اس سائٹ پر میڈیا سی ایس پی فعال ہے",
   "VOTOnlyBypassMediaCSP": "اسے صرف میڈیا CSP کو نظرانداز کرنے کے لیے استعمال کریں ۔ ",
-  "VOTNewAudioPlayer": "نیا آڈیو پلیئر استعمال کریں"
+  "VOTNewAudioPlayer": "نیا آڈیو پلیئر استعمال کریں",
+  "VOTUseNewModel": "کچھ ویڈیوز کے لئے یاندیکس آوازوں کی تجرباتی تغیر کا استعمال کریں ۔ "
 }

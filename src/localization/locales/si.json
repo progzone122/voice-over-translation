@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "මෙය සක් රීය කිරීම සඳහා, ඔබට වෙබ් ශ් රව් ය API එකක් තිබිය යුතුය",
   "VOTMediaCSPEnabledOnSite": "මෙම වෙබ් අඩවියේ csp මාධ් ය සක් රීය කර ඇත",
   "VOTOnlyBypassMediaCSP": "මාධ්ය CSP මඟ හැරීම සඳහා පමණක් එය භාවිතා කරන්න",
-  "VOTNewAudioPlayer": "නව ශ්රව්ය වාදකය භාවිතා කරන්න"
+  "VOTNewAudioPlayer": "නව ශ්රව්ය වාදකය භාවිතා කරන්න",
+  "VOTUseNewModel": "සමහර වීඩියෝ සඳහා Yandex voices හි පර්යේෂණාත්මක විචලනයක් භාවිතා කරන්න"
 }

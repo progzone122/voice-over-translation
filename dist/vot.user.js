@@ -371,7 +371,7 @@ function createBaseVideoTranslationRequest() {
         unknown2: 0,
         unknown3: 0,
         bypassCache: false,
-        unknown4: 0,
+        useNewModel: false,
     };
 }
 const VideoTranslationRequest = {
@@ -415,8 +415,8 @@ const VideoTranslationRequest = {
         if (message.bypassCache !== false) {
             writer.uint32(136).bool(message.bypassCache);
         }
-        if (message.unknown4 !== 0) {
-            writer.uint32(144).int32(message.unknown4);
+        if (message.useNewModel !== false) {
+            writer.uint32(144).bool(message.useNewModel);
         }
         return writer;
     },
@@ -509,7 +509,7 @@ const VideoTranslationRequest = {
                     if (tag !== 144) {
                         break;
                     }
-                    message.unknown4 = reader.int32();
+                    message.useNewModel = reader.bool();
                     continue;
             }
             if ((tag & 7) === 4 || tag === 0) {
@@ -536,7 +536,7 @@ const VideoTranslationRequest = {
             unknown2: isSet(object.unknown2) ? globalThis.Number(object.unknown2) : 0,
             unknown3: isSet(object.unknown3) ? globalThis.Number(object.unknown3) : 0,
             bypassCache: isSet(object.bypassCache) ? globalThis.Boolean(object.bypassCache) : false,
-            unknown4: isSet(object.unknown4) ? globalThis.Number(object.unknown4) : 0,
+            useNewModel: isSet(object.useNewModel) ? globalThis.Boolean(object.useNewModel) : false,
         };
     },
     toJSON(message) {
@@ -580,8 +580,8 @@ const VideoTranslationRequest = {
         if (message.bypassCache !== false) {
             obj.bypassCache = message.bypassCache;
         }
-        if (message.unknown4 !== 0) {
-            obj.unknown4 = Math.round(message.unknown4);
+        if (message.useNewModel !== false) {
+            obj.useNewModel = message.useNewModel;
         }
         return obj;
     },
@@ -603,7 +603,7 @@ const VideoTranslationRequest = {
         message.unknown2 = object.unknown2 ?? 0;
         message.unknown3 = object.unknown3 ?? 0;
         message.bypassCache = object.bypassCache ?? false;
-        message.unknown4 = object.unknown4 ?? 0;
+        message.useNewModel = object.useNewModel ?? false;
         return message;
     },
 };
@@ -1758,21 +1758,21 @@ var AudioInfoMessage;
 
 
 const yandexProtobuf = {
-    encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp) {
+    encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp, { forceSourceLang = false, bypassCache = false, useNewModel = true, } = {}) {
         return VideoTranslationRequest.encode({
             url,
             firstRequest: true,
             duration,
             unknown0: 1,
             language: requestLang,
-            forceSourceLang: false,
+            forceSourceLang,
             unknown1: 0,
             translationHelp: translationHelp ? translationHelp : [],
             responseLanguage: responseLang,
-            unknown2: 0,
+            unknown2: 1,
             unknown3: 1,
-            bypassCache: false,
-            unknown4: 1,
+            bypassCache,
+            useNewModel,
         }).finish();
     },
     decodeTranslationResponse(response) {
@@ -1836,7 +1836,7 @@ const yandexProtobuf = {
     hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
     defaultDuration: 343,
     loggerLevel: 1,
-    version: "1.3.9",
+    version: "1.3.10",
 });
 
 ;// ./node_modules/vot.js/dist/types/logger.js
@@ -2582,7 +2582,7 @@ const sitesCoursehunterLike = ["coursehunter.net", "coursetrain.net"];
 ]);
 
 ;// ./src/localization/locales/en.json
-const en_namespaceObject = /*#__PURE__*/JSON.parse('{"__version__":5,"recommended":"recommended","translateVideo":"Translate video","disableTranslate":"Turn off","translationSettings":"Translation settings","subtitlesSettings":"Subtitles settings","about":"About extension","resetSettings":"Reset settings","videoBeingTranslated":"The video is being translated","videoLanguage":"Video language","translationLanguage":"Translation language","translationTake":"The translation will take","translationTakeMoreThanHour":"The translation will take more than an hour","translationTakeAboutMinute":"The translation will take about a minute","translationTakeFewMinutes":"The translation will take a few minutes","translationTakeApproximatelyMinutes":"The translation will take approximately {0} minutes","translationTakeApproximatelyMinute":"The translation will take approximately {0} minutes","unSupportedExtensionError":"Error! {0} is not supported by this version of the extension!\\n\\nPlease use the cloudflare version of the VOT extension.","requestTranslationFailed":"Failed to request video translation","audioNotReceived":"Audio link not received","grantPermissionToAutoPlay":"Grant permission to autoplay","audioFormatNotSupported":"The audio format is not supported","VOTAutoTranslate":"Translate on open","VOTDontTranslateYourLang":"Do not translate from my language","VOTVolume":"Video volume","VOTVolumeTranslation":"Translation Volume","VOTAutoSetVolume":"Reduce video volume to ","VOTShowVideoSlider":"Video volume slider","VOTSyncVolume":"Link translation and video volume","VOTAudioProxy":"Proxy received audio","VOTDisableFromYourLang":"You have disabled the translation of the video in your language","VOTLiveNotSupported":"Translation of live streams is not supported","VOTPremiere":"Wait for the premiere to end before translating","VOTVideoIsTooLong":"Video is too long","VOTNoVideoIDFound":"No video ID found","VOTSubtitles":"Subtitles","VOTSubtitlesDisabled":"Disabled","VOTSubtitlesMaxLength":"Subtitles max length","VOTHighlightWords":"Highlight words","VOTTranslatedFrom":"translated from","VOTAutogenerated":"autogenerated","VOTSettings":"VOT Settings","VOTMenuLanguage":"Menu language","VOTAuthors":"Authors","VOTVersion":"Version","VOTLoader":"Loader","VOTBrowser":"Browser","VOTShowPiPButton":"Show PiP button","langs":{"auto":"Auto","af":"Afrikaans","ak":"Akan","sq":"Albanian","am":"Amharic","ar":"Arabic","hy":"Armenian","as":"Assamese","ay":"Aymara","az":"Azerbaijani","bn":"Bangla","eu":"Basque","be":"Belarusian","bho":"Bhojpuri","bs":"Bosnian","bg":"Bulgarian","my":"Burmese","ca":"Catalan","ceb":"Cebuano","zh":"Chinese","zh-Hans":"Chinese (Simplified)","zh-Hant":"Chinese (Traditional)","co":"Corsican","hr":"Croatian","cs":"Czech","da":"Danish","dv":"Divehi","nl":"Dutch","en":"English","eo":"Esperanto","et":"Estonian","ee":"Ewe","fil":"Filipino","fi":"Finnish","fr":"French","gl":"Galician","lg":"Ganda","ka":"Georgian","de":"German","el":"Greek","gn":"Guarani","gu":"Gujarati","ht":"Haitian Creole","ha":"Hausa","haw":"Hawaiian","iw":"Hebrew","hi":"Hindi","hmn":"Hmong","hu":"Hungarian","is":"Icelandic","ig":"Igbo","id":"Indonesian","ga":"Irish","it":"Italian","ja":"Japanese","jv":"Javanese","kn":"Kannada","kk":"Kazakh","km":"Khmer","rw":"Kinyarwanda","ko":"Korean","kri":"Krio","ku":"Kurdish","ky":"Kyrgyz","lo":"Lao","la":"Latin","lv":"Latvian","ln":"Lingala","lt":"Lithuanian","lb":"Luxembourgish","mk":"Macedonian","mg":"Malagasy","ms":"Malay","ml":"Malayalam","mt":"Maltese","mi":"Māori","mr":"Marathi","mn":"Mongolian","ne":"Nepali","nso":"Northern Sotho","no":"Norwegian","ny":"Nyanja","or":"Odia","om":"Oromo","ps":"Pashto","fa":"Persian","pl":"Polish","pt":"Portuguese","pa":"Punjabi","qu":"Quechua","ro":"Romanian","ru":"Russian","sm":"Samoan","sa":"Sanskrit","gd":"Scottish Gaelic","sr":"Serbian","sn":"Shona","sd":"Sindhi","si":"Sinhala","sk":"Slovak","sl":"Slovenian","so":"Somali","st":"Southern Sotho","es":"Spanish","su":"Sundanese","sw":"Swahili","sv":"Swedish","tg":"Tajik","ta":"Tamil","tt":"Tatar","te":"Telugu","th":"Thai","ti":"Tigrinya","ts":"Tsonga","tr":"Turkish","tk":"Turkmen","uk":"Ukrainian","ur":"Urdu","ug":"Uyghur","uz":"Uzbek","vi":"Vietnamese","cy":"Welsh","fy":"Western Frisian","xh":"Xhosa","yi":"Yiddish","yo":"Yoruba","zu":"Zulu"},"udemyModuleArgsNotFound":"Could not get udemy module data due to the fact that ModuleArgs was not found","VOTTranslationHelpNull":"Could not get the data required for the translate","streamNoConnectionToServer":"There is no connection to the server","searchField":"Search...","VOTTranslateAPIErrors":"Translate errors from the API","VOTTranslationService":"Translation Service","VOTDetectService":"Detect Service","VOTTranslatingError":"Translating the error","VOTProxyWorkerHost":"Enter the proxy worker address","VOTM3u8ProxyHost":"Enter the address of the m3u8 proxy worker","proxySettings":"Proxy Settings","translationTakeApproximatelyMinute2":"The translation will take approximately {0} minutes","VOTAudioBooster":"Extended translation volume increase","VOTSubtitlesDesign":"Subtitles design","VOTSubtitlesFontSize":"Font size of subtitles","VOTSubtitlesOpacity":"Transparency of the subtitle background","VOTPressNewHotkey":"Press the new hotkey...","VOTCreateTranslationHotkey":"Create Hotkey for Translation","VOTChangeHotkeyWithCurrent":"Change Hotkey (Current: {0})","VOTSubtitlesDownloadFormat":"The format for downloading subtitles","VOTDownloadWithName":"Download files with the video name","VOTUpdateLocaleFiles":"Update localization files","VOTLocaleHash":"Locale hash","VOTUpdatedAt":"Updated at","VOTNeedWebAudioAPI":"To enable this, you must have a Web Audio API","VOTMediaCSPEnabledOnSite":"Media CSP is enabled on this site","VOTOnlyBypassMediaCSP":"Use it only for bypassing Media CSP","VOTNewAudioPlayer":"Use the new audio player"}');
+const en_namespaceObject = /*#__PURE__*/JSON.parse('{"__version__":5,"recommended":"recommended","translateVideo":"Translate video","disableTranslate":"Turn off","translationSettings":"Translation settings","subtitlesSettings":"Subtitles settings","about":"About extension","resetSettings":"Reset settings","videoBeingTranslated":"The video is being translated","videoLanguage":"Video language","translationLanguage":"Translation language","translationTake":"The translation will take","translationTakeMoreThanHour":"The translation will take more than an hour","translationTakeAboutMinute":"The translation will take about a minute","translationTakeFewMinutes":"The translation will take a few minutes","translationTakeApproximatelyMinutes":"The translation will take approximately {0} minutes","translationTakeApproximatelyMinute":"The translation will take approximately {0} minutes","unSupportedExtensionError":"Error! {0} is not supported by this version of the extension!\\n\\nPlease use the cloudflare version of the VOT extension.","requestTranslationFailed":"Failed to request video translation","audioNotReceived":"Audio link not received","grantPermissionToAutoPlay":"Grant permission to autoplay","audioFormatNotSupported":"The audio format is not supported","VOTAutoTranslate":"Translate on open","VOTDontTranslateYourLang":"Do not translate from my language","VOTVolume":"Video volume","VOTVolumeTranslation":"Translation Volume","VOTAutoSetVolume":"Reduce video volume to ","VOTShowVideoSlider":"Video volume slider","VOTSyncVolume":"Link translation and video volume","VOTAudioProxy":"Proxy received audio","VOTDisableFromYourLang":"You have disabled the translation of the video in your language","VOTLiveNotSupported":"Translation of live streams is not supported","VOTPremiere":"Wait for the premiere to end before translating","VOTVideoIsTooLong":"Video is too long","VOTNoVideoIDFound":"No video ID found","VOTSubtitles":"Subtitles","VOTSubtitlesDisabled":"Disabled","VOTSubtitlesMaxLength":"Subtitles max length","VOTHighlightWords":"Highlight words","VOTTranslatedFrom":"translated from","VOTAutogenerated":"autogenerated","VOTSettings":"VOT Settings","VOTMenuLanguage":"Menu language","VOTAuthors":"Authors","VOTVersion":"Version","VOTLoader":"Loader","VOTBrowser":"Browser","VOTShowPiPButton":"Show PiP button","langs":{"auto":"Auto","af":"Afrikaans","ak":"Akan","sq":"Albanian","am":"Amharic","ar":"Arabic","hy":"Armenian","as":"Assamese","ay":"Aymara","az":"Azerbaijani","bn":"Bangla","eu":"Basque","be":"Belarusian","bho":"Bhojpuri","bs":"Bosnian","bg":"Bulgarian","my":"Burmese","ca":"Catalan","ceb":"Cebuano","zh":"Chinese","zh-Hans":"Chinese (Simplified)","zh-Hant":"Chinese (Traditional)","co":"Corsican","hr":"Croatian","cs":"Czech","da":"Danish","dv":"Divehi","nl":"Dutch","en":"English","eo":"Esperanto","et":"Estonian","ee":"Ewe","fil":"Filipino","fi":"Finnish","fr":"French","gl":"Galician","lg":"Ganda","ka":"Georgian","de":"German","el":"Greek","gn":"Guarani","gu":"Gujarati","ht":"Haitian Creole","ha":"Hausa","haw":"Hawaiian","iw":"Hebrew","hi":"Hindi","hmn":"Hmong","hu":"Hungarian","is":"Icelandic","ig":"Igbo","id":"Indonesian","ga":"Irish","it":"Italian","ja":"Japanese","jv":"Javanese","kn":"Kannada","kk":"Kazakh","km":"Khmer","rw":"Kinyarwanda","ko":"Korean","kri":"Krio","ku":"Kurdish","ky":"Kyrgyz","lo":"Lao","la":"Latin","lv":"Latvian","ln":"Lingala","lt":"Lithuanian","lb":"Luxembourgish","mk":"Macedonian","mg":"Malagasy","ms":"Malay","ml":"Malayalam","mt":"Maltese","mi":"Māori","mr":"Marathi","mn":"Mongolian","ne":"Nepali","nso":"Northern Sotho","no":"Norwegian","ny":"Nyanja","or":"Odia","om":"Oromo","ps":"Pashto","fa":"Persian","pl":"Polish","pt":"Portuguese","pa":"Punjabi","qu":"Quechua","ro":"Romanian","ru":"Russian","sm":"Samoan","sa":"Sanskrit","gd":"Scottish Gaelic","sr":"Serbian","sn":"Shona","sd":"Sindhi","si":"Sinhala","sk":"Slovak","sl":"Slovenian","so":"Somali","st":"Southern Sotho","es":"Spanish","su":"Sundanese","sw":"Swahili","sv":"Swedish","tg":"Tajik","ta":"Tamil","tt":"Tatar","te":"Telugu","th":"Thai","ti":"Tigrinya","ts":"Tsonga","tr":"Turkish","tk":"Turkmen","uk":"Ukrainian","ur":"Urdu","ug":"Uyghur","uz":"Uzbek","vi":"Vietnamese","cy":"Welsh","fy":"Western Frisian","xh":"Xhosa","yi":"Yiddish","yo":"Yoruba","zu":"Zulu"},"udemyModuleArgsNotFound":"Could not get udemy module data due to the fact that ModuleArgs was not found","VOTTranslationHelpNull":"Could not get the data required for the translate","streamNoConnectionToServer":"There is no connection to the server","searchField":"Search...","VOTTranslateAPIErrors":"Translate errors from the API","VOTTranslationService":"Translation Service","VOTDetectService":"Detect Service","VOTTranslatingError":"Translating the error","VOTProxyWorkerHost":"Enter the proxy worker address","VOTM3u8ProxyHost":"Enter the address of the m3u8 proxy worker","proxySettings":"Proxy Settings","translationTakeApproximatelyMinute2":"The translation will take approximately {0} minutes","VOTAudioBooster":"Extended translation volume increase","VOTSubtitlesDesign":"Subtitles design","VOTSubtitlesFontSize":"Font size of subtitles","VOTSubtitlesOpacity":"Transparency of the subtitle background","VOTPressNewHotkey":"Press the new hotkey...","VOTCreateTranslationHotkey":"Create Hotkey for Translation","VOTChangeHotkeyWithCurrent":"Change Hotkey (Current: {0})","VOTSubtitlesDownloadFormat":"The format for downloading subtitles","VOTDownloadWithName":"Download files with the video name","VOTUpdateLocaleFiles":"Update localization files","VOTLocaleHash":"Locale hash","VOTUpdatedAt":"Updated at","VOTNeedWebAudioAPI":"To enable this, you must have a Web Audio API","VOTMediaCSPEnabledOnSite":"Media CSP is enabled on this site","VOTOnlyBypassMediaCSP":"Use it only for bypassing Media CSP","VOTNewAudioPlayer":"Use the new audio player","VOTUseNewModel":"Use an experimental variation of Yandex voices for some videos"}');
 ;// ./src/utils/debug.ts
 /* harmony default export */ const debug = ({
     log: (...text) => {
@@ -5109,10 +5109,10 @@ class VOTClient {
         };
         return this.sessions[module];
     }
-    async translateVideoYAImpl({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, shouldSendFailedAudio = true, }) {
+    async translateVideoYAImpl({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, extraOpts = {}, shouldSendFailedAudio = true, }) {
         const { url, duration = config.defaultDuration } = videoData;
         const session = await this.getSession("video-translation");
-        const body = yandexProtobuf.encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp);
+        const body = yandexProtobuf.encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp, extraOpts);
         const path = this.paths.videoTranslation;
         const vtransHeaders = await getSecYaHeaders("Vtrans", session, body, path);
         const res = await this.request(path, body, {
@@ -5222,7 +5222,7 @@ class VOTClient {
         }
         return yandexProtobuf.decodeTranslationAudioResponse(res.data);
     }
-    async translateVideo({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, }) {
+    async translateVideo({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, extraOpts = {}, shouldSendFailedAudio = true, }) {
         const { url, videoId, host } = videoData;
         return this.isCustomLink(url)
             ? await this.translateVideoVOTImpl({
@@ -5239,6 +5239,8 @@ class VOTClient {
                 responseLang,
                 translationHelp,
                 headers,
+                extraOpts,
+                shouldSendFailedAudio,
             });
     }
     async getSubtitles({ videoData, requestLang = this.requestLang, headers = {}, }) {
@@ -8988,6 +8990,9 @@ class VideoHandler {
   audioContext = initAudioContext();
 
   hls = initHls(); // debug enabled only in dev mode
+  /**
+   * @type {import("vot.js").default}
+   */
   votClient;
 
   /**
@@ -9071,6 +9076,9 @@ class VideoHandler {
         requestLang,
         responseLang,
         translationHelp,
+        extraOpts: {
+          useNewModel: this.data?.useNewModel,
+        },
       });
       debug.log("Translate video result", res);
       if (res.translated && res.remainingTime < 1) {
@@ -9229,7 +9237,6 @@ class VideoHandler {
     this.audioPlayer = new Chaimu({
       video: this.video,
       debug: false,
-      // debug: true,
       fetchFn: GM_fetch,
       preferAudio,
     });
@@ -9280,6 +9287,7 @@ class VideoHandler {
       translateProxyEnabled: votStorage.get("translateProxyEnabled", 0),
       proxyWorkerHost: votStorage.get("proxyWorkerHost", proxyWorkerHost),
       audioBooster: votStorage.get("audioBooster", 0),
+      useNewModel: votStorage.get("useNewModel", 1),
       localeHash: votStorage.get("locale-hash", ""),
       localeUpdatedAt: votStorage.get("locale-updated-at", 0),
     };
@@ -9703,6 +9711,14 @@ class VideoHandler {
         this.votDownloadWithNameCheckbox.container,
       );
 
+      this.votUseNewModelCheckbox = ui.createCheckbox(
+        localizationProvider.get("VOTUseNewModel"),
+        this.data?.useNewModel ?? false,
+      );
+      this.votSettingsDialog.bodyContainer.appendChild(
+        this.votUseNewModelCheckbox.container,
+      );
+
       this.votTranslationServiceSelect = ui.createVOTSelect(
         this.data.translationService.toUpperCase(),
         localizationProvider.get("VOTTranslationService"),
@@ -10097,8 +10113,9 @@ class VideoHandler {
 
       this.votVideoVolumeSlider.input.addEventListener("input", (e) => {
         const value = Number(e.target.value);
-        this.votVideoVolumeSlider.label.querySelector("strong").textContent =
-          `${value}%`;
+        this.votVideoVolumeSlider.label.querySelector(
+          "strong",
+        ).textContent = `${value}%`;
         this.setVideoVolume(value / 100);
         if (this.data.syncVolume) {
           this.syncVolumeWrapper("video", value);
@@ -10266,6 +10283,18 @@ class VideoHandler {
             "downloadWithName value changed. New value: ",
             this.data.downloadWithName,
           );
+        })();
+      });
+
+      this.votUseNewModelCheckbox.input.addEventListener("change", (e) => {
+        (async () => {
+          this.data.useNewModel = Number(e.target.checked);
+          await votStorage.set("useNewModel", this.data.useNewModel);
+          debug.log(
+            "useNewModel value changed. New value: ",
+            this.data.useNewModel,
+          );
+          this.stopTranslate();
         })();
       });
 
@@ -10945,8 +10974,9 @@ class VideoHandler {
     const newSlidersVolume = Math.round(videoVolume);
 
     this.votVideoVolumeSlider.input.value = newSlidersVolume;
-    this.votVideoVolumeSlider.label.querySelector("strong").textContent =
-      `${newSlidersVolume}%`;
+    this.votVideoVolumeSlider.label.querySelector(
+      "strong",
+    ).textContent = `${newSlidersVolume}%`;
     ui.updateSlider(this.votVideoVolumeSlider.input);
 
     if (this.data.syncVolume === 1) {
@@ -11306,7 +11336,8 @@ class VideoHandler {
         t.videoId === VIDEO_ID &&
         t.expires > utils_getTimestamp() &&
         t.from === requestLang &&
-        t.to === responseLang,
+        t.to === responseLang &&
+        t.useNewModel === this.data.useNewModel,
     );
 
     if (this.cachedTranslation) {
@@ -11348,6 +11379,7 @@ class VideoHandler {
       to: responseLang,
       url: this.downloadTranslationUrl,
       expires: utils_getTimestamp() + this.videoTranslationTTL,
+      useNewModel: this.data?.useNewModel,
     });
   }
 

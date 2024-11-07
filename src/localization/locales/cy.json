@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "I alluogi HYN, rhaid bod GENNYCH API Sain Gwe",
   "VOTMediaCSPEnabledOnSite": "Mae csp cyfryngau wedi'i alluogi ar y wefan hon",
   "VOTOnlyBypassMediaCSP": "Defnyddiwch ef yn unig ar gyfer osgoi Cyfryngau CSP",
-  "VOTNewAudioPlayer": "Defnyddio'r chwaraewr sain newydd"
+  "VOTNewAudioPlayer": "Defnyddio'r chwaraewr sain newydd",
+  "VOTUseNewModel": "Defnyddiwch amrywiad arbrofol o leisiau Yandex ar gyfer rhai fideos"
 }

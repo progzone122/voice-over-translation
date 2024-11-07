@@ -203,5 +203,6 @@
   "VOTNeedWebAudioAPI": "Untuk mengaktifkan ini, Anda harus memiliki Web Audio API",
   "VOTMediaCSPEnabledOnSite": "Media CSP diaktifkan di situs ini",
   "VOTOnlyBypassMediaCSP": "Gunakan hanya untuk melewati Media CSP",
-  "VOTNewAudioPlayer": "Gunakan pemutar audio baru"
+  "VOTNewAudioPlayer": "Gunakan pemutar audio baru",
+  "VOTUseNewModel": "Gunakan variasi eksperimental suara Yandex untuk beberapa video"
 }
