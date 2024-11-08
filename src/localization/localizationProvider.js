@@ -41,10 +41,14 @@ export const localizationProvider = new (class {
     }
   }
 
-  async checkUpdates() {
+  async checkUpdates(force = false) {
     debug.log("Check locale updates...");
     try {
-      const res = await GM_fetch(`${localizationUrl}/hashes.json`);
+      const res = await GM_fetch(
+        `${localizationUrl}/hashes.json${
+          force ? `?timestamp=${getTimestamp()}` : ""
+        }`,
+      );
       if (res.status !== 200) {
         throw res.status;
       }
@@ -76,7 +80,7 @@ export const localizationProvider = new (class {
       return;
     }
 
-    const hash = await this.checkUpdates();
+    const hash = await this.checkUpdates(force);
     await votStorage.set("locale-updated-at", timestamp);
     if (!hash) {
       return;
@@ -85,7 +89,9 @@ export const localizationProvider = new (class {
     debug.log("Updating locale...");
     try {
       const res = await GM_fetch(
-        `${localizationUrl}/locales/${this.lang}.json`,
+        `${localizationUrl}/locales/${this.lang}.json${
+          force ? `?timestamp=${timestamp}` : ""
+        }`,
       );
       if (res.status !== 200) {
         throw res.status;
