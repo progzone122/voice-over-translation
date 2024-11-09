@@ -7670,7 +7670,7 @@ class VideoObserver {
 
 ;// ./node_modules/chaimu/dist/config.js
 /* harmony default export */ const dist_config = ({
-    version: "1.0.2",
+    version: "1.0.3",
     debug: false,
     fetchFn: fetch.bind(window),
 });
@@ -8575,8 +8575,7 @@ class AudioPlayer extends BasePlayer {
     audioSource;
     constructor(chaimu, src) {
         super(chaimu, src);
-        this.audio = new Audio(src);
-        this.audio.crossOrigin = "anonymous";
+        this.updateAudio();
     }
     initAudioBooster() {
         if (!this.chaimu.audioContext) {
@@ -8592,8 +8591,14 @@ class AudioPlayer extends BasePlayer {
         this.audioSource.connect(this.gainNode);
         return this;
     }
+    updateAudio() {
+        this.audio = new Audio(this.src);
+        this.audio.crossOrigin = "anonymous";
+        return this;
+    }
     async init() {
         return new Promise((resolve) => {
+            this.updateAudio();
             this.initAudioBooster();
             return resolve(this);
         });
@@ -10119,8 +10124,9 @@ class VideoHandler {
 
       this.votVideoVolumeSlider.input.addEventListener("input", (e) => {
         const value = Number(e.target.value);
-        this.votVideoVolumeSlider.label.querySelector("strong").textContent =
-          `${value}%`;
+        this.votVideoVolumeSlider.label.querySelector(
+          "strong",
+        ).textContent = `${value}%`;
         this.setVideoVolume(value / 100);
         if (this.data.syncVolume) {
           this.syncVolumeWrapper("video", value);
@@ -10979,8 +10985,9 @@ class VideoHandler {
     const newSlidersVolume = Math.round(videoVolume);
 
     this.votVideoVolumeSlider.input.value = newSlidersVolume;
-    this.votVideoVolumeSlider.label.querySelector("strong").textContent =
-      `${newSlidersVolume}%`;
+    this.votVideoVolumeSlider.label.querySelector(
+      "strong",
+    ).textContent = `${newSlidersVolume}%`;
     ui.updateSlider(this.votVideoVolumeSlider.input);
 
     if (this.data.syncVolume === 1) {
@@ -11272,6 +11279,7 @@ class VideoHandler {
     try {
       this.audioPlayer.init();
     } catch (err) {
+      debug.log("this.audioPlayer.init() error", err);
       if (err.message.includes("Failed to fetch audio file")) {
         this.videoHandler.data.audioProxy = 1;
         await votStorage.set("audioProxy", 1);
