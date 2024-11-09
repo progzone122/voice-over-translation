@@ -2378,6 +2378,7 @@ class VideoHandler {
     try {
       this.audioPlayer.init();
     } catch (err) {
+      debug.log("this.audioPlayer.init() error", err);
       if (err.message.includes("Failed to fetch audio file")) {
         this.videoHandler.data.audioProxy = 1;
         await votStorage.set("audioProxy", 1);
