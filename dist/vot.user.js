@@ -165,7 +165,7 @@
 // @connect        onrender.com
 // @connect        workers.dev
 // @namespace      vot
-// @version        1.7.1
+// @version        1.7.2
 // @icon           https://translate.yandex.ru/icons/favicon.ico
 // @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation
@@ -4577,7 +4577,7 @@ class YandexDiskHelper extends BaseHelper {
     async getVideoId(url) {
         const fileId = /\/i\/([^/]+)/.exec(url.pathname)?.[1];
         if (fileId) {
-            return fileId;
+            return `i/${fileId}`;
         }
 
         return url.pathname.startsWith(this.CLIENT_PREFIX)
@@ -10124,9 +10124,8 @@ class VideoHandler {
 
       this.votVideoVolumeSlider.input.addEventListener("input", (e) => {
         const value = Number(e.target.value);
-        this.votVideoVolumeSlider.label.querySelector(
-          "strong",
-        ).textContent = `${value}%`;
+        this.votVideoVolumeSlider.label.querySelector("strong").textContent =
+          `${value}%`;
         this.setVideoVolume(value / 100);
         if (this.data.syncVolume) {
           this.syncVolumeWrapper("video", value);
@@ -10985,9 +10984,8 @@ class VideoHandler {
     const newSlidersVolume = Math.round(videoVolume);
 
     this.votVideoVolumeSlider.input.value = newSlidersVolume;
-    this.votVideoVolumeSlider.label.querySelector(
-      "strong",
-    ).textContent = `${newSlidersVolume}%`;
+    this.votVideoVolumeSlider.label.querySelector("strong").textContent =
+      `${newSlidersVolume}%`;
     ui.updateSlider(this.votVideoVolumeSlider.input);
 
     if (this.data.syncVolume === 1) {
