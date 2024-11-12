@@ -2617,6 +2617,31 @@ const videoObserver = new VideoObserver();
 const videosWrappers = new WeakMap();
 
 /**
+ * Finds the parent element of a given element that matches a specified selector.
+ *
+ * @param {HTMLElement} el - The element to start searching from.
+ * @param {string} selector - The CSS selector to match.
+ * @returns {HTMLElement|null} The parent element that matches the selector, or null if no match is found.
+ */
+function climb(el, selector) {
+  if (!el || !selector) {
+    return null;
+  }
+
+  if (el instanceof Document) {
+    return el.querySelector(selector);
+  }
+
+  const foundEl = el.closest(selector);
+  if (foundEl) {
+    return foundEl;
+  }
+
+  const root = el.getRootNode();
+  return climb(root instanceof Document ? root : root.host, selector);
+}
+
+/**
  * Finds the container element for a given video element and site object.
  *
  * @param {Object} site - The site object.
@@ -2624,16 +2649,15 @@ const videosWrappers = new WeakMap();
  * @return {Object|null} The container element or null if not found.
  */
 function findContainer(site, video) {
+  debug.log("findContainer", site, video);
   if (site.shadowRoot) {
-    let container = site.selector
-      ? Array.from(document.querySelectorAll(site.selector)).find((e) =>
-          e.shadowRoot.contains(video),
-        )
-      : video.parentElement;
-    return container && container.shadowRoot
-      ? container.parentElement
-      : container;
+    let container = climb(video, site.selector);
+
+    debug.log("findContainer with site.shadowRoot", container);
+    return container ?? video.parentElement;
   }
+
+  debug.log("findContainer without shadowRoot");
 
   const browserVersion = browserInfo.browser.version?.split(".")?.[0];
   if (
