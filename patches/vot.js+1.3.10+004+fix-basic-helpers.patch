@@ -213,10 +213,10 @@ index 014550b..9993417 100644
                  .find((node) => varDelimiter.exec(node.textContent));
              if (!dataScript) {
 diff --git a/node_modules/vot.js/dist/helpers/reddit.js b/node_modules/vot.js/dist/helpers/reddit.js
-index 3a19bda..927bde3 100644
+index 3a19bda..56e9cc1 100644
 --- a/node_modules/vot.js/dist/helpers/reddit.js
 +++ b/node_modules/vot.js/dist/helpers/reddit.js
-@@ -4,11 +4,11 @@ export default class RedditHelper extends BaseHelper {
+@@ -4,11 +4,13 @@ export default class RedditHelper extends BaseHelper {
      API_ORIGIN = "https://www.reddit.com";
      async getVideoData(videoId) {
          try {
@@ -225,11 +225,13 @@ index 3a19bda..927bde3 100644
 -            const contentUrl = /https:\/\/v\.redd\.it\/([^/]+)\/HLSPlaylist\.m3u8\?([^"]+)/
 -                .exec(content)?.[0]
 -                ?.replaceAll("&amp;", "&");
-+            const contentUrl = document
-+                .querySelector("[data-hls-url]")
-+                ?.dataset
-+                .hlsUrl
-+                .replaceAll("&amp;", "&");
++            const contentUrl = this.service.additionalData === "old" ?
++                document
++                    .querySelector("[data-hls-url]")
++                    ?.dataset
++                    .hlsUrl
++                    .replaceAll("&amp;", "&") :
++                document.querySelector("shreddit-player-2")?.src;
              if (!contentUrl) {
                  throw new VideoHelperError("Failed to find content url");
              }

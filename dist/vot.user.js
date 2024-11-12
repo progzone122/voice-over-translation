@@ -59,7 +59,7 @@
 // @match          *://*.youku.com/*
 // @match          *://*.archive.org/*
 // @match          *://*.patreon.com/*
-// @match          *://old.reddit.com/*
+// @match          *://*.reddit.com/*
 // @match          *://*.kodik.info/*
 // @match          *://*.kodik.biz/*
 // @match          *://*.kodik.cc/*
@@ -2470,10 +2470,20 @@ const sitesCoursehunterLike = ["coursehunter.net", "coursetrain.net"];
         needExtraData: true,
     },
     {
+        additionalData: "old",
         host: VideoService.reddit,
         url: "stub",
-        match: /^(www.|new.|old.)?reddit.com$/,
+        match: /^old.reddit.com$/,
         selector: ".reddit-video-player-root",
+        needExtraData: true,
+        needBypassCSP: true,
+    },
+    {
+        host: VideoService.reddit,
+        url: "stub",
+        match: /^(www.|new.)?reddit.com$/,
+        selector: "div[slot=post-media-container]",
+        shadowRoot: true,
         needExtraData: true,
         needBypassCSP: true,
     },
@@ -3425,11 +3435,13 @@ class RedditHelper extends BaseHelper {
     API_ORIGIN = "https://www.reddit.com";
     async getVideoData(videoId) {
         try {
-            const contentUrl = document
-                .querySelector("[data-hls-url]")
-                ?.dataset
-                .hlsUrl
-                .replaceAll("&amp;", "&");
+            const contentUrl = this.service.additionalData === "old" ?
+                document
+                    .querySelector("[data-hls-url]")
+                    ?.dataset
+                    .hlsUrl
+                    .replaceAll("&amp;", "&") :
+                document.querySelector("shreddit-player-2")?.src;
             if (!contentUrl) {
                 throw new VideoHelperError("Failed to find content url");
             }
@@ -7503,11 +7515,6 @@ const filterVideoNodes = (nodes) => {
       for (let j = 0; j < videos.length; j++) {
         result.push(videos[j]);
       }
-    } else if (node.shadowRoot) {
-      const shadowVideos = node.shadowRoot.querySelectorAll("video");
-      for (let k = 0; k < shadowVideos.length; k++) {
-        result.push(shadowVideos[k]);
-      }
     }
   }
   return result;
@@ -7562,10 +7569,23 @@ class VideoObserver {
     this.onVideoRemoved = new EventImpl();
 
     this.observer = new MutationObserver(this.handleMutations);
-    this.intersectionObserver = new IntersectionObserver(
-      this.handleIntersections,
-      { threshold: 0.1 },
-    );
+    this.patchAttachShadow();
+  }
+
+  patchAttachShadow() {
+    const originalAttachShadow = Element.prototype.attachShadow;
+    const self = this;
+    Element.prototype.attachShadow = function (...args) {
+      const shadowRoot = originalAttachShadow.apply(this, args);
+      self.searchInRoot(shadowRoot);
+      self.observeShadowRoot(shadowRoot);
+      return shadowRoot;
+    };
+  }
+
+  observeShadowRoot(shadowRoot) {
+    const shadowObserver = new MutationObserver(this.handleMutations);
+    shadowObserver.observe(shadowRoot, { childList: true, subtree: true });
   }
 
   handleMutations = (mutationsList) => {
@@ -7590,65 +7610,57 @@ class VideoObserver {
     );
   };
 
-  handleIntersections = (entries) => {
-    for (let i = 0; i < entries.length; i++) {
-      const entry = entries[i];
-      if (entry.isIntersecting) {
-        this.handleIntersectingVideo(entry.target);
-      }
+  searchInRoot(root) {
+    const findVideosInRoot = (currentRoot) => {
+      const videos = new Set();
+
+      const searchNode = (node) => {
+        if (node instanceof HTMLVideoElement) {
+          videos.add(node);
+        }
+
+        if (node instanceof Element) {
+          const directVideos = node.querySelectorAll("video");
+          for (let i = 0; i < directVideos.length; i++) {
+            videos.add(directVideos[i]);
+          }
+
+          const children = node.children;
+          if (children) {
+            for (let i = 0; i < children.length; i++) {
+              searchNode(children[i]);
+            }
+          }
+        }
+      };
+
+      searchNode(currentRoot);
+      return Array.from(videos);
+    };
+
+    const foundVideos = findVideosInRoot(root);
+    for (let i = 0; i < foundVideos.length; i++) {
+      this.checkAndHandleVideo(foundVideos[i]);
     }
-  };
+  }
 
   enable() {
     this.observer.observe(document, { childList: true, subtree: true });
-    const videos = this.getAllVideoEls();
-    for (let i = 0; i < videos.length; i++) {
-      this.checkAndHandleVideo(videos[i]);
+
+    const regularVideos = document.querySelectorAll("video");
+    for (let i = 0; i < regularVideos.length; i++) {
+      this.checkAndHandleVideo(regularVideos[i]);
     }
   }
 
   disable() {
     this.observer.disconnect();
-    this.intersectionObserver.disconnect();
-  }
-
-  getAllVideoEls() {
-    const videos = document.querySelectorAll("video");
-    if (videos.length) return Array.from(videos);
-
-    // Use it only if we don't find videos
-    // It takes a long time to complete
-    const videoElements = new Set();
-    const traverseShadowRoot = (root) => {
-      if (!root) return;
-      const shadowVideos = root.querySelectorAll("video");
-      for (let i = 0; i < shadowVideos.length; i++) {
-        videoElements.add(shadowVideos[i]);
-      }
-      const shadowElements = root.querySelectorAll("*");
-      for (let i = 0; i < shadowElements.length; i++) {
-        if (shadowElements[i].shadowRoot)
-          traverseShadowRoot(shadowElements[i].shadowRoot);
-      }
-    };
-
-    const allElements = document.querySelectorAll("*");
-    for (let i = 0; i < allElements.length; i++) {
-      if (allElements[i].shadowRoot)
-        traverseShadowRoot(allElements[i].shadowRoot);
-    }
-
-    return Array.from(videoElements);
   }
 
   checkAndHandleVideo = (video) => {
     if (this.videoCache.has(video)) return;
     this.videoCache.add(video);
-    this.intersectionObserver.observe(video);
-  };
 
-  handleIntersectingVideo = (video) => {
-    this.intersectionObserver.unobserve(video);
     if (isAdVideo(video) || isMutedVideo(video)) {
       debug.log("The promotional/muted video was ignored", video);
       return;
@@ -11516,6 +11528,31 @@ const videoObserver = new VideoObserver();
 const videosWrappers = new WeakMap();
 
 /**
+ * Finds the parent element of a given element that matches a specified selector.
+ *
+ * @param {HTMLElement} el - The element to start searching from.
+ * @param {string} selector - The CSS selector to match.
+ * @returns {HTMLElement|null} The parent element that matches the selector, or null if no match is found.
+ */
+function climb(el, selector) {
+  if (!el || !selector) {
+    return null;
+  }
+
+  if (el instanceof Document) {
+    return el.querySelector(selector);
+  }
+
+  const foundEl = el.closest(selector);
+  if (foundEl) {
+    return foundEl;
+  }
+
+  const root = el.getRootNode();
+  return climb(root instanceof Document ? root : root.host, selector);
+}
+
+/**
  * Finds the container element for a given video element and site object.
  *
  * @param {Object} site - The site object.
@@ -11523,16 +11560,15 @@ const videosWrappers = new WeakMap();
  * @return {Object|null} The container element or null if not found.
  */
 function findContainer(site, video) {
+  debug.log("findContainer", site, video);
   if (site.shadowRoot) {
-    let container = site.selector
-      ? Array.from(document.querySelectorAll(site.selector)).find((e) =>
-          e.shadowRoot.contains(video),
-        )
-      : video.parentElement;
-    return container && container.shadowRoot
-      ? container.parentElement
-      : container;
+    let container = climb(video, site.selector);
+
+    debug.log("findContainer with site.shadowRoot", container);
+    return container ?? video.parentElement;
   }
+
+  debug.log("findContainer without shadowRoot");
 
   const browserVersion = browserInfo.browser.version?.split(".")?.[0];
   if (

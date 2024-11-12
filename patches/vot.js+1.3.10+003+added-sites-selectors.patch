@@ -1,5 +1,5 @@
 diff --git a/node_modules/vot.js/dist/config/sites.js b/node_modules/vot.js/dist/config/sites.js
-index f92d874..8cfbfe2 100644
+index f92d874..4c891d9 100644
 --- a/node_modules/vot.js/dist/config/sites.js
 +++ b/node_modules/vot.js/dist/config/sites.js
 @@ -2,39 +2,77 @@ import { VideoService } from "../types/yandex.js";
@@ -51,8 +51,8 @@ index f92d874..8cfbfe2 100644
          url: "https://youtu.be/",
          match: sitesRicktube,
 +        selector: "#oframeplayer > pjsdiv:has(video)"
-     },
-     {
++    },
++    {
 +        additionalData: "mobile",
 +        host: VideoService.vk,
 +        url: "https://vk.com/video?z=",
@@ -62,15 +62,15 @@ index f92d874..8cfbfe2 100644
 +    },
 +    {
 +        additionalData: "clips",
-         host: VideoService.vk,
-         url: "https://vk.com/video?z=",
-         match: /^(www.|m.)?vk.(com|ru)$/,
-+        selector: 'div[data-testid="clipcontainer-video"]',
-+    },
-+    {
 +        host: VideoService.vk,
 +        url: "https://vk.com/video?z=",
 +        match: /^(www.|m.)?vk.(com|ru)$/,
++        selector: 'div[data-testid="clipcontainer-video"]',
+     },
+     {
+         host: VideoService.vk,
+         url: "https://vk.com/video?z=",
+         match: /^(www.|m.)?vk.(com|ru)$/,
 +        selector: ".videoplayer_media",
      },
      {
@@ -108,7 +108,7 @@ index f92d874..8cfbfe2 100644
      },
      {
          host: VideoService.vimeo,
-@@ -68,201 +110,285 @@ export default [
+@@ -68,201 +110,295 @@ export default [
          match: /^player.vimeo.com$/,
          additionalData: "embed",
          needExtraData: true,
@@ -150,37 +150,37 @@ index f92d874..8cfbfe2 100644
          url: "https://rumble.com/",
          match: /^rumble.com$/,
 +        selector: "#videoPlayer > .videoPlayer-Rumble-cls > div",
++    },
++    {
++        host: VideoService.facebook,
++        url: "https://facebook.com/",
++        match: (url) =>
++            url.host.includes("facebook.com") && url.pathname.includes("/videos/"),
++        selector: 'div[role="main"] div[data-pagelet$="video" i]',
++        needBypassCSP: true,
      },
      {
++        additionalData: "reels",
          host: VideoService.facebook,
          url: "https://facebook.com/",
 -        match: (url) => url.host.includes("facebook.com") &&
 -            (url.pathname.includes("/videos/") || url.pathname.includes("/reel/")),
 +        match: (url) =>
-+            url.host.includes("facebook.com") && url.pathname.includes("/videos/"),
-+        selector: 'div[role="main"] div[data-pagelet$="video" i]',
-+        needBypassCSP: true,
-+    },
-+    {
-+        additionalData: "reels",
-+        host: VideoService.facebook,
-+        url: "https://facebook.com/",
-+        match: (url) =>
 +            url.host.includes("facebook.com") && url.pathname.includes("/reel/"),
 +        selector: 'div[role="main"]',
 +        needBypassCSP: true,
-+    },
-+    {
-+        host: VideoService.rutube,
-+        url: "https://rutube.ru/video/",
-+        match: /^rutube.ru$/,
-+        selector: ".video-player > div > div > div:nth-child(2)",
      },
      {
-+        additionalData: "embed",
          host: VideoService.rutube,
          url: "https://rutube.ru/video/",
          match: /^rutube.ru$/,
++        selector: ".video-player > div > div > div:nth-child(2)",
++    },
++    {
++        additionalData: "embed",
++        host: VideoService.rutube,
++        url: "https://rutube.ru/video/",
++        match: /^rutube.ru$/,
 +        selector: "#app > div > div",
      },
      {
@@ -309,13 +309,24 @@ index f92d874..8cfbfe2 100644
          match: /^(www.)?patreon.com$/,
 +        selector:
 +            'div[data-tag="post-card"] div[elevation="subtle"] > div > div > div > div',
++        needExtraData: true,
++    },
++    {
++        additionalData: "old",
++        host: VideoService.reddit,
++        url: "stub",
++        match: /^old.reddit.com$/,
++        selector: ".reddit-video-player-root",
          needExtraData: true,
++        needBypassCSP: true,
      },
      {
          host: VideoService.reddit,
          url: "stub",
-         match: /^(www.|new.|old.)?reddit.com$/,
-+        selector: ".reddit-video-player-root",
+-        match: /^(www.|new.|old.)?reddit.com$/,
++        match: /^(www.|new.)?reddit.com$/,
++        selector: "div[slot=post-media-container]",
++        shadowRoot: true,
          needExtraData: true,
 +        needBypassCSP: true,
      },
