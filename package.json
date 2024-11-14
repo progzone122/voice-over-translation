@@ -58,6 +58,6 @@
     "chaimu": "^1.0.3",
     "lit": "^3.2.1",
     "requestidlecallback-polyfill": "^1.0.2",
-    "vot.js": "^1.4.0"
+    "vot.js": "^1.4.1"
   }
 }

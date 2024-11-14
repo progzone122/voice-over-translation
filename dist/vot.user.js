@@ -166,6 +166,7 @@
 // @connect        deno.dev
 // @connect        onrender.com
 // @connect        workers.dev
+// @connect        porntn.com
 // @namespace      vot
 // @version        1.7.2
 // @icon           https://translate.yandex.ru/icons/favicon.ico
@@ -1840,7 +1841,7 @@ const yandexProtobuf = {
     hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
     defaultDuration: 343,
     loggerLevel: 1,
-    version: "1.4.0",
+    version: "1.4.1",
 });
 
 ;// ./node_modules/vot.js/dist/types/logger.js
@@ -2077,7 +2078,7 @@ function normalizeLang(lang) {
     return lang.toLowerCase().split(/[_;-]/)[0].trim();
 }
 function proxyMedia(url, format = "mp4") {
-    return `https://${config.mediaProxy}/v1/proxy/video.${format}?url=${encodeURIComponent(url.href)}&origin=${url.origin}&referer=${url.origin}`;
+    return `https://${config.mediaProxy}/v1/proxy/video.${format}?url=${btoa(encodeURIComponent(url.href))}&origin=${url.origin}&referer=${url.origin}&format=base64&force=true`;
 }
 
 ;// ./node_modules/vot.js/dist/config/alternativeUrls.js
@@ -3046,11 +3047,11 @@ async function GM_fetch(url, opts = {}) {
       clearTimeout(timeoutId);
       GM_xmlhttpRequest({
         method: fetchOptions.method || "GET",
-        url: url,
+        url,
         responseType: "blob",
         ...fetchOptions,
         data: fetchOptions.body,
-        timeout: timeout,
+        timeout,
         onload: (resp) => {
           // chrome \n and ":", firefox \r\n and ": " (Only in GM_xmlhttpRequest)
           // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/getAllResponseHeaders#examples
@@ -3062,12 +3063,15 @@ async function GM_fetch(url, opts = {}) {
               .filter(([key]) => key && /^[\w-]+$/.test(key)),
           );
 
-          resolve(
-            new Response(resp.response, {
-              status: resp.status,
-              headers: headers,
-            }),
-          );
+          const response = new Response(resp.response, {
+            status: resp.status,
+            headers: headers,
+          });
+          Object.defineProperty(response, "url", {
+            value: resp.finalUrl ?? "",
+          });
+
+          resolve(response);
         },
         ontimeout: () => reject(new Error("Timeout")),
         onerror: (error) => reject(error),
@@ -4674,18 +4678,25 @@ class IncestflixHelper extends BaseHelper {
 
 
 
+
 class PornTNHelper extends BaseHelper {
     async getVideoData(videoId) {
         try {
-            const { rnd, video_url: source, video_title: title } =  window.flashvars;
+            const { rnd, video_url: source, video_title: title } =  flashvars; // window.flashvars
             if (!source || !rnd) {
                 throw new VideoHelperError("Failed to find video source or rnd");
             }
-            const url = new URL(source);
-            url.searchParams.append("rnd", rnd);
-            Logger.log(url.href);
+            const getFileUrl = new URL(source);
+            getFileUrl.searchParams.append("rnd", rnd);
+            Logger.log("PornTN get_file link", getFileUrl.href);
+            // this is a necessary measure, because the get_file request requires the presence of a PHPSESSID cookie
+            const cdnResponse = await GM_fetch(getFileUrl.href, { method: "head" });
+            const cdnUrl = new URL(cdnResponse.url)
+            Logger.log("PornTN cdn link", cdnUrl.href);
+            const proxiedUrl = proxyMedia(cdnUrl);
+
             return {
-                url: proxyMedia(url),
+                url: proxiedUrl,
                 title,
             };
         }
@@ -7620,10 +7631,6 @@ function syncVolume(element, sliderVolume, otherSliderVolume, tempVolume) {
 
   return finalValue;
 }
-
-// 0.00 - 1.00
-const percentToDecibels = (percent) => 20 * Math.log10(percent / 1);
-const decibelsToPercent = (dB) => Math.pow(10, dB / 20);
 
 
 
