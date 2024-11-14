@@ -226,14 +226,15 @@ index 430c984..d087668 100644
      }
  }
 diff --git a/node_modules/vot.js/dist/helpers/porntn.js b/node_modules/vot.js/dist/helpers/porntn.js
-index 014550b..cd93b03 100644
+index 014550b..4f4dc3f 100644
 --- a/node_modules/vot.js/dist/helpers/porntn.js
 +++ b/node_modules/vot.js/dist/helpers/porntn.js
-@@ -1,31 +1,13 @@
+@@ -1,36 +1,25 @@
 -import { parseFromString } from "dom-parser";
  import { BaseHelper, VideoHelperError } from "./base.js";
  import { proxyMedia } from "../utils/utils.js";
  import Logger from "../utils/logger.js";
++import { GM_fetch } from "../../../../src/utils/utils.js";
  export default class PornTNHelper extends BaseHelper {
      async getVideoData(videoId) {
          try {
@@ -254,14 +255,29 @@ index 014550b..cd93b03 100644
 -            Logger.log(scriptText);
 -            const source = /video_url: 'function\/0\/([^']+)'/.exec(content)?.[1];
 -            const rnd = /rnd: '([^']+)'/.exec(content)?.[1];
-+            const { rnd, video_url: source, video_title: title } =  window.flashvars;
++            const { rnd, video_url: source, video_title: title } =  flashvars; // window.flashvars
              if (!source || !rnd) {
                  throw new VideoHelperError("Failed to find video source or rnd");
              }
 -            const title = /video_title: '([^']+)'/.exec(content)?.[1];
-             const url = new URL(source);
-             url.searchParams.append("rnd", rnd);
-             Logger.log(url.href);
+-            const url = new URL(source);
+-            url.searchParams.append("rnd", rnd);
+-            Logger.log(url.href);
++            const getFileUrl = new URL(source);
++            getFileUrl.searchParams.append("rnd", rnd);
++            Logger.log("PornTN get_file link", getFileUrl.href);
++            // this is a necessary measure, because the get_file request requires the presence of a PHPSESSID cookie
++            const cdnResponse = await GM_fetch(getFileUrl.href, { method: "head" });
++            const cdnUrl = new URL(cdnResponse.url)
++            Logger.log("PornTN cdn link", cdnUrl.href);
++            const proxiedUrl = proxyMedia(cdnUrl);
++
+             return {
+-                url: proxyMedia(url),
++                url: proxiedUrl,
+                 title,
+             };
+         }
 diff --git a/node_modules/vot.js/dist/helpers/reddit.js b/node_modules/vot.js/dist/helpers/reddit.js
 index 3a19bda..56e9cc1 100644
 --- a/node_modules/vot.js/dist/helpers/reddit.js
