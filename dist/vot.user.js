@@ -75,6 +75,8 @@
 // @match          *://*.ricktube.ru/*
 // @match          *://*.incestflix.net/*
 // @match          *://*.incestflix.to/*
+// @match          *://*.porntn.com/*
+// @match          *://*.dzen.ru/*
 // @match          *://*/*.mp4*
 // @match          *://*/*.webm*
 // @match          *://*.yewtu.be/*
@@ -1693,6 +1695,7 @@ var VideoService;
     VideoService["xvideos"] = "xvideos";
     VideoService["pornhub"] = "pornhub";
     VideoService["twitter"] = "twitter";
+    VideoService["x"] = "twitter";
     VideoService["rumble"] = "rumble";
     VideoService["facebook"] = "facebook";
     VideoService["rutube"] = "rutube";
@@ -1734,6 +1737,7 @@ var VideoService;
     VideoService["ricktube"] = "ricktube";
     VideoService["incestflix"] = "incestflix";
     VideoService["porntn"] = "porntn";
+    VideoService["dzen"] = "dzen";
 })(VideoService || (VideoService = {}));
 var VideoTranslationStatus;
 (function (VideoTranslationStatus) {
@@ -1832,11 +1836,11 @@ const yandexProtobuf = {
     hostVOT: "vot-api.toil.cc/v1",
     mediaProxy: "media-proxy.toil.cc",
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 YaBrowser/24.10.0.0 Safari/537.36",
-    componentVersion: "24.10.1.598",
+    componentVersion: "24.10.2.705",
     hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
     defaultDuration: 343,
     loggerLevel: 1,
-    version: "1.3.10",
+    version: "1.4.0",
 });
 
 ;// ./node_modules/vot.js/dist/types/logger.js
@@ -2580,8 +2584,14 @@ const sitesCoursehunterLike = ["coursehunter.net", "coursetrain.net"];
         host: VideoService.porntn,
         url: "https://porntn.com/videos/",
         match: /^porntn.com$/,
-        selector: null,
+        selector: ".fp-player",
         needExtraData: true,
+    },
+    {
+        host: VideoService.dzen,
+        url: "https://dzen.ru/video/watch/",
+        match: /^dzen.ru$/,
+        selector: ".zen-ui-video-video-player"
     },
     {
         host: VideoService.custom,
@@ -4667,25 +4677,10 @@ class IncestflixHelper extends BaseHelper {
 class PornTNHelper extends BaseHelper {
     async getVideoData(videoId) {
         try {
-            const content =  document.body.innerHTML;
-            const varDelimiter = /var flashvars\s=\s/;
-            const dataScript = document
-                .getElementsByTagName("script")
-                .find((node) => varDelimiter.exec(node.textContent));
-            if (!dataScript) {
-                throw new VideoHelperError("Failed to find data script");
-            }
-            const scriptText = dataScript.textContent
-                .split(varDelimiter)?.[1]
-                ?.split(";\n", 1)[0]
-                .replace(/(\t|\n)/g, "");
-            Logger.log(scriptText);
-            const source = /video_url: 'function\/0\/([^']+)'/.exec(content)?.[1];
-            const rnd = /rnd: '([^']+)'/.exec(content)?.[1];
+            const { rnd, video_url: source, video_title: title } =  window.flashvars;
             if (!source || !rnd) {
                 throw new VideoHelperError("Failed to find video source or rnd");
             }
-            const title = /video_title: '([^']+)'/.exec(content)?.[1];
             const url = new URL(source);
             url.searchParams.append("rnd", rnd);
             Logger.log(url.href);
@@ -4704,7 +4699,710 @@ class PornTNHelper extends BaseHelper {
     }
 }
 
+;// ./src/utils/translateApis.js
+
+
+
+
+const YandexTranslateAPI = {
+  async translate(text, lang) {
+    // Limit: 10k symbols
+    //
+    // Lang examples:
+    // en-ru, uk-ru, ru-en...
+    // ru, en (instead of auto-ru, auto-en)
+
+    try {
+      const response = await GM_fetch(
+        `${translateUrls.yandex}?${new URLSearchParams({
+          text,
+          lang,
+        })}`,
+        { timeout: 3000 },
+      );
+
+      if (response instanceof Error) {
+        throw response;
+      }
+
+      const content = await response.json();
+
+      if (content.code !== 200) {
+        throw content.message;
+      }
+
+      return content.text[0];
+    } catch (error) {
+      console.error("Error translating text:", error);
+      return text;
+    }
+  },
+
+  async detect(text) {
+    // Limit: 10k symbols
+    try {
+      const response = await GM_fetch(
+        `${detectUrls.yandex}?${new URLSearchParams({
+          text,
+        })}`,
+        { timeout: 3000 },
+      );
+
+      if (response instanceof Error) {
+        throw response;
+      }
+
+      const content = await response.json();
+      if (content.code !== 200) {
+        throw content.message;
+      }
+
+      return content.lang ?? "en";
+    } catch (error) {
+      console.error("Error getting lang from text:", error);
+      return "en";
+    }
+  },
+};
+
+const RustServerAPI = {
+  async detect(text) {
+    try {
+      const response = await GM_fetch(
+        detectUrls.rustServer,
+        {
+          method: "POST",
+          body: text,
+        },
+        { timeout: 3000 },
+      );
+
+      if (response instanceof Error) {
+        throw response;
+      }
+
+      return await response.text();
+    } catch (error) {
+      console.error("Error getting lang from text:", error);
+      return "en";
+    }
+  },
+};
+
+const DeeplServerAPI = {
+  async translate(text, fromLang = "auto", toLang = "ru") {
+    try {
+      const response = await GM_fetch(
+        translateUrls.deepl,
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams({
+            text,
+            source_lang: fromLang,
+            target_lang: toLang,
+          }),
+        },
+        { timeout: 3000 },
+      );
+
+      if (response instanceof Error) {
+        throw response;
+      }
+
+      const content = await response.json();
+
+      if (content.code !== 200) {
+        throw content.message;
+      }
+
+      return content.data;
+    } catch (error) {
+      console.error("Error translating text:", error);
+      return text;
+    }
+  },
+};
+
+async function translate(text, fromLang = "", toLang = "ru") {
+  const service = await votStorage.get(
+    "translationService",
+    defaultTranslationService,
+  );
+  switch (service) {
+    case "yandex": {
+      const langPair = fromLang && toLang ? `${fromLang}-${toLang}` : toLang;
+      return await YandexTranslateAPI.translate(text, langPair);
+    }
+    case "deepl": {
+      return await DeeplServerAPI.translate(text, fromLang, toLang);
+    }
+    default:
+      return text;
+  }
+}
+
+async function detect(text) {
+  const service = await votStorage.get("detectService", defaultDetectService);
+  switch (service) {
+    case "yandex":
+      return await YandexTranslateAPI.detect(text);
+    case "rust-server":
+      return await RustServerAPI.detect(text);
+    default:
+      return "en";
+  }
+}
+
+const translateServices = Object.keys(translateUrls);
+const detectServices = Object.keys(detectUrls).map((k) =>
+  k === "rustServer" ? "rust-server" : k,
+);
+
+
+
+;// ./src/utils/youtubeUtils.js
+
+
+
+
+
+
+
+
+// Get the language code from the response or the text
+async function getLanguage(player, response, title, description) {
+  if (
+    !window.location.hostname.includes("m.youtube.com") &&
+    player?.getAudioTrack
+  ) {
+    // ! Experimental ! get lang from selected audio track if availabled
+    const audioTracks = player.getAudioTrack();
+    const trackInfo = audioTracks?.getLanguageInfo(); // get selected track info (id === "und" if tracks are not available)
+    if (trackInfo?.id !== "und") {
+      return normalizeLang(trackInfo.id.split(".")[0]);
+    }
+  }
+
+  // TODO: If the audio tracks will work fine, transfer the receipt of captions to the audioTracks variable
+  // Check if there is an automatic caption track in the response
+  const captionTracks =
+    response?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
+  if (captionTracks?.length) {
+    const autoCaption = captionTracks.find((caption) => caption.kind === "asr");
+    if (autoCaption && autoCaption.languageCode) {
+      return normalizeLang(autoCaption.languageCode);
+    }
+  }
+
+  // If there is no caption track, use detect to get the language code from the description
+
+  const text = cleanText(title, description);
+
+  debug.log(`Detecting language text: ${text}`);
+
+  return detect(text);
+}
+
+function isMobile() {
+  return /^m\.youtube\.com$/.test(window.location.hostname);
+}
+
+function getPlayer() {
+  if (window.location.pathname.startsWith("/shorts/") && !isMobile()) {
+    return document.querySelector("#shorts-player");
+  }
+
+  return document.querySelector("#movie_player");
+}
+
+function getPlayerResponse() {
+  const player = getPlayer();
+  if (player?.getPlayerResponse)
+    return player?.getPlayerResponse?.call() ?? null;
+  return player?.data?.playerResponse ?? null;
+}
+
+function getPlayerData() {
+  const player = getPlayer();
+  if (player?.getVideoData) return player?.getVideoData?.call() ?? null;
+  return player?.data?.playerResponse?.videoDetails ?? null;
+}
+
+function getVideoVolume() {
+  const player = getPlayer();
+  if (player?.getVolume) {
+    return player.getVolume.call() / 100;
+  }
+
+  return 1;
+}
+
+function setVideoVolume(volume) {
+  const player = getPlayer();
+  if (player?.setVolume) {
+    player.setVolume(Math.round(volume * 100));
+    return true;
+  }
+}
+
+function isMuted() {
+  const player = getPlayer();
+  if (player?.isMuted) {
+    return player.isMuted.call();
+  }
+
+  return false;
+}
+
+function videoSeek(video, time) {
+  // * TIME IN MS
+  debug.log("videoSeek", time);
+  const preTime =
+    getPlayer()?.getProgressState()?.seekableEnd || video.currentTime;
+  const finalTime = preTime - time; // we always throw it to the end of the stream - time
+  video.currentTime = finalTime;
+}
+
+function isMusic() {
+  // Нужно доработать логику
+  const channelName = getPlayerData().author,
+    titleStr = getPlayerData().title.toUpperCase(),
+    titleWordsList = titleStr.match(/\w+/g),
+    playerData = document.body.querySelector("ytd-watch-flexy")?.playerData;
+
+  return (
+    [
+      titleStr,
+      document.URL,
+      channelName,
+      playerData?.microformat?.playerMicroformatRenderer.category,
+      playerData?.title,
+    ].some((i) => i?.toUpperCase().includes("MUSIC")) ||
+    document.body.querySelector(
+      "#upload-info #channel-name .badge-style-type-verified-artist",
+    ) ||
+    (channelName &&
+      /(VEVO|Topic|Records|RECORDS|Recordings|AMV)$/.test(channelName)) ||
+    (channelName &&
+      /(MUSIC|ROCK|SOUNDS|SONGS)/.test(channelName.toUpperCase())) ||
+    (titleWordsList?.length &&
+      [
+        "🎵",
+        "♫",
+        "SONG",
+        "SONGS",
+        "SOUNDTRACK",
+        "LYRIC",
+        "LYRICS",
+        "AMBIENT",
+        "MIX",
+        "VEVO",
+        "CLIP",
+        "KARAOKE",
+        "OPENING",
+        "COVER",
+        "COVERED",
+        "VOCAL",
+        "INSTRUMENTAL",
+        "ORCHESTRAL",
+        "DUBSTEP",
+        "DJ",
+        "DNB",
+        "BASS",
+        "BEAT",
+        "ALBUM",
+        "PLAYLIST",
+        "DUBSTEP",
+        "CHILL",
+        "RELAX",
+        "CLASSIC",
+        "CINEMATIC",
+      ].some((i) => titleWordsList.includes(i))) ||
+    [
+      "OFFICIAL VIDEO",
+      "OFFICIAL AUDIO",
+      "FEAT.",
+      "FT.",
+      "LIVE RADIO",
+      "DANCE VER",
+      "HIP HOP",
+      "ROCK N ROLL",
+      "HOUR VER",
+      "HOURS VER",
+      "INTRO THEME",
+    ].some((i) => titleStr.includes(i)) ||
+    (titleWordsList?.length &&
+      [
+        "OP",
+        "ED",
+        "MV",
+        "OST",
+        "NCS",
+        "BGM",
+        "EDM",
+        "GMV",
+        "AMV",
+        "MMD",
+        "MAD",
+      ].some((i) => titleWordsList.includes(i)))
+  );
+}
+
+function getSubtitles() {
+  const response = getPlayerResponse();
+  const playerCaptions = response?.captions?.playerCaptionsTracklistRenderer;
+  if (!playerCaptions) {
+    return [];
+  }
+
+  let captionTracks = playerCaptions.captionTracks ?? [];
+  const translationLanguages = playerCaptions.translationLanguages ?? [];
+  const userLang = localizationProvider.lang;
+  const userLangSupported = translationLanguages.find(
+    (language) => language.languageCode === userLang,
+  );
+  const asrLang =
+    captionTracks.find((captionTrack) => captionTrack?.kind === "asr")
+      ?.languageCode ?? "en";
+  captionTracks = captionTracks.reduce((result, captionTrack) => {
+    if (!("languageCode" in captionTrack)) {
+      return result;
+    }
+
+    const language = captionTrack.languageCode
+      ? normalizeLang(captionTrack.languageCode)
+      : undefined;
+    const url = captionTrack?.url || captionTrack?.baseUrl;
+    if (!language || !url) {
+      return result;
+    }
+
+    const captionUrl = `${
+      url.startsWith("http") ? url : `${window.location.origin}/${url}`
+    }&fmt=json3`;
+    result.push({
+      source: "youtube",
+      language,
+      isAutoGenerated: captionTrack?.kind === "asr",
+      url: captionUrl,
+    });
+
+    if (
+      userLangSupported &&
+      captionTrack.isTranslatable &&
+      captionTrack.languageCode === asrLang &&
+      userLang !== language
+    ) {
+      // add translated youtube subtitles (if it possible)
+      result.push({
+        source: "youtube",
+        language: userLang,
+        isAutoGenerated: captionTrack?.kind === "asr",
+        translatedFromLanguage: language,
+        url: `${captionUrl}&tlang=${userLang}`,
+      });
+    }
+
+    return result;
+  }, []);
+  debug.log("youtube subtitles:", captionTracks);
+  return captionTracks;
+}
+
+// Get the video data from the player
+async function getVideoData() {
+  const player = getPlayer();
+  const response = getPlayerResponse(); // null in /embed
+  const data = getPlayerData();
+  const { title: localizedTitle } = data ?? {};
+  const {
+    shortDescription: description,
+    isLive,
+    title,
+  } = response?.videoDetails ?? {};
+  let detectedLanguage = title
+    ? await getLanguage(player, response, title, description)
+    : "en";
+  detectedLanguage = availableLangs.includes(detectedLanguage)
+    ? detectedLanguage
+    : "en";
+  const videoData = {
+    isLive: !!isLive,
+    title,
+    localizedTitle,
+    description,
+    detectedLanguage,
+  };
+  debug.log("youtube video data:", videoData);
+  console.log("[VOT] Detected language: ", videoData.detectedLanguage);
+  return videoData;
+}
+
+/* harmony default export */ const youtubeUtils = ({
+  isMobile,
+  getPlayer,
+  getPlayerResponse,
+  getPlayerData,
+  getVideoVolume,
+  getSubtitles,
+  getVideoData,
+  setVideoVolume,
+  videoSeek,
+  isMuted,
+  isMusic,
+});
+
+;// ./node_modules/vot.js/dist/helpers/googledrive.js
+
+
+class GoogleDriveHelper extends BaseHelper {
+    async getVideoId(url) {
+        return youtubeUtils.getPlayerData()?.video_id
+    }
+}
+
+;// ./node_modules/vot.js/dist/helpers/bilibili.js
+
+class BilibiliHelper extends BaseHelper {
+    async getVideoId(url) {
+        const bangumiId = /bangumi\/play\/([^/]+)/.exec(url.pathname)?.[0];
+        if (bangumiId) {
+            return bangumiId;
+        }
+        const bvid = url.searchParams.get("bvid");
+        if (bvid) {
+            return `video/${bvid}`;
+        }
+        let vid = /video\/([^/]+)/.exec(url.pathname)?.[0];
+        if (vid && url.searchParams.get("p") !== null) {
+            vid += `/?p=${url.searchParams.get("p")}`;
+        }
+        return vid;
+    }
+}
+
+;// ./node_modules/vot.js/dist/helpers/xvideos.js
+
+class XVideosHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /[^/]+\/[^/]+$/.exec(url.pathname)?.[0];
+    }
+}
+
+;// ./node_modules/vot.js/dist/helpers/watchpornto.js
+
+class WatchPornToHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /(video|embed)\/(\d+)(\/[^/]+\/)?/.exec(url.pathname)?.[0];
+    }
+}
+
+;// ./node_modules/vot.js/dist/helpers/archive.js
+
+class ArchiveHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /(details|embed)\/([^/]+)/.exec(url.pathname)?.[2];
+    }
+}
+
+;// ./node_modules/vot.js/dist/helpers/dailymotion.js
+
+class DailymotionHelper extends BaseHelper {
+    async getVideoId(url) {
+        // geo.dailymotion.com
+        const plainPlayerConfig = Array.from(
+            document.querySelectorAll("*"),
+        ).filter((s) => s.innerHTML.trim().includes(".m3u8"));
+        let videoUrl = plainPlayerConfig?.[1]?.lastChild?.src;
+        if (!videoUrl) {
+            return undefined
+        }
+        return /\/video\/(\w+)\.m3u8/.exec(videoUrl)?.[1];
+    }
+}
+
+;// ./node_modules/vot.js/dist/helpers/youku.js
+
+class YoukuHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /v_show\/id_[\w=]+/.exec(url.pathname)?.[0];
+    }
+}
+
+;// ./node_modules/vot.js/dist/helpers/egghead.js
+
+class EggheadHelper extends BaseHelper {
+    async getVideoId(url) {
+        return url.pathname.slice(1);
+    }
+}
+
+;// ./node_modules/vot.js/dist/helpers/newgrounds.js
+
+class NewgroundsHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /([^/]+)\/(view)\/([^/]+)/.exec(url.pathname)?.[0];
+    }
+}
+
+;// ./node_modules/vot.js/dist/helpers/okru.js
+
+class OKRuHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /\/video\/(\d+)/.exec(url.pathname)?.[1];
+    }
+}
+
+;// ./node_modules/vot.js/dist/helpers/peertube.js
+
+class PeertubeHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /\/w\/([^/]+)/.exec(url.pathname)?.[0];
+    }
+}
+
+;// ./node_modules/vot.js/dist/helpers/eporner.js
+
+class EpornerHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /video-([^/]+)\/([^/]+)/.exec(url.pathname)?.[0];
+    }
+}
+
+;// ./node_modules/vot.js/dist/helpers/bitchute.js
+
+class BitchuteHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /(video|embed)\/([^/]+)/.exec(url.pathname)?.[2];
+    }
+}
+
+;// ./node_modules/vot.js/dist/helpers/rutube.js
+
+class RutubeHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /(?:video|embed)\/([^/]+)/.exec(url.pathname)?.[1];
+    }
+}
+
+;// ./node_modules/vot.js/dist/helpers/facebook.js
+
+class FacebookHelper extends BaseHelper {
+    async getVideoId(url) {
+        return url.pathname.slice(1);
+    }
+}
+
+;// ./node_modules/vot.js/dist/helpers/rumble.js
+
+class RumbleHelper extends BaseHelper {
+    async getVideoId(url) {
+        return url.pathname.slice(1);
+    }
+}
+
+;// ./node_modules/vot.js/dist/helpers/twitter.js
+
+class TwitterHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /status\/([^/]+)/.exec(url.pathname)?.[1];
+    }
+}
+
+;// ./node_modules/vot.js/dist/helpers/pornhub.js
+
+class PornhubHelper extends BaseHelper {
+    async getVideoId(url) {
+        return (url.searchParams.get("viewkey") ??
+            /embed\/([^/]+)/.exec(url.pathname)?.[1]);
+    }
+}
+
+;// ./node_modules/vot.js/dist/helpers/tiktok.js
+
+class TikTokHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /([^/]+)\/video\/([^/]+)/.exec(url.pathname)?.[0];
+    }
+}
+
+;// ./node_modules/vot.js/dist/helpers/nine_gag.js
+
+class NineGAGHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /gag\/([^/]+)/.exec(url.pathname)?.[1];
+    }
+}
+
+;// ./node_modules/vot.js/dist/helpers/youtube.js
+
+class YoutubeHelper extends BaseHelper {
+    async getVideoId(url) {
+        if (url.hostname === "youtu.be") {
+            url.search = `?v=${url.pathname.replace("/", "")}`;
+            url.pathname = "/watch";
+        }
+        return (/(?:watch|embed|shorts|live)\/([^/]+)/.exec(url.pathname)?.[1] ??
+            url.searchParams.get("v"));
+    }
+}
+
+;// ./node_modules/vot.js/dist/helpers/dzen.js
+
+class DzenHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /video\/watch\/([^/]+)/.exec(url.pathname)?.[1];
+    }
+}
+
 ;// ./node_modules/vot.js/dist/helpers/index.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4776,6 +5474,33 @@ const availableHelpers = {
     [VideoService.trovo]: TrovoHelper,
     [VideoService.incestflix]: IncestflixHelper,
     [VideoService.porntn]: PornTNHelper,
+    [VideoService.googledrive]: GoogleDriveHelper,
+    [VideoService.bilibili]: BilibiliHelper,
+    [VideoService.xvideos]: XVideosHelper,
+    [VideoService.watchpornto]: WatchPornToHelper,
+    [VideoService.archive]: ArchiveHelper,
+    [VideoService.dailymotion]: DailymotionHelper,
+    [VideoService.youku]: YoukuHelper,
+    [VideoService.egghead]: EggheadHelper,
+    [VideoService.newgrounds]: NewgroundsHelper,
+    [VideoService.okru]: OKRuHelper,
+    [VideoService.peertube]: PeertubeHelper,
+    [VideoService.eporner]: EpornerHelper,
+    [VideoService.bitchute]: BitchuteHelper,
+    [VideoService.rutube]: RutubeHelper,
+    [VideoService.facebook]: FacebookHelper,
+    [VideoService.rumble]: RumbleHelper,
+    [VideoService.twitter]: TwitterHelper,
+    [VideoService.pornhub]: PornhubHelper,
+    [VideoService.tiktok]: TikTokHelper,
+    [VideoService.proxitok]: TikTokHelper,
+    [VideoService.nine_gag]: NineGAGHelper,
+    [VideoService.youtube]: YoutubeHelper,
+    [VideoService.ricktube]: YoutubeHelper,
+    [VideoService.invidious]: YoutubeHelper,
+    [VideoService.poketube]: YoutubeHelper,
+    [VideoService.piped]: YoutubeHelper,
+    [VideoService.dzen]: DzenHelper,
 };
 class VideoHelper {
     helpersData;
@@ -4828,91 +5553,9 @@ async function getVideoID(service, video, opts = {}) {
         const helper = new VideoHelper(opts).getHelper(serviceHost);
         return await helper.getVideoId(url);
     }
-    switch (serviceHost) {
-        case VideoService.custom:
-            return url.href;
-        case VideoService.piped:
-        case VideoService.poketube:
-        case VideoService.invidious:
-        case VideoService.ricktube:
-        case VideoService.youtube:
-            if (url.hostname === "youtu.be") {
-                url.search = `?v=${url.pathname.replace("/", "")}`;
-                url.pathname = "/watch";
-            }
-            return (/(?:watch|embed|shorts|live)\/([^/]+)/.exec(url.pathname)?.[1] ??
-                url.searchParams.get("v"));
-        case VideoService.nine_gag:
-        case VideoService.gag:
-            return /gag\/([^/]+)/.exec(url.pathname)?.[1];
-        case VideoService.proxitok:
-        case VideoService.tiktok:
-            return /([^/]+)\/video\/([^/]+)/.exec(url.pathname)?.[0];
-        case VideoService.xvideos:
-            return /[^/]+\/[^/]+$/.exec(url.pathname)?.[0];
-        case VideoService.pornhub:
-            return (url.searchParams.get("viewkey") ??
-                /embed\/([^/]+)/.exec(url.pathname)?.[1]);
-        case VideoService.twitter:
-            return /status\/([^/]+)/.exec(url.pathname)?.[1];
-        case VideoService.rumble:
-        case VideoService.facebook:
-            return url.pathname.slice(1);
-        case VideoService.rutube:
-            return /(?:video|embed)\/([^/]+)/.exec(url.pathname)?.[1];
-        case VideoService.bilibili: {
-            const bangumiId = /bangumi\/play\/([^/]+)/.exec(url.pathname)?.[0];
-            if (bangumiId) {
-                return bangumiId;
-            }
-            const bvid = url.searchParams.get("bvid");
-            if (bvid) {
-                return `video/${bvid}`;
-            }
-            let vid = /video\/([^/]+)/.exec(url.pathname)?.[0];
-            if (vid && url.searchParams.get("p") !== null) {
-                vid += `/?p=${url.searchParams.get("p")}`;
-            }
-            return vid;
-        }
-        case VideoService.bitchute:
-            return /(video|embed)\/([^/]+)/.exec(url.pathname)?.[2];
-        case VideoService.eporner:
-            return /video-([^/]+)\/([^/]+)/.exec(url.pathname)?.[0];
-        case VideoService.peertube:
-            return /\/w\/([^/]+)/.exec(url.pathname)?.[0];
-        case VideoService.dailymotion: {
-            // we work in the context of the player
-            // geo.dailymotion.com
-            const plainPlayerConfig = Array.from(
-                document.querySelectorAll("*"),
-            ).filter((s) => s.innerHTML.trim().includes(".m3u8"));
-            let videoUrl = plainPlayerConfig?.[1]?.lastChild?.src;
-            if (!videoUrl) {
-                return undefined
-            }
-            return /\/video\/(\w+)\.m3u8/.exec(videoUrl)?.[1];
-        }
-        case VideoService.okru: {
-            return /\/video\/(\d+)/.exec(url.pathname)?.[1];
-        }
-        case VideoService.googledrive:
-            return url.searchParams.get("docid");
-        case VideoService.newgrounds:
-            return /([^/]+)\/(view)\/([^/]+)/.exec(url.pathname)?.[0];
-        case VideoService.egghead:
-            return url.pathname.slice(1);
-        case VideoService.youku:
-            return /v_show\/id_[\w=]+/.exec(url.pathname)?.[0];
-        case VideoService.archive:
-            return /(details|embed)\/([^/]+)/.exec(url.pathname)?.[2];
-        case VideoService.watchpornto:
-            return /(video|embed)\/(\d+)(\/[^/]+\/)?/.exec(url.pathname)?.[0];
-        default:
-            return undefined;
-    }
+    return serviceHost === VideoService.custom ? url.href : undefined;
 }
-async function getVideoData(service, video, opts = {}) {
+async function videoData_getVideoData(service, video, opts = {}) {
     const videoId = await getVideoID(service, video, opts);
     if (!videoId) {
         throw new VideoDataError(`Entered unsupported link: "${service.host}"`);
@@ -5029,7 +5672,7 @@ class VOTClient {
         Pragma: "no-cache",
         "Cache-Control": "no-cache",
     };
-    constructor({ host = config.host, hostVOT = config.hostVOT, fetchFn = fetchWithTimeout, fetchOpts = {}, getVideoDataFn = getVideoData, requestLang = "en", responseLang = "ru", headers = {}, } = {}) {
+    constructor({ host = config.host, hostVOT = config.hostVOT, fetchFn = fetchWithTimeout, fetchOpts = {}, getVideoDataFn = videoData_getVideoData, requestLang = "en", responseLang = "ru", headers = {}, } = {}) {
         const schemaRe = /(http(s)?):\/\//;
         const schema = schemaRe.exec(host)?.[1];
         this.host = schema ? host.replace(`${schema}://`, "") : host;
@@ -5551,462 +6194,6 @@ const n=globalThis,c=n.trustedTypes,h=c?c.createPolicy("lit-html",{createHTML:t=
 
 ;// ./node_modules/browser-id3-writer/dist/browser-id3-writer.mjs
 function e(e){return String(e).split("").map((e=>e.charCodeAt(0)))}function t(t){return new Uint8Array(e(t))}function a(t){const a=new ArrayBuffer(2*t.length),r=new Uint8Array(a);return new Uint16Array(a).set(e(t)),r}function r(e){const t=255;return[e>>>24&t,e>>>16&t,e>>>8&t,e&t]}function browser_id3_writer_n(e){return 11+e}function s(e,t,a,r){return 11+t+1+1+(r?2+2*(a+1):a+1)+e}function i(e){let t=0;return e.forEach((e=>{t+=2+2*e[0].length+2+2+2*e[1].length+2})),11+t}function browser_id3_writer_c(e,t){const a=2*t;let r=0;return e.forEach((e=>{r+=2+2*e[0].length+2+4})),18+a+2+r}class o{_setIntegerFrame(e,t){const a=parseInt(t,10);this.frames.push({name:e,value:a,size:browser_id3_writer_n(a.toString().length)})}_setStringFrame(e,t){const a=t.toString();let r=13+2*a.length;"TDAT"===e&&(r=browser_id3_writer_n(a.length)),this.frames.push({name:e,value:a,size:r})}_setPictureFrame(e,t,a,r){const n=function(e){if(!e||!e.length)return null;if(255===e[0]&&216===e[1]&&255===e[2])return"image/jpeg";if(137===e[0]&&80===e[1]&&78===e[2]&&71===e[3])return"image/png";if(71===e[0]&&73===e[1]&&70===e[2])return"image/gif";if(87===e[8]&&69===e[9]&&66===e[10]&&80===e[11])return"image/webp";const t=73===e[0]&&73===e[1]&&42===e[2]&&0===e[3],a=77===e[0]&&77===e[1]&&0===e[2]&&42===e[3];return t||a?"image/tiff":66===e[0]&&77===e[1]?"image/bmp":0===e[0]&&0===e[1]&&1===e[2]&&0===e[3]?"image/x-icon":null}(new Uint8Array(t)),i=a.toString();if(!n)throw new Error("Unknown picture MIME type");a||(r=!1),this.frames.push({name:"APIC",value:t,pictureType:e,mimeType:n,useUnicodeEncoding:r,description:i,size:s(t.byteLength,n.length,i.length,r)})}_setLyricsFrame(e,t,a){const r=e.split("").map((e=>e.charCodeAt(0))),n=t.toString(),s=a.toString();var i,c;this.frames.push({name:"USLT",value:s,language:r,description:n,size:(i=n.length,c=s.length,16+2*i+2+2+2*c)})}_setCommentFrame(e,t,a){const r=e.split("").map((e=>e.charCodeAt(0))),n=t.toString(),s=a.toString();var i,c;this.frames.push({name:"COMM",value:s,language:r,description:n,size:(i=n.length,c=s.length,16+2*i+2+2+2*c)})}_setPrivateFrame(e,t){const a=e.toString();var r,n;this.frames.push({name:"PRIV",value:t,id:a,size:(r=a.length,n=t.byteLength,10+r+1+n)})}_setUserStringFrame(e,t){const a=e.toString(),r=t.toString();var n,s;this.frames.push({name:"TXXX",description:a,value:r,size:(n=a.length,s=r.length,13+2*n+2+2+2*s)})}_setUrlLinkFrame(e,t){const a=t.toString();var r;this.frames.push({name:e,value:a,size:(r=a.length,10+r)})}_setPairedTextFrame(e,t){this.frames.push({name:e,value:t,size:i(t)})}_setSynchronisedLyricsFrame(e,t,a,r,n){const s=n.toString(),i=r.split("").map((e=>e.charCodeAt(0)));this.frames.push({name:"SYLT",value:t,language:i,description:s,type:e,timestampFormat:a,size:browser_id3_writer_c(t,s.length)})}constructor(e){if(!e||"object"!=typeof e||!("byteLength"in e))throw new Error("First argument should be an instance of ArrayBuffer or Buffer");this.arrayBuffer=e,this.padding=4096,this.frames=[],this.url=""}setFrame(e,t){switch(e){case"TPE1":case"TCOM":case"TCON":{if(!Array.isArray(t))throw new Error(`${e} frame value should be an array of strings`);const a="TCON"===e?";":"/",r=t.join(a);this._setStringFrame(e,r);break}case"TLAN":case"TIT1":case"TIT2":case"TIT3":case"TALB":case"TPE2":case"TPE3":case"TPE4":case"TRCK":case"TPOS":case"TMED":case"TPUB":case"TCOP":case"TKEY":case"TEXT":case"TDAT":case"TSRC":this._setStringFrame(e,t);break;case"TBPM":case"TLEN":case"TYER":this._setIntegerFrame(e,t);break;case"USLT":if(t.language=t.language||"eng","object"!=typeof t||!("description"in t)||!("lyrics"in t))throw new Error("USLT frame value should be an object with keys description and lyrics");if(t.language&&!t.language.match(/[a-z]{3}/i))throw new Error("Language must be coded following the ISO 639-2 standards");this._setLyricsFrame(t.language,t.description,t.lyrics);break;case"APIC":if("object"!=typeof t||!("type"in t)||!("data"in t)||!("description"in t))throw new Error("APIC frame value should be an object with keys type, data and description");if(t.type<0||t.type>20)throw new Error("Incorrect APIC frame picture type");this._setPictureFrame(t.type,t.data,t.description,!!t.useUnicodeEncoding);break;case"TXXX":if("object"!=typeof t||!("description"in t)||!("value"in t))throw new Error("TXXX frame value should be an object with keys description and value");this._setUserStringFrame(t.description,t.value);break;case"WCOM":case"WCOP":case"WOAF":case"WOAR":case"WOAS":case"WORS":case"WPAY":case"WPUB":this._setUrlLinkFrame(e,t);break;case"COMM":if(t.language=t.language||"eng","object"!=typeof t||!("description"in t)||!("text"in t))throw new Error("COMM frame value should be an object with keys description and text");if(t.language&&!t.language.match(/[a-z]{3}/i))throw new Error("Language must be coded following the ISO 639-2 standards");this._setCommentFrame(t.language,t.description,t.text);break;case"PRIV":if("object"!=typeof t||!("id"in t)||!("data"in t))throw new Error("PRIV frame value should be an object with keys id and data");this._setPrivateFrame(t.id,t.data);break;case"IPLS":if(!Array.isArray(t)||!Array.isArray(t[0]))throw new Error("IPLS frame value should be an array of pairs");this._setPairedTextFrame(e,t);break;case"SYLT":if("object"!=typeof t||!("type"in t)||!("text"in t)||!("timestampFormat"in t))throw new Error("SYLT frame value should be an object with keys type, text and timestampFormat");if(!Array.isArray(t.text)||!Array.isArray(t.text[0]))throw new Error("SYLT frame text value should be an array of pairs");if(t.type<0||t.type>6)throw new Error("Incorrect SYLT frame content type");if(t.timestampFormat<1||t.timestampFormat>2)throw new Error("Incorrect SYLT frame time stamp format");t.language=t.language||"eng",t.description=t.description||"",this._setSynchronisedLyricsFrame(t.type,t.text,t.timestampFormat,t.language,t.description);break;default:throw new Error(`Unsupported frame ${e}`)}return this}removeTag(){if(this.arrayBuffer.byteLength<10)return;const e=new Uint8Array(this.arrayBuffer),t=e[3],a=((r=[e[6],e[7],e[8],e[9]])[0]<<21)+(r[1]<<14)+(r[2]<<7)+r[3]+10;var r,n;73!==(n=e)[0]||68!==n[1]||51!==n[2]||t<2||t>4||(this.arrayBuffer=new Uint8Array(e.subarray(a)).buffer)}addTag(){this.removeTag();const e=[255,254],n=10+this.frames.reduce(((e,t)=>e+t.size),0)+this.padding,s=new ArrayBuffer(this.arrayBuffer.byteLength+n),i=new Uint8Array(s);let c=0,o=[];return o=[73,68,51,3],i.set(o,c),c+=o.length,c++,c++,o=function(e){const t=127;return[e>>>21&t,e>>>14&t,e>>>7&t,e&t]}(n-10),i.set(o,c),c+=o.length,this.frames.forEach((n=>{switch(o=t(n.name),i.set(o,c),c+=o.length,o=r(n.size-10),i.set(o,c),c+=o.length,c+=2,n.name){case"WCOM":case"WCOP":case"WOAF":case"WOAR":case"WOAS":case"WORS":case"WPAY":case"WPUB":o=t(n.value),i.set(o,c),c+=o.length;break;case"TPE1":case"TCOM":case"TCON":case"TLAN":case"TIT1":case"TIT2":case"TIT3":case"TALB":case"TPE2":case"TPE3":case"TPE4":case"TRCK":case"TPOS":case"TKEY":case"TMED":case"TPUB":case"TCOP":case"TEXT":case"TSRC":o=[1].concat(e),i.set(o,c),c+=o.length,o=a(n.value),i.set(o,c),c+=o.length;break;case"TXXX":case"USLT":case"COMM":o=[1],"USLT"!==n.name&&"COMM"!==n.name||(o=o.concat(n.language)),o=o.concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,o=[0,0].concat(e),i.set(o,c),c+=o.length,o=a(n.value),i.set(o,c),c+=o.length;break;case"TBPM":case"TLEN":case"TDAT":case"TYER":c++,o=t(n.value),i.set(o,c),c+=o.length;break;case"PRIV":o=t(n.id),i.set(o,c),c+=o.length,c++,i.set(new Uint8Array(n.value),c),c+=n.value.byteLength;break;case"APIC":o=[n.useUnicodeEncoding?1:0],i.set(o,c),c+=o.length,o=t(n.mimeType),i.set(o,c),c+=o.length,o=[0,n.pictureType],i.set(o,c),c+=o.length,n.useUnicodeEncoding?(o=[].concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,c+=2):(o=t(n.description),i.set(o,c),c+=o.length,c++),i.set(new Uint8Array(n.value),c),c+=n.value.byteLength;break;case"IPLS":o=[1],i.set(o,c),c+=o.length,n.value.forEach((t=>{o=[].concat(e),i.set(o,c),c+=o.length,o=a(t[0].toString()),i.set(o,c),c+=o.length,o=[0,0].concat(e),i.set(o,c),c+=o.length,o=a(t[1].toString()),i.set(o,c),c+=o.length,o=[0,0],i.set(o,c),c+=o.length}));break;case"SYLT":o=[1].concat(n.language).concat(n.timestampFormat).concat(n.type),i.set(o,c),c+=o.length,o=[].concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,c+=2,n.value.forEach((t=>{o=[].concat(e),i.set(o,c),c+=o.length,o=a(t[0].toString()),i.set(o,c),c+=o.length,o=[0,0],i.set(o,c),c+=o.length,o=r(t[1]),i.set(o,c),c+=o.length}))}})),c+=this.padding,i.set(new Uint8Array(this.arrayBuffer),c),this.arrayBuffer=s,s}getBlob(){return new Blob([this.arrayBuffer],{type:"audio/mpeg"})}getURL(){return this.url||(this.url=URL.createObjectURL(this.getBlob())),this.url}revokeURL(){URL.revokeObjectURL(this.url)}}
-;// ./src/utils/translateApis.js
-
-
-
-
-const YandexTranslateAPI = {
-  async translate(text, lang) {
-    // Limit: 10k symbols
-    //
-    // Lang examples:
-    // en-ru, uk-ru, ru-en...
-    // ru, en (instead of auto-ru, auto-en)
-
-    try {
-      const response = await GM_fetch(
-        `${translateUrls.yandex}?${new URLSearchParams({
-          text,
-          lang,
-        })}`,
-        { timeout: 3000 },
-      );
-
-      if (response instanceof Error) {
-        throw response;
-      }
-
-      const content = await response.json();
-
-      if (content.code !== 200) {
-        throw content.message;
-      }
-
-      return content.text[0];
-    } catch (error) {
-      console.error("Error translating text:", error);
-      return text;
-    }
-  },
-
-  async detect(text) {
-    // Limit: 10k symbols
-    try {
-      const response = await GM_fetch(
-        `${detectUrls.yandex}?${new URLSearchParams({
-          text,
-        })}`,
-        { timeout: 3000 },
-      );
-
-      if (response instanceof Error) {
-        throw response;
-      }
-
-      const content = await response.json();
-      if (content.code !== 200) {
-        throw content.message;
-      }
-
-      return content.lang ?? "en";
-    } catch (error) {
-      console.error("Error getting lang from text:", error);
-      return "en";
-    }
-  },
-};
-
-const RustServerAPI = {
-  async detect(text) {
-    try {
-      const response = await GM_fetch(
-        detectUrls.rustServer,
-        {
-          method: "POST",
-          body: text,
-        },
-        { timeout: 3000 },
-      );
-
-      if (response instanceof Error) {
-        throw response;
-      }
-
-      return await response.text();
-    } catch (error) {
-      console.error("Error getting lang from text:", error);
-      return "en";
-    }
-  },
-};
-
-const DeeplServerAPI = {
-  async translate(text, fromLang = "auto", toLang = "ru") {
-    try {
-      const response = await GM_fetch(
-        translateUrls.deepl,
-        {
-          method: "POST",
-          headers: {
-            "content-type": "application/x-www-form-urlencoded",
-          },
-          body: new URLSearchParams({
-            text,
-            source_lang: fromLang,
-            target_lang: toLang,
-          }),
-        },
-        { timeout: 3000 },
-      );
-
-      if (response instanceof Error) {
-        throw response;
-      }
-
-      const content = await response.json();
-
-      if (content.code !== 200) {
-        throw content.message;
-      }
-
-      return content.data;
-    } catch (error) {
-      console.error("Error translating text:", error);
-      return text;
-    }
-  },
-};
-
-async function translate(text, fromLang = "", toLang = "ru") {
-  const service = await votStorage.get(
-    "translationService",
-    defaultTranslationService,
-  );
-  switch (service) {
-    case "yandex": {
-      const langPair = fromLang && toLang ? `${fromLang}-${toLang}` : toLang;
-      return await YandexTranslateAPI.translate(text, langPair);
-    }
-    case "deepl": {
-      return await DeeplServerAPI.translate(text, fromLang, toLang);
-    }
-    default:
-      return text;
-  }
-}
-
-async function detect(text) {
-  const service = await votStorage.get("detectService", defaultDetectService);
-  switch (service) {
-    case "yandex":
-      return await YandexTranslateAPI.detect(text);
-    case "rust-server":
-      return await RustServerAPI.detect(text);
-    default:
-      return "en";
-  }
-}
-
-const translateServices = Object.keys(translateUrls);
-const detectServices = Object.keys(detectUrls).map((k) =>
-  k === "rustServer" ? "rust-server" : k,
-);
-
-
-
-;// ./src/utils/youtubeUtils.js
-
-
-
-
-
-
-
-
-// Get the language code from the response or the text
-async function getLanguage(player, response, title, description) {
-  if (
-    !window.location.hostname.includes("m.youtube.com") &&
-    player?.getAudioTrack
-  ) {
-    // ! Experimental ! get lang from selected audio track if availabled
-    const audioTracks = player.getAudioTrack();
-    const trackInfo = audioTracks?.getLanguageInfo(); // get selected track info (id === "und" if tracks are not available)
-    if (trackInfo?.id !== "und") {
-      return normalizeLang(trackInfo.id.split(".")[0]);
-    }
-  }
-
-  // TODO: If the audio tracks will work fine, transfer the receipt of captions to the audioTracks variable
-  // Check if there is an automatic caption track in the response
-  const captionTracks =
-    response?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
-  if (captionTracks?.length) {
-    const autoCaption = captionTracks.find((caption) => caption.kind === "asr");
-    if (autoCaption && autoCaption.languageCode) {
-      return normalizeLang(autoCaption.languageCode);
-    }
-  }
-
-  // If there is no caption track, use detect to get the language code from the description
-
-  const text = cleanText(title, description);
-
-  debug.log(`Detecting language text: ${text}`);
-
-  return detect(text);
-}
-
-function isMobile() {
-  return /^m\.youtube\.com$/.test(window.location.hostname);
-}
-
-function getPlayer() {
-  if (window.location.pathname.startsWith("/shorts/") && !isMobile()) {
-    return document.querySelector("#shorts-player");
-  }
-
-  return document.querySelector("#movie_player");
-}
-
-function getPlayerResponse() {
-  const player = getPlayer();
-  if (player?.getPlayerResponse)
-    return player?.getPlayerResponse?.call() ?? null;
-  return player?.data?.playerResponse ?? null;
-}
-
-function getPlayerData() {
-  const player = getPlayer();
-  if (player?.getVideoData) return player?.getVideoData?.call() ?? null;
-  return player?.data?.playerResponse?.videoDetails ?? null;
-}
-
-function getVideoVolume() {
-  const player = getPlayer();
-  if (player?.getVolume) {
-    return player.getVolume.call() / 100;
-  }
-
-  return 1;
-}
-
-function setVideoVolume(volume) {
-  const player = getPlayer();
-  if (player?.setVolume) {
-    player.setVolume(Math.round(volume * 100));
-    return true;
-  }
-}
-
-function isMuted() {
-  const player = getPlayer();
-  if (player?.isMuted) {
-    return player.isMuted.call();
-  }
-
-  return false;
-}
-
-function videoSeek(video, time) {
-  // * TIME IN MS
-  debug.log("videoSeek", time);
-  const preTime =
-    getPlayer()?.getProgressState()?.seekableEnd || video.currentTime;
-  const finalTime = preTime - time; // we always throw it to the end of the stream - time
-  video.currentTime = finalTime;
-}
-
-function isMusic() {
-  // Нужно доработать логику
-  const channelName = getPlayerData().author,
-    titleStr = getPlayerData().title.toUpperCase(),
-    titleWordsList = titleStr.match(/\w+/g),
-    playerData = document.body.querySelector("ytd-watch-flexy")?.playerData;
-
-  return (
-    [
-      titleStr,
-      document.URL,
-      channelName,
-      playerData?.microformat?.playerMicroformatRenderer.category,
-      playerData?.title,
-    ].some((i) => i?.toUpperCase().includes("MUSIC")) ||
-    document.body.querySelector(
-      "#upload-info #channel-name .badge-style-type-verified-artist",
-    ) ||
-    (channelName &&
-      /(VEVO|Topic|Records|RECORDS|Recordings|AMV)$/.test(channelName)) ||
-    (channelName &&
-      /(MUSIC|ROCK|SOUNDS|SONGS)/.test(channelName.toUpperCase())) ||
-    (titleWordsList?.length &&
-      [
-        "🎵",
-        "♫",
-        "SONG",
-        "SONGS",
-        "SOUNDTRACK",
-        "LYRIC",
-        "LYRICS",
-        "AMBIENT",
-        "MIX",
-        "VEVO",
-        "CLIP",
-        "KARAOKE",
-        "OPENING",
-        "COVER",
-        "COVERED",
-        "VOCAL",
-        "INSTRUMENTAL",
-        "ORCHESTRAL",
-        "DUBSTEP",
-        "DJ",
-        "DNB",
-        "BASS",
-        "BEAT",
-        "ALBUM",
-        "PLAYLIST",
-        "DUBSTEP",
-        "CHILL",
-        "RELAX",
-        "CLASSIC",
-        "CINEMATIC",
-      ].some((i) => titleWordsList.includes(i))) ||
-    [
-      "OFFICIAL VIDEO",
-      "OFFICIAL AUDIO",
-      "FEAT.",
-      "FT.",
-      "LIVE RADIO",
-      "DANCE VER",
-      "HIP HOP",
-      "ROCK N ROLL",
-      "HOUR VER",
-      "HOURS VER",
-      "INTRO THEME",
-    ].some((i) => titleStr.includes(i)) ||
-    (titleWordsList?.length &&
-      [
-        "OP",
-        "ED",
-        "MV",
-        "OST",
-        "NCS",
-        "BGM",
-        "EDM",
-        "GMV",
-        "AMV",
-        "MMD",
-        "MAD",
-      ].some((i) => titleWordsList.includes(i)))
-  );
-}
-
-function getSubtitles() {
-  const response = getPlayerResponse();
-  const playerCaptions = response?.captions?.playerCaptionsTracklistRenderer;
-  if (!playerCaptions) {
-    return [];
-  }
-
-  let captionTracks = playerCaptions.captionTracks ?? [];
-  const translationLanguages = playerCaptions.translationLanguages ?? [];
-  const userLang = localizationProvider.lang;
-  const userLangSupported = translationLanguages.find(
-    (language) => language.languageCode === userLang,
-  );
-  const asrLang =
-    captionTracks.find((captionTrack) => captionTrack?.kind === "asr")
-      ?.languageCode ?? "en";
-  captionTracks = captionTracks.reduce((result, captionTrack) => {
-    if (!("languageCode" in captionTrack)) {
-      return result;
-    }
-
-    const language = captionTrack.languageCode
-      ? normalizeLang(captionTrack.languageCode)
-      : undefined;
-    const url = captionTrack?.url || captionTrack?.baseUrl;
-    if (!language || !url) {
-      return result;
-    }
-
-    const captionUrl = `${
-      url.startsWith("http") ? url : `${window.location.origin}/${url}`
-    }&fmt=json3`;
-    result.push({
-      source: "youtube",
-      language,
-      isAutoGenerated: captionTrack?.kind === "asr",
-      url: captionUrl,
-    });
-
-    if (
-      userLangSupported &&
-      captionTrack.isTranslatable &&
-      captionTrack.languageCode === asrLang &&
-      userLang !== language
-    ) {
-      // add translated youtube subtitles (if it possible)
-      result.push({
-        source: "youtube",
-        language: userLang,
-        isAutoGenerated: captionTrack?.kind === "asr",
-        translatedFromLanguage: language,
-        url: `${captionUrl}&tlang=${userLang}`,
-      });
-    }
-
-    return result;
-  }, []);
-  debug.log("youtube subtitles:", captionTracks);
-  return captionTracks;
-}
-
-// Get the video data from the player
-async function youtubeUtils_getVideoData() {
-  const player = getPlayer();
-  const response = getPlayerResponse(); // null in /embed
-  const data = getPlayerData();
-  const { title: localizedTitle } = data ?? {};
-  const {
-    shortDescription: description,
-    isLive,
-    title,
-  } = response?.videoDetails ?? {};
-  let detectedLanguage = title
-    ? await getLanguage(player, response, title, description)
-    : "en";
-  detectedLanguage = availableLangs.includes(detectedLanguage)
-    ? detectedLanguage
-    : "en";
-  const videoData = {
-    isLive: !!isLive,
-    title,
-    localizedTitle,
-    description,
-    detectedLanguage,
-  };
-  debug.log("youtube video data:", videoData);
-  console.log("[VOT] Detected language: ", videoData.detectedLanguage);
-  return videoData;
-}
-
-/* harmony default export */ const youtubeUtils = ({
-  isMobile,
-  getPlayer,
-  getPlayerResponse,
-  getPlayerData,
-  getVideoVolume,
-  getSubtitles,
-  getVideoData: youtubeUtils_getVideoData,
-  setVideoVolume,
-  videoSeek,
-  isMuted,
-  isMusic,
-});
-
 ;// ./src/subtitles.js
 
 
@@ -11067,7 +11254,7 @@ class VideoHandler {
       translationHelp,
       detectedLanguage,
       subtitles,
-    } = await getVideoData(this.site, this.video);
+    } = await videoData_getVideoData(this.site, this.video);
     const videoData = {
       translationHelp: translationHelp ?? null,
       // by default, we request the translation of the video

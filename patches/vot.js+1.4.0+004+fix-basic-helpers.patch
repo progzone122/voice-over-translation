@@ -96,6 +96,41 @@ index 3e7181b..a24039b 100644
          const currentLesson = lessonsData?.[lessonId - 1];
          const { file: videoUrl, duration, title } = currentLesson;
          if (!videoUrl) {
+diff --git a/node_modules/vot.js/dist/helpers/dailymotion.js b/node_modules/vot.js/dist/helpers/dailymotion.js
+index 44b37b5..49f5780 100644
+--- a/node_modules/vot.js/dist/helpers/dailymotion.js
++++ b/node_modules/vot.js/dist/helpers/dailymotion.js
+@@ -1,8 +1,14 @@
+ import { BaseHelper } from "./base.js";
+ export default class DailymotionHelper extends BaseHelper {
+     async getVideoId(url) {
+-        return url.hostname === "dai.ly"
+-            ? url.pathname.slice(1)
+-            : /video\/([^/]+)/.exec(url.pathname)?.[1];
++        // geo.dailymotion.com
++        const plainPlayerConfig = Array.from(
++            document.querySelectorAll("*"),
++        ).filter((s) => s.innerHTML.trim().includes(".m3u8"));
++        let videoUrl = plainPlayerConfig?.[1]?.lastChild?.src;
++        if (!videoUrl) {
++            return undefined
++        }
++        return /\/video\/(\w+)\.m3u8/.exec(videoUrl)?.[1];
+     }
+ }
+diff --git a/node_modules/vot.js/dist/helpers/googledrive.js b/node_modules/vot.js/dist/helpers/googledrive.js
+index 9a167c5..0184ea1 100644
+--- a/node_modules/vot.js/dist/helpers/googledrive.js
++++ b/node_modules/vot.js/dist/helpers/googledrive.js
+@@ -1,6 +1,7 @@
+ import { BaseHelper } from "./base.js";
++import youtubeUtils from "../../../../src/utils/youtubeUtils.js";
+ export default class GoogleDriveHelper extends BaseHelper {
+     async getVideoId(url) {
+-        return /\/file\/d\/([^/]+)/.exec(url.pathname)?.[1];
++        return youtubeUtils.getPlayerData()?.video_id
+     }
+ }
 diff --git a/node_modules/vot.js/dist/helpers/incestflix.js b/node_modules/vot.js/dist/helpers/incestflix.js
 index 0a66568..f7899f0 100644
 --- a/node_modules/vot.js/dist/helpers/incestflix.js
@@ -191,10 +226,10 @@ index 430c984..d087668 100644
      }
  }
 diff --git a/node_modules/vot.js/dist/helpers/porntn.js b/node_modules/vot.js/dist/helpers/porntn.js
-index 014550b..9993417 100644
+index 014550b..cd93b03 100644
 --- a/node_modules/vot.js/dist/helpers/porntn.js
 +++ b/node_modules/vot.js/dist/helpers/porntn.js
-@@ -1,15 +1,12 @@
+@@ -1,31 +1,13 @@
 -import { parseFromString } from "dom-parser";
  import { BaseHelper, VideoHelperError } from "./base.js";
  import { proxyMedia } from "../utils/utils.js";
@@ -205,13 +240,28 @@ index 014550b..9993417 100644
 -            const res = await this.fetch(this.service?.url + videoId);
 -            const content = await res.text();
 -            const doc = parseFromString(content.replace("<!DOCTYPE html>", ""));
-+            const content =  document.body.innerHTML;
-             const varDelimiter = /var flashvars\s=\s/;
+-            const varDelimiter = /var flashvars\s=\s/;
 -            const dataScript = doc
-+            const dataScript = document
-                 .getElementsByTagName("script")
-                 .find((node) => varDelimiter.exec(node.textContent));
-             if (!dataScript) {
+-                .getElementsByTagName("script")
+-                .find((node) => varDelimiter.exec(node.textContent));
+-            if (!dataScript) {
+-                throw new VideoHelperError("Failed to find data script");
+-            }
+-            const scriptText = dataScript.textContent
+-                .split(varDelimiter)?.[1]
+-                ?.split(";\n", 1)[0]
+-                .replace(/(\t|\n)/g, "");
+-            Logger.log(scriptText);
+-            const source = /video_url: 'function\/0\/([^']+)'/.exec(content)?.[1];
+-            const rnd = /rnd: '([^']+)'/.exec(content)?.[1];
++            const { rnd, video_url: source, video_title: title } =  window.flashvars;
+             if (!source || !rnd) {
+                 throw new VideoHelperError("Failed to find video source or rnd");
+             }
+-            const title = /video_title: '([^']+)'/.exec(content)?.[1];
+             const url = new URL(source);
+             url.searchParams.append("rnd", rnd);
+             Logger.log(url.href);
 diff --git a/node_modules/vot.js/dist/helpers/reddit.js b/node_modules/vot.js/dist/helpers/reddit.js
 index 3a19bda..56e9cc1 100644
 --- a/node_modules/vot.js/dist/helpers/reddit.js

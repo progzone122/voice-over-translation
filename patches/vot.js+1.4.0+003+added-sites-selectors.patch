@@ -1,5 +1,5 @@
 diff --git a/node_modules/vot.js/dist/config/sites.js b/node_modules/vot.js/dist/config/sites.js
-index f92d874..4c891d9 100644
+index c0fda08..0b5d579 100644
 --- a/node_modules/vot.js/dist/config/sites.js
 +++ b/node_modules/vot.js/dist/config/sites.js
 @@ -2,39 +2,77 @@ import { VideoService } from "../types/yandex.js";
@@ -108,7 +108,7 @@ index f92d874..4c891d9 100644
      },
      {
          host: VideoService.vimeo,
-@@ -68,201 +110,295 @@ export default [
+@@ -68,207 +110,302 @@ export default [
          match: /^player.vimeo.com$/,
          additionalData: "embed",
          needExtraData: true,
@@ -408,7 +408,14 @@ index f92d874..4c891d9 100644
          host: VideoService.porntn,
          url: "https://porntn.com/videos/",
          match: /^porntn.com$/,
-+        selector: null,
++        selector: ".fp-player",
          needExtraData: true,
      },
      {
+         host: VideoService.dzen,
+         url: "https://dzen.ru/video/watch/",
+         match: /^dzen.ru$/,
++        selector: ".zen-ui-video-video-player"
+     },
+     {
+         host: VideoService.custom,

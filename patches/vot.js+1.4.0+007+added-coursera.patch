@@ -1,8 +1,8 @@
 diff --git a/node_modules/vot.js/dist/config/sites.js b/node_modules/vot.js/dist/config/sites.js
-index c2db3cc..e7ffb83 100644
+index 37b66a6..87cd2d0 100644
 --- a/node_modules/vot.js/dist/config/sites.js
 +++ b/node_modules/vot.js/dist/config/sites.js
-@@ -371,6 +371,14 @@ export default [
+@@ -381,6 +381,14 @@ export default [
              'div[data-purpose="curriculum-item-viewer-content"] > section > div > div > div > div:nth-of-type(2)',
          needExtraData: true,
      },
@@ -142,7 +142,7 @@ index 0000000..b59fbc5
 +}
 \ No newline at end of file
 diff --git a/node_modules/vot.js/dist/helpers/index.d.ts b/node_modules/vot.js/dist/helpers/index.d.ts
-index 26077c7..4bb3148 100644
+index c371c46..05125aa 100644
 --- a/node_modules/vot.js/dist/helpers/index.d.ts
 +++ b/node_modules/vot.js/dist/helpers/index.d.ts
 @@ -14,6 +14,7 @@ import CoursehunterLikeHelper from "./coursehunterLike.js";
@@ -153,7 +153,7 @@ index 26077c7..4bb3148 100644
  import LinkedinHelper from "./linkedin.js";
  import VimeoHelper from "./vimeo.js";
  import YandexDiskHelper from "./yandexdisk.js";
-@@ -36,6 +37,7 @@ export * as CoursehunterLikeHelper from "./coursehunterLike.js";
+@@ -58,6 +59,7 @@ export * as CoursehunterLikeHelper from "./coursehunterLike.js";
  export * as TwitchHelper from "./twitch.js";
  export * as SapHelper from "./sap.js";
  export * as UdemyHelper from "./udemy.js";
@@ -161,7 +161,7 @@ index 26077c7..4bb3148 100644
  export * as LinkedinHelper from "./linkedin.js";
  export * as VimeoHelper from "./vimeo.js";
  export * as YandexDiskHelper from "./yandexdisk.js";
-@@ -59,6 +61,7 @@ export declare const availableHelpers: {
+@@ -103,6 +105,7 @@ export declare const availableHelpers: {
      twitch: typeof TwitchHelper;
      sap: typeof SapHelper;
      udemy: typeof UdemyHelper;
@@ -170,7 +170,7 @@ index 26077c7..4bb3148 100644
      vimeo: typeof VimeoHelper;
      yandexdisk: typeof YandexDiskHelper;
 diff --git a/node_modules/vot.js/dist/helpers/index.js b/node_modules/vot.js/dist/helpers/index.js
-index 28a55a5..9c488d4 100644
+index e60fa97..26a26df 100644
 --- a/node_modules/vot.js/dist/helpers/index.js
 +++ b/node_modules/vot.js/dist/helpers/index.js
 @@ -14,6 +14,7 @@ import CoursehunterLikeHelper from "./coursehunterLike.js";
@@ -181,7 +181,7 @@ index 28a55a5..9c488d4 100644
  import LinkedinHelper from "./linkedin.js";
  import VimeoHelper from "./vimeo.js";
  import YandexDiskHelper from "./yandexdisk.js";
-@@ -36,6 +37,7 @@ export * as CoursehunterLikeHelper from "./coursehunterLike.js";
+@@ -58,6 +59,7 @@ export * as CoursehunterLikeHelper from "./coursehunterLike.js";
  export * as TwitchHelper from "./twitch.js";
  export * as SapHelper from "./sap.js";
  export * as UdemyHelper from "./udemy.js";
@@ -189,7 +189,7 @@ index 28a55a5..9c488d4 100644
  export * as LinkedinHelper from "./linkedin.js";
  export * as VimeoHelper from "./vimeo.js";
  export * as YandexDiskHelper from "./yandexdisk.js";
-@@ -59,6 +61,7 @@ export const availableHelpers = {
+@@ -103,6 +105,7 @@ export const availableHelpers = {
      [VideoService.twitch]: TwitchHelper,
      [VideoService.sap]: SapHelper,
      [VideoService.udemy]: UdemyHelper,
@@ -265,10 +265,10 @@ index 0000000..693da49
 +export {}
 \ No newline at end of file
 diff --git a/node_modules/vot.js/dist/types/yandex.d.ts b/node_modules/vot.js/dist/types/yandex.d.ts
-index 4715dab..6b4fd96 100644
+index f5db258..fe5568a 100644
 --- a/node_modules/vot.js/dist/types/yandex.d.ts
 +++ b/node_modules/vot.js/dist/types/yandex.d.ts
-@@ -66,6 +66,7 @@ export declare enum VideoService {
+@@ -67,6 +67,7 @@ export declare enum VideoService {
      coursehunterLike = "coursehunterLike",
      sap = "sap",
      udemy = "udemy",
@@ -277,10 +277,10 @@ index 4715dab..6b4fd96 100644
      linkedin = "linkedin",
      ricktube = "ricktube",
 diff --git a/node_modules/vot.js/dist/types/yandex.js b/node_modules/vot.js/dist/types/yandex.js
-index 3811fda..9bd062d 100644
+index 0487f7e..b92eef7 100644
 --- a/node_modules/vot.js/dist/types/yandex.js
 +++ b/node_modules/vot.js/dist/types/yandex.js
-@@ -50,6 +50,7 @@ export var VideoService;
+@@ -51,6 +51,7 @@ export var VideoService;
      VideoService["coursehunterLike"] = "coursehunterLike";
      VideoService["sap"] = "sap";
      VideoService["udemy"] = "udemy";

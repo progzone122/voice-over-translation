@@ -1,20 +1,20 @@
 diff --git a/node_modules/vot.js/dist/utils/videoData.d.ts b/node_modules/vot.js/dist/utils/videoData.d.ts
-index f69bc0a..158777c 100644
+index 64c9c0d..9cfce23 100644
 --- a/node_modules/vot.js/dist/utils/videoData.d.ts
 +++ b/node_modules/vot.js/dist/utils/videoData.d.ts
 @@ -1,6 +1,6 @@
  import { ServiceConf } from "../types/yandex.js";
  import { GetVideoDataOpts, VideoData } from "../types/client.js";
 -export declare function getService(videoUrl: string): false | ServiceConf | undefined;
--export declare function getVideoID(service: ServiceConf, videoURL: string, opts?: GetVideoDataOpts): Promise<string | null | undefined>;
+-export declare function getVideoID(service: ServiceConf, videoURL: string, opts?: GetVideoDataOpts): Promise<string | undefined>;
 -export declare function getVideoData(url: string, opts?: GetVideoDataOpts): Promise<VideoData>;
 +export declare function getService(): false | ServiceConf | undefined;
-+export declare function getVideoID(service: ServiceConf, video: HTMLVideoElement, opts?: GetVideoDataOpts): Promise<string | null | undefined>;
++export declare function getVideoID(service: ServiceConf, video: HTMLVideoElement, opts?: GetVideoDataOpts): Promise<string | undefined>;
 +export declare function getVideoData(service: ServiceConf, video: HTMLVideoElement, opts?: GetVideoDataOpts): Promise<VideoData>;
  //# sourceMappingURL=videoData.d.ts.map
 \ No newline at end of file
 diff --git a/node_modules/vot.js/dist/utils/videoData.js b/node_modules/vot.js/dist/utils/videoData.js
-index 2787718..f789f28 100644
+index 1f65186..9856a64 100644
 --- a/node_modules/vot.js/dist/utils/videoData.js
 +++ b/node_modules/vot.js/dist/utils/videoData.js
 @@ -1,7 +1,6 @@
@@ -67,36 +67,9 @@ index 2787718..f789f28 100644
      const serviceHost = service.host;
      if (Object.keys(availableHelpers).includes(serviceHost)) {
          const helper = new VideoHelper(opts).getHelper(serviceHost);
-@@ -100,15 +92,22 @@ export async function getVideoID(service, videoURL, opts = {}) {
-         case VideoService.peertube:
-             return /\/w\/([^/]+)/.exec(url.pathname)?.[0];
-         case VideoService.dailymotion: {
--            return url.hostname === "dai.ly"
--                ? url.pathname.slice(1)
--                : /video\/([^/]+)/.exec(url.pathname)?.[1];
-+            // we work in the context of the player
-+            // geo.dailymotion.com
-+            const plainPlayerConfig = Array.from(
-+                document.querySelectorAll("*"),
-+            ).filter((s) => s.innerHTML.trim().includes(".m3u8"));
-+            let videoUrl = plainPlayerConfig?.[1]?.lastChild?.src;
-+            if (!videoUrl) {
-+                return undefined
-+            }
-+            return /\/video\/(\w+)\.m3u8/.exec(videoUrl)?.[1];
-         }
-         case VideoService.okru: {
-             return /\/video\/(\d+)/.exec(url.pathname)?.[1];
-         }
-         case VideoService.googledrive:
--            return /\/file\/d\/([^/]+)/.exec(url.pathname)?.[1];
-+            return url.searchParams.get("docid");
-         case VideoService.newgrounds:
-             return /([^/]+)\/(view)\/([^/]+)/.exec(url.pathname)?.[0];
-         case VideoService.egghead:
-@@ -123,16 +122,12 @@ export async function getVideoID(service, videoURL, opts = {}) {
-             return undefined;
+@@ -48,16 +40,12 @@ export async function getVideoID(service, videoURL, opts = {}) {
      }
+     return serviceHost === VideoService.custom ? url.href : undefined;
  }
 -export async function getVideoData(url, opts = {}) {
 -    const service = getService(url);
