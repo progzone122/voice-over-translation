@@ -154,6 +154,8 @@ class VideoHandler {
     this.video = video;
     this.container = container;
     this.site = site;
+    this.abortController = new AbortController();
+    this.extraEvents = [];
     this.init();
   }
 
@@ -201,8 +203,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : res.message ??
-              localizationProvider.get("translationTakeFewMinutes"),
+          : (res.message ??
+              localizationProvider.get("translationTakeFewMinutes")),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
@@ -1683,6 +1685,7 @@ class VideoHandler {
   }
 
   releaseExtraEvents() {
+    this.abortController.abort();
     this.resizeObserver?.disconnect();
     if (
       ["youtube", "googledrive"].includes(this.site.host) &&
@@ -1690,17 +1693,10 @@ class VideoHandler {
     ) {
       this.syncVolumeObserver?.disconnect();
     }
-
-    if (this.extraEvents) {
-      for (let i = 0; i < this.extraEvents.length; i++) {
-        const e = this.extraEvents[i];
-        e.element.removeEventListener(e.event, e.handler);
-      }
-    }
   }
 
   initExtraEvents() {
-    this.extraEvents = [];
+    const { signal } = this.abortController;
 
     const addExtraEventListener = (element, event, handler) => {
       this.extraEvents.push({
@@ -1708,7 +1704,7 @@ class VideoHandler {
         event,
         handler,
       });
-      element.addEventListener(event, handler);
+      element.addEventListener(event, handler, { signal });
     };
 
     const addExtraEventListeners = (element, events, handler) => {
@@ -1789,41 +1785,49 @@ class VideoHandler {
       }
     }
 
-    document.addEventListener("click", (event) => {
-      const e = event.target;
+    document.addEventListener(
+      "click",
+      (event) => {
+        const e = event.target;
 
-      const button = this.votButton.container;
-      const menu = this.votMenu.container;
-      const container = this.container;
-      const settings = this.votSettingsDialog.container;
-      const tempDialog = document.querySelector(".vot-dialog-temp");
+        const button = this.votButton.container;
+        const menu = this.votMenu.container;
+        const container = this.container;
+        const settings = this.votSettingsDialog.container;
+        const tempDialog = document.querySelector(".vot-dialog-temp");
 
-      const isButton = button.contains(e);
-      const isMenu = menu.contains(e);
-      const isVideo = container.contains(e);
-      const isSettings = settings.contains(e);
-      const isTempDialog = tempDialog?.contains(e) ?? false;
+        const isButton = button.contains(e);
+        const isMenu = menu.contains(e);
+        const isVideo = container.contains(e);
+        const isSettings = settings.contains(e);
+        const isTempDialog = tempDialog?.contains(e) ?? false;
 
-      debug.log(
-        `[document click] ${isButton} ${isMenu} ${isVideo} ${isSettings} ${isTempDialog}`,
-      );
-      if (!(!isButton && !isMenu && !isSettings && !isTempDialog)) return;
-      if (!isVideo) this.logout(0);
+        debug.log(
+          `[document click] ${isButton} ${isMenu} ${isVideo} ${isSettings} ${isTempDialog}`,
+        );
+        if (!(!isButton && !isMenu && !isSettings && !isTempDialog)) return;
+        if (!isVideo) this.logout(0);
 
-      this.votMenu.container.hidden = true;
-    });
+        this.votMenu.container.hidden = true;
+      },
+      { signal },
+    );
 
-    document.addEventListener("keydown", async (event) => {
-      const code = event.code;
-      // Проверка, если активный элемент - это вводимый элемент
-      const activeElement = document.activeElement;
-      const isInputElement =
-        ["input", "textarea"].includes(activeElement.tagName.toLowerCase()) ||
-        activeElement.isContentEditable;
-      if (!isInputElement && code === this.data.hotkeyButton) {
-        await this.handleTranslationBtnClick();
-      }
-    });
+    document.addEventListener(
+      "keydown",
+      async (event) => {
+        const code = event.code;
+        // Проверка, если активный элемент - это вводимый элемент
+        const activeElement = document.activeElement;
+        const isInputElement =
+          ["input", "textarea"].includes(activeElement.tagName.toLowerCase()) ||
+          activeElement.isContentEditable;
+        if (!isInputElement && code === this.data.hotkeyButton) {
+          await this.handleTranslationBtnClick();
+        }
+      },
+      { signal },
+    );
 
     let eventContainer = this.site.eventSelector
       ? document.querySelector(this.site.eventSelector)
