@@ -1,17 +1,17 @@
-diff --git a/node_modules/vot.js/dist/client.js b/node_modules/vot.js/dist/client.js
-index df9da79..7eb45ad 100644
---- a/node_modules/vot.js/dist/client.js
-+++ b/node_modules/vot.js/dist/client.js
-@@ -7,6 +7,8 @@ import { getVideoData } from "./utils/videoData.js";
+diff --git a/node_modules/@vot.js/core/dist/client.js b/node_modules/@vot.js/core/dist/client.js
+index 6c0623c..b398012 100644
+--- a/node_modules/@vot.js/core/dist/client.js
++++ b/node_modules/@vot.js/core/dist/client.js
+@@ -6,6 +6,8 @@ import { fetchWithTimeout, getTimestamp } from "@vot.js/shared/utils/utils";
+ import { yandexProtobuf } from "./protobuf.js";
+ import { AudioDownloadType, VideoTranslationStatus } from "./types/yandex.js";
  import { convertVOT } from "./utils/vot.js";
- import { StreamInterval } from "./protos/yandex.js";
- import Logger from "./utils/logger.js";
-+import { VOTLocalizedError } from "../../../src/utils/VOTLocalizedError.js";
-+import debug from "../../../src/utils/debug.ts";
++import { VOTLocalizedError } from "../../../../src/utils/VOTLocalizedError.js";
++import debug from "../../../../src/utils/debug.ts";
  class VOTJSError extends Error {
      data;
      constructor(message, data = undefined) {
-@@ -165,16 +167,17 @@ export default class VOTClient {
+@@ -162,17 +164,18 @@ export default class VOTClient {
              ...headers,
          });
          if (!res.success) {
@@ -19,8 +19,9 @@ index df9da79..7eb45ad 100644
 +            throw new VOTLocalizedError("requestTranslationFailed");
          }
          const translationData = yandexProtobuf.decodeTranslationResponse(res.data);
-+        debug.log("requestTranslation", translationData);
-         switch (translationData.status) {
++        debug.log("translateVideo", translationData);
+         const { status, translationId, } = translationData;
+         switch (status) {
              case VideoTranslationStatus.FAILED:
 -                throw new VOTJSError("Yandex couldn't translate video", translationData);
 +                throw translationData?.message ? new VOTJSError("Yandex couldn't translate video", translationData) : new VOTLocalizedError("requestTranslationFailed");
@@ -31,17 +32,17 @@ index df9da79..7eb45ad 100644
 +                    throw new VOTLocalizedError("audioNotReceived");
                  }
                  return {
-                     translated: true,
-@@ -220,7 +223,7 @@ export default class VOTClient {
+                     translationId,
+@@ -227,7 +230,7 @@ export default class VOTClient {
              rawVideo: url,
          }, headers);
          if (!res.success) {
 -            throw new VOTJSError("Failed to request video translation", res);
-+            throw new VOTLocalizedError("requestTranslationFailed", res);
++            throw new VOTLocalizedError("requestTranslationFailed");
          }
          const translationData = res.data;
          switch (translationData.status) {
-@@ -228,7 +231,7 @@ export default class VOTClient {
+@@ -235,7 +238,7 @@ export default class VOTClient {
                  throw new VOTJSError("Yandex couldn't translate video", translationData);
              case "success":
                  if (!translationData.translatedUrl) {
@@ -49,8 +50,8 @@ index df9da79..7eb45ad 100644
 +                    throw new VOTLocalizedError("audioNotReceived");
                  }
                  return {
-                     translated: true,
-@@ -288,7 +291,10 @@ export default class VOTClient {
+                     translationId: String(translationData.id),
+@@ -301,7 +304,10 @@ export default class VOTClient {
      async getSubtitles({ videoData, requestLang = this.requestLang, headers = {}, }) {
          const { url } = videoData;
          if (this.isCustomLink(url)) {
@@ -62,7 +63,7 @@ index df9da79..7eb45ad 100644
          }
          const session = await this.getSession("video-translation");
          const body = yandexProtobuf.encodeSubtitlesRequest(url, requestLang);
-@@ -320,7 +326,7 @@ export default class VOTClient {
+@@ -333,7 +339,7 @@ export default class VOTClient {
      async translateStream({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
          const { url } = videoData;
          if (this.isCustomLink(url)) {

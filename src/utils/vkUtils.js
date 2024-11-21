@@ -1,4 +1,4 @@
-import { normalizeLang } from "vot.js/utils/utils";
+import { normalizeLang } from "@vot.js/shared/utils/utils";
 import { cleanText } from "./utils.js";
 import debug from "./debug.ts";
 

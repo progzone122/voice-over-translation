@@ -1,0 +1,10 @@
+diff --git a/node_modules/@vot.js/shared/dist/protos/yandex.js b/node_modules/@vot.js/shared/dist/protos/yandex.js
+index f5e8ba1..a8f64c2 100644
+--- a/node_modules/@vot.js/shared/dist/protos/yandex.js
++++ b/node_modules/@vot.js/shared/dist/protos/yandex.js
+@@ -1,4 +1,4 @@
+-import _m0 from "protobufjs/minimal";
++const _m0 = protobuf;
+ export const protobufPackage = "";
+ export var StreamInterval;
+ (function (StreamInterval) {

@@ -2,7 +2,7 @@ import { html, render, nothing } from "lit-html";
 
 import youtubeUtils from "./utils/youtubeUtils.js";
 import { lang, GM_fetch } from "./utils/utils.js";
-import { convertSubs } from "vot.js/utils/subs";
+import { convertSubs } from "@vot.js/shared/utils/subs";
 
 function formatYandexSubtitlesTokens(line) {
   const lineEndMs = line.startMs + line.durationMs;

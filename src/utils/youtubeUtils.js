@@ -1,5 +1,5 @@
-import { availableLangs } from "vot.js/consts";
-import { normalizeLang } from "vot.js/utils/utils";
+import { availableLangs } from "@vot.js/shared/consts";
+import { normalizeLang } from "@vot.js/shared/utils/utils";
 
 import debug from "./debug.ts";
 import { localizationProvider } from "../localization/localizationProvider.js";

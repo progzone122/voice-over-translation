@@ -253,7 +253,65 @@ window.cancelIdleCallback =
 
 // EXTERNAL MODULE: ./node_modules/bowser/es5.js
 var es5 = __webpack_require__("./node_modules/bowser/es5.js");
-;// ./node_modules/vot.js/dist/protos/yandex.js
+;// ./node_modules/@vot.js/shared/dist/data/config.js
+/* harmony default export */ const config = ({
+    host: "api.browser.yandex.ru",
+    hostVOT: "vot-api.toil.cc/v1",
+    mediaProxy: "media-proxy.toil.cc",
+    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 YaBrowser/24.10.0.0 Safari/537.36",
+    componentVersion: "24.10.3.810",
+    hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
+    defaultDuration: 343,
+    minChunkSize: 5295308,
+    loggerLevel: 1,
+    version: "2.0.3",
+});
+
+;// ./node_modules/@vot.js/shared/dist/types/logger.js
+var LoggerLevel;
+(function (LoggerLevel) {
+    LoggerLevel[LoggerLevel["DEBUG"] = 0] = "DEBUG";
+    LoggerLevel[LoggerLevel["INFO"] = 1] = "INFO";
+    LoggerLevel[LoggerLevel["WARN"] = 2] = "WARN";
+    LoggerLevel[LoggerLevel["ERROR"] = 3] = "ERROR";
+    LoggerLevel[LoggerLevel["SILENCE"] = 4] = "SILENCE";
+})(LoggerLevel || (LoggerLevel = {}));
+
+;// ./node_modules/@vot.js/shared/dist/utils/logger.js
+
+
+class Logger {
+    static prefix = `[vot.js v${config.version}]`;
+    static canLog(level) {
+        return config.loggerLevel <= level;
+    }
+    static log(...messages) {
+        if (!Logger.canLog(LoggerLevel.DEBUG)) {
+            return;
+        }
+        console.log(Logger.prefix, ...messages);
+    }
+    static info(...messages) {
+        if (!Logger.canLog(LoggerLevel.INFO)) {
+            return;
+        }
+        console.info(Logger.prefix, ...messages);
+    }
+    static warn(...messages) {
+        if (!Logger.canLog(LoggerLevel.WARN)) {
+            return;
+        }
+        console.warn(Logger.prefix, ...messages);
+    }
+    static error(...messages) {
+        if (!Logger.canLog(LoggerLevel.ERROR)) {
+            return;
+        }
+        console.error(Logger.prefix, ...messages);
+    }
+}
+
+;// ./node_modules/@vot.js/shared/dist/protos/yandex.js
 const _m0 = protobuf;
 const protobufPackage = "";
 var StreamInterval;
@@ -769,23 +827,23 @@ const VideoTranslationResponse = {
         return message;
     },
 };
-function createBaseAudioObject() {
-    return { audioFile: new Uint8Array(0), message: "" };
+function createBaseAudioBufferObject() {
+    return { audioFile: new Uint8Array(0), fileId: "" };
 }
-const AudioObject = {
+const AudioBufferObject = {
     encode(message, writer = _m0.Writer.create()) {
         if (message.audioFile.length !== 0) {
             writer.uint32(18).bytes(message.audioFile);
         }
-        if (message.message !== "") {
-            writer.uint32(10).string(message.message);
+        if (message.fileId !== "") {
+            writer.uint32(10).string(message.fileId);
         }
         return writer;
     },
     decode(input, length) {
         const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseAudioObject();
+        const message = createBaseAudioBufferObject();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
@@ -799,7 +857,7 @@ const AudioObject = {
                     if (tag !== 10) {
                         break;
                     }
-                    message.message = reader.string();
+                    message.fileId = reader.string();
                     continue;
             }
             if ((tag & 7) === 4 || tag === 0) {
@@ -812,7 +870,7 @@ const AudioObject = {
     fromJSON(object) {
         return {
             audioFile: isSet(object.audioFile) ? bytesFromBase64(object.audioFile) : new Uint8Array(0),
-            message: isSet(object.message) ? globalThis.String(object.message) : "",
+            fileId: isSet(object.fileId) ? globalThis.String(object.fileId) : "",
         };
     },
     toJSON(message) {
@@ -820,23 +878,119 @@ const AudioObject = {
         if (message.audioFile.length !== 0) {
             obj.audioFile = base64FromBytes(message.audioFile);
         }
-        if (message.message !== "") {
-            obj.message = message.message;
+        if (message.fileId !== "") {
+            obj.fileId = message.fileId;
         }
         return obj;
     },
     create(base) {
-        return AudioObject.fromPartial(base ?? {});
+        return AudioBufferObject.fromPartial(base ?? {});
     },
     fromPartial(object) {
-        const message = createBaseAudioObject();
+        const message = createBaseAudioBufferObject();
         message.audioFile = object.audioFile ?? new Uint8Array(0);
-        message.message = object.message ?? "";
+        message.fileId = object.fileId ?? "";
+        return message;
+    },
+};
+function createBaseChunkAudioObject() {
+    return { audioPartsLength: 0, audioBuffer: undefined, fileId: "", unknown0: 0 };
+}
+const ChunkAudioObject = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.audioPartsLength !== 0) {
+            writer.uint32(16).int32(message.audioPartsLength);
+        }
+        if (message.audioBuffer !== undefined) {
+            AudioBufferObject.encode(message.audioBuffer, writer.uint32(10).fork()).ldelim();
+        }
+        if (message.fileId !== "") {
+            writer.uint32(26).string(message.fileId);
+        }
+        if (message.unknown0 !== 0) {
+            writer.uint32(32).int32(message.unknown0);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseChunkAudioObject();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
+                    message.audioPartsLength = reader.int32();
+                    continue;
+                case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.audioBuffer = AudioBufferObject.decode(reader, reader.uint32());
+                    continue;
+                case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
+                    message.fileId = reader.string();
+                    continue;
+                case 4:
+                    if (tag !== 32) {
+                        break;
+                    }
+                    message.unknown0 = reader.int32();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            audioPartsLength: isSet(object.audioPartsLength) ? globalThis.Number(object.audioPartsLength) : 0,
+            audioBuffer: isSet(object.audioBuffer) ? AudioBufferObject.fromJSON(object.audioBuffer) : undefined,
+            fileId: isSet(object.fileId) ? globalThis.String(object.fileId) : "",
+            unknown0: isSet(object.unknown0) ? globalThis.Number(object.unknown0) : 0,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.audioPartsLength !== 0) {
+            obj.audioPartsLength = Math.round(message.audioPartsLength);
+        }
+        if (message.audioBuffer !== undefined) {
+            obj.audioBuffer = AudioBufferObject.toJSON(message.audioBuffer);
+        }
+        if (message.fileId !== "") {
+            obj.fileId = message.fileId;
+        }
+        if (message.unknown0 !== 0) {
+            obj.unknown0 = Math.round(message.unknown0);
+        }
+        return obj;
+    },
+    create(base) {
+        return ChunkAudioObject.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseChunkAudioObject();
+        message.audioPartsLength = object.audioPartsLength ?? 0;
+        message.audioBuffer = (object.audioBuffer !== undefined && object.audioBuffer !== null)
+            ? AudioBufferObject.fromPartial(object.audioBuffer)
+            : undefined;
+        message.fileId = object.fileId ?? "";
+        message.unknown0 = object.unknown0 ?? 0;
         return message;
     },
 };
 function createBaseVideoTranslationAudioRequest() {
-    return { translationId: "", url: "", audioInfo: undefined };
+    return { translationId: "", url: "", partialAudioInfo: undefined, audioInfo: undefined };
 }
 const VideoTranslationAudioRequest = {
     encode(message, writer = _m0.Writer.create()) {
@@ -846,8 +1000,11 @@ const VideoTranslationAudioRequest = {
         if (message.url !== "") {
             writer.uint32(18).string(message.url);
         }
+        if (message.partialAudioInfo !== undefined) {
+            ChunkAudioObject.encode(message.partialAudioInfo, writer.uint32(34).fork()).ldelim();
+        }
         if (message.audioInfo !== undefined) {
-            AudioObject.encode(message.audioInfo, writer.uint32(50).fork()).ldelim();
+            AudioBufferObject.encode(message.audioInfo, writer.uint32(50).fork()).ldelim();
         }
         return writer;
     },
@@ -870,11 +1027,17 @@ const VideoTranslationAudioRequest = {
                     }
                     message.url = reader.string();
                     continue;
+                case 4:
+                    if (tag !== 34) {
+                        break;
+                    }
+                    message.partialAudioInfo = ChunkAudioObject.decode(reader, reader.uint32());
+                    continue;
                 case 6:
                     if (tag !== 50) {
                         break;
                     }
-                    message.audioInfo = AudioObject.decode(reader, reader.uint32());
+                    message.audioInfo = AudioBufferObject.decode(reader, reader.uint32());
                     continue;
             }
             if ((tag & 7) === 4 || tag === 0) {
@@ -888,7 +1051,8 @@ const VideoTranslationAudioRequest = {
         return {
             translationId: isSet(object.translationId) ? globalThis.String(object.translationId) : "",
             url: isSet(object.url) ? globalThis.String(object.url) : "",
-            audioInfo: isSet(object.audioInfo) ? AudioObject.fromJSON(object.audioInfo) : undefined,
+            partialAudioInfo: isSet(object.partialAudioInfo) ? ChunkAudioObject.fromJSON(object.partialAudioInfo) : undefined,
+            audioInfo: isSet(object.audioInfo) ? AudioBufferObject.fromJSON(object.audioInfo) : undefined,
         };
     },
     toJSON(message) {
@@ -899,8 +1063,11 @@ const VideoTranslationAudioRequest = {
         if (message.url !== "") {
             obj.url = message.url;
         }
+        if (message.partialAudioInfo !== undefined) {
+            obj.partialAudioInfo = ChunkAudioObject.toJSON(message.partialAudioInfo);
+        }
         if (message.audioInfo !== undefined) {
-            obj.audioInfo = AudioObject.toJSON(message.audioInfo);
+            obj.audioInfo = AudioBufferObject.toJSON(message.audioInfo);
         }
         return obj;
     },
@@ -911,19 +1078,25 @@ const VideoTranslationAudioRequest = {
         const message = createBaseVideoTranslationAudioRequest();
         message.translationId = object.translationId ?? "";
         message.url = object.url ?? "";
+        message.partialAudioInfo = (object.partialAudioInfo !== undefined && object.partialAudioInfo !== null)
+            ? ChunkAudioObject.fromPartial(object.partialAudioInfo)
+            : undefined;
         message.audioInfo = (object.audioInfo !== undefined && object.audioInfo !== null)
-            ? AudioObject.fromPartial(object.audioInfo)
+            ? AudioBufferObject.fromPartial(object.audioInfo)
             : undefined;
         return message;
     },
 };
 function createBaseVideoTranslationAudioResponse() {
-    return { status: 0 };
+    return { status: 0, remainingChunks: [] };
 }
 const VideoTranslationAudioResponse = {
     encode(message, writer = _m0.Writer.create()) {
         if (message.status !== 0) {
-            writer.uint32(32).int32(message.status);
+            writer.uint32(8).int32(message.status);
+        }
+        for (const v of message.remainingChunks) {
+            writer.uint32(18).string(v);
         }
         return writer;
     },
@@ -934,11 +1107,17 @@ const VideoTranslationAudioResponse = {
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                case 4:
-                    if (tag !== 32) {
+                case 1:
+                    if (tag !== 8) {
                         break;
                     }
                     message.status = reader.int32();
+                    continue;
+                case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.remainingChunks.push(reader.string());
                     continue;
             }
             if ((tag & 7) === 4 || tag === 0) {
@@ -949,12 +1128,20 @@ const VideoTranslationAudioResponse = {
         return message;
     },
     fromJSON(object) {
-        return { status: isSet(object.status) ? globalThis.Number(object.status) : 0 };
+        return {
+            status: isSet(object.status) ? globalThis.Number(object.status) : 0,
+            remainingChunks: globalThis.Array.isArray(object?.remainingChunks)
+                ? object.remainingChunks.map((e) => globalThis.String(e))
+                : [],
+        };
     },
     toJSON(message) {
         const obj = {};
         if (message.status !== 0) {
             obj.status = Math.round(message.status);
+        }
+        if (message.remainingChunks?.length) {
+            obj.remainingChunks = message.remainingChunks;
         }
         return obj;
     },
@@ -964,6 +1151,7 @@ const VideoTranslationAudioResponse = {
     fromPartial(object) {
         const message = createBaseVideoTranslationAudioResponse();
         message.status = object.status ?? 0;
+        message.remainingChunks = object.remainingChunks?.map((e) => e) || [];
         return message;
     },
 };
@@ -1678,221 +1866,18 @@ function isSet(value) {
     return value !== null && value !== undefined;
 }
 
-;// ./node_modules/vot.js/dist/types/yandex.js
-var VideoService;
-(function (VideoService) {
-    VideoService["custom"] = "custom";
-    VideoService["directlink"] = "custom";
-    VideoService["youtube"] = "youtube";
-    VideoService["piped"] = "piped";
-    VideoService["invidious"] = "invidious";
-    VideoService["vk"] = "vk";
-    VideoService["nine_gag"] = "nine_gag";
-    VideoService["gag"] = "nine_gag";
-    VideoService["twitch"] = "twitch";
-    VideoService["proxitok"] = "proxitok";
-    VideoService["tiktok"] = "tiktok";
-    VideoService["vimeo"] = "vimeo";
-    VideoService["xvideos"] = "xvideos";
-    VideoService["pornhub"] = "pornhub";
-    VideoService["twitter"] = "twitter";
-    VideoService["x"] = "twitter";
-    VideoService["rumble"] = "rumble";
-    VideoService["facebook"] = "facebook";
-    VideoService["rutube"] = "rutube";
-    VideoService["coub"] = "coub";
-    VideoService["bilibili"] = "bilibili";
-    VideoService["mail_ru"] = "mailru";
-    VideoService["mailru"] = "mailru";
-    VideoService["bitchute"] = "bitchute";
-    VideoService["eporner"] = "eporner";
-    VideoService["peertube"] = "peertube";
-    VideoService["dailymotion"] = "dailymotion";
-    VideoService["trovo"] = "trovo";
-    VideoService["yandexdisk"] = "yandexdisk";
-    VideoService["ok_ru"] = "okru";
-    VideoService["okru"] = "okru";
-    VideoService["googledrive"] = "googledrive";
-    VideoService["bannedvideo"] = "bannedvideo";
-    VideoService["weverse"] = "weverse";
-    VideoService["newgrounds"] = "newgrounds";
-    VideoService["egghead"] = "egghead";
-    VideoService["youku"] = "youku";
-    VideoService["archive"] = "archive";
-    VideoService["kodik"] = "kodik";
-    VideoService["patreon"] = "patreon";
-    VideoService["reddit"] = "reddit";
-    VideoService["kick"] = "kick";
-    VideoService["apple_developer"] = "apple_developer";
-    VideoService["appledeveloper"] = "apple_developer";
-    VideoService["poketube"] = "poketube";
-    VideoService["epicgames"] = "epicgames";
-    VideoService["nineanimetv"] = "nineanimetv";
-    VideoService["odysee"] = "odysee";
-    VideoService["coursehunterLike"] = "coursehunterLike";
-    VideoService["sap"] = "sap";
-    VideoService["udemy"] = "udemy";
-    VideoService["coursera"] = "coursera";
-    VideoService["watchpornto"] = "watchpornto";
-    VideoService["linkedin"] = "linkedin";
-    VideoService["ricktube"] = "ricktube";
-    VideoService["incestflix"] = "incestflix";
-    VideoService["porntn"] = "porntn";
-    VideoService["dzen"] = "dzen";
-})(VideoService || (VideoService = {}));
-var VideoTranslationStatus;
-(function (VideoTranslationStatus) {
-    VideoTranslationStatus[VideoTranslationStatus["FAILED"] = 0] = "FAILED";
-    VideoTranslationStatus[VideoTranslationStatus["FINISHED"] = 1] = "FINISHED";
-    VideoTranslationStatus[VideoTranslationStatus["WAITING"] = 2] = "WAITING";
-    VideoTranslationStatus[VideoTranslationStatus["LONG_WAITING"] = 3] = "LONG_WAITING";
-    VideoTranslationStatus[VideoTranslationStatus["PART_CONTENT"] = 5] = "PART_CONTENT";
-    VideoTranslationStatus[VideoTranslationStatus["LONG_WAITING_2"] = 6] = "LONG_WAITING_2";
-})(VideoTranslationStatus || (VideoTranslationStatus = {}));
-var AudioInfoMessage;
-(function (AudioInfoMessage) {
-    AudioInfoMessage["WEB_API_GET_ALL_GENERATING_URLS_DATA_FROM_IFRAME"] = "web_api_get_all_generating_urls_data_from_iframe";
-    AudioInfoMessage["WEB_API_REPLACED_FETCH_INSIDE_IFRAME"] = "web_api_replaced_fetch_inside_iframe";
-    AudioInfoMessage["WEB_API_REPLACED_FETCH_FORCE_REQUEST_WITH_SEEK"] = "web_api_replaced_fetch_force_request_with_seek";
-    AudioInfoMessage["WEB_API_REPLACED_FETCH"] = "web_api_replaced_fetch";
-    AudioInfoMessage["ANDROID_API"] = "android_api";
-    AudioInfoMessage["WEB_API_SLOW"] = "web_api_slow";
-})(AudioInfoMessage || (AudioInfoMessage = {}));
-
-;// ./node_modules/vot.js/dist/protobuf.js
+;// ./node_modules/@vot.js/shared/dist/secure.js
 
 
-const yandexProtobuf = {
-    encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp, { forceSourceLang = false, bypassCache = false, useNewModel = true, } = {}) {
-        return VideoTranslationRequest.encode({
-            url,
-            firstRequest: true,
-            duration,
-            unknown0: 1,
-            language: requestLang,
-            forceSourceLang,
-            unknown1: 0,
-            translationHelp: translationHelp ? translationHelp : [],
-            responseLanguage: responseLang,
-            unknown2: 1,
-            unknown3: 1,
-            bypassCache,
-            useNewModel,
-        }).finish();
-    },
-    decodeTranslationResponse(response) {
-        return VideoTranslationResponse.decode(new Uint8Array(response));
-    },
-    encodeTranslationAudioRequest(url, translationId) {
-        return VideoTranslationAudioRequest.encode({
-            url,
-            translationId,
-            audioInfo: {
-                audioFile: new Uint8Array(0),
-                message: AudioInfoMessage.WEB_API_GET_ALL_GENERATING_URLS_DATA_FROM_IFRAME,
-            },
-        }).finish();
-    },
-    decodeTranslationAudioResponse(response) {
-        return VideoTranslationResponse.decode(new Uint8Array(response));
-    },
-    encodeSubtitlesRequest(url, requestLang) {
-        return SubtitlesRequest.encode({
-            url,
-            language: requestLang,
-        }).finish();
-    },
-    decodeSubtitlesResponse(response) {
-        return SubtitlesResponse.decode(new Uint8Array(response));
-    },
-    encodeStreamPingRequest(pingId) {
-        return StreamPingRequest.encode({
-            pingId,
-        }).finish();
-    },
-    encodeStreamRequest(url, requestLang, responseLang) {
-        return StreamTranslationRequest.encode({
-            url,
-            language: requestLang,
-            responseLanguage: responseLang,
-        }).finish();
-    },
-    decodeStreamResponse(response) {
-        return StreamTranslationResponse.decode(new Uint8Array(response));
-    },
-    encodeYandexSessionRequest(uuid, module) {
-        return YandexSessionRequest.encode({
-            uuid,
-            module,
-        }).finish();
-    },
-    decodeYandexSessionResponse(response) {
-        return YandexSessionResponse.decode(new Uint8Array(response));
-    },
-};
-
-;// ./node_modules/vot.js/dist/config/config.js
-/* harmony default export */ const config = ({
-    host: "api.browser.yandex.ru",
-    hostVOT: "vot-api.toil.cc/v1",
-    mediaProxy: "media-proxy.toil.cc",
-    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 YaBrowser/24.10.0.0 Safari/537.36",
-    componentVersion: "24.10.2.705",
-    hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
-    defaultDuration: 343,
-    loggerLevel: 1,
-    version: "1.4.1",
-});
-
-;// ./node_modules/vot.js/dist/types/logger.js
-var LoggerLevel;
-(function (LoggerLevel) {
-    LoggerLevel[LoggerLevel["DEBUG"] = 0] = "DEBUG";
-    LoggerLevel[LoggerLevel["INFO"] = 1] = "INFO";
-    LoggerLevel[LoggerLevel["WARN"] = 2] = "WARN";
-    LoggerLevel[LoggerLevel["ERROR"] = 3] = "ERROR";
-    LoggerLevel[LoggerLevel["SILENCE"] = 4] = "SILENCE";
-})(LoggerLevel || (LoggerLevel = {}));
-
-;// ./node_modules/vot.js/dist/utils/logger.js
-
-
-class Logger {
-    static prefix = `[vot.js v${config.version}]`;
-    static canLog(level) {
-        return config.loggerLevel <= level;
+async function getCrypto() {
+    if (typeof window !== "undefined" && window.crypto) {
+        return window.crypto;
     }
-    static log(...messages) {
-        if (!Logger.canLog(LoggerLevel.DEBUG)) {
-            return;
-        }
-        console.log(Logger.prefix, ...messages);
-    }
-    static info(...messages) {
-        if (!Logger.canLog(LoggerLevel.INFO)) {
-            return;
-        }
-        console.info(Logger.prefix, ...messages);
-    }
-    static warn(...messages) {
-        if (!Logger.canLog(LoggerLevel.WARN)) {
-            return;
-        }
-        console.warn(Logger.prefix, ...messages);
-    }
-    static error(...messages) {
-        if (!Logger.canLog(LoggerLevel.ERROR)) {
-            return;
-        }
-        console.error(Logger.prefix, ...messages);
-    }
+    return (await Promise.resolve().then(function webpackMissingModule() { var e = new Error("Cannot find module 'node:crypto'"); e.code = 'MODULE_NOT_FOUND'; throw e; }));
 }
-
-;// ./node_modules/vot.js/dist/secure.js
-
-
 const utf8Encoder = new TextEncoder();
 async function signHMAC(hashName, hmac, data) {
+    const crypto = await getCrypto();
     const key = await crypto.subtle.importKey("raw", utf8Encoder.encode(hmac), { name: "HMAC", hash: { name: hashName } }, false, ["sign", "verify"]);
     return await crypto.subtle.sign("HMAC", key, data);
 }
@@ -1933,7 +1918,7 @@ async function getHmacSha1(hmacKey, salt) {
     }
 }
 
-;// ./node_modules/vot.js/dist/utils/utils.js
+;// ./node_modules/@vot.js/shared/dist/utils/utils.js
 
 const iso6392to6391 = {
     afr: "af",
@@ -2078,529 +2063,185 @@ function normalizeLang(lang) {
     return lang.toLowerCase().split(/[_;-]/)[0].trim();
 }
 function proxyMedia(url, format = "mp4") {
-    return `https://${config.mediaProxy}/v1/proxy/video.${format}?url=${btoa(encodeURIComponent(url.href))}&origin=${url.origin}&referer=${url.origin}&format=base64&force=true`;
+    const generalUrl = `https://${config.mediaProxy}/v1/proxy/video.${format}?format=base64&force=true`;
+    if (!(url instanceof URL)) {
+        return `${generalUrl}&url=${btoa(url)}`;
+    }
+    return `${generalUrl}&url=${btoa(encodeURIComponent(url.href))}&origin=${url.origin}&referer=${url.origin}`;
 }
 
-;// ./node_modules/vot.js/dist/config/alternativeUrls.js
-const sitesInvidious = [
-    "yewtu.be",
-    "yt.artemislena.eu",
-    "invidious.flokinet.to",
-    "iv.melmac.space",
-    "inv.nadeko.net",
-    "inv.tux.pizza",
-    "invidious.private.coffee",
-    "yt.drgnz.club",
-    "vid.puffyan.us",
-    "invidious.dhusch.de",
-];
-const sitesPiped = [
-    "piped.video",
-    "piped.tokhmi.xyz",
-    "piped.moomoo.me",
-    "piped.syncpundit.io",
-    "piped.mha.fi",
-    "watch.whatever.social",
-    "piped.garudalinux.org",
-    "efy.piped.pages.dev",
-    "watch.leptons.xyz",
-    "piped.lunar.icu",
-    "yt.dc09.ru",
-    "piped.mint.lgbt",
-    "il.ax",
-    "piped.privacy.com.de",
-    "piped.esmailelbob.xyz",
-    "piped.projectsegfau.lt",
-    "piped.in.projectsegfau.lt",
-    "piped.us.projectsegfau.lt",
-    "piped.privacydev.net",
-    "piped.palveluntarjoaja.eu",
-    "piped.smnz.de",
-    "piped.adminforge.de",
-    "piped.qdi.fi",
-    "piped.hostux.net",
-    "piped.chauvet.pro",
-    "piped.jotoma.de",
-    "piped.pfcd.me",
-    "piped.frontendfriendly.xyz",
-];
-const sitesProxiTok = [
-    "proxitok.pabloferreiro.es",
-    "proxitok.pussthecat.org",
-    "tok.habedieeh.re",
-    "proxitok.esmailelbob.xyz",
-    "proxitok.privacydev.net",
-    "tok.artemislena.eu",
-    "tok.adminforge.de",
-    "tt.vern.cc",
-    "cringe.whatever.social",
-    "proxitok.lunar.icu",
-    "proxitok.privacy.com.de",
-];
-const sitesPeertube = [
-    "peertube.1312.media",
-    "tube.shanti.cafe",
-    "bee-tube.fr",
-    "video.sadmin.io",
-    "dalek.zone",
-    "review.peertube.biz",
-    "peervideo.club",
-    "tube.la-dina.net",
-    "peertube.tmp.rcp.tf",
-    "peertube.su",
-    "video.blender.org",
-    "videos.viorsan.com",
-    "tube-sciences-technologies.apps.education.fr",
-    "tube-numerique-educatif.apps.education.fr",
-    "tube-arts-lettres-sciences-humaines.apps.education.fr",
-    "beetoons.tv",
-    "comics.peertube.biz",
-    "makertube.net",
-];
-const sitesPoketube = [
-    "poketube.fun",
-    "pt.sudovanilla.org",
-    "poke.ggtyler.dev",
-    "poke.uk2.littlekai.co.uk",
-    "poke.blahai.gay",
-];
-const sitesRicktube = ["ricktube.ru"];
-const sitesCoursehunterLike = ["coursehunter.net", "coursetrain.net"];
+;// ./node_modules/@vot.js/core/dist/protobuf.js
 
+const yandexProtobuf = {
+    encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp, { forceSourceLang = false, bypassCache = false, useNewModel = true, } = {}) {
+        return VideoTranslationRequest.encode({
+            url,
+            firstRequest: true,
+            duration,
+            unknown0: 1,
+            language: requestLang,
+            forceSourceLang,
+            unknown1: 0,
+            translationHelp: translationHelp ? translationHelp : [],
+            responseLanguage: responseLang,
+            unknown2: 1,
+            unknown3: 1,
+            bypassCache,
+            useNewModel,
+        }).finish();
+    },
+    decodeTranslationResponse(response) {
+        return VideoTranslationResponse.decode(new Uint8Array(response));
+    },
+    encodeTranslationAudioRequest(url, translationId, audioBuffer, partialAudio) {
+        return VideoTranslationAudioRequest.encode({
+            url,
+            translationId,
+            ...(partialAudio
+                ? {
+                    partialAudioInfo: {
+                        ...partialAudio,
+                        audioBuffer,
+                    },
+                }
+                : {
+                    audioInfo: audioBuffer,
+                }),
+        }).finish();
+    },
+    decodeTranslationAudioResponse(response) {
+        return VideoTranslationAudioResponse.decode(new Uint8Array(response));
+    },
+    encodeSubtitlesRequest(url, requestLang) {
+        return SubtitlesRequest.encode({
+            url,
+            language: requestLang,
+        }).finish();
+    },
+    decodeSubtitlesResponse(response) {
+        return SubtitlesResponse.decode(new Uint8Array(response));
+    },
+    encodeStreamPingRequest(pingId) {
+        return StreamPingRequest.encode({
+            pingId,
+        }).finish();
+    },
+    encodeStreamRequest(url, requestLang, responseLang) {
+        return StreamTranslationRequest.encode({
+            url,
+            language: requestLang,
+            responseLanguage: responseLang,
+        }).finish();
+    },
+    decodeStreamResponse(response) {
+        return StreamTranslationResponse.decode(new Uint8Array(response));
+    },
+    encodeYandexSessionRequest(uuid, module) {
+        return YandexSessionRequest.encode({
+            uuid,
+            module,
+        }).finish();
+    },
+    decodeYandexSessionResponse(response) {
+        return YandexSessionResponse.decode(new Uint8Array(response));
+    },
+};
 
-;// ./node_modules/vot.js/dist/config/sites.js
+;// ./node_modules/@vot.js/core/dist/types/yandex.js
+var VideoTranslationStatus;
+(function (VideoTranslationStatus) {
+    VideoTranslationStatus[VideoTranslationStatus["FAILED"] = 0] = "FAILED";
+    VideoTranslationStatus[VideoTranslationStatus["FINISHED"] = 1] = "FINISHED";
+    VideoTranslationStatus[VideoTranslationStatus["WAITING"] = 2] = "WAITING";
+    VideoTranslationStatus[VideoTranslationStatus["LONG_WAITING"] = 3] = "LONG_WAITING";
+    VideoTranslationStatus[VideoTranslationStatus["PART_CONTENT"] = 5] = "PART_CONTENT";
+    VideoTranslationStatus[VideoTranslationStatus["AUDIO_REQUESTED"] = 6] = "AUDIO_REQUESTED";
+})(VideoTranslationStatus || (VideoTranslationStatus = {}));
+var AudioDownloadType;
+(function (AudioDownloadType) {
+    AudioDownloadType["WEB_API_GET_ALL_GENERATING_URLS_DATA_FROM_IFRAME"] = "web_api_get_all_generating_urls_data_from_iframe";
+    AudioDownloadType["WEB_API_REPLACED_FETCH_INSIDE_IFRAME"] = "web_api_replaced_fetch_inside_iframe";
+    AudioDownloadType["WEB_API_REPLACED_FETCH_FORCE_REQUEST_WITH_SEEK"] = "web_api_replaced_fetch_force_request_with_seek";
+    AudioDownloadType["WEB_API_REPLACED_FETCH"] = "web_api_replaced_fetch";
+    AudioDownloadType["ANDROID_API"] = "android_api";
+    AudioDownloadType["WEB_API_SLOW"] = "web_api_slow";
+})(AudioDownloadType || (AudioDownloadType = {}));
 
+;// ./node_modules/@vot.js/core/dist/types/service.js
+var VideoService;
+(function (VideoService) {
+    VideoService["custom"] = "custom";
+    VideoService["directlink"] = "custom";
+    VideoService["youtube"] = "youtube";
+    VideoService["piped"] = "piped";
+    VideoService["invidious"] = "invidious";
+    VideoService["vk"] = "vk";
+    VideoService["nine_gag"] = "nine_gag";
+    VideoService["gag"] = "nine_gag";
+    VideoService["twitch"] = "twitch";
+    VideoService["proxitok"] = "proxitok";
+    VideoService["tiktok"] = "tiktok";
+    VideoService["vimeo"] = "vimeo";
+    VideoService["xvideos"] = "xvideos";
+    VideoService["pornhub"] = "pornhub";
+    VideoService["twitter"] = "twitter";
+    VideoService["x"] = "twitter";
+    VideoService["rumble"] = "rumble";
+    VideoService["facebook"] = "facebook";
+    VideoService["rutube"] = "rutube";
+    VideoService["coub"] = "coub";
+    VideoService["bilibili"] = "bilibili";
+    VideoService["mail_ru"] = "mailru";
+    VideoService["mailru"] = "mailru";
+    VideoService["bitchute"] = "bitchute";
+    VideoService["eporner"] = "eporner";
+    VideoService["peertube"] = "peertube";
+    VideoService["dailymotion"] = "dailymotion";
+    VideoService["trovo"] = "trovo";
+    VideoService["yandexdisk"] = "yandexdisk";
+    VideoService["ok_ru"] = "okru";
+    VideoService["okru"] = "okru";
+    VideoService["googledrive"] = "googledrive";
+    VideoService["bannedvideo"] = "bannedvideo";
+    VideoService["weverse"] = "weverse";
+    VideoService["newgrounds"] = "newgrounds";
+    VideoService["egghead"] = "egghead";
+    VideoService["youku"] = "youku";
+    VideoService["archive"] = "archive";
+    VideoService["kodik"] = "kodik";
+    VideoService["patreon"] = "patreon";
+    VideoService["reddit"] = "reddit";
+    VideoService["kick"] = "kick";
+    VideoService["apple_developer"] = "apple_developer";
+    VideoService["appledeveloper"] = "apple_developer";
+    VideoService["poketube"] = "poketube";
+    VideoService["epicgames"] = "epicgames";
+    VideoService["nineanimetv"] = "nineanimetv";
+    VideoService["odysee"] = "odysee";
+    VideoService["coursehunterLike"] = "coursehunterLike";
+    VideoService["sap"] = "sap";
+    VideoService["watchpornto"] = "watchpornto";
+    VideoService["linkedin"] = "linkedin";
+    VideoService["ricktube"] = "ricktube";
+    VideoService["incestflix"] = "incestflix";
+    VideoService["porntn"] = "porntn";
+    VideoService["dzen"] = "dzen";
+})(VideoService || (VideoService = {}));
 
-/* harmony default export */ const sites = ([
-    {
-        additionalData: "mobile",
-        host: VideoService.youtube,
-        url: "https://youtu.be/",
-        match: /^m.youtube.com$/,
-        selector: "shorts-video #player",
-    },
-    {
-        additionalData: "mobile",
-        host: VideoService.youtube,
-        url: "https://youtu.be/",
-        match: /^m.youtube.com$/,
-        selector: ".player-container",
-    },
-    {
-        host: VideoService.youtube,
-        url: "https://youtu.be/",
-        match: /^(www.)?youtube(-nocookie|kids)?.com$/,
-        selector: ".html5-video-container:not(#inline-player *)",
-    },
-    {
-        host: VideoService.invidious,
-        url: "https://youtu.be/",
-        match: sitesInvidious,
-        selector: "#player",
-        needBypassCSP: true,
-    },
-    {
-        host: VideoService.piped,
-        url: "https://youtu.be/",
-        match: sitesPiped,
-        selector: ".shaka-video-container",
-        needBypassCSP: true,
-    },
-    {
-        host: VideoService.poketube,
-        url: "https://youtu.be/",
-        match: sitesPoketube,
-        selector: ".video-player-container",
-    },
-    {
-        host: VideoService.ricktube,
-        url: "https://youtu.be/",
-        match: sitesRicktube,
-        selector: "#oframeplayer > pjsdiv:has(video)"
-    },
-    {
-        additionalData: "mobile",
-        host: VideoService.vk,
-        url: "https://vk.com/video?z=",
-        match: /^m.vk.(com|ru)$/,
-        selector: "vk-video-player",
-        shadowRoot: true,
-    },
-    {
-        additionalData: "clips",
-        host: VideoService.vk,
-        url: "https://vk.com/video?z=",
-        match: /^(www.|m.)?vk.(com|ru)$/,
-        selector: 'div[data-testid="clipcontainer-video"]',
-    },
-    {
-        host: VideoService.vk,
-        url: "https://vk.com/video?z=",
-        match: /^(www.|m.)?vk.(com|ru)$/,
-        selector: ".videoplayer_media",
-    },
-    {
-        host: VideoService.nine_gag,
-        url: "https://9gag.com/gag/",
-        match: /^9gag.com$/,
-        selector: ".video-post",
-    },
-    {
-        host: VideoService.twitch,
-        url: "https://twitch.tv/",
-        match: [
-            /^m.twitch.tv$/,
-            /^(www.)?twitch.tv$/,
-            /^clips.twitch.tv$/,
-            /^player.twitch.tv$/,
-        ],
-        selector: ".video-ref, main > div > section > div > div > div",
-    },
-    {
-        host: VideoService.proxitok,
-        url: "https://www.tiktok.com/",
-        match: sitesProxiTok,
-        selector: ".column.has-text-centered",
-    },
-    {
-        host: VideoService.tiktok,
-        url: "https://www.tiktok.com/",
-        match: /^(www.)?tiktok.com$/,
-        selector: null,
-    },
-    {
-        host: VideoService.vimeo,
-        url: "https://vimeo.com/",
-        match: /^vimeo.com$/,
-        needExtraData: true,
-        selector: ".player",
-    },
-    {
-        host: VideoService.vimeo,
-        url: "https://player.vimeo.com/",
-        match: /^player.vimeo.com$/,
-        additionalData: "embed",
-        needExtraData: true,
-        needBypassCSP: true,
-        selector: ".player",
-    },
-    {
-        host: VideoService.xvideos,
-        url: "https://www.xvideos.com/",
-        match: /^(www.)?(xvideos|xv-ru).com$/,
-        selector: ".video-bg-pic",
-        needBypassCSP: true,
-    },
-    {
-        host: VideoService.pornhub,
-        url: "https://rt.pornhub.com/view_video.php?viewkey=",
-        match: /^[a-z]+.pornhub.com$/,
-        selector: ".mainPlayerDiv > .video-element-wrapper-js > div",
-        eventSelector: ".mgp_eventCatcher"
-    },
-    {
-        additionalData: "embed",
-        host: VideoService.pornhub,
-        url: "https://rt.pornhub.com/view_video.php?viewkey=",
-        match: (url) =>
-            url.host.includes("pornhub.com") && url.pathname.startsWith("/embed/"),
-        selector: "#player",
-    },
-    {
-        host: VideoService.twitter,
-        url: "https://twitter.com/i/status/",
-        match: /^(twitter|x).com$/,
-        selector: 'div[data-testid="videoComponent"] > div:nth-child(1) > div',
-        eventSelector: 'div[data-testid="videoPlayer"]',
-        needBypassCSP: true,
-    },
-    {
-        host: VideoService.rumble,
-        url: "https://rumble.com/",
-        match: /^rumble.com$/,
-        selector: "#videoPlayer > .videoPlayer-Rumble-cls > div",
-    },
-    {
-        host: VideoService.facebook,
-        url: "https://facebook.com/",
-        match: (url) =>
-            url.host.includes("facebook.com") && url.pathname.includes("/videos/"),
-        selector: 'div[role="main"] div[data-pagelet$="video" i]',
-        needBypassCSP: true,
-    },
-    {
-        additionalData: "reels",
-        host: VideoService.facebook,
-        url: "https://facebook.com/",
-        match: (url) =>
-            url.host.includes("facebook.com") && url.pathname.includes("/reel/"),
-        selector: 'div[role="main"]',
-        needBypassCSP: true,
-    },
-    {
-        host: VideoService.rutube,
-        url: "https://rutube.ru/video/",
-        match: /^rutube.ru$/,
-        selector: ".video-player > div > div > div:nth-child(2)",
-    },
-    {
-        additionalData: "embed",
-        host: VideoService.rutube,
-        url: "https://rutube.ru/video/",
-        match: /^rutube.ru$/,
-        selector: "#app > div > div",
-    },
-    {
-        host: VideoService.bilibili,
-        url: "https://www.bilibili.com/",
-        match: /^(www|m|player).bilibili.com$/,
-        selector: ".bpx-player-video-wrap",
-    },
-    // Добавляет лишние видео в обработчик
-    {
-        additionalData: "old", // /blackboard/webplayer/embed-old.html
-        host: VideoService.bilibili,
-        url: "https://www.bilibili.com/",
-        match: /^(www|m).bilibili.com$/,
-        selector: null,
-    },
-    {
-        host: VideoService.mailru,
-        url: "https://my.mail.ru/",
-        match: /^my.mail.ru$/,
-        selector: "#b-video-wrapper",
-    },
-    {
-        host: VideoService.bitchute,
-        url: "https://www.bitchute.com/video/",
-        match: /^(www.)?bitchute.com$/,
-        selector: ".video-js",
-    },
-    {
-        host: VideoService.eporner,
-        url: "https://www.eporner.com/",
-        match: /^(www.)?eporner.com$/,
-        selector: ".vjs-v7",
-    },
-    {
-        host: VideoService.peertube,
-        url: "stub",
-        match: sitesPeertube,
-        selector: ".vjs-v7",
-    },
-    {
-        host: VideoService.dailymotion,
-        url: "https://dai.ly/",
-        match: /^geo([\d]+)?.dailymotion.com$/,
-        selector: ".player",
-    },
-    {
-        host: VideoService.trovo,
-        url: "https://trovo.live/s/",
-        match: /^trovo.live$/,
-        selector: ".player-video",
-    },
-    {
-        host: VideoService.yandexdisk,
-        url: "https://yadi.sk/",
-        match: /^disk.yandex.ru$/,
-        selector: ".video-player__player > div:nth-child(1)",
-        eventSelector: ".video-player__player",
-        needBypassCSP: true,
-        needExtraData: true,
-    },
-    {
-        host: VideoService.okru,
-        url: "https://ok.ru/video/",
-        match: /^ok.ru$/,
-        selector: ".html5-vpl_vid",
-    },
-    {
-        host: VideoService.googledrive,
-        url: "https://drive.google.com/file/d/",
-        match: /^youtube.googleapis.com$/,
-        selector: ".html5-video-container",
-    },
-    {
-        host: VideoService.bannedvideo,
-        url: "https://madmaxworld.tv/watch?id=",
-        match: /^(www.)?banned.video|madmaxworld.tv$/,
-        selector: ".vjs-v7",
-        needExtraData: true,
-    },
-    {
-        host: VideoService.weverse,
-        url: "https://weverse.io/",
-        match: /^weverse.io$/,
-        selector: ".webplayer-internal-source-wrapper",
-        needExtraData: true,
-    },
-    {
-        host: VideoService.newgrounds,
-        url: "https://www.newgrounds.com/",
-        match: /^(www.)?newgrounds.com$/,
-        selector: ".ng-video-player",
-    },
-    {
-        host: VideoService.egghead,
-        url: "https://egghead.io/",
-        match: /^egghead.io$/,
-        selector: ".cueplayer-react-video-holder",
-    },
-    {
-        host: VideoService.youku,
-        url: "https://v.youku.com/",
-        match: /^v.youku.com$/,
-        selector: "#ykPlayer",
-    },
-    {
-        host: VideoService.archive,
-        url: "https://archive.org/details/",
-        match: /^archive.org$/,
-        selector: ".jw-media",
-    },
-    {
-        host: VideoService.kodik,
-        url: "stub",
-        match: /^kodik.(info|biz|cc)$/,
-        selector: ".fp-player",
-        needExtraData: true,
-    },
-    {
-        host: VideoService.patreon,
-        url: "stub",
-        match: /^(www.)?patreon.com$/,
-        selector:
-            'div[data-tag="post-card"] div[elevation="subtle"] > div > div > div > div',
-        needExtraData: true,
-    },
-    {
-        additionalData: "old",
-        host: VideoService.reddit,
-        url: "stub",
-        match: /^old.reddit.com$/,
-        selector: ".reddit-video-player-root",
-        needExtraData: true,
-        needBypassCSP: true,
-    },
-    {
-        host: VideoService.reddit,
-        url: "stub",
-        match: /^(www.|new.)?reddit.com$/,
-        selector: "div[slot=post-media-container]",
-        shadowRoot: true,
-        needExtraData: true,
-        needBypassCSP: true,
-    },
-    {
-        host: VideoService.kick,
-        url: "https://kick.com/",
-        match: /^kick.com$/,
-        selector: "#injected-embedded-channel-player-video > div",
-        needExtraData: true,
-    },
-    {
-        host: VideoService.appledeveloper,
-        url: "https://developer.apple.com/",
-        match: /^developer.apple.com$/,
-        selector: ".developer-video-player",
-        needExtraData: true,
-        needBypassCSP: true,
-    },
-    {
-        host: VideoService.epicgames,
-        url: "https://dev.epicgames.com/community/learning/",
-        match: /^dev.epicgames.com$/,
-        selector: ".vjs-v7",
-        needExtraData: true,
-    },
-    {
-        host: VideoService.nineanimetv,
-        url: "https://9animetv.to/watch/",
-        match: /^rapid-cloud.co$/,
-        selector: ".jw-media",
-        needExtraData: true,
-    },
-    {
-        host: VideoService.odysee,
-        url: "stub",
-        match: /^odysee.com$/,
-        selector: ".vjs-v7",
-        needExtraData: true,
-    },
-    {
-        host: VideoService.coursehunterLike,
-        url: "stub",
-        match: sitesCoursehunterLike,
-        selector: "#oframeplayer > pjsdiv:has(video)",
-        needExtraData: true,
-    },
-    {
-        host: VideoService.sap,
-        url: "https://learning.sap.com/courses/",
-        match: /^learning.sap.com$/,
-        selector: ".playkit-container",
-        eventSelector: ".playkit-player",
-        needExtraData: true,
-        needBypassCSP: true,
-    },
-    {
-        host: VideoService.udemy,
-        url: "https://www.udemy.com/",
-        match: /udemy.com$/,
-        selector:
-            'div[data-purpose="curriculum-item-viewer-content"] > section > div > div > div > div:nth-of-type(2)',
-        needExtraData: true,
-    },
-    {
-        // ONLY IF YOU LOGINED TO COURSERA /learn/NAME/lecture/XXXX
-        host: VideoService.coursera,
-        url: "https://www.coursera.org/",
-        match: /coursera.org$/,
-        selector: ".vjs-v8",
-        needExtraData: true,
-    },
-    {
-        host: VideoService.watchpornto,
-        url: "https://watchporn.to/",
-        match: /^watchporn.to$/,
-        selector: ".fp-player",
-    },
-    {
-        host: VideoService.linkedin,
-        url: "https://www.linkedin.com/learning/",
-        match: /^(www.)?linkedin.com$/,
-        selector: ".vjs-v7",
-        needExtraData: true,
-        needBypassCSP: true,
-    },
-    {
-        host: VideoService.incestflix,
-        url: "https://www.incestflix.net/watch/",
-        match: /^(www.)?incestflix.(net|to|com)$/,
-        selector: "#incflix-stream",
-        needExtraData: true,
-    },
-    {
-        host: VideoService.porntn,
-        url: "https://porntn.com/videos/",
-        match: /^porntn.com$/,
-        selector: ".fp-player",
-        needExtraData: true,
-    },
-    {
-        host: VideoService.dzen,
-        url: "https://dzen.ru/video/watch/",
-        match: /^dzen.ru$/,
-        selector: ".zen-ui-video-video-player"
-    },
-    {
-        host: VideoService.custom,
-        url: "stub",
-        match: (url) => /([^.]+).(mp4|webm)/.test(url.pathname),
-        rawResult: true,
-    },
-]);
+;// ./node_modules/@vot.js/core/dist/utils/vot.js
+
+function convertVOT(service, videoId, url) {
+    if (service === VideoService.patreon) {
+        return {
+            service: "mux",
+            videoId: new URL(url).pathname.slice(1),
+        };
+    }
+    return {
+        service,
+        videoId,
+    };
+}
 
 ;// ./src/localization/locales/en.json
 const en_namespaceObject = /*#__PURE__*/JSON.parse('{"__version__":5,"recommended":"recommended","translateVideo":"Translate video","disableTranslate":"Turn off","translationSettings":"Translation settings","subtitlesSettings":"Subtitles settings","about":"About extension","resetSettings":"Reset settings","videoBeingTranslated":"The video is being translated","videoLanguage":"Video language","translationLanguage":"Translation language","translationTake":"The translation will take","translationTakeMoreThanHour":"The translation will take more than an hour","translationTakeAboutMinute":"The translation will take about a minute","translationTakeFewMinutes":"The translation will take a few minutes","translationTakeApproximatelyMinutes":"The translation will take approximately {0} minutes","translationTakeApproximatelyMinute":"The translation will take approximately {0} minutes","unSupportedExtensionError":"Error! {0} is not supported by this version of the extension!\\n\\nPlease use the cloudflare version of the VOT extension.","requestTranslationFailed":"Failed to request video translation","audioNotReceived":"Audio link not received","grantPermissionToAutoPlay":"Grant permission to autoplay","audioFormatNotSupported":"The audio format is not supported","VOTAutoTranslate":"Translate on open","VOTDontTranslateYourLang":"Do not translate from my language","VOTVolume":"Video volume","VOTVolumeTranslation":"Translation Volume","VOTAutoSetVolume":"Reduce video volume to ","VOTShowVideoSlider":"Video volume slider","VOTSyncVolume":"Link translation and video volume","VOTAudioProxy":"Proxy received audio","VOTDisableFromYourLang":"You have disabled the translation of the video in your language","VOTLiveNotSupported":"Translation of live streams is not supported","VOTPremiere":"Wait for the premiere to end before translating","VOTVideoIsTooLong":"Video is too long","VOTNoVideoIDFound":"No video ID found","VOTSubtitles":"Subtitles","VOTSubtitlesDisabled":"Disabled","VOTSubtitlesMaxLength":"Subtitles max length","VOTHighlightWords":"Highlight words","VOTTranslatedFrom":"translated from","VOTAutogenerated":"autogenerated","VOTSettings":"VOT Settings","VOTMenuLanguage":"Menu language","VOTAuthors":"Authors","VOTVersion":"Version","VOTLoader":"Loader","VOTBrowser":"Browser","VOTShowPiPButton":"Show PiP button","langs":{"auto":"Auto","af":"Afrikaans","ak":"Akan","sq":"Albanian","am":"Amharic","ar":"Arabic","hy":"Armenian","as":"Assamese","ay":"Aymara","az":"Azerbaijani","bn":"Bangla","eu":"Basque","be":"Belarusian","bho":"Bhojpuri","bs":"Bosnian","bg":"Bulgarian","my":"Burmese","ca":"Catalan","ceb":"Cebuano","zh":"Chinese","zh-Hans":"Chinese (Simplified)","zh-Hant":"Chinese (Traditional)","co":"Corsican","hr":"Croatian","cs":"Czech","da":"Danish","dv":"Divehi","nl":"Dutch","en":"English","eo":"Esperanto","et":"Estonian","ee":"Ewe","fil":"Filipino","fi":"Finnish","fr":"French","gl":"Galician","lg":"Ganda","ka":"Georgian","de":"German","el":"Greek","gn":"Guarani","gu":"Gujarati","ht":"Haitian Creole","ha":"Hausa","haw":"Hawaiian","iw":"Hebrew","hi":"Hindi","hmn":"Hmong","hu":"Hungarian","is":"Icelandic","ig":"Igbo","id":"Indonesian","ga":"Irish","it":"Italian","ja":"Japanese","jv":"Javanese","kn":"Kannada","kk":"Kazakh","km":"Khmer","rw":"Kinyarwanda","ko":"Korean","kri":"Krio","ku":"Kurdish","ky":"Kyrgyz","lo":"Lao","la":"Latin","lv":"Latvian","ln":"Lingala","lt":"Lithuanian","lb":"Luxembourgish","mk":"Macedonian","mg":"Malagasy","ms":"Malay","ml":"Malayalam","mt":"Maltese","mi":"Māori","mr":"Marathi","mn":"Mongolian","ne":"Nepali","nso":"Northern Sotho","no":"Norwegian","ny":"Nyanja","or":"Odia","om":"Oromo","ps":"Pashto","fa":"Persian","pl":"Polish","pt":"Portuguese","pa":"Punjabi","qu":"Quechua","ro":"Romanian","ru":"Russian","sm":"Samoan","sa":"Sanskrit","gd":"Scottish Gaelic","sr":"Serbian","sn":"Shona","sd":"Sindhi","si":"Sinhala","sk":"Slovak","sl":"Slovenian","so":"Somali","st":"Southern Sotho","es":"Spanish","su":"Sundanese","sw":"Swahili","sv":"Swedish","tg":"Tajik","ta":"Tamil","tt":"Tatar","te":"Telugu","th":"Thai","ti":"Tigrinya","ts":"Tsonga","tr":"Turkish","tk":"Turkmen","uk":"Ukrainian","ur":"Urdu","ug":"Uyghur","uz":"Uzbek","vi":"Vietnamese","cy":"Welsh","fy":"Western Frisian","xh":"Xhosa","yi":"Yiddish","yo":"Yoruba","zu":"Zulu"},"udemyModuleArgsNotFound":"Could not get udemy module data due to the fact that ModuleArgs was not found","VOTTranslationHelpNull":"Could not get the data required for the translate","streamNoConnectionToServer":"There is no connection to the server","searchField":"Search...","VOTTranslateAPIErrors":"Translate errors from the API","VOTTranslationService":"Translation Service","VOTDetectService":"Detect Service","VOTTranslatingError":"Translating the error","VOTProxyWorkerHost":"Enter the proxy worker address","VOTM3u8ProxyHost":"Enter the address of the m3u8 proxy worker","proxySettings":"Proxy Settings","translationTakeApproximatelyMinute2":"The translation will take approximately {0} minutes","VOTAudioBooster":"Extended translation volume increase","VOTSubtitlesDesign":"Subtitles design","VOTSubtitlesFontSize":"Font size of subtitles","VOTSubtitlesOpacity":"Transparency of the subtitle background","VOTPressNewHotkey":"Press the new hotkey...","VOTCreateTranslationHotkey":"Create Hotkey for Translation","VOTChangeHotkeyWithCurrent":"Change Hotkey (Current: {0})","VOTSubtitlesDownloadFormat":"The format for downloading subtitles","VOTDownloadWithName":"Download files with the video name","VOTUpdateLocaleFiles":"Update localization files","VOTLocaleHash":"Locale hash","VOTUpdatedAt":"Updated at","VOTNeedWebAudioAPI":"To enable this, you must have a Web Audio API","VOTMediaCSPEnabledOnSite":"Media CSP is enabled on this site","VOTOnlyBypassMediaCSP":"Use it only for bypassing Media CSP","VOTNewAudioPlayer":"Use the new audio player","VOTUseNewModel":"Use an experimental variation of Yandex voices for some videos"}');
@@ -2751,160 +2392,6 @@ const votStorage = new (class {
     }
 
     return Promise.resolve(this.syncList());
-  }
-})();
-
-;// ./src/localization/localizationProvider.js
-
-
-
-
-
-
-
-const localeCacheTTL = 7200;
-const localizationUrl = `${contentUrl}/${
-   false ? 0 : "master"
-}/src/localization`;
-
-// TODO: add get from hashes.json or use DEFAULT_LOCALES
-const availableLocales = ["auto","en","ru","af","am","ar","az","bg","bn","bs","ca","cs","cy","da","de","el","es","et","eu","fa","fi","fr","gl","hi","hr","hu","hy","id","it","ja","jv","kk","km","kn","ko","lo","mk","ml","mn","ms","mt","my","ne","nl","pa","pl","pt","ro","si","sk","sl","sq","sr","su","sv","sw","tr","uk","ur","uz","vi","zh","zu"];
-
-const localizationProvider = new (class {
-  lang = "en";
-  locale = {};
-  gmValues = [
-    "locale-phrases",
-    "locale-lang",
-    "locale-hash",
-    "locale-updated-at",
-    "locale-lang-override",
-  ];
-
-  constructor() {
-    const langOverride = votStorage.syncGet("locale-lang-override", "auto");
-    this.lang =
-      langOverride && langOverride !== "auto"
-        ? langOverride
-        : (navigator.language || navigator.userLanguage)
-            ?.substr(0, 2)
-            ?.toLowerCase() ?? "en";
-    this.setLocaleFromJsonString(votStorage.syncGet("locale-phrases", ""));
-  }
-
-  reset() {
-    for (let i = 0; i < this.gmValues.length; i++) {
-      votStorage.syncDelete(this.gmValues[i]);
-    }
-  }
-
-  async checkUpdates(force = false) {
-    debug.log("Check locale updates...");
-    try {
-      const res = await GM_fetch(
-        `${localizationUrl}/hashes.json${
-          force ? `?timestamp=${utils_getTimestamp()}` : ""
-        }`,
-      );
-      if (res.status !== 200) {
-        throw res.status;
-      }
-
-      const hashes = await res.json();
-      const localeHash = await votStorage.get("locale-hash");
-      const actualHash = hashes[this.lang];
-
-      return localeHash !== actualHash ? actualHash : false;
-    } catch (err) {
-      console.error(
-        "[VOT] [localizationProvider] Failed to get locales hash, cause:",
-        err,
-      );
-
-      return false;
-    }
-  }
-
-  async update(force = false) {
-    const localeUpdatedAt = await votStorage.get("locale-updated-at", 0);
-    const localeLang = await votStorage.get("locale-lang");
-    const timestamp = utils_getTimestamp();
-    if (
-      !force &&
-      localeUpdatedAt + localeCacheTTL > timestamp &&
-      localeLang === this.lang
-    ) {
-      return;
-    }
-
-    const hash = await this.checkUpdates(force);
-    await votStorage.set("locale-updated-at", timestamp);
-    if (!hash) {
-      return;
-    }
-
-    debug.log("Updating locale...");
-    try {
-      const res = await GM_fetch(
-        `${localizationUrl}/locales/${this.lang}.json${
-          force ? `?timestamp=${timestamp}` : ""
-        }`,
-      );
-      if (res.status !== 200) {
-        throw res.status;
-      }
-
-      // We use it .text() in order for there to be a single logic for GM_Storage and localStorage
-      const text = await res.text();
-      await votStorage.set("locale-phrases", text);
-      this.setLocaleFromJsonString(text);
-
-      await votStorage.set("locale-hash", hash);
-      await votStorage.set("locale-lang", this.lang);
-    } catch (err) {
-      console.error(
-        "[VOT] [localizationProvider] Failed to get locale, cause:",
-        err,
-      );
-      this.setLocaleFromJsonString(await votStorage.get("locale-phrases", ""));
-    }
-  }
-
-  setLocaleFromJsonString(json) {
-    try {
-      this.locale = JSON.parse(json) ?? {};
-    } catch (exception) {
-      console.error("[VOT] [localizationProvider]", exception);
-      this.locale = {};
-    }
-  }
-
-  getFromLocale(locale, key) {
-    const result = key.split(".").reduce((locale, key) => {
-      if (typeof locale === "object" && locale) return locale[key];
-      return undefined;
-    }, locale);
-    if (result === undefined) {
-      console.warn(
-        "[VOT] [localizationProvider] locale",
-        locale,
-        "doesn't contain key",
-        key,
-      );
-    }
-    return result;
-  }
-
-  getDefault(key) {
-    return this.getFromLocale(en_namespaceObject, key) ?? key;
-  }
-
-  get(key) {
-    return (
-      this.getFromLocale(this.locale, key) ??
-      this.getFromLocale(en_namespaceObject, key) ??
-      key
-    );
   }
 })();
 
@@ -3087,7 +2574,1174 @@ function utils_getTimestamp() {
 
 
 
-;// ./node_modules/vot.js/dist/helpers/base.js
+;// ./src/localization/localizationProvider.js
+
+
+
+
+
+
+
+const localeCacheTTL = 7200;
+const localizationUrl = `${contentUrl}/${
+   false ? 0 : "master"
+}/src/localization`;
+
+// TODO: add get from hashes.json or use DEFAULT_LOCALES
+const availableLocales = ["auto","en","ru","af","am","ar","az","bg","bn","bs","ca","cs","cy","da","de","el","es","et","eu","fa","fi","fr","gl","hi","hr","hu","hy","id","it","ja","jv","kk","km","kn","ko","lo","mk","ml","mn","ms","mt","my","ne","nl","pa","pl","pt","ro","si","sk","sl","sq","sr","su","sv","sw","tr","uk","ur","uz","vi","zh","zu"];
+
+const localizationProvider = new (class {
+  lang = "en";
+  locale = {};
+  gmValues = [
+    "locale-phrases",
+    "locale-lang",
+    "locale-hash",
+    "locale-updated-at",
+    "locale-lang-override",
+  ];
+
+  constructor() {
+    const langOverride = votStorage.syncGet("locale-lang-override", "auto");
+    this.lang =
+      langOverride && langOverride !== "auto"
+        ? langOverride
+        : (navigator.language || navigator.userLanguage)
+            ?.substr(0, 2)
+            ?.toLowerCase() ?? "en";
+    this.setLocaleFromJsonString(votStorage.syncGet("locale-phrases", ""));
+  }
+
+  reset() {
+    for (let i = 0; i < this.gmValues.length; i++) {
+      votStorage.syncDelete(this.gmValues[i]);
+    }
+  }
+
+  async checkUpdates(force = false) {
+    debug.log("Check locale updates...");
+    try {
+      const res = await GM_fetch(
+        `${localizationUrl}/hashes.json${
+          force ? `?timestamp=${utils_getTimestamp()}` : ""
+        }`,
+      );
+      if (res.status !== 200) {
+        throw res.status;
+      }
+
+      const hashes = await res.json();
+      const localeHash = await votStorage.get("locale-hash");
+      const actualHash = hashes[this.lang];
+
+      return localeHash !== actualHash ? actualHash : false;
+    } catch (err) {
+      console.error(
+        "[VOT] [localizationProvider] Failed to get locales hash, cause:",
+        err,
+      );
+
+      return false;
+    }
+  }
+
+  async update(force = false) {
+    const localeUpdatedAt = await votStorage.get("locale-updated-at", 0);
+    const localeLang = await votStorage.get("locale-lang");
+    const timestamp = utils_getTimestamp();
+    if (
+      !force &&
+      localeUpdatedAt + localeCacheTTL > timestamp &&
+      localeLang === this.lang
+    ) {
+      return;
+    }
+
+    const hash = await this.checkUpdates(force);
+    await votStorage.set("locale-updated-at", timestamp);
+    if (!hash) {
+      return;
+    }
+
+    debug.log("Updating locale...");
+    try {
+      const res = await GM_fetch(
+        `${localizationUrl}/locales/${this.lang}.json${
+          force ? `?timestamp=${timestamp}` : ""
+        }`,
+      );
+      if (res.status !== 200) {
+        throw res.status;
+      }
+
+      // We use it .text() in order for there to be a single logic for GM_Storage and localStorage
+      const text = await res.text();
+      await votStorage.set("locale-phrases", text);
+      this.setLocaleFromJsonString(text);
+
+      await votStorage.set("locale-hash", hash);
+      await votStorage.set("locale-lang", this.lang);
+    } catch (err) {
+      console.error(
+        "[VOT] [localizationProvider] Failed to get locale, cause:",
+        err,
+      );
+      this.setLocaleFromJsonString(await votStorage.get("locale-phrases", ""));
+    }
+  }
+
+  setLocaleFromJsonString(json) {
+    try {
+      this.locale = JSON.parse(json) ?? {};
+    } catch (exception) {
+      console.error("[VOT] [localizationProvider]", exception);
+      this.locale = {};
+    }
+  }
+
+  getFromLocale(locale, key) {
+    const result = key.split(".").reduce((locale, key) => {
+      if (typeof locale === "object" && locale) return locale[key];
+      return undefined;
+    }, locale);
+    if (result === undefined) {
+      console.warn(
+        "[VOT] [localizationProvider] locale",
+        locale,
+        "doesn't contain key",
+        key,
+      );
+    }
+    return result;
+  }
+
+  getDefault(key) {
+    return this.getFromLocale(en_namespaceObject, key) ?? key;
+  }
+
+  get(key) {
+    return (
+      this.getFromLocale(this.locale, key) ??
+      this.getFromLocale(en_namespaceObject, key) ??
+      key
+    );
+  }
+})();
+
+;// ./src/utils/VOTLocalizedError.js
+
+
+class VOTLocalizedError extends Error {
+  constructor(message) {
+    super(localizationProvider.getDefault(message));
+    this.name = "VOTLocalizedError";
+    this.unlocalizedMessage = message;
+    this.localizedMessage = localizationProvider.get(message);
+  }
+}
+
+;// ./node_modules/@vot.js/core/dist/client.js
+
+
+
+
+
+
+
+
+
+
+class VOTJSError extends Error {
+    data;
+    constructor(message, data = undefined) {
+        super(message);
+        this.data = data;
+        this.name = "VOTJSError";
+        this.message = message;
+    }
+}
+class client_VOTClient {
+    host;
+    hostVOT;
+    schema;
+    schemaVOT;
+    fetch;
+    fetchOpts;
+    sessions = {};
+    requestLang;
+    responseLang;
+    userAgent = config.userAgent;
+    paths = {
+        videoTranslation: "/video-translation/translate",
+        videoTranslationFailAudio: "/video-translation/fail-audio-js",
+        videoTranslationAudio: "/video-translation/audio",
+        videoSubtitles: "/video-subtitles/get-subtitles",
+        streamPing: "/stream-translation/ping-stream",
+        streamTranslation: "/stream-translation/translate-stream",
+        createSession: "/session/create",
+    };
+    isCustomLink(url) {
+        return !!(/\.(m3u8|m4(a|v)|mpd)/.exec(url) ??
+            /^https:\/\/cdn\.qstv\.on\.epicgames\.com/.exec(url));
+    }
+    headers = {
+        "User-Agent": this.userAgent,
+        Accept: "application/x-protobuf",
+        "Accept-Language": "en",
+        "Content-Type": "application/x-protobuf",
+        Pragma: "no-cache",
+        "Cache-Control": "no-cache",
+        "Sec-Fetch-Mode": "no-cors",
+    };
+    headersVOT = {
+        "User-Agent": `vot.js/${config.version}`,
+        "Content-Type": "application/json",
+        Pragma: "no-cache",
+        "Cache-Control": "no-cache",
+    };
+    constructor({ host = config.host, hostVOT = config.hostVOT, fetchFn = fetchWithTimeout, fetchOpts = {}, requestLang = "en", responseLang = "ru", headers = {}, } = {}) {
+        const schemaRe = /(http(s)?):\/\//;
+        const schema = schemaRe.exec(host)?.[1];
+        this.host = schema ? host.replace(`${schema}://`, "") : host;
+        this.schema = schema ?? "https";
+        const schemaVOT = schemaRe.exec(hostVOT)?.[1];
+        this.hostVOT = schemaVOT ? hostVOT.replace(`${schemaVOT}://`, "") : hostVOT;
+        this.schemaVOT = schemaVOT ?? "https";
+        this.fetch = fetchFn;
+        this.fetchOpts = fetchOpts;
+        this.requestLang = requestLang;
+        this.responseLang = responseLang;
+        this.headers = { ...this.headers, ...headers };
+    }
+    getOpts(body, headers = {}, method = "POST") {
+        return {
+            method,
+            headers: {
+                ...this.headers,
+                ...headers,
+            },
+            body,
+            ...this.fetchOpts,
+        };
+    }
+    async request(path, body, headers = {}, method = "POST") {
+        const options = this.getOpts(new Blob([body]), headers, method);
+        try {
+            const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
+            const data = (await res.arrayBuffer());
+            return {
+                success: res.status === 200,
+                data,
+            };
+        }
+        catch (err) {
+            return {
+                success: false,
+                data: err?.message,
+            };
+        }
+    }
+    async requestJSON(path, body = null, headers = {}, method = "POST") {
+        const options = this.getOpts(body, {
+            "Content-Type": "application/json",
+            ...headers,
+        }, method);
+        try {
+            const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
+            const data = (await res.json());
+            return {
+                success: res.status === 200,
+                data,
+            };
+        }
+        catch (err) {
+            return {
+                success: false,
+                data: err?.message,
+            };
+        }
+    }
+    async requestVOT(path, body, headers = {}) {
+        const options = this.getOpts(JSON.stringify(body), {
+            ...this.headersVOT,
+            ...headers,
+        });
+        try {
+            const res = await this.fetch(`${this.schemaVOT}://${this.hostVOT}${path}`, options);
+            const data = (await res.json());
+            return {
+                success: res.status === 200,
+                data,
+            };
+        }
+        catch (err) {
+            return {
+                success: false,
+                data: err?.message,
+            };
+        }
+    }
+    async getSession(module) {
+        const timestamp = getTimestamp();
+        const session = this.sessions[module];
+        if (session && session.timestamp + session.expires > timestamp) {
+            return session;
+        }
+        const { secretKey, expires, uuid } = await this.createSession(module);
+        this.sessions[module] = {
+            secretKey,
+            expires,
+            timestamp,
+            uuid,
+        };
+        return this.sessions[module];
+    }
+    async translateVideoYAImpl({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, extraOpts = {}, shouldSendFailedAudio = true, }) {
+        const { url, duration = config.defaultDuration } = videoData;
+        const session = await this.getSession("video-translation");
+        const body = yandexProtobuf.encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp, extraOpts);
+        const path = this.paths.videoTranslation;
+        const vtransHeaders = await getSecYaHeaders("Vtrans", session, body, path);
+        const res = await this.request(path, body, {
+            ...vtransHeaders,
+            ...headers,
+        });
+        if (!res.success) {
+            throw new VOTLocalizedError("requestTranslationFailed");
+        }
+        const translationData = yandexProtobuf.decodeTranslationResponse(res.data);
+        debug.log("translateVideo", translationData);
+        const { status, translationId, } = translationData;
+        switch (status) {
+            case VideoTranslationStatus.FAILED:
+                throw translationData?.message ? new VOTJSError("Yandex couldn't translate video", translationData) : new VOTLocalizedError("requestTranslationFailed");
+            case VideoTranslationStatus.FINISHED:
+            case VideoTranslationStatus.PART_CONTENT:
+                if (!translationData.url) {
+                    throw new VOTLocalizedError("audioNotReceived");
+                }
+                return {
+                    translationId,
+                    translated: true,
+                    url: translationData.url,
+                    status,
+                    remainingTime: translationData.remainingTime ?? -1,
+                };
+            case VideoTranslationStatus.WAITING:
+            case VideoTranslationStatus.LONG_WAITING:
+                return {
+                    translationId,
+                    translated: false,
+                    status,
+                    remainingTime: translationData.remainingTime,
+                };
+            case VideoTranslationStatus.AUDIO_REQUESTED:
+                if (url.startsWith("https://youtu.be/") && shouldSendFailedAudio) {
+                    await this.requestVtransFailAudio(url);
+                    await this.requestVtransAudio(url, translationData.translationId, {
+                        audioFile: new Uint8Array(),
+                        fileId: AudioDownloadType.WEB_API_GET_ALL_GENERATING_URLS_DATA_FROM_IFRAME,
+                    });
+                    return await this.translateVideoYAImpl({
+                        videoData,
+                        requestLang,
+                        responseLang,
+                        translationHelp,
+                        headers,
+                        shouldSendFailedAudio: false,
+                    });
+                }
+                return {
+                    translationId,
+                    translated: false,
+                    status,
+                    remainingTime: translationData.remainingTime ?? -1,
+                };
+            default:
+                Logger.error("Unknown response", translationData);
+                throw new VOTJSError("Unknown response from Yandex", translationData);
+        }
+    }
+    async translateVideoVOTImpl({ url, videoId, service, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
+        const votData = convertVOT(service, videoId, url);
+        const res = await this.requestVOT(this.paths.videoTranslation, {
+            provider: "yandex",
+            service: votData.service,
+            videoId: votData.videoId,
+            fromLang: requestLang,
+            toLang: responseLang,
+            rawVideo: url,
+        }, headers);
+        if (!res.success) {
+            throw new VOTLocalizedError("requestTranslationFailed");
+        }
+        const translationData = res.data;
+        switch (translationData.status) {
+            case "failed":
+                throw new VOTJSError("Yandex couldn't translate video", translationData);
+            case "success":
+                if (!translationData.translatedUrl) {
+                    throw new VOTLocalizedError("audioNotReceived");
+                }
+                return {
+                    translationId: String(translationData.id),
+                    translated: true,
+                    url: translationData.translatedUrl,
+                    status: 1,
+                    remainingTime: -1,
+                };
+            case "waiting":
+                return {
+                    translationId: "",
+                    translated: false,
+                    remainingTime: translationData.remainingTime,
+                    status: 2,
+                    message: translationData.message,
+                };
+        }
+    }
+    async requestVtransFailAudio(url) {
+        const res = await this.requestJSON(this.paths.videoTranslationFailAudio, JSON.stringify({
+            video_url: url,
+        }), undefined, "PUT");
+        if (!res.data || typeof res.data === "string" || res.data.status !== 1) {
+            throw new VOTJSError("Failed to request to fake video translation fail audio js", res);
+        }
+        return res;
+    }
+    async requestVtransAudio(url, translationId, audioBuffer, partialAudio, headers = {}) {
+        const session = await this.getSession("video-translation");
+        const body = yandexProtobuf.encodeTranslationAudioRequest(url, translationId, audioBuffer, partialAudio);
+        const path = this.paths.videoTranslationAudio;
+        const vtransHeaders = await getSecYaHeaders("Vtrans", session, body, path);
+        const res = await this.request(path, body, {
+            ...vtransHeaders,
+            ...headers,
+        }, "PUT");
+        if (!res.success) {
+            throw new VOTJSError("Failed to request video translation audio", res);
+        }
+        return yandexProtobuf.decodeTranslationAudioResponse(res.data);
+    }
+    async translateVideo({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, extraOpts = {}, shouldSendFailedAudio = true, }) {
+        const { url, videoId, host } = videoData;
+        return this.isCustomLink(url)
+            ? await this.translateVideoVOTImpl({
+                url,
+                videoId,
+                service: host,
+                requestLang,
+                responseLang,
+                headers,
+            })
+            : await this.translateVideoYAImpl({
+                videoData,
+                requestLang,
+                responseLang,
+                translationHelp,
+                headers,
+                extraOpts,
+                shouldSendFailedAudio,
+            });
+    }
+    async getSubtitles({ videoData, requestLang = this.requestLang, headers = {}, }) {
+        const { url } = videoData;
+        if (this.isCustomLink(url)) {
+            return {
+                waiting: false,
+                subtitles: []
+            }
+        }
+        const session = await this.getSession("video-translation");
+        const body = yandexProtobuf.encodeSubtitlesRequest(url, requestLang);
+        const path = this.paths.videoSubtitles;
+        const vsubsHeaders = await getSecYaHeaders("Vsubs", session, body, path);
+        const res = await this.request(path, body, {
+            ...vsubsHeaders,
+            ...headers,
+        });
+        if (!res.success) {
+            throw new VOTJSError("Failed to request video subtitles", res);
+        }
+        return yandexProtobuf.decodeSubtitlesResponse(res.data);
+    }
+    async pingStream({ pingId, headers = {} }) {
+        const session = await this.getSession("video-translation");
+        const body = yandexProtobuf.encodeStreamPingRequest(pingId);
+        const path = this.paths.streamPing;
+        const vtransHeaders = await getSecYaHeaders("Vtrans", session, body, path);
+        const res = await this.request(path, body, {
+            ...vtransHeaders,
+            ...headers,
+        });
+        if (!res.success) {
+            throw new VOTJSError("Failed to request stream ping", res);
+        }
+        return true;
+    }
+    async translateStream({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
+        const { url } = videoData;
+        if (this.isCustomLink(url)) {
+            throw new VOTLocalizedError("VOTStreamNotSupportedUrl");
+        }
+        const session = await this.getSession("video-translation");
+        const body = yandexProtobuf.encodeStreamRequest(url, requestLang, responseLang);
+        const path = this.paths.streamTranslation;
+        const vtransHeaders = await getSecYaHeaders("Vtrans", session, body, path);
+        const res = await this.request(path, body, {
+            ...vtransHeaders,
+            ...headers,
+        });
+        if (!res.success) {
+            throw new VOTJSError("Failed to request stream translation", res);
+        }
+        const translateResponse = yandexProtobuf.decodeStreamResponse(res.data);
+        const interval = translateResponse.interval;
+        switch (interval) {
+            case StreamInterval.NO_CONNECTION:
+            case StreamInterval.TRANSLATING:
+                return {
+                    translated: false,
+                    interval,
+                    message: interval === StreamInterval.NO_CONNECTION
+                        ? "streamNoConnectionToServer"
+                        : "translationTakeFewMinutes",
+                };
+            case StreamInterval.STREAMING: {
+                return {
+                    translated: true,
+                    interval,
+                    pingId: translateResponse.pingId,
+                    result: translateResponse.translatedInfo,
+                };
+            }
+            default:
+                Logger.error("Unknown response", translateResponse);
+                throw new VOTJSError("Unknown response from Yandex", translateResponse);
+        }
+    }
+    async createSession(module) {
+        const uuid = getUUID();
+        const body = yandexProtobuf.encodeYandexSessionRequest(uuid, module);
+        const res = await this.request(this.paths.createSession, body, {
+            "Vtrans-Signature": await getSignature(body),
+        });
+        if (!res.success) {
+            throw new VOTJSError("Failed to request create session", res);
+        }
+        const sessionResponse = yandexProtobuf.decodeYandexSessionResponse(res.data);
+        return {
+            ...sessionResponse,
+            uuid,
+        };
+    }
+}
+class client_VOTWorkerClient extends client_VOTClient {
+    async request(path, body, headers = {}, method = "POST") {
+        const options = this.getOpts(JSON.stringify({
+            headers: {
+                ...this.headers,
+                ...headers,
+            },
+            body: Array.from(body),
+        }), {
+            "Content-Type": "application/json",
+        }, method);
+        try {
+            const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
+            const data = (await res.arrayBuffer());
+            return {
+                success: res.status === 200,
+                data,
+            };
+        }
+        catch (err) {
+            return {
+                success: false,
+                data: err?.message,
+            };
+        }
+    }
+    async requestJSON(path, body = null, headers = {}, method = "POST") {
+        const options = this.getOpts(JSON.stringify({
+            headers: {
+                ...this.headers,
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                ...headers,
+            },
+            body,
+        }), {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        }, method);
+        try {
+            const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
+            const data = (await res.json());
+            return {
+                success: res.status === 200,
+                data,
+            };
+        }
+        catch (err) {
+            return {
+                success: false,
+                data: err?.message,
+            };
+        }
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/client.js
+
+class VOTClient extends client_VOTClient {
+    constructor(opts) {
+        super(opts);
+    }
+}
+class VOTWorkerClient extends client_VOTWorkerClient {
+    constructor(opts) {
+        super(opts);
+    }
+}
+
+;// ./node_modules/@vot.js/core/dist/utils/videoData.js
+class VideoDataError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "VideoDataError";
+        this.message = message;
+    }
+}
+const localLinkRe = /(file:\/\/(\/)?|(http(s)?:\/\/)(127\.0\.0\.1|localhost|192\.168\.(\d){1,3}\.(\d){1,3}))/;
+
+;// ./node_modules/@vot.js/shared/dist/data/alternativeUrls.js
+const sitesInvidious = [
+    "yewtu.be",
+    "yt.artemislena.eu",
+    "invidious.flokinet.to",
+    "iv.melmac.space",
+    "inv.nadeko.net",
+    "inv.tux.pizza",
+    "invidious.private.coffee",
+    "yt.drgnz.club",
+    "vid.puffyan.us",
+    "invidious.dhusch.de",
+];
+const sitesPiped = [
+    "piped.video",
+    "piped.tokhmi.xyz",
+    "piped.moomoo.me",
+    "piped.syncpundit.io",
+    "piped.mha.fi",
+    "watch.whatever.social",
+    "piped.garudalinux.org",
+    "efy.piped.pages.dev",
+    "watch.leptons.xyz",
+    "piped.lunar.icu",
+    "yt.dc09.ru",
+    "piped.mint.lgbt",
+    "il.ax",
+    "piped.privacy.com.de",
+    "piped.esmailelbob.xyz",
+    "piped.projectsegfau.lt",
+    "piped.in.projectsegfau.lt",
+    "piped.us.projectsegfau.lt",
+    "piped.privacydev.net",
+    "piped.palveluntarjoaja.eu",
+    "piped.smnz.de",
+    "piped.adminforge.de",
+    "piped.qdi.fi",
+    "piped.hostux.net",
+    "piped.chauvet.pro",
+    "piped.jotoma.de",
+    "piped.pfcd.me",
+    "piped.frontendfriendly.xyz",
+];
+const sitesProxiTok = [
+    "proxitok.pabloferreiro.es",
+    "proxitok.pussthecat.org",
+    "tok.habedieeh.re",
+    "proxitok.esmailelbob.xyz",
+    "proxitok.privacydev.net",
+    "tok.artemislena.eu",
+    "tok.adminforge.de",
+    "tt.vern.cc",
+    "cringe.whatever.social",
+    "proxitok.lunar.icu",
+    "proxitok.privacy.com.de",
+];
+const sitesPeertube = [
+    "peertube.1312.media",
+    "tube.shanti.cafe",
+    "bee-tube.fr",
+    "video.sadmin.io",
+    "dalek.zone",
+    "review.peertube.biz",
+    "peervideo.club",
+    "tube.la-dina.net",
+    "peertube.tmp.rcp.tf",
+    "peertube.su",
+    "video.blender.org",
+    "videos.viorsan.com",
+    "tube-sciences-technologies.apps.education.fr",
+    "tube-numerique-educatif.apps.education.fr",
+    "tube-arts-lettres-sciences-humaines.apps.education.fr",
+    "beetoons.tv",
+    "comics.peertube.biz",
+    "makertube.net",
+];
+const sitesPoketube = [
+    "poketube.fun",
+    "pt.sudovanilla.org",
+    "poke.ggtyler.dev",
+    "poke.uk2.littlekai.co.uk",
+    "poke.blahai.gay",
+];
+const sitesRicktube = ["ricktube.ru"];
+const sitesMaterialious = (/* unused pure expression or super */ null && ([
+    "materialious.nadeko.net",
+    "app.materialio.us",
+]));
+const sitesCoursehunterLike = ["coursehunter.net", "coursetrain.net"];
+
+
+;// ./node_modules/@vot.js/ext/dist/types/service.js
+var ExtVideoService;
+(function (ExtVideoService) {
+    ExtVideoService["udemy"] = "udemy";
+    ExtVideoService["coursera"] = "coursera";
+})(ExtVideoService || (ExtVideoService = {}));
+
+;// ./node_modules/@vot.js/ext/dist/data/sites.js
+
+
+
+/* harmony default export */ const sites = ([
+    {
+        additionalData: "mobile",
+        host: VideoService.youtube,
+        url: "https://youtu.be/",
+        match: /^m.youtube.com$/,
+        selector: "shorts-video #player",
+    },
+    {
+        additionalData: "mobile",
+        host: VideoService.youtube,
+        url: "https://youtu.be/",
+        match: /^m.youtube.com$/,
+        selector: ".player-container",
+    },
+    {
+        host: VideoService.youtube,
+        url: "https://youtu.be/",
+        match: /^(www.)?youtube(-nocookie|kids)?.com$/,
+        selector: ".html5-video-container:not(#inline-player *)",
+    },
+    {
+        host: VideoService.invidious,
+        url: "https://youtu.be/",
+        match: sitesInvidious,
+        selector: "#player",
+        needBypassCSP: true,
+    },
+    {
+        host: VideoService.piped,
+        url: "https://youtu.be/",
+        match: sitesPiped,
+        selector: ".shaka-video-container",
+        needBypassCSP: true,
+    },
+    {
+        host: VideoService.poketube,
+        url: "https://youtu.be/",
+        match: sitesPoketube,
+        selector: ".video-player-container",
+    },
+    {
+        host: VideoService.ricktube,
+        url: "https://youtu.be/",
+        match: sitesRicktube,
+        selector: "#oframeplayer > pjsdiv:has(video)",
+    },
+    {
+        additionalData: "mobile",
+        host: VideoService.vk,
+        url: "https://vk.com/video?z=",
+        match: /^m.vk.(com|ru)$/,
+        selector: "vk-video-player",
+        shadowRoot: true,
+    },
+    {
+        additionalData: "clips",
+        host: VideoService.vk,
+        url: "https://vk.com/video?z=",
+        match: /^(www.|m.)?vk.(com|ru)$/,
+        selector: 'div[data-testid="clipcontainer-video"]',
+    },
+    {
+        host: VideoService.vk,
+        url: "https://vk.com/video?z=",
+        match: /^(www.|m.)?vk.(com|ru)$/,
+        selector: ".videoplayer_media",
+    },
+    {
+        host: VideoService.nine_gag,
+        url: "https://9gag.com/gag/",
+        match: /^9gag.com$/,
+        selector: ".video-post",
+    },
+    {
+        host: VideoService.twitch,
+        url: "https://twitch.tv/",
+        match: [
+            /^m.twitch.tv$/,
+            /^(www.)?twitch.tv$/,
+            /^clips.twitch.tv$/,
+            /^player.twitch.tv$/,
+        ],
+        selector: ".video-ref, main > div > section > div > div > div",
+    },
+    {
+        host: VideoService.proxitok,
+        url: "https://www.tiktok.com/",
+        match: sitesProxiTok,
+        selector: ".column.has-text-centered",
+    },
+    {
+        host: VideoService.tiktok,
+        url: "https://www.tiktok.com/",
+        match: /^(www.)?tiktok.com$/,
+        selector: null,
+    },
+    {
+        host: VideoService.vimeo,
+        url: "https://vimeo.com/",
+        match: /^vimeo.com$/,
+        needExtraData: true,
+        selector: ".player",
+    },
+    {
+        host: VideoService.vimeo,
+        url: "https://player.vimeo.com/",
+        match: /^player.vimeo.com$/,
+        additionalData: "embed",
+        needExtraData: true,
+        needBypassCSP: true,
+        selector: ".player",
+    },
+    {
+        host: VideoService.xvideos,
+        url: "https://www.xvideos.com/",
+        match: /^(www.)?(xvideos|xv-ru).com$/,
+        selector: ".video-bg-pic",
+        needBypassCSP: true,
+    },
+    {
+        host: VideoService.pornhub,
+        url: "https://rt.pornhub.com/view_video.php?viewkey=",
+        match: /^[a-z]+.pornhub.com$/,
+        selector: ".mainPlayerDiv > .video-element-wrapper-js > div",
+        eventSelector: ".mgp_eventCatcher",
+    },
+    {
+        additionalData: "embed",
+        host: VideoService.pornhub,
+        url: "https://rt.pornhub.com/view_video.php?viewkey=",
+        match: (url) => url.host.includes("pornhub.com") && url.pathname.startsWith("/embed/"),
+        selector: "#player",
+    },
+    {
+        host: VideoService.twitter,
+        url: "https://twitter.com/i/status/",
+        match: /^(twitter|x).com$/,
+        selector: 'div[data-testid="videoComponent"] > div:nth-child(1) > div',
+        eventSelector: 'div[data-testid="videoPlayer"]',
+        needBypassCSP: true,
+    },
+    {
+        host: VideoService.rumble,
+        url: "https://rumble.com/",
+        match: /^rumble.com$/,
+        selector: "#videoPlayer > .videoPlayer-Rumble-cls > div",
+    },
+    {
+        host: VideoService.facebook,
+        url: "https://facebook.com/",
+        match: (url) => url.host.includes("facebook.com") && url.pathname.includes("/videos/"),
+        selector: 'div[role="main"] div[data-pagelet$="video" i]',
+        needBypassCSP: true,
+    },
+    {
+        additionalData: "reels",
+        host: VideoService.facebook,
+        url: "https://facebook.com/",
+        match: (url) => url.host.includes("facebook.com") && url.pathname.includes("/reel/"),
+        selector: 'div[role="main"]',
+        needBypassCSP: true,
+    },
+    {
+        host: VideoService.rutube,
+        url: "https://rutube.ru/video/",
+        match: /^rutube.ru$/,
+        selector: ".video-player > div > div > div:nth-child(2)",
+    },
+    {
+        additionalData: "embed",
+        host: VideoService.rutube,
+        url: "https://rutube.ru/video/",
+        match: /^rutube.ru$/,
+        selector: "#app > div > div",
+    },
+    {
+        host: VideoService.bilibili,
+        url: "https://www.bilibili.com/",
+        match: /^(www|m|player).bilibili.com$/,
+        selector: ".bpx-player-video-wrap",
+    },
+    {
+        additionalData: "old",
+        host: VideoService.bilibili,
+        url: "https://www.bilibili.com/",
+        match: /^(www|m).bilibili.com$/,
+        selector: null,
+    },
+    {
+        host: VideoService.mailru,
+        url: "https://my.mail.ru/",
+        match: /^my.mail.ru$/,
+        selector: "#b-video-wrapper",
+    },
+    {
+        host: VideoService.bitchute,
+        url: "https://www.bitchute.com/video/",
+        match: /^(www.)?bitchute.com$/,
+        selector: ".video-js",
+    },
+    {
+        host: VideoService.eporner,
+        url: "https://www.eporner.com/",
+        match: /^(www.)?eporner.com$/,
+        selector: ".vjs-v7",
+    },
+    {
+        host: VideoService.peertube,
+        url: "stub",
+        match: sitesPeertube,
+        selector: ".vjs-v7",
+    },
+    {
+        host: VideoService.dailymotion,
+        url: "https://dai.ly/",
+        match: /^geo([\d]+)?.dailymotion.com$/,
+        selector: ".player",
+    },
+    {
+        host: VideoService.trovo,
+        url: "https://trovo.live/s/",
+        match: /^trovo.live$/,
+        selector: ".player-video",
+    },
+    {
+        host: VideoService.yandexdisk,
+        url: "https://yadi.sk/",
+        match: /^disk.yandex.ru$/,
+        selector: ".video-player__player > div:nth-child(1)",
+        eventSelector: ".video-player__player",
+        needBypassCSP: true,
+        needExtraData: true,
+    },
+    {
+        host: VideoService.okru,
+        url: "https://ok.ru/video/",
+        match: /^ok.ru$/,
+        selector: ".html5-vpl_vid",
+    },
+    {
+        host: VideoService.googledrive,
+        url: "https://drive.google.com/file/d/",
+        match: /^youtube.googleapis.com$/,
+        selector: ".html5-video-container",
+    },
+    {
+        host: VideoService.bannedvideo,
+        url: "https://madmaxworld.tv/watch?id=",
+        match: /^(www.)?banned.video|madmaxworld.tv$/,
+        selector: ".vjs-v7",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.weverse,
+        url: "https://weverse.io/",
+        match: /^weverse.io$/,
+        selector: ".webplayer-internal-source-wrapper",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.newgrounds,
+        url: "https://www.newgrounds.com/",
+        match: /^(www.)?newgrounds.com$/,
+        selector: ".ng-video-player",
+    },
+    {
+        host: VideoService.egghead,
+        url: "https://egghead.io/",
+        match: /^egghead.io$/,
+        selector: ".cueplayer-react-video-holder",
+    },
+    {
+        host: VideoService.youku,
+        url: "https://v.youku.com/",
+        match: /^v.youku.com$/,
+        selector: "#ykPlayer",
+    },
+    {
+        host: VideoService.archive,
+        url: "https://archive.org/details/",
+        match: /^archive.org$/,
+        selector: ".jw-media",
+    },
+    {
+        host: VideoService.kodik,
+        url: "stub",
+        match: /^kodik.(info|biz|cc)$/,
+        selector: ".fp-player",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.patreon,
+        url: "stub",
+        match: /^(www.)?patreon.com$/,
+        selector: 'div[data-tag="post-card"] div[elevation="subtle"] > div > div > div > div',
+        needExtraData: true,
+    },
+    {
+        additionalData: "old",
+        host: VideoService.reddit,
+        url: "stub",
+        match: /^old.reddit.com$/,
+        selector: ".reddit-video-player-root",
+        needExtraData: true,
+        needBypassCSP: true,
+    },
+    {
+        host: VideoService.reddit,
+        url: "stub",
+        match: /^(www.|new.)?reddit.com$/,
+        selector: "div[slot=post-media-container]",
+        shadowRoot: true,
+        needExtraData: true,
+        needBypassCSP: true,
+    },
+    {
+        host: VideoService.kick,
+        url: "https://kick.com/",
+        match: /^kick.com$/,
+        selector: "#injected-embedded-channel-player-video > div",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.appledeveloper,
+        url: "https://developer.apple.com/",
+        match: /^developer.apple.com$/,
+        selector: ".developer-video-player",
+        needExtraData: true,
+        needBypassCSP: true,
+    },
+    {
+        host: VideoService.epicgames,
+        url: "https://dev.epicgames.com/community/learning/",
+        match: /^dev.epicgames.com$/,
+        selector: ".vjs-v7",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.nineanimetv,
+        url: "https://9animetv.to/watch/",
+        match: /^rapid-cloud.co$/,
+        selector: ".jw-media",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.odysee,
+        url: "stub",
+        match: /^odysee.com$/,
+        selector: ".vjs-v7",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.coursehunterLike,
+        url: "stub",
+        match: sitesCoursehunterLike,
+        selector: "#oframeplayer > pjsdiv:has(video)",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.sap,
+        url: "https://learning.sap.com/courses/",
+        match: /^learning.sap.com$/,
+        selector: ".playkit-container",
+        eventSelector: ".playkit-player",
+        needExtraData: true,
+        needBypassCSP: true,
+    },
+    {
+        host: ExtVideoService.udemy,
+        url: "https://www.udemy.com/",
+        match: /udemy.com$/,
+        selector: 'div[data-purpose="curriculum-item-viewer-content"] > section > div > div > div > div:nth-of-type(2)',
+        needExtraData: true,
+    },
+    {
+        host: ExtVideoService.coursera,
+        url: "https://www.coursera.org/",
+        match: /coursera.org$/,
+        selector: ".vjs-v8",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.watchpornto,
+        url: "https://watchporn.to/",
+        match: /^watchporn.to$/,
+        selector: ".fp-player",
+    },
+    {
+        host: VideoService.linkedin,
+        url: "https://www.linkedin.com/learning/",
+        match: /^(www.)?linkedin.com$/,
+        selector: ".vjs-v7",
+        needExtraData: true,
+        needBypassCSP: true,
+    },
+    {
+        host: VideoService.incestflix,
+        url: "https://www.incestflix.net/watch/",
+        match: /^(www.)?incestflix.(net|to|com)$/,
+        selector: "#incflix-stream",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.porntn,
+        url: "https://porntn.com/videos/",
+        match: /^porntn.com$/,
+        selector: ".fp-player",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.dzen,
+        url: "https://dzen.ru/video/watch/",
+        match: /^dzen.ru$/,
+        selector: ".zen-ui-video-video-player",
+    },
+    {
+        host: VideoService.custom,
+        url: "stub",
+        match: (url) => /([^.]+).(mp4|webm)/.test(url.pathname),
+        rawResult: true,
+    },
+]);
+
+;// ./node_modules/@vot.js/ext/dist/helpers/base.js
 
 class VideoHelperError extends Error {
     constructor(message) {
@@ -3103,11 +3757,13 @@ class BaseHelper {
     referer;
     origin;
     service;
-    constructor({ fetchFn = GM_fetch, extraInfo = true, referer = document.referrer ?? window.location.origin + "/", origin = window.location.origin, service, } = {}) {
+    constructor({ fetchFn = fetchWithTimeout, extraInfo = true, referer = document.referrer ?? window.location.origin + "/", origin = window.location.origin, service, } = {}) {
         this.fetch = fetchFn;
         this.extraInfo = extraInfo;
         this.referer = referer;
-        this.origin = /^(http(s)?):\/\//.test(String(origin)) ? origin : window.location.origin;
+        this.origin = /^(http(s)?):\/\//.test(String(origin))
+            ? origin
+            : window.location.origin;
         this.service = service;
     }
     async getVideoData(videoId) {
@@ -3129,7 +3785,7 @@ class BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/mailru.js
+;// ./node_modules/@vot.js/ext/dist/helpers/mailru.js
 
 
 class MailRuHelper extends BaseHelper {
@@ -3161,7 +3817,7 @@ class MailRuHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/weverse.js
+;// ./node_modules/@vot.js/ext/dist/helpers/weverse.js
 
 
 
@@ -3302,7 +3958,7 @@ class WeverseHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/kodik.js
+;// ./node_modules/@vot.js/ext/dist/helpers/kodik.js
 
 
 
@@ -3392,7 +4048,7 @@ class KodikHelper extends BaseHelper {
             return undefined;
         }
         const videoDataLinks = Object.entries(videoData.links[videoData.default.toString()]);
-        const videoLink = videoDataLinks.find(([_, data]) => data.type === "application/x-mpegURL")?.[1];
+        const videoLink = videoDataLinks.find(([, data]) => data.type === "application/x-mpegURL")?.[1];
         if (!videoLink) {
             return undefined;
         }
@@ -3405,7 +4061,7 @@ class KodikHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/patreon.js
+;// ./node_modules/@vot.js/ext/dist/helpers/patreon.js
 
 
 class PatreonHelper extends BaseHelper {
@@ -3442,20 +4098,22 @@ class PatreonHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/reddit.js
+;// ./node_modules/@vot.js/ext/dist/helpers/reddit.js
 
 
 class RedditHelper extends BaseHelper {
     API_ORIGIN = "https://www.reddit.com";
+    async getContentUrl(videoId) {
+        if (!this.service.additionalData ||
+            this.service.additionalData !== "old") {
+            return document.querySelector("shreddit-player-2")?.src;
+        }
+        const playerEl = document.querySelector("[data-hls-url]");
+        return playerEl?.dataset.hlsUrl?.replaceAll("&amp;", "&");
+    }
     async getVideoData(videoId) {
         try {
-            const contentUrl = this.service.additionalData === "old" ?
-                document
-                    .querySelector("[data-hls-url]")
-                    ?.dataset
-                    .hlsUrl
-                    .replaceAll("&amp;", "&") :
-                document.querySelector("shreddit-player-2")?.src;
+            const contentUrl = await this.getContentUrl(videoId);
             if (!contentUrl) {
                 throw new VideoHelperError("Failed to find content url");
             }
@@ -3473,7 +4131,7 @@ class RedditHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/bannedvideo.js
+;// ./node_modules/@vot.js/ext/dist/helpers/bannedvideo.js
 
 class BannedVideoHelper extends BaseHelper {
     API_ORIGIN = "https://api.banned.video";
@@ -3529,7 +4187,7 @@ class BannedVideoHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/kick.js
+;// ./node_modules/@vot.js/ext/dist/helpers/kick.js
 
 
 class KickHelper extends BaseHelper {
@@ -3577,14 +4235,14 @@ class KickHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/appledeveloper.js
+;// ./node_modules/@vot.js/ext/dist/helpers/appledeveloper.js
 
 
 class AppleDeveloperHelper extends BaseHelper {
     API_ORIGIN = "https://developer.apple.com";
     async getVideoData(videoId) {
         try {
-            const contentUrl = document.querySelector("meta[property='og:video']")?.content
+            const contentUrl = document.querySelector("meta[property='og:video']")?.content;
             if (!contentUrl) {
                 throw new VideoHelperError("Failed to find content url");
             }
@@ -3602,7 +4260,7 @@ class AppleDeveloperHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/epicgames.js
+;// ./node_modules/@vot.js/ext/dist/helpers/epicgames.js
 
 
 
@@ -3646,7 +4304,7 @@ class EpicGamesHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/nineanimetv.js
+;// ./node_modules/@vot.js/ext/dist/helpers/nineanimetv.js
 
 
 
@@ -3741,23 +4399,24 @@ class NineAnimeTVHelper extends BaseHelper {
         };
     }
     async getVideoId(url) {
-        return new Promise(resolve => {
-            const origin = "https://9animetv.to"
+        return new Promise((resolve) => {
+            const origin = "https://9animetv.to";
             window.addEventListener("message", (e) => {
                 if (e.origin !== origin) {
-                    return;
+                    return undefined;
                 }
-
                 if (e.data?.startsWith("getVideoId:")) {
-                    resolve(e.data.replace("getVideoId:", ""))
+                    const videoId = e.data.replace("getVideoId:", "");
+                    return resolve(videoId);
                 }
-            })
+                return undefined;
+            });
             window.top.postMessage("getVideoId", origin);
         });
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/odysee.js
+;// ./node_modules/@vot.js/ext/dist/helpers/odysee.js
 
 
 class OdyseeHelper extends BaseHelper {
@@ -3782,34 +4441,47 @@ class OdyseeHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/coursehunterLike.js
+;// ./node_modules/@vot.js/ext/dist/helpers/coursehunterLike.js
 
 
 class CoursehunterLikeHelper extends BaseHelper {
     API_ORIGIN = this.origin ?? "https://coursehunter.net";
-    async getCourseId(videoId) {
-        try {
-            const res = await this.fetch(`${this.API_ORIGIN}/${videoId}`);
-            const content = await res.text();
-            return /course_id(\s)?=(\s)?([\d]+)/.exec(content)?.[3];
+    async getCourseId() {
+        const courseId = window.course_id;
+        if (courseId !== undefined) {
+            return String(courseId);
         }
-        catch (err) {
-            Logger.error(`Failed to get CoursehunterLike courseId by videoId: ${videoId}, because ${err.message}`);
-            return false;
-        }
+        const inputEl = document.querySelector('input[name="course_id"]');
+        return inputEl ? inputEl.value : undefined;
     }
     async getLessonsData(courseId) {
+        const lessons = window.lessons;
+        if (lessons?.length) {
+            return lessons;
+        }
         try {
             const res = await this.fetch(`${this.API_ORIGIN}/api/v1/course/${courseId}/lessons`);
             return (await res.json());
         }
         catch (err) {
             Logger.error(`Failed to get CoursehunterLike lessons data by courseId: ${courseId}, because ${err.message}`);
-            return false;
+            return undefined;
         }
     }
+    getLessondId(videoId) {
+        let lessondId = videoId.split("?lesson=")?.[1];
+        if (lessondId) {
+            return +lessondId;
+        }
+        const activeLessondEl = document.querySelector(".lessons-item_active");
+        lessondId = activeLessondEl?.dataset?.index;
+        if (lessondId) {
+            return +lessondId;
+        }
+        return 1;
+    }
     async getVideoData(videoId) {
-        const courseId = await this.getCourseId(videoId);
+        const courseId = await this.getCourseId();
         if (!courseId) {
             return undefined;
         }
@@ -3817,7 +4489,7 @@ class CoursehunterLikeHelper extends BaseHelper {
         if (!lessonsData) {
             return undefined;
         }
-        const lessonId = +(videoId.split("?lesson=")?.[1] ?? 1);
+        const lessonId = this.getLessondId(videoId);
         const currentLesson = lessonsData?.[lessonId - 1];
         const { file: videoUrl, duration, title } = currentLesson;
         if (!videoUrl) {
@@ -3835,40 +4507,30 @@ class CoursehunterLikeHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/twitch.js
-
+;// ./node_modules/@vot.js/ext/dist/helpers/twitch.js
 
 class TwitchHelper extends BaseHelper {
     API_ORIGIN = "https://clips.twitch.tv";
     async getClipLink(pathname, clipId) {
-        const schema = document.querySelector(
-            "script[type='application/ld+json']",
-        );
+        const schema = document.querySelector("script[type='application/ld+json']");
         const clearPathname = pathname.slice(1);
         if (schema) {
             const schemaJSON = JSON.parse(schema.innerText);
-            const channelLink = schemaJSON["@graph"].find(
-                (obj) => obj["@type"] === "VideoObject",
-            )?.creator.url;
-
+            const channelLink = schemaJSON["@graph"].find((obj) => obj["@type"] === "VideoObject")?.creator.url;
+            if (!channelLink) {
+                throw new VideoHelperError("Failed to find channel link");
+            }
             const channelName = channelLink.replace("https://www.twitch.tv/", "");
             return `${channelName}/clip/${clearPathname}`;
         }
         const isEmbed = clearPathname === "embed";
-        const channelLink = document.querySelector(
-            isEmbed
-                ? ".tw-link[data-test-selector='stream-info-card-component__stream-avatar-link']"
-                : ".clips-player a:not([class])",
-        );
+        const channelLink = document.querySelector(isEmbed
+            ? ".tw-link[data-test-selector='stream-info-card-component__stream-avatar-link']"
+            : ".clips-player a:not([class])");
         if (!channelLink) {
             return undefined;
         }
-
-        const channelName = channelLink.href.replace(
-            "https://www.twitch.tv/",
-            "",
-        );
-
+        const channelName = channelLink.href.replace("https://www.twitch.tv/", "");
         return `${channelName}/clip/${isEmbed ? clipId : clearPathname}`;
     }
     async getVideoId(url) {
@@ -3891,7 +4553,7 @@ class TwitchHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/sap.js
+;// ./node_modules/@vot.js/ext/dist/helpers/sap.js
 
 
 
@@ -3948,16 +4610,22 @@ class SapHelper extends BaseHelper {
     }
     async getKalturaData(videoId) {
         try {
-            const sapData = /https:\/\/([^"]+)\/p\/([^"]+)\/embedPlaykitJs\/uiconf_id\/([^"]+)/.exec(document.querySelector('script[data-nscript="beforeInteractive"]')?.src)
+            const scriptEl = document.querySelector('script[data-nscript="beforeInteractive"]');
+            if (!scriptEl) {
+                throw new VideoHelperError("Failed to find script element");
+            }
+            const sapData = /https:\/\/([^"]+)\/p\/([^"]+)\/embedPlaykitJs\/uiconf_id\/([^"]+)/.exec(scriptEl?.src);
             if (!sapData) {
                 throw new VideoHelperError(`Failed to get sap data for videoId: ${videoId}`);
             }
             const [, kalturaDomain, partnerId] = sapData;
-            let entryId = document
-                .querySelector("#shadow")
-                ?.firstChild?.getAttribute("id");
+            let entryId = document.querySelector("#shadow")?.firstChild?.getAttribute("id");
             if (!entryId) {
-                entryId = /"sourceId":\s?"([^"]+)"/.exec(document.querySelector("#__NEXT_DATA__")?.innerText)?.[1];
+                const nextDataEl = document.querySelector("#__NEXT_DATA__");
+                if (!nextDataEl) {
+                    throw new VideoHelperError("Failed to find next data element");
+                }
+                entryId = /"sourceId":\s?"([^"]+)"/.exec(nextDataEl.innerText)?.[1];
             }
             if (!kalturaDomain || Number.isNaN(+partnerId) || !entryId) {
                 throw new VideoHelperError(`One of the necessary parameters for getting a link to a sap video in wasn't found for ${videoId}. Params: kalturaDomain = ${kalturaDomain}, partnerId = ${partnerId}, entryId = ${entryId}`);
@@ -4001,250 +4669,7 @@ class SapHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/consts.js
-const availableLangs = [
-    "auto",
-    "ru",
-    "en",
-    "zh",
-    "ko",
-    "lt",
-    "lv",
-    "ar",
-    "fr",
-    "it",
-    "es",
-    "de",
-    "ja",
-];
-const availableTTS = ["ru", "en", "kk"];
-const subtitlesFormats = ["srt", "vtt", "json"];
-
-
-;// ./node_modules/vot.js/dist/helpers/udemy.js
-
-
-
-
-
-
-
-
-class UdemyHelper extends BaseHelper {
-  API_ORIGIN = "https://www.udemy.com/api-2.0";
-
-  getModuleData() {
-      const moduleArgs = document.querySelector(
-          ".ud-app-loader[data-module-id='course-taking']",
-      )?.dataset?.moduleArgs;
-      if (!moduleArgs) {
-          console.error(localizationProvider.get("udemyModuleArgsNotFound"));
-          return {};
-      }
-      return JSON.parse(moduleArgs);
-  }
-
-  getLectureId() {
-      return /learn\/lecture\/([^/]+)/.exec(window.location.pathname)?.[1];
-  }
-
-  async getLectureData(courseId, lectureId) {
-      const res = await this.fetch(
-          `${this.API_ORIGIN}/users/me/subscribed-courses/${courseId}/lectures/${lectureId}/?` +
-          new URLSearchParams({
-              "fields[lecture]": "title,description,asset",
-              "fields[asset]": "length,media_sources,captions",
-          })
-      );
-      return await res.json();
-  }
-
-  async getCourseLang(courseId) {
-      const res = await this.fetch(
-          `${this.API_ORIGIN}/users/me/subscribed-courses/${courseId}?` +
-          new URLSearchParams({
-              "fields[course]": "locale",
-          })
-      );
-      return await res.json();
-  }
-
-  findVideoUrl(sources) {
-      return sources?.find((src) => src.type === "video/mp4")?.src;
-  }
-
-  findSubtitleUrl(captions, detectedLanguage) {
-      let subtitle = captions?.find(
-          (caption) => normalizeLang(caption.locale_id) === detectedLanguage,
-      );
-
-      if (!subtitle) {
-          subtitle = captions?.find(
-              (caption) => normalizeLang(caption.locale_id) === "en",
-          ) ?? captions?.[0];
-      }
-
-      return subtitle?.url;
-  }
-
-  async getVideoData(videoId) {
-      const { courseId } = this.getModuleData();
-      if (!courseId) {
-          return undefined;
-      }
-
-      const lectureId = this.getLectureId();
-      debug.log(`[Udemy] courseId: ${courseId}, lectureId: ${lectureId}`)
-      if (!lectureId) {
-          return undefined;
-      }
-
-      const { title, description, asset } = await this.getLectureData(courseId, lectureId);
-      const { length: duration, media_sources, captions } = asset;
-
-      const videoUrl = this.findVideoUrl(media_sources);
-      if (!videoUrl) {
-          console.log("Failed to find .mp4 video file in media_sources", media_sources);
-          return undefined;
-      }
-
-      const courseLangData = await this.getCourseLang(courseId);
-      let { locale: { locale: courseLang } } = courseLangData;
-      courseLang = courseLang ? normalizeLang(courseLang) : "en";
-      if (!availableLangs.includes(courseLang)) {
-          courseLang = "en";
-      }
-
-      const subtitleUrl = this.findSubtitleUrl(captions, courseLang);
-      if (!subtitleUrl) {
-          console.log("Failed to find subtitle file in captions", captions)
-      }
-
-      return {
-          ...subtitleUrl ? {
-              url: this.service?.url + videoId,
-              translationHelp: [
-                  {
-                      target: "subtitles_file_url",
-                      targetUrl: subtitleUrl,
-                  },
-                  {
-                      target: "video_file_url",
-                      targetUrl: videoUrl,
-                  },
-              ],
-              detectedLanguage: courseLang,
-          } : {
-              url: videoUrl,
-              translationHelp: null,
-          },
-          duration,
-          title,
-          description,
-      };
-  }
-
-  async getVideoId(url) {
-      return url.pathname.slice(1);
-  }
-}
-
-;// ./node_modules/vot.js/dist/helpers/coursera.js
-
-
-
-
-
-
-class CourseraHelper extends BaseHelper {
-    API_ORIGIN = "https://www.coursera.org/api";
-
-    async getCourseData(courseId) {
-        const response = await this.fetch(
-            `${this.API_ORIGIN}/onDemandCourses.v1/${courseId}`,
-        );
-        const resJSON = await response.json();
-        return resJSON?.elements?.[0];
-    }
-
-    getPlayer() {
-        return document.querySelector(".vjs-v8");
-    }
-
-    getPlayerData() {
-        return this.getPlayer()?.player;
-    }
-
-    findVideoUrl(sources) {
-        return sources?.find((src) => src.type === "video/mp4")?.src;
-    }
-
-    findSubtitleUrl(captions, detectedLanguage) {
-        let subtitle = captions?.find(
-            (caption) => normalizeLang(caption.srclang) === detectedLanguage,
-        );
-
-        if (!subtitle) {
-            subtitle = captions?.find(
-                (caption) => normalizeLang(caption.srclang) === "en",
-            ) || captions?.[0];
-        }
-
-        return subtitle?.src;
-    }
-
-    async getVideoData(videoId) {
-        const data = this.getPlayerData();
-
-        const { duration } = data?.cache_ || {};
-        const { courseId, tracks, sources } = data?.options_ || {};
-
-        const videoUrl = this.findVideoUrl(sources);
-        if (!videoUrl) {
-            console.log("Failed to find .mp4 video file in sources", sources);
-            return undefined;
-        }
-
-        const { primaryLanguageCodes } = await this.getCourseData(courseId);
-        let courseLang = primaryLanguageCodes?.[0];
-        courseLang = courseLang ? normalizeLang(courseLang) : "en";
-
-        if (!availableLangs.includes(courseLang)) {
-            courseLang = "en";
-        }
-
-        const subtitleUrl = this.findSubtitleUrl(tracks, courseLang);
-        if (!subtitleUrl) {
-            console.log("Failed to find subtitle file in tracks", tracks)
-        }
-
-        return {
-            ...subtitleUrl ? {
-                url: this.service?.url + videoId,
-                translationHelp: [
-                    {
-                        target: "subtitles_file_url",
-                        targetUrl: subtitleUrl,
-                    },
-                    {
-                        target: "video_file_url",
-                        targetUrl: videoUrl,
-                    },
-                ],
-            } : {
-                url: videoUrl,
-                translationHelp: null,
-            },
-            detectedLanguage: courseLang,
-            duration,
-        };
-    }
-
-    async getVideoId(url) {
-        return /learn\/([^/]+)\/lecture\/([^/]+)/.exec(url.pathname)?.[0]; // <-- COURSE PASSING (IF YOU LOGINED TO COURSERA)
-    }
-}
-;// ./node_modules/vot.js/dist/helpers/linkedin.js
+;// ./node_modules/@vot.js/ext/dist/helpers/linkedin.js
 
 
 
@@ -4290,7 +4715,7 @@ class LinkedinHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/vimeo.js
+;// ./node_modules/@vot.js/ext/dist/helpers/vimeo.js
 
 
 
@@ -4384,13 +4809,11 @@ class VimeoHelper extends BaseHelper {
     }
     async getPrivateVideoInfo(videoId) {
         try {
-            // playerConfig is window.playerConfig
             const videoSource = await this.getPrivateVideoSource(playerConfig.request.files);
             if (!videoSource) {
                 throw new VideoHelperError("Failed to get private video source");
             }
-            const { title, duration } = playerConfig.video;
-            const { text_tracks: subs } = playerConfig.request;
+            const { video: { title, duration }, request: { text_tracks: subs }, } = playerConfig;
             return {
                 url: `${this.SITE_ORIGIN}/${videoId}`,
                 video_url: videoSource,
@@ -4506,97 +4929,71 @@ class VimeoHelper extends BaseHelper {
     }
 }
 
-;// ./src/utils/VOTLocalizedError.js
-
-
-class VOTLocalizedError extends Error {
-  constructor(message) {
-    super(localizationProvider.getDefault(message));
-    this.name = "VOTLocalizedError";
-    this.unlocalizedMessage = message;
-    this.localizedMessage = localizationProvider.get(message);
-  }
-}
-
-;// ./node_modules/vot.js/dist/helpers/yandexdisk.js
-
+;// ./node_modules/@vot.js/ext/dist/helpers/yandexdisk.js
 
 class YandexDiskHelper extends BaseHelper {
     API_ORIGIN = "https://disk.yandex.ru";
     CLIENT_PREFIX = "/client/disk";
+    isErrorData(data) {
+        return Object.hasOwn(data, "error");
+    }
     async getVideoData(videoId) {
         if (!videoId.startsWith(this.CLIENT_PREFIX)) {
             return {
                 url: this.service.url + videoId,
             };
         }
-
-        const url = new URL(window.location);
+        const url = new URL(window.location.href);
         const dialogId = url.searchParams.get("idDialog");
         if (!dialogId) {
             return undefined;
         }
-
         const preloadedScript = document.querySelector("#preloaded-data");
         if (!preloadedScript) {
             return undefined;
         }
-
         try {
             const preloadedData = JSON.parse(preloadedScript.innerText);
             const { idClient, sk } = preloadedData.config;
             const res = await this.fetch(this.API_ORIGIN + "/models/?_m=resource", {
                 method: "POST",
                 body: new URLSearchParams({
-                idClient,
-                sk,
-                "_model.0": "resource",
-                "id.0": dialogId.replaceAll(" ", "+"),
+                    idClient,
+                    sk,
+                    "_model.0": "resource",
+                    "id.0": dialogId.replaceAll(" ", "+"),
                 })
-                .toString()
-                .replaceAll(/%2B/g, "+"), // yandex requires this
+                    .toString()
+                    .replaceAll(/%2B/g, "+"),
                 headers: {
-                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
                 },
             });
-
-            const data = await res.json();
+            const data = (await res.json());
             if (!data.models) {
                 throw new VideoHelperError("Failed to get resource info");
             }
-
             const model = data.models[0];
             const modelData = model.data;
-            if (Object.hasOwn(modelData, "error")) {
+            if (this.isErrorData(modelData)) {
                 throw new VideoHelperError(modelData.error?.message);
             }
-
-            const { meta, name } = modelData;
-            const { short_url, video_info } = meta;
+            const { meta: { short_url, video_info }, name, } = modelData;
             if (!video_info) {
                 throw new VideoHelperError("There's no video open right now");
             }
-
             if (!short_url) {
-                throw new VideoHelperError("VOTLimitedVideoAccess");
+                throw new VideoHelperError("Access to the video is limited");
             }
-
             const title = name.replace(/(\.[^.]+)$/, "");
-
             return {
                 url: short_url,
                 title,
                 duration: video_info.duration,
             };
-        } catch (err) {
-            if (err.message?.startsWith("VOT")) {
-                throw new VOTLocalizedError(err.message);
-            }
-
-            console.error(
-                `Failed to get yandex disk video data by video ID: ${videoId}`,
-                err.message,
-            );
+        }
+        catch (err) {
+            console.error(`Failed to get yandex disk video data by video ID: ${videoId}`, err.message);
             return undefined;
         }
     }
@@ -4605,14 +5002,13 @@ class YandexDiskHelper extends BaseHelper {
         if (fileId) {
             return `i/${fileId}`;
         }
-
         return url.pathname.startsWith(this.CLIENT_PREFIX)
             ? url.pathname + url.search
             : undefined;
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/vk.js
+;// ./node_modules/@vot.js/ext/dist/helpers/vk.js
 
 class VKHelper extends BaseHelper {
     async getVideoId(url) {
@@ -4633,7 +5029,7 @@ class VKHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/trovo.js
+;// ./node_modules/@vot.js/ext/dist/helpers/trovo.js
 
 class TrovoHelper extends BaseHelper {
     async getVideoId(url) {
@@ -4646,7 +5042,7 @@ class TrovoHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/incestflix.js
+;// ./node_modules/@vot.js/ext/dist/helpers/incestflix.js
 
 
 
@@ -4658,6 +5054,9 @@ class IncestflixHelper extends BaseHelper {
                 throw new VideoHelperError("Failed to find source element");
             }
             const srcLink = sourceEl.getAttribute("src");
+            if (!srcLink) {
+                throw new VideoHelperError("Failed to find source link");
+            }
             const source = new URL(srcLink.startsWith("//") ? `https:${srcLink}` : srcLink);
             source.searchParams.append("media-proxy", "video.mp4");
             return {
@@ -4674,27 +5073,24 @@ class IncestflixHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/porntn.js
-
+;// ./node_modules/@vot.js/ext/dist/helpers/porntn.js
 
 
 
 class PornTNHelper extends BaseHelper {
     async getVideoData(videoId) {
         try {
-            const { rnd, video_url: source, video_title: title } =  flashvars; // window.flashvars
+            const { rnd, video_url: source, video_title: title, } = flashvars;
             if (!source || !rnd) {
                 throw new VideoHelperError("Failed to find video source or rnd");
             }
             const getFileUrl = new URL(source);
             getFileUrl.searchParams.append("rnd", rnd);
             Logger.log("PornTN get_file link", getFileUrl.href);
-            // this is a necessary measure, because the get_file request requires the presence of a PHPSESSID cookie
-            const cdnResponse = await GM_fetch(getFileUrl.href, { method: "head" });
-            const cdnUrl = new URL(cdnResponse.url)
+            const cdnResponse = await this.fetch(getFileUrl.href, { method: "head" });
+            const cdnUrl = new URL(cdnResponse.url);
             Logger.log("PornTN cdn link", cdnUrl.href);
             const proxiedUrl = proxyMedia(cdnUrl);
-
             return {
                 url: proxiedUrl,
                 title,
@@ -4710,6 +5106,787 @@ class PornTNHelper extends BaseHelper {
     }
 }
 
+;// ./node_modules/@vot.js/ext/dist/helpers/googledrive.js
+
+class GoogleDriveHelper extends BaseHelper {
+    getPlayerData() {
+        const playerEl = document.querySelector("#movie_player");
+        return playerEl?.getVideoData?.call() ?? undefined;
+    }
+    async getVideoId(url) {
+        return this.getPlayerData()?.video_id;
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/bilibili.js
+
+class BilibiliHelper extends BaseHelper {
+    async getVideoId(url) {
+        const bangumiId = /bangumi\/play\/([^/]+)/.exec(url.pathname)?.[0];
+        if (bangumiId) {
+            return bangumiId;
+        }
+        const bvid = url.searchParams.get("bvid");
+        if (bvid) {
+            return `video/${bvid}`;
+        }
+        let vid = /video\/([^/]+)/.exec(url.pathname)?.[0];
+        if (vid && url.searchParams.get("p") !== null) {
+            vid += `/?p=${url.searchParams.get("p")}`;
+        }
+        return vid;
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/xvideos.js
+
+class XVideosHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /[^/]+\/[^/]+$/.exec(url.pathname)?.[0];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/watchpornto.js
+
+class WatchPornToHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /(video|embed)\/(\d+)(\/[^/]+\/)?/.exec(url.pathname)?.[0];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/archive.js
+
+class ArchiveHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /(details|embed)\/([^/]+)/.exec(url.pathname)?.[2];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/dailymotion.js
+
+class DailymotionHelper extends BaseHelper {
+    async getVideoId(url) {
+        const plainPlayerConfig = Array.from(document.querySelectorAll("*")).filter((s) => s.innerHTML.trim().includes(".m3u8"));
+        const videoUrl = plainPlayerConfig?.[1]?.lastChild?.src;
+        return videoUrl ? /\/video\/(\w+)\.m3u8/.exec(videoUrl)?.[1] : undefined;
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/youku.js
+
+class YoukuHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /v_show\/id_[\w=]+/.exec(url.pathname)?.[0];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/egghead.js
+
+class EggheadHelper extends BaseHelper {
+    async getVideoId(url) {
+        return url.pathname.slice(1);
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/newgrounds.js
+
+class NewgroundsHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /([^/]+)\/(view)\/([^/]+)/.exec(url.pathname)?.[0];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/okru.js
+
+class OKRuHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /\/video\/(\d+)/.exec(url.pathname)?.[1];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/peertube.js
+
+class PeertubeHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /\/w\/([^/]+)/.exec(url.pathname)?.[0];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/eporner.js
+
+class EpornerHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /video-([^/]+)\/([^/]+)/.exec(url.pathname)?.[0];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/bitchute.js
+
+class BitchuteHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /(video|embed)\/([^/]+)/.exec(url.pathname)?.[2];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/rutube.js
+
+class RutubeHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /(?:video|embed)\/([^/]+)/.exec(url.pathname)?.[1];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/facebook.js
+
+class FacebookHelper extends BaseHelper {
+    async getVideoId(url) {
+        return url.pathname.slice(1);
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/rumble.js
+
+class RumbleHelper extends BaseHelper {
+    async getVideoId(url) {
+        return url.pathname.slice(1);
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/twitter.js
+
+class TwitterHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /status\/([^/]+)/.exec(url.pathname)?.[1];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/pornhub.js
+
+class PornhubHelper extends BaseHelper {
+    async getVideoId(url) {
+        return (url.searchParams.get("viewkey") ??
+            /embed\/([^/]+)/.exec(url.pathname)?.[1]);
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/tiktok.js
+
+class TikTokHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /([^/]+)\/video\/([^/]+)/.exec(url.pathname)?.[0];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/nine_gag.js
+
+class NineGAGHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /gag\/([^/]+)/.exec(url.pathname)?.[1];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/youtube.js
+
+class YoutubeHelper extends BaseHelper {
+    async getVideoId(url) {
+        if (url.hostname === "youtu.be") {
+            url.search = `?v=${url.pathname.replace("/", "")}`;
+            url.pathname = "/watch";
+        }
+        return (/(?:watch|embed|shorts|live)\/([^/]+)/.exec(url.pathname)?.[1] ??
+            url.searchParams.get("v"));
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/dzen.js
+
+class DzenHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /video\/watch\/([^/]+)/.exec(url.pathname)?.[1];
+    }
+}
+
+;// ./node_modules/@vot.js/shared/dist/data/consts.js
+const availableLangs = [
+    "auto",
+    "ru",
+    "en",
+    "zh",
+    "ko",
+    "lt",
+    "lv",
+    "ar",
+    "fr",
+    "it",
+    "es",
+    "de",
+    "ja",
+];
+const availableTTS = ["ru", "en", "kk"];
+const subtitlesFormats = ["srt", "vtt", "json"];
+
+
+;// ./node_modules/@vot.js/ext/dist/helpers/udemy.js
+
+
+
+
+class UdemyHelper extends BaseHelper {
+    API_ORIGIN = "https://www.udemy.com/api-2.0";
+    getModuleData() {
+        const appLoaderEl = document.querySelector(".ud-app-loader[data-module-id='course-taking']");
+        const moduleData = appLoaderEl?.dataset?.moduleArgs;
+        if (!moduleData) {
+            return undefined;
+        }
+        return JSON.parse(moduleData);
+    }
+    getLectureId() {
+        return /learn\/lecture\/([^/]+)/.exec(window.location.pathname)?.[1];
+    }
+    async getLectureData(courseId, lectureId) {
+        try {
+            const res = await this.fetch(`${this.API_ORIGIN}/users/me/subscribed-courses/${courseId}/lectures/${lectureId}/?` +
+                new URLSearchParams({
+                    "fields[lecture]": "title,description,asset",
+                    "fields[asset]": "length,media_sources,captions",
+                }).toString());
+            return (await res.json());
+        }
+        catch (err) {
+            Logger.error(`Failed to get lecture data by courseId: ${courseId} and lectureId: ${lectureId}`, err.message);
+            return undefined;
+        }
+    }
+    async getCourseLang(courseId) {
+        try {
+            const res = await this.fetch(`${this.API_ORIGIN}/users/me/subscribed-courses/${courseId}?` +
+                new URLSearchParams({
+                    "fields[course]": "locale",
+                }).toString());
+            return (await res.json());
+        }
+        catch (err) {
+            Logger.error(`Failed to get course lang by courseId: ${courseId}`, err.message);
+            return undefined;
+        }
+    }
+    findVideoUrl(sources) {
+        return sources?.find((src) => src.type === "video/mp4")?.src;
+    }
+    findSubtitleUrl(captions, detectedLanguage) {
+        let subtitle = captions?.find((caption) => normalizeLang(caption.locale_id) === detectedLanguage);
+        if (!subtitle) {
+            subtitle =
+                captions?.find((caption) => normalizeLang(caption.locale_id) === "en") ?? captions?.[0];
+        }
+        return subtitle?.url;
+    }
+    async getVideoData(videoId) {
+        const moduleData = this.getModuleData();
+        if (!moduleData) {
+            return undefined;
+        }
+        const { courseId } = moduleData;
+        const lectureId = this.getLectureId();
+        Logger.log(`[Udemy] courseId: ${courseId}, lectureId: ${lectureId}`);
+        if (!lectureId) {
+            return undefined;
+        }
+        const lectureData = await this.getLectureData(courseId, lectureId);
+        if (!lectureData) {
+            return undefined;
+        }
+        const { title, description, asset } = lectureData;
+        const { length: duration, media_sources, captions } = asset;
+        const videoUrl = this.findVideoUrl(media_sources);
+        if (!videoUrl) {
+            Logger.log("Failed to find .mp4 video file in media_sources", media_sources);
+            return undefined;
+        }
+        let courseLang = "en";
+        const courseLangData = await this.getCourseLang(courseId);
+        if (courseLangData) {
+            const { locale: { locale: courseLocale }, } = courseLangData;
+            courseLang = courseLocale ? normalizeLang(courseLocale) : courseLang;
+        }
+        if (!availableLangs.includes(courseLang)) {
+            courseLang = "en";
+        }
+        const subtitleUrl = this.findSubtitleUrl(captions, courseLang);
+        if (!subtitleUrl) {
+            Logger.log("Failed to find subtitle file in captions", captions);
+        }
+        return {
+            ...(subtitleUrl
+                ? {
+                    url: this.service?.url + videoId,
+                    translationHelp: [
+                        {
+                            target: "subtitles_file_url",
+                            targetUrl: subtitleUrl,
+                        },
+                        {
+                            target: "video_file_url",
+                            targetUrl: videoUrl,
+                        },
+                    ],
+                    detectedLanguage: courseLang,
+                }
+                : {
+                    url: videoUrl,
+                    translationHelp: null,
+                }),
+            duration,
+            title,
+            description,
+        };
+    }
+    async getVideoId(url) {
+        return url.pathname.slice(1);
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/coursera.js
+
+
+
+
+class CourseraHelper extends BaseHelper {
+    API_ORIGIN = "https://www.coursera.org/api";
+    async getCourseData(courseId) {
+        try {
+            const response = await this.fetch(`${this.API_ORIGIN}/onDemandCourses.v1/${courseId}`);
+            const resJSON = (await response.json());
+            return resJSON?.elements?.[0];
+        }
+        catch (err) {
+            Logger.error(`Failed to get course data by courseId: ${courseId}`, err.message);
+            return undefined;
+        }
+    }
+    getPlayer() {
+        return document.querySelector(".vjs-v8");
+    }
+    getPlayerData() {
+        return this.getPlayer()?.player;
+    }
+    findVideoUrl(sources) {
+        return sources?.find((src) => src.type === "video/mp4")?.src;
+    }
+    findSubtitleUrl(captions, detectedLanguage) {
+        let subtitle = captions?.find((caption) => normalizeLang(caption.srclang) === detectedLanguage);
+        if (!subtitle) {
+            subtitle =
+                captions?.find((caption) => normalizeLang(caption.srclang) === "en") ||
+                    captions?.[0];
+        }
+        return subtitle?.src;
+    }
+    async getVideoData(videoId) {
+        const playerData = this.getPlayerData();
+        if (!playerData) {
+            Logger.error("Failed to find player data");
+            return undefined;
+        }
+        const { cache_: { duration }, options_: { courseId, tracks, sources }, } = playerData;
+        const videoUrl = this.findVideoUrl(sources);
+        if (!videoUrl) {
+            Logger.error("Failed to find .mp4 video file in sources", sources);
+            return undefined;
+        }
+        let courseLang = "en";
+        const courseData = await this.getCourseData(courseId);
+        if (courseData) {
+            const { primaryLanguageCodes: [primaryLangauge], } = courseData;
+            courseLang = primaryLangauge ? normalizeLang(primaryLangauge) : "en";
+        }
+        if (!availableLangs.includes(courseLang)) {
+            courseLang = "en";
+        }
+        const subtitleUrl = this.findSubtitleUrl(tracks, courseLang);
+        if (!subtitleUrl) {
+            Logger.warn("Failed to find subtitle file in tracks", tracks);
+        }
+        return {
+            ...(subtitleUrl
+                ? {
+                    url: this.service?.url + videoId,
+                    translationHelp: [
+                        {
+                            target: "subtitles_file_url",
+                            targetUrl: subtitleUrl,
+                        },
+                        {
+                            target: "video_file_url",
+                            targetUrl: videoUrl,
+                        },
+                    ],
+                }
+                : {
+                    url: videoUrl,
+                    translationHelp: null,
+                }),
+            detectedLanguage: courseLang,
+            duration,
+        };
+    }
+    async getVideoId(url) {
+        return /learn\/([^/]+)\/lecture\/([^/]+)/.exec(url.pathname)?.[0];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/index.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const availableHelpers = {
+    [VideoService.mailru]: MailRuHelper,
+    [VideoService.weverse]: WeverseHelper,
+    [VideoService.kodik]: KodikHelper,
+    [VideoService.patreon]: PatreonHelper,
+    [VideoService.reddit]: RedditHelper,
+    [VideoService.bannedvideo]: BannedVideoHelper,
+    [VideoService.kick]: KickHelper,
+    [VideoService.appledeveloper]: AppleDeveloperHelper,
+    [VideoService.epicgames]: EpicGamesHelper,
+    [VideoService.nineanimetv]: NineAnimeTVHelper,
+    [VideoService.odysee]: OdyseeHelper,
+    [VideoService.coursehunterLike]: CoursehunterLikeHelper,
+    [VideoService.twitch]: TwitchHelper,
+    [VideoService.sap]: SapHelper,
+    [VideoService.linkedin]: LinkedinHelper,
+    [VideoService.vimeo]: VimeoHelper,
+    [VideoService.yandexdisk]: YandexDiskHelper,
+    [VideoService.vk]: VKHelper,
+    [VideoService.trovo]: TrovoHelper,
+    [VideoService.incestflix]: IncestflixHelper,
+    [VideoService.porntn]: PornTNHelper,
+    [VideoService.googledrive]: GoogleDriveHelper,
+    [VideoService.bilibili]: BilibiliHelper,
+    [VideoService.xvideos]: XVideosHelper,
+    [VideoService.watchpornto]: WatchPornToHelper,
+    [VideoService.archive]: ArchiveHelper,
+    [VideoService.dailymotion]: DailymotionHelper,
+    [VideoService.youku]: YoukuHelper,
+    [VideoService.egghead]: EggheadHelper,
+    [VideoService.newgrounds]: NewgroundsHelper,
+    [VideoService.okru]: OKRuHelper,
+    [VideoService.peertube]: PeertubeHelper,
+    [VideoService.eporner]: EpornerHelper,
+    [VideoService.bitchute]: BitchuteHelper,
+    [VideoService.rutube]: RutubeHelper,
+    [VideoService.facebook]: FacebookHelper,
+    [VideoService.rumble]: RumbleHelper,
+    [VideoService.twitter]: TwitterHelper,
+    [VideoService.pornhub]: PornhubHelper,
+    [VideoService.tiktok]: TikTokHelper,
+    [VideoService.proxitok]: TikTokHelper,
+    [VideoService.nine_gag]: NineGAGHelper,
+    [VideoService.youtube]: YoutubeHelper,
+    [VideoService.ricktube]: YoutubeHelper,
+    [VideoService.invidious]: YoutubeHelper,
+    [VideoService.poketube]: YoutubeHelper,
+    [VideoService.piped]: YoutubeHelper,
+    [VideoService.dzen]: DzenHelper,
+    [ExtVideoService.udemy]: UdemyHelper,
+    [ExtVideoService.coursera]: CourseraHelper,
+};
+class VideoHelper {
+    helpersData;
+    constructor(helpersData = {}) {
+        this.helpersData = helpersData;
+    }
+    getHelper(service) {
+        return new availableHelpers[service](this.helpersData);
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/utils/videoData.js
+
+
+
+
+function getService() {
+    if (localLinkRe.exec(window.location.href)) {
+        return [];
+    }
+    const hostname = window.location.hostname;
+    const enteredURL = new URL(window.location.href);
+    const isMathes = (match) => {
+        if (match instanceof RegExp) {
+            return match.test(hostname);
+        }
+        else if (typeof match === "string") {
+            return hostname.includes(match);
+        }
+        else if (typeof match === "function") {
+            return match(enteredURL);
+        }
+        return false;
+    };
+    return sites.filter((e) => {
+        return ((Array.isArray(e.match) ? e.match.some(isMathes) : isMathes(e.match)) &&
+            e.host &&
+            e.url);
+    });
+}
+async function getVideoID(service, video, opts = {}) {
+    const url = new URL(window.location.href);
+    const serviceHost = service.host;
+    if (Object.keys(availableHelpers).includes(serviceHost)) {
+        const helper = new VideoHelper(opts).getHelper(serviceHost);
+        return await helper.getVideoId(url);
+    }
+    return serviceHost === VideoService.custom ? url.href : undefined;
+}
+async function getVideoData(service, video, opts = {}) {
+    const videoId = await getVideoID(service, video, opts);
+    if (!videoId) {
+        throw new VideoDataError(`Entered unsupported link: "${service.host}"`);
+    }
+    const origin = window.location.origin;
+    if ([VideoService.peertube, VideoService.coursehunterLike].includes(service.host)) {
+        service.url = origin;
+    }
+    if (service.rawResult) {
+        return {
+            url: videoId,
+            videoId,
+            host: service.host,
+            duration: undefined,
+        };
+    }
+    if (!service.needExtraData) {
+        return {
+            url: service.url + videoId,
+            videoId,
+            host: service.host,
+            duration: undefined,
+        };
+    }
+    const helper = new VideoHelper({
+        ...opts,
+        service,
+        origin,
+    }).getHelper(service.host);
+    const result = await helper.getVideoData(videoId);
+    if (!result) {
+        throw new VideoDataError(`Failed to get video raw url for ${service.host}`);
+    }
+    return {
+        ...result,
+        videoId,
+        host: service.host,
+    };
+}
+
+;// ./node_modules/@vot.js/ext/dist/types/index.js
+
+
+
+;// ./node_modules/@vot.js/ext/dist/index.js
+
+
+
+
+
+
+;// ./node_modules/@vot.js/shared/dist/utils/subs.js
+function convertToStrTime(ms, delimiter = ",") {
+    const seconds = ms / 1000;
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    const milliseconds = Math.floor(ms % 1000);
+    return `${hours.toString().padStart(2, "0")}:${minutes
+        .toString()
+        .padStart(2, "0")}:${remainingSeconds
+        .toString()
+        .padStart(2, "0")}${delimiter}${milliseconds.toString().padStart(3, "0")}`;
+}
+function convertToMSTime(time) {
+    const parts = time.split(" ")?.[0]?.split(":");
+    if (parts.length < 3) {
+        parts.unshift("00");
+    }
+    const [strHours, strMinutes, strSeconds] = parts;
+    const secs = +strSeconds.replace(/[,.]/, "");
+    const mins = +strMinutes * 60_000;
+    const hours = +strHours * 3_600_000;
+    return hours + mins + secs;
+}
+function convertSubsFromJSON(data, output = "srt") {
+    const isVTT = output === "vtt";
+    const delimiter = isVTT ? "." : ",";
+    const subs = data.subtitles
+        .map((sub, idx) => {
+        const result = isVTT ? "" : `${idx + 1}\n`;
+        return (result +
+            `${convertToStrTime(sub.startMs, delimiter)} --> ${convertToStrTime(sub.startMs + sub.durationMs, delimiter)}\n${sub.text}\n\n`);
+    })
+        .join("")
+        .trim();
+    return isVTT ? `WEBVTT\n\n${subs}` : subs;
+}
+function convertSubsToJSON(data, from = "srt") {
+    const parts = data.split(/\r?\n\r?\n/g);
+    if (from === "vtt") {
+        parts.shift();
+    }
+    const offset = +(from === "srt");
+    const subtitles = parts.reduce((result, part) => {
+        const lines = part.trim().split("\n");
+        const time = lines[offset];
+        const text = lines.slice(offset + 1).join("\n");
+        if ((lines.length !== 2 || !part.includes(" --> ")) &&
+            !time?.includes(" --> ")) {
+            if (result.length === 0) {
+                return result;
+            }
+            result[result.length - 1].text += `\n\n${lines.join("\n")}`;
+            return result;
+        }
+        const [start, end] = time.split(" --> ");
+        const startMs = convertToMSTime(start);
+        const endMs = convertToMSTime(end);
+        const durationMs = endMs - startMs;
+        result.push({
+            text,
+            startMs,
+            durationMs,
+            speakerId: "0",
+        });
+        return result;
+    }, []);
+    return {
+        containsTokens: false,
+        subtitles,
+    };
+}
+function getSubsFormat(data) {
+    if (typeof data !== "string") {
+        return "json";
+    }
+    if (/(WEBVTT)(\r?\n\r?\n)/.exec(data)) {
+        return "vtt";
+    }
+    return "srt";
+}
+function convertSubs(data, output = "srt") {
+    const from = getSubsFormat(data);
+    if (from === output)
+        return data;
+    if (from === "json") {
+        return convertSubsFromJSON(data, output);
+    }
+    data = convertSubsToJSON(data, from);
+    if (output === "json") {
+        return data;
+    }
+    return convertSubsFromJSON(data, output);
+}
+
+;// ./node_modules/lit-html/lit-html.js
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+const n=globalThis,c=n.trustedTypes,h=c?c.createPolicy("lit-html",{createHTML:t=>t}):void 0,f="$lit$",v=`lit$${Math.random().toFixed(9).slice(2)}$`,m="?"+v,_=`<${m}>`,w=document,lt=()=>w.createComment(""),st=t=>null===t||"object"!=typeof t&&"function"!=typeof t,g=Array.isArray,$=t=>g(t)||"function"==typeof t?.[Symbol.iterator],x="[ \t\n\f\r]",T=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,E=/-->/g,k=/>/g,O=RegExp(`>|${x}(?:([^\\s"'>=/]+)(${x}*=${x}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),S=/'/g,j=/"/g,M=/^(?:script|style|textarea|title)$/i,P=t=>(i,...s)=>({_$litType$:t,strings:i,values:s}),ke=P(1),Oe=P(2),Se=P(3),R=Symbol.for("lit-noChange"),D=Symbol.for("lit-nothing"),V=new WeakMap,I=w.createTreeWalker(w,129);function N(t,i){if(!g(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==h?h.createHTML(i):i}const U=(t,i)=>{const s=t.length-1,e=[];let h,o=2===i?"<svg>":3===i?"<math>":"",n=T;for(let i=0;i<s;i++){const s=t[i];let r,l,c=-1,a=0;for(;a<s.length&&(n.lastIndex=a,l=n.exec(s),null!==l);)a=n.lastIndex,n===T?"!--"===l[1]?n=E:void 0!==l[1]?n=k:void 0!==l[2]?(M.test(l[2])&&(h=RegExp("</"+l[2],"g")),n=O):void 0!==l[3]&&(n=O):n===O?">"===l[0]?(n=h??T,c=-1):void 0===l[1]?c=-2:(c=n.lastIndex-l[2].length,r=l[1],n=void 0===l[3]?O:'"'===l[3]?j:S):n===j||n===S?n=O:n===E||n===k?n=T:(n=O,h=void 0);const u=n===O&&t[i+1].startsWith("/>")?" ":"";o+=n===T?s+_:c>=0?(e.push(r),s.slice(0,c)+f+s.slice(c)+v+u):s+v+(-2===c?i:u)}return[N(t,o+(t[s]||"<?>")+(2===i?"</svg>":3===i?"</math>":"")),e]};class B{constructor({strings:t,_$litType$:i},s){let e;this.parts=[];let h=0,o=0;const n=t.length-1,r=this.parts,[l,a]=U(t,i);if(this.el=B.createElement(l,s),I.currentNode=this.el.content,2===i||3===i){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(e=I.nextNode())&&r.length<n;){if(1===e.nodeType){if(e.hasAttributes())for(const t of e.getAttributeNames())if(t.endsWith(f)){const i=a[o++],s=e.getAttribute(t).split(v),n=/([.?@])?(.*)/.exec(i);r.push({type:1,index:h,name:n[2],strings:s,ctor:"."===n[1]?Y:"?"===n[1]?Z:"@"===n[1]?q:G}),e.removeAttribute(t)}else t.startsWith(v)&&(r.push({type:6,index:h}),e.removeAttribute(t));if(M.test(e.tagName)){const t=e.textContent.split(v),i=t.length-1;if(i>0){e.textContent=c?c.emptyScript:"";for(let s=0;s<i;s++)e.append(t[s],lt()),I.nextNode(),r.push({type:2,index:++h});e.append(t[i],lt())}}}else if(8===e.nodeType)if(e.data===m)r.push({type:2,index:h});else{let t=-1;for(;-1!==(t=e.data.indexOf(v,t+1));)r.push({type:7,index:h}),t+=v.length-1}h++}}static createElement(t,i){const s=w.createElement("template");return s.innerHTML=t,s}}function z(t,i,s=t,e){if(i===R)return i;let h=void 0!==e?s.o?.[e]:s.l;const o=st(i)?void 0:i._$litDirective$;return h?.constructor!==o&&(h?._$AO?.(!1),void 0===o?h=void 0:(h=new o(t),h._$AT(t,s,e)),void 0!==e?(s.o??=[])[e]=h:s.l=h),void 0!==h&&(i=z(t,h._$AS(t,i.values),h,e)),i}class F{constructor(t,i){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=i}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:i},parts:s}=this._$AD,e=(t?.creationScope??w).importNode(i,!0);I.currentNode=e;let h=I.nextNode(),o=0,n=0,r=s[0];for(;void 0!==r;){if(o===r.index){let i;2===r.type?i=new et(h,h.nextSibling,this,t):1===r.type?i=new r.ctor(h,r.name,r.strings,this,t):6===r.type&&(i=new K(h,this,t)),this._$AV.push(i),r=s[++n]}o!==r?.index&&(h=I.nextNode(),o++)}return I.currentNode=w,e}p(t){let i=0;for(const s of this._$AV)void 0!==s&&(void 0!==s.strings?(s._$AI(t,s,i),i+=s.strings.length-2):s._$AI(t[i])),i++}}class et{get _$AU(){return this._$AM?._$AU??this.v}constructor(t,i,s,e){this.type=2,this._$AH=D,this._$AN=void 0,this._$AA=t,this._$AB=i,this._$AM=s,this.options=e,this.v=e?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const i=this._$AM;return void 0!==i&&11===t?.nodeType&&(t=i.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,i=this){t=z(this,t,i),st(t)?t===D||null==t||""===t?(this._$AH!==D&&this._$AR(),this._$AH=D):t!==this._$AH&&t!==R&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):$(t)?this.k(t):this._(t)}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t))}_(t){this._$AH!==D&&st(this._$AH)?this._$AA.nextSibling.data=t:this.T(w.createTextNode(t)),this._$AH=t}$(t){const{values:i,_$litType$:s}=t,e="number"==typeof s?this._$AC(t):(void 0===s.el&&(s.el=B.createElement(N(s.h,s.h[0]),this.options)),s);if(this._$AH?._$AD===e)this._$AH.p(i);else{const t=new F(e,this),s=t.u(this.options);t.p(i),this.T(s),this._$AH=t}}_$AC(t){let i=V.get(t.strings);return void 0===i&&V.set(t.strings,i=new B(t)),i}k(t){g(this._$AH)||(this._$AH=[],this._$AR());const i=this._$AH;let s,e=0;for(const h of t)e===i.length?i.push(s=new et(this.O(lt()),this.O(lt()),this,this.options)):s=i[e],s._$AI(h),e++;e<i.length&&(this._$AR(s&&s._$AB.nextSibling,e),i.length=e)}_$AR(t=this._$AA.nextSibling,i){for(this._$AP?.(!1,!0,i);t&&t!==this._$AB;){const i=t.nextSibling;t.remove(),t=i}}setConnected(t){void 0===this._$AM&&(this.v=t,this._$AP?.(t))}}class G{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,i,s,e,h){this.type=1,this._$AH=D,this._$AN=void 0,this.element=t,this.name=i,this._$AM=e,this.options=h,s.length>2||""!==s[0]||""!==s[1]?(this._$AH=Array(s.length-1).fill(new String),this.strings=s):this._$AH=D}_$AI(t,i=this,s,e){const h=this.strings;let o=!1;if(void 0===h)t=z(this,t,i,0),o=!st(t)||t!==this._$AH&&t!==R,o&&(this._$AH=t);else{const e=t;let n,r;for(t=h[0],n=0;n<h.length-1;n++)r=z(this,e[s+n],i,n),r===R&&(r=this._$AH[n]),o||=!st(r)||r!==this._$AH[n],r===D?t=D:t!==D&&(t+=(r??"")+h[n+1]),this._$AH[n]=r}o&&!e&&this.j(t)}j(t){t===D?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class Y extends G{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===D?void 0:t}}class Z extends G{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==D)}}class q extends G{constructor(t,i,s,e,h){super(t,i,s,e,h),this.type=5}_$AI(t,i=this){if((t=z(this,t,i,0)??D)===R)return;const s=this._$AH,e=t===D&&s!==D||t.capture!==s.capture||t.once!==s.once||t.passive!==s.passive,h=t!==D&&(s===D||e);e&&this.element.removeEventListener(this.name,this,s),h&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class K{constructor(t,i,s){this.element=t,this.type=6,this._$AN=void 0,this._$AM=i,this.options=s}get _$AU(){return this._$AM._$AU}_$AI(t){z(this,t)}}const si={M:f,P:v,A:m,C:1,L:U,R:F,D:$,V:z,I:et,H:G,N:Z,U:q,B:Y,F:K},Re=n.litHtmlPolyfillSupport;Re?.(B,et),(n.litHtmlVersions??=[]).push("3.2.0");const Q=(t,i,s)=>{const e=s?.renderBefore??i;let h=e._$litPart$;if(void 0===h){const t=s?.renderBefore??null;e._$litPart$=h=new et(i.insertBefore(lt(),t),t,void 0,s??{})}return h._$AI(t),h};
+//# sourceMappingURL=lit-html.js.map
+
+;// ./node_modules/browser-id3-writer/dist/browser-id3-writer.mjs
+function e(e){return String(e).split("").map((e=>e.charCodeAt(0)))}function t(t){return new Uint8Array(e(t))}function a(t){const a=new ArrayBuffer(2*t.length),r=new Uint8Array(a);return new Uint16Array(a).set(e(t)),r}function r(e){const t=255;return[e>>>24&t,e>>>16&t,e>>>8&t,e&t]}function browser_id3_writer_n(e){return 11+e}function s(e,t,a,r){return 11+t+1+1+(r?2+2*(a+1):a+1)+e}function i(e){let t=0;return e.forEach((e=>{t+=2+2*e[0].length+2+2+2*e[1].length+2})),11+t}function browser_id3_writer_c(e,t){const a=2*t;let r=0;return e.forEach((e=>{r+=2+2*e[0].length+2+4})),18+a+2+r}class o{_setIntegerFrame(e,t){const a=parseInt(t,10);this.frames.push({name:e,value:a,size:browser_id3_writer_n(a.toString().length)})}_setStringFrame(e,t){const a=t.toString();let r=13+2*a.length;"TDAT"===e&&(r=browser_id3_writer_n(a.length)),this.frames.push({name:e,value:a,size:r})}_setPictureFrame(e,t,a,r){const n=function(e){if(!e||!e.length)return null;if(255===e[0]&&216===e[1]&&255===e[2])return"image/jpeg";if(137===e[0]&&80===e[1]&&78===e[2]&&71===e[3])return"image/png";if(71===e[0]&&73===e[1]&&70===e[2])return"image/gif";if(87===e[8]&&69===e[9]&&66===e[10]&&80===e[11])return"image/webp";const t=73===e[0]&&73===e[1]&&42===e[2]&&0===e[3],a=77===e[0]&&77===e[1]&&0===e[2]&&42===e[3];return t||a?"image/tiff":66===e[0]&&77===e[1]?"image/bmp":0===e[0]&&0===e[1]&&1===e[2]&&0===e[3]?"image/x-icon":null}(new Uint8Array(t)),i=a.toString();if(!n)throw new Error("Unknown picture MIME type");a||(r=!1),this.frames.push({name:"APIC",value:t,pictureType:e,mimeType:n,useUnicodeEncoding:r,description:i,size:s(t.byteLength,n.length,i.length,r)})}_setLyricsFrame(e,t,a){const r=e.split("").map((e=>e.charCodeAt(0))),n=t.toString(),s=a.toString();var i,c;this.frames.push({name:"USLT",value:s,language:r,description:n,size:(i=n.length,c=s.length,16+2*i+2+2+2*c)})}_setCommentFrame(e,t,a){const r=e.split("").map((e=>e.charCodeAt(0))),n=t.toString(),s=a.toString();var i,c;this.frames.push({name:"COMM",value:s,language:r,description:n,size:(i=n.length,c=s.length,16+2*i+2+2+2*c)})}_setPrivateFrame(e,t){const a=e.toString();var r,n;this.frames.push({name:"PRIV",value:t,id:a,size:(r=a.length,n=t.byteLength,10+r+1+n)})}_setUserStringFrame(e,t){const a=e.toString(),r=t.toString();var n,s;this.frames.push({name:"TXXX",description:a,value:r,size:(n=a.length,s=r.length,13+2*n+2+2+2*s)})}_setUrlLinkFrame(e,t){const a=t.toString();var r;this.frames.push({name:e,value:a,size:(r=a.length,10+r)})}_setPairedTextFrame(e,t){this.frames.push({name:e,value:t,size:i(t)})}_setSynchronisedLyricsFrame(e,t,a,r,n){const s=n.toString(),i=r.split("").map((e=>e.charCodeAt(0)));this.frames.push({name:"SYLT",value:t,language:i,description:s,type:e,timestampFormat:a,size:browser_id3_writer_c(t,s.length)})}constructor(e){if(!e||"object"!=typeof e||!("byteLength"in e))throw new Error("First argument should be an instance of ArrayBuffer or Buffer");this.arrayBuffer=e,this.padding=4096,this.frames=[],this.url=""}setFrame(e,t){switch(e){case"TPE1":case"TCOM":case"TCON":{if(!Array.isArray(t))throw new Error(`${e} frame value should be an array of strings`);const a="TCON"===e?";":"/",r=t.join(a);this._setStringFrame(e,r);break}case"TLAN":case"TIT1":case"TIT2":case"TIT3":case"TALB":case"TPE2":case"TPE3":case"TPE4":case"TRCK":case"TPOS":case"TMED":case"TPUB":case"TCOP":case"TKEY":case"TEXT":case"TDAT":case"TSRC":this._setStringFrame(e,t);break;case"TBPM":case"TLEN":case"TYER":this._setIntegerFrame(e,t);break;case"USLT":if(t.language=t.language||"eng","object"!=typeof t||!("description"in t)||!("lyrics"in t))throw new Error("USLT frame value should be an object with keys description and lyrics");if(t.language&&!t.language.match(/[a-z]{3}/i))throw new Error("Language must be coded following the ISO 639-2 standards");this._setLyricsFrame(t.language,t.description,t.lyrics);break;case"APIC":if("object"!=typeof t||!("type"in t)||!("data"in t)||!("description"in t))throw new Error("APIC frame value should be an object with keys type, data and description");if(t.type<0||t.type>20)throw new Error("Incorrect APIC frame picture type");this._setPictureFrame(t.type,t.data,t.description,!!t.useUnicodeEncoding);break;case"TXXX":if("object"!=typeof t||!("description"in t)||!("value"in t))throw new Error("TXXX frame value should be an object with keys description and value");this._setUserStringFrame(t.description,t.value);break;case"WCOM":case"WCOP":case"WOAF":case"WOAR":case"WOAS":case"WORS":case"WPAY":case"WPUB":this._setUrlLinkFrame(e,t);break;case"COMM":if(t.language=t.language||"eng","object"!=typeof t||!("description"in t)||!("text"in t))throw new Error("COMM frame value should be an object with keys description and text");if(t.language&&!t.language.match(/[a-z]{3}/i))throw new Error("Language must be coded following the ISO 639-2 standards");this._setCommentFrame(t.language,t.description,t.text);break;case"PRIV":if("object"!=typeof t||!("id"in t)||!("data"in t))throw new Error("PRIV frame value should be an object with keys id and data");this._setPrivateFrame(t.id,t.data);break;case"IPLS":if(!Array.isArray(t)||!Array.isArray(t[0]))throw new Error("IPLS frame value should be an array of pairs");this._setPairedTextFrame(e,t);break;case"SYLT":if("object"!=typeof t||!("type"in t)||!("text"in t)||!("timestampFormat"in t))throw new Error("SYLT frame value should be an object with keys type, text and timestampFormat");if(!Array.isArray(t.text)||!Array.isArray(t.text[0]))throw new Error("SYLT frame text value should be an array of pairs");if(t.type<0||t.type>6)throw new Error("Incorrect SYLT frame content type");if(t.timestampFormat<1||t.timestampFormat>2)throw new Error("Incorrect SYLT frame time stamp format");t.language=t.language||"eng",t.description=t.description||"",this._setSynchronisedLyricsFrame(t.type,t.text,t.timestampFormat,t.language,t.description);break;default:throw new Error(`Unsupported frame ${e}`)}return this}removeTag(){if(this.arrayBuffer.byteLength<10)return;const e=new Uint8Array(this.arrayBuffer),t=e[3],a=((r=[e[6],e[7],e[8],e[9]])[0]<<21)+(r[1]<<14)+(r[2]<<7)+r[3]+10;var r,n;73!==(n=e)[0]||68!==n[1]||51!==n[2]||t<2||t>4||(this.arrayBuffer=new Uint8Array(e.subarray(a)).buffer)}addTag(){this.removeTag();const e=[255,254],n=10+this.frames.reduce(((e,t)=>e+t.size),0)+this.padding,s=new ArrayBuffer(this.arrayBuffer.byteLength+n),i=new Uint8Array(s);let c=0,o=[];return o=[73,68,51,3],i.set(o,c),c+=o.length,c++,c++,o=function(e){const t=127;return[e>>>21&t,e>>>14&t,e>>>7&t,e&t]}(n-10),i.set(o,c),c+=o.length,this.frames.forEach((n=>{switch(o=t(n.name),i.set(o,c),c+=o.length,o=r(n.size-10),i.set(o,c),c+=o.length,c+=2,n.name){case"WCOM":case"WCOP":case"WOAF":case"WOAR":case"WOAS":case"WORS":case"WPAY":case"WPUB":o=t(n.value),i.set(o,c),c+=o.length;break;case"TPE1":case"TCOM":case"TCON":case"TLAN":case"TIT1":case"TIT2":case"TIT3":case"TALB":case"TPE2":case"TPE3":case"TPE4":case"TRCK":case"TPOS":case"TKEY":case"TMED":case"TPUB":case"TCOP":case"TEXT":case"TSRC":o=[1].concat(e),i.set(o,c),c+=o.length,o=a(n.value),i.set(o,c),c+=o.length;break;case"TXXX":case"USLT":case"COMM":o=[1],"USLT"!==n.name&&"COMM"!==n.name||(o=o.concat(n.language)),o=o.concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,o=[0,0].concat(e),i.set(o,c),c+=o.length,o=a(n.value),i.set(o,c),c+=o.length;break;case"TBPM":case"TLEN":case"TDAT":case"TYER":c++,o=t(n.value),i.set(o,c),c+=o.length;break;case"PRIV":o=t(n.id),i.set(o,c),c+=o.length,c++,i.set(new Uint8Array(n.value),c),c+=n.value.byteLength;break;case"APIC":o=[n.useUnicodeEncoding?1:0],i.set(o,c),c+=o.length,o=t(n.mimeType),i.set(o,c),c+=o.length,o=[0,n.pictureType],i.set(o,c),c+=o.length,n.useUnicodeEncoding?(o=[].concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,c+=2):(o=t(n.description),i.set(o,c),c+=o.length,c++),i.set(new Uint8Array(n.value),c),c+=n.value.byteLength;break;case"IPLS":o=[1],i.set(o,c),c+=o.length,n.value.forEach((t=>{o=[].concat(e),i.set(o,c),c+=o.length,o=a(t[0].toString()),i.set(o,c),c+=o.length,o=[0,0].concat(e),i.set(o,c),c+=o.length,o=a(t[1].toString()),i.set(o,c),c+=o.length,o=[0,0],i.set(o,c),c+=o.length}));break;case"SYLT":o=[1].concat(n.language).concat(n.timestampFormat).concat(n.type),i.set(o,c),c+=o.length,o=[].concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,c+=2,n.value.forEach((t=>{o=[].concat(e),i.set(o,c),c+=o.length,o=a(t[0].toString()),i.set(o,c),c+=o.length,o=[0,0],i.set(o,c),c+=o.length,o=r(t[1]),i.set(o,c),c+=o.length}))}})),c+=this.padding,i.set(new Uint8Array(this.arrayBuffer),c),this.arrayBuffer=s,s}getBlob(){return new Blob([this.arrayBuffer],{type:"audio/mpeg"})}getURL(){return this.url||(this.url=URL.createObjectURL(this.getBlob())),this.url}revokeURL(){URL.revokeObjectURL(this.url)}}
 ;// ./src/utils/translateApis.js
 
 
@@ -5124,7 +6301,7 @@ function getSubtitles() {
 }
 
 // Get the video data from the player
-async function getVideoData() {
+async function youtubeUtils_getVideoData() {
   const player = getPlayer();
   const response = getPlayerResponse(); // null in /embed
   const data = getPlayerData();
@@ -5159,1052 +6336,13 @@ async function getVideoData() {
   getPlayerData,
   getVideoVolume,
   getSubtitles,
-  getVideoData,
+  getVideoData: youtubeUtils_getVideoData,
   setVideoVolume,
   videoSeek,
   isMuted,
   isMusic,
 });
 
-;// ./node_modules/vot.js/dist/helpers/googledrive.js
-
-
-class GoogleDriveHelper extends BaseHelper {
-    async getVideoId(url) {
-        return youtubeUtils.getPlayerData()?.video_id
-    }
-}
-
-;// ./node_modules/vot.js/dist/helpers/bilibili.js
-
-class BilibiliHelper extends BaseHelper {
-    async getVideoId(url) {
-        const bangumiId = /bangumi\/play\/([^/]+)/.exec(url.pathname)?.[0];
-        if (bangumiId) {
-            return bangumiId;
-        }
-        const bvid = url.searchParams.get("bvid");
-        if (bvid) {
-            return `video/${bvid}`;
-        }
-        let vid = /video\/([^/]+)/.exec(url.pathname)?.[0];
-        if (vid && url.searchParams.get("p") !== null) {
-            vid += `/?p=${url.searchParams.get("p")}`;
-        }
-        return vid;
-    }
-}
-
-;// ./node_modules/vot.js/dist/helpers/xvideos.js
-
-class XVideosHelper extends BaseHelper {
-    async getVideoId(url) {
-        return /[^/]+\/[^/]+$/.exec(url.pathname)?.[0];
-    }
-}
-
-;// ./node_modules/vot.js/dist/helpers/watchpornto.js
-
-class WatchPornToHelper extends BaseHelper {
-    async getVideoId(url) {
-        return /(video|embed)\/(\d+)(\/[^/]+\/)?/.exec(url.pathname)?.[0];
-    }
-}
-
-;// ./node_modules/vot.js/dist/helpers/archive.js
-
-class ArchiveHelper extends BaseHelper {
-    async getVideoId(url) {
-        return /(details|embed)\/([^/]+)/.exec(url.pathname)?.[2];
-    }
-}
-
-;// ./node_modules/vot.js/dist/helpers/dailymotion.js
-
-class DailymotionHelper extends BaseHelper {
-    async getVideoId(url) {
-        // geo.dailymotion.com
-        const plainPlayerConfig = Array.from(
-            document.querySelectorAll("*"),
-        ).filter((s) => s.innerHTML.trim().includes(".m3u8"));
-        let videoUrl = plainPlayerConfig?.[1]?.lastChild?.src;
-        if (!videoUrl) {
-            return undefined
-        }
-        return /\/video\/(\w+)\.m3u8/.exec(videoUrl)?.[1];
-    }
-}
-
-;// ./node_modules/vot.js/dist/helpers/youku.js
-
-class YoukuHelper extends BaseHelper {
-    async getVideoId(url) {
-        return /v_show\/id_[\w=]+/.exec(url.pathname)?.[0];
-    }
-}
-
-;// ./node_modules/vot.js/dist/helpers/egghead.js
-
-class EggheadHelper extends BaseHelper {
-    async getVideoId(url) {
-        return url.pathname.slice(1);
-    }
-}
-
-;// ./node_modules/vot.js/dist/helpers/newgrounds.js
-
-class NewgroundsHelper extends BaseHelper {
-    async getVideoId(url) {
-        return /([^/]+)\/(view)\/([^/]+)/.exec(url.pathname)?.[0];
-    }
-}
-
-;// ./node_modules/vot.js/dist/helpers/okru.js
-
-class OKRuHelper extends BaseHelper {
-    async getVideoId(url) {
-        return /\/video\/(\d+)/.exec(url.pathname)?.[1];
-    }
-}
-
-;// ./node_modules/vot.js/dist/helpers/peertube.js
-
-class PeertubeHelper extends BaseHelper {
-    async getVideoId(url) {
-        return /\/w\/([^/]+)/.exec(url.pathname)?.[0];
-    }
-}
-
-;// ./node_modules/vot.js/dist/helpers/eporner.js
-
-class EpornerHelper extends BaseHelper {
-    async getVideoId(url) {
-        return /video-([^/]+)\/([^/]+)/.exec(url.pathname)?.[0];
-    }
-}
-
-;// ./node_modules/vot.js/dist/helpers/bitchute.js
-
-class BitchuteHelper extends BaseHelper {
-    async getVideoId(url) {
-        return /(video|embed)\/([^/]+)/.exec(url.pathname)?.[2];
-    }
-}
-
-;// ./node_modules/vot.js/dist/helpers/rutube.js
-
-class RutubeHelper extends BaseHelper {
-    async getVideoId(url) {
-        return /(?:video|embed)\/([^/]+)/.exec(url.pathname)?.[1];
-    }
-}
-
-;// ./node_modules/vot.js/dist/helpers/facebook.js
-
-class FacebookHelper extends BaseHelper {
-    async getVideoId(url) {
-        return url.pathname.slice(1);
-    }
-}
-
-;// ./node_modules/vot.js/dist/helpers/rumble.js
-
-class RumbleHelper extends BaseHelper {
-    async getVideoId(url) {
-        return url.pathname.slice(1);
-    }
-}
-
-;// ./node_modules/vot.js/dist/helpers/twitter.js
-
-class TwitterHelper extends BaseHelper {
-    async getVideoId(url) {
-        return /status\/([^/]+)/.exec(url.pathname)?.[1];
-    }
-}
-
-;// ./node_modules/vot.js/dist/helpers/pornhub.js
-
-class PornhubHelper extends BaseHelper {
-    async getVideoId(url) {
-        return (url.searchParams.get("viewkey") ??
-            /embed\/([^/]+)/.exec(url.pathname)?.[1]);
-    }
-}
-
-;// ./node_modules/vot.js/dist/helpers/tiktok.js
-
-class TikTokHelper extends BaseHelper {
-    async getVideoId(url) {
-        return /([^/]+)\/video\/([^/]+)/.exec(url.pathname)?.[0];
-    }
-}
-
-;// ./node_modules/vot.js/dist/helpers/nine_gag.js
-
-class NineGAGHelper extends BaseHelper {
-    async getVideoId(url) {
-        return /gag\/([^/]+)/.exec(url.pathname)?.[1];
-    }
-}
-
-;// ./node_modules/vot.js/dist/helpers/youtube.js
-
-class YoutubeHelper extends BaseHelper {
-    async getVideoId(url) {
-        if (url.hostname === "youtu.be") {
-            url.search = `?v=${url.pathname.replace("/", "")}`;
-            url.pathname = "/watch";
-        }
-        return (/(?:watch|embed|shorts|live)\/([^/]+)/.exec(url.pathname)?.[1] ??
-            url.searchParams.get("v"));
-    }
-}
-
-;// ./node_modules/vot.js/dist/helpers/dzen.js
-
-class DzenHelper extends BaseHelper {
-    async getVideoId(url) {
-        return /video\/watch\/([^/]+)/.exec(url.pathname)?.[1];
-    }
-}
-
-;// ./node_modules/vot.js/dist/helpers/index.js
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const availableHelpers = {
-    [VideoService.mailru]: MailRuHelper,
-    [VideoService.weverse]: WeverseHelper,
-    [VideoService.kodik]: KodikHelper,
-    [VideoService.patreon]: PatreonHelper,
-    [VideoService.reddit]: RedditHelper,
-    [VideoService.bannedvideo]: BannedVideoHelper,
-    [VideoService.kick]: KickHelper,
-    [VideoService.appledeveloper]: AppleDeveloperHelper,
-    [VideoService.epicgames]: EpicGamesHelper,
-    [VideoService.nineanimetv]: NineAnimeTVHelper,
-    [VideoService.odysee]: OdyseeHelper,
-    [VideoService.coursehunterLike]: CoursehunterLikeHelper,
-    [VideoService.twitch]: TwitchHelper,
-    [VideoService.sap]: SapHelper,
-    [VideoService.udemy]: UdemyHelper,
-    [VideoService.coursera]: CourseraHelper,
-    [VideoService.linkedin]: LinkedinHelper,
-    [VideoService.vimeo]: VimeoHelper,
-    [VideoService.yandexdisk]: YandexDiskHelper,
-    [VideoService.vk]: VKHelper,
-    [VideoService.trovo]: TrovoHelper,
-    [VideoService.incestflix]: IncestflixHelper,
-    [VideoService.porntn]: PornTNHelper,
-    [VideoService.googledrive]: GoogleDriveHelper,
-    [VideoService.bilibili]: BilibiliHelper,
-    [VideoService.xvideos]: XVideosHelper,
-    [VideoService.watchpornto]: WatchPornToHelper,
-    [VideoService.archive]: ArchiveHelper,
-    [VideoService.dailymotion]: DailymotionHelper,
-    [VideoService.youku]: YoukuHelper,
-    [VideoService.egghead]: EggheadHelper,
-    [VideoService.newgrounds]: NewgroundsHelper,
-    [VideoService.okru]: OKRuHelper,
-    [VideoService.peertube]: PeertubeHelper,
-    [VideoService.eporner]: EpornerHelper,
-    [VideoService.bitchute]: BitchuteHelper,
-    [VideoService.rutube]: RutubeHelper,
-    [VideoService.facebook]: FacebookHelper,
-    [VideoService.rumble]: RumbleHelper,
-    [VideoService.twitter]: TwitterHelper,
-    [VideoService.pornhub]: PornhubHelper,
-    [VideoService.tiktok]: TikTokHelper,
-    [VideoService.proxitok]: TikTokHelper,
-    [VideoService.nine_gag]: NineGAGHelper,
-    [VideoService.youtube]: YoutubeHelper,
-    [VideoService.ricktube]: YoutubeHelper,
-    [VideoService.invidious]: YoutubeHelper,
-    [VideoService.poketube]: YoutubeHelper,
-    [VideoService.piped]: YoutubeHelper,
-    [VideoService.dzen]: DzenHelper,
-};
-class VideoHelper {
-    helpersData;
-    constructor(helpersData = {}) {
-        this.helpersData = helpersData;
-    }
-    getHelper(service) {
-        return new availableHelpers[service](this.helpersData);
-    }
-}
-
-;// ./node_modules/vot.js/dist/utils/videoData.js
-
-
-
-class VideoDataError extends Error {
-    constructor(message) {
-        super(message);
-        this.name = "VideoDataError";
-        this.message = message;
-    }
-}
-function getService() {
-    if (/(http(s)?:\/\/)(127\.0\.0\.1|localhost)/.exec(window.location.href))
-        return [];
-    const hostname = window.location.hostname;
-    const enteredURL = new URL(window.location);
-    const isMathes = (match) => {
-        if (match instanceof RegExp) {
-            return match.test(hostname);
-        }
-        else if (typeof match === "string") {
-            return hostname.includes(match);
-        }
-        else if (typeof match === "function") {
-            return match(enteredURL);
-        }
-        return false;
-    };
-    return sites.filter((e) => {
-        return ((Array.isArray(e.match) ? e.match.some(isMathes) : isMathes(e.match)) &&
-            e.host &&
-            e.url);
-    });
-}
-async function getVideoID(service, video, opts = {}) {
-    const url = new URL(window.location.href);
-    const serviceHost = service.host;
-    if (Object.keys(availableHelpers).includes(serviceHost)) {
-        const helper = new VideoHelper(opts).getHelper(serviceHost);
-        return await helper.getVideoId(url);
-    }
-    return serviceHost === VideoService.custom ? url.href : undefined;
-}
-async function videoData_getVideoData(service, video, opts = {}) {
-    const videoId = await getVideoID(service, video, opts);
-    if (!videoId) {
-        throw new VideoDataError(`Entered unsupported link: "${service.host}"`);
-    }
-    const origin = window.location.origin;
-    if ([VideoService.peertube, VideoService.coursehunterLike].includes(service.host)) {
-        service.url = origin;
-    }
-    if (service.rawResult) {
-        return {
-            url: videoId,
-            videoId,
-            host: service.host,
-            duration: undefined,
-        };
-    }
-    if (!service.needExtraData) {
-        return {
-            url: service.url + videoId,
-            videoId,
-            host: service.host,
-            duration: undefined,
-        };
-    }
-    const helper = new VideoHelper({
-        ...opts,
-        service,
-        origin,
-    }).getHelper(service.host);
-    const result = await helper.getVideoData(videoId);
-    if (!result) {
-        throw new VideoDataError(`Failed to get video raw url for ${service.host}`);
-    }
-    return {
-        ...result,
-        videoId,
-        host: service.host,
-    };
-}
-
-;// ./node_modules/vot.js/dist/utils/vot.js
-
-function convertVOT(service, videoId, url) {
-    if (service === VideoService.patreon) {
-        return {
-            service: "mux",
-            videoId: new URL(url).pathname.slice(1),
-        };
-    }
-    return {
-        service,
-        videoId,
-    };
-}
-
-;// ./node_modules/vot.js/dist/client.js
-
-
-
-
-
-
-
-
-
-
-
-class VOTJSError extends Error {
-    data;
-    constructor(message, data = undefined) {
-        super(message);
-        this.data = data;
-        this.name = "VOTJSError";
-        this.message = message;
-    }
-}
-class VOTClient {
-    host;
-    hostVOT;
-    schema;
-    schemaVOT;
-    fetch;
-    fetchOpts;
-    getVideoDataFn;
-    sessions = {};
-    requestLang;
-    responseLang;
-    userAgent = config.userAgent;
-    paths = {
-        videoTranslation: "/video-translation/translate",
-        videoTranslationFailAudio: "/video-translation/fail-audio-js",
-        videoTranslationAudio: "/video-translation/audio",
-        videoSubtitles: "/video-subtitles/get-subtitles",
-        streamPing: "/stream-translation/ping-stream",
-        streamTranslation: "/stream-translation/translate-stream",
-        createSession: "/session/create",
-    };
-    isCustomLink(url) {
-        return !!(/\.(m3u8|m4(a|v)|mpd)/.exec(url) ??
-            /^https:\/\/cdn\.qstv\.on\.epicgames\.com/.exec(url));
-    }
-    headers = {
-        "User-Agent": this.userAgent,
-        Accept: "application/x-protobuf",
-        "Accept-Language": "en",
-        "Content-Type": "application/x-protobuf",
-        Pragma: "no-cache",
-        "Cache-Control": "no-cache",
-        "Sec-Fetch-Mode": "no-cors",
-    };
-    headersVOT = {
-        "User-Agent": `vot.js/${config.version}`,
-        "Content-Type": "application/json",
-        Pragma: "no-cache",
-        "Cache-Control": "no-cache",
-    };
-    constructor({ host = config.host, hostVOT = config.hostVOT, fetchFn = fetchWithTimeout, fetchOpts = {}, getVideoDataFn = videoData_getVideoData, requestLang = "en", responseLang = "ru", headers = {}, } = {}) {
-        const schemaRe = /(http(s)?):\/\//;
-        const schema = schemaRe.exec(host)?.[1];
-        this.host = schema ? host.replace(`${schema}://`, "") : host;
-        this.schema = schema ?? "https";
-        const schemaVOT = schemaRe.exec(hostVOT)?.[1];
-        this.hostVOT = schemaVOT ? hostVOT.replace(`${schemaVOT}://`, "") : hostVOT;
-        this.schemaVOT = schemaVOT ?? "https";
-        this.fetch = fetchFn;
-        this.fetchOpts = fetchOpts;
-        this.getVideoDataFn = getVideoDataFn;
-        this.requestLang = requestLang;
-        this.responseLang = responseLang;
-        this.headers = { ...this.headers, ...headers };
-    }
-    getOpts(body, headers = {}, method = "POST") {
-        return {
-            method,
-            headers: {
-                ...this.headers,
-                ...headers,
-            },
-            body,
-            ...this.fetchOpts,
-        };
-    }
-    async request(path, body, headers = {}, method = "POST") {
-        const options = this.getOpts(new Blob([body]), headers, method);
-        try {
-            const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
-            const data = (await res.arrayBuffer());
-            return {
-                success: res.status === 200,
-                data,
-            };
-        }
-        catch (err) {
-            return {
-                success: false,
-                data: err?.message,
-            };
-        }
-    }
-    async requestJSON(path, body = null, headers = {}, method = "POST") {
-        const options = this.getOpts(body, {
-            "Content-Type": "application/json",
-            ...headers,
-        }, method);
-        try {
-            const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
-            const data = (await res.json());
-            return {
-                success: res.status === 200,
-                data,
-            };
-        }
-        catch (err) {
-            return {
-                success: false,
-                data: err?.message,
-            };
-        }
-    }
-    async requestVOT(path, body, headers = {}) {
-        const options = this.getOpts(JSON.stringify(body), {
-            ...this.headersVOT,
-            ...headers,
-        });
-        try {
-            const res = await this.fetch(`${this.schemaVOT}://${this.hostVOT}${path}`, options);
-            const data = (await res.json());
-            return {
-                success: res.status === 200,
-                data,
-            };
-        }
-        catch (err) {
-            return {
-                success: false,
-                data: err?.message,
-            };
-        }
-    }
-    async getSession(module) {
-        const timestamp = getTimestamp();
-        const session = this.sessions[module];
-        if (session && session.timestamp + session.expires > timestamp) {
-            return session;
-        }
-        const { secretKey, expires, uuid } = await this.createSession(module);
-        this.sessions[module] = {
-            secretKey,
-            expires,
-            timestamp,
-            uuid,
-        };
-        return this.sessions[module];
-    }
-    async translateVideoYAImpl({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, extraOpts = {}, shouldSendFailedAudio = true, }) {
-        const { url, duration = config.defaultDuration } = videoData;
-        const session = await this.getSession("video-translation");
-        const body = yandexProtobuf.encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp, extraOpts);
-        const path = this.paths.videoTranslation;
-        const vtransHeaders = await getSecYaHeaders("Vtrans", session, body, path);
-        const res = await this.request(path, body, {
-            ...vtransHeaders,
-            ...headers,
-        });
-        if (!res.success) {
-            throw new VOTLocalizedError("requestTranslationFailed");
-        }
-        const translationData = yandexProtobuf.decodeTranslationResponse(res.data);
-        debug.log("requestTranslation", translationData);
-        switch (translationData.status) {
-            case VideoTranslationStatus.FAILED:
-                throw translationData?.message ? new VOTJSError("Yandex couldn't translate video", translationData) : new VOTLocalizedError("requestTranslationFailed");
-            case VideoTranslationStatus.FINISHED:
-            case VideoTranslationStatus.PART_CONTENT:
-                if (!translationData.url) {
-                    throw new VOTLocalizedError("audioNotReceived");
-                }
-                return {
-                    translated: true,
-                    url: translationData.url,
-                    remainingTime: translationData.remainingTime ?? -1,
-                };
-            case VideoTranslationStatus.WAITING:
-                return {
-                    translated: false,
-                    remainingTime: translationData.remainingTime,
-                };
-            case VideoTranslationStatus.LONG_WAITING:
-            case VideoTranslationStatus.LONG_WAITING_2:
-                if (url.startsWith("https://youtu.be/") && shouldSendFailedAudio) {
-                    await this.requestVtransFailAudio(url);
-                    await this.requestVtransAudio(url, translationData.translationId);
-                    return await this.translateVideoYAImpl({
-                        videoData,
-                        requestLang,
-                        responseLang,
-                        translationHelp,
-                        headers,
-                        shouldSendFailedAudio: false,
-                    });
-                }
-                return {
-                    translated: false,
-                    remainingTime: translationData.remainingTime ?? -1,
-                };
-            default:
-                Logger.error("Unknown response", translationData);
-                throw new VOTJSError("Unknown response from Yandex", translationData);
-        }
-    }
-    async translateVideoVOTImpl({ url, videoId, service, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
-        const votData = convertVOT(service, videoId, url);
-        const res = await this.requestVOT(this.paths.videoTranslation, {
-            provider: "yandex",
-            service: votData.service,
-            videoId: votData.videoId,
-            fromLang: requestLang,
-            toLang: responseLang,
-            rawVideo: url,
-        }, headers);
-        if (!res.success) {
-            throw new VOTLocalizedError("requestTranslationFailed", res);
-        }
-        const translationData = res.data;
-        switch (translationData.status) {
-            case "failed":
-                throw new VOTJSError("Yandex couldn't translate video", translationData);
-            case "success":
-                if (!translationData.translatedUrl) {
-                    throw new VOTLocalizedError("audioNotReceived");
-                }
-                return {
-                    translated: true,
-                    url: translationData.translatedUrl,
-                    remainingTime: -1,
-                };
-            case "waiting":
-                return {
-                    translated: false,
-                    remainingTime: translationData.remainingTime,
-                    message: translationData.message,
-                };
-        }
-    }
-    async requestVtransFailAudio(url) {
-        const res = await this.requestJSON(this.paths.videoTranslationFailAudio, JSON.stringify({
-            video_url: url,
-        }), undefined, "PUT");
-        if (!res.data || typeof res.data === "string" || res.data.status !== 1) {
-            throw new VOTJSError("Failed to request to fake video translation fail audio js", res);
-        }
-        return res;
-    }
-    async requestVtransAudio(url, translationId, headers = {}) {
-        const session = await this.getSession("video-translation");
-        const body = yandexProtobuf.encodeTranslationAudioRequest(url, translationId);
-        const path = this.paths.videoTranslationAudio;
-        const vtransHeaders = await getSecYaHeaders("Vtrans", session, body, path);
-        const res = await this.request(path, body, {
-            ...vtransHeaders,
-            ...headers,
-        }, "PUT");
-        if (!res.success) {
-            throw new VOTJSError("Failed to request video translation audio", res);
-        }
-        return yandexProtobuf.decodeTranslationAudioResponse(res.data);
-    }
-    async translateVideo({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, extraOpts = {}, shouldSendFailedAudio = true, }) {
-        const { url, videoId, host } = videoData;
-        return this.isCustomLink(url)
-            ? await this.translateVideoVOTImpl({
-                url,
-                videoId,
-                service: host,
-                requestLang,
-                responseLang,
-                headers,
-            })
-            : await this.translateVideoYAImpl({
-                videoData,
-                requestLang,
-                responseLang,
-                translationHelp,
-                headers,
-                extraOpts,
-                shouldSendFailedAudio,
-            });
-    }
-    async getSubtitles({ videoData, requestLang = this.requestLang, headers = {}, }) {
-        const { url } = videoData;
-        if (this.isCustomLink(url)) {
-            return {
-                waiting: false,
-                subtitles: []
-            }
-        }
-        const session = await this.getSession("video-translation");
-        const body = yandexProtobuf.encodeSubtitlesRequest(url, requestLang);
-        const path = this.paths.videoSubtitles;
-        const vsubsHeaders = await getSecYaHeaders("Vsubs", session, body, path);
-        const res = await this.request(path, body, {
-            ...vsubsHeaders,
-            ...headers,
-        });
-        if (!res.success) {
-            throw new VOTJSError("Failed to request video subtitles", res);
-        }
-        return yandexProtobuf.decodeSubtitlesResponse(res.data);
-    }
-    async pingStream({ pingId, headers = {} }) {
-        const session = await this.getSession("video-translation");
-        const body = yandexProtobuf.encodeStreamPingRequest(pingId);
-        const path = this.paths.streamPing;
-        const vtransHeaders = await getSecYaHeaders("Vtrans", session, body, path);
-        const res = await this.request(path, body, {
-            ...vtransHeaders,
-            ...headers,
-        });
-        if (!res.success) {
-            throw new VOTJSError("Failed to request stream ping", res);
-        }
-        return true;
-    }
-    async translateStream({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
-        const { url } = videoData;
-        if (this.isCustomLink(url)) {
-            throw new VOTLocalizedError("VOTStreamNotSupportedUrl");
-        }
-        const session = await this.getSession("video-translation");
-        const body = yandexProtobuf.encodeStreamRequest(url, requestLang, responseLang);
-        const path = this.paths.streamTranslation;
-        const vtransHeaders = await getSecYaHeaders("Vtrans", session, body, path);
-        const res = await this.request(path, body, {
-            ...vtransHeaders,
-            ...headers,
-        });
-        if (!res.success) {
-            throw new VOTJSError("Failed to request stream translation", res);
-        }
-        const translateResponse = yandexProtobuf.decodeStreamResponse(res.data);
-        const interval = translateResponse.interval;
-        switch (interval) {
-            case StreamInterval.NO_CONNECTION:
-            case StreamInterval.TRANSLATING:
-                return {
-                    translated: false,
-                    interval,
-                    message: interval === StreamInterval.NO_CONNECTION
-                        ? "streamNoConnectionToServer"
-                        : "translationTakeFewMinutes",
-                };
-            case StreamInterval.STREAMING: {
-                return {
-                    translated: true,
-                    interval,
-                    pingId: translateResponse.pingId,
-                    result: translateResponse.translatedInfo,
-                };
-            }
-            default:
-                Logger.error("Unknown response", translateResponse);
-                throw new VOTJSError("Unknown response from Yandex", translateResponse);
-        }
-    }
-    async createSession(module) {
-        const uuid = getUUID();
-        const body = yandexProtobuf.encodeYandexSessionRequest(uuid, module);
-        const res = await this.request(this.paths.createSession, body, {
-            "Vtrans-Signature": await getSignature(body),
-        });
-        if (!res.success) {
-            throw new VOTJSError("Failed to request create session", res);
-        }
-        const sessionResponse = yandexProtobuf.decodeYandexSessionResponse(res.data);
-        return {
-            ...sessionResponse,
-            uuid,
-        };
-    }
-}
-class VOTWorkerClient extends VOTClient {
-    async request(path, body, headers = {}, method = "POST") {
-        const options = this.getOpts(JSON.stringify({
-            headers: {
-                ...this.headers,
-                ...headers,
-            },
-            body: Array.from(body),
-        }), {
-            "Content-Type": "application/json",
-        }, method);
-        try {
-            const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
-            const data = (await res.arrayBuffer());
-            return {
-                success: res.status === 200,
-                data,
-            };
-        }
-        catch (err) {
-            return {
-                success: false,
-                data: err?.message,
-            };
-        }
-    }
-    async requestJSON(path, body = null, headers = {}, method = "POST") {
-        const options = this.getOpts(JSON.stringify({
-            headers: {
-                ...this.headers,
-                "Content-Type": "application/json",
-                Accept: "application/json",
-                ...headers,
-            },
-            body,
-        }), {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        }, method);
-        try {
-            const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
-            const data = (await res.json());
-            return {
-                success: res.status === 200,
-                data,
-            };
-        }
-        catch (err) {
-            return {
-                success: false,
-                data: err?.message,
-            };
-        }
-    }
-}
-
-;// ./node_modules/vot.js/dist/types/helpers/bannedvideo.js
-var TypeName;
-(function (TypeName) {
-    TypeName["Channel"] = "Channel";
-    TypeName["Video"] = "Video";
-})(TypeName || (TypeName = {}));
-
-;// ./node_modules/vot.js/dist/types/index.js
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-;// ./node_modules/vot.js/dist/index.js
-
-
-
-
-
-
-;// ./node_modules/vot.js/dist/utils/subs.js
-function convertToStrTime(ms, delimiter = ",") {
-    const seconds = ms / 1000;
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-    const milliseconds = Math.floor(ms % 1000);
-    return `${hours.toString().padStart(2, "0")}:${minutes
-        .toString()
-        .padStart(2, "0")}:${remainingSeconds
-        .toString()
-        .padStart(2, "0")}${delimiter}${milliseconds.toString().padStart(3, "0")}`;
-}
-function convertToMSTime(time) {
-    const parts = time.split(" ")?.[0]?.split(":");
-    if (parts.length < 3) {
-        parts.unshift("00");
-    }
-    const [strHours, strMinutes, strSeconds] = parts;
-    const secs = +strSeconds.replace(/[,.]/, "");
-    const mins = +strMinutes * 60_000;
-    const hours = +strHours * 3_600_000;
-    return hours + mins + secs;
-}
-function convertSubsFromJSON(data, output = "srt") {
-    const isVTT = output === "vtt";
-    const delimiter = isVTT ? "." : ",";
-    const subs = data.subtitles
-        .map((sub, idx) => {
-        const result = isVTT ? "" : `${idx + 1}\n`;
-        return (result +
-            `${convertToStrTime(sub.startMs, delimiter)} --> ${convertToStrTime(sub.startMs + sub.durationMs, delimiter)}\n${sub.text}\n\n`);
-    })
-        .join("")
-        .trim();
-    return isVTT ? `WEBVTT\n\n${subs}` : subs;
-}
-function convertSubsToJSON(data, from = "srt") {
-    const parts = data.split(/\r?\n\r?\n/g);
-    if (from === "vtt") {
-        parts.shift();
-    }
-    const offset = +(from === "srt");
-    const subtitles = parts.reduce((result, part) => {
-        const lines = part.trim().split("\n");
-        const time = lines[offset];
-        const text = lines.slice(offset + 1).join("\n");
-        if ((lines.length !== 2 || !part.includes(" --> ")) &&
-            !time?.includes(" --> ")) {
-            if (result.length === 0) {
-                return result;
-            }
-            result[result.length - 1].text += `\n\n${lines.join("\n")}`;
-            return result;
-        }
-        const [start, end] = time.split(" --> ");
-        const startMs = convertToMSTime(start);
-        const endMs = convertToMSTime(end);
-        const durationMs = endMs - startMs;
-        result.push({
-            text,
-            startMs,
-            durationMs,
-            speakerId: "0",
-        });
-        return result;
-    }, []);
-    return {
-        containsTokens: false,
-        subtitles,
-    };
-}
-function getSubsFormat(data) {
-    if (typeof data !== "string") {
-        return "json";
-    }
-    if (/(WEBVTT)(\r?\n\r?\n)/.exec(data)) {
-        return "vtt";
-    }
-    return "srt";
-}
-function convertSubs(data, output = "srt") {
-    const from = getSubsFormat(data);
-    if (from === output)
-        return data;
-    if (from === "json") {
-        return convertSubsFromJSON(data, output);
-    }
-    data = convertSubsToJSON(data, from);
-    if (output === "json") {
-        return data;
-    }
-    return convertSubsFromJSON(data, output);
-}
-
-;// ./node_modules/lit-html/lit-html.js
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-const n=globalThis,c=n.trustedTypes,h=c?c.createPolicy("lit-html",{createHTML:t=>t}):void 0,f="$lit$",v=`lit$${Math.random().toFixed(9).slice(2)}$`,m="?"+v,_=`<${m}>`,w=document,lt=()=>w.createComment(""),st=t=>null===t||"object"!=typeof t&&"function"!=typeof t,g=Array.isArray,$=t=>g(t)||"function"==typeof t?.[Symbol.iterator],x="[ \t\n\f\r]",T=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,E=/-->/g,k=/>/g,O=RegExp(`>|${x}(?:([^\\s"'>=/]+)(${x}*=${x}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),S=/'/g,j=/"/g,M=/^(?:script|style|textarea|title)$/i,P=t=>(i,...s)=>({_$litType$:t,strings:i,values:s}),ke=P(1),Oe=P(2),Se=P(3),R=Symbol.for("lit-noChange"),D=Symbol.for("lit-nothing"),V=new WeakMap,I=w.createTreeWalker(w,129);function N(t,i){if(!g(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==h?h.createHTML(i):i}const U=(t,i)=>{const s=t.length-1,e=[];let h,o=2===i?"<svg>":3===i?"<math>":"",n=T;for(let i=0;i<s;i++){const s=t[i];let r,l,c=-1,a=0;for(;a<s.length&&(n.lastIndex=a,l=n.exec(s),null!==l);)a=n.lastIndex,n===T?"!--"===l[1]?n=E:void 0!==l[1]?n=k:void 0!==l[2]?(M.test(l[2])&&(h=RegExp("</"+l[2],"g")),n=O):void 0!==l[3]&&(n=O):n===O?">"===l[0]?(n=h??T,c=-1):void 0===l[1]?c=-2:(c=n.lastIndex-l[2].length,r=l[1],n=void 0===l[3]?O:'"'===l[3]?j:S):n===j||n===S?n=O:n===E||n===k?n=T:(n=O,h=void 0);const u=n===O&&t[i+1].startsWith("/>")?" ":"";o+=n===T?s+_:c>=0?(e.push(r),s.slice(0,c)+f+s.slice(c)+v+u):s+v+(-2===c?i:u)}return[N(t,o+(t[s]||"<?>")+(2===i?"</svg>":3===i?"</math>":"")),e]};class B{constructor({strings:t,_$litType$:i},s){let e;this.parts=[];let h=0,o=0;const n=t.length-1,r=this.parts,[l,a]=U(t,i);if(this.el=B.createElement(l,s),I.currentNode=this.el.content,2===i||3===i){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(e=I.nextNode())&&r.length<n;){if(1===e.nodeType){if(e.hasAttributes())for(const t of e.getAttributeNames())if(t.endsWith(f)){const i=a[o++],s=e.getAttribute(t).split(v),n=/([.?@])?(.*)/.exec(i);r.push({type:1,index:h,name:n[2],strings:s,ctor:"."===n[1]?Y:"?"===n[1]?Z:"@"===n[1]?q:G}),e.removeAttribute(t)}else t.startsWith(v)&&(r.push({type:6,index:h}),e.removeAttribute(t));if(M.test(e.tagName)){const t=e.textContent.split(v),i=t.length-1;if(i>0){e.textContent=c?c.emptyScript:"";for(let s=0;s<i;s++)e.append(t[s],lt()),I.nextNode(),r.push({type:2,index:++h});e.append(t[i],lt())}}}else if(8===e.nodeType)if(e.data===m)r.push({type:2,index:h});else{let t=-1;for(;-1!==(t=e.data.indexOf(v,t+1));)r.push({type:7,index:h}),t+=v.length-1}h++}}static createElement(t,i){const s=w.createElement("template");return s.innerHTML=t,s}}function z(t,i,s=t,e){if(i===R)return i;let h=void 0!==e?s.o?.[e]:s.l;const o=st(i)?void 0:i._$litDirective$;return h?.constructor!==o&&(h?._$AO?.(!1),void 0===o?h=void 0:(h=new o(t),h._$AT(t,s,e)),void 0!==e?(s.o??=[])[e]=h:s.l=h),void 0!==h&&(i=z(t,h._$AS(t,i.values),h,e)),i}class F{constructor(t,i){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=i}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:i},parts:s}=this._$AD,e=(t?.creationScope??w).importNode(i,!0);I.currentNode=e;let h=I.nextNode(),o=0,n=0,r=s[0];for(;void 0!==r;){if(o===r.index){let i;2===r.type?i=new et(h,h.nextSibling,this,t):1===r.type?i=new r.ctor(h,r.name,r.strings,this,t):6===r.type&&(i=new K(h,this,t)),this._$AV.push(i),r=s[++n]}o!==r?.index&&(h=I.nextNode(),o++)}return I.currentNode=w,e}p(t){let i=0;for(const s of this._$AV)void 0!==s&&(void 0!==s.strings?(s._$AI(t,s,i),i+=s.strings.length-2):s._$AI(t[i])),i++}}class et{get _$AU(){return this._$AM?._$AU??this.v}constructor(t,i,s,e){this.type=2,this._$AH=D,this._$AN=void 0,this._$AA=t,this._$AB=i,this._$AM=s,this.options=e,this.v=e?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const i=this._$AM;return void 0!==i&&11===t?.nodeType&&(t=i.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,i=this){t=z(this,t,i),st(t)?t===D||null==t||""===t?(this._$AH!==D&&this._$AR(),this._$AH=D):t!==this._$AH&&t!==R&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):$(t)?this.k(t):this._(t)}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t))}_(t){this._$AH!==D&&st(this._$AH)?this._$AA.nextSibling.data=t:this.T(w.createTextNode(t)),this._$AH=t}$(t){const{values:i,_$litType$:s}=t,e="number"==typeof s?this._$AC(t):(void 0===s.el&&(s.el=B.createElement(N(s.h,s.h[0]),this.options)),s);if(this._$AH?._$AD===e)this._$AH.p(i);else{const t=new F(e,this),s=t.u(this.options);t.p(i),this.T(s),this._$AH=t}}_$AC(t){let i=V.get(t.strings);return void 0===i&&V.set(t.strings,i=new B(t)),i}k(t){g(this._$AH)||(this._$AH=[],this._$AR());const i=this._$AH;let s,e=0;for(const h of t)e===i.length?i.push(s=new et(this.O(lt()),this.O(lt()),this,this.options)):s=i[e],s._$AI(h),e++;e<i.length&&(this._$AR(s&&s._$AB.nextSibling,e),i.length=e)}_$AR(t=this._$AA.nextSibling,i){for(this._$AP?.(!1,!0,i);t&&t!==this._$AB;){const i=t.nextSibling;t.remove(),t=i}}setConnected(t){void 0===this._$AM&&(this.v=t,this._$AP?.(t))}}class G{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,i,s,e,h){this.type=1,this._$AH=D,this._$AN=void 0,this.element=t,this.name=i,this._$AM=e,this.options=h,s.length>2||""!==s[0]||""!==s[1]?(this._$AH=Array(s.length-1).fill(new String),this.strings=s):this._$AH=D}_$AI(t,i=this,s,e){const h=this.strings;let o=!1;if(void 0===h)t=z(this,t,i,0),o=!st(t)||t!==this._$AH&&t!==R,o&&(this._$AH=t);else{const e=t;let n,r;for(t=h[0],n=0;n<h.length-1;n++)r=z(this,e[s+n],i,n),r===R&&(r=this._$AH[n]),o||=!st(r)||r!==this._$AH[n],r===D?t=D:t!==D&&(t+=(r??"")+h[n+1]),this._$AH[n]=r}o&&!e&&this.j(t)}j(t){t===D?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class Y extends G{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===D?void 0:t}}class Z extends G{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==D)}}class q extends G{constructor(t,i,s,e,h){super(t,i,s,e,h),this.type=5}_$AI(t,i=this){if((t=z(this,t,i,0)??D)===R)return;const s=this._$AH,e=t===D&&s!==D||t.capture!==s.capture||t.once!==s.once||t.passive!==s.passive,h=t!==D&&(s===D||e);e&&this.element.removeEventListener(this.name,this,s),h&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class K{constructor(t,i,s){this.element=t,this.type=6,this._$AN=void 0,this._$AM=i,this.options=s}get _$AU(){return this._$AM._$AU}_$AI(t){z(this,t)}}const si={M:f,P:v,A:m,C:1,L:U,R:F,D:$,V:z,I:et,H:G,N:Z,U:q,B:Y,F:K},Re=n.litHtmlPolyfillSupport;Re?.(B,et),(n.litHtmlVersions??=[]).push("3.2.0");const Q=(t,i,s)=>{const e=s?.renderBefore??i;let h=e._$litPart$;if(void 0===h){const t=s?.renderBefore??null;e._$litPart$=h=new et(i.insertBefore(lt(),t),t,void 0,s??{})}return h._$AI(t),h};
-//# sourceMappingURL=lit-html.js.map
-
-;// ./node_modules/browser-id3-writer/dist/browser-id3-writer.mjs
-function e(e){return String(e).split("").map((e=>e.charCodeAt(0)))}function t(t){return new Uint8Array(e(t))}function a(t){const a=new ArrayBuffer(2*t.length),r=new Uint8Array(a);return new Uint16Array(a).set(e(t)),r}function r(e){const t=255;return[e>>>24&t,e>>>16&t,e>>>8&t,e&t]}function browser_id3_writer_n(e){return 11+e}function s(e,t,a,r){return 11+t+1+1+(r?2+2*(a+1):a+1)+e}function i(e){let t=0;return e.forEach((e=>{t+=2+2*e[0].length+2+2+2*e[1].length+2})),11+t}function browser_id3_writer_c(e,t){const a=2*t;let r=0;return e.forEach((e=>{r+=2+2*e[0].length+2+4})),18+a+2+r}class o{_setIntegerFrame(e,t){const a=parseInt(t,10);this.frames.push({name:e,value:a,size:browser_id3_writer_n(a.toString().length)})}_setStringFrame(e,t){const a=t.toString();let r=13+2*a.length;"TDAT"===e&&(r=browser_id3_writer_n(a.length)),this.frames.push({name:e,value:a,size:r})}_setPictureFrame(e,t,a,r){const n=function(e){if(!e||!e.length)return null;if(255===e[0]&&216===e[1]&&255===e[2])return"image/jpeg";if(137===e[0]&&80===e[1]&&78===e[2]&&71===e[3])return"image/png";if(71===e[0]&&73===e[1]&&70===e[2])return"image/gif";if(87===e[8]&&69===e[9]&&66===e[10]&&80===e[11])return"image/webp";const t=73===e[0]&&73===e[1]&&42===e[2]&&0===e[3],a=77===e[0]&&77===e[1]&&0===e[2]&&42===e[3];return t||a?"image/tiff":66===e[0]&&77===e[1]?"image/bmp":0===e[0]&&0===e[1]&&1===e[2]&&0===e[3]?"image/x-icon":null}(new Uint8Array(t)),i=a.toString();if(!n)throw new Error("Unknown picture MIME type");a||(r=!1),this.frames.push({name:"APIC",value:t,pictureType:e,mimeType:n,useUnicodeEncoding:r,description:i,size:s(t.byteLength,n.length,i.length,r)})}_setLyricsFrame(e,t,a){const r=e.split("").map((e=>e.charCodeAt(0))),n=t.toString(),s=a.toString();var i,c;this.frames.push({name:"USLT",value:s,language:r,description:n,size:(i=n.length,c=s.length,16+2*i+2+2+2*c)})}_setCommentFrame(e,t,a){const r=e.split("").map((e=>e.charCodeAt(0))),n=t.toString(),s=a.toString();var i,c;this.frames.push({name:"COMM",value:s,language:r,description:n,size:(i=n.length,c=s.length,16+2*i+2+2+2*c)})}_setPrivateFrame(e,t){const a=e.toString();var r,n;this.frames.push({name:"PRIV",value:t,id:a,size:(r=a.length,n=t.byteLength,10+r+1+n)})}_setUserStringFrame(e,t){const a=e.toString(),r=t.toString();var n,s;this.frames.push({name:"TXXX",description:a,value:r,size:(n=a.length,s=r.length,13+2*n+2+2+2*s)})}_setUrlLinkFrame(e,t){const a=t.toString();var r;this.frames.push({name:e,value:a,size:(r=a.length,10+r)})}_setPairedTextFrame(e,t){this.frames.push({name:e,value:t,size:i(t)})}_setSynchronisedLyricsFrame(e,t,a,r,n){const s=n.toString(),i=r.split("").map((e=>e.charCodeAt(0)));this.frames.push({name:"SYLT",value:t,language:i,description:s,type:e,timestampFormat:a,size:browser_id3_writer_c(t,s.length)})}constructor(e){if(!e||"object"!=typeof e||!("byteLength"in e))throw new Error("First argument should be an instance of ArrayBuffer or Buffer");this.arrayBuffer=e,this.padding=4096,this.frames=[],this.url=""}setFrame(e,t){switch(e){case"TPE1":case"TCOM":case"TCON":{if(!Array.isArray(t))throw new Error(`${e} frame value should be an array of strings`);const a="TCON"===e?";":"/",r=t.join(a);this._setStringFrame(e,r);break}case"TLAN":case"TIT1":case"TIT2":case"TIT3":case"TALB":case"TPE2":case"TPE3":case"TPE4":case"TRCK":case"TPOS":case"TMED":case"TPUB":case"TCOP":case"TKEY":case"TEXT":case"TDAT":case"TSRC":this._setStringFrame(e,t);break;case"TBPM":case"TLEN":case"TYER":this._setIntegerFrame(e,t);break;case"USLT":if(t.language=t.language||"eng","object"!=typeof t||!("description"in t)||!("lyrics"in t))throw new Error("USLT frame value should be an object with keys description and lyrics");if(t.language&&!t.language.match(/[a-z]{3}/i))throw new Error("Language must be coded following the ISO 639-2 standards");this._setLyricsFrame(t.language,t.description,t.lyrics);break;case"APIC":if("object"!=typeof t||!("type"in t)||!("data"in t)||!("description"in t))throw new Error("APIC frame value should be an object with keys type, data and description");if(t.type<0||t.type>20)throw new Error("Incorrect APIC frame picture type");this._setPictureFrame(t.type,t.data,t.description,!!t.useUnicodeEncoding);break;case"TXXX":if("object"!=typeof t||!("description"in t)||!("value"in t))throw new Error("TXXX frame value should be an object with keys description and value");this._setUserStringFrame(t.description,t.value);break;case"WCOM":case"WCOP":case"WOAF":case"WOAR":case"WOAS":case"WORS":case"WPAY":case"WPUB":this._setUrlLinkFrame(e,t);break;case"COMM":if(t.language=t.language||"eng","object"!=typeof t||!("description"in t)||!("text"in t))throw new Error("COMM frame value should be an object with keys description and text");if(t.language&&!t.language.match(/[a-z]{3}/i))throw new Error("Language must be coded following the ISO 639-2 standards");this._setCommentFrame(t.language,t.description,t.text);break;case"PRIV":if("object"!=typeof t||!("id"in t)||!("data"in t))throw new Error("PRIV frame value should be an object with keys id and data");this._setPrivateFrame(t.id,t.data);break;case"IPLS":if(!Array.isArray(t)||!Array.isArray(t[0]))throw new Error("IPLS frame value should be an array of pairs");this._setPairedTextFrame(e,t);break;case"SYLT":if("object"!=typeof t||!("type"in t)||!("text"in t)||!("timestampFormat"in t))throw new Error("SYLT frame value should be an object with keys type, text and timestampFormat");if(!Array.isArray(t.text)||!Array.isArray(t.text[0]))throw new Error("SYLT frame text value should be an array of pairs");if(t.type<0||t.type>6)throw new Error("Incorrect SYLT frame content type");if(t.timestampFormat<1||t.timestampFormat>2)throw new Error("Incorrect SYLT frame time stamp format");t.language=t.language||"eng",t.description=t.description||"",this._setSynchronisedLyricsFrame(t.type,t.text,t.timestampFormat,t.language,t.description);break;default:throw new Error(`Unsupported frame ${e}`)}return this}removeTag(){if(this.arrayBuffer.byteLength<10)return;const e=new Uint8Array(this.arrayBuffer),t=e[3],a=((r=[e[6],e[7],e[8],e[9]])[0]<<21)+(r[1]<<14)+(r[2]<<7)+r[3]+10;var r,n;73!==(n=e)[0]||68!==n[1]||51!==n[2]||t<2||t>4||(this.arrayBuffer=new Uint8Array(e.subarray(a)).buffer)}addTag(){this.removeTag();const e=[255,254],n=10+this.frames.reduce(((e,t)=>e+t.size),0)+this.padding,s=new ArrayBuffer(this.arrayBuffer.byteLength+n),i=new Uint8Array(s);let c=0,o=[];return o=[73,68,51,3],i.set(o,c),c+=o.length,c++,c++,o=function(e){const t=127;return[e>>>21&t,e>>>14&t,e>>>7&t,e&t]}(n-10),i.set(o,c),c+=o.length,this.frames.forEach((n=>{switch(o=t(n.name),i.set(o,c),c+=o.length,o=r(n.size-10),i.set(o,c),c+=o.length,c+=2,n.name){case"WCOM":case"WCOP":case"WOAF":case"WOAR":case"WOAS":case"WORS":case"WPAY":case"WPUB":o=t(n.value),i.set(o,c),c+=o.length;break;case"TPE1":case"TCOM":case"TCON":case"TLAN":case"TIT1":case"TIT2":case"TIT3":case"TALB":case"TPE2":case"TPE3":case"TPE4":case"TRCK":case"TPOS":case"TKEY":case"TMED":case"TPUB":case"TCOP":case"TEXT":case"TSRC":o=[1].concat(e),i.set(o,c),c+=o.length,o=a(n.value),i.set(o,c),c+=o.length;break;case"TXXX":case"USLT":case"COMM":o=[1],"USLT"!==n.name&&"COMM"!==n.name||(o=o.concat(n.language)),o=o.concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,o=[0,0].concat(e),i.set(o,c),c+=o.length,o=a(n.value),i.set(o,c),c+=o.length;break;case"TBPM":case"TLEN":case"TDAT":case"TYER":c++,o=t(n.value),i.set(o,c),c+=o.length;break;case"PRIV":o=t(n.id),i.set(o,c),c+=o.length,c++,i.set(new Uint8Array(n.value),c),c+=n.value.byteLength;break;case"APIC":o=[n.useUnicodeEncoding?1:0],i.set(o,c),c+=o.length,o=t(n.mimeType),i.set(o,c),c+=o.length,o=[0,n.pictureType],i.set(o,c),c+=o.length,n.useUnicodeEncoding?(o=[].concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,c+=2):(o=t(n.description),i.set(o,c),c+=o.length,c++),i.set(new Uint8Array(n.value),c),c+=n.value.byteLength;break;case"IPLS":o=[1],i.set(o,c),c+=o.length,n.value.forEach((t=>{o=[].concat(e),i.set(o,c),c+=o.length,o=a(t[0].toString()),i.set(o,c),c+=o.length,o=[0,0].concat(e),i.set(o,c),c+=o.length,o=a(t[1].toString()),i.set(o,c),c+=o.length,o=[0,0],i.set(o,c),c+=o.length}));break;case"SYLT":o=[1].concat(n.language).concat(n.timestampFormat).concat(n.type),i.set(o,c),c+=o.length,o=[].concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,c+=2,n.value.forEach((t=>{o=[].concat(e),i.set(o,c),c+=o.length,o=a(t[0].toString()),i.set(o,c),c+=o.length,o=[0,0],i.set(o,c),c+=o.length,o=r(t[1]),i.set(o,c),c+=o.length}))}})),c+=this.padding,i.set(new Uint8Array(this.arrayBuffer),c),this.arrayBuffer=s,s}getBlob(){return new Blob([this.arrayBuffer],{type:"audio/mpeg"})}getURL(){return this.url||(this.url=URL.createObjectURL(this.getBlob())),this.url}revokeURL(){URL.revokeObjectURL(this.url)}}
 ;// ./src/subtitles.js
 
 
@@ -9208,7 +9346,7 @@ class VideoHandler {
 
   hls = initHls(); // debug enabled only in dev mode
   /**
-   * @type {import("vot.js").default}
+   * @type {import("@vot.js/ext").default}
    */
   votClient;
 
@@ -9283,7 +9421,10 @@ class VideoHandler {
       `Translate video (requestLang: ${requestLang}, responseLang: ${responseLang})`,
     );
 
-    if ((await getVideoID(this.site, this.video)) !== videoData.videoId) {
+    if (
+      (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) !==
+      videoData.videoId
+    ) {
       return null;
     }
 
@@ -9350,7 +9491,10 @@ class VideoHandler {
       `Translate stream (requestLang: ${requestLang}, responseLang: ${responseLang})`,
     );
 
-    if ((await getVideoID(this.site, this.video)) !== videoData.videoId) {
+    if (
+      (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) !==
+      videoData.videoId
+    ) {
       return null;
     }
 
@@ -10330,8 +10474,9 @@ class VideoHandler {
 
       this.votVideoVolumeSlider.input.addEventListener("input", (e) => {
         const value = Number(e.target.value);
-        this.votVideoVolumeSlider.label.querySelector("strong").textContent =
-          `${value}%`;
+        this.votVideoVolumeSlider.label.querySelector(
+          "strong",
+        ).textContent = `${value}%`;
         this.setVideoVolume(value / 100);
         if (this.data.syncVolume) {
           this.syncVolumeWrapper("video", value);
@@ -10984,7 +11129,8 @@ class VideoHandler {
     addExtraEventListener(this.video, "emptied", async () => {
       if (
         this.video.src &&
-        (await getVideoID(this.site, this.video)) === this.videoData.videoId
+        (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) ===
+          this.videoData.videoId
       )
         return;
       debug.log("lipsync mode is emptied");
@@ -11011,7 +11157,10 @@ class VideoHandler {
   }
 
   async setCanPlay() {
-    if ((await getVideoID(this.site, this.video)) === this.videoData.videoId)
+    if (
+      (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) ===
+      this.videoData.videoId
+    )
       return;
     await this.handleSrcChanged();
     await this.autoTranslate();
@@ -11190,8 +11339,9 @@ class VideoHandler {
     const newSlidersVolume = Math.round(videoVolume);
 
     this.votVideoVolumeSlider.input.value = newSlidersVolume;
-    this.votVideoVolumeSlider.label.querySelector("strong").textContent =
-      `${newSlidersVolume}%`;
+    this.votVideoVolumeSlider.label.querySelector(
+      "strong",
+    ).textContent = `${newSlidersVolume}%`;
     ui.updateSlider(this.votVideoVolumeSlider.input);
 
     if (this.data.syncVolume === 1) {
@@ -11261,7 +11411,9 @@ class VideoHandler {
       translationHelp,
       detectedLanguage,
       subtitles,
-    } = await videoData_getVideoData(this.site, this.video);
+    } = await getVideoData(this.site, this.video, {
+      fetchFn: GM_fetch,
+    });
     const videoData = {
       translationHelp: translationHelp ?? null,
       // by default, we request the translation of the video

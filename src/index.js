@@ -1,9 +1,17 @@
 import Bowser from "bowser";
-import VOTClient, { VOTWorkerClient } from "vot.js";
-import votConfig from "vot.js/config";
-import { getVideoData, getVideoID, getService } from "vot.js/utils/videoData";
-import { availableLangs, availableTTS, subtitlesFormats } from "vot.js/consts";
-import { convertSubs } from "vot.js/utils/subs";
+import VOTClient, { VOTWorkerClient } from "@vot.js/ext";
+import votConfig from "@vot.js/shared/config";
+import {
+  getVideoData,
+  getVideoID,
+  getService,
+} from "@vot.js/ext/utils/videoData";
+import {
+  availableLangs,
+  availableTTS,
+  subtitlesFormats,
+} from "@vot.js/shared/consts";
+import { convertSubs } from "@vot.js/shared/utils/subs";
 import { svg, html } from "lit-html";
 import { ID3Writer } from "browser-id3-writer";
 
@@ -103,7 +111,7 @@ class VideoHandler {
 
   hls = initHls(); // debug enabled only in dev mode
   /**
-   * @type {import("vot.js").default}
+   * @type {import("@vot.js/ext").default}
    */
   votClient;
 
@@ -178,7 +186,10 @@ class VideoHandler {
       `Translate video (requestLang: ${requestLang}, responseLang: ${responseLang})`,
     );
 
-    if ((await getVideoID(this.site, this.video)) !== videoData.videoId) {
+    if (
+      (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) !==
+      videoData.videoId
+    ) {
       return null;
     }
 
@@ -245,7 +256,10 @@ class VideoHandler {
       `Translate stream (requestLang: ${requestLang}, responseLang: ${responseLang})`,
     );
 
-    if ((await getVideoID(this.site, this.video)) !== videoData.videoId) {
+    if (
+      (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) !==
+      videoData.videoId
+    ) {
       return null;
     }
 
@@ -1879,7 +1893,8 @@ class VideoHandler {
     addExtraEventListener(this.video, "emptied", async () => {
       if (
         this.video.src &&
-        (await getVideoID(this.site, this.video)) === this.videoData.videoId
+        (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) ===
+          this.videoData.videoId
       )
         return;
       debug.log("lipsync mode is emptied");
@@ -1906,7 +1921,10 @@ class VideoHandler {
   }
 
   async setCanPlay() {
-    if ((await getVideoID(this.site, this.video)) === this.videoData.videoId)
+    if (
+      (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) ===
+      this.videoData.videoId
+    )
       return;
     await this.handleSrcChanged();
     await this.autoTranslate();
@@ -2156,7 +2174,9 @@ class VideoHandler {
       translationHelp,
       detectedLanguage,
       subtitles,
-    } = await getVideoData(this.site, this.video);
+    } = await getVideoData(this.site, this.video, {
+      fetchFn: GM_fetch,
+    });
     const videoData = {
       translationHelp: translationHelp ?? null,
       // by default, we request the translation of the video
