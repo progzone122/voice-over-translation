@@ -145,7 +145,6 @@ function formatYoutubeSubtitles(subtitles, isAsr = false) {
         startMs: subtitle.tStartMs,
         durationMs,
         ...(isAsr ? { tokens } : {}),
-        speakerId: "0",
       });
     }
   }
@@ -191,7 +190,7 @@ export async function getSubtitles(client, videoData) {
     subtitles,
   } = videoData;
   const extraSubtitles =
-    host === "youtube" ? youtubeUtils.getSubtitles() : subtitles ?? [];
+    host === "youtube" ? youtubeUtils.getSubtitles() : (subtitles ?? []);
 
   const timeoutPromise = new Promise((_, reject) =>
     setTimeout(() => reject(new Error("Timeout")), 5000),
@@ -301,6 +300,7 @@ export class SubtitlesWidget {
     this.maxLength = 300;
     this.maxLengthRegexp = /.{1,300}(?:\s|$)/g;
 
+    this.abortController = new AbortController();
     this.bindEvents();
     this.updateContainerRect();
   }
@@ -313,15 +313,19 @@ export class SubtitlesWidget {
   }
 
   bindEvents() {
+    const { signal } = this.abortController;
+
     this.onMouseDownBound = (e) => this.onMouseDown(e);
     this.onMouseUpBound = () => this.onMouseUp();
     this.onMouseMoveBound = (e) => this.onMouseMove(e);
     this.onTimeUpdateBound = this.debounce(() => this.update(), 100);
 
-    document.addEventListener("mousedown", this.onMouseDownBound);
-    document.addEventListener("mouseup", this.onMouseUpBound);
-    document.addEventListener("mousemove", this.onMouseMoveBound);
-    this.video?.addEventListener("timeupdate", this.onTimeUpdateBound);
+    document.addEventListener("mousedown", this.onMouseDownBound, { signal });
+    document.addEventListener("mouseup", this.onMouseUpBound, { signal });
+    document.addEventListener("mousemove", this.onMouseMoveBound, { signal });
+    this.video?.addEventListener("timeupdate", this.onTimeUpdateBound, {
+      signal,
+    });
 
     this.resizeObserver = new ResizeObserver(() => this.onResize());
     this.resizeObserver.observe(this.container);
@@ -523,10 +527,7 @@ export class SubtitlesWidget {
   }
 
   release() {
-    document.removeEventListener("mousedown", this.onMouseDownBound);
-    document.removeEventListener("mouseup", this.onMouseUpBound);
-    document.removeEventListener("mousemove", this.onMouseMoveBound);
-    this.video?.removeEventListener("timeupdate", this.onTimeUpdateBound);
+    this.abortController.abort();
     this.resizeObserver.disconnect();
     this.subtitlesContainer.remove();
   }
