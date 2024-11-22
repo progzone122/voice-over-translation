@@ -2192,21 +2192,7 @@ class VideoHandler {
       videoData.detectedLanguage = trackLang || "auto";
     } else if (this.site.host === "weverse") {
       videoData.detectedLanguage = "ko";
-    } else if (
-      [
-        "bilibili",
-        "bitchute",
-        "rumble",
-        "peertube",
-        "dailymotion",
-        "trovo",
-        "yandexdisk",
-        "coursehunterLike",
-        "archive",
-        "nineanimetv",
-        "directlink",
-      ].includes(this.site.host)
-    ) {
+    } else {
       videoData.detectedLanguage = "auto";
     }
     return videoData;

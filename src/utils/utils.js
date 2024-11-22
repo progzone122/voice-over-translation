@@ -115,7 +115,6 @@ function clearFileName(filename) {
 async function GM_fetch(url, opts = {}) {
   const { timeout = 15000, ...fetchOptions } = opts;
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), timeout);
 
   try {
     if (url.includes("api.browser.yandex.ru")) {
@@ -126,14 +125,12 @@ async function GM_fetch(url, opts = {}) {
       signal: controller.signal,
       ...fetchOptions,
     });
-    clearTimeout(timeoutId);
     return response;
   } catch (err) {
     // Если fetch завершился ошибкой, используем GM_xmlhttpRequest
     // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
     debug.log("GM_fetch preventing cors by GM_xmlhttpRequest", err.message);
     return new Promise((resolve, reject) => {
-      clearTimeout(timeoutId);
       GM_xmlhttpRequest({
         method: fetchOptions.method || "GET",
         url,

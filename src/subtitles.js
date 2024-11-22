@@ -145,7 +145,6 @@ function formatYoutubeSubtitles(subtitles, isAsr = false) {
         startMs: subtitle.tStartMs,
         durationMs,
         ...(isAsr ? { tokens } : {}),
-        speakerId: "0",
       });
     }
   }
