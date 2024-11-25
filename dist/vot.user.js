@@ -166,6 +166,7 @@
 // @connect        deno.dev
 // @connect        onrender.com
 // @connect        workers.dev
+// @connect        speed.cloudflare.com
 // @connect        porntn.com
 // @namespace      vot
 // @version        1.7.2
@@ -2513,7 +2514,6 @@ function clearFileName(filename) {
 async function GM_fetch(url, opts = {}) {
   const { timeout = 15000, ...fetchOptions } = opts;
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), timeout);
 
   try {
     if (url.includes("api.browser.yandex.ru")) {
@@ -2524,14 +2524,12 @@ async function GM_fetch(url, opts = {}) {
       signal: controller.signal,
       ...fetchOptions,
     });
-    clearTimeout(timeoutId);
     return response;
   } catch (err) {
     // Если fetch завершился ошибкой, используем GM_xmlhttpRequest
     // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
     debug.log("GM_fetch preventing cors by GM_xmlhttpRequest", err.message);
     return new Promise((resolve, reject) => {
-      clearTimeout(timeoutId);
       GM_xmlhttpRequest({
         method: fetchOptions.method || "GET",
         url,
@@ -6154,91 +6152,6 @@ function videoSeek(video, time) {
   video.currentTime = finalTime;
 }
 
-function isMusic() {
-  // Нужно доработать логику
-  const channelName = getPlayerData().author,
-    titleStr = getPlayerData().title.toUpperCase(),
-    titleWordsList = titleStr.match(/\w+/g),
-    playerData = document.body.querySelector("ytd-watch-flexy")?.playerData;
-
-  return (
-    [
-      titleStr,
-      document.URL,
-      channelName,
-      playerData?.microformat?.playerMicroformatRenderer.category,
-      playerData?.title,
-    ].some((i) => i?.toUpperCase().includes("MUSIC")) ||
-    document.body.querySelector(
-      "#upload-info #channel-name .badge-style-type-verified-artist",
-    ) ||
-    (channelName &&
-      /(VEVO|Topic|Records|RECORDS|Recordings|AMV)$/.test(channelName)) ||
-    (channelName &&
-      /(MUSIC|ROCK|SOUNDS|SONGS)/.test(channelName.toUpperCase())) ||
-    (titleWordsList?.length &&
-      [
-        "🎵",
-        "♫",
-        "SONG",
-        "SONGS",
-        "SOUNDTRACK",
-        "LYRIC",
-        "LYRICS",
-        "AMBIENT",
-        "MIX",
-        "VEVO",
-        "CLIP",
-        "KARAOKE",
-        "OPENING",
-        "COVER",
-        "COVERED",
-        "VOCAL",
-        "INSTRUMENTAL",
-        "ORCHESTRAL",
-        "DUBSTEP",
-        "DJ",
-        "DNB",
-        "BASS",
-        "BEAT",
-        "ALBUM",
-        "PLAYLIST",
-        "DUBSTEP",
-        "CHILL",
-        "RELAX",
-        "CLASSIC",
-        "CINEMATIC",
-      ].some((i) => titleWordsList.includes(i))) ||
-    [
-      "OFFICIAL VIDEO",
-      "OFFICIAL AUDIO",
-      "FEAT.",
-      "FT.",
-      "LIVE RADIO",
-      "DANCE VER",
-      "HIP HOP",
-      "ROCK N ROLL",
-      "HOUR VER",
-      "HOURS VER",
-      "INTRO THEME",
-    ].some((i) => titleStr.includes(i)) ||
-    (titleWordsList?.length &&
-      [
-        "OP",
-        "ED",
-        "MV",
-        "OST",
-        "NCS",
-        "BGM",
-        "EDM",
-        "GMV",
-        "AMV",
-        "MMD",
-        "MAD",
-      ].some((i) => titleWordsList.includes(i)))
-  );
-}
-
 function getSubtitles() {
   const response = getPlayerResponse();
   const playerCaptions = response?.captions?.playerCaptionsTracklistRenderer;
@@ -6340,7 +6253,6 @@ async function youtubeUtils_getVideoData() {
   setVideoVolume,
   videoSeek,
   isMuted,
-  isMusic,
 });
 
 ;// ./src/subtitles.js
@@ -6491,7 +6403,6 @@ function formatYoutubeSubtitles(subtitles, isAsr = false) {
         startMs: subtitle.tStartMs,
         durationMs,
         ...(isAsr ? { tokens } : {}),
-        speakerId: "0",
       });
     }
   }
@@ -6537,7 +6448,7 @@ async function subtitles_getSubtitles(client, videoData) {
     subtitles,
   } = videoData;
   const extraSubtitles =
-    host === "youtube" ? youtubeUtils.getSubtitles() : subtitles ?? [];
+    host === "youtube" ? youtubeUtils.getSubtitles() : (subtitles ?? []);
 
   const timeoutPromise = new Promise((_, reject) =>
     setTimeout(() => reject(new Error("Timeout")), 5000),
@@ -6647,6 +6558,7 @@ class SubtitlesWidget {
     this.maxLength = 300;
     this.maxLengthRegexp = /.{1,300}(?:\s|$)/g;
 
+    this.abortController = new AbortController();
     this.bindEvents();
     this.updateContainerRect();
   }
@@ -6659,15 +6571,19 @@ class SubtitlesWidget {
   }
 
   bindEvents() {
+    const { signal } = this.abortController;
+
     this.onMouseDownBound = (e) => this.onMouseDown(e);
     this.onMouseUpBound = () => this.onMouseUp();
     this.onMouseMoveBound = (e) => this.onMouseMove(e);
     this.onTimeUpdateBound = this.debounce(() => this.update(), 100);
 
-    document.addEventListener("mousedown", this.onMouseDownBound);
-    document.addEventListener("mouseup", this.onMouseUpBound);
-    document.addEventListener("mousemove", this.onMouseMoveBound);
-    this.video?.addEventListener("timeupdate", this.onTimeUpdateBound);
+    document.addEventListener("mousedown", this.onMouseDownBound, { signal });
+    document.addEventListener("mouseup", this.onMouseUpBound, { signal });
+    document.addEventListener("mousemove", this.onMouseMoveBound, { signal });
+    this.video?.addEventListener("timeupdate", this.onTimeUpdateBound, {
+      signal,
+    });
 
     this.resizeObserver = new ResizeObserver(() => this.onResize());
     this.resizeObserver.observe(this.container);
@@ -6869,10 +6785,7 @@ class SubtitlesWidget {
   }
 
   release() {
-    document.removeEventListener("mousedown", this.onMouseDownBound);
-    document.removeEventListener("mouseup", this.onMouseUpBound);
-    document.removeEventListener("mousemove", this.onMouseMoveBound);
-    this.video?.removeEventListener("timeupdate", this.onTimeUpdateBound);
+    this.abortController.abort();
     this.resizeObserver.disconnect();
     this.subtitlesContainer.remove();
   }
@@ -9309,6 +9222,8 @@ const createHotkeyText = (hotkey) =>
         .replace("{0}", hotkey.replace("Key", ""))
     : localizationProvider.get("VOTCreateTranslationHotkey");
 
+let countryCode;
+
 class VideoHandler {
   /**
    * default language of video
@@ -9355,14 +9270,15 @@ class VideoHandler {
    */
   audioPlayer;
 
-  videoTranslations = [];
-  videoTranslationTTL = 7200;
-  cachedTranslation;
+  videoTranslations = []; // list of video translations
+  videoTranslationTTL = 7200; // 2 hours
+  translateProxyEnabled = 0; // 0 - disabled, 1 - enabled, 2 - proxy everything
+  cachedTranslation; // cached video translation
 
   downloadTranslationUrl = null;
 
-  autoRetry;
-  streamPing;
+  autoRetry; // auto retry timeout
+  streamPing; // stream ping interval
   votOpts;
   volumeOnStart;
   tempOriginalVolume; // temp video volume for syncing
@@ -9397,6 +9313,8 @@ class VideoHandler {
     this.video = video;
     this.container = container;
     this.site = site;
+    this.abortController = new AbortController();
+    this.extraEvents = [];
     this.init();
   }
 
@@ -9447,8 +9365,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : res.message ??
-              localizationProvider.get("translationTakeFewMinutes"),
+          : (res.message ??
+              localizationProvider.get("translationTakeFewMinutes")),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
@@ -9627,7 +9545,6 @@ class VideoHandler {
       subtitlesDownloadFormat: votStorage.get("subtitlesDownloadFormat", "srt"),
       responseLanguage: votStorage.get("responseLanguage", lang),
       defaultVolume: votStorage.get("defaultVolume", 100),
-      audioProxy: votStorage.get("audioProxy", 0),
       onlyBypassMediaCSP: votStorage.get(
         "onlyBypassMediaCSP",
         Number(!!this.audioContext),
@@ -9645,7 +9562,6 @@ class VideoHandler {
       detectService: votStorage.get("detectService", defaultDetectService),
       hotkeyButton: votStorage.get("hotkeyButton", null),
       m3u8ProxyHost: votStorage.get("m3u8ProxyHost", m3u8ProxyHost),
-      translateProxyEnabled: votStorage.get("translateProxyEnabled", 0),
       proxyWorkerHost: votStorage.get("proxyWorkerHost", proxyWorkerHost),
       audioBooster: votStorage.get("audioBooster", 0),
       useNewModel: votStorage.get("useNewModel", 1),
@@ -9683,20 +9599,33 @@ class VideoHandler {
       );
     }
 
-    if (
-      !this.data.translateProxyEnabled &&
-      GM_info?.scriptHandler &&
-      proxyOnlyExtensions.includes(GM_info.scriptHandler)
-    ) {
-      this.data.translateProxyEnabled = 1;
-      await votStorage.set("translateProxyEnabled", 1);
-      debug.log("translateProxyEnabled", this.data.translateProxyEnabled);
+    if (!this.translateProxyEnabled &&
+        GM_info?.scriptHandler &&
+        proxyOnlyExtensions.includes(GM_info.scriptHandler))
+    {
+      this.translateProxyEnabled = 1;
+    }
+    
+    if (!countryCode) {
+      try {
+        const response = await GM_fetch("https://speed.cloudflare.com/meta", {
+          timeout: 7000,
+        });
+        const { country } = await response.json();
+        countryCode = country;
+        if (country === "UA") {
+          this.translateProxyEnabled = 2;
+        }
+      } catch (err) {
+        console.error("[VOT] Error getting country:", err);
+      }
+      debug.log("translateProxyEnabled", this.translateProxyEnabled);
     }
 
     debug.log("Extension compatibility passed...");
 
     this.votOpts = {
-      headers: this.data.translateProxyEnabled
+      headers: this.translateProxyEnabled
         ? {}
         : {
             "sec-ch-ua": null,
@@ -9712,13 +9641,13 @@ class VideoHandler {
           },
       fetchFn: GM_fetch,
       hostVOT: votBackendUrl,
-      host: this.data.translateProxyEnabled
+      host: this.translateProxyEnabled
         ? this.data.proxyWorkerHost
         : workerHost,
     };
 
     this.votClient = new (
-      this.data.translateProxyEnabled ? VOTWorkerClient : VOTClient
+      this.translateProxyEnabled ? VOTWorkerClient : VOTClient
     )(this.votOpts);
 
     this.subtitlesWidget = new SubtitlesWidget(
@@ -10161,14 +10090,6 @@ class VideoHandler {
         this.votProxyWorkerHostTextfield.container,
       );
 
-      this.votAudioProxyCheckbox = ui.createCheckbox(
-        localizationProvider.get("VOTAudioProxy"),
-        this.data?.audioProxy ?? false,
-      );
-      this.votSettingsDialog.bodyContainer.appendChild(
-        this.votAudioProxyCheckbox.container,
-      );
-
       this.votNewAudioPlayerCheckbox = ui.createCheckbox(
         localizationProvider.get("VOTNewAudioPlayer"),
         this.data?.newAudioPlayer ?? false,
@@ -10474,9 +10395,8 @@ class VideoHandler {
 
       this.votVideoVolumeSlider.input.addEventListener("input", (e) => {
         const value = Number(e.target.value);
-        this.votVideoVolumeSlider.label.querySelector(
-          "strong",
-        ).textContent = `${value}%`;
+        this.votVideoVolumeSlider.label.querySelector("strong").textContent =
+          `${value}%`;
         this.setVideoVolume(value / 100);
         if (this.data.syncVolume) {
           this.syncVolumeWrapper("video", value);
@@ -10855,20 +10775,9 @@ class VideoHandler {
             "proxyWorkerHost value changed. New value: ",
             this.data.proxyWorkerHost,
           );
-          if (this.data.translateProxyEnabled) {
+          if (this.translateProxyEnabled) {
             this.votClient.host = this.data.proxyWorkerHost;
           }
-        })();
-      });
-
-      this.votAudioProxyCheckbox.input.addEventListener("change", (e) => {
-        (async () => {
-          this.data.audioProxy = Number(e.target.checked);
-          await votStorage.set("audioProxy", this.data.audioProxy);
-          debug.log(
-            "audioProxy value changed. New value: ",
-            this.data.audioProxy,
-          );
         })();
       });
 
@@ -10933,6 +10842,7 @@ class VideoHandler {
   }
 
   releaseExtraEvents() {
+    this.abortController.abort();
     this.resizeObserver?.disconnect();
     if (
       ["youtube", "googledrive"].includes(this.site.host) &&
@@ -10940,17 +10850,10 @@ class VideoHandler {
     ) {
       this.syncVolumeObserver?.disconnect();
     }
-
-    if (this.extraEvents) {
-      for (let i = 0; i < this.extraEvents.length; i++) {
-        const e = this.extraEvents[i];
-        e.element.removeEventListener(e.event, e.handler);
-      }
-    }
   }
 
   initExtraEvents() {
-    this.extraEvents = [];
+    const { signal } = this.abortController;
 
     const addExtraEventListener = (element, event, handler) => {
       this.extraEvents.push({
@@ -10958,7 +10861,7 @@ class VideoHandler {
         event,
         handler,
       });
-      element.addEventListener(event, handler);
+      element.addEventListener(event, handler, { signal });
     };
 
     const addExtraEventListeners = (element, events, handler) => {
@@ -11039,41 +10942,49 @@ class VideoHandler {
       }
     }
 
-    document.addEventListener("click", (event) => {
-      const e = event.target;
+    document.addEventListener(
+      "click",
+      (event) => {
+        const e = event.target;
 
-      const button = this.votButton.container;
-      const menu = this.votMenu.container;
-      const container = this.container;
-      const settings = this.votSettingsDialog.container;
-      const tempDialog = document.querySelector(".vot-dialog-temp");
+        const button = this.votButton.container;
+        const menu = this.votMenu.container;
+        const container = this.container;
+        const settings = this.votSettingsDialog.container;
+        const tempDialog = document.querySelector(".vot-dialog-temp");
 
-      const isButton = button.contains(e);
-      const isMenu = menu.contains(e);
-      const isVideo = container.contains(e);
-      const isSettings = settings.contains(e);
-      const isTempDialog = tempDialog?.contains(e) ?? false;
+        const isButton = button.contains(e);
+        const isMenu = menu.contains(e);
+        const isVideo = container.contains(e);
+        const isSettings = settings.contains(e);
+        const isTempDialog = tempDialog?.contains(e) ?? false;
 
-      debug.log(
-        `[document click] ${isButton} ${isMenu} ${isVideo} ${isSettings} ${isTempDialog}`,
-      );
-      if (!(!isButton && !isMenu && !isSettings && !isTempDialog)) return;
-      if (!isVideo) this.logout(0);
+        debug.log(
+          `[document click] ${isButton} ${isMenu} ${isVideo} ${isSettings} ${isTempDialog}`,
+        );
+        if (!(!isButton && !isMenu && !isSettings && !isTempDialog)) return;
+        if (!isVideo) this.logout(0);
 
-      this.votMenu.container.hidden = true;
-    });
+        this.votMenu.container.hidden = true;
+      },
+      { signal },
+    );
 
-    document.addEventListener("keydown", async (event) => {
-      const code = event.code;
-      // Проверка, если активный элемент - это вводимый элемент
-      const activeElement = document.activeElement;
-      const isInputElement =
-        ["input", "textarea"].includes(activeElement.tagName.toLowerCase()) ||
-        activeElement.isContentEditable;
-      if (!isInputElement && code === this.data.hotkeyButton) {
-        await this.handleTranslationBtnClick();
-      }
-    });
+    document.addEventListener(
+      "keydown",
+      async (event) => {
+        const code = event.code;
+        // Проверка, если активный элемент - это вводимый элемент
+        const activeElement = document.activeElement;
+        const isInputElement =
+          ["input", "textarea"].includes(activeElement.tagName.toLowerCase()) ||
+          activeElement.isContentEditable;
+        if (!isInputElement && code === this.data.hotkeyButton) {
+          await this.handleTranslationBtnClick();
+        }
+      },
+      { signal },
+    );
 
     let eventContainer = this.site.eventSelector
       ? document.querySelector(this.site.eventSelector)
@@ -11199,7 +11110,7 @@ class VideoHandler {
     } else {
       const subtitlesObj = this.subtitlesList.at(parseInt(subs));
       if (
-        this.data.audioProxy === 1 &&
+        this.translateProxyEnabled === 1 &&
         subtitlesObj.url.startsWith(
           "https://brosubs.s3-private.mds.yandex.net/vtrans/",
         )
@@ -11271,19 +11182,7 @@ class VideoHandler {
       return;
     }
 
-    try {
-      this.subtitlesList = await subtitles_getSubtitles(this.votClient, this.videoData);
-    } catch (err) {
-      debug.log("Error with yandex server, try auto-fix...", err);
-      this.votOpts = {
-        fetchFn: GM_fetch,
-        hostVOT: votBackendUrl,
-        host: this.data.proxyWorkerHost,
-      };
-      this.votClient = new VOTWorkerClient(this.votOpts);
-      this.subtitlesList = await subtitles_getSubtitles(this.votClient, this.videoData);
-      await votStorage.set("translateProxyEnabled", 1);
-    }
+    this.subtitlesList = await subtitles_getSubtitles(this.votClient, this.videoData);
 
     if (!this.subtitlesList) {
       await this.changeSubtitlesLang("disabled");
@@ -11339,9 +11238,8 @@ class VideoHandler {
     const newSlidersVolume = Math.round(videoVolume);
 
     this.votVideoVolumeSlider.input.value = newSlidersVolume;
-    this.votVideoVolumeSlider.label.querySelector(
-      "strong",
-    ).textContent = `${newSlidersVolume}%`;
+    this.votVideoVolumeSlider.label.querySelector("strong").textContent =
+      `${newSlidersVolume}%`;
     ui.updateSlider(this.votVideoVolumeSlider.input);
 
     if (this.data.syncVolume === 1) {
@@ -11445,21 +11343,7 @@ class VideoHandler {
       videoData.detectedLanguage = trackLang || "auto";
     } else if (this.site.host === "weverse") {
       videoData.detectedLanguage = "ko";
-    } else if (
-      [
-        "bilibili",
-        "bitchute",
-        "rumble",
-        "peertube",
-        "dailymotion",
-        "trovo",
-        "yandexdisk",
-        "coursehunterLike",
-        "archive",
-        "nineanimetv",
-        "directlink",
-      ].includes(this.site.host)
-    ) {
+    } else {
       videoData.detectedLanguage = "auto";
     }
     return videoData;
@@ -11575,7 +11459,6 @@ class VideoHandler {
     try {
       const response = await GM_fetch(audioUrl, {
         method: "HEAD",
-        timeout: 5000,
       });
       debug.log("Test audio response", response);
       if (response.status !== 404) {
@@ -11597,13 +11480,7 @@ class VideoHandler {
       audioUrl = translateRes.url;
       debug.log("Fixed audio audioUrl", audioUrl);
     } catch (err) {
-      if (err.message === "Timeout") {
-        debug.log("Request timed out. Handling timeout error...");
-        this.data.audioProxy = 1;
-        await votStorage.set("audioProxy", 1);
-      } else {
-        debug.log("Test audio error:", err);
-      }
+      debug.log("Test audio error:", err);
     }
 
     return audioUrl;
@@ -11617,7 +11494,7 @@ class VideoHandler {
     }
 
     if (
-      this.data.audioProxy === 1 &&
+      this.translateProxyEnabled === 2 &&
       audioUrl.startsWith("https://vtrans.s3-private.mds.yandex.net/tts/prod/")
     ) {
       const audioPath = audioUrl.replace(
@@ -11636,12 +11513,7 @@ class VideoHandler {
       this.audioPlayer.init();
     } catch (err) {
       debug.log("this.audioPlayer.init() error", err);
-      if (err.message.includes("Failed to fetch audio file")) {
-        this.videoHandler.data.audioProxy = 1;
-        await votStorage.set("audioProxy", 1);
-      } else {
-        this.videoHandler.transformBtn("error", err.message);
-      }
+      this.videoHandler.transformBtn("error", err.message);
     }
 
     this.setupAudioSettings();
