@@ -450,10 +450,25 @@ class VideoHandler {
       );
     }
 
+    let countryCode;
+    try {
+      const countryResponse = await GM_fetch(
+        "https://speed.cloudflare.com/meta",
+        {
+          timeout: 5000,
+        },
+      );
+      const { country } = await countryResponse.json();
+      countryCode = country;
+    } catch (err) {
+      console.error("[VOT] Error getting country:", err);
+    }
+
     if (
-      !this.data.translateProxyEnabled &&
-      GM_info?.scriptHandler &&
-      proxyOnlyExtensions.includes(GM_info.scriptHandler)
+      countryCode === "UA" ||
+      (!this.data.translateProxyEnabled &&
+        GM_info?.scriptHandler &&
+        proxyOnlyExtensions.includes(GM_info.scriptHandler))
     ) {
       this.data.translateProxyEnabled = 1;
       await votStorage.set("translateProxyEnabled", 1);
@@ -2039,19 +2054,7 @@ class VideoHandler {
       return;
     }
 
-    try {
-      this.subtitlesList = await getSubtitles(this.votClient, this.videoData);
-    } catch (err) {
-      debug.log("Error with yandex server, try auto-fix...", err);
-      this.votOpts = {
-        fetchFn: GM_fetch,
-        hostVOT: votBackendUrl,
-        host: this.data.proxyWorkerHost,
-      };
-      this.votClient = new VOTWorkerClient(this.votOpts);
-      this.subtitlesList = await getSubtitles(this.votClient, this.videoData);
-      await votStorage.set("translateProxyEnabled", 1);
-    }
+    this.subtitlesList = await getSubtitles(this.votClient, this.videoData);
 
     if (!this.subtitlesList) {
       await this.changeSubtitlesLang("disabled");
