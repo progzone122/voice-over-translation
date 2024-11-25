@@ -74,6 +74,8 @@ const createHotkeyText = (hotkey) =>
         .replace("{0}", hotkey.replace("Key", ""))
     : localizationProvider.get("VOTCreateTranslationHotkey");
 
+let countryCode;
+
 class VideoHandler {
   /**
    * default language of video
@@ -120,14 +122,15 @@ class VideoHandler {
    */
   audioPlayer;
 
-  videoTranslations = [];
-  videoTranslationTTL = 7200;
-  cachedTranslation;
+  videoTranslations = []; // list of video translations
+  videoTranslationTTL = 7200; // 2 hours
+  translateProxyEnabled = 0; // 0 - disabled, 1 - enabled, 2 - proxy everything
+  cachedTranslation; // cached video translation
 
   downloadTranslationUrl = null;
 
-  autoRetry;
-  streamPing;
+  autoRetry; // auto retry timeout
+  streamPing; // stream ping interval
   votOpts;
   volumeOnStart;
   tempOriginalVolume; // temp video volume for syncing
@@ -394,7 +397,6 @@ class VideoHandler {
       subtitlesDownloadFormat: votStorage.get("subtitlesDownloadFormat", "srt"),
       responseLanguage: votStorage.get("responseLanguage", lang),
       defaultVolume: votStorage.get("defaultVolume", 100),
-      audioProxy: votStorage.get("audioProxy", 0),
       onlyBypassMediaCSP: votStorage.get(
         "onlyBypassMediaCSP",
         Number(!!this.audioContext),
@@ -412,7 +414,6 @@ class VideoHandler {
       detectService: votStorage.get("detectService", defaultDetectService),
       hotkeyButton: votStorage.get("hotkeyButton", null),
       m3u8ProxyHost: votStorage.get("m3u8ProxyHost", m3u8ProxyHost),
-      translateProxyEnabled: votStorage.get("translateProxyEnabled", 0),
       proxyWorkerHost: votStorage.get("proxyWorkerHost", proxyWorkerHost),
       audioBooster: votStorage.get("audioBooster", 0),
       useNewModel: votStorage.get("useNewModel", 1),
@@ -450,35 +451,34 @@ class VideoHandler {
       );
     }
 
-    let countryCode;
-    try {
-      const countryResponse = await GM_fetch(
-        "https://speed.cloudflare.com/meta",
-        {
-          timeout: 5000,
-        },
-      );
-      const { country } = await countryResponse.json();
-      countryCode = country;
-    } catch (err) {
-      console.error("[VOT] Error getting country:", err);
+    if (
+      !this.translateProxyEnabled &&
+      GM_info?.scriptHandler &&
+      proxyOnlyExtensions.includes(GM_info.scriptHandler)
+    ) {
+      this.translateProxyEnabled = 1;
     }
 
-    if (
-      countryCode === "UA" ||
-      (!this.data.translateProxyEnabled &&
-        GM_info?.scriptHandler &&
-        proxyOnlyExtensions.includes(GM_info.scriptHandler))
-    ) {
-      this.data.translateProxyEnabled = 1;
-      await votStorage.set("translateProxyEnabled", 1);
-      debug.log("translateProxyEnabled", this.data.translateProxyEnabled);
+    if (!countryCode) {
+      try {
+        const response = await GM_fetch("https://speed.cloudflare.com/meta", {
+          timeout: 7000,
+        });
+        const { country } = await response.json();
+        countryCode = country;
+        if (country === "UA") {
+          this.translateProxyEnabled = 2;
+        }
+      } catch (err) {
+        console.error("[VOT] Error getting country:", err);
+      }
+      debug.log("translateProxyEnabled", this.translateProxyEnabled);
     }
 
     debug.log("Extension compatibility passed...");
 
     this.votOpts = {
-      headers: this.data.translateProxyEnabled
+      headers: this.translateProxyEnabled
         ? {}
         : {
             "sec-ch-ua": null,
@@ -494,13 +494,11 @@ class VideoHandler {
           },
       fetchFn: GM_fetch,
       hostVOT: votBackendUrl,
-      host: this.data.translateProxyEnabled
-        ? this.data.proxyWorkerHost
-        : workerHost,
+      host: this.translateProxyEnabled ? this.data.proxyWorkerHost : workerHost,
     };
 
     this.votClient = new (
-      this.data.translateProxyEnabled ? VOTWorkerClient : VOTClient
+      this.translateProxyEnabled ? VOTWorkerClient : VOTClient
     )(this.votOpts);
 
     this.subtitlesWidget = new SubtitlesWidget(
@@ -941,14 +939,6 @@ class VideoHandler {
       );
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votProxyWorkerHostTextfield.container,
-      );
-
-      this.votAudioProxyCheckbox = ui.createCheckbox(
-        localizationProvider.get("VOTAudioProxy"),
-        this.data?.audioProxy ?? false,
-      );
-      this.votSettingsDialog.bodyContainer.appendChild(
-        this.votAudioProxyCheckbox.container,
       );
 
       this.votNewAudioPlayerCheckbox = ui.createCheckbox(
@@ -1636,20 +1626,9 @@ class VideoHandler {
             "proxyWorkerHost value changed. New value: ",
             this.data.proxyWorkerHost,
           );
-          if (this.data.translateProxyEnabled) {
+          if (this.translateProxyEnabled) {
             this.votClient.host = this.data.proxyWorkerHost;
           }
-        })();
-      });
-
-      this.votAudioProxyCheckbox.input.addEventListener("change", (e) => {
-        (async () => {
-          this.data.audioProxy = Number(e.target.checked);
-          await votStorage.set("audioProxy", this.data.audioProxy);
-          debug.log(
-            "audioProxy value changed. New value: ",
-            this.data.audioProxy,
-          );
         })();
       });
 
@@ -1982,7 +1961,7 @@ class VideoHandler {
     } else {
       const subtitlesObj = this.subtitlesList.at(parseInt(subs));
       if (
-        this.data.audioProxy === 1 &&
+        this.translateProxyEnabled === 1 &&
         subtitlesObj.url.startsWith(
           "https://brosubs.s3-private.mds.yandex.net/vtrans/",
         )
@@ -2331,7 +2310,6 @@ class VideoHandler {
     try {
       const response = await GM_fetch(audioUrl, {
         method: "HEAD",
-        timeout: 5000,
       });
       debug.log("Test audio response", response);
       if (response.status !== 404) {
@@ -2353,13 +2331,7 @@ class VideoHandler {
       audioUrl = translateRes.url;
       debug.log("Fixed audio audioUrl", audioUrl);
     } catch (err) {
-      if (err.message === "Timeout") {
-        debug.log("Request timed out. Handling timeout error...");
-        this.data.audioProxy = 1;
-        await votStorage.set("audioProxy", 1);
-      } else {
-        debug.log("Test audio error:", err);
-      }
+      debug.log("Test audio error:", err);
     }
 
     return audioUrl;
@@ -2373,7 +2345,7 @@ class VideoHandler {
     }
 
     if (
-      this.data.audioProxy === 1 &&
+      this.translateProxyEnabled === 2 &&
       audioUrl.startsWith("https://vtrans.s3-private.mds.yandex.net/tts/prod/")
     ) {
       const audioPath = audioUrl.replace(
@@ -2392,12 +2364,7 @@ class VideoHandler {
       this.audioPlayer.init();
     } catch (err) {
       debug.log("this.audioPlayer.init() error", err);
-      if (err.message.includes("Failed to fetch audio file")) {
-        this.videoHandler.data.audioProxy = 1;
-        await votStorage.set("audioProxy", 1);
-      } else {
-        this.videoHandler.transformBtn("error", err.message);
-      }
+      this.videoHandler.transformBtn("error", err.message);
     }
 
     this.setupAudioSettings();
