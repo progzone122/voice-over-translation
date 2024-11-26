@@ -32,6 +32,7 @@
 // @match          *://*.xv-ru.com/*
 // @match          *://*.pornhub.com/*
 // @match          *://*.vk.com/*
+// @match          *://*.vkvideo.ru/*
 // @match          *://*.vk.ru/*
 // @match          *://*.vimeo.com/*
 // @match          *://*.9gag.com/*
@@ -260,12 +261,12 @@ var es5 = __webpack_require__("./node_modules/bowser/es5.js");
     hostVOT: "vot-api.toil.cc/v1",
     mediaProxy: "media-proxy.toil.cc",
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 YaBrowser/24.10.0.0 Safari/537.36",
-    componentVersion: "24.10.3.810",
+    componentVersion: "24.10.4.753",
     hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.0.3",
+    version: "2.0.5",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -2908,7 +2909,7 @@ class client_VOTClient {
             throw new VOTLocalizedError("requestTranslationFailed");
         }
         const translationData = yandexProtobuf.decodeTranslationResponse(res.data);
-        debug.log("translateVideo", translationData);
+        Logger.log("translateVideo", translationData);
         const { status, translationId, } = translationData;
         switch (status) {
             case VideoTranslationStatus.FAILED:
@@ -3380,7 +3381,7 @@ var ExtVideoService;
     {
         host: VideoService.vk,
         url: "https://vk.com/video?z=",
-        match: /^(www.|m.)?vk.(com|ru)$/,
+        match: [/^(www.|m.)?vk.(com|ru)$/, /^(www.|m.)?vkvideo.ru$/],
         selector: ".videoplayer_media",
     },
     {
@@ -3553,7 +3554,8 @@ var ExtVideoService;
         host: VideoService.okru,
         url: "https://ok.ru/video/",
         match: /^ok.ru$/,
-        selector: ".html5-vpl_vid",
+        selector: "vk-video-player",
+        shadowRoot: true,
     },
     {
         host: VideoService.googledrive,
@@ -7793,7 +7795,8 @@ const isMutedVideo = (video) => {
   );
 };
 
-const isVideoReady = (video) => video.getVideoPlaybackQuality().totalVideoFrames;
+const isVideoReady = (video) =>
+  video.getVideoPlaybackQuality().totalVideoFrames;
 
 const waitForVideoReady = (video, callback) => {
   const checkVideoState = () => {
@@ -9587,14 +9590,15 @@ class VideoHandler {
         });
         const { country } = await response.json();
         countryCode = country;
-        this.translateProxyEnabled = country === "UA" ? 2 : this.translateProxyEnabled;
+        this.translateProxyEnabled =
+          country === "UA" ? 2 : this.translateProxyEnabled;
       } catch (err) {
         console.error("[VOT] Error getting country:", err);
       }
     } else if (countryCode === "UA") {
       this.translateProxyEnabled = 2;
     }
-    
+
     debug.log("translateProxyEnabled", this.translateProxyEnabled);
     debug.log("Extension compatibility passed...");
 
