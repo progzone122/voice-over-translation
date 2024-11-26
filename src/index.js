@@ -466,15 +466,16 @@ class VideoHandler {
         });
         const { country } = await response.json();
         countryCode = country;
-        if (country === "UA") {
-          this.translateProxyEnabled = 2;
-        }
+        this.translateProxyEnabled =
+          country === "UA" ? 2 : this.translateProxyEnabled;
       } catch (err) {
         console.error("[VOT] Error getting country:", err);
       }
-      debug.log("translateProxyEnabled", this.translateProxyEnabled);
+    } else if (countryCode === "UA") {
+      this.translateProxyEnabled = 2;
     }
 
+    debug.log("translateProxyEnabled", this.translateProxyEnabled);
     debug.log("Extension compatibility passed...");
 
     this.votOpts = {
@@ -1961,7 +1962,7 @@ class VideoHandler {
     } else {
       const subtitlesObj = this.subtitlesList.at(parseInt(subs));
       if (
-        this.translateProxyEnabled === 1 &&
+        this.translateProxyEnabled >= 1 &&
         subtitlesObj.url.startsWith(
           "https://brosubs.s3-private.mds.yandex.net/vtrans/",
         )

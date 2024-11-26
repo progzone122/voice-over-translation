@@ -7793,7 +7793,7 @@ const isMutedVideo = (video) => {
   );
 };
 
-const isVideoReady = (video) => video.readyState >= 3;
+const isVideoReady = (video) => video.getVideoPlaybackQuality().totalVideoFrames;
 
 const waitForVideoReady = (video, callback) => {
   const checkVideoState = () => {
@@ -7856,36 +7856,9 @@ class VideoObserver {
   };
 
   searchInRoot(root) {
-    const findVideosInRoot = (currentRoot) => {
-      const videos = new Set();
-
-      const searchNode = (node) => {
-        if (node instanceof HTMLVideoElement) {
-          videos.add(node);
-        }
-
-        if (node instanceof Element) {
-          const directVideos = node.querySelectorAll("video");
-          for (let i = 0; i < directVideos.length; i++) {
-            videos.add(directVideos[i]);
-          }
-
-          const children = node.children;
-          if (children) {
-            for (let i = 0; i < children.length; i++) {
-              searchNode(children[i]);
-            }
-          }
-        }
-      };
-
-      searchNode(currentRoot);
-      return Array.from(videos);
-    };
-
-    const foundVideos = findVideosInRoot(root);
-    for (let i = 0; i < foundVideos.length; i++) {
-      this.checkAndHandleVideo(foundVideos[i]);
+    const videos = root.querySelectorAll("video");
+    for (let i = 0; i < videos.length; i++) {
+      this.checkAndHandleVideo(videos[i]);
     }
   }
 
@@ -9599,13 +9572,14 @@ class VideoHandler {
       );
     }
 
-    if (!this.translateProxyEnabled &&
-        GM_info?.scriptHandler &&
-        proxyOnlyExtensions.includes(GM_info.scriptHandler))
-    {
+    if (
+      !this.translateProxyEnabled &&
+      GM_info?.scriptHandler &&
+      proxyOnlyExtensions.includes(GM_info.scriptHandler)
+    ) {
       this.translateProxyEnabled = 1;
     }
-    
+
     if (!countryCode) {
       try {
         const response = await GM_fetch("https://speed.cloudflare.com/meta", {
@@ -9613,15 +9587,15 @@ class VideoHandler {
         });
         const { country } = await response.json();
         countryCode = country;
-        if (country === "UA") {
-          this.translateProxyEnabled = 2;
-        }
+        this.translateProxyEnabled = country === "UA" ? 2 : this.translateProxyEnabled;
       } catch (err) {
         console.error("[VOT] Error getting country:", err);
       }
-      debug.log("translateProxyEnabled", this.translateProxyEnabled);
+    } else if (countryCode === "UA") {
+      this.translateProxyEnabled = 2;
     }
-
+    
+    debug.log("translateProxyEnabled", this.translateProxyEnabled);
     debug.log("Extension compatibility passed...");
 
     this.votOpts = {
@@ -9641,9 +9615,7 @@ class VideoHandler {
           },
       fetchFn: GM_fetch,
       hostVOT: votBackendUrl,
-      host: this.translateProxyEnabled
-        ? this.data.proxyWorkerHost
-        : workerHost,
+      host: this.translateProxyEnabled ? this.data.proxyWorkerHost : workerHost,
     };
 
     this.votClient = new (
@@ -11110,7 +11082,7 @@ class VideoHandler {
     } else {
       const subtitlesObj = this.subtitlesList.at(parseInt(subs));
       if (
-        this.translateProxyEnabled === 1 &&
+        this.translateProxyEnabled >= 1 &&
         subtitlesObj.url.startsWith(
           "https://brosubs.s3-private.mds.yandex.net/vtrans/",
         )

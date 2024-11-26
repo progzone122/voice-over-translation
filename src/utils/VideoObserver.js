@@ -64,7 +64,8 @@ const isMutedVideo = (video) => {
   );
 };
 
-const isVideoReady = (video) => video.readyState >= 3;
+const isVideoReady = (video) =>
+  video.getVideoPlaybackQuality().totalVideoFrames;
 
 const waitForVideoReady = (video, callback) => {
   const checkVideoState = () => {
@@ -127,36 +128,9 @@ export class VideoObserver {
   };
 
   searchInRoot(root) {
-    const findVideosInRoot = (currentRoot) => {
-      const videos = new Set();
-
-      const searchNode = (node) => {
-        if (node instanceof HTMLVideoElement) {
-          videos.add(node);
-        }
-
-        if (node instanceof Element) {
-          const directVideos = node.querySelectorAll("video");
-          for (let i = 0; i < directVideos.length; i++) {
-            videos.add(directVideos[i]);
-          }
-
-          const children = node.children;
-          if (children) {
-            for (let i = 0; i < children.length; i++) {
-              searchNode(children[i]);
-            }
-          }
-        }
-      };
-
-      searchNode(currentRoot);
-      return Array.from(videos);
-    };
-
-    const foundVideos = findVideosInRoot(root);
-    for (let i = 0; i < foundVideos.length; i++) {
-      this.checkAndHandleVideo(foundVideos[i]);
+    const videos = root.querySelectorAll("video");
+    for (let i = 0; i < videos.length; i++) {
+      this.checkAndHandleVideo(videos[i]);
     }
   }
 
