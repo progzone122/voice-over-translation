@@ -2,7 +2,7 @@ import defaultLocale from "./locales/en.json";
 
 import debug from "../utils/debug.ts";
 import { contentUrl } from "../config/config.js";
-import { votStorage } from "../utils/storage.js";
+import { votStorage } from "../utils/storage.ts";
 import { getTimestamp, GM_fetch } from "../utils/utils.js";
 
 const localeCacheTTL = 7200;

@@ -4,7 +4,7 @@ import { normalizeLang } from "@vot.js/shared/utils/utils";
 import debug from "./debug.ts";
 import { localizationProvider } from "../localization/localizationProvider.js";
 import { cleanText } from "./utils.js";
-import { detect } from "./translateApis.js";
+import { detect } from "./translateApis.ts";
 
 // Get the language code from the response or the text
 async function getLanguage(player, response, title, description) {
