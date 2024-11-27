@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "සර්වර් එකට කිසිම සම්බන්ධයක් නෑ",
   "searchField": "හොයන්න...",
   "VOTTranslateAPIErrors": "API වෙතින් දෝෂ පරිවර්තනය කරන්න",
-  "VOTTranslationService": "පරිවර්තන සේවාව",
-  "VOTDetectService": "සේවාව හඳුනාගන්න",
+  "VOTDetectService": "භාෂා හඳුනාගැනීමේ සේවාව",
   "VOTTranslatingError": "දෝෂය පරිවර්තනය කිරීම",
   "VOTProxyWorkerHost": "ප්රොක්සි සේවක ලිපිනය ඇතුලත් කරන්න",
   "VOTM3u8ProxyHost": "M3u8 ප්රොක්සි සේවකයාගේ ලිපිනය ඇතුලත් කරන්න",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "මෙම වෙබ් අඩවියේ csp මාධ් ය සක් රීය කර ඇත",
   "VOTOnlyBypassMediaCSP": "මාධ්ය CSP මඟ හැරීම සඳහා පමණක් එය භාවිතා කරන්න",
   "VOTNewAudioPlayer": "නව ශ්රව්ය වාදකය භාවිතා කරන්න",
-  "VOTUseNewModel": "සමහර වීඩියෝ සඳහා Yandex voices හි පර්යේෂණාත්මක විචලනයක් භාවිතා කරන්න"
+  "VOTUseNewModel": "සමහර වීඩියෝ සඳහා Yandex voices හි පර්යේෂණාත්මක විචලනයක් භාවිතා කරන්න",
+  "VOTTranslationErrorsService": "දෝෂ පරිවර්තන සේවාව"
 }

@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "Нема везе са сервером",
   "searchField": "Претрага...",
   "VOTTranslateAPIErrors": "Превођење грешака из АПИ-ја",
-  "VOTTranslationService": "Услуга писменог превођења",
-  "VOTDetectService": "Услуга откривања",
+  "VOTDetectService": "Услуга дефиниције језика",
   "VOTTranslatingError": "Превођење грешке",
   "VOTProxyWorkerHost": "Унесите радну адресу проки сервера",
   "VOTM3u8ProxyHost": "Унесите адресу радног проки сервера м3у8",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "На овој веб локацији је омогућен Медиа ЦСП",
   "VOTOnlyBypassMediaCSP": "Користите га само за заобилажење Медиа ЦСП-а",
   "VOTNewAudioPlayer": "Користите нови аудио плејер",
-  "VOTUseNewModel": "Користите експерименталну опцију Иандек Воицес за неке видео записе"
+  "VOTUseNewModel": "Користите експерименталну опцију Иандек Воицес за неке видео записе",
+  "VOTTranslationErrorsService": "Услуга превођења грешака"
 }

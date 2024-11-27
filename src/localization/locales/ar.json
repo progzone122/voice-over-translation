@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "لا يوجد اتصال بالخادم",
   "searchField": "بحث...",
   "VOTTranslateAPIErrors": "ترجمة الأخطاء من واجهة برمجة التطبيقات",
-  "VOTTranslationService": "خدمة الترجمة",
-  "VOTDetectService": "كشف الخدمة",
+  "VOTDetectService": "خدمة كشف اللغة",
   "VOTTranslatingError": "ترجمة الخطأ",
   "VOTProxyWorkerHost": "أدخل عنوان عامل الوكيل",
   "VOTM3u8ProxyHost": "أدخل عنوان عامل الوكيل إم 3 يو 8",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "يتم تمكين الطاقة الشمسية المركزة وسائل الإعلام على هذا الموقع",
   "VOTOnlyBypassMediaCSP": "استخدامه فقط لتجاوز وسائل الإعلام سب",
   "VOTNewAudioPlayer": "استخدم مشغل الصوت الجديد",
-  "VOTUseNewModel": "استخدم تباينا تجريبيا لأصوات ياندكس لبعض مقاطع الفيديو"
+  "VOTUseNewModel": "استخدم تباينا تجريبيا لأصوات ياندكس لبعض مقاطع الفيديو",
+  "VOTTranslationErrorsService": "خدمة ترجمة الأخطاء"
 }

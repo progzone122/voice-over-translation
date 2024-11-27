@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "Tiada sambungan ke pelayan",
   "searchField": "Cari...",
   "VOTTranslateAPIErrors": "Terjemahkan ralat dari API",
-  "VOTTranslationService": "Perkhidmatan Terjemahan",
-  "VOTDetectService": "Mengesan Perkhidmatan",
+  "VOTDetectService": "Perkhidmatan pengesanan bahasa",
   "VOTTranslatingError": "Menterjemahkan ralat",
   "VOTProxyWorkerHost": "Masukkan alamat pekerja proksi",
   "VOTM3u8ProxyHost": "Masukkan alamat pekerja proksi m3u8",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "Media CSP diaktifkan di laman web ini",
   "VOTOnlyBypassMediaCSP": "Gunakan ia hanya untuk memintas media CSP",
   "VOTNewAudioPlayer": "Gunakan pemain audio baru",
-  "VOTUseNewModel": "Gunakan variasi percubaan suara Yandex untuk beberapa video"
+  "VOTUseNewModel": "Gunakan variasi percubaan suara Yandex untuk beberapa video",
+  "VOTTranslationErrorsService": "Perkhidmatan terjemahan ralat"
 }

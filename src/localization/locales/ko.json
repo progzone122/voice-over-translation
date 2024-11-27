@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "서버에 연결이 없습니다",
   "searchField": "검색...",
   "VOTTranslateAPIErrors": "번역 오류",
-  "VOTTranslationService": "번역 서비스",
-  "VOTDetectService": "서비스 감지",
+  "VOTDetectService": "언어 탐지 서비스",
   "VOTTranslatingError": "오류 번역",
   "VOTProxyWorkerHost": "프록시 작업자 주소를 입력합니다",
   "VOTM3u8ProxyHost": "프록시 작업자의 주소를 입력합니다",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "이 사이트에서 사용할 수 있습니다",
   "VOTOnlyBypassMediaCSP": "미디어 우회 용으로만 사용",
   "VOTNewAudioPlayer": "새 오디오 플레이어 사용",
-  "VOTUseNewModel": "일부 동영상에는 얀덱스 목소리의 실험적 변형을 사용합니다"
+  "VOTUseNewModel": "일부 동영상에는 얀덱스 목소리의 실험적 변형을 사용합니다",
+  "VOTTranslationErrorsService": "오류 번역 서비스"
 }

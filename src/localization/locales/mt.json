@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "M'hemm l ebda konnessjoni mas server",
   "searchField": "Fittex...",
   "VOTTranslateAPIErrors": "Ittraduċi żbalji mill-API",
-  "VOTTranslationService": "Servizz Ta'traduzzjoni",
-  "VOTDetectService": "Servizz Ta'skoperta",
+  "VOTDetectService": "Servizz ta'skoperta tal-lingwa",
   "VOTTranslatingError": "Traduzzjoni tal-iżball",
   "VOTProxyWorkerHost": "Daħħal l indirizz tal ħaddiem tal prokura",
   "VOTM3u8ProxyHost": "Daħħal l indirizz tal ħaddiem tal prokura m3u8",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "Il-PSK tal-midja huwa attivat fuq dan is-sit",
   "VOTOnlyBypassMediaCSP": "Użaha biss Biex tevita L-PSK Tal-Midja",
   "VOTNewAudioPlayer": "Uża l-plejer tal-awdjo l-ġdid",
-  "VOTUseNewModel": "Uża varjazzjoni sperimentali ta'vuċijiet Yandex għal xi vidjows"
+  "VOTUseNewModel": "Uża varjazzjoni sperimentali ta'vuċijiet Yandex għal xi vidjows",
+  "VOTTranslationErrorsService": "Servizz ta'traduzzjoni ta'żbalji"
 }

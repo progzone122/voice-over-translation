@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "Server bağlantısı yoxdur",
   "searchField": "Axtarış...",
   "VOTTranslateAPIErrors": "API-dən səhvlərin tərcüməsi",
-  "VOTTranslationService": "Tərcümə xidməti",
-  "VOTDetectService": "Kəşf xidməti",
+  "VOTDetectService": "Dil tərifi xidməti",
   "VOTTranslatingError": "Səhv tərcümə",
   "VOTProxyWorkerHost": "Proxy serverin iş ünvanını daxil edin",
   "VOTM3u8ProxyHost": "M3u8 işləyən proxy server ünvanını daxil edin",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "Media CSP bu saytda aktivdir",
   "VOTOnlyBypassMediaCSP": "Yalnız Media CSP-ni keçmək üçün istifadə edin",
   "VOTNewAudioPlayer": "Yeni audio pleyerdən istifadə edin",
-  "VOTUseNewModel": "Bəzi videolar üçün Yandex voices-in eksperimental versiyasından istifadə edin"
+  "VOTUseNewModel": "Bəzi videolar üçün Yandex voices-in eksperimental versiyasından istifadə edin",
+  "VOTTranslationErrorsService": "Səhv tərcümə xidməti"
 }

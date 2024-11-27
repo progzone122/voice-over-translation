@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "هیچ ارتباطی با سرور وجود ندارد",
   "searchField": "جستجو کن..",
   "VOTTranslateAPIErrors": "ترجمه خطاها از API",
-  "VOTTranslationService": "خدمات ترجمه",
-  "VOTDetectService": "سرویس تشخیص",
+  "VOTDetectService": "سرویس تشخیص زبان",
   "VOTTranslatingError": "ترجمه خطا",
   "VOTProxyWorkerHost": "آدرس کارگر پروکسی را وارد کنید",
   "VOTM3u8ProxyHost": "آدرس کارگر پروکسی m3u8 را وارد کنید",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "Media CSP در این سایت فعال شده است",
   "VOTOnlyBypassMediaCSP": "از آن فقط برای دور زدن Csp رسانه استفاده کنید",
   "VOTNewAudioPlayer": "از پخش کننده صوتی جدید استفاده کنید",
-  "VOTUseNewModel": "برای برخی از فیلم ها از یک تغییر تجربی از صداهای Yandex استفاده کنید"
+  "VOTUseNewModel": "برای برخی از فیلم ها از یک تغییر تجربی از صداهای Yandex استفاده کنید",
+  "VOTTranslationErrorsService": "خدمات ترجمه خطا"
 }

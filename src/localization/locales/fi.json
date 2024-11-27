@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "Palvelimeen ei ole yhteyttä",
   "searchField": "Etsiä...",
   "VOTTranslateAPIErrors": "Käännä virheet API: sta",
-  "VOTTranslationService": "käännöspalvelu",
-  "VOTDetectService": "Tunnista Palvelu",
+  "VOTDetectService": "Kielen tunnistuspalvelu",
   "VOTTranslatingError": "Virheen kääntäminen",
   "VOTProxyWorkerHost": "Anna valtakirjan työntekijän osoite",
   "VOTM3u8ProxyHost": "Anna M3U8-valtakirjan työntekijän osoite",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "Media CSP on käytössä tällä sivustolla",
   "VOTOnlyBypassMediaCSP": "Käytä sitä vain Media CSP: n ohittamiseen",
   "VOTNewAudioPlayer": "Käytä uutta soittinta",
-  "VOTUseNewModel": "Käytä kokeellista muunnelmaa Yandex-äänistä joissakin videoissa"
+  "VOTUseNewModel": "Käytä kokeellista muunnelmaa Yandex-äänistä joissakin videoissa",
+  "VOTTranslationErrorsService": "Virheen käännöspalvelu"
 }

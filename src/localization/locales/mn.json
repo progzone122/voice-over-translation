@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "Сервертэй холбогдох боломжгүй",
   "searchField": "Хайх...",
   "VOTTranslateAPIErrors": "API - аас алдаа орчуулах",
-  "VOTTranslationService": "Орчуулгын Үйлчилгээ",
-  "VOTDetectService": "Үйлчилгээг Илрүүлэх",
+  "VOTDetectService": "Хэл илрүүлэх үйлчилгээ",
   "VOTTranslatingError": "Алдааг орчуулах",
   "VOTProxyWorkerHost": "Прокси ажилчдын хаягийг оруулна уу",
   "VOTM3u8ProxyHost": "M3u8 прокси ажилтны хаягийг оруулна уу",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "Хэвлэл мэдээллийн CSP энэ сайт дээр идэвхжүүлсэн байна",
   "VOTOnlyBypassMediaCSP": "Зөвхөн хэвлэл мэдээллийн ОНХХ алгасан үүнийг ашиглах",
   "VOTNewAudioPlayer": "Шинэ аудио тоглуулагч ашиглах",
-  "VOTUseNewModel": "Зарим видеонуудад Yandex-ийн дуу хоолойны туршилтын хувилбарыг ашиглана уу"
+  "VOTUseNewModel": "Зарим видеонуудад Yandex-ийн дуу хоолойны туршилтын хувилбарыг ашиглана уу",
+  "VOTTranslationErrorsService": "Алдааны орчуулгын үйлчилгээ"
 }

@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "سرور سے کوئی تعلق نہیں ہے",
   "searchField": "تلاش...",
   "VOTTranslateAPIErrors": "API سے غلطیوں کا ترجمہ کریں",
-  "VOTTranslationService": "ترجمہ سروس",
-  "VOTDetectService": "سروس کا پتہ لگائیں",
+  "VOTDetectService": "زبان کا پتہ لگانے کی خدمت",
   "VOTTranslatingError": "غلطی کا ترجمہ",
   "VOTProxyWorkerHost": "پراکسی ورکر ایڈریس درج کریں ۔ ",
   "VOTM3u8ProxyHost": "M3u8 پراکسی ورکر کا پتہ درج کریں ۔ ",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "اس سائٹ پر میڈیا سی ایس پی فعال ہے",
   "VOTOnlyBypassMediaCSP": "اسے صرف میڈیا CSP کو نظرانداز کرنے کے لیے استعمال کریں ۔ ",
   "VOTNewAudioPlayer": "نیا آڈیو پلیئر استعمال کریں",
-  "VOTUseNewModel": "کچھ ویڈیوز کے لئے یاندیکس آوازوں کی تجرباتی تغیر کا استعمال کریں ۔ "
+  "VOTUseNewModel": "کچھ ویڈیوز کے لئے یاندیکس آوازوں کی تجرباتی تغیر کا استعمال کریں ۔ ",
+  "VOTTranslationErrorsService": "غلطی ترجمہ سروس"
 }

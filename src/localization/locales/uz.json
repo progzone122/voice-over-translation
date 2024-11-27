@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "Serverga ulanish yo'q",
   "searchField": "Qidirish...",
   "VOTTranslateAPIErrors": "API-dan xatolarni tarjima qiling",
-  "VOTTranslationService": "Tarjima Xizmati",
-  "VOTDetectService": "Xizmatni Aniqlash",
+  "VOTDetectService": "Tilni aniqlash xizmati",
   "VOTTranslatingError": "Xatoni tarjima qilish",
   "VOTProxyWorkerHost": "Proksi-server manzilini kiriting",
   "VOTM3u8ProxyHost": "M3u8 proksi-serverining manzilini kiriting",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "Media CSP ushbu saytda yoqilgan",
   "VOTOnlyBypassMediaCSP": "Uni faqat Media CSP-ni chetlab o'tish uchun foydalaning",
   "VOTNewAudioPlayer": "Yangi audio pleerdan foydalaning",
-  "VOTUseNewModel": "Ba'zi videolar uchun Yandex ovozlarining eksperimental variantidan foydalaning"
+  "VOTUseNewModel": "Ba'zi videolar uchun Yandex ovozlarining eksperimental variantidan foydalaning",
+  "VOTTranslationErrorsService": "Xato tarjima xizmati"
 }

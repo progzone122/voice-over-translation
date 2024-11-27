@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "ከአገልጋዩ ጋር ምንም ግንኙነት የለም ። ",
   "searchField": "Search።..",
   "VOTTranslateAPIErrors": "ከ API ስህተቶችን ይተረጉሙ",
-  "VOTTranslationService": "የትርጉም አገልግሎት",
-  "VOTDetectService": "አግኝ አገልግሎት",
+  "VOTDetectService": "የቋንቋ ማወቂያ አገልግሎት",
   "VOTTranslatingError": "ስህተት መተርጎም",
   "VOTProxyWorkerHost": "ተኪ ሠራተኛ አድራሻ ያስገቡ",
   "VOTM3u8ProxyHost": "የ m3u8 ተኪ ሰራተኛ አድራሻ ያስገቡ",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "በዚህ ድረ ገጽ ላይ የፒ",
   "VOTOnlyBypassMediaCSP": "የሚዲያ ሲ ኤስ ፒ ለማለፍ ብቻ ይጠቀሙ",
   "VOTNewAudioPlayer": "አዲሱን የድምፅ ማጫወቻ ይጠቀሙ",
-  "VOTUseNewModel": "ለአንዳንድ ቪዲዮዎች የ Yandex ድምፆች የሙከራ ልዩነት ይጠቀሙ"
+  "VOTUseNewModel": "ለአንዳንድ ቪዲዮዎች የ Yandex ድምፆች የሙከራ ልዩነት ይጠቀሙ",
+  "VOTTranslationErrorsService": "የስህተት ትርጉም አገልግሎት"
 }

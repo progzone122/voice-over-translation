@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "Nincs kapcsolat a szerverrel",
   "searchField": "Keresés...",
   "VOTTranslateAPIErrors": "Hibák lefordítása az API - ból",
-  "VOTTranslationService": "Fordítási Szolgáltatás",
-  "VOTDetectService": "Szolgáltatás Észlelése",
+  "VOTDetectService": "Nyelvfelismerő szolgáltatás",
   "VOTTranslatingError": "A hiba fordítása",
   "VOTProxyWorkerHost": "Adja meg a proxy munkavállaló címét",
   "VOTM3u8ProxyHost": "Írja be az m3u8 proxy munkás címét",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "A Media CSP engedélyezve van ezen a webhelyen",
   "VOTOnlyBypassMediaCSP": "Csak a Media CSP megkerülésére használja",
   "VOTNewAudioPlayer": "Az új audiolejátszó használata",
-  "VOTUseNewModel": "Használja a Yandex voices kísérleti változatát néhány videóhoz"
+  "VOTUseNewModel": "Használja a Yandex voices kísérleti változatát néhány videóhoz",
+  "VOTTranslationErrorsService": "Hiba fordítási szolgáltatás"
 }

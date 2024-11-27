@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "Սերվերի միացում չկա",
   "searchField": "Որոնում..",
   "VOTTranslateAPIErrors": "API-ից սխալների փոխանցում",
-  "VOTTranslationService": "Գրավոր թարգմանության ծառայություն",
-  "VOTDetectService": "Հայտնաբերման ծառայություն",
+  "VOTDetectService": "Լեզվի սահմանման ծառայություն",
   "VOTTranslatingError": "Սխալ թարգմանություն",
   "VOTProxyWorkerHost": "Մուտքագրեք վստահված սերվերի աշխատանքային հասցեն",
   "VOTM3u8ProxyHost": "Մուտքագրեք աշխատանքային m3u8 վստահված անձի հասցեն",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "Media CSP-ն միացված է այս կայքում",
   "VOTOnlyBypassMediaCSP": "Օգտագործեք այն միայն Media CSP-ն շրջանցելու համար",
   "VOTNewAudioPlayer": "Օգտագործեք նոր աուդիո նվագարկիչ",
-  "VOTUseNewModel": "Որոշ տեսանյութերի համար օգտագործեք Yandex voices-ի փորձնական տարբերակը"
+  "VOTUseNewModel": "Որոշ տեսանյութերի համար օգտագործեք Yandex voices-ի փորձնական տարբերակը",
+  "VOTTranslationErrorsService": "Սխալների թարգմանության ծառայություն"
 }

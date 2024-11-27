@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "Er is geen verbinding met de server",
   "searchField": "Zoeken...",
   "VOTTranslateAPIErrors": "Vertaal fouten uit de API",
-  "VOTTranslationService": "vertaaldienst",
-  "VOTDetectService": "Detect Service",
+  "VOTDetectService": "Language detection service",
   "VOTTranslatingError": "Vertaling van de fout",
   "VOTProxyWorkerHost": "Voer het proxy worker-adres in",
   "VOTM3u8ProxyHost": "Voer het adres van de m3u8 proxy worker in",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "Media CSP is ingeschakeld op deze site",
   "VOTOnlyBypassMediaCSP": "Gebruik het alleen voor het omzeilen van Media CSP",
   "VOTNewAudioPlayer": "De nieuwe audiospeler gebruiken",
-  "VOTUseNewModel": "Gebruik een experimentele variant van Yandex voices voor sommige video ' s"
+  "VOTUseNewModel": "Gebruik een experimentele variant van Yandex voices voor sommige video ' s",
+  "VOTTranslationErrorsService": "Error translation service"
 }

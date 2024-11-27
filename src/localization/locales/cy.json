@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "Nid oes cysylltiad i'r defnyddiwr",
   "searchField": "Chwilio...",
   "VOTTranslateAPIErrors": "Cyfieithu gwallau O'R API",
-  "VOTTranslationService": "Gwasanaeth Cyfieithu",
-  "VOTDetectService": "Canfod Gwasanaeth",
+  "VOTDetectService": "Gwasanaeth canfod iaith",
   "VOTTranslatingError": "Cyfieithu'r gwall",
   "VOTProxyWorkerHost": "Rhowch gyfeiriad y gweithiwr dirprwy",
   "VOTM3u8ProxyHost": "Rhowch gyfeiriad y gweithiwr dirprwy m3u8",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "Mae csp cyfryngau wedi'i alluogi ar y wefan hon",
   "VOTOnlyBypassMediaCSP": "Defnyddiwch ef yn unig ar gyfer osgoi Cyfryngau CSP",
   "VOTNewAudioPlayer": "Defnyddio'r chwaraewr sain newydd",
-  "VOTUseNewModel": "Defnyddiwch amrywiad arbrofol o leisiau Yandex ar gyfer rhai fideos"
+  "VOTUseNewModel": "Defnyddiwch amrywiad arbrofol o leisiau Yandex ar gyfer rhai fideos",
+  "VOTTranslationErrorsService": "Gwasanaeth cyfieithu gwall"
 }

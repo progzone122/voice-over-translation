@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "Nema veze sa serverom",
   "searchField": "Traži...",
   "VOTTranslateAPIErrors": "Prevedi greške iz API-ja",
-  "VOTTranslationService": "Prevodilačka Služba",
-  "VOTDetectService": "Otkrijte Uslugu",
+  "VOTDetectService": "Usluga otkrivanja jezika",
   "VOTTranslatingError": "Prevođenje greške",
   "VOTProxyWorkerHost": "Unesite adresu proxy radnika",
   "VOTM3u8ProxyHost": "Unesite adresu m3u8 proxy radnika",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "Media CSP je omogućen na ovom sajtu",
   "VOTOnlyBypassMediaCSP": "Koristi ga samo za zaobilaženje medija CSP",
   "VOTNewAudioPlayer": "Koristi novi audio player",
-  "VOTUseNewModel": "Upotrijebite eksperimentalnu varijaciju Yandex glasova za neke videozapise"
+  "VOTUseNewModel": "Upotrijebite eksperimentalnu varijaciju Yandex glasova za neke videozapise",
+  "VOTTranslationErrorsService": "Usluga prevođenja grešaka"
 }

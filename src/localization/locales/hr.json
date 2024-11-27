@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "Nema veze s poslužiteljem",
   "searchField": "Traži...",
   "VOTTranslateAPIErrors": "Prevođenje pogrešaka iz",
-  "VOTTranslationService": "Usluga prevođenja",
-  "VOTDetectService": "Usluga otkrivanja",
+  "VOTDetectService": "Usluga definiranja jezika",
   "VOTTranslatingError": "Prijevod pogreške",
   "VOTProxyWorkerHost": "Unesite radnu adresu opunomoćenika",
   "VOTM3u8ProxyHost": "Unesite adresu radnog opunomoćenika od 93 do 8",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "Na ovoj je stranici omogućen",
   "VOTOnlyBypassMediaCSP": "Koristite ga samo za zaobilaženje",
   "VOTNewAudioPlayer": "Koristite novi audio uređaj",
-  "VOTUseNewModel": "Koristite eksperimentalnu opciju za neke videozapise"
+  "VOTUseNewModel": "Koristite eksperimentalnu opciju za neke videozapise",
+  "VOTTranslationErrorsService": "Usluga prevođenja pogrešaka"
 }

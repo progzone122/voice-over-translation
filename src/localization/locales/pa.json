@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "ਸਰਵਰ ਨਾਲ ਕੋਈ ਕੁਨੈਕਸ਼ਨ ਨਹੀਂ",
   "searchField": "ਖੋਜ ਕਰੋ...",
   "VOTTranslateAPIErrors": "ਏਪੀਆਈ ਤੋਂ ਗਲਤੀਆਂ ਅਨੁਵਾਦ ਕਰੋ",
-  "VOTTranslationService": "ਅਨੁਵਾਦ ਸੇਵਾ",
-  "VOTDetectService": "ਖੋਜ ਸੇਵਾ",
+  "VOTDetectService": "ਭਾਸ਼ਾ ਖੋਜ ਸੇਵਾ",
   "VOTTranslatingError": "ਗਲਤੀ ਅਨੁਵਾਦ",
   "VOTProxyWorkerHost": "ਪਰਾਕਸੀ ਵਰਕਰ ਐਡਰੈੱਸ ਦਿਓ",
   "VOTM3u8ProxyHost": "ਐਮ 3 ਯੂ 8 ਪ੍ਰੌਕਸੀ ਵਰਕਰ ਦਾ ਪਤਾ ਦਰਜ ਕਰੋ",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "ਮੀਡੀਆ ਸੀਐਸਪੀ ਇਸ ਸਾਈਟ ਤੇ ਸਮਰੱਥ ਹੈ",
   "VOTOnlyBypassMediaCSP": "ਇਸ ਨੂੰ ਸਿਰਫ ਮੀਡੀਆ ਸੀਐਸਪੀ ਨੂੰ ਬਾਈਪਾਸ ਕਰਨ ਲਈ ਵਰਤੋ",
   "VOTNewAudioPlayer": "ਨਵਾਂ ਆਡੀਓ ਪਲੇਅਰ ਵਰਤੋਂ",
-  "VOTUseNewModel": "ਕੁਝ ਵੀਡੀਓਜ਼ ਲਈ ਯਾਂਡੇਕਸ ਆਵਾਜ਼ਾਂ ਦੀ ਪ੍ਰਯੋਗਾਤਮਕ ਪਰਿਵਰਤਨ ਦੀ ਵਰਤੋਂ ਕਰੋ"
+  "VOTUseNewModel": "ਕੁਝ ਵੀਡੀਓਜ਼ ਲਈ ਯਾਂਡੇਕਸ ਆਵਾਜ਼ਾਂ ਦੀ ਪ੍ਰਯੋਗਾਤਮਕ ਪਰਿਵਰਤਨ ਦੀ ਵਰਤੋਂ ਕਰੋ",
+  "VOTTranslationErrorsService": "ਗਲਤੀ ਅਨੁਵਾਦ ਸੇਵਾ"
 }

@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "Det finns ingen anslutning till servern",
   "searchField": "Söka...",
   "VOTTranslateAPIErrors": "Översätt fel från API",
-  "VOTTranslationService": "översättningstjänst",
-  "VOTDetectService": "Upptäck Service",
+  "VOTDetectService": "Språkidentifieringstjänst",
   "VOTTranslatingError": "Översätta felet",
   "VOTProxyWorkerHost": "Ange proxyarbetarens adress",
   "VOTM3u8ProxyHost": "Ange adressen till M3U8-proxyarbetaren",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "Media CSP är aktiverat på den här webbplatsen",
   "VOTOnlyBypassMediaCSP": "Använd den bara för att kringgå Media CSP",
   "VOTNewAudioPlayer": "Använd den nya ljudspelaren",
-  "VOTUseNewModel": "Använd en experimentell variant av Yandex-Röster För vissa videor"
+  "VOTUseNewModel": "Använd en experimentell variant av Yandex-Röster För vissa videor",
+  "VOTTranslationErrorsService": "Fel översättningstjänst"
 }

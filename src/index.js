@@ -869,9 +869,9 @@ class VideoHandler {
         this.votUseNewModelCheckbox.container,
       );
 
-      this.votTranslationServiceSelect = ui.createVOTSelect(
+      this.votTranslationErrorsServiceSelect = ui.createVOTSelect(
         this.data.translationService.toUpperCase(),
-        localizationProvider.get("VOTTranslationService"),
+        localizationProvider.get("VOTTranslationErrorsService"),
         genOptionsByOBJ(translateServices, this.data.translationService),
         {
           onSelectCb: async (e) => {
@@ -887,10 +887,10 @@ class VideoHandler {
           ).container,
         },
       );
-      this.votTranslationServiceSelect.container.hidden =
+      this.votTranslationErrorsServiceSelect.container.hidden =
         localizationProvider.lang === "ru";
       this.votSettingsDialog.bodyContainer.appendChild(
-        this.votTranslationServiceSelect.container,
+        this.votTranslationErrorsServiceSelect.container,
       );
 
       this.votDetectServiceSelect = ui.createVOTSelect(
@@ -1439,7 +1439,7 @@ class VideoHandler {
         })();
       });
 
-      this.votTranslationServiceSelect.labelElement.addEventListener(
+      this.votTranslationErrorsServiceSelect.labelElement.addEventListener(
         "change",
         (e) => {
           (async () => {

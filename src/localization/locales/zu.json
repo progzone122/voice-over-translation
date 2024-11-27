@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "Akukho ukuxhumana neseva",
   "searchField": "Ukucinga...",
   "VOTTranslateAPIErrors": "Humusha amaphutha KUSUKA API",
-  "VOTTranslationService": "Inkonzo Yokuhumusha",
-  "VOTDetectService": "Thola Service",
+  "VOTDetectService": "Isevisi yokuthola ulimi",
   "VOTTranslatingError": "Ukuhumusha iphutha",
   "VOTProxyWorkerHost": "Faka ikheli proxy isisebenzi",
   "VOTM3u8ProxyHost": "Faka ikheli le-m3u8 proxy worker",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "I-Media csp inikwe amandla kule sayithi",
   "VOTOnlyBypassMediaCSP": "Sebenzisa kuphela Bypassing Media Csp",
   "VOTNewAudioPlayer": "Sebenzisa umdlali omusha audio",
-  "VOTUseNewModel": "Sebenzisa ukuhlukahluka kokuhlola kwamazwi E Yandex kwamanye amavidiyo"
+  "VOTUseNewModel": "Sebenzisa ukuhlukahluka kokuhlola kwamazwi E Yandex kwamanye amavidiyo",
+  "VOTTranslationErrorsService": "Isevisi yokuhumusha amaphutha"
 }

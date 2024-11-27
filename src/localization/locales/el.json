@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "Δεν υπάρχει σύνδεση με το διακομιστή",
   "searchField": "Αναζήτηση...",
   "VOTTranslateAPIErrors": "Μετάφραση σφαλμάτων από το API",
-  "VOTTranslationService": "μετάφραση",
-  "VOTDetectService": "Ανίχνευση Υπηρεσίας",
+  "VOTDetectService": "Υπηρεσία ανίχνευσης γλωσσών",
   "VOTTranslatingError": "Μετάφραση του σφάλματος",
   "VOTProxyWorkerHost": "Εισαγάγετε τη διεύθυνση διακομιστή μεσολάβησης",
   "VOTM3u8ProxyHost": "Εισαγάγετε τη διεύθυνση του διακομιστή μεσολάβησης m3u8",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "Το Media CSP είναι ενεργοποιημένο σε αυτόν τον ιστότοπο",
   "VOTOnlyBypassMediaCSP": "Χρησιμοποιήστε το μόνο για παράκαμψη CSP πολυμέσων",
   "VOTNewAudioPlayer": "Χρησιμοποιήστε τη νέα συσκευή αναπαραγωγής ήχου",
-  "VOTUseNewModel": "Χρησιμοποιήστε μια πειραματική παραλλαγή των φωνών Yandex για ορισμένα βίντεο"
+  "VOTUseNewModel": "Χρησιμοποιήστε μια πειραματική παραλλαγή των φωνών Yandex για ορισμένα βίντεο",
+  "VOTTranslationErrorsService": "Υπηρεσία μετάφρασης σφαλμάτων"
 }

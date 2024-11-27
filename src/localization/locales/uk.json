@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "Немає підключення до сервера",
   "searchField": "Пошук...",
   "VOTTranslateAPIErrors": "Переклад помилок з API",
-  "VOTTranslationService": "Сервис перекладу",
-  "VOTDetectService": "Служба виявлення",
+  "VOTDetectService": "Сервіс визначення мови",
   "VOTTranslatingError": "Переклад помилки",
   "VOTProxyWorkerHost": "Введіть адресу worker проксі-сервера",
   "VOTM3u8ProxyHost": "Введіть адресу m3u8 проксі-сервера",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "На цьому сайті включено Media CSP",
   "VOTOnlyBypassMediaCSP": "Використовуйте його лише для обходу Media CSP",
   "VOTNewAudioPlayer": "Використовуйте новий аудіоплеєр",
-  "VOTUseNewModel": "Використовуйте експериментальний варіант Yandex voices для деяких відео"
+  "VOTUseNewModel": "Використовуйте експериментальний варіант Yandex voices для деяких відео",
+  "VOTTranslationErrorsService": "Сервіс перекладу помилок"
 }

@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "Sunucuya bağlantı yok",
   "searchField": "Aramak...",
   "VOTTranslateAPIErrors": "API'DEN hataları çevir",
-  "VOTTranslationService": "Çeviri Hizmeti",
-  "VOTDetectService": "Hizmeti Algıla",
+  "VOTDetectService": "Dil algılama hizmeti",
   "VOTTranslatingError": "Hatayı çevirmek",
   "VOTProxyWorkerHost": "Vekil çalışan adresini girin",
   "VOTM3u8ProxyHost": "M3u8 proxy çalışanının adresini girin",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "Media CSP bu sitede etkindir",
   "VOTOnlyBypassMediaCSP": "Yalnızca Medya csp'sini atlamak için kullanın",
   "VOTNewAudioPlayer": "Yeni ses çaları kullanma",
-  "VOTUseNewModel": "Bazı videolar için Yandex seslerinin deneysel bir varyasyonunu kullanın"
+  "VOTUseNewModel": "Bazı videolar için Yandex seslerinin deneysel bir varyasyonunu kullanın",
+  "VOTTranslationErrorsService": "Hata çeviri hizmeti"
 }

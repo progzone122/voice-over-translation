@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "No hay conexión con el servidor",
   "searchField": "Búsqueda...",
   "VOTTranslateAPIErrors": "Traducir errores de la API",
-  "VOTTranslationService": "Servicio de Traducción",
-  "VOTDetectService": "Detectar Servicio",
+  "VOTDetectService": "Servicio de detección de idioma",
   "VOTTranslatingError": "Traduciendo el error",
   "VOTProxyWorkerHost": "Ingrese la dirección del trabajador proxy",
   "VOTM3u8ProxyHost": "Ingrese la dirección del trabajador proxy m3u8",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "Media CSP está habilitado en este sitio",
   "VOTOnlyBypassMediaCSP": "Úselo solo para omitir CSP de medios",
   "VOTNewAudioPlayer": "Usa el nuevo reproductor de audio",
-  "VOTUseNewModel": "Usa una variación experimental de las voces de Yandex para algunos videos"
+  "VOTUseNewModel": "Usa una variación experimental de las voces de Yandex para algunos videos",
+  "VOTTranslationErrorsService": "Servicio de traducción de errores"
 }

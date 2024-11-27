@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "Tidak ada koneksi ke server",
   "searchField": "Cari...",
   "VOTTranslateAPIErrors": "Terjemahkan kesalahan dari API",
-  "VOTTranslationService": "Layanan Penerjemahan",
-  "VOTDetectService": "Mendeteksi Layanan",
+  "VOTDetectService": "Layanan deteksi bahasa",
   "VOTTranslatingError": "Menerjemahkan kesalahan",
   "VOTProxyWorkerHost": "Masukkan alamat pekerja proxy",
   "VOTM3u8ProxyHost": "Masukkan alamat pekerja proksi m3u8",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "Media CSP diaktifkan di situs ini",
   "VOTOnlyBypassMediaCSP": "Gunakan hanya untuk melewati Media CSP",
   "VOTNewAudioPlayer": "Gunakan pemutar audio baru",
-  "VOTUseNewModel": "Gunakan variasi eksperimental suara Yandex untuk beberapa video"
+  "VOTUseNewModel": "Gunakan variasi eksperimental suara Yandex untuk beberapa video",
+  "VOTTranslationErrorsService": "Layanan penerjemahan galat"
 }

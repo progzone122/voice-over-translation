@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "Der er ingen forbindelse til serveren",
   "searchField": "Søge...",
   "VOTTranslateAPIErrors": "Oversæt fejl fra API",
-  "VOTTranslationService": "oversættelsestjenesterne",
-  "VOTDetectService": "Opdag Service",
+  "VOTDetectService": "Sprogdetekteringstjeneste",
   "VOTTranslatingError": "Oversættelse af fejlen",
   "VOTProxyWorkerHost": "Indtast adressen på fuldmægtig",
   "VOTM3u8ProxyHost": "Indtast adressen på M3U8 fuldmægtig",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "Media CSP er aktiveret på dette site",
   "VOTOnlyBypassMediaCSP": "Brug den kun til at omgå Media CSP",
   "VOTNewAudioPlayer": "Brug den nye lydafspiller",
-  "VOTUseNewModel": "Brug en eksperimentel variation af Yandeks stemmer til nogle videoer"
+  "VOTUseNewModel": "Brug en eksperimentel variation af Yandeks stemmer til nogle videoer",
+  "VOTTranslationErrorsService": "Fejl oversættelsestjeneste"
 }

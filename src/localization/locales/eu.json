@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "Ez dago konexiorik zerbitzariarekin",
   "searchField": "Bilatu...",
   "VOTTranslateAPIErrors": "Itzuli ERROREAK APITIK",
-  "VOTTranslationService": "Itzulpen Zerbitzua",
-  "VOTDetectService": "Detektatu Zerbitzua",
+  "VOTDetectService": "Hizkuntza detektatzeko zerbitzua",
   "VOTTranslatingError": "Errorea itzultzen",
   "VOTProxyWorkerHost": "Sartu ordezko langilearen helbidea",
   "VOTM3u8ProxyHost": "Sartu m3u8 ordezkariaren helbidea",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "Multimedia KSP gune honetan gaituta dago",
   "VOTOnlyBypassMediaCSP": "Erabili Media ksp saihesteko bakarrik",
   "VOTNewAudioPlayer": "Erabili audio-erreproduzitzaile berria",
-  "VOTUseNewModel": "Erabili Yandex ahotsen aldaera esperimentala bideo batzuetarako"
+  "VOTUseNewModel": "Erabili Yandex ahotsen aldaera esperimentala bideo batzuetarako",
+  "VOTTranslationErrorsService": "Errorea itzulpen zerbitzua"
 }

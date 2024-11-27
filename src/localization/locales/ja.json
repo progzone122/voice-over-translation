@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "サーバーへの接続がありません",
   "searchField": "検索。..",
   "VOTTranslateAPIErrors": "APIからのエラーの翻訳",
-  "VOTTranslationService": "翻訳サービス",
-  "VOTDetectService": "サービスの検出",
+  "VOTDetectService": "言語検出サービス",
   "VOTTranslatingError": "エラーの翻訳",
   "VOTProxyWorkerHost": "プロキシワーカーアドレスを入力します",
   "VOTM3u8ProxyHost": "M3u8プロキシワーカーのアドレスを入力します",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "メディアCSPはこのサイトで有効になっています",
   "VOTOnlyBypassMediaCSP": "メディアCSPをバイパスするためにのみ使用します",
   "VOTNewAudioPlayer": "新しいオーディオプレーヤーを使用する",
-  "VOTUseNewModel": "いくつかのビデオのためのYandexの声の実験的なバリエーションを使用してください"
+  "VOTUseNewModel": "いくつかのビデオのためのYandexの声の実験的なバリエーションを使用してください",
+  "VOTTranslationErrorsService": "エラー翻訳サービス"
 }

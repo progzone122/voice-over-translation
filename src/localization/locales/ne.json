@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "सर्भरसँग कुनै सम्बन्ध छैन",
   "searchField": "खोजी गर्नुहोस्।..",
   "VOTTranslateAPIErrors": "एपीआईबाट त्रुटिहरू अनुवाद गर्नुहोस्",
-  "VOTTranslationService": "अनुवाद सेवा",
-  "VOTDetectService": "सेवा पत्ता लगाउनुहोस्",
+  "VOTDetectService": "भाषा पत्ता लगाउने सेवा",
   "VOTTranslatingError": "त्रुटि अनुवाद गर्दै",
   "VOTProxyWorkerHost": "प्रोक्सी कार्यकर्ताको ठेगाना प्रविष्ट गर्नुहोस्",
   "VOTM3u8ProxyHost": "M3u8 प्रोक्सी कार्यकर्ताको ठेगाना प्रविष्ट गर्नुहोस्",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "यस साइटमा मिडिया सीएसपी सक्षम छ",
   "VOTOnlyBypassMediaCSP": "यसलाई केवल मिडिया सीएसपीलाई बाइपास गर्नका लागि प्रयोग गर्नुहोस्",
   "VOTNewAudioPlayer": "नयाँ अडियो प्लेयर प्रयोग गर्नुहोस्",
-  "VOTUseNewModel": "केही भिडियोहरूको लागि यान्डेक्स आवाजहरूको प्रयोगात्मक भिन्नता प्रयोग गर्नुहोस्"
+  "VOTUseNewModel": "केही भिडियोहरूको लागि यान्डेक्स आवाजहरूको प्रयोगात्मक भिन्नता प्रयोग गर्नुहोस्",
+  "VOTTranslationErrorsService": "त्रुटि अनुवाद सेवा"
 }

@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "Neexistuje žádné připojení k serveru",
   "searchField": "Vyhledávání...",
   "VOTTranslateAPIErrors": "Přeložit chyby z API",
-  "VOTTranslationService": "překlad",
-  "VOTDetectService": "Zjistit Službu",
+  "VOTDetectService": "Služba detekce jazyků",
   "VOTTranslatingError": "Překlad chyby",
   "VOTProxyWorkerHost": "Zadejte adresu proxy pracovníka",
   "VOTM3u8ProxyHost": "Zadejte adresu pracovníka proxy m3u8",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "Media CSP je povoleno na tomto webu",
   "VOTOnlyBypassMediaCSP": "Použijte jej pouze pro obcházení médií CSP",
   "VOTNewAudioPlayer": "Použijte nový audio přehrávač",
-  "VOTUseNewModel": "U některých videí použijte experimentální variantu hlasů Yandex"
+  "VOTUseNewModel": "U některých videí použijte experimentální variantu hlasů Yandex",
+  "VOTTranslationErrorsService": "Chybová překladatelská služba"
 }

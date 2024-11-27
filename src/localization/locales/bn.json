@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "সার্ভারের সাথে কোন সংযোগ নেই",
   "searchField": "অনুসন্ধান...",
   "VOTTranslateAPIErrors": "এপিআই থেকে ত্রুটিগুলি অনুবাদ করুন",
-  "VOTTranslationService": "অনুবাদ সেবা",
-  "VOTDetectService": "পরিষেবা সনাক্ত করুন",
+  "VOTDetectService": "ভাষা সনাক্তকরণ পরিষেবা",
   "VOTTranslatingError": "ত্রুটি অনুবাদ",
   "VOTProxyWorkerHost": "প্রক্সি কর্মী ঠিকানা লিখুন",
   "VOTM3u8ProxyHost": "এম 3 ইউ 8 প্রক্সি কর্মীর ঠিকানা লিখুন",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "এই সাইটে মিডিয়া সিএসপি সক্ষম করা হয়েছে",
   "VOTOnlyBypassMediaCSP": "মিডিয়া সিএসপি বাইপাস করার জন্য এটি ব্যবহার করুন",
   "VOTNewAudioPlayer": "নতুন অডিও প্লেয়ার ব্যবহার করুন",
-  "VOTUseNewModel": "কিছু ভিডিওর জন্য ইয়ানডেক্স ভয়েসের একটি পরীক্ষামূলক বৈচিত্র ব্যবহার করুন"
+  "VOTUseNewModel": "কিছু ভিডিওর জন্য ইয়ানডেক্স ভয়েসের একটি পরীক্ষামূলক বৈচিত্র ব্যবহার করুন",
+  "VOTTranslationErrorsService": "ত্রুটি অনুবাদ পরিষেবা"
 }

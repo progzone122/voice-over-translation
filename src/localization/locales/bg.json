@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "Няма връзка със сървъра",
   "searchField": "Търси...",
   "VOTTranslateAPIErrors": "Грешки при превод от АПИ",
-  "VOTTranslationService": "Преводачески Услуги",
-  "VOTDetectService": "Откриване На Услуга",
+  "VOTDetectService": "Услуга за откриване на езици",
   "VOTTranslatingError": "Превод на грешка",
   "VOTProxyWorkerHost": "Въведете адреса на пълномощника",
   "VOTM3u8ProxyHost": "Въведете адреса на прокси служителя м3у8",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "Медиа ДУСП е активирана на този сайт",
   "VOTOnlyBypassMediaCSP": "Използвайте го само за заобикаляне на медийния ДУУ",
   "VOTNewAudioPlayer": "Използвайте новия аудио плейър",
-  "VOTUseNewModel": "Използвайте експериментална вариация на Яндекс гласове за някои видеоклипове"
+  "VOTUseNewModel": "Използвайте експериментална вариация на Яндекс гласове за някои видеоклипове",
+  "VOTTranslationErrorsService": "Услуга за превод на грешки"
 }

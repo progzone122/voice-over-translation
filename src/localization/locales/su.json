@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "Teu aya sambungan ka server",
   "searchField": "Néangan...",
   "VOTTranslateAPIErrors": "Narjamahkeun kasalahan TINA API",
-  "VOTTranslationService": "Jasa Tarjamahan",
-  "VOTDetectService": "Ngadeteksi Service",
+  "VOTDetectService": "Jasa deteksi basa",
   "VOTTranslatingError": "Narjamahkeun kasalahan",
   "VOTProxyWorkerHost": "Asupkeun alamat proxy worker",
   "VOTM3u8ProxyHost": "Tuliskeun alamat worker proxy m3u8",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "Media csp diaktipkeun dina situs ieu",
   "VOTOnlyBypassMediaCSP": "Ngagunakeun eta ngan Pikeun Bypassing Media Csp",
   "VOTNewAudioPlayer": "Paké pamuter audio anyar",
-  "VOTUseNewModel": "Paké variasi ékspérimén sora Yandex pikeun sababaraha video"
+  "VOTUseNewModel": "Paké variasi ékspérimén sora Yandex pikeun sababaraha video",
+  "VOTTranslationErrorsService": "Jasa tarjamahan kasalahan"
 }

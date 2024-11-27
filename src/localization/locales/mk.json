@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "Нема врска со серверот",
   "searchField": "Барај...",
   "VOTTranslateAPIErrors": "Преведи грешки ОД АПИ",
-  "VOTTranslationService": "Преведувачка Услуга",
-  "VOTDetectService": "Откривање На Услугата",
+  "VOTDetectService": "Служба за откривање јазик",
   "VOTTranslatingError": "Преведување на грешката",
   "VOTProxyWorkerHost": "Внесете ја адресата на прокси-работникот",
   "VOTM3u8ProxyHost": "Внесете ја адресата на прокси-работникот м3у8",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "Медиумите CSP се овозможени на оваа страница",
   "VOTOnlyBypassMediaCSP": "Користете го само За Заобиколување На МЕДИУМИТЕ ЦСП",
   "VOTNewAudioPlayer": "Користете го новиот аудио плеер",
-  "VOTUseNewModel": "Користете експериментална варијација На гласови На Јандекс за некои видеа"
+  "VOTUseNewModel": "Користете експериментална варијација На гласови На Јандекс за некои видеа",
+  "VOTTranslationErrorsService": "Услуга за превод на грешки"
 }

@@ -181,8 +181,7 @@
   "streamNoConnectionToServer": "ບໍ່ມີການເຊື່ອມຕໍ່ກັບ server",
   "searchField": "ຄົ້ນຫາ...",
   "VOTTranslateAPIErrors": "ແປຂໍ້ຜິດພາດຈາກ API",
-  "VOTTranslationService": "ການບໍລິການແປພາສາ",
-  "VOTDetectService": "ກວດສອບການບໍລິການ",
+  "VOTDetectService": "ບໍລິການກວດຈັບພາສາ",
   "VOTTranslatingError": "ການແປຄວາມຜິດພາດ",
   "VOTProxyWorkerHost": "ກະລຸນາໃສ່ທີ່ຢູ່ພະນັກງານຕົວແທນ",
   "VOTM3u8ProxyHost": "ໃສ່ທີ່ຢູ່ຂອງພະນັກງານຕົວແທນ m3u8",
@@ -204,5 +203,6 @@
   "VOTMediaCSPEnabledOnSite": "Media CSP ຖືກເປີດໃຊ້ໃນເວັບໄຊທ໌ນີ້",
   "VOTOnlyBypassMediaCSP": "ໃຊ້ມັນພຽງແຕ່ສໍາລັບການ bypassing ສື່ CSP",
   "VOTNewAudioPlayer": "ໃຊ້ເຄື່ອງຫຼີ້ນສຽງໃໝ່",
-  "VOTUseNewModel": "ໃຊ້ການປ່ຽນແປງການທົດລອງຂອງ yandex voices ສໍາລັບບາງວິດີໂອ"
+  "VOTUseNewModel": "ໃຊ້ການປ່ຽນແປງການທົດລອງຂອງ yandex voices ສໍາລັບບາງວິດີໂອ",
+  "VOTTranslationErrorsService": "ບໍລິການແປຄວາມຜິດພາດ"
 }
