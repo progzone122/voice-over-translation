@@ -185,12 +185,15 @@ export async function getSubtitles(client, videoData) {
     host,
     url,
     detectedLanguage: requestLang,
+    responseLanguage,
     videoId,
     duration,
     subtitles,
   } = videoData;
   const extraSubtitles =
-    host === "youtube" ? youtubeUtils.getSubtitles() : (subtitles ?? []);
+    host === "youtube"
+      ? youtubeUtils.getSubtitles(responseLanguage)
+      : subtitles ?? [];
 
   const timeoutPromise = new Promise((_, reject) =>
     setTimeout(() => reject(new Error("Timeout")), 5000),
