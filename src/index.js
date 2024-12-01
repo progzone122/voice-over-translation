@@ -2203,14 +2203,12 @@ class VideoHandler {
   }
 
   videoValidator() {
-    if (["youtube", "ok.ru", "vk"].includes(this.site.host)) {
-      debug.log("VideoValidator videoData: ", this.videoData);
-      if (
-        this.data.dontTranslateYourLang === 1 &&
-        this.videoData.detectedLanguage === this.data.dontTranslateLanguage
-      ) {
-        throw new VOTLocalizedError("VOTDisableFromYourLang");
-      }
+    debug.log("VideoValidator videoData: ", this.videoData);
+    if (
+      this.data.dontTranslateYourLang === 1 &&
+      this.videoData.detectedLanguage === this.data.dontTranslateLanguage
+    ) {
+      throw new VOTLocalizedError("VOTDisableFromYourLang");
     }
 
     if (!this.videoData.isStream && this.videoData.duration > 14_400) {
