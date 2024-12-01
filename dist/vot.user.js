@@ -6129,7 +6129,7 @@ function getSubtitles(responseLang = localizationProvider.lang) {
 // Get the video data from the player
 async function youtubeUtils_getVideoData() {
   const player = getPlayer();
-  const response = getPlayerResponse(); // null in /embed
+  const response = getPlayerResponse();
   const data = getPlayerData();
   const { title: localizedTitle } = data ?? {};
   const {
@@ -9531,13 +9531,6 @@ class VideoHandler {
             "sec-ch-ua": null,
             "sec-ch-ua-mobile": null,
             "sec-ch-ua-platform": null,
-            // "sec-ch-ua-model": null,
-            // "sec-ch-ua-platform-version": null,
-            // "sec-ch-ua-wow64": null,
-            // "sec-ch-ua-arch": null,
-            // "sec-ch-ua-bitness": null,
-            // "sec-ch-ua-full-version": null,
-            // "sec-ch-ua-full-version-list": null,
           },
       fetchFn: GM_fetch,
       hostVOT: votBackendUrl,
@@ -11248,14 +11241,12 @@ class VideoHandler {
   }
 
   videoValidator() {
-    if (["youtube", "ok.ru", "vk"].includes(this.site.host)) {
-      debug.log("VideoValidator videoData: ", this.videoData);
-      if (
-        this.data.dontTranslateYourLang === 1 &&
-        this.videoData.detectedLanguage === this.data.dontTranslateLanguage
-      ) {
-        throw new VOTLocalizedError("VOTDisableFromYourLang");
-      }
+    debug.log("VideoValidator videoData: ", this.videoData);
+    if (
+      this.data.dontTranslateYourLang === 1 &&
+      this.videoData.detectedLanguage === this.data.dontTranslateLanguage
+    ) {
+      throw new VOTLocalizedError("VOTDisableFromYourLang");
     }
 
     if (!this.videoData.isStream && this.videoData.duration > 14_400) {
@@ -11351,6 +11342,10 @@ class VideoHandler {
 
     this.votDownloadButton.hidden = false;
     this.downloadTranslationUrl = audioUrl;
+    debug.log(
+      "afterUpdateTranslation downloadTranslationUrl",
+      this.downloadTranslationUrl,
+    );
   }
 
   async validateAudioUrl(audioUrl) {
