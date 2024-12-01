@@ -2304,6 +2304,10 @@ class VideoHandler {
 
     this.votDownloadButton.hidden = false;
     this.downloadTranslationUrl = audioUrl;
+    debug.log(
+      "afterUpdateTranslation downloadTranslationUrl",
+      this.downloadTranslationUrl,
+    );
   }
 
   async validateAudioUrl(audioUrl) {
