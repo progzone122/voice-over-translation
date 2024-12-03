@@ -1,5 +1,4 @@
 {
-  "__version__": 5,
   "recommended": "preporučeno",
   "translateVideo": "Prevedi video",
   "disableTranslate": "Isključi",
@@ -16,10 +15,8 @@
   "translationTakeFewMinutes": "Prevod će trajati nekoliko minuta",
   "translationTakeApproximatelyMinutes": "Prevod će trajati otprilike {0} minuta",
   "translationTakeApproximatelyMinute": "Prevod će trajati otprilike {0} minuta",
-  "unSupportedExtensionError": "Greška! {0} ova verzija proširenja ne podržava!\n\nMolimo koristite cloudflare verziju vot ekstenzije.",
   "requestTranslationFailed": "Neuspjela prijava.",
   "audioNotReceived": "Audio link nije primljen",
-  "grantPermissionToAutoPlay": "Grant dozvolu za autoplay",
   "audioFormatNotSupported": "Audio format nije podržan",
   "VOTAutoTranslate": "Prevedi na open",
   "VOTDontTranslateYourLang": "Ne prevodite sa mog jezika",
@@ -28,10 +25,7 @@
   "VOTAutoSetVolume": "Smanjite zapreminu video zapisa na ",
   "VOTShowVideoSlider": "Video volume slider",
   "VOTSyncVolume": "Prevod linka i volumen videa",
-  "VOTAudioProxy": "Primljeni zvuk za Proxy",
   "VOTDisableFromYourLang": "Onemogućili ste prevod videa na svoj jezik",
-  "VOTLiveNotSupported": "Prijevod prijenosa uživo nije podržan",
-  "VOTPremiere": "Sačekajte da se premijera završi prije prevođenja",
   "VOTVideoIsTooLong": "Video je predugačak",
   "VOTNoVideoIDFound": "Nedostaje XPM zaglavlje",
   "VOTSubtitles": "Titlovi",
@@ -176,13 +170,10 @@
     "yo": "Joruba",
     "zu": "Zulu"
   },
-  "udemyModuleArgsNotFound": "Nisam mogao dobaviti podatke udemy modula zbog činjenice da ModuleArgs nije pronađen",
-  "VOTTranslationHelpNull": "Nisam mogao dobaviti podatke potrebne za prijevod",
   "streamNoConnectionToServer": "Nema veze sa serverom",
   "searchField": "Traži...",
   "VOTTranslateAPIErrors": "Prevedi greške iz API-ja",
   "VOTDetectService": "Usluga otkrivanja jezika",
-  "VOTTranslatingError": "Prevođenje greške",
   "VOTProxyWorkerHost": "Unesite adresu proxy radnika",
   "VOTM3u8ProxyHost": "Unesite adresu m3u8 proxy radnika",
   "proxySettings": "_postavke ... ",
@@ -204,5 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Koristi ga samo za zaobilaženje medija CSP",
   "VOTNewAudioPlayer": "Koristi novi audio player",
   "VOTUseNewModel": "Upotrijebite eksperimentalnu varijaciju Yandex glasova za neke videozapise",
-  "VOTTranslationErrorsService": "Usluga prevođenja grešaka"
+  "VOTTranslationErrorsService": "Usluga prevođenja grešaka",
+  "TranslationDelayed": "Prevod je malo odložen"
 }

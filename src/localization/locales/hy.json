@@ -1,5 +1,4 @@
 {
-  "__version__": 5,
   "recommended": "առաջարկվող",
   "translateVideo": "Թարգմանեք տեսանյութը",
   "disableTranslate": "Անջատել",
@@ -16,10 +15,8 @@
   "translationTakeFewMinutes": "Փոխանցումը կտևի մի քանի րոպե",
   "translationTakeApproximatelyMinutes": "Թարգմանությունը կտեւի մոտավորապես {0} րոպե",
   "translationTakeApproximatelyMinute": "Թարգմանությունը կտեւի մոտավորապես {0} րոպե",
-  "unSupportedExtensionError": "Սխալ! {0} չի աջակցվում ընդլայնման այս տարբերակով:\n\nԽնդրում ենք օգտագործել VOT ընդլայնման տարբերակը cloudflare-ի համար:",
   "requestTranslationFailed": "Չհաջողվեց պահանջել տեսանյութի թարգմանություն",
   "audioNotReceived": "Աուդիո հաղորդակցություն չի ստացվել",
-  "grantPermissionToAutoPlay": "Տրամադրեք ավտոմատ նվագարկման թույլտվություն",
   "audioFormatNotSupported": "Աուդիո Ձևաչափը չի ապահովվում",
   "VOTAutoTranslate": "Թարգմանել բաց",
   "VOTDontTranslateYourLang": "Մի թարգմանիր իմ լեզվից",
@@ -28,10 +25,7 @@
   "VOTAutoSetVolume": "Նվազեցրեք տեսանյութի ծավալը ",
   "VOTShowVideoSlider": "Տեսանյութի ծավալի սլայդեր",
   "VOTSyncVolume": "Հղումների թարգմանություն և տեսանյութերի ծավալ",
-  "VOTAudioProxy": "Վստահված սերվերը ստացել է աուդիո",
   "VOTDisableFromYourLang": "Դուք անջատել եք տեսանյութի թարգմանությունը Ձեր լեզվով",
-  "VOTLiveNotSupported": "Ուղիղ հեռարձակումները չեն ապահովվում",
-  "VOTPremiere": "Թարգմանելուց առաջ սպասեք պրեմիերայի ավարտին",
   "VOTVideoIsTooLong": "Տեսանյութը չափազանց երկար է",
   "VOTNoVideoIDFound": "Տեսանյութի ID չի գտնվել",
   "VOTSubtitles": "Ենթագրեր",
@@ -176,13 +170,10 @@
     "yo": "Յորուբա",
     "zu": "Զուլուսերեն"
   },
-  "udemyModuleArgsNotFound": "Udemy մոդուլի տվյալները հնարավոր չէ ստանալ, քանի որ ModuleArgs-ը չի գտնվել",
-  "VOTTranslationHelpNull": "Հնարավոր չէ ստանալ փոխանցման համար անհրաժեշտ տվյալները",
   "streamNoConnectionToServer": "Սերվերի միացում չկա",
   "searchField": "Որոնում..",
   "VOTTranslateAPIErrors": "API-ից սխալների փոխանցում",
   "VOTDetectService": "Լեզվի սահմանման ծառայություն",
-  "VOTTranslatingError": "Սխալ թարգմանություն",
   "VOTProxyWorkerHost": "Մուտքագրեք վստահված սերվերի աշխատանքային հասցեն",
   "VOTM3u8ProxyHost": "Մուտքագրեք աշխատանքային m3u8 վստահված անձի հասցեն",
   "proxySettings": "Վստահված սերվերի կարգավորումներ",
@@ -204,5 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Օգտագործեք այն միայն Media CSP-ն շրջանցելու համար",
   "VOTNewAudioPlayer": "Օգտագործեք նոր աուդիո նվագարկիչ",
   "VOTUseNewModel": "Որոշ տեսանյութերի համար օգտագործեք Yandex voices-ի փորձնական տարբերակը",
-  "VOTTranslationErrorsService": "Սխալների թարգմանության ծառայություն"
+  "VOTTranslationErrorsService": "Սխալների թարգմանության ծառայություն",
+  "TranslationDelayed": "Թարգմանությունը Մի փոքր ուշանում է"
 }

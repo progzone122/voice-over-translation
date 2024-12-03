@@ -1,5 +1,4 @@
 {
-  "__version__": 5,
   "recommended": "preporučeno",
   "translateVideo": "Prevedi video",
   "disableTranslate": "Isključi",
@@ -16,10 +15,8 @@
   "translationTakeFewMinutes": "Prijenos će trajati nekoliko minuta",
   "translationTakeApproximatelyMinutes": "Prijevod će trajati približno {0} minuta",
   "translationTakeApproximatelyMinute": "Prijevod će trajati približno {0} minuta",
-  "unSupportedExtensionError": "Pogreška! {0} nije podržana ovom verzijom proširenja!\n\nMolimo vas da koristite verziju proširenja HDZ-a.",
   "requestTranslationFailed": "Nije moguće zatražiti prijevod videozapisa",
   "audioNotReceived": "Audio veza nije primljena",
-  "grantPermissionToAutoPlay": "Odobrite dopuštenje za automatsku reprodukciju",
   "audioFormatNotSupported": "Audio format nije podržan",
   "VOTAutoTranslate": "Prevedi na otvoreno",
   "VOTDontTranslateYourLang": "Nemojte prevoditi s mog jezika",
@@ -28,10 +25,7 @@
   "VOTAutoSetVolume": "Smanjite glasnoću videozapisa na ",
   "VOTShowVideoSlider": "Klizač glasnoće videozapisa",
   "VOTSyncVolume": "Prijevod veza i opseg videozapisa",
-  "VOTAudioProxy": "Punomoćnik je dobio zvuk",
   "VOTDisableFromYourLang": "Onemogućili ste prijevod videozapisa na svoj jezik",
-  "VOTLiveNotSupported": "Prijenos uživo nije podržan",
-  "VOTPremiere": "Pričekajte da premijera završi prije nego što prevedete",
   "VOTVideoIsTooLong": "Video je predug",
   "VOTNoVideoIDFound": "ID videozapisa nije pronađen",
   "VOTSubtitles": "Titlovi",
@@ -176,13 +170,10 @@
     "yo": "Joruba",
     "zu": "Zuluski"
   },
-  "udemyModuleArgsNotFound": "Nije moguće dohvatiti podatke modula A. M. jer nije pronađen nijedan A. M.",
-  "VOTTranslationHelpNull": "Nije moguće dohvatiti podatke potrebne za prijevod",
   "streamNoConnectionToServer": "Nema veze s poslužiteljem",
   "searchField": "Traži...",
   "VOTTranslateAPIErrors": "Prevođenje pogrešaka iz",
   "VOTDetectService": "Usluga definiranja jezika",
-  "VOTTranslatingError": "Prijevod pogreške",
   "VOTProxyWorkerHost": "Unesite radnu adresu opunomoćenika",
   "VOTM3u8ProxyHost": "Unesite adresu radnog opunomoćenika od 93 do 8",
   "proxySettings": "Postavke opunomoćenika",
@@ -204,5 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Koristite ga samo za zaobilaženje",
   "VOTNewAudioPlayer": "Koristite novi audio uređaj",
   "VOTUseNewModel": "Koristite eksperimentalnu opciju za neke videozapise",
-  "VOTTranslationErrorsService": "Usluga prevođenja pogrešaka"
+  "VOTTranslationErrorsService": "Usluga prevođenja pogrešaka",
+  "TranslationDelayed": "Prijevod je malo odgođen"
 }

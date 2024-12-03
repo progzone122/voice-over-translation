@@ -1,5 +1,4 @@
 {
-  "__version__": 5,
   "recommended": "ұсынылады",
   "translateVideo": "Бейнені аудару",
   "disableTranslate": "Өшіру",
@@ -16,10 +15,8 @@
   "translationTakeFewMinutes": "Аударма бірнеше мүндегі уақытты шығарады",
   "translationTakeApproximatelyMinutes": "Аударма қазірғі түрде {0} минутқа жағынан аударылатын болады",
   "translationTakeApproximatelyMinute": "Аударма қазірғі түрде {0} минутқа жағынан аударылатын болады",
-  "unSupportedExtensionError": "Қате! {0} бұл кеңейтімділіктің мұндай нұсқасын қолдаушы емес!\n\nCloudflare-версиясын қолданыңыз.",
   "requestTranslationFailed": "Бейнені аудару талап етуден кейін сәтсіз аяқталды",
   "audioNotReceived": "Аудиоға сілтеме алынған жоқ",
-  "grantPermissionToAutoPlay": "Автоматты түрде ойнатуды рұқсат ету",
   "audioFormatNotSupported": "Аудио пішімі қолдау көрсетмейді",
   "VOTAutoTranslate": "Ашылада переводдау",
   "VOTDontTranslateYourLang": "Өз тіліңнен таратпау",
@@ -28,10 +25,7 @@
   "VOTAutoSetVolume": "Бейненің дыбысын кішірейтін аулақ ",
   "VOTShowVideoSlider": "Бейненің дыбыссын көрсету",
   "VOTSyncVolume": "Аударма дыбысын бейненің дыбысымен біріктіру",
-  "VOTAudioProxy": "Қабылдау аудиосын proxy-сервері арқылы алу",
   "VOTDisableFromYourLang": "Сіз тіліңізде бейненің аудармасын өшірдіңіз",
-  "VOTLiveNotSupported": "Трансляцияның түсу жолында белсендікті аудармауға қолдау көрсетілмейді",
-  "VOTPremiere": "Аударманы көруден бұрын премьера аяқталуын күту керек",
   "VOTVideoIsTooLong": "Бейне тым ұзын",
   "VOTNoVideoIDFound": "Бейненің ID-сі табылмады",
   "VOTSubtitles": "Субтитрлер",
@@ -176,13 +170,10 @@
     "ja": "Жапон",
     "kri": "Кри"
   },
-  "udemyModuleArgsNotFound": "Moduleargs табылмағандықтан udemy Модулінің деректерін алу мүмкін болмады",
-  "VOTTranslationHelpNull": "Аударуға қажетті деректерді алу мүмкін болмады",
   "streamNoConnectionToServer": "Серверге қосылу жоқ",
   "searchField": "Іздеу...",
   "VOTTranslateAPIErrors": "API-ден қателерді аудару",
   "VOTDetectService": "Тілдерді анықтау қызметі",
-  "VOTTranslatingError": "Қате аудармасы",
   "VOTProxyWorkerHost": "Прокси-сервердің жұмыс мекенжайын енгізіңіз",
   "VOTM3u8ProxyHost": "M3u8 жұмыс прокси мекенжайын енгізіңіз",
   "proxySettings": "Прокси параметрлері",
@@ -204,5 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Оны Тек Csp Медиасын айналып өту үшін пайдаланыңыз",
   "VOTNewAudioPlayer": "Жаңа аудио ойнатқышты пайдаланыңыз",
   "VOTUseNewModel": "Кейбір бейнелер Үшін яндекс дауыстарының эксперименттік нұсқасын пайдаланыңыз",
-  "VOTTranslationErrorsService": "Қателерді аудару қызметі"
+  "VOTTranslationErrorsService": "Қателерді аудару қызметі",
+  "TranslationDelayed": "Аударма сәл кешіктірілді"
 }

@@ -1,5 +1,4 @@
 {
-  "__version__": 5,
   "recommended": "anbefalet",
   "translateVideo": "Oversæt video",
   "disableTranslate": "Slukke",
@@ -16,10 +15,8 @@
   "translationTakeFewMinutes": "Oversættelsen tager et par minutter",
   "translationTakeApproximatelyMinutes": "Oversættelsen tager cirka {0} minutter",
   "translationTakeApproximatelyMinute": "Oversættelsen tager cirka {0} minutter",
-  "unSupportedExtensionError": "Fejl! {0} understøttes ikke af denne version af udvidelsen!\n\nBrug cloudflare-versionen af VOT-udvidelsen.",
   "requestTranslationFailed": "Kunne ikke anmode om videooversættelse",
   "audioNotReceived": "Audio link ikke modtaget",
-  "grantPermissionToAutoPlay": "Giv tilladelse til autoplay",
   "audioFormatNotSupported": "Lydformatet understøttes ikke",
   "VOTAutoTranslate": "Oversæt på åben",
   "VOTDontTranslateYourLang": "Oversæt ikke fra mit sprog",
@@ -28,10 +25,7 @@
   "VOTAutoSetVolume": "Reducer videolydstyrken til ",
   "VOTShowVideoSlider": "Video volume slider",
   "VOTSyncVolume": "Link Oversættelse og video volumen",
-  "VOTAudioProxy": "Fuldmagt modtaget lyd",
   "VOTDisableFromYourLang": "Du har deaktiveret oversættelsen af videoen på dit sprog",
-  "VOTLiveNotSupported": "Oversættelse af live streams understøttes ikke",
-  "VOTPremiere": "Vent til premieren slutter, før du oversætter",
   "VOTVideoIsTooLong": "Videoen er for lang",
   "VOTNoVideoIDFound": "Ingen video-ID fundet",
   "VOTSubtitles": "Undertekster",
@@ -176,13 +170,10 @@
     "yo": "Yoruba",
     "zu": "Sulu"
   },
-  "udemyModuleArgsNotFound": "Kunne ikke få Udemy-moduldata på grund af det faktum, at ModuleArgs ikke blev fundet",
-  "VOTTranslationHelpNull": "Kunne ikke få de nødvendige data til oversættelsen",
   "streamNoConnectionToServer": "Der er ingen forbindelse til serveren",
   "searchField": "Søge...",
   "VOTTranslateAPIErrors": "Oversæt fejl fra API",
   "VOTDetectService": "Sprogdetekteringstjeneste",
-  "VOTTranslatingError": "Oversættelse af fejlen",
   "VOTProxyWorkerHost": "Indtast adressen på fuldmægtig",
   "VOTM3u8ProxyHost": "Indtast adressen på M3U8 fuldmægtig",
   "proxySettings": "Fuldmagtsindstillinger",
@@ -204,5 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Brug den kun til at omgå Media CSP",
   "VOTNewAudioPlayer": "Brug den nye lydafspiller",
   "VOTUseNewModel": "Brug en eksperimentel variation af Yandeks stemmer til nogle videoer",
-  "VOTTranslationErrorsService": "Fejl oversættelsestjeneste"
+  "VOTTranslationErrorsService": "Fejl oversættelsestjeneste",
+  "TranslationDelayed": "Oversættelsen er lidt forsinket"
 }

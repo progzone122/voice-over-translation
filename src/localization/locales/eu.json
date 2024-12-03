@@ -1,5 +1,4 @@
 {
-  "__version__": 5,
   "recommended": "gomendatua",
   "translateVideo": "Itzuli bideoa",
   "disableTranslate": "Itzali",
@@ -16,10 +15,8 @@
   "translationTakeFewMinutes": "Itzulpenak minutu batzuk iraungo du",
   "translationTakeApproximatelyMinutes": "Itzulpenak gutxi gorabehera {0} minutu hartuko ditu",
   "translationTakeApproximatelyMinute": "Itzulpenak gutxi gorabehera {0} minutu hartuko ditu",
-  "unSupportedExtensionError": "Errorea! {0} ez du luzapenaren bertsio honek onartzen!\n\nMesedez, ERABILI BOTO luzapenaren hodei-flare bertsioa.",
   "requestTranslationFailed": "Huts egin du bideoaren itzulpena eskatzean",
   "audioNotReceived": "Audio esteka ez da jaso",
-  "grantPermissionToAutoPlay": "Autoprodukziorako baimena ematea",
   "audioFormatNotSupported": "Audio formatua ez dago onartuta",
   "VOTAutoTranslate": "Itzuli irekita",
   "VOTDontTranslateYourLang": "Ez itzuli nire hizkuntzatik",
@@ -28,10 +25,7 @@
   "VOTAutoSetVolume": "Murriztu bideo-bolumena ",
   "VOTShowVideoSlider": "Bideo-bolumenaren graduatzailea",
   "VOTSyncVolume": "Esteka itzulpena eta bideo bolumena",
-  "VOTAudioProxy": "Ordezko jasotako audioa",
   "VOTDisableFromYourLang": "Bideoaren itzulpena desgaitu duzu zure hizkuntzan",
-  "VOTLiveNotSupported": "Ez da onartzen zuzeneko fluxuen itzulpena",
-  "VOTPremiere": "Itxaron estreinaldia amaitu arte itzulpena egin aurretik",
   "VOTVideoIsTooLong": "Bideoa luzeegia da",
   "VOTNoVideoIDFound": "Ez da bideorik aurkitu",
   "VOTSubtitles": "Azpitituluak",
@@ -176,13 +170,10 @@
     "yo": "Joruba izena",
     "zu": "Zuluak"
   },
-  "udemyModuleArgsNotFound": "Ezin izan da udemy moduluaren daturik lortu ModuleArgs aurkitu ez delako",
-  "VOTTranslationHelpNull": "Ezin izan dira itzulpenerako behar diren datuak lortu",
   "streamNoConnectionToServer": "Ez dago konexiorik zerbitzariarekin",
   "searchField": "Bilatu...",
   "VOTTranslateAPIErrors": "Itzuli ERROREAK APITIK",
   "VOTDetectService": "Hizkuntza detektatzeko zerbitzua",
-  "VOTTranslatingError": "Errorea itzultzen",
   "VOTProxyWorkerHost": "Sartu ordezko langilearen helbidea",
   "VOTM3u8ProxyHost": "Sartu m3u8 ordezkariaren helbidea",
   "proxySettings": "Ordezko Ezarpenak",
@@ -204,5 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Erabili Media ksp saihesteko bakarrik",
   "VOTNewAudioPlayer": "Erabili audio-erreproduzitzaile berria",
   "VOTUseNewModel": "Erabili Yandex ahotsen aldaera esperimentala bideo batzuetarako",
-  "VOTTranslationErrorsService": "Errorea itzulpen zerbitzua"
+  "VOTTranslationErrorsService": "Errorea itzulpen zerbitzua",
+  "TranslationDelayed": "Itzulpena atzeratu egin da"
 }

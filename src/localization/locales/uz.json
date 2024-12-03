@@ -1,5 +1,4 @@
 {
-  "__version__": 5,
   "recommended": "tavsiya",
   "translateVideo": "Videoni tarjima qiling",
   "disableTranslate": "O'chirish",
@@ -16,10 +15,8 @@
   "translationTakeFewMinutes": "Tarjima bir necha daqiqa davom etadi",
   "translationTakeApproximatelyMinutes": "Tarjima taxminan {0} daqiqa davom etadi",
   "translationTakeApproximatelyMinute": "Tarjima taxminan {0} daqiqa davom etadi",
-  "unSupportedExtensionError": "Xato! {0} kengaytmaning ushbu versiyasi tomonidan qo'llab-quvvatlanmaydi!\n\nIltimos, vot kengaytmasining cloudflare versiyasidan foydalaning.",
   "requestTranslationFailed": "Video tarjimasini talab qilib bo'lmadi",
   "audioNotReceived": "Audio havola qabul qilinmadi",
-  "grantPermissionToAutoPlay": "Autoplay-ga ruxsat bering",
   "audioFormatNotSupported": "Audio format mavjud emas",
   "VOTAutoTranslate": "Ochiq tarjima qiling",
   "VOTDontTranslateYourLang": "Mening tilimdan tarjima qilmang",
@@ -28,10 +25,7 @@
   "VOTAutoSetVolume": "Video hajmini kamaytiring ",
   "VOTShowVideoSlider": "Video hajmi slayder",
   "VOTSyncVolume": "Tarjima va video hajmini bog'lang",
-  "VOTAudioProxy": "Proksi audio qabul",
   "VOTDisableFromYourLang": "Siz videoning o'z tilingizga tarjimasini o'chirib qo'ydingiz",
-  "VOTLiveNotSupported": "Jonli oqimlarning tarjimasi qo'llab-quvvatlanmaydi",
-  "VOTPremiere": "Tarjima qilishdan oldin premyera tugashini kuting",
   "VOTVideoIsTooLong": "Video juda uzun",
   "VOTNoVideoIDFound": "Video identifikatori topilmadi",
   "VOTSubtitles": "Taglavhalar",
@@ -176,13 +170,10 @@
     "yo": "Yoruba",
     "zu": "Zulu"
   },
-  "udemyModuleArgsNotFound": "ModuleArgs topilmagani uchun udemy moduli ma'lumotlarini ololmadi",
-  "VOTTranslationHelpNull": "Tarjima uchun zarur ma'lumotlarni olish bo'lmadi",
   "streamNoConnectionToServer": "Serverga ulanish yo'q",
   "searchField": "Qidirish...",
   "VOTTranslateAPIErrors": "API-dan xatolarni tarjima qiling",
   "VOTDetectService": "Tilni aniqlash xizmati",
-  "VOTTranslatingError": "Xatoni tarjima qilish",
   "VOTProxyWorkerHost": "Proksi-server manzilini kiriting",
   "VOTM3u8ProxyHost": "M3u8 proksi-serverining manzilini kiriting",
   "proxySettings": "Proksi Moslamalari",
@@ -204,5 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Uni faqat Media CSP-ni chetlab o'tish uchun foydalaning",
   "VOTNewAudioPlayer": "Yangi audio pleerdan foydalaning",
   "VOTUseNewModel": "Ba'zi videolar uchun Yandex ovozlarining eksperimental variantidan foydalaning",
-  "VOTTranslationErrorsService": "Xato tarjima xizmati"
+  "VOTTranslationErrorsService": "Xato tarjima xizmati",
+  "TranslationDelayed": "Tarjima biroz kechiktirildi"
 }

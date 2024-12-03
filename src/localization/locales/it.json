@@ -1,5 +1,4 @@
 {
-  "__version__": 5,
   "recommended": "consigliato",
   "translateVideo": "Traduci video",
   "disableTranslate": "Spegnere",
@@ -16,10 +15,8 @@
   "translationTakeFewMinutes": "La traduzione richiederà alcuni minuti",
   "translationTakeApproximatelyMinutes": "La traduzione richiederà circa {0} minuti",
   "translationTakeApproximatelyMinute": "La traduzione richiederà circa {0} minuti",
-  "unSupportedExtensionError": "Errore! {0} non è supportato da questa versione dell'estensione!\n\nSi prega di utilizzare la versione cloudflare dell'estensione VOT.",
   "requestTranslationFailed": "Richiesta di traduzione video non riuscita",
   "audioNotReceived": "Collegamento audio non ricevuto",
-  "grantPermissionToAutoPlay": "Concedere il permesso di autoplay",
   "audioFormatNotSupported": "Il formato audio non è supportato",
   "VOTAutoTranslate": "Traduci su apri",
   "VOTDontTranslateYourLang": "Non tradurre dalla mia lingua",
@@ -28,10 +25,7 @@
   "VOTAutoSetVolume": "Ridurre il volume del video a ",
   "VOTShowVideoSlider": "Cursore volume video",
   "VOTSyncVolume": "Traduzione link e volume video",
-  "VOTAudioProxy": "Proxy ricevuto audio",
   "VOTDisableFromYourLang": "Hai disabilitato la traduzione del video nella tua lingua",
-  "VOTLiveNotSupported": "La traduzione di live stream non è supportata",
-  "VOTPremiere": "Attendere la fine della premiere prima di tradurre",
   "VOTVideoIsTooLong": "Il video è troppo lungo",
   "VOTNoVideoIDFound": "Nessun ID video trovato",
   "VOTSubtitles": "Sottotitolo",
@@ -176,13 +170,10 @@
     "yo": "Yoruba",
     "zu": "Zulù"
   },
-  "udemyModuleArgsNotFound": "Impossibile ottenere i dati del modulo udemy a causa del fatto che ModuleArgs non è stato trovato",
-  "VOTTranslationHelpNull": "Impossibile ottenere i dati richiesti per la traduzione",
   "streamNoConnectionToServer": "Non c'è connessione al server",
   "searchField": "Ricerca...",
   "VOTTranslateAPIErrors": "Tradurre gli errori dall'API",
   "VOTDetectService": "Servizio di rilevamento della lingua",
-  "VOTTranslatingError": "Tradurre l'errore",
   "VOTProxyWorkerHost": "Immettere l'indirizzo del lavoratore proxy",
   "VOTM3u8ProxyHost": "Immettere l'indirizzo del proxy worker m3u8",
   "proxySettings": "Impostazioni proxy",
@@ -204,5 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Usalo solo per bypassare i media CSP",
   "VOTNewAudioPlayer": "Utilizzare il nuovo lettore audio",
   "VOTUseNewModel": "Utilizzare una variazione sperimentale di voci Yandex per alcuni video",
-  "VOTTranslationErrorsService": "Servizio di traduzione degli errori"
+  "VOTTranslationErrorsService": "Servizio di traduzione degli errori",
+  "TranslationDelayed": "La traduzione è leggermente ritardata"
 }

@@ -1,5 +1,4 @@
 {
-  "__version__": 5,
   "recommended": "рекомендуется",
   "translateVideo": "Перевести видео",
   "disableTranslate": "Отключить",
@@ -16,10 +15,8 @@
   "translationTakeFewMinutes": "Перевод займёт несколько минут",
   "translationTakeApproximatelyMinutes": "Перевод займёт примерно {0} минут",
   "translationTakeApproximatelyMinute": "Перевод займёт примерно {0} минуты",
-  "unSupportedExtensionError": "Ошибка! {0} не поддерживается этой версией расширения!\n\nПожалуйста, используйте cloudflare-версию расширения VOT.",
   "requestTranslationFailed": "Не удалось запросить перевод видео",
   "audioNotReceived": "Не получена ссылка на аудио",
-  "grantPermissionToAutoPlay": "Предоставьте разрешение на автовоспроизведение",
   "audioFormatNotSupported": "Формат аудио не поддерживается",
   "VOTAutoTranslate": "Переводить при открытии",
   "VOTDontTranslateYourLang": "Не переводить с родного языка",
@@ -28,10 +25,7 @@
   "VOTAutoSetVolume": "Уменьшать громкость видео до ",
   "VOTShowVideoSlider": "Ползунок громкости видео",
   "VOTSyncVolume": "Связать громкость перевода и видео",
-  "VOTAudioProxy": "Проксировать полученное аудио",
   "VOTDisableFromYourLang": "Вы отключили перевод видео на вашем языке",
-  "VOTLiveNotSupported": "Не поддерживается перевод трансляций в прямом эфире",
-  "VOTPremiere": "Дождитесь окончания премьеры перед переводом",
   "VOTVideoIsTooLong": "Видео слишком длинное",
   "VOTNoVideoIDFound": "Не найден идентификатор (ID) видео",
   "VOTSubtitles": "Субтитры",
@@ -176,13 +170,10 @@
     "ja": "Японский",
     "kri": "Кри"
   },
-  "udemyModuleArgsNotFound": "Не удалось получить данные модуля udemy из-за того, что ModuleArgs не найден",
-  "VOTTranslationHelpNull": "Не удалось получить данные, необходимые для перевода",
   "streamNoConnectionToServer": "Нет подключения к серверу",
   "searchField": "Поиск...",
   "VOTTranslateAPIErrors": "Перевод ошибок из API",
   "VOTDetectService": "Сервис определения языка",
-  "VOTTranslatingError": "Перевод ошибки",
   "VOTProxyWorkerHost": "Введите адрес worker прокси-сервера",
   "VOTM3u8ProxyHost": "Введите адрес m3u8 прокси-сервера",
   "proxySettings": "Настройки прокси-сервера",
@@ -204,5 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Использовать только для обхода Media CSP",
   "VOTNewAudioPlayer": "Использовать новый аудиоплеер",
   "VOTUseNewModel": "Использовать экспериментальный вариант голосов Yandex для некоторых видеороликов",
-  "VOTTranslationErrorsService": "Сервис перевода ошибок"
+  "VOTTranslationErrorsService": "Сервис перевода ошибок",
+  "TranslationDelayed": "Перевод немного задерживается"
 }

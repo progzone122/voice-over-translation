@@ -1,5 +1,4 @@
 {
-  "__version__": 5,
   "recommended": "aanbevolen",
   "translateVideo": "Video vertalen",
   "disableTranslate": "Uitgeschakeld",
@@ -16,10 +15,8 @@
   "translationTakeFewMinutes": "De vertaling duurt enkele minuten",
   "translationTakeApproximatelyMinutes": "De vertaling duurt ongeveer {0} minuten",
   "translationTakeApproximatelyMinute": "De vertaling duurt ongeveer {0} minuten",
-  "unSupportedExtensionError": "Fout! {0} wordt niet ondersteund door deze versie van de extensie!\n\nGebruik de cloudflare versie van de vot extensie.",
   "requestTranslationFailed": "Verzoek om videovertaling is mislukt",
   "audioNotReceived": "Audioverbinding niet ontvangen",
-  "grantPermissionToAutoPlay": "Geef toestemming voor autoplay",
   "audioFormatNotSupported": "Het audioformaat wordt niet ondersteund",
   "VOTAutoTranslate": "Vertalen op open",
   "VOTDontTranslateYourLang": "Niet vertalen vanuit mijn taal",
@@ -28,10 +25,7 @@
   "VOTAutoSetVolume": "Verminder het videovolume naar ",
   "VOTShowVideoSlider": "Video volume slider",
   "VOTSyncVolume": "Linkvertaling en videovolume",
-  "VOTAudioProxy": "Proxy ontvangen audio",
   "VOTDisableFromYourLang": "U hebt de vertaling van de video in uw taal uitgeschakeld",
-  "VOTLiveNotSupported": "Vertaling van live streams wordt niet ondersteund",
-  "VOTPremiere": "Wacht tot de première is afgelopen voordat u vertaalt",
   "VOTVideoIsTooLong": "Video is te lang",
   "VOTNoVideoIDFound": "Geen video-ID gevonden",
   "VOTSubtitles": "Ondertitels",
@@ -176,13 +170,10 @@
     "yo": "Yoruba",
     "zu": "Zulu"
   },
-  "udemyModuleArgsNotFound": "Kon Udemy-modulegegevens niet verkrijgen vanwege het feit dat ModuleArgs niet werd gevonden",
-  "VOTTranslationHelpNull": "Kon de gegevens die nodig zijn voor de vertaling niet krijgen",
   "streamNoConnectionToServer": "Er is geen verbinding met de server",
   "searchField": "Zoeken...",
   "VOTTranslateAPIErrors": "Vertaal fouten uit de API",
   "VOTDetectService": "Language detection service",
-  "VOTTranslatingError": "Vertaling van de fout",
   "VOTProxyWorkerHost": "Voer het proxy worker-adres in",
   "VOTM3u8ProxyHost": "Voer het adres van de m3u8 proxy worker in",
   "proxySettings": "Proxy-Instellingen",
@@ -204,5 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Gebruik het alleen voor het omzeilen van Media CSP",
   "VOTNewAudioPlayer": "De nieuwe audiospeler gebruiken",
   "VOTUseNewModel": "Gebruik een experimentele variant van Yandex voices voor sommige video ' s",
-  "VOTTranslationErrorsService": "Error translation service"
+  "VOTTranslationErrorsService": "Error translation service",
+  "TranslationDelayed": "De vertaling is iets vertraagd"
 }
