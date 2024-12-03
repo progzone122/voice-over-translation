@@ -22,6 +22,7 @@ import {
   m3u8ProxyHost,
   proxyWorkerHost,
   maxAudioVolume,
+  minLongWaitingCount,
   votBackendUrl,
   workerHost,
   proxyOnlyExtensions,
@@ -136,6 +137,7 @@ class VideoHandler {
   tempOriginalVolume; // temp video volume for syncing
   tempVolume; // temp translation volume for syncing
   firstSyncVolume = true; // used for skip 1st syncing with observer
+  longWaitingResCount = 0;
 
   subtitlesList = [];
   subtitlesListVideoId = null;
@@ -531,6 +533,13 @@ class VideoHandler {
     this.initialized = true;
   }
 
+  isLoadingText(text) {
+    return (
+      text.includes(localizationProvider.get("translationTake")) ||
+      text.includes(localizationProvider.get("TranslationDelayed"))
+    );
+  }
+
   /**
    * Set translation button status and text
    *
@@ -538,9 +547,7 @@ class VideoHandler {
    */
   transformBtn(status, text) {
     this.votButton.container.dataset.status = status;
-    const isLoading =
-      status === "error" &&
-      text.includes(localizationProvider.get("translationTake"));
+    const isLoading = status === "error" && this.isLoadingText(text);
     this.setLoadingBtn(isLoading);
     this.votButton.label.textContent = text;
     this.votButton.container.title = status === "error" ? text : "";
@@ -2229,6 +2236,7 @@ class VideoHandler {
     this.votVideoTranslationVolumeSlider.container.hidden = true;
     this.votDownloadButton.hidden = true;
     this.downloadTranslationUrl = null;
+    this.longWaitingResCount = 0;
     this.transformBtn("none", localizationProvider.get("translateVideo"));
     debug.log(`Volume on start: ${this.volumeOnStart}`);
     if (this.volumeOnStart) {
@@ -2256,6 +2264,16 @@ class VideoHandler {
     const translationTake = localizationProvider.get("translationTake");
     const lang = localizationProvider.lang;
 
+    // we always change it so isn't to accidentally replace the error message
+    this.longWaitingResCount =
+      errorMessage === localizationProvider.get("translationTakeAboutMinute")
+        ? this.longWaitingResCount + 1
+        : 0;
+    debug.log("longWaitingResCount", this.longWaitingResCount);
+    if (this.longWaitingResCount > minLongWaitingCount) {
+      errorMessage = new VOTLocalizedError("TranslationDelayed");
+    }
+
     if (errorMessage?.name === "VOTLocalizedError") {
       this.transformBtn("error", errorMessage.localizedMessage);
     } else if (errorMessage instanceof Error) {
@@ -2263,8 +2281,8 @@ class VideoHandler {
       this.transformBtn("error", errorMessage?.message);
     } else if (
       this.data.translateAPIErrors === 1 &&
-      !errorMessage.includes(translationTake) &&
-      lang !== "ru"
+      lang !== "ru" &&
+      !errorMessage.includes(translationTake)
     ) {
       // adds a stub text until a text translation is received to avoid a long delay with long text
       this.setLoadingBtn(true);

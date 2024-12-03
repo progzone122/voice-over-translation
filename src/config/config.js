@@ -15,6 +15,10 @@ const repositoryUrl = "https://github.com/ilyhalight/voice-over-translation";
  */
 const defaultAutoVolume = 0.15;
 const maxAudioVolume = 900;
+/**
+ * The number of repeated responses after which the message turns into "translation is delayed, please wait"
+ */
+const minLongWaitingCount = 5;
 const defaultTranslationService = "yandexbrowser";
 const defaultDetectService = "yandexbrowser";
 
@@ -42,5 +46,6 @@ export {
   defaultDetectService,
   defaultAutoVolume,
   maxAudioVolume,
+  minLongWaitingCount,
   proxyOnlyExtensions,
 };
