@@ -78,6 +78,7 @@
 // @match          *://*.incestflix.to/*
 // @match          *://*.porntn.com/*
 // @match          *://*.dzen.ru/*
+// @match          *://*.cloudflarestream.com/*
 // @match          *://*/*.mp4*
 // @match          *://*/*.webm*
 // @match          *://*.yewtu.be/*
