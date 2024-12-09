@@ -267,7 +267,7 @@ var es5 = __webpack_require__("./node_modules/bowser/es5.js");
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.0.9",
+    version: "2.0.10",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -4733,35 +4733,34 @@ class SapHelper extends BaseHelper {
 
 
 class LinkedinHelper extends BaseHelper {
-    API_ORIGIN = "https://www.linkedin.com/learning";
+    static getPlayer() {
+        const videoEl = document.querySelector(".video-js");
+        if (!videoEl) {
+            return undefined;
+        }
+        return videoEl.player;
+    }
     async getVideoData(videoId) {
         try {
-            const videoEl = document.querySelector(".video-js");
-            if (!videoEl) {
-                throw new VideoHelperError(`Failed to find video element for videoID ${videoId}`);
+            const player = LinkedinHelper.getPlayer();
+            if (!player) {
+                throw new Error(`Video player doesn't have player option, videoId ${videoId}`);
             }
-            const dataSource = (videoEl.getAttribute("data-sources") ?? "[]")
-                .replaceAll("&quot;", '"')
-                .replaceAll("&amp;", "&");
-            const sources = JSON.parse(dataSource);
-            const videoUrl = sources.find((source) => source.src.includes(".mp4"));
+            const { cache_: { sources, duration }, textTracks_: { tracks_ }, } = player;
+            const videoUrl = sources.find((source) => source.type === "video/mp4");
             if (!videoUrl) {
                 throw new Error(`Failed to find video url for videoID ${videoId}`);
             }
             const url = new URL(videoUrl.src);
-            const captionUrl = videoEl.getAttribute("data-captions-url");
-            const subtitles = captionUrl
-                ? [
-                    {
-                        language: "en",
-                        source: "linkedin",
-                        format: "vtt",
-                        url: captionUrl,
-                    },
-                ]
-                : undefined;
+            const subtitles = tracks_.map((track) => ({
+                language: normalizeLang(track.language),
+                source: "linkedin",
+                format: "vtt",
+                url: track.src,
+            }));
             return {
                 url: proxyMedia(url),
+                duration,
                 subtitles,
             };
         }
