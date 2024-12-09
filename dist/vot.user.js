@@ -266,7 +266,7 @@ var es5 = __webpack_require__("./node_modules/bowser/es5.js");
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.0.7",
+    version: "2.0.9",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -2228,6 +2228,7 @@ var VideoService;
     VideoService["incestflix"] = "incestflix";
     VideoService["porntn"] = "porntn";
     VideoService["dzen"] = "dzen";
+    VideoService["cloudflarestream"] = "cloudflarestream";
 })(VideoService || (VideoService = {}));
 
 ;// ./node_modules/@vot.js/core/dist/utils/vot.js
@@ -3729,6 +3730,11 @@ var ExtVideoService;
         selector: ".zen-ui-video-video-player",
     },
     {
+        host: VideoService.cloudflarestream,
+        url: "stub",
+        match: /^(watch|embed|iframe|customer-[^.]+).cloudflarestream.com$/,
+    },
+    {
         host: VideoService.custom,
         url: "stub",
         match: (url) => /([^.]+).(mp4|webm)/.test(url.pathname),
@@ -4271,22 +4277,63 @@ class EpicGamesHelper extends BaseHelper {
             return false;
         }
     }
+    getVideoBlock() {
+        const videoUrlRe = /videoUrl\s?=\s"([^"]+)"?/;
+        const script = Array.from(document.body.querySelectorAll("script")).find((s) => videoUrlRe.exec(s.innerHTML));
+        if (!script) {
+            return undefined;
+        }
+        const content = script.innerHTML.trim();
+        const playlistUrl = videoUrlRe
+            .exec(content)?.[1]
+            ?.replace("qsep://", "https://");
+        if (!playlistUrl) {
+            return undefined;
+        }
+        let subtitlesString = /sources\s?=\s(\[([^\]]+)\])?/.exec(content)?.[1];
+        if (!subtitlesString) {
+            return {
+                playlistUrl,
+                subtitles: [],
+            };
+        }
+        try {
+            subtitlesString = (subtitlesString
+                .replace(/src:(\s)+?(videoUrl)/g, 'src:"removed"')
+                .substring(0, subtitlesString.lastIndexOf("},")) + "]")
+                .split("\n")
+                .map((line) => line.replace(/([^\s]+):\s?(?!.*\1)/, '"$1":'))
+                .join("\n");
+            const subtitlesObj = JSON.parse(subtitlesString);
+            const subtitles = subtitlesObj.filter((sub) => sub.type === "captions");
+            return {
+                playlistUrl,
+                subtitles,
+            };
+        }
+        catch {
+            return {
+                playlistUrl,
+                subtitles: [],
+            };
+        }
+    }
     async getVideoData(videoId) {
         const postInfo = await this.getPostInfo(videoId);
         if (!postInfo) {
             return undefined;
         }
-        const videoBlock = postInfo.blocks.find((block) => block.type === "video");
-        const playlistUrl = videoBlock?.video_url?.replace("qsep://", "https://");
-        if (!playlistUrl) {
+        const videoBlock = this.getVideoBlock();
+        if (!videoBlock) {
             return undefined;
         }
+        const { playlistUrl, subtitles: videoSubtitles } = videoBlock;
         const { title, description } = postInfo;
-        const subtitles = videoBlock?.video_captions?.map((caption) => ({
-            language: normalizeLang(caption.locale),
+        const subtitles = videoSubtitles.map((caption) => ({
+            language: normalizeLang(caption.srclang),
             source: "epicgames",
             format: "vtt",
-            url: caption.signed_url,
+            url: caption.src,
         }));
         return {
             url: playlistUrl,
@@ -4296,7 +4343,20 @@ class EpicGamesHelper extends BaseHelper {
         };
     }
     async getVideoId(url) {
-        return /\/(\w{3,5})\/[^/]+$/.exec(url.pathname)?.[1];
+        return new Promise((resolve) => {
+            const origin = "https://dev.epicgames.com";
+            window.addEventListener("message", (e) => {
+                if (e.origin !== origin) {
+                    return undefined;
+                }
+                if (typeof e.data === "string" && e.data.startsWith("getVideoId:")) {
+                    const videoId = e.data.replace("getVideoId:", "");
+                    return resolve(videoId);
+                }
+                return undefined;
+            });
+            window.top.postMessage("getVideoId", origin);
+        });
     }
 }
 
@@ -4402,7 +4462,7 @@ class NineAnimeTVHelper extends BaseHelper {
                 if (e.origin !== origin) {
                     return undefined;
                 }
-                if (e.data?.startsWith("getVideoId:")) {
+                if (typeof e.data === "string" && e.data.startsWith("getVideoId:")) {
                     const videoId = e.data.replace("getVideoId:", "");
                     return resolve(videoId);
                 }
@@ -5597,7 +5657,17 @@ class CourseraHelper extends BaseHelper {
     }
 }
 
+;// ./node_modules/@vot.js/ext/dist/helpers/cloudflarestream.js
+
+class CloudflareStreamHelper extends BaseHelper {
+    async getVideoId(url) {
+        return url.pathname + url.search;
+    }
+}
+
 ;// ./node_modules/@vot.js/ext/dist/helpers/index.js
+
+
 
 
 
@@ -5739,6 +5809,7 @@ const availableHelpers = {
     [VideoService.poketube]: YoutubeHelper,
     [VideoService.piped]: YoutubeHelper,
     [VideoService.dzen]: DzenHelper,
+    [VideoService.cloudflarestream]: CloudflareStreamHelper,
     [ExtVideoService.udemy]: UdemyHelper,
     [ExtVideoService.coursera]: CourseraHelper,
 };
@@ -5796,7 +5867,11 @@ async function getVideoData(service, video, opts = {}) {
         throw new VideoDataError(`Entered unsupported link: "${service.host}"`);
     }
     const origin = window.location.origin;
-    if ([VideoService.peertube, VideoService.coursehunterLike].includes(service.host)) {
+    if ([
+        VideoService.peertube,
+        VideoService.coursehunterLike,
+        VideoService.cloudflarestream,
+    ].includes(service.host)) {
         service.url = origin;
     }
     if (service.rawResult) {
@@ -11817,13 +11892,7 @@ function findContainer(site, video) {
     : video.parentElement;
 }
 
-async function src_main() {
-  debug.log("Loading extension...");
-
-  await localizationProvider.update();
-
-  debug.log(`Selected menu language: ${localizationProvider.lang}`);
-
+function initIframeInteractor() {
   // I haven't figured out how to do it any other way
   if (window.location.origin === "https://9animetv.to") {
     window.addEventListener("message", (e) => {
@@ -11831,18 +11900,55 @@ async function src_main() {
         return;
       }
 
-      if (e.data === "getVideoId") {
-        const videoId = /[^/]+$/.exec(window.location.href)?.[0];
-        const iframeWin =
-          document.querySelector("#iframe-embed")?.contentWindow;
-
-        iframeWin.postMessage(
-          `getVideoId:${videoId}`,
-          "https://rapid-cloud.co/",
-        );
+      if (e.data !== "getVideoId") {
+        return;
       }
+
+      const videoId = /[^/]+$/.exec(window.location.href)?.[0];
+      const iframeWin = document.querySelector("#iframe-embed")?.contentWindow;
+
+      iframeWin.postMessage(`getVideoId:${videoId}`, "https://rapid-cloud.co");
     });
+
+    return;
   }
+
+  if (
+    window.location.origin === "https://dev.epicgames.com" &&
+    window.location.pathname.includes("/community/learning/")
+  ) {
+    window.addEventListener("message", (e) => {
+      if (e.origin !== "https://dev.epicgames.com") {
+        return;
+      }
+
+      if (e.data !== "getVideoId") {
+        return;
+      }
+
+      const videoId = /\/(\w{3,5})\/[^/]+$/.exec(window.location.pathname)?.[1];
+      const iframeWin = document.querySelector(
+        "electra-player > iframe",
+      )?.contentWindow;
+
+      iframeWin.postMessage(
+        `getVideoId:${videoId}`,
+        "https://dev.epicgames.com",
+      );
+    });
+
+    return;
+  }
+}
+
+async function src_main() {
+  debug.log("Loading extension...");
+
+  await localizationProvider.update();
+
+  debug.log(`Selected menu language: ${localizationProvider.lang}`);
+
+  initIframeInteractor();
 
   videoObserver.onVideoAdded.addListener((video) => {
     for (const site of getService()) {
@@ -11854,13 +11960,6 @@ async function src_main() {
       if (site.host === "rumble" && !video.style.display) {
         continue; // fix multiply translation buttons in rumble.com
       }
-
-      // if (
-      //   site.host === "youku" &&
-      //   !video.parentElement?.classList.contains("video-layer")
-      // ) {
-      //   continue;
-      // }
 
       if (["peertube", "directlink"].includes(site.host)) {
         site.url = window.location.origin; // set the url of the current site for peertube and directlink

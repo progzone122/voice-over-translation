@@ -2684,13 +2684,7 @@ function findContainer(site, video) {
     : video.parentElement;
 }
 
-async function main() {
-  debug.log("Loading extension...");
-
-  await localizationProvider.update();
-
-  debug.log(`Selected menu language: ${localizationProvider.lang}`);
-
+function initIframeInteractor() {
   // I haven't figured out how to do it any other way
   if (window.location.origin === "https://9animetv.to") {
     window.addEventListener("message", (e) => {
@@ -2698,18 +2692,55 @@ async function main() {
         return;
       }
 
-      if (e.data === "getVideoId") {
-        const videoId = /[^/]+$/.exec(window.location.href)?.[0];
-        const iframeWin =
-          document.querySelector("#iframe-embed")?.contentWindow;
-
-        iframeWin.postMessage(
-          `getVideoId:${videoId}`,
-          "https://rapid-cloud.co/",
-        );
+      if (e.data !== "getVideoId") {
+        return;
       }
+
+      const videoId = /[^/]+$/.exec(window.location.href)?.[0];
+      const iframeWin = document.querySelector("#iframe-embed")?.contentWindow;
+
+      iframeWin.postMessage(`getVideoId:${videoId}`, "https://rapid-cloud.co");
     });
+
+    return;
   }
+
+  if (
+    window.location.origin === "https://dev.epicgames.com" &&
+    window.location.pathname.includes("/community/learning/")
+  ) {
+    window.addEventListener("message", (e) => {
+      if (e.origin !== "https://dev.epicgames.com") {
+        return;
+      }
+
+      if (e.data !== "getVideoId") {
+        return;
+      }
+
+      const videoId = /\/(\w{3,5})\/[^/]+$/.exec(window.location.pathname)?.[1];
+      const iframeWin = document.querySelector(
+        "electra-player > iframe",
+      )?.contentWindow;
+
+      iframeWin.postMessage(
+        `getVideoId:${videoId}`,
+        "https://dev.epicgames.com",
+      );
+    });
+
+    return;
+  }
+}
+
+async function main() {
+  debug.log("Loading extension...");
+
+  await localizationProvider.update();
+
+  debug.log(`Selected menu language: ${localizationProvider.lang}`);
+
+  initIframeInteractor();
 
   videoObserver.onVideoAdded.addListener((video) => {
     for (const site of getService()) {
@@ -2721,13 +2752,6 @@ async function main() {
       if (site.host === "rumble" && !video.style.display) {
         continue; // fix multiply translation buttons in rumble.com
       }
-
-      // if (
-      //   site.host === "youku" &&
-      //   !video.parentElement?.classList.contains("video-layer")
-      // ) {
-      //   continue;
-      // }
 
       if (["peertube", "directlink"].includes(site.host)) {
         site.url = window.location.origin; // set the url of the current site for peertube and directlink
