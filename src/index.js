@@ -2166,7 +2166,7 @@ class VideoHandler {
       videoId,
       host,
       title,
-      translationHelp,
+      translationHelp = null,
       detectedLanguage = this.translateFromLang,
       subtitles,
       isStream = false,
@@ -2174,7 +2174,7 @@ class VideoHandler {
       fetchFn: GM_fetch,
     });
     const videoData = {
-      translationHelp: translationHelp ?? null,
+      translationHelp,
       // by default, we request the translation of the video
       isStream,
       // ! if 0 - we get 400 error
