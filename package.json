@@ -55,8 +55,8 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
-    "@vot.js/ext": "^2.0.10",
-    "@vot.js/shared": "^2.0.10",
+    "@vot.js/ext": "^2.0.12",
+    "@vot.js/shared": "^2.0.12",
     "bowser": "^2.11.0",
     "chaimu": "^1.0.3",
     "lit": "^3.2.1",

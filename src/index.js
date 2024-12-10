@@ -83,7 +83,7 @@ class VideoHandler {
    *
    * @type {import("./index").VideoHandler['translateFromLang']}
    */
-  translateFromLang = "en";
+  translateFromLang = "auto";
 
   /**
    * default language of audio response
@@ -2167,21 +2167,22 @@ class VideoHandler {
       host,
       title,
       translationHelp,
-      detectedLanguage,
+      detectedLanguage = this.translateFromLang,
       subtitles,
+      isStream = false,
     } = await getVideoData(this.site, this.video, {
       fetchFn: GM_fetch,
     });
     const videoData = {
       translationHelp: translationHelp ?? null,
       // by default, we request the translation of the video
-      isStream: false,
+      isStream,
       // ! if 0 - we get 400 error
-      duration: this.video?.duration || duration || votConfig.defaultDuration,
+      duration: duration || this.video?.duration || votConfig.defaultDuration,
       videoId,
       url,
       host,
-      detectedLanguage: detectedLanguage ?? this.translateFromLang,
+      detectedLanguage,
       responseLanguage: this.translateToLang,
       subtitles,
       title,
@@ -2203,9 +2204,8 @@ class VideoHandler {
       videoData.detectedLanguage = trackLang || "auto";
     } else if (this.site.host === "weverse") {
       videoData.detectedLanguage = "ko";
-    } else {
-      videoData.detectedLanguage = "auto";
     }
+
     return videoData;
   }
 

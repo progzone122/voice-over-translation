@@ -46,6 +46,7 @@
 // @match          *://*.coursera.org/learn/*
 // @match          *://*.udemy.com/course/*
 // @match          *://*.tiktok.com/*
+// @match          *://*.douyin.com/*
 // @match          *://rumble.com/*
 // @match          *://*.eporner.com/*
 // @match          *://*.dailymotion.com/*
@@ -267,7 +268,7 @@ var es5 = __webpack_require__("./node_modules/bowser/es5.js");
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.0.10",
+    version: "2.0.12",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -3304,6 +3305,7 @@ var ExtVideoService;
 (function (ExtVideoService) {
     ExtVideoService["udemy"] = "udemy";
     ExtVideoService["coursera"] = "coursera";
+    ExtVideoService["douyin"] = "douyin";
 })(ExtVideoService || (ExtVideoService = {}));
 
 ;// ./node_modules/@vot.js/ext/dist/data/sites.js
@@ -3409,6 +3411,14 @@ var ExtVideoService;
         url: "https://www.tiktok.com/",
         match: /^(www.)?tiktok.com$/,
         selector: null,
+    },
+    {
+        host: ExtVideoService.douyin,
+        url: "https://www.douyin.com/",
+        match: /^(www.)?douyin.com/,
+        selector: ".xg-video-container",
+        needExtraData: true,
+        needBypassCSP: true,
     },
     {
         host: VideoService.vimeo,
@@ -5665,7 +5675,38 @@ class CloudflareStreamHelper extends BaseHelper {
     }
 }
 
+;// ./node_modules/@vot.js/ext/dist/helpers/douyin.js
+
+
+
+class DouyinHelper extends BaseHelper {
+    async getVideoData(videoId) {
+        const xgPlayer = player;
+        const { url: sources, duration, lang, isLive: isStream } = xgPlayer.config;
+        if (!sources) {
+            return undefined;
+        }
+        const source = sources.find((s) => s.src.includes("www.douyin.com/aweme/v1/play/"));
+        if (!source) {
+            return undefined;
+        }
+        return {
+            url: proxyMedia(source.src),
+            duration,
+            isStream,
+            ...(availableLangs.includes(lang)
+                ? { detectedLanguage: lang }
+                : {}),
+        };
+    }
+    async getVideoId(url) {
+        return /video\/([\d]+)/.exec(url.pathname)?.[0];
+    }
+}
+
 ;// ./node_modules/@vot.js/ext/dist/helpers/index.js
+
+
 
 
 
@@ -5812,6 +5853,7 @@ const availableHelpers = {
     [VideoService.cloudflarestream]: CloudflareStreamHelper,
     [ExtVideoService.udemy]: UdemyHelper,
     [ExtVideoService.coursera]: CourseraHelper,
+    [ExtVideoService.douyin]: DouyinHelper,
 };
 class VideoHelper {
     helpersData;
@@ -5907,6 +5949,8 @@ async function getVideoData(service, video, opts = {}) {
 }
 
 ;// ./node_modules/@vot.js/ext/dist/types/index.js
+
+
 
 
 
@@ -9289,7 +9333,7 @@ class VideoHandler {
    *
    * @type {import("./index").VideoHandler['translateFromLang']}
    */
-  translateFromLang = "en";
+  translateFromLang = "auto";
 
   /**
    * default language of audio response
@@ -10461,8 +10505,9 @@ class VideoHandler {
 
       this.votVideoVolumeSlider.input.addEventListener("input", (e) => {
         const value = Number(e.target.value);
-        this.votVideoVolumeSlider.label.querySelector("strong").textContent =
-          `${value}%`;
+        this.votVideoVolumeSlider.label.querySelector(
+          "strong",
+        ).textContent = `${value}%`;
         this.setVideoVolume(value / 100);
         if (this.data.syncVolume) {
           this.syncVolumeWrapper("video", value);
@@ -11304,8 +11349,9 @@ class VideoHandler {
     const newSlidersVolume = Math.round(videoVolume);
 
     this.votVideoVolumeSlider.input.value = newSlidersVolume;
-    this.votVideoVolumeSlider.label.querySelector("strong").textContent =
-      `${newSlidersVolume}%`;
+    this.votVideoVolumeSlider.label.querySelector(
+      "strong",
+    ).textContent = `${newSlidersVolume}%`;
     ui.updateSlider(this.votVideoVolumeSlider.input);
 
     if (this.data.syncVolume === 1) {
@@ -11373,21 +11419,22 @@ class VideoHandler {
       host,
       title,
       translationHelp,
-      detectedLanguage,
+      detectedLanguage = this.translateFromLang,
       subtitles,
+      isStream = false,
     } = await getVideoData(this.site, this.video, {
       fetchFn: GM_fetch,
     });
     const videoData = {
       translationHelp: translationHelp ?? null,
       // by default, we request the translation of the video
-      isStream: false,
+      isStream,
       // ! if 0 - we get 400 error
-      duration: this.video?.duration || duration || config.defaultDuration,
+      duration: duration || this.video?.duration || config.defaultDuration,
       videoId,
       url,
       host,
-      detectedLanguage: detectedLanguage ?? this.translateFromLang,
+      detectedLanguage,
       responseLanguage: this.translateToLang,
       subtitles,
       title,
@@ -11409,9 +11456,8 @@ class VideoHandler {
       videoData.detectedLanguage = trackLang || "auto";
     } else if (this.site.host === "weverse") {
       videoData.detectedLanguage = "ko";
-    } else {
-      videoData.detectedLanguage = "auto";
     }
+
     return videoData;
   }
 

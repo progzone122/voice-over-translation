@@ -16,6 +16,7 @@
 - Добавлена поддержка Dzen (dzen.ru) (#915)
 - Добавлена поддержка PornTN (porntn.com) (#705)
 - Добавлена поддержка Cloudflare Streams (#941)
+- Добавлена поддержка Douyin (#876)
 - Добавлена поддержка нового домена для VK Video (#931)
 - Добавлена поддержка субтитров для VK Video (#770)
 - Добавлена поддержка перевода в плейлистах VK Video (`https://vk.com/video/playlists/PLAYLIST_ID/video-xxxxxxxxx_xxxxxxxxx`, на vkvideo.ru тоже работает)
