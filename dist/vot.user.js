@@ -265,12 +265,12 @@ var es5 = __webpack_require__("./node_modules/bowser/es5.js");
     hostVOT: "vot-api.toil.cc/v1",
     mediaProxy: "media-proxy.toil.cc",
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 YaBrowser/24.10.0.0 Safari/537.36",
-    componentVersion: "24.10.4.753",
+    componentVersion: "24.12.0.1807",
     hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.0.12",
+    version: "2.0.13",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -3442,7 +3442,7 @@ var ExtVideoService;
         host: VideoService.xvideos,
         url: "https://www.xvideos.com/",
         match: /^(www.)?(xvideos|xv-ru).com$/,
-        selector: ".video-bg-pic",
+        selector: "#hlsplayer",
         needBypassCSP: true,
     },
     {
@@ -11145,11 +11145,14 @@ class VideoHandler {
       "mousemove",
       this.changeOpacityOnEvent,
     );
-    addExtraEventListeners(
-      document,
-      ["touchstart", "touchmove", "touchend"],
-      this.changeOpacityOnEvent,
-    );
+    // remove listener on xvideos to fix #866
+    if (this.site.host !== "xvideos") {
+      addExtraEventListeners(
+        document,
+        ["touchstart", "touchmove", "touchend"],
+        this.changeOpacityOnEvent,
+      );
+    }
 
     // fix youtube hold to fast
     addExtraEventListener(this.votButton.container, "mousedown", (e) => {

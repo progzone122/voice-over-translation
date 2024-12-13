@@ -1892,11 +1892,14 @@ class VideoHandler {
       "mousemove",
       this.changeOpacityOnEvent,
     );
-    addExtraEventListeners(
-      document,
-      ["touchstart", "touchmove", "touchend"],
-      this.changeOpacityOnEvent,
-    );
+    // remove listener on xvideos to fix #866
+    if (this.site.host !== "xvideos") {
+      addExtraEventListeners(
+        document,
+        ["touchstart", "touchmove", "touchend"],
+        this.changeOpacityOnEvent,
+      );
+    }
 
     // fix youtube hold to fast
     addExtraEventListener(this.votButton.container, "mousedown", (e) => {
