@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "Использовать новый аудиоплеер",
   "VOTUseNewModel": "Использовать экспериментальный вариант голосов Yandex для некоторых видеороликов",
   "VOTTranslationErrorsService": "Сервис перевода ошибок",
-  "TranslationDelayed": "Перевод немного задерживается"
+  "TranslationDelayed": "Перевод немного задерживается",
+  "VOTTranslationCompletedNotify": "Перевод на {0} завершен!",
+  "VOTSendNotifyOnComplete": "Отправлять уведомление о том, что видео было переведено"
 }

@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "Paké pamuter audio anyar",
   "VOTUseNewModel": "Paké variasi ékspérimén sora Yandex pikeun sababaraha video",
   "VOTTranslationErrorsService": "Jasa tarjamahan kasalahan",
-  "TranslationDelayed": "Tarjamahan rada ditunda"
+  "TranslationDelayed": "Tarjamahan rada ditunda",
+  "VOTTranslationCompletedNotify": "Tarjamahan dina {0} geus réngsé!",
+  "VOTSendNotifyOnComplete": "Kirimkeun bewara yén video geus ditarjamahkeun"
 }

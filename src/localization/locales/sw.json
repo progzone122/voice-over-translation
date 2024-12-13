@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "Tumia kicheza sauti kipya",
   "VOTUseNewModel": "Tumia tofauti ya majaribio Ya sauti Za Yandex kwa video zingine",
   "VOTTranslationErrorsService": "Huduma ya tafsiri ya makosa",
-  "TranslationDelayed": "Tafsiri imechelewa kidogo"
+  "TranslationDelayed": "Tafsiri imechelewa kidogo",
+  "VOTTranslationCompletedNotify": "Tafsiri ya {0} imekamilika!",
+  "VOTSendNotifyOnComplete": "Tuma arifa kwamba video imetafsiriwa"
 }

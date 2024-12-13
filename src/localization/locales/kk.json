@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "Жаңа аудио ойнатқышты пайдаланыңыз",
   "VOTUseNewModel": "Кейбір бейнелер Үшін яндекс дауыстарының эксперименттік нұсқасын пайдаланыңыз",
   "VOTTranslationErrorsService": "Қателерді аудару қызметі",
-  "TranslationDelayed": "Аударма сәл кешіктірілді"
+  "TranslationDelayed": "Аударма сәл кешіктірілді",
+  "VOTTranslationCompletedNotify": "{0} бойынша аударма аяқталды!",
+  "VOTSendNotifyOnComplete": "Бейне аударылғаны туралы хабарлама жіберіңіз"
 }

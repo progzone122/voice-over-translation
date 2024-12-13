@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "Yeni audio pleyerdən istifadə edin",
   "VOTUseNewModel": "Bəzi videolar üçün Yandex voices-in eksperimental versiyasından istifadə edin",
   "VOTTranslationErrorsService": "Səhv tərcümə xidməti",
-  "TranslationDelayed": "Tərcümə bir az gecikir"
+  "TranslationDelayed": "Tərcümə bir az gecikir",
+  "VOTTranslationCompletedNotify": "Tərcümə {0} tamamlandı!",
+  "VOTSendNotifyOnComplete": "Videonun tərcümə olunduğunu bildirən bildiriş göndərin"
 }

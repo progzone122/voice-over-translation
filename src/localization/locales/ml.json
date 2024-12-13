@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "പുതിയ ഓഡിയോ പ്ലെയർ ഉപയോഗിക്കുക",
   "VOTUseNewModel": "ചില വീഡിയോകൾക്കായി യാൻഡെക്സ് ശബ്ദങ്ങളുടെ ഒരു പരീക്ഷണാത്മക വ്യതിയാനം ഉപയോഗിക്കുക",
   "VOTTranslationErrorsService": "വിവർത്തന സേവനം പിശക്",
-  "TranslationDelayed": "പരിഭാഷ അല്പം വൈകി"
+  "TranslationDelayed": "പരിഭാഷ അല്പം വൈകി",
+  "VOTTranslationCompletedNotify": "വിവർത്തനം {0} പൂർത്തിയായി!",
+  "VOTSendNotifyOnComplete": "വീഡിയോ പരിഭാഷപ്പെടുത്തിയതായി അറിയിപ്പ് അയയ്ക്കുക"
 }

@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "Përdorni luajtësin e ri audio",
   "VOTUseNewModel": "Përdorni një variant eksperimental Të Zërave Yandex për disa video",
   "VOTTranslationErrorsService": "Shërbimi i përkthimit të gabimeve",
-  "TranslationDelayed": "Përkthimi është vonuar pak"
+  "TranslationDelayed": "Përkthimi është vonuar pak",
+  "VOTTranslationCompletedNotify": "Përkthimi në {0} ka përfunduar!",
+  "VOTSendNotifyOnComplete": "Dërgoni një njoftim se videoja është përkthyer"
 }

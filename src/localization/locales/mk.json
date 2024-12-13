@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "Користете го новиот аудио плеер",
   "VOTUseNewModel": "Користете експериментална варијација На гласови На Јандекс за некои видеа",
   "VOTTranslationErrorsService": "Услуга за превод на грешки",
-  "TranslationDelayed": "Преводот е малку одложен"
+  "TranslationDelayed": "Преводот е малку одложен",
+  "VOTTranslationCompletedNotify": "Преводот на {0} е завршен!",
+  "VOTSendNotifyOnComplete": "Испратете известување дека видеото е преведено"
 }

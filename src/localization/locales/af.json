@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "Gebruik die nuwe oudiospeler",
   "VOTUseNewModel": "Gebruik'n eksperimentele variasie Van Yandex-stemme vir sommige video's",
   "VOTTranslationErrorsService": "Fout vertaling diens",
-  "TranslationDelayed": "Die vertaling is effens vertraag"
+  "TranslationDelayed": "Die vertaling is effens vertraag",
+  "VOTTranslationCompletedNotify": "Die vertaling op die {0} is voltooi!",
+  "VOTSendNotifyOnComplete": "Stuur'n kennisgewing dat die video vertaal is"
 }

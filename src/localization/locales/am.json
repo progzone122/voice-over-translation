@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "አዲሱን የድምፅ ማጫወቻ ይጠቀሙ",
   "VOTUseNewModel": "ለአንዳንድ ቪዲዮዎች የ Yandex ድምፆች የሙከራ ልዩነት ይጠቀሙ",
   "VOTTranslationErrorsService": "የስህተት ትርጉም አገልግሎት",
-  "TranslationDelayed": "ትርጉሙ ትንሽ ዘግይቷል"
+  "TranslationDelayed": "ትርጉሙ ትንሽ ዘግይቷል",
+  "VOTTranslationCompletedNotify": "በ {0} ላይ ያለው ትርጉም ተጠናቅቋል!",
+  "VOTSendNotifyOnComplete": "ቪዲዮው የተተረጎመ መሆኑን ማሳወቂያ ይላኩ"
 }

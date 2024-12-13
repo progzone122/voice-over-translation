@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "नयाँ अडियो प्लेयर प्रयोग गर्नुहोस्",
   "VOTUseNewModel": "केही भिडियोहरूको लागि यान्डेक्स आवाजहरूको प्रयोगात्मक भिन्नता प्रयोग गर्नुहोस्",
   "VOTTranslationErrorsService": "त्रुटि अनुवाद सेवा",
-  "TranslationDelayed": "अनुवाद केही ढिलाइ भएको छ"
+  "TranslationDelayed": "अनुवाद केही ढिलाइ भएको छ",
+  "VOTTranslationCompletedNotify": "{0} मा अनुवाद पूरा भएको छ!",
+  "VOTSendNotifyOnComplete": "भिडियो अनुवाद गरिएको सूचना पठाउनुहोस्"
 }

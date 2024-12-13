@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "استخدم مشغل الصوت الجديد",
   "VOTUseNewModel": "استخدم تباينا تجريبيا لأصوات ياندكس لبعض مقاطع الفيديو",
   "VOTTranslationErrorsService": "خدمة ترجمة الأخطاء",
-  "TranslationDelayed": "الترجمة متأخرة قليلا"
+  "TranslationDelayed": "الترجمة متأخرة قليلا",
+  "VOTTranslationCompletedNotify": "تم الانتهاء من الترجمة على {0}!",
+  "VOTSendNotifyOnComplete": "إرسال إشعار بأن الفيديو قد تمت ترجمته"
 }

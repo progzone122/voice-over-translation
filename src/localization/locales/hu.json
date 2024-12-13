@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "Az új audiolejátszó használata",
   "VOTUseNewModel": "Használja a Yandex voices kísérleti változatát néhány videóhoz",
   "VOTTranslationErrorsService": "Hiba fordítási szolgáltatás",
-  "TranslationDelayed": "A fordítás kissé késik"
+  "TranslationDelayed": "A fordítás kissé késik",
+  "VOTTranslationCompletedNotify": "A fordítás a {0} befejeződött!",
+  "VOTSendNotifyOnComplete": "Küldjön értesítést arról, hogy a videót lefordították"
 }

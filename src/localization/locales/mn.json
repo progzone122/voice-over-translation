@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "Шинэ аудио тоглуулагч ашиглах",
   "VOTUseNewModel": "Зарим видеонуудад Yandex-ийн дуу хоолойны туршилтын хувилбарыг ашиглана уу",
   "VOTTranslationErrorsService": "Алдааны орчуулгын үйлчилгээ",
-  "TranslationDelayed": "Орчуулга нь бага зэрэг хойшлогдож байна"
+  "TranslationDelayed": "Орчуулга нь бага зэрэг хойшлогдож байна",
+  "VOTTranslationCompletedNotify": "Орчуулга дууссан байна!",
+  "VOTSendNotifyOnComplete": "Видеог орчуулсан тухай мэдэгдэл илгээх"
 }

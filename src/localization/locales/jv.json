@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "Gunakake pamuter audio anyar",
   "VOTUseNewModel": "Gunakake variasi eksperimen Swara Yandex kanggo sawetara video",
   "VOTTranslationErrorsService": "Layanan terjemahan kesalahan",
-  "TranslationDelayed": "Terjemahan rada telat"
+  "TranslationDelayed": "Terjemahan rada telat",
+  "VOTTranslationCompletedNotify": "Terjemahan ing {0} wis rampung!",
+  "VOTSendNotifyOnComplete": "Kirimi kabar sing video wis diterjemahaké"
 }

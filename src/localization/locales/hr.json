@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "Koristite novi audio uređaj",
   "VOTUseNewModel": "Koristite eksperimentalnu opciju za neke videozapise",
   "VOTTranslationErrorsService": "Usluga prevođenja pogrešaka",
-  "TranslationDelayed": "Prijevod je malo odgođen"
+  "TranslationDelayed": "Prijevod je malo odgođen",
+  "VOTTranslationCompletedNotify": "Prijevod na {0} dovršen!",
+  "VOTSendNotifyOnComplete": "Pošaljite obavijest da je videozapis preveden"
 }

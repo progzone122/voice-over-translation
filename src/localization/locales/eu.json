@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "Erabili audio-erreproduzitzaile berria",
   "VOTUseNewModel": "Erabili Yandex ahotsen aldaera esperimentala bideo batzuetarako",
   "VOTTranslationErrorsService": "Errorea itzulpen zerbitzua",
-  "TranslationDelayed": "Itzulpena atzeratu egin da"
+  "TranslationDelayed": "Itzulpena atzeratu egin da",
+  "VOTTranslationCompletedNotify": "{0} (r) en itzulpena osatu da!",
+  "VOTSendNotifyOnComplete": "Bidali bideoa itzuli dela jakinarazpena"
 }

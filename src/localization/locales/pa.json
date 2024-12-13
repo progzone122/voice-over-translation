@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "ਨਵਾਂ ਆਡੀਓ ਪਲੇਅਰ ਵਰਤੋਂ",
   "VOTUseNewModel": "ਕੁਝ ਵੀਡੀਓਜ਼ ਲਈ ਯਾਂਡੇਕਸ ਆਵਾਜ਼ਾਂ ਦੀ ਪ੍ਰਯੋਗਾਤਮਕ ਪਰਿਵਰਤਨ ਦੀ ਵਰਤੋਂ ਕਰੋ",
   "VOTTranslationErrorsService": "ਗਲਤੀ ਅਨੁਵਾਦ ਸੇਵਾ",
-  "TranslationDelayed": "ਅਨੁਵਾਦ ਥੋੜ੍ਹਾ ਦੇਰੀ ਨਾਲ ਹੋਇਆ ਹੈ"
+  "TranslationDelayed": "ਅਨੁਵਾਦ ਥੋੜ੍ਹਾ ਦੇਰੀ ਨਾਲ ਹੋਇਆ ਹੈ",
+  "VOTTranslationCompletedNotify": "{0} ਉੱਤੇ ਅਨੁਵਾਦ ਪੂਰਾ ਹੋ ਗਿਆ ਹੈ!",
+  "VOTSendNotifyOnComplete": "ਇੱਕ ਨੋਟੀਫਿਕੇਸ਼ਨ ਭੇਜੋ ਕਿ ਵੀਡੀਓ ਦਾ ਅਨੁਵਾਦ ਕੀਤਾ ਗਿਆ ਹੈ"
 }

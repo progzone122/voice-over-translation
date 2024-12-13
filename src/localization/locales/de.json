@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "Verwenden Sie den neuen Audioplayer",
   "VOTUseNewModel": "Verwenden Sie für einige Videos eine experimentelle Variante von Yandex-Stimmen",
   "VOTTranslationErrorsService": "Fehlerübersetzungsdienst",
-  "TranslationDelayed": "Die Übersetzung ist etwas verzögert"
+  "TranslationDelayed": "Die Übersetzung ist etwas verzögert",
+  "VOTTranslationCompletedNotify": "Die Übersetzung auf der {0} ist abgeschlossen!",
+  "VOTSendNotifyOnComplete": "Senden Sie eine Benachrichtigung, dass das Video übersetzt wurde"
 }

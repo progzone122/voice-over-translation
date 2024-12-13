@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "Käytä uutta soittinta",
   "VOTUseNewModel": "Käytä kokeellista muunnelmaa Yandex-äänistä joissakin videoissa",
   "VOTTranslationErrorsService": "Virheen käännöspalvelu",
-  "TranslationDelayed": "Käännös viivästyy hieman"
+  "TranslationDelayed": "Käännös viivästyy hieman",
+  "VOTTranslationCompletedNotify": "Kohteen {0} käännös on valmis!",
+  "VOTSendNotifyOnComplete": "Lähetä ilmoitus siitä, että video on käännetty"
 }

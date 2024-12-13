@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "Sebenzisa umdlali omusha audio",
   "VOTUseNewModel": "Sebenzisa ukuhlukahluka kokuhlola kwamazwi E Yandex kwamanye amavidiyo",
   "VOTTranslationErrorsService": "Isevisi yokuhumusha amaphutha",
-  "TranslationDelayed": "Ukuhumusha kubambezeleke kancane"
+  "TranslationDelayed": "Ukuhumusha kubambezeleke kancane",
+  "VOTTranslationCompletedNotify": "Ukuhunyushwa kwe - {0} sekuqediwe!",
+  "VOTSendNotifyOnComplete": "Thumela isaziso sokuthi ividiyo ihunyushwe"
 }

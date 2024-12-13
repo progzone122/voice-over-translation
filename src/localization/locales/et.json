@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "Kasutage uut helipleierit",
   "VOTUseNewModel": "Mõne video jaoks kasutage Yandexi häälte eksperimentaalset variatsiooni",
   "VOTTranslationErrorsService": "Viga tõlketeenus",
-  "TranslationDelayed": "Tõlge on veidi hilinenud"
+  "TranslationDelayed": "Tõlge on veidi hilinenud",
+  "VOTTranslationCompletedNotify": "{0} tõlge on lõpetatud!",
+  "VOTSendNotifyOnComplete": "Saada teade, et video on tõlgitud"
 }

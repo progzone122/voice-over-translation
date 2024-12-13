@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "نیا آڈیو پلیئر استعمال کریں",
   "VOTUseNewModel": "کچھ ویڈیوز کے لئے یاندیکس آوازوں کی تجرباتی تغیر کا استعمال کریں ۔ ",
   "VOTTranslationErrorsService": "غلطی ترجمہ سروس",
-  "TranslationDelayed": "ترجمہ میں قدرے تاخیر ہوئی ہے ۔ "
+  "TranslationDelayed": "ترجمہ میں قدرے تاخیر ہوئی ہے ۔ ",
+  "VOTTranslationCompletedNotify": "{0} پر ترجمہ مکمل ہو گیا ہے!",
+  "VOTSendNotifyOnComplete": "ایک نوٹیفکیشن بھیجیں کہ ویڈیو کا ترجمہ ہوچکا ہے"
 }

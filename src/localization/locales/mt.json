@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "Uża l-plejer tal-awdjo l-ġdid",
   "VOTUseNewModel": "Uża varjazzjoni sperimentali ta'vuċijiet Yandex għal xi vidjows",
   "VOTTranslationErrorsService": "Servizz ta'traduzzjoni ta'żbalji",
-  "TranslationDelayed": "It traduzzjoni hija kemmxejn ittardjata"
+  "TranslationDelayed": "It traduzzjoni hija kemmxejn ittardjata",
+  "VOTTranslationCompletedNotify": "It-traduzzjoni fuq il - {0} tlestiet!",
+  "VOTSendNotifyOnComplete": "Ibgħat notifika li l-video ġie tradott"
 }

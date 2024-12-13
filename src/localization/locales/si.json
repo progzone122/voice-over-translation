@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "නව ශ්රව්ය වාදකය භාවිතා කරන්න",
   "VOTUseNewModel": "සමහර වීඩියෝ සඳහා Yandex voices හි පර්යේෂණාත්මක විචලනයක් භාවිතා කරන්න",
   "VOTTranslationErrorsService": "දෝෂ පරිවර්තන සේවාව",
-  "TranslationDelayed": "පරිවර්තනය ටිකක් ප්රමාදයි"
+  "TranslationDelayed": "පරිවර්තනය ටිකක් ප්රමාදයි",
+  "VOTTranslationCompletedNotify": "{0} හි පරිවර්තනය සම්පූර්ණ කර ඇත!",
+  "VOTSendNotifyOnComplete": "වීඩියෝව පරිවර්තනය කර ඇති බවට දැනුම් දීමක් යවන්න"
 }

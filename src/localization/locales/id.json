@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "Gunakan pemutar audio baru",
   "VOTUseNewModel": "Gunakan variasi eksperimental suara Yandex untuk beberapa video",
   "VOTTranslationErrorsService": "Layanan penerjemahan galat",
-  "TranslationDelayed": "Terjemahannya sedikit tertunda"
+  "TranslationDelayed": "Terjemahannya sedikit tertunda",
+  "VOTTranslationCompletedNotify": "Terjemahan pada {0} telah selesai!",
+  "VOTSendNotifyOnComplete": "Kirim pemberitahuan bahwa video telah diterjemahkan"
 }

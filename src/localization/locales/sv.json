@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "Använd den nya ljudspelaren",
   "VOTUseNewModel": "Använd en experimentell variant av Yandex-Röster För vissa videor",
   "VOTTranslationErrorsService": "Fel översättningstjänst",
-  "TranslationDelayed": "Översättningen är något försenad"
+  "TranslationDelayed": "Översättningen är något försenad",
+  "VOTTranslationCompletedNotify": "Översättningen på {0} är klar!",
+  "VOTSendNotifyOnComplete": "Skicka ett meddelande om att videon har översatts"
 }

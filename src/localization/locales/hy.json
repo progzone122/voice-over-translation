@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "Օգտագործեք նոր աուդիո նվագարկիչ",
   "VOTUseNewModel": "Որոշ տեսանյութերի համար օգտագործեք Yandex voices-ի փորձնական տարբերակը",
   "VOTTranslationErrorsService": "Սխալների թարգմանության ծառայություն",
-  "TranslationDelayed": "Թարգմանությունը Մի փոքր ուշանում է"
+  "TranslationDelayed": "Թարգմանությունը Մի փոքր ուշանում է",
+  "VOTTranslationCompletedNotify": "Թարգմանությունը {0} ավարտված է:",
+  "VOTSendNotifyOnComplete": "Ուղարկեք ծանուցում այն մասին, որ տեսանյութը թարգմանվել է"
 }

@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "Користите нови аудио плејер",
   "VOTUseNewModel": "Користите експерименталну опцију Иандек Воицес за неке видео записе",
   "VOTTranslationErrorsService": "Услуга превођења грешака",
-  "TranslationDelayed": "Превод мало касни"
+  "TranslationDelayed": "Превод мало касни",
+  "VOTTranslationCompletedNotify": "Превод на {0} је завршен!",
+  "VOTSendNotifyOnComplete": "Пошаљите обавештење да је видео преведен"
 }

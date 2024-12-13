@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "Defnyddio'r chwaraewr sain newydd",
   "VOTUseNewModel": "Defnyddiwch amrywiad arbrofol o leisiau Yandex ar gyfer rhai fideos",
   "VOTTranslationErrorsService": "Gwasanaeth cyfieithu gwall",
-  "TranslationDelayed": "Mae'r cyfieithiad ychydig yn oedi"
+  "TranslationDelayed": "Mae'r cyfieithiad ychydig yn oedi",
+  "VOTTranslationCompletedNotify": "Mae'r cyfieithiad ar y {0} wedi ei gwblhau!",
+  "VOTSendNotifyOnComplete": "Anfon hysbysiad bod y fideo wedi'i gyfieithu"
 }

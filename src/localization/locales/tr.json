@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "Yeni ses çaları kullanma",
   "VOTUseNewModel": "Bazı videolar için Yandex seslerinin deneysel bir varyasyonunu kullanın",
   "VOTTranslationErrorsService": "Hata çeviri hizmeti",
-  "TranslationDelayed": "Çeviri biraz gecikti"
+  "TranslationDelayed": "Çeviri biraz gecikti",
+  "VOTTranslationCompletedNotify": "{0}'daki çeviri tamamlandı!",
+  "VOTSendNotifyOnComplete": "Videonun çevrildiğine dair bir bildirim gönderin"
 }

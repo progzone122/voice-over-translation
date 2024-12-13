@@ -195,5 +195,7 @@
   "VOTNewAudioPlayer": "Utilizar o novo leitor de áudio",
   "VOTUseNewModel": "Use uma variação experimental de vozes Yandex para alguns vídeos",
   "VOTTranslationErrorsService": "Serviço de tradução de erros",
-  "TranslationDelayed": "A tradução está ligeiramente atrasada"
+  "TranslationDelayed": "A tradução está ligeiramente atrasada",
+  "VOTTranslationCompletedNotify": "A tradução no {0} foi concluída!",
+  "VOTSendNotifyOnComplete": "Enviar uma notificação de que o vídeo foi traduzido"
 }

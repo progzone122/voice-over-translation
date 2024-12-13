@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "Sử dụng trình phát âm thanh mới",
   "VOTUseNewModel": "Sử dụng một biến thể thử nghiệm Của Giọng Nói Yandex cho một số video",
   "VOTTranslationErrorsService": "Dịch vụ dịch lỗi",
-  "TranslationDelayed": "Bản dịch hơi bị trì hoãn"
+  "TranslationDelayed": "Bản dịch hơi bị trì hoãn",
+  "VOTTranslationCompletedNotify": "Bản dịch trên {0} đã được hoàn thành!",
+  "VOTSendNotifyOnComplete": "Gửi thông báo rằng video đã được dịch"
 }

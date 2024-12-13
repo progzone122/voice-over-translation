@@ -196,5 +196,7 @@
   "VOTNewAudioPlayer": "Brug den nye lydafspiller",
   "VOTUseNewModel": "Brug en eksperimentel variation af Yandeks stemmer til nogle videoer",
   "VOTTranslationErrorsService": "Fejl oversættelsestjeneste",
-  "TranslationDelayed": "Oversættelsen er lidt forsinket"
+  "TranslationDelayed": "Oversættelsen er lidt forsinket",
+  "VOTTranslationCompletedNotify": "Oversættelsen på {0} er afsluttet!",
+  "VOTSendNotifyOnComplete": "Send en meddelelse om, at videoen er blevet oversat"
 }

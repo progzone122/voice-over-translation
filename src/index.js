@@ -392,6 +392,7 @@ class VideoHandler {
       showVideoSlider: votStorage.get("showVideoSlider", 1),
       syncVolume: votStorage.get("syncVolume", 0),
       downloadWithName: votStorage.get("downloadWithName", 1),
+      sendNotifyOnComplete: votStorage.get("sendNotifyOnComplete", 0),
       subtitlesMaxLength: votStorage.get("subtitlesMaxLength", 300),
       highlightWords: votStorage.get("highlightWords", 0),
       subtitlesFontSize: votStorage.get("subtitlesFontSize", 20),
@@ -859,6 +860,14 @@ class VideoHandler {
       );
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votDownloadWithNameCheckbox.container,
+      );
+
+      this.votSendNotifyOnCompleteCheckbox = ui.createCheckbox(
+        localizationProvider.get("VOTSendNotifyOnComplete"),
+        this.data?.sendNotifyOnComplete ?? false,
+      );
+      this.votSettingsDialog.bodyContainer.appendChild(
+        this.votSendNotifyOnCompleteCheckbox.container,
       );
 
       this.votUseNewModelCheckbox = ui.createCheckbox(
@@ -1426,6 +1435,23 @@ class VideoHandler {
           );
         })();
       });
+
+      this.votSendNotifyOnCompleteCheckbox.input.addEventListener(
+        "change",
+        (e) => {
+          (async () => {
+            this.data.sendNotifyOnComplete = Number(e.target.checked);
+            await votStorage.set(
+              "sendNotifyOnComplete",
+              this.data.sendNotifyOnComplete,
+            );
+            debug.log(
+              "sendNotifyOnComplete value changed. New value: ",
+              this.data.sendNotifyOnComplete,
+            );
+          })();
+        },
+      );
 
       this.votUseNewModelCheckbox.input.addEventListener("change", (e) => {
         (async () => {
@@ -2306,11 +2332,10 @@ class VideoHandler {
   }
 
   afterUpdateTranslation(audioUrl) {
+    const isSuccess = this.votButton.container.dataset.status === "success";
     this.votVideoVolumeSlider.container.hidden =
-      this.data.showVideoSlider !== 1 ||
-      this.votButton.container.dataset.status !== "success";
-    this.votVideoTranslationVolumeSlider.container.hidden =
-      this.votButton.container.dataset.status !== "success";
+      this.data.showVideoSlider !== 1 || !isSuccess;
+    this.votVideoTranslationVolumeSlider.container.hidden = !isSuccess;
 
     if (this.data.autoSetVolumeYandexStyle === 1) {
       this.votVideoVolumeSlider.input.value = this.data.autoVolume * 100;
@@ -2326,6 +2351,23 @@ class VideoHandler {
       "afterUpdateTranslation downloadTranslationUrl",
       this.downloadTranslationUrl,
     );
+    if (this.data.sendNotifyOnComplete && isSuccess) {
+      GM_notification({
+        text: localizationProvider
+          .get("VOTTranslationCompletedNotify")
+          .replace("{0}", window.location.hostname),
+        title: GM_info.script.name,
+        highlight: true,
+        timeout: 5000,
+        silent: true,
+        tag: "VOTTranslationCompleted", // TM 5.0
+        url: window.location.href, // TM 5.0
+        onclick: (e) => {
+          e.preventDefault();
+          window.focus();
+        },
+      });
+    }
   }
 
   async validateAudioUrl(audioUrl) {
