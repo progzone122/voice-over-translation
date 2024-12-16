@@ -270,7 +270,7 @@ var es5 = __webpack_require__("./node_modules/bowser/es5.js");
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.0.13",
+    version: "2.0.14",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -4794,7 +4794,7 @@ class VimeoHelper extends BaseHelper {
     API_KEY = "";
     DEFAULT_SITE_ORIGIN = "https://vimeo.com";
     SITE_ORIGIN = this.isPrivatePlayer()
-        ? (this.service?.url?.slice(0, -1) ?? this.DEFAULT_SITE_ORIGIN)
+        ? this.service?.url?.slice(0, -1) ?? this.DEFAULT_SITE_ORIGIN
         : this.DEFAULT_SITE_ORIGIN;
     isErrorData(data) {
         return Object.hasOwn(data, "error");
@@ -4880,11 +4880,15 @@ class VimeoHelper extends BaseHelper {
     }
     async getPrivateVideoInfo(videoId) {
         try {
-            const videoSource = await this.getPrivateVideoSource(playerConfig.request.files);
+            if (typeof playerConfig === "undefined") {
+                return undefined;
+            }
+            const vimeoPlayerConfig = playerConfig;
+            const videoSource = await this.getPrivateVideoSource(vimeoPlayerConfig.request.files);
             if (!videoSource) {
                 throw new VideoHelperError("Failed to get private video source");
             }
-            const { video: { title, duration }, request: { text_tracks: subs }, } = playerConfig;
+            const { video: { title, duration }, request: { text_tracks: subs }, } = vimeoPlayerConfig;
             return {
                 url: `${this.SITE_ORIGIN}/${videoId}`,
                 video_url: videoSource,
@@ -4998,7 +5002,7 @@ class VimeoHelper extends BaseHelper {
         }
         return embedId?.startsWith("video/")
             ? embedId.replace("video/", "")
-            : (embedId ?? /[^/]+$/.exec(url.pathname)?.[0]);
+            : embedId ?? /[^/]+$/.exec(url.pathname)?.[0];
     }
 }
 
@@ -5087,10 +5091,10 @@ class YandexDiskHelper extends BaseHelper {
 
 class VKHelper extends BaseHelper {
     static getPlayer() {
-        const videoView = Videoview;
-        if (!videoView) {
+        if (typeof Videoview === "undefined") {
             return undefined;
         }
+        const videoView = Videoview;
         return videoView.getPlayerObject
             ? videoView.getPlayerObject.call(undefined)
             : undefined;
@@ -5213,6 +5217,9 @@ class IncestflixHelper extends BaseHelper {
 class PornTNHelper extends BaseHelper {
     async getVideoData(videoId) {
         try {
+            if (typeof flashvars === "undefined") {
+                return undefined;
+            }
             const { rnd, video_url: source, video_title: title, } = flashvars;
             if (!source || !rnd) {
                 throw new VideoHelperError("Failed to find video source or rnd");
@@ -5683,6 +5690,9 @@ class CloudflareStreamHelper extends BaseHelper {
 
 class DouyinHelper extends BaseHelper {
     async getVideoData(videoId) {
+        if (typeof player === "undefined") {
+            return undefined;
+        }
         const xgPlayer = player;
         const { url: sources, duration, lang, isLive: isStream } = xgPlayer.config;
         if (!sources) {
@@ -10516,9 +10526,8 @@ class VideoHandler {
 
       this.votVideoVolumeSlider.input.addEventListener("input", (e) => {
         const value = Number(e.target.value);
-        this.votVideoVolumeSlider.label.querySelector(
-          "strong",
-        ).textContent = `${value}%`;
+        this.votVideoVolumeSlider.label.querySelector("strong").textContent =
+          `${value}%`;
         this.setVideoVolume(value / 100);
         if (this.data.syncVolume) {
           this.syncVolumeWrapper("video", value);
@@ -11380,9 +11389,8 @@ class VideoHandler {
     const newSlidersVolume = Math.round(videoVolume);
 
     this.votVideoVolumeSlider.input.value = newSlidersVolume;
-    this.votVideoVolumeSlider.label.querySelector(
-      "strong",
-    ).textContent = `${newSlidersVolume}%`;
+    this.votVideoVolumeSlider.label.querySelector("strong").textContent =
+      `${newSlidersVolume}%`;
     ui.updateSlider(this.votVideoVolumeSlider.input);
 
     if (this.data.syncVolume === 1) {
