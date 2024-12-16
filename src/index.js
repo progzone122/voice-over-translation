@@ -1,9 +1,17 @@
 import Bowser from "bowser";
-import VOTClient, { VOTWorkerClient } from "vot.js";
-import votConfig from "vot.js/config";
-import { getVideoData, getVideoID, getService } from "vot.js/utils/videoData";
-import { availableLangs, availableTTS, subtitlesFormats } from "vot.js/consts";
-import { convertSubs } from "vot.js/utils/subs";
+import VOTClient, { VOTWorkerClient } from "@vot.js/ext";
+import votConfig from "@vot.js/shared/config";
+import {
+  getVideoData,
+  getVideoID,
+  getService,
+} from "@vot.js/ext/utils/videoData";
+import {
+  availableLangs,
+  availableTTS,
+  subtitlesFormats,
+} from "@vot.js/shared/consts";
+import { convertSubs } from "@vot.js/shared/utils/subs";
 import { svg, html } from "lit-html";
 import { ID3Writer } from "browser-id3-writer";
 
@@ -14,6 +22,7 @@ import {
   m3u8ProxyHost,
   proxyWorkerHost,
   maxAudioVolume,
+  minLongWaitingCount,
   votBackendUrl,
   workerHost,
   proxyOnlyExtensions,
@@ -41,12 +50,12 @@ import {
 } from "./utils/utils.js";
 import { syncVolume } from "./utils/volume.js";
 import { VideoObserver } from "./utils/VideoObserver.js";
-import { votStorage } from "./utils/storage.js";
+import { votStorage, convertData } from "./utils/storage.ts";
 import {
   detectServices,
   translate,
   translateServices,
-} from "./utils/translateApis.js";
+} from "./utils/translateApis.ts";
 import Chaimu, { initAudioContext } from "chaimu";
 
 const browserInfo = Bowser.getParser(window.navigator.userAgent).getResult();
@@ -66,13 +75,15 @@ const createHotkeyText = (hotkey) =>
         .replace("{0}", hotkey.replace("Key", ""))
     : localizationProvider.get("VOTCreateTranslationHotkey");
 
+let countryCode;
+
 class VideoHandler {
   /**
    * default language of video
    *
    * @type {import("./index").VideoHandler['translateFromLang']}
    */
-  translateFromLang = "en";
+  translateFromLang = "auto";
 
   /**
    * default language of audio response
@@ -103,7 +114,7 @@ class VideoHandler {
 
   hls = initHls(); // debug enabled only in dev mode
   /**
-   * @type {import("vot.js").default}
+   * @type {import("@vot.js/ext").default}
    */
   votClient;
 
@@ -112,19 +123,21 @@ class VideoHandler {
    */
   audioPlayer;
 
-  videoTranslations = [];
-  videoTranslationTTL = 7200;
-  cachedTranslation;
+  videoTranslations = []; // list of video translations
+  videoTranslationTTL = 7200; // 2 hours
+  translateProxyEnabled = 0; // 0 - disabled, 1 - enabled, 2 - proxy everything
+  cachedTranslation; // cached video translation
 
   downloadTranslationUrl = null;
 
-  autoRetry;
-  streamPing;
+  autoRetry; // auto retry timeout
+  streamPing; // stream ping interval
   votOpts;
   volumeOnStart;
   tempOriginalVolume; // temp video volume for syncing
   tempVolume; // temp translation volume for syncing
   firstSyncVolume = true; // used for skip 1st syncing with observer
+  longWaitingResCount = 0;
 
   subtitlesList = [];
   subtitlesListVideoId = null;
@@ -154,6 +167,8 @@ class VideoHandler {
     this.video = video;
     this.container = container;
     this.site = site;
+    this.abortController = new AbortController();
+    this.extraEvents = [];
     this.init();
   }
 
@@ -178,7 +193,10 @@ class VideoHandler {
       `Translate video (requestLang: ${requestLang}, responseLang: ${responseLang})`,
     );
 
-    if ((await getVideoID(this.site, this.video)) !== videoData.videoId) {
+    if (
+      (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) !==
+      videoData.videoId
+    ) {
       return null;
     }
 
@@ -245,7 +263,10 @@ class VideoHandler {
       `Translate stream (requestLang: ${requestLang}, responseLang: ${responseLang})`,
     );
 
-    if ((await getVideoID(this.site, this.video)) !== videoData.videoId) {
+    if (
+      (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) !==
+      videoData.videoId
+    ) {
       return null;
     }
 
@@ -371,6 +392,7 @@ class VideoHandler {
       showVideoSlider: votStorage.get("showVideoSlider", 1),
       syncVolume: votStorage.get("syncVolume", 0),
       downloadWithName: votStorage.get("downloadWithName", 1),
+      sendNotifyOnComplete: votStorage.get("sendNotifyOnComplete", 0),
       subtitlesMaxLength: votStorage.get("subtitlesMaxLength", 300),
       highlightWords: votStorage.get("highlightWords", 0),
       subtitlesFontSize: votStorage.get("subtitlesFontSize", 20),
@@ -378,7 +400,6 @@ class VideoHandler {
       subtitlesDownloadFormat: votStorage.get("subtitlesDownloadFormat", "srt"),
       responseLanguage: votStorage.get("responseLanguage", lang),
       defaultVolume: votStorage.get("defaultVolume", 100),
-      audioProxy: votStorage.get("audioProxy", 0),
       onlyBypassMediaCSP: votStorage.get(
         "onlyBypassMediaCSP",
         Number(!!this.audioContext),
@@ -396,7 +417,6 @@ class VideoHandler {
       detectService: votStorage.get("detectService", defaultDetectService),
       hotkeyButton: votStorage.get("hotkeyButton", null),
       m3u8ProxyHost: votStorage.get("m3u8ProxyHost", m3u8ProxyHost),
-      translateProxyEnabled: votStorage.get("translateProxyEnabled", 0),
       proxyWorkerHost: votStorage.get("proxyWorkerHost", proxyWorkerHost),
       audioBooster: votStorage.get("audioBooster", 0),
       useNewModel: votStorage.get("useNewModel", 1),
@@ -415,61 +435,75 @@ class VideoHandler {
 
     console.log("[VOT] data from db: ", this.data);
 
+    // TODO: delete converters after several versions
     // convert old m3u8-proxy-worker to new media-proxy
-    if (this.data.m3u8ProxyHost === "m3u8-proxy.toil.cc") {
-      this.data.m3u8ProxyHost = m3u8ProxyHost;
-      await votStorage.set("m3u8ProxyHost", m3u8ProxyHost);
-      console.log(
-        `[VOT] Old m3u8 proxy host converted to new ${this.data.m3u8ProxyHost} media-proxy`,
-      );
-    }
-
-    // convert old vot-worker domain to actual
-    // TODO: remove converter in one of the next versions after release 1.7.0
-    if (this.data.proxyWorkerHost === "vot.toil.cc") {
-      this.data.proxyWorkerHost = proxyWorkerHost;
-      await votStorage.set("proxyWorkerHost", proxyWorkerHost);
-      console.log(
-        `[VOT] Old proxy worker host converted to new ${this.data.proxyWorkerHost}`,
-      );
-    }
+    await convertData(
+      this.data,
+      "m3u8ProxyHost",
+      "m3u8-proxy.toil.cc",
+      m3u8ProxyHost,
+    );
+    await convertData(
+      this.data,
+      "proxyWorkerHost",
+      "vot.toil.cc",
+      proxyWorkerHost,
+    );
+    await convertData(
+      this.data,
+      "detectService",
+      "yandex",
+      defaultDetectService,
+    );
+    await convertData(
+      this.data,
+      "translationService",
+      "yandex",
+      defaultTranslationService,
+    );
 
     if (
-      !this.data.translateProxyEnabled &&
+      !this.translateProxyEnabled &&
       GM_info?.scriptHandler &&
       proxyOnlyExtensions.includes(GM_info.scriptHandler)
     ) {
-      this.data.translateProxyEnabled = 1;
-      await votStorage.set("translateProxyEnabled", 1);
-      debug.log("translateProxyEnabled", this.data.translateProxyEnabled);
+      this.translateProxyEnabled = 1;
     }
 
+    if (!countryCode) {
+      try {
+        const response = await GM_fetch("https://speed.cloudflare.com/meta", {
+          timeout: 7000,
+        });
+        const { country } = await response.json();
+        countryCode = country;
+        this.translateProxyEnabled =
+          country === "UA" ? 2 : this.translateProxyEnabled;
+      } catch (err) {
+        console.error("[VOT] Error getting country:", err);
+      }
+    } else if (countryCode === "UA") {
+      this.translateProxyEnabled = 2;
+    }
+
+    debug.log("translateProxyEnabled", this.translateProxyEnabled);
     debug.log("Extension compatibility passed...");
 
     this.votOpts = {
-      headers: this.data.translateProxyEnabled
+      headers: this.translateProxyEnabled
         ? {}
         : {
             "sec-ch-ua": null,
             "sec-ch-ua-mobile": null,
             "sec-ch-ua-platform": null,
-            // "sec-ch-ua-model": null,
-            // "sec-ch-ua-platform-version": null,
-            // "sec-ch-ua-wow64": null,
-            // "sec-ch-ua-arch": null,
-            // "sec-ch-ua-bitness": null,
-            // "sec-ch-ua-full-version": null,
-            // "sec-ch-ua-full-version-list": null,
           },
       fetchFn: GM_fetch,
       hostVOT: votBackendUrl,
-      host: this.data.translateProxyEnabled
-        ? this.data.proxyWorkerHost
-        : workerHost,
+      host: this.translateProxyEnabled ? this.data.proxyWorkerHost : workerHost,
     };
 
     this.votClient = new (
-      this.data.translateProxyEnabled ? VOTWorkerClient : VOTClient
+      this.translateProxyEnabled ? VOTWorkerClient : VOTClient
     )(this.votOpts);
 
     this.subtitlesWidget = new SubtitlesWidget(
@@ -500,6 +534,13 @@ class VideoHandler {
     this.initialized = true;
   }
 
+  isLoadingText(text) {
+    return (
+      text.includes(localizationProvider.get("translationTake")) ||
+      text.includes(localizationProvider.get("TranslationDelayed"))
+    );
+  }
+
   /**
    * Set translation button status and text
    *
@@ -507,9 +548,7 @@ class VideoHandler {
    */
   transformBtn(status, text) {
     this.votButton.container.dataset.status = status;
-    const isLoading =
-      status === "error" &&
-      text.includes(localizationProvider.get("translationTake"));
+    const isLoading = status === "error" && this.isLoadingText(text);
     this.setLoadingBtn(isLoading);
     this.votButton.label.textContent = text;
     this.votButton.container.title = status === "error" ? text : "";
@@ -823,6 +862,14 @@ class VideoHandler {
         this.votDownloadWithNameCheckbox.container,
       );
 
+      this.votSendNotifyOnCompleteCheckbox = ui.createCheckbox(
+        localizationProvider.get("VOTSendNotifyOnComplete"),
+        this.data?.sendNotifyOnComplete ?? false,
+      );
+      this.votSettingsDialog.bodyContainer.appendChild(
+        this.votSendNotifyOnCompleteCheckbox.container,
+      );
+
       this.votUseNewModelCheckbox = ui.createCheckbox(
         localizationProvider.get("VOTUseNewModel"),
         this.data?.useNewModel ?? false,
@@ -831,9 +878,9 @@ class VideoHandler {
         this.votUseNewModelCheckbox.container,
       );
 
-      this.votTranslationServiceSelect = ui.createVOTSelect(
+      this.votTranslationErrorsServiceSelect = ui.createVOTSelect(
         this.data.translationService.toUpperCase(),
-        localizationProvider.get("VOTTranslationService"),
+        localizationProvider.get("VOTTranslationErrorsService"),
         genOptionsByOBJ(translateServices, this.data.translationService),
         {
           onSelectCb: async (e) => {
@@ -849,10 +896,10 @@ class VideoHandler {
           ).container,
         },
       );
-      this.votTranslationServiceSelect.container.hidden =
+      this.votTranslationErrorsServiceSelect.container.hidden =
         localizationProvider.lang === "ru";
       this.votSettingsDialog.bodyContainer.appendChild(
-        this.votTranslationServiceSelect.container,
+        this.votTranslationErrorsServiceSelect.container,
       );
 
       this.votDetectServiceSelect = ui.createVOTSelect(
@@ -910,14 +957,6 @@ class VideoHandler {
       );
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votProxyWorkerHostTextfield.container,
-      );
-
-      this.votAudioProxyCheckbox = ui.createCheckbox(
-        localizationProvider.get("VOTAudioProxy"),
-        this.data?.audioProxy ?? false,
-      );
-      this.votSettingsDialog.bodyContainer.appendChild(
-        this.votAudioProxyCheckbox.container,
       );
 
       this.votNewAudioPlayerCheckbox = ui.createCheckbox(
@@ -1397,6 +1436,23 @@ class VideoHandler {
         })();
       });
 
+      this.votSendNotifyOnCompleteCheckbox.input.addEventListener(
+        "change",
+        (e) => {
+          (async () => {
+            this.data.sendNotifyOnComplete = Number(e.target.checked);
+            await votStorage.set(
+              "sendNotifyOnComplete",
+              this.data.sendNotifyOnComplete,
+            );
+            debug.log(
+              "sendNotifyOnComplete value changed. New value: ",
+              this.data.sendNotifyOnComplete,
+            );
+          })();
+        },
+      );
+
       this.votUseNewModelCheckbox.input.addEventListener("change", (e) => {
         (async () => {
           this.data.useNewModel = Number(e.target.checked);
@@ -1409,7 +1465,7 @@ class VideoHandler {
         })();
       });
 
-      this.votTranslationServiceSelect.labelElement.addEventListener(
+      this.votTranslationErrorsServiceSelect.labelElement.addEventListener(
         "change",
         (e) => {
           (async () => {
@@ -1605,20 +1661,9 @@ class VideoHandler {
             "proxyWorkerHost value changed. New value: ",
             this.data.proxyWorkerHost,
           );
-          if (this.data.translateProxyEnabled) {
+          if (this.translateProxyEnabled) {
             this.votClient.host = this.data.proxyWorkerHost;
           }
-        })();
-      });
-
-      this.votAudioProxyCheckbox.input.addEventListener("change", (e) => {
-        (async () => {
-          this.data.audioProxy = Number(e.target.checked);
-          await votStorage.set("audioProxy", this.data.audioProxy);
-          debug.log(
-            "audioProxy value changed. New value: ",
-            this.data.audioProxy,
-          );
         })();
       });
 
@@ -1683,6 +1728,7 @@ class VideoHandler {
   }
 
   releaseExtraEvents() {
+    this.abortController.abort();
     this.resizeObserver?.disconnect();
     if (
       ["youtube", "googledrive"].includes(this.site.host) &&
@@ -1690,17 +1736,10 @@ class VideoHandler {
     ) {
       this.syncVolumeObserver?.disconnect();
     }
-
-    if (this.extraEvents) {
-      for (let i = 0; i < this.extraEvents.length; i++) {
-        const e = this.extraEvents[i];
-        e.element.removeEventListener(e.event, e.handler);
-      }
-    }
   }
 
   initExtraEvents() {
-    this.extraEvents = [];
+    const { signal } = this.abortController;
 
     const addExtraEventListener = (element, event, handler) => {
       this.extraEvents.push({
@@ -1708,7 +1747,7 @@ class VideoHandler {
         event,
         handler,
       });
-      element.addEventListener(event, handler);
+      element.addEventListener(event, handler, { signal });
     };
 
     const addExtraEventListeners = (element, events, handler) => {
@@ -1789,41 +1828,49 @@ class VideoHandler {
       }
     }
 
-    document.addEventListener("click", (event) => {
-      const e = event.target;
+    document.addEventListener(
+      "click",
+      (event) => {
+        const e = event.target;
 
-      const button = this.votButton.container;
-      const menu = this.votMenu.container;
-      const container = this.container;
-      const settings = this.votSettingsDialog.container;
-      const tempDialog = document.querySelector(".vot-dialog-temp");
+        const button = this.votButton.container;
+        const menu = this.votMenu.container;
+        const container = this.container;
+        const settings = this.votSettingsDialog.container;
+        const tempDialog = document.querySelector(".vot-dialog-temp");
 
-      const isButton = button.contains(e);
-      const isMenu = menu.contains(e);
-      const isVideo = container.contains(e);
-      const isSettings = settings.contains(e);
-      const isTempDialog = tempDialog?.contains(e) ?? false;
+        const isButton = button.contains(e);
+        const isMenu = menu.contains(e);
+        const isVideo = container.contains(e);
+        const isSettings = settings.contains(e);
+        const isTempDialog = tempDialog?.contains(e) ?? false;
 
-      debug.log(
-        `[document click] ${isButton} ${isMenu} ${isVideo} ${isSettings} ${isTempDialog}`,
-      );
-      if (!(!isButton && !isMenu && !isSettings && !isTempDialog)) return;
-      if (!isVideo) this.logout(0);
+        debug.log(
+          `[document click] ${isButton} ${isMenu} ${isVideo} ${isSettings} ${isTempDialog}`,
+        );
+        if (!(!isButton && !isMenu && !isSettings && !isTempDialog)) return;
+        if (!isVideo) this.logout(0);
 
-      this.votMenu.container.hidden = true;
-    });
+        this.votMenu.container.hidden = true;
+      },
+      { signal },
+    );
 
-    document.addEventListener("keydown", async (event) => {
-      const code = event.code;
-      // Проверка, если активный элемент - это вводимый элемент
-      const activeElement = document.activeElement;
-      const isInputElement =
-        ["input", "textarea"].includes(activeElement.tagName.toLowerCase()) ||
-        activeElement.isContentEditable;
-      if (!isInputElement && code === this.data.hotkeyButton) {
-        await this.handleTranslationBtnClick();
-      }
-    });
+    document.addEventListener(
+      "keydown",
+      async (event) => {
+        const code = event.code;
+        // Проверка, если активный элемент - это вводимый элемент
+        const activeElement = document.activeElement;
+        const isInputElement =
+          ["input", "textarea"].includes(activeElement.tagName.toLowerCase()) ||
+          activeElement.isContentEditable;
+        if (!isInputElement && code === this.data.hotkeyButton) {
+          await this.handleTranslationBtnClick();
+        }
+      },
+      { signal },
+    );
 
     let eventContainer = this.site.eventSelector
       ? document.querySelector(this.site.eventSelector)
@@ -1845,11 +1892,14 @@ class VideoHandler {
       "mousemove",
       this.changeOpacityOnEvent,
     );
-    addExtraEventListeners(
-      document,
-      ["touchstart", "touchmove", "touchend"],
-      this.changeOpacityOnEvent,
-    );
+    // remove listener on xvideos to fix #866
+    if (this.site.host !== "xvideos") {
+      addExtraEventListeners(
+        document,
+        ["touchstart", "touchmove", "touchend"],
+        this.changeOpacityOnEvent,
+      );
+    }
 
     // fix youtube hold to fast
     addExtraEventListener(this.votButton.container, "mousedown", (e) => {
@@ -1879,7 +1929,8 @@ class VideoHandler {
     addExtraEventListener(this.video, "emptied", async () => {
       if (
         this.video.src &&
-        (await getVideoID(this.site, this.video)) === this.videoData.videoId
+        (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) ===
+          this.videoData.videoId
       )
         return;
       debug.log("lipsync mode is emptied");
@@ -1906,7 +1957,10 @@ class VideoHandler {
   }
 
   async setCanPlay() {
-    if ((await getVideoID(this.site, this.video)) === this.videoData.videoId)
+    if (
+      (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) ===
+      this.videoData.videoId
+    )
       return;
     await this.handleSrcChanged();
     await this.autoTranslate();
@@ -1945,7 +1999,7 @@ class VideoHandler {
     } else {
       const subtitlesObj = this.subtitlesList.at(parseInt(subs));
       if (
-        this.data.audioProxy === 1 &&
+        this.translateProxyEnabled >= 1 &&
         subtitlesObj.url.startsWith(
           "https://brosubs.s3-private.mds.yandex.net/vtrans/",
         )
@@ -2017,19 +2071,7 @@ class VideoHandler {
       return;
     }
 
-    try {
-      this.subtitlesList = await getSubtitles(this.votClient, this.videoData);
-    } catch (err) {
-      debug.log("Error with yandex server, try auto-fix...", err);
-      this.votOpts = {
-        fetchFn: GM_fetch,
-        hostVOT: votBackendUrl,
-        host: this.data.proxyWorkerHost,
-      };
-      this.votClient = new VOTWorkerClient(this.votOpts);
-      this.subtitlesList = await getSubtitles(this.votClient, this.videoData);
-      await votStorage.set("translateProxyEnabled", 1);
-    }
+    this.subtitlesList = await getSubtitles(this.votClient, this.videoData);
 
     if (!this.subtitlesList) {
       await this.changeSubtitlesLang("disabled");
@@ -2153,20 +2195,23 @@ class VideoHandler {
       videoId,
       host,
       title,
-      translationHelp,
-      detectedLanguage,
+      translationHelp = null,
+      detectedLanguage = this.translateFromLang,
       subtitles,
-    } = await getVideoData(this.site, this.video);
+      isStream = false,
+    } = await getVideoData(this.site, this.video, {
+      fetchFn: GM_fetch,
+    });
     const videoData = {
-      translationHelp: translationHelp ?? null,
+      translationHelp,
       // by default, we request the translation of the video
-      isStream: false,
+      isStream,
       // ! if 0 - we get 400 error
-      duration: this.video?.duration || duration || votConfig.defaultDuration,
+      duration: duration || this.video?.duration || votConfig.defaultDuration,
       videoId,
       url,
       host,
-      detectedLanguage: detectedLanguage ?? this.translateFromLang,
+      detectedLanguage,
       responseLanguage: this.translateToLang,
       subtitles,
       title,
@@ -2188,35 +2233,18 @@ class VideoHandler {
       videoData.detectedLanguage = trackLang || "auto";
     } else if (this.site.host === "weverse") {
       videoData.detectedLanguage = "ko";
-    } else if (
-      [
-        "bilibili",
-        "bitchute",
-        "rumble",
-        "peertube",
-        "dailymotion",
-        "trovo",
-        "yandexdisk",
-        "coursehunterLike",
-        "archive",
-        "nineanimetv",
-        "directlink",
-      ].includes(this.site.host)
-    ) {
-      videoData.detectedLanguage = "auto";
     }
+
     return videoData;
   }
 
   videoValidator() {
-    if (["youtube", "ok.ru", "vk"].includes(this.site.host)) {
-      debug.log("VideoValidator videoData: ", this.videoData);
-      if (
-        this.data.dontTranslateYourLang === 1 &&
-        this.videoData.detectedLanguage === this.data.dontTranslateLanguage
-      ) {
-        throw new VOTLocalizedError("VOTDisableFromYourLang");
-      }
+    debug.log("VideoValidator videoData: ", this.videoData);
+    if (
+      this.data.dontTranslateYourLang === 1 &&
+      this.videoData.detectedLanguage === this.data.dontTranslateLanguage
+    ) {
+      throw new VOTLocalizedError("VOTDisableFromYourLang");
     }
 
     if (!this.videoData.isStream && this.videoData.duration > 14_400) {
@@ -2237,6 +2265,7 @@ class VideoHandler {
     this.votVideoTranslationVolumeSlider.container.hidden = true;
     this.votDownloadButton.hidden = true;
     this.downloadTranslationUrl = null;
+    this.longWaitingResCount = 0;
     this.transformBtn("none", localizationProvider.get("translateVideo"));
     debug.log(`Volume on start: ${this.volumeOnStart}`);
     if (this.volumeOnStart) {
@@ -2264,6 +2293,16 @@ class VideoHandler {
     const translationTake = localizationProvider.get("translationTake");
     const lang = localizationProvider.lang;
 
+    // we always change it so isn't to accidentally replace the error message
+    this.longWaitingResCount =
+      errorMessage === localizationProvider.get("translationTakeAboutMinute")
+        ? this.longWaitingResCount + 1
+        : 0;
+    debug.log("longWaitingResCount", this.longWaitingResCount);
+    if (this.longWaitingResCount > minLongWaitingCount) {
+      errorMessage = new VOTLocalizedError("TranslationDelayed");
+    }
+
     if (errorMessage?.name === "VOTLocalizedError") {
       this.transformBtn("error", errorMessage.localizedMessage);
     } else if (errorMessage instanceof Error) {
@@ -2271,8 +2310,8 @@ class VideoHandler {
       this.transformBtn("error", errorMessage?.message);
     } else if (
       this.data.translateAPIErrors === 1 &&
-      !errorMessage.includes(translationTake) &&
-      lang !== "ru"
+      lang !== "ru" &&
+      !errorMessage.includes(translationTake)
     ) {
       // adds a stub text until a text translation is received to avoid a long delay with long text
       this.setLoadingBtn(true);
@@ -2296,11 +2335,10 @@ class VideoHandler {
   }
 
   afterUpdateTranslation(audioUrl) {
+    const isSuccess = this.votButton.container.dataset.status === "success";
     this.votVideoVolumeSlider.container.hidden =
-      this.data.showVideoSlider !== 1 ||
-      this.votButton.container.dataset.status !== "success";
-    this.votVideoTranslationVolumeSlider.container.hidden =
-      this.votButton.container.dataset.status !== "success";
+      this.data.showVideoSlider !== 1 || !isSuccess;
+    this.votVideoTranslationVolumeSlider.container.hidden = !isSuccess;
 
     if (this.data.autoSetVolumeYandexStyle === 1) {
       this.votVideoVolumeSlider.input.value = this.data.autoVolume * 100;
@@ -2312,13 +2350,33 @@ class VideoHandler {
 
     this.votDownloadButton.hidden = false;
     this.downloadTranslationUrl = audioUrl;
+    debug.log(
+      "afterUpdateTranslation downloadTranslationUrl",
+      this.downloadTranslationUrl,
+    );
+    if (this.data.sendNotifyOnComplete && isSuccess) {
+      GM_notification({
+        text: localizationProvider
+          .get("VOTTranslationCompletedNotify")
+          .replace("{0}", window.location.hostname),
+        title: GM_info.script.name,
+        highlight: true,
+        timeout: 5000,
+        silent: true,
+        tag: "VOTTranslationCompleted", // TM 5.0
+        url: window.location.href, // TM 5.0
+        onclick: (e) => {
+          e.preventDefault();
+          window.focus();
+        },
+      });
+    }
   }
 
   async validateAudioUrl(audioUrl) {
     try {
       const response = await GM_fetch(audioUrl, {
         method: "HEAD",
-        timeout: 5000,
       });
       debug.log("Test audio response", response);
       if (response.status !== 404) {
@@ -2340,13 +2398,7 @@ class VideoHandler {
       audioUrl = translateRes.url;
       debug.log("Fixed audio audioUrl", audioUrl);
     } catch (err) {
-      if (err.message === "Timeout") {
-        debug.log("Request timed out. Handling timeout error...");
-        this.data.audioProxy = 1;
-        await votStorage.set("audioProxy", 1);
-      } else {
-        debug.log("Test audio error:", err);
-      }
+      debug.log("Test audio error:", err);
     }
 
     return audioUrl;
@@ -2360,7 +2412,7 @@ class VideoHandler {
     }
 
     if (
-      this.data.audioProxy === 1 &&
+      this.translateProxyEnabled === 2 &&
       audioUrl.startsWith("https://vtrans.s3-private.mds.yandex.net/tts/prod/")
     ) {
       const audioPath = audioUrl.replace(
@@ -2379,12 +2431,7 @@ class VideoHandler {
       this.audioPlayer.init();
     } catch (err) {
       debug.log("this.audioPlayer.init() error", err);
-      if (err.message.includes("Failed to fetch audio file")) {
-        this.videoHandler.data.audioProxy = 1;
-        await votStorage.set("audioProxy", 1);
-      } else {
-        this.videoHandler.transformBtn("error", err.message);
-      }
+      this.videoHandler.transformBtn("error", err.message);
     }
 
     this.setupAudioSettings();
@@ -2617,6 +2664,31 @@ const videoObserver = new VideoObserver();
 const videosWrappers = new WeakMap();
 
 /**
+ * Finds the parent element of a given element that matches a specified selector.
+ *
+ * @param {HTMLElement} el - The element to start searching from.
+ * @param {string} selector - The CSS selector to match.
+ * @returns {HTMLElement|null} The parent element that matches the selector, or null if no match is found.
+ */
+function climb(el, selector) {
+  if (!el || !selector) {
+    return null;
+  }
+
+  if (el instanceof Document) {
+    return el.querySelector(selector);
+  }
+
+  const foundEl = el.closest(selector);
+  if (foundEl) {
+    return foundEl;
+  }
+
+  const root = el.getRootNode();
+  return climb(root instanceof Document ? root : root.host, selector);
+}
+
+/**
  * Finds the container element for a given video element and site object.
  *
  * @param {Object} site - The site object.
@@ -2624,16 +2696,15 @@ const videosWrappers = new WeakMap();
  * @return {Object|null} The container element or null if not found.
  */
 function findContainer(site, video) {
+  debug.log("findContainer", site, video);
   if (site.shadowRoot) {
-    let container = site.selector
-      ? Array.from(document.querySelectorAll(site.selector)).find((e) =>
-          e.shadowRoot.contains(video),
-        )
-      : video.parentElement;
-    return container && container.shadowRoot
-      ? container.parentElement
-      : container;
+    let container = climb(video, site.selector);
+
+    debug.log("findContainer with site.shadowRoot", container);
+    return container ?? video.parentElement;
   }
+
+  debug.log("findContainer without shadowRoot");
 
   const browserVersion = browserInfo.browser.version?.split(".")?.[0];
   if (
@@ -2658,13 +2729,7 @@ function findContainer(site, video) {
     : video.parentElement;
 }
 
-async function main() {
-  debug.log("Loading extension...");
-
-  await localizationProvider.update();
-
-  debug.log(`Selected menu language: ${localizationProvider.lang}`);
-
+function initIframeInteractor() {
   // I haven't figured out how to do it any other way
   if (window.location.origin === "https://9animetv.to") {
     window.addEventListener("message", (e) => {
@@ -2672,18 +2737,55 @@ async function main() {
         return;
       }
 
-      if (e.data === "getVideoId") {
-        const videoId = /[^/]+$/.exec(window.location.href)?.[0];
-        const iframeWin =
-          document.querySelector("#iframe-embed")?.contentWindow;
-
-        iframeWin.postMessage(
-          `getVideoId:${videoId}`,
-          "https://rapid-cloud.co/",
-        );
+      if (e.data !== "getVideoId") {
+        return;
       }
+
+      const videoId = /[^/]+$/.exec(window.location.href)?.[0];
+      const iframeWin = document.querySelector("#iframe-embed")?.contentWindow;
+
+      iframeWin.postMessage(`getVideoId:${videoId}`, "https://rapid-cloud.co");
     });
+
+    return;
   }
+
+  if (
+    window.location.origin === "https://dev.epicgames.com" &&
+    window.location.pathname.includes("/community/learning/")
+  ) {
+    window.addEventListener("message", (e) => {
+      if (e.origin !== "https://dev.epicgames.com") {
+        return;
+      }
+
+      if (e.data !== "getVideoId") {
+        return;
+      }
+
+      const videoId = /\/(\w{3,5})\/[^/]+$/.exec(window.location.pathname)?.[1];
+      const iframeWin = document.querySelector(
+        "electra-player > iframe",
+      )?.contentWindow;
+
+      iframeWin.postMessage(
+        `getVideoId:${videoId}`,
+        "https://dev.epicgames.com",
+      );
+    });
+
+    return;
+  }
+}
+
+async function main() {
+  debug.log("Loading extension...");
+
+  await localizationProvider.update();
+
+  debug.log(`Selected menu language: ${localizationProvider.lang}`);
+
+  initIframeInteractor();
 
   videoObserver.onVideoAdded.addListener((video) => {
     for (const site of getService()) {
@@ -2695,13 +2797,6 @@ async function main() {
       if (site.host === "rumble" && !video.style.display) {
         continue; // fix multiply translation buttons in rumble.com
       }
-
-      // if (
-      //   site.host === "youku" &&
-      //   !video.parentElement?.classList.contains("video-layer")
-      // ) {
-      //   continue;
-      // }
 
       if (["peertube", "directlink"].includes(site.host)) {
         site.url = window.location.origin; // set the url of the current site for peertube and directlink

@@ -16,7 +16,7 @@ import {
   sitesPeertube,
   sitesPoketube,
   sitesCoursehunterLike,
-} from "vot.js/alternativeUrls";
+} from "@vot.js/shared/alternativeUrls";
 import configShared from "./config.shared.js";
 
 import { repositoryUrl, contentUrl } from "../src/config/config.js";
@@ -158,6 +158,9 @@ export default (env) => {
             };
           }
         })(),
+      }),
+      new webpack.IgnorePlugin({
+        resourceRegExp: /^node:crypto$/,
       }),
     ],
     optimization: {

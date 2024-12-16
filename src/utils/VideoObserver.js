@@ -31,11 +31,6 @@ const filterVideoNodes = (nodes) => {
       for (let j = 0; j < videos.length; j++) {
         result.push(videos[j]);
       }
-    } else if (node.shadowRoot) {
-      const shadowVideos = node.shadowRoot.querySelectorAll("video");
-      for (let k = 0; k < shadowVideos.length; k++) {
-        result.push(shadowVideos[k]);
-      }
     }
   }
   return result;
@@ -69,7 +64,8 @@ const isMutedVideo = (video) => {
   );
 };
 
-const isVideoReady = (video) => video.readyState >= 3;
+const isVideoReady = (video) =>
+  video.getVideoPlaybackQuality().totalVideoFrames;
 
 const waitForVideoReady = (video, callback) => {
   const checkVideoState = () => {
@@ -90,10 +86,23 @@ export class VideoObserver {
     this.onVideoRemoved = new EventImpl();
 
     this.observer = new MutationObserver(this.handleMutations);
-    this.intersectionObserver = new IntersectionObserver(
-      this.handleIntersections,
-      { threshold: 0.1 },
-    );
+    this.patchAttachShadow();
+  }
+
+  patchAttachShadow() {
+    const originalAttachShadow = Element.prototype.attachShadow;
+    const self = this;
+    Element.prototype.attachShadow = function (...args) {
+      const shadowRoot = originalAttachShadow.apply(this, args);
+      self.searchInRoot(shadowRoot);
+      self.observeShadowRoot(shadowRoot);
+      return shadowRoot;
+    };
+  }
+
+  observeShadowRoot(shadowRoot) {
+    const shadowObserver = new MutationObserver(this.handleMutations);
+    shadowObserver.observe(shadowRoot, { childList: true, subtree: true });
   }
 
   handleMutations = (mutationsList) => {
@@ -118,65 +127,30 @@ export class VideoObserver {
     );
   };
 
-  handleIntersections = (entries) => {
-    for (let i = 0; i < entries.length; i++) {
-      const entry = entries[i];
-      if (entry.isIntersecting) {
-        this.handleIntersectingVideo(entry.target);
-      }
-    }
-  };
-
-  enable() {
-    this.observer.observe(document, { childList: true, subtree: true });
-    const videos = this.getAllVideoEls();
+  searchInRoot(root) {
+    const videos = root.querySelectorAll("video");
     for (let i = 0; i < videos.length; i++) {
       this.checkAndHandleVideo(videos[i]);
     }
   }
 
-  disable() {
-    this.observer.disconnect();
-    this.intersectionObserver.disconnect();
+  enable() {
+    this.observer.observe(document, { childList: true, subtree: true });
+
+    const regularVideos = document.querySelectorAll("video");
+    for (let i = 0; i < regularVideos.length; i++) {
+      this.checkAndHandleVideo(regularVideos[i]);
+    }
   }
 
-  getAllVideoEls() {
-    const videos = document.querySelectorAll("video");
-    if (videos.length) return Array.from(videos);
-
-    // Use it only if we don't find videos
-    // It takes a long time to complete
-    const videoElements = new Set();
-    const traverseShadowRoot = (root) => {
-      if (!root) return;
-      const shadowVideos = root.querySelectorAll("video");
-      for (let i = 0; i < shadowVideos.length; i++) {
-        videoElements.add(shadowVideos[i]);
-      }
-      const shadowElements = root.querySelectorAll("*");
-      for (let i = 0; i < shadowElements.length; i++) {
-        if (shadowElements[i].shadowRoot)
-          traverseShadowRoot(shadowElements[i].shadowRoot);
-      }
-    };
-
-    const allElements = document.querySelectorAll("*");
-    for (let i = 0; i < allElements.length; i++) {
-      if (allElements[i].shadowRoot)
-        traverseShadowRoot(allElements[i].shadowRoot);
-    }
-
-    return Array.from(videoElements);
+  disable() {
+    this.observer.disconnect();
   }
 
   checkAndHandleVideo = (video) => {
     if (this.videoCache.has(video)) return;
     this.videoCache.add(video);
-    this.intersectionObserver.observe(video);
-  };
 
-  handleIntersectingVideo = (video) => {
-    this.intersectionObserver.unobserve(video);
     if (isAdVideo(video) || isMutedVideo(video)) {
       debug.log("The promotional/muted video was ignored", video);
       return;

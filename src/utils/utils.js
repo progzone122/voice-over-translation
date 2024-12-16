@@ -115,7 +115,6 @@ function clearFileName(filename) {
 async function GM_fetch(url, opts = {}) {
   const { timeout = 15000, ...fetchOptions } = opts;
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), timeout);
 
   try {
     if (url.includes("api.browser.yandex.ru")) {
@@ -126,21 +125,19 @@ async function GM_fetch(url, opts = {}) {
       signal: controller.signal,
       ...fetchOptions,
     });
-    clearTimeout(timeoutId);
     return response;
   } catch (err) {
     // Если fetch завершился ошибкой, используем GM_xmlhttpRequest
     // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
     debug.log("GM_fetch preventing cors by GM_xmlhttpRequest", err.message);
     return new Promise((resolve, reject) => {
-      clearTimeout(timeoutId);
       GM_xmlhttpRequest({
         method: fetchOptions.method || "GET",
-        url: url,
+        url,
         responseType: "blob",
         ...fetchOptions,
         data: fetchOptions.body,
-        timeout: timeout,
+        timeout,
         onload: (resp) => {
           // chrome \n and ":", firefox \r\n and ": " (Only in GM_xmlhttpRequest)
           // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/getAllResponseHeaders#examples
@@ -152,12 +149,15 @@ async function GM_fetch(url, opts = {}) {
               .filter(([key]) => key && /^[\w-]+$/.test(key)),
           );
 
-          resolve(
-            new Response(resp.response, {
-              status: resp.status,
-              headers: headers,
-            }),
-          );
+          const response = new Response(resp.response, {
+            status: resp.status,
+            headers: headers,
+          });
+          Object.defineProperty(response, "url", {
+            value: resp.finalUrl ?? "",
+          });
+
+          resolve(response);
         },
         ontimeout: () => reject(new Error("Timeout")),
         onerror: (error) => reject(error),

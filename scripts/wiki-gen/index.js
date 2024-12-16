@@ -2,7 +2,7 @@ import Bun from "bun";
 
 import * as path from "node:path";
 
-import sites from "vot.js/sites";
+import sites from "@vot.js/ext/sites";
 
 import locales from "./locales";
 import { siteData, extraData, sitesBlackList } from "./data";

@@ -125,6 +125,15 @@
 
 Доступные (под)домены:
 
+- `vk.com
+- vk.ru
+- www.vk.com
+- www.vk.ru
+- m.vk.com
+- m.vk.ru`
+- `vkvideo.ru
+- www.vkvideo.ru
+- m.vkvideo.ru`
 - `vk.com`
 - `vk.ru`
 - `www.vk.com`
@@ -786,6 +795,14 @@
 Доступные пути:
 
 - /watch/VIDEO_ID
+
+## Dzen
+
+Статус: [✅] Работает
+
+Доступные (под)домены:
+
+- `dzen.ru`
 
 ## Direct link to MP4/WEBM
 

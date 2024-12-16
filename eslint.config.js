@@ -33,7 +33,6 @@ export default [
         protobuf: "readonly",
         Hls: "readonly",
         anime: "readonly",
-        Tone: "readonly",
         // WEBPACK ENVIRONMENT
         DEBUG_MODE: "readonly",
         AVAILABLE_LOCALES: "readonly",

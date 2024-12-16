@@ -19,7 +19,9 @@
 // @grant          GM_setValue
 // @grant          GM_getValue
 // @grant          GM_xmlhttpRequest
+// @grant          GM_notification
 // @grant          GM_info
+// @grant          window.focus
 // @require        https://cdn.jsdelivr.net/npm/protobufjs/dist/light/protobuf.min.js
 // @require        https://cdn.jsdelivr.net/npm/hls.js/dist/hls.light.min.js
 // @require        https://cdn.jsdelivr.net/npm/animejs@3/lib/anime.min.js
@@ -32,6 +34,7 @@
 // @match          *://*.xv-ru.com/*
 // @match          *://*.pornhub.com/*
 // @match          *://*.vk.com/*
+// @match          *://*.vkvideo.ru/*
 // @match          *://*.vk.ru/*
 // @match          *://*.vimeo.com/*
 // @match          *://*.9gag.com/*
@@ -45,6 +48,7 @@
 // @match          *://*.coursera.org/learn/*
 // @match          *://*.udemy.com/course/*
 // @match          *://*.tiktok.com/*
+// @match          *://*.douyin.com/*
 // @match          *://rumble.com/*
 // @match          *://*.eporner.com/*
 // @match          *://*.dailymotion.com/*
@@ -59,7 +63,7 @@
 // @match          *://*.youku.com/*
 // @match          *://*.archive.org/*
 // @match          *://*.patreon.com/*
-// @match          *://old.reddit.com/*
+// @match          *://*.reddit.com/*
 // @match          *://*.kodik.info/*
 // @match          *://*.kodik.biz/*
 // @match          *://*.kodik.cc/*
@@ -75,6 +79,9 @@
 // @match          *://*.ricktube.ru/*
 // @match          *://*.incestflix.net/*
 // @match          *://*.incestflix.to/*
+// @match          *://*.porntn.com/*
+// @match          *://*.dzen.ru/*
+// @match          *://*.cloudflarestream.com/*
 // @match          *://*/*.mp4*
 // @match          *://*/*.webm*
 // @match          *://*.yewtu.be/*
@@ -164,8 +171,10 @@
 // @connect        deno.dev
 // @connect        onrender.com
 // @connect        workers.dev
+// @connect        speed.cloudflare.com
+// @connect        porntn.com
 // @namespace      vot
-// @version        1.7.2
+// @version        1.8.0
 // @icon           https://translate.yandex.ru/icons/favicon.ico
 // @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation
@@ -180,7 +189,7 @@
 /***/ "./src/styles/main.scss":
 /***/ (() => {
 
-GM_addStyle(".vot-button{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));--vot-helper-ontheme:var(--vot-ontheme-rgb,var(--vot-onprimary-rgb,255,255,255));box-sizing:border-box;vertical-align:middle;text-align:center;text-overflow:ellipsis;min-width:64px;height:36px;color:rgb(var(--vot-helper-ontheme));background-color:rgb(var(--vot-helper-theme));font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;border:none;border-radius:4px;outline:none;padding:0 16px;font-size:14px;font-weight:500;line-height:36px;transition:box-shadow .2s;display:inline-block;position:relative;box-shadow:0 3px 1px -2px #0003,0 2px 2px #00000024,0 1px 5px #0000001f}.vot-button[hidden]{display:none!important}.vot-button::-moz-focus-inner{border:none}.vot-button:before,.vot-button:after{content:\"\";border-radius:inherit;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0}.vot-button:before{background-color:rgb(var(--vot-helper-ontheme));transition:opacity .2s}.vot-button:after{background:radial-gradient(circle,currentColor 1%,#0000 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-button:hover{box-shadow:0 2px 4px -1px #0003,0 4px 5px #00000024,0 1px 10px #0000001f}.vot-button:hover:before{opacity:.08}.vot-button:active{box-shadow:0 5px 5px -3px #0003,0 8px 10px 1px #00000024,0 3px 14px 2px #0000001f}.vot-button:active:after{opacity:.32;background-size:100% 100%;transition:background-size}.vot-button[disabled=true]{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.12);color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);box-shadow:none;cursor:initial}.vot-button[disabled=true]:before,.vot-button[disabled=true]:after{opacity:0}.vot-outlined-button{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));box-sizing:border-box;border:1px solid;border-color:rgba(var(--vot-onsurface-rgb,0,0,0),.24);vertical-align:middle;text-align:center;text-overflow:ellipsis;min-width:64px;height:36px;color:rgb(var(--vot-helper-theme));font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;background-color:#0000;border-radius:4px;outline:none;margin:0;padding:0 16px;font-size:14px;font-weight:500;line-height:34px;display:inline-block;position:relative}.vot-outlined-button[hidden]{display:none!important}.vot-outlined-button::-moz-focus-inner{border:none}.vot-outlined-button:before,.vot-outlined-button:after{content:\"\";opacity:0;border-radius:3px;position:absolute;top:0;bottom:0;left:0;right:0}.vot-outlined-button:before{background-color:rgb(var(--vot-helper-theme));transition:opacity .2s}.vot-outlined-button:after{background:radial-gradient(circle,currentColor 1%,#0000 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-outlined-button:hover:before{opacity:.04}.vot-outlined-button:active:after{opacity:.16;background-size:100% 100%;transition:background-size}.vot-outlined-button[disabled=true]{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial;background-color:#0000}.vot-outlined-button[disabled=true]:before,.vot-outlined-button[disabled=true]:after{opacity:0}.vot-text-button{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));box-sizing:border-box;vertical-align:middle;text-align:center;text-overflow:ellipsis;min-width:64px;height:36px;color:rgb(var(--vot-helper-theme));font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;background-color:#0000;border:none;border-radius:4px;outline:none;margin:0;padding:0 8px;font-size:14px;font-weight:500;line-height:36px;display:inline-block;position:relative}.vot-text-button[hidden]{display:none!important}.vot-text-button::-moz-focus-inner{border:none}.vot-text-button:before,.vot-text-button:after{content:\"\";border-radius:inherit;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0}.vot-text-button:before{background-color:rgb(var(--vot-helper-theme));transition:opacity .2s}.vot-text-button:after{background:radial-gradient(circle,currentColor 1%,#0000 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-text-button:hover:before{opacity:.04}.vot-text-button:active:after{opacity:.16;background-size:100% 100%;transition:background-size}.vot-text-button[disabled=true]{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial;background-color:#0000}.vot-text-button[disabled=true]:before,.vot-text-button[disabled=true]:after{opacity:0}.vot-icon-button{--vot-helper-onsurface:rgba(var(--vot-onsurface-rgb,0,0,0),.87);box-sizing:border-box;vertical-align:middle;text-align:center;text-overflow:ellipsis;width:36px;height:36px;fill:var(--vot-helper-onsurface);color:var(--vot-helper-onsurface);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;background-color:#0000;border:none;border-radius:50%;outline:none;margin:0;padding:0;font-size:14px;font-weight:500;line-height:36px;display:inline-block;position:relative}.vot-icon-button[hidden]{display:none!important}.vot-icon-button::-moz-focus-inner{border:none}.vot-icon-button:before,.vot-icon-button:after{content:\"\";border-radius:inherit;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0}.vot-icon-button:before{background-color:var(--vot-helper-onsurface);transition:opacity .2s}.vot-icon-button:after{background:radial-gradient(circle,currentColor 1%,#0000 1%) 50%/10000% 10000% no-repeat;transition:opacity .3s,background-size .4s}.vot-icon-button:hover:before{opacity:.04}.vot-icon-button:active:after{opacity:.32;background-size:100% 100%;transition:background-size,opacity}.vot-icon-button[disabled=true]{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);fill:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial;background-color:#0000}.vot-icon-button[disabled=true]:before,.vot-icon-button[disabled=true]:after{opacity:0}.vot-textfield{display:inline-block;--vot-helper-theme:rgb(var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243)))!important;--vot-helper-safari1:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important;--vot-helper-safari2:rgba(var(--vot-onsurface-rgb,0,0,0),.6)!important;--vot-helper-safari3:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important;font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system)!important;text-align:start!important;padding-top:6px!important;font-size:16px!important;line-height:1.5!important;position:relative!important}.vot-textfield[hidden]{display:none!important}.vot-textfield>input,.vot-textfield>textarea{box-sizing:border-box!important;border-style:solid!important;border-width:1px!important;border-color:transparent var(--vot-helper-safari2)var(--vot-helper-safari2)!important;width:100%!important;height:inherit!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important;-webkit-text-fill-color:currentColor!important;font-family:inherit!important;font-size:inherit!important;line-height:inherit!important;caret-color:var(--vot-helper-theme)!important;background-color:#0000!important;border-radius:4px!important;margin:0!important;padding:15px 13px!important;transition:border .2s,box-shadow .2s!important;box-shadow:inset 1px 0 #0000,inset -1px 0 #0000,inset 0 -1px #0000!important}.vot-textfield>input:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:#0000!important}.vot-textfield>textarea:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:#0000!important}.vot-textfield>input:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:#0000!important}.vot-textfield>textarea:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:#0000!important}.vot-textfield>input:not(:focus):not(.vot-show-placeholer)::-webkit-input-placeholder{color:#0000!important}.vot-textfield>textarea:not(:focus):not(.vot-show-placeholer)::-webkit-input-placeholder{color:#0000!important}.vot-textfield>input:not(:focus):placeholder-shown,.vot-textfield>textarea:not(:focus):placeholder-shown{border-top-color:var(--vot-helper-safari2)!important}.vot-textfield>input+span,.vot-textfield>textarea+span{width:100%!important;max-height:100%!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.6)!important;cursor:text!important;pointer-events:none!important;font-size:75%!important;line-height:15px!important;transition:color .2s,font-size .2s,line-height .2s!important;display:flex!important;position:absolute!important;top:0!important;left:0!important}.vot-textfield>input:not(:focus):placeholder-shown+span,.vot-textfield>textarea:not(:focus):placeholder-shown+span{font-size:inherit!important;line-height:68px!important}.vot-textfield>input+span:before,.vot-textfield>input+span:after,.vot-textfield>textarea+span:before,.vot-textfield>textarea+span:after{content:\"\"!important;box-sizing:border-box!important;border-top:solid 1px var(--vot-helper-safari2)!important;pointer-events:none!important;min-width:10px!important;height:8px!important;margin-top:6px!important;transition:border .2s,box-shadow .2s!important;display:block!important;box-shadow:inset 0 1px #0000!important}.vot-textfield>input+span:before,.vot-textfield>textarea+span:before{border-left:1px solid #0000!important;border-radius:4px 0!important;margin-right:4px!important}.vot-textfield>input+span:after,.vot-textfield>textarea+span:after{border-right:1px solid #0000!important;border-radius:0 4px!important;flex-grow:1!important;margin-left:4px!important}.vot-textfield>input.vot-show-placeholer+span:before,.vot-textfield>textarea.vot-show-placeholer+span:before{margin-right:0!important}.vot-textfield>input.vot-show-placeholer+span:after,.vot-textfield>textarea.vot-show-placeholer+span:after{margin-left:0!important}.vot-textfield>input:not(:focus):placeholder-shown+span:before,.vot-textfield>input:not(:focus):placeholder-shown+span:after,.vot-textfield>textarea:not(:focus):placeholder-shown+span:before,.vot-textfield>textarea:not(:focus):placeholder-shown+span:after{border-top-color:#0000!important}.vot-textfield:hover>input:not(:disabled),.vot-textfield:hover>textarea:not(:disabled){border-color:transparent var(--vot-helper-safari3)var(--vot-helper-safari3)!important}.vot-textfield:hover>input:not(:disabled)+span:before,.vot-textfield:hover>input:not(:disabled)+span:after,.vot-textfield:hover>textarea:not(:disabled)+span:before,.vot-textfield:hover>textarea:not(:disabled)+span:after{border-top-color:var(--vot-helper-safari3)!important}.vot-textfield:hover>input:not(:disabled):not(:focus):placeholder-shown,.vot-textfield:hover>textarea:not(:disabled):not(:focus):placeholder-shown{border-color:var(--vot-helper-safari3)!important}.vot-textfield>input:focus,.vot-textfield>textarea:focus{border-color:transparent var(--vot-helper-theme)var(--vot-helper-theme)!important;box-shadow:inset 1px 0 var(--vot-helper-theme),inset -1px 0 var(--vot-helper-theme),inset 0 -1px var(--vot-helper-theme)!important;outline:none!important}.vot-textfield>input:focus+span,.vot-textfield>textarea:focus+span{color:var(--vot-helper-theme)!important}.vot-textfield>input:focus+span:before,.vot-textfield>input:focus+span:after,.vot-textfield>textarea:focus+span:before,.vot-textfield>textarea:focus+span:after{border-top-color:var(--vot-helper-theme)!important;box-shadow:inset 0 1px var(--vot-helper-theme)!important}.vot-textfield>input:disabled,.vot-textfield>input:disabled+span,.vot-textfield>textarea:disabled,.vot-textfield>textarea:disabled+span{border-color:transparent var(--vot-helper-safari1)var(--vot-helper-safari1)!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important;pointer-events:none!important}.vot-textfield>input:disabled+span:before,.vot-textfield>input:disabled+span:after,.vot-textfield>textarea:disabled+span:before,.vot-textfield>textarea:disabled+span:after,.vot-textfield>input:disabled:placeholder-shown,.vot-textfield>input:disabled:placeholder-shown+span,.vot-textfield>textarea:disabled:placeholder-shown,.vot-textfield>textarea:disabled:placeholder-shown+span{border-top-color:var(--vot-helper-safari1)!important}.vot-textfield>input:disabled:placeholder-shown+span:before,.vot-textfield>input:disabled:placeholder-shown+span:after,.vot-textfield>textarea:disabled:placeholder-shown+span:before,.vot-textfield>textarea:disabled:placeholder-shown+span:after{border-top-color:#0000!important}@media not all and (-webkit-min-device-pixel-ratio:.0000264583),not all and (min-resolution:.001dpcm){@supports ((-webkit-appearance:none)){.vot-textfield>input,.vot-textfield>input+span,.vot-textfield>textarea,.vot-textfield>textarea+span,.vot-textfield>input+span:before,.vot-textfield>input+span:after,.vot-textfield>textarea+span:before,.vot-textfield>textarea+span:after{transition-duration:.1s!important}}}.vot-checkbox{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));--vot-helper-ontheme:var(--vot-ontheme-rgb,var(--vot-onprimary-rgb,255,255,255));z-index:0;color:rgba(var(--vot-onsurface-rgb,0,0,0),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;font-size:16px;line-height:1.5;display:inline-block;position:relative}.vot-checkbox-sub{padding-left:16px}.vot-checkbox[hidden]{display:none!important}.vot-checkbox>input{-webkit-appearance:none;appearance:none;z-index:10000;box-sizing:border-box;border:2px solid;border-color:rgba(var(--vot-onsurface-rgb,0,0,0),.6);cursor:pointer;background:0 0;border-radius:2px;outline:none;width:18px;height:18px;margin:3px 1px;padding:0;transition:border-color .2s,background-color .2s;display:block;position:absolute}.vot-checkbox>input+span{box-sizing:border-box;width:inherit;cursor:pointer;padding-left:30px;font-weight:400;display:inline-block;position:relative}.vot-checkbox>input+span:before{content:\"\";background-color:rgb(var(--vot-onsurface-rgb,0,0,0));opacity:0;pointer-events:none;border-radius:50%;width:40px;height:40px;transition:opacity .3s,transform .2s;display:block;position:absolute;top:-8px;left:-10px;transform:scale(1)}.vot-checkbox>input+span:after{content:\"\";z-index:10000;pointer-events:none;border:0 solid #0000;border-width:0 0 2px 2px;width:10px;height:5px;transition:border-color .2s;display:block;position:absolute;top:3px;left:1px;transform:translate(3px,4px)rotate(-45deg);box-sizing:content-box!important}.vot-checkbox>input:checked,.vot-checkbox>input:indeterminate{border-color:rgb(var(--vot-helper-theme));background-color:rgb(var(--vot-helper-theme))}.vot-checkbox>input:checked+span:before,.vot-checkbox>input:indeterminate+span:before{background-color:rgb(var(--vot-helper-theme))}.vot-checkbox>input:checked+span:after,.vot-checkbox>input:indeterminate+span:after{border-color:rgb(var(--vot-helper-ontheme,255,255,255))}.vot-checkbox>input:indeterminate+span:after{border-left-width:0;transform:translate(4px,3px)}.vot-checkbox:hover>input+span:before{opacity:.04}.vot-checkbox:active>input,.vot-checkbox:active:hover>input:not(:disabled){border-color:rgb(var(--vot-helper-theme))}.vot-checkbox:active>input:checked{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.6);border-color:#0000}.vot-checkbox:active>input+span:before{opacity:1;transition:transform,opacity;transform:scale(0)}.vot-checkbox>input:disabled{border-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial}.vot-checkbox>input:disabled:checked,.vot-checkbox>input:disabled:indeterminate{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);border-color:#0000}.vot-checkbox>input:disabled+span{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial}.vot-checkbox>input:disabled+span:before{opacity:0;transform:scale(0)}.vot-slider{display:inline-block;--vot-safari-helper1:rgba(var(--vot-primary-rgb,33,150,243),.04)!important;--vot-safari-helper2:rgba(var(--vot-primary-rgb,33,150,243),.12)!important;--vot-safari-helper3:rgba(var(--vot-primary-rgb,33,150,243),.16)!important;--vot-safari-helper4:rgba(var(--vot-primary-rgb,33,150,243),.24)!important;width:100%!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important;font-family:var(--vot-font,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system)!important;text-align:start!important;font-size:16px!important;line-height:1.5!important}.vot-slider[hidden]{display:none!important}.vot-slider>input{-webkit-appearance:none!important;appearance:none!important;cursor:pointer!important;background-color:#0000!important;border:none!important;width:100%!important;height:36px!important;margin:0 0 -36px!important;padding:0!important;display:block!important;position:relative!important;top:24px!important}.vot-slider>input:last-child{margin:0!important;position:static!important}.vot-slider>input:before{content:\"\"!important;width:calc(100%*var(--vot-progress,0))!important;background:rgb(var(--vot-primary-rgb,33,150,243))!important;height:2px!important;display:block!important;position:absolute!important;top:calc(50% - 1px)!important}.vot-slider>input:disabled{cursor:default!important;opacity:.38!important}.vot-slider>input:disabled+span{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-webkit-slider-runnable-track{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-moz-range-track{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-ms-fill-lower{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-ms-fill-upper{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-moz-range-thumb{background-color:rgb(var(--vot-onsurface-rgb,0,0,0))!important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb,255,255,255))!important;transform:scale(4)!important}.vot-slider>input:disabled::-ms-thumb{background-color:rgb(var(--vot-onsurface-rgb,0,0,0))!important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb,255,255,255))!important;transform:scale(4)!important}.vot-slider>input:disabled::-webkit-slider-thumb{background-color:rgb(var(--vot-onsurface-rgb,0,0,0))!important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb,255,255,255))!important;transform:scale(4)!important}.vot-slider>input:disabled::-ms-fill-upper{opacity:.38!important}.vot-slider>input:disabled::-moz-range-progress{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important}.vot-slider>input:disabled:-webkit-slider-thumb{color:rgb(var(--vot-surface-rgb,255,255,255))!important}.vot-slider>input:active::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--vot-safari-helper4)!important}.vot-slider>input:active::-moz-range-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.24)!important}.vot-slider>input:active::-ms-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.24)!important}.vot-slider>input:focus{outline:none!important}.vot-slider>input::-webkit-slider-runnable-track{background-color:rgba(var(--vot-primary-rgb,33,150,243),.24)!important;border-radius:1px!important;width:100%!important;height:2px!important;margin:17px 0!important}.vot-slider>input::-moz-range-track{background-color:rgba(var(--vot-primary-rgb,33,150,243),.24)!important;border-radius:1px!important;width:100%!important;height:2px!important;margin:17px 0!important}.vot-slider>input::-ms-track{box-sizing:border-box!important;background-color:#0000!important;border:none!important;border-radius:1px!important;width:100%!important;height:2px!important;margin:17px 0!important;padding:0 17px!important}.vot-slider>input::-webkit-slider-thumb{-webkit-appearance:none!important;appearance:none!important;background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border:none!important;border-radius:50%!important;width:2px!important;height:2px!important;transition:box-shadow .2s!important;transform:scale(6)!important}.vot-slider>input::-moz-range-thumb{-webkit-appearance:none!important;appearance:none!important;background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border:none!important;border-radius:50%!important;width:2px!important;height:2px!important;transition:box-shadow .2s!important;transform:scale(6)!important}.vot-slider>input::-ms-thumb{-webkit-appearance:none!important;appearance:none!important;background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border:none!important;border-radius:50%!important;width:2px!important;height:2px!important;transition:box-shadow .2s!important;transform:scale(6)!important}.vot-slider>input::-webkit-slider-thumb{-webkit-appearance:none!important;margin:0!important}.vot-slider>input::-moz-range-thumb{-moz-appearance:none!important}.vot-slider>input::-ms-thumb{margin:0 17px!important}.vot-slider>input::-moz-range-progress{background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border-radius:1px!important;height:2px!important}.vot-slider>input::-ms-fill-lower{background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border-radius:1px!important;height:2px!important}.vot-slider>input::-ms-fill-upper{background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border-radius:1px!important;height:2px!important}.vot-slider>input::-moz-focus-outer{border:none!important}.vot-slider>span{margin-bottom:36px!important;display:inline-block!important}.vot-slider:hover>input::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--vot-safari-helper1)!important}.vot-slider:hover>input::-ms-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.04)!important}.vot-slider:hover>input:hover::-moz-range-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.04)!important}.vot-select{font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;color:var(--vot-helper-theme);fill:var(--vot-helper-theme);justify-content:space-between;align-items:center;font-size:14px;font-weight:400;line-height:1.5;display:flex;--vot-helper-theme-rgb:var(--vot-onsurface-rgb,0,0,0)!important;--vot-helper-theme:rgba(var(--vot-helper-theme-rgb),.87)!important;--vot-helper-safari1:rgba(var(--vot-onsurface-rgb,0,0,0),.6)!important;--vot-helper-safari2:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important}.vot-select[hidden]{display:none!important}.vot-select-label{font-size:16px}.vot-select-outer{cursor:pointer;justify-content:space-between;align-items:center;width:120px;max-width:120px;padding:0 5px;display:flex;border-style:solid!important;border-width:1px!important;border-color:var(--vot-helper-safari1)!important;border-radius:4px!important;transition:border .2s!important}.vot-select-outer:hover{border-color:var(--vot-helper-safari2)!important}.vot-select-title{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.vot-select-arrow-icon{justify-content:center;align-items:center;width:20px;height:32px;display:flex}.vot-select-content-list{flex-direction:column;display:flex}.vot-select-content-list .vot-select-content-item{cursor:pointer;border-radius:8px;padding:5px 10px}.vot-select-content-list .vot-select-content-item:not([inert]):hover{background-color:#2a2c31}.vot-select-content-list .vot-select-content-item[data-vot-selected=true]{color:rgb(var(--vot-primary-rgb,33,150,243));background-color:rgba(var(--vot-primary-rgb,33,150,243),.2)}.vot-select-content-list .vot-select-content-item[data-vot-selected=true]:hover{background-color:rgba(var(--vot-primary-rgb,33,150,243),.1)!important}.vot-select-content-list .vot-select-content-item[data-vot-disabled=true]{cursor:default}.vot-select-content-list .vot-select-content-item[hidden]{display:none!important}.vot-header{color:rgba(var(--vot-helper-onsurface-rgb),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;font-weight:700;line-height:1.5}.vot-header[hidden]{display:none!important}.vot-header:not(:first-child){padding-top:8px}.vot-header-level-1{font-size:2em}.vot-header-level-2{font-size:1.5em}.vot-header-level-3{font-size:1.17em}.vot-header-level-4{font-size:1em}.vot-header-level-5{font-size:.83em}.vot-header-level-6{font-size:.67em}.vot-info{color:rgba(var(--vot-helper-onsurface-rgb),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;-webkit-user-select:text;user-select:text;font-size:16px;line-height:1.5;display:flex}.vot-info[hidden]{display:none!important}.vot-info>:not(:first-child){color:rgba(var(--vot-helper-onsurface-rgb),.5);flex:1;margin-left:8px}.vot-details{color:rgba(var(--vot-helper-onsurface-rgb),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;cursor:pointer;border-radius:.5em;justify-content:space-between;align-items:center;margin:0 -.5em;padding:.5em;font-size:16px;line-height:1.5;transition:background .5s;display:flex}.vot-details[hidden]{display:none!important}.vot-details-arrow-icon{width:20px;height:32px;fill:rgba(var(--vot-helper-onsurface-rgb),.87);justify-content:center;align-items:center;display:flex;transform:scale(1.25)rotate(-90deg)}.vot-details:hover{background:rgba(var(--vot-onsurface-rgb,0,0,0),.04)}.vot-lang-select{--vot-helper-theme-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-theme:rgba(var(--vot-helper-theme-rgb),.87);color:var(--vot-helper-theme);fill:var(--vot-helper-theme);justify-content:space-between;align-items:center;display:flex}.vot-lang-select[hidden]{display:none!important}.vot-lang-select-icon{justify-content:center;align-items:center;width:32px;height:32px;display:flex}.vot-segmented-button{--vot-helper-theme-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-theme:rgba(var(--vot-helper-theme-rgb),.87);-webkit-user-select:none;user-select:none;background:rgb(var(--vot-surface-rgb,255,255,255));max-width:100vw;height:32px;color:var(--vot-helper-theme);fill:var(--vot-helper-theme);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:default;z-index:2147483647;border-radius:4px;align-items:center;font-size:16px;line-height:1.5;transition:opacity .5s;display:flex;position:absolute;top:5rem;left:50%;overflow:hidden;transform:translate(-50%)}.vot-segmented-button[hidden]{display:none!important}.vot-segmented-button *{box-sizing:border-box!important}.vot-segmented-button .vot-separator{background:rgba(var(--vot-helper-theme-rgb),.1);width:1px;height:50%}.vot-segmented-button .vot-separator[hidden]{display:none!important}.vot-segmented-button .vot-segment,.vot-segmented-button .vot-segment-only-icon{height:100%;color:inherit;background-color:#0000;border:none;justify-content:center;align-items:center;padding:0 8px;transition:background-color .1s ease-in-out;display:flex;position:relative;overflow:hidden}.vot-segmented-button .vot-segment[hidden],.vot-segmented-button [hidden].vot-segment-only-icon{display:none!important}.vot-segmented-button .vot-segment:before,.vot-segmented-button .vot-segment-only-icon:before,.vot-segmented-button .vot-segment:after,.vot-segmented-button .vot-segment-only-icon:after{content:\"\";border-radius:inherit;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0}.vot-segmented-button .vot-segment:before,.vot-segmented-button .vot-segment-only-icon:before{background-color:rgb(var(--vot-helper-theme-rgb));transition:opacity .2s}.vot-segmented-button .vot-segment:after,.vot-segmented-button .vot-segment-only-icon:after{background:radial-gradient(circle,currentColor 1%,#0000 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-segmented-button .vot-segment:hover:before,.vot-segmented-button .vot-segment-only-icon:hover:before{opacity:.04}.vot-segmented-button .vot-segment:active:after,.vot-segmented-button .vot-segment-only-icon:active:after{opacity:.16;background-size:100% 100%;transition:background-size}.vot-segmented-button .vot-segment-only-icon{min-width:32px;padding:0}.vot-segmented-button .vot-segment-label{white-space:nowrap;color:inherit;margin-left:8px;font-weight:400}.vot-segmented-button[data-status=success] .vot-translate-button{color:rgb(var(--vot-primary-rgb,33,150,243));fill:rgb(var(--vot-primary-rgb,33,150,243))}.vot-segmented-button[data-status=error] .vot-translate-button{color:#f28b82;fill:#f28b82}.vot-segmented-button[data-loading=true] #vot-loading-icon{display:block!important}.vot-segmented-button[data-loading=true] #vot-translate-icon{display:none!important}.vot-segmented-button[data-direction=column]{flex-direction:column;height:fit-content}.vot-segmented-button[data-direction=column] .vot-segment-label{display:none}.vot-segmented-button[data-direction=column]>.vot-segment-only-icon,.vot-segmented-button[data-direction=column]>.vot-segment{padding:8px}.vot-segmented-button[data-direction=column] .vot-separator{width:50%;height:1px}.vot-segmented-button[data-position=left]{top:12.5vh;left:50px}.vot-segmented-button[data-position=right]{top:12.5vh;left:auto;right:0}.vot-segmented-button svg{width:24px}.vot-menu{--vot-helper-surface-rgb:var(--vot-surface-rgb,255,255,255);--vot-helper-surface:rgb(var(--vot-helper-surface-rgb));--vot-helper-onsurface-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-onsurface:rgba(var(--vot-helper-onsurface-rgb),.87);-webkit-user-select:none;user-select:none;background-color:var(--vot-helper-surface);color:var(--vot-helper-onsurface);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:default;z-index:2147483647;visibility:visible;opacity:1;transform-origin:top;border-radius:8px;min-width:300px;font-size:16px;line-height:1.5;transition:opacity .3s,transform .1s;position:absolute;top:calc(5rem + 48px);left:50%;overflow:hidden;transform:translate(-50%)scale(1)}.vot-menu *{box-sizing:border-box!important}.vot-menu[hidden]{pointer-events:none;visibility:hidden;opacity:0;transform:translate(-50%)scale(0);display:block!important}.vot-menu-content-wrapper{min-height:100px;max-height:calc(var(--vot-container-height,75vh) - (5rem + 32px + 16px)*2);flex-direction:column;display:flex;overflow:auto}.vot-menu-header-container{flex-shrink:0;align-items:flex-start;min-height:31px;display:flex}.vot-menu-header-container:empty{padding:0 0 16px}.vot-menu-header-container>.vot-icon-button{margin-inline-end:4px;margin-top:4px}.vot-menu-title-container{font-size:inherit;font-weight:inherit;text-align:start;outline:0;flex:1;margin:0;display:flex}.vot-menu-title{padding-bottom:16px;padding-inline-start:16px;padding-inline-end:16px;flex:1;padding-top:16px;font-size:16px;font-weight:400;line-height:1}.vot-menu-body-container{box-sizing:border-box;overscroll-behavior:contain;flex-direction:column;gap:8px;min-height:1.375rem;padding:0 16px;display:flex;overflow:auto;scrollbar-color:rgba(var(--vot-helper-onsurface-rgb),.1)var(--vot-helper-surface)!important}.vot-menu-body-container::-webkit-scrollbar{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-menu-body-container::-webkit-scrollbar-track{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-menu-body-container::-webkit-scrollbar-thumb{background:rgba(var(--vot-helper-onsurface-rgb),.1)!important;border:5px solid var(--vot-helper-surface)!important;-webkit-border-radius:1ex!important}.vot-menu-body-container::-webkit-scrollbar-thumb:hover{border:3px solid var(--vot-helper-surface)!important}.vot-menu-body-container::-webkit-scrollbar-corner{background:var(--vot-helper-surface)!important}.vot-menu-footer-container{padding-bottom:16px;padding-inline-start:16px;padding-inline-end:16px;flex-shrink:0;justify-content:flex-end;padding-top:16px;display:flex}.vot-menu-footer-container:empty{padding:16px 0 0}.vot-menu[data-position=left]{top:12.5vh;left:240px}.vot-menu[data-position=right]{top:12.5vh;left:auto;right:-80px}.vot-dialog{--vot-helper-surface-rgb:var(--vot-surface-rgb,255,255,255);--vot-helper-surface:rgb(var(--vot-helper-surface-rgb));--vot-helper-onsurface-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-onsurface:rgba(var(--vot-helper-onsurface-rgb),.87);max-width:initial;max-height:initial;width:min(var(--vot-dialog-width,512px),100%);top:50%;bottom:50%;background-color:var(--vot-helper-surface);height:fit-content;color:var(--vot-helper-onsurface);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);-webkit-user-select:none;user-select:none;visibility:visible;opacity:1;transform-origin:50%;border-radius:8px;margin:auto;padding:0;font-size:16px;line-height:1.5;transition:opacity .3s,transform .1s;display:block;position:fixed;top:0;bottom:0;left:0;right:0;overflow-x:auto;overflow-y:hidden;transform:scale(1);box-shadow:0 0 16px #0000001f,0 16px 16px #0000003d}[hidden]>.vot-dialog{pointer-events:none;opacity:0;transition:opacity .1s,transform .2s;transform:scale(.5)}.vot-dialog-container{visibility:visible;z-index:2147483647;position:absolute}.vot-dialog-container[hidden]{pointer-events:none;visibility:hidden;display:block!important}.vot-dialog-container *{box-sizing:border-box!important}.vot-dialog-backdrop{opacity:1;background-color:#0009;transition:opacity .3s;position:fixed;top:0;bottom:0;left:0;right:0}[hidden]>.vot-dialog-backdrop{pointer-events:none;opacity:0}.vot-dialog-content-wrapper{flex-direction:column;max-height:75vh;display:flex;overflow:auto}.vot-dialog-header-container{flex-shrink:0;align-items:flex-start;min-height:31px;display:flex}.vot-dialog-header-container:empty{padding:0 0 20px}.vot-dialog-header-container>.vot-icon-button{margin-inline-end:4px;margin-top:4px}.vot-dialog-title-container{font-size:inherit;font-weight:inherit;outline:0;flex:1;margin:0;display:flex}.vot-dialog-title{padding-bottom:16px;padding-inline-start:20px;padding-inline-end:20px;flex:1;padding-top:20px;font-size:115.385%;font-weight:700;line-height:1}.vot-dialog-body-container{box-sizing:border-box;overscroll-behavior:contain;flex-direction:column;gap:16px;min-height:1.375rem;padding:0 20px;display:flex;overflow:auto;scrollbar-color:rgba(var(--vot-helper-onsurface-rgb),.1)var(--vot-helper-surface)!important}.vot-dialog-body-container::-webkit-scrollbar{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-dialog-body-container::-webkit-scrollbar-track{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-dialog-body-container::-webkit-scrollbar-thumb{background:rgba(var(--vot-helper-onsurface-rgb),.1)!important;border:5px solid var(--vot-helper-surface)!important;-webkit-border-radius:1ex!important}.vot-dialog-body-container::-webkit-scrollbar-thumb:hover{border:3px solid var(--vot-helper-surface)!important}.vot-dialog-body-container::-webkit-scrollbar-corner{background:var(--vot-helper-surface)!important}.vot-dialog-footer-container{padding-bottom:16px;padding-inline-start:16px;padding-inline-end:16px;flex-shrink:0;justify-content:flex-end;padding-top:16px;display:flex}.vot-dialog-footer-container:empty{padding:20px 0 0}.vot-subtitles-widget{z-index:2147483647;pointer-events:none;justify-content:center;align-items:center;width:50%;min-height:20%;max-height:100%;display:flex;position:absolute;top:75%;left:25%}.vot-subtitles{--vot-subtitles-background:rgba(var(--vot-surface-rgb,46,47,52),var(--vot-subtitles-opacity,.8));background:var(--vot-subtitles-background,#2e2f34cc);width:max-content;max-width:100%;max-height:100%;color:var(--vot-subtitles-color,#e3e3e3);pointer-events:all;box-sizing:border-box;-webkit-user-select:none;user-select:none;border-radius:.5em;padding:.5em;font-size:20px;line-height:normal;position:relative}.vot-subtitles span{-webkit-user-select:text;user-select:text;font-size:inherit!important;line-height:normal!important}.vot-subtitles .passed{color:var(--vot-subtitles-passed-color,#2196f3)}:root{--vot-font-family:\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system;--vot-primary-rgb:139,180,245;--vot-onprimary-rgb:32,33,36;--vot-surface-rgb:32,33,36;--vot-onsurface-rgb:227,227,227;--vot-subtitles-color:rgb(var(--vot-onsurface-rgb,227,227,227));--vot-subtitles-passed-color:rgb(var(--vot-primary-rgb,33,150,243))}vot-block{display:block;visibility:visible!important}")
+GM_addStyle(".vot-button{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));--vot-helper-ontheme:var(--vot-ontheme-rgb,var(--vot-onprimary-rgb,255,255,255));box-sizing:border-box;vertical-align:middle;text-align:center;text-overflow:ellipsis;min-width:64px;height:36px;color:rgb(var(--vot-helper-ontheme));background-color:rgb(var(--vot-helper-theme));font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;border:none;border-radius:4px;outline:none;padding:0 16px;font-size:14px;font-weight:500;line-height:36px;transition:box-shadow .2s;display:inline-block;position:relative;box-shadow:0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px rgba(0,0,0,.14),0 1px 5px rgba(0,0,0,.12)}.vot-button[hidden]{display:none!important}.vot-button::-moz-focus-inner{border:none}.vot-button:before,.vot-button:after{content:\"\";border-radius:inherit;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0}.vot-button:before{background-color:rgb(var(--vot-helper-ontheme));transition:opacity .2s}.vot-button:after{background:radial-gradient(circle,currentColor 1%,transparent 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-button:hover{box-shadow:0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px rgba(0,0,0,.14),0 1px 10px rgba(0,0,0,.12)}.vot-button:hover:before{opacity:.08}.vot-button:active{box-shadow:0 5px 5px -3px rgba(0,0,0,.2),0 8px 10px 1px rgba(0,0,0,.14),0 3px 14px 2px rgba(0,0,0,.12)}.vot-button:active:after{opacity:.32;background-size:100% 100%;transition:background-size}.vot-button[disabled=true]{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.12);color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);box-shadow:none;cursor:initial}.vot-button[disabled=true]:before{opacity:0}.vot-button[disabled=true]:after{opacity:0}.vot-outlined-button{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));box-sizing:border-box;border:1px solid;border-color:rgba(var(--vot-onsurface-rgb,0,0,0),.24);vertical-align:middle;text-align:center;text-overflow:ellipsis;min-width:64px;height:36px;color:rgb(var(--vot-helper-theme));font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;background-color:transparent;border-radius:4px;outline:none;margin:0;padding:0 16px;font-size:14px;font-weight:500;line-height:34px;display:inline-block;position:relative}.vot-outlined-button[hidden]{display:none!important}.vot-outlined-button::-moz-focus-inner{border:none}.vot-outlined-button:before,.vot-outlined-button:after{content:\"\";opacity:0;border-radius:3px;position:absolute;top:0;bottom:0;left:0;right:0}.vot-outlined-button:before{background-color:rgb(var(--vot-helper-theme));transition:opacity .2s}.vot-outlined-button:after{background:radial-gradient(circle,currentColor 1%,transparent 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-outlined-button:hover:before{opacity:.04}.vot-outlined-button:active:after{opacity:.16;background-size:100% 100%;transition:background-size}.vot-outlined-button[disabled=true]{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial;background-color:transparent}.vot-outlined-button[disabled=true]:before{opacity:0}.vot-outlined-button[disabled=true]:after{opacity:0}.vot-text-button{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));box-sizing:border-box;vertical-align:middle;text-align:center;text-overflow:ellipsis;min-width:64px;height:36px;color:rgb(var(--vot-helper-theme));font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;background-color:transparent;border:none;border-radius:4px;outline:none;margin:0;padding:0 8px;font-size:14px;font-weight:500;line-height:36px;display:inline-block;position:relative}.vot-text-button[hidden]{display:none!important}.vot-text-button::-moz-focus-inner{border:none}.vot-text-button:before,.vot-text-button:after{content:\"\";border-radius:inherit;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0}.vot-text-button:before{background-color:rgb(var(--vot-helper-theme));transition:opacity .2s}.vot-text-button:after{background:radial-gradient(circle,currentColor 1%,transparent 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-text-button:hover:before{opacity:.04}.vot-text-button:active:after{opacity:.16;background-size:100% 100%;transition:background-size}.vot-text-button[disabled=true]{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial;background-color:transparent}.vot-text-button[disabled=true]:before{opacity:0}.vot-text-button[disabled=true]:after{opacity:0}.vot-icon-button{--vot-helper-onsurface:rgba(var(--vot-onsurface-rgb,0,0,0),.87);box-sizing:border-box;vertical-align:middle;text-align:center;text-overflow:ellipsis;width:36px;height:36px;fill:var(--vot-helper-onsurface);color:var(--vot-helper-onsurface);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;background-color:transparent;border:none;border-radius:50%;outline:none;margin:0;padding:0;font-size:14px;font-weight:500;line-height:36px;display:inline-block;position:relative}.vot-icon-button[hidden]{display:none!important}.vot-icon-button::-moz-focus-inner{border:none}.vot-icon-button:before,.vot-icon-button:after{content:\"\";border-radius:inherit;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0}.vot-icon-button:before{background-color:var(--vot-helper-onsurface);transition:opacity .2s}.vot-icon-button:after{background:radial-gradient(circle,currentColor 1%,transparent 1%) 50%/10000% 10000% no-repeat;transition:opacity .3s,background-size .4s}.vot-icon-button:hover:before{opacity:.04}.vot-icon-button:active:after{opacity:.32;background-size:100% 100%;transition:background-size,opacity}.vot-icon-button[disabled=true]{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);fill:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial;background-color:transparent}.vot-icon-button[disabled=true]:before{opacity:0}.vot-icon-button[disabled=true]:after{opacity:0}.vot-textfield{display:inline-block;--vot-helper-theme:rgb(var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243)))!important;--vot-helper-safari1:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important;--vot-helper-safari2:rgba(var(--vot-onsurface-rgb,0,0,0),.6)!important;--vot-helper-safari3:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important;font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system)!important;text-align:start!important;padding-top:6px!important;font-size:16px!important;line-height:1.5!important;position:relative!important}.vot-textfield[hidden]{display:none!important}.vot-textfield>input,.vot-textfield>textarea{box-sizing:border-box!important;border-style:solid!important;border-width:1px!important;border-color:transparent var(--vot-helper-safari2)var(--vot-helper-safari2)!important;width:100%!important;height:inherit!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important;-webkit-text-fill-color:currentColor!important;font-family:inherit!important;font-size:inherit!important;line-height:inherit!important;caret-color:var(--vot-helper-theme)!important;background-color:transparent!important;border-radius:4px!important;margin:0!important;padding:15px 13px!important;transition:border .2s,box-shadow .2s!important;box-shadow:inset 1px 0 transparent,inset -1px 0 transparent,inset 0 -1px transparent!important}.vot-textfield>input:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:transparent!important}.vot-textfield>textarea:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:transparent!important}.vot-textfield>input:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:transparent!important}.vot-textfield>textarea:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:transparent!important}.vot-textfield>input:not(:focus):not(.vot-show-placeholer)::-webkit-input-placeholder{color:transparent!important}.vot-textfield>textarea:not(:focus):not(.vot-show-placeholer)::-webkit-input-placeholder{color:transparent!important}.vot-textfield>input:not(:focus):placeholder-shown{border-top-color:var(--vot-helper-safari2)!important}.vot-textfield>textarea:not(:focus):placeholder-shown{border-top-color:var(--vot-helper-safari2)!important}.vot-textfield>input+span,.vot-textfield>textarea+span{width:100%!important;max-height:100%!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.6)!important;cursor:text!important;pointer-events:none!important;font-size:75%!important;line-height:15px!important;transition:color .2s,font-size .2s,line-height .2s!important;display:flex!important;position:absolute!important;top:0!important;left:0!important}.vot-textfield>input:not(:focus):placeholder-shown+span{font-size:inherit!important;line-height:68px!important}.vot-textfield>textarea:not(:focus):placeholder-shown+span{font-size:inherit!important;line-height:68px!important}.vot-textfield>input+span:before,.vot-textfield>input+span:after,.vot-textfield>textarea+span:before,.vot-textfield>textarea+span:after{content:\"\"!important;box-sizing:border-box!important;border-top:solid 1px var(--vot-helper-safari2)!important;pointer-events:none!important;min-width:10px!important;height:8px!important;margin-top:6px!important;transition:border .2s,box-shadow .2s!important;display:block!important;box-shadow:inset 0 1px transparent!important}.vot-textfield>input+span:before,.vot-textfield>textarea+span:before{border-left:1px solid transparent!important;border-radius:4px 0!important;margin-right:4px!important}.vot-textfield>input+span:after,.vot-textfield>textarea+span:after{border-right:1px solid transparent!important;border-radius:0 4px!important;flex-grow:1!important;margin-left:4px!important}.vot-textfield>input.vot-show-placeholer+span:before,.vot-textfield>textarea.vot-show-placeholer+span:before{margin-right:0!important}.vot-textfield>input.vot-show-placeholer+span:after,.vot-textfield>textarea.vot-show-placeholer+span:after{margin-left:0!important}.vot-textfield>input:not(:focus):placeholder-shown+span:before{border-top-color:transparent!important}.vot-textfield>input:not(:focus):placeholder-shown+span:after{border-top-color:transparent!important}.vot-textfield>textarea:not(:focus):placeholder-shown+span:before{border-top-color:transparent!important}.vot-textfield>textarea:not(:focus):placeholder-shown+span:after{border-top-color:transparent!important}.vot-textfield:hover>input:not(:disabled),.vot-textfield:hover>textarea:not(:disabled){border-color:transparent var(--vot-helper-safari3)var(--vot-helper-safari3)!important}.vot-textfield:hover>input:not(:disabled)+span:before,.vot-textfield:hover>input:not(:disabled)+span:after,.vot-textfield:hover>textarea:not(:disabled)+span:before,.vot-textfield:hover>textarea:not(:disabled)+span:after{border-top-color:var(--vot-helper-safari3)!important}.vot-textfield:hover>input:not(:disabled):not(:focus):placeholder-shown{border-color:var(--vot-helper-safari3)!important}.vot-textfield:hover>textarea:not(:disabled):not(:focus):placeholder-shown{border-color:var(--vot-helper-safari3)!important}.vot-textfield>input:focus,.vot-textfield>textarea:focus{border-color:transparent var(--vot-helper-theme)var(--vot-helper-theme)!important;box-shadow:inset 1px 0 var(--vot-helper-theme),inset -1px 0 var(--vot-helper-theme),inset 0 -1px var(--vot-helper-theme)!important;outline:none!important}.vot-textfield>input:focus+span,.vot-textfield>textarea:focus+span{color:var(--vot-helper-theme)!important}.vot-textfield>input:focus+span:before,.vot-textfield>input:focus+span:after,.vot-textfield>textarea:focus+span:before,.vot-textfield>textarea:focus+span:after{border-top-color:var(--vot-helper-theme)!important;box-shadow:inset 0 1px var(--vot-helper-theme)!important}.vot-textfield>input:disabled,.vot-textfield>input:disabled+span,.vot-textfield>textarea:disabled,.vot-textfield>textarea:disabled+span{border-color:transparent var(--vot-helper-safari1)var(--vot-helper-safari1)!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important;pointer-events:none!important}.vot-textfield>input:disabled+span:before,.vot-textfield>input:disabled+span:after,.vot-textfield>textarea:disabled+span:before,.vot-textfield>textarea:disabled+span:after{border-top-color:var(--vot-helper-safari1)!important}.vot-textfield>input:disabled:placeholder-shown{border-top-color:var(--vot-helper-safari1)!important}.vot-textfield>input:disabled:placeholder-shown+span{border-top-color:var(--vot-helper-safari1)!important}.vot-textfield>textarea:disabled:placeholder-shown{border-top-color:var(--vot-helper-safari1)!important}.vot-textfield>textarea:disabled:placeholder-shown+span{border-top-color:var(--vot-helper-safari1)!important}.vot-textfield>input:disabled:placeholder-shown+span:before{border-top-color:transparent!important}.vot-textfield>input:disabled:placeholder-shown+span:after{border-top-color:transparent!important}.vot-textfield>textarea:disabled:placeholder-shown+span:before{border-top-color:transparent!important}.vot-textfield>textarea:disabled:placeholder-shown+span:after{border-top-color:transparent!important}@media not all and (-webkit-min-device-pixel-ratio:.0000264583),not all and (min-resolution:.001dpcm){@supports ((-webkit-appearance:none)){.vot-textfield>input,.vot-textfield>input+span,.vot-textfield>textarea,.vot-textfield>textarea+span,.vot-textfield>input+span:before,.vot-textfield>input+span:after,.vot-textfield>textarea+span:before,.vot-textfield>textarea+span:after{transition-duration:.1s!important}}}.vot-checkbox{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));--vot-helper-ontheme:var(--vot-ontheme-rgb,var(--vot-onprimary-rgb,255,255,255));z-index:0;color:rgba(var(--vot-onsurface-rgb,0,0,0),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;font-size:16px;line-height:1.5;display:inline-block;position:relative}.vot-checkbox-sub{padding-left:16px}.vot-checkbox[hidden]{display:none!important}.vot-checkbox>input{-webkit-appearance:none;appearance:none;z-index:10000;box-sizing:border-box;border:2px solid;border-color:rgba(var(--vot-onsurface-rgb,0,0,0),.6);cursor:pointer;background:0 0;border-radius:2px;outline:none;width:18px;height:18px;margin:3px 1px;padding:0;transition:border-color .2s,background-color .2s;display:block;position:absolute}.vot-checkbox>input+span{box-sizing:border-box;width:inherit;cursor:pointer;padding-left:30px;font-weight:400;display:inline-block;position:relative}.vot-checkbox>input+span:before{content:\"\";background-color:rgb(var(--vot-onsurface-rgb,0,0,0));opacity:0;pointer-events:none;border-radius:50%;width:40px;height:40px;transition:opacity .3s,transform .2s;display:block;position:absolute;top:-8px;left:-10px;transform:scale(1)}.vot-checkbox>input+span:after{content:\"\";z-index:10000;pointer-events:none;border:0 solid transparent;border-width:0 0 2px 2px;width:10px;height:5px;transition:border-color .2s;display:block;position:absolute;top:3px;left:1px;transform:translate(3px,4px)rotate(-45deg);box-sizing:content-box!important}.vot-checkbox>input:checked{border-color:rgb(var(--vot-helper-theme));background-color:rgb(var(--vot-helper-theme))}.vot-checkbox>input:indeterminate{border-color:rgb(var(--vot-helper-theme));background-color:rgb(var(--vot-helper-theme))}.vot-checkbox>input:checked+span:before{background-color:rgb(var(--vot-helper-theme))}.vot-checkbox>input:indeterminate+span:before{background-color:rgb(var(--vot-helper-theme))}.vot-checkbox>input:checked+span:after{border-color:rgb(var(--vot-helper-ontheme,255,255,255))}.vot-checkbox>input:indeterminate+span:after{border-color:rgb(var(--vot-helper-ontheme,255,255,255))}.vot-checkbox>input:indeterminate+span:after{border-left-width:0;transform:translate(4px,3px)}.vot-checkbox:hover>input+span:before{opacity:.04}.vot-checkbox:active>input,.vot-checkbox:active:hover>input:not(:disabled){border-color:rgb(var(--vot-helper-theme))}.vot-checkbox:active>input:checked{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.6);border-color:transparent}.vot-checkbox:active>input+span:before{opacity:1;transition:transform,opacity;transform:scale(0)}.vot-checkbox>input:disabled{border-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial}.vot-checkbox>input:disabled:checked{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);border-color:transparent}.vot-checkbox>input:disabled:indeterminate{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);border-color:transparent}.vot-checkbox>input:disabled+span{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial}.vot-checkbox>input:disabled+span:before{opacity:0;transform:scale(0)}.vot-slider{display:inline-block;--vot-safari-helper1:rgba(var(--vot-primary-rgb,33,150,243),.04)!important;--vot-safari-helper2:rgba(var(--vot-primary-rgb,33,150,243),.12)!important;--vot-safari-helper3:rgba(var(--vot-primary-rgb,33,150,243),.16)!important;--vot-safari-helper4:rgba(var(--vot-primary-rgb,33,150,243),.24)!important;width:100%!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important;font-family:var(--vot-font,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system)!important;text-align:start!important;font-size:16px!important;line-height:1.5!important}.vot-slider[hidden]{display:none!important}.vot-slider>input{-webkit-appearance:none!important;appearance:none!important;cursor:pointer!important;background-color:transparent!important;border:none!important;width:100%!important;height:36px!important;margin:0 0 -36px!important;padding:0!important;display:block!important;position:relative!important;top:24px!important}.vot-slider>input:last-child{margin:0!important;position:static!important}.vot-slider>input:before{content:\"\"!important;width:calc(100%*var(--vot-progress,0))!important;background:rgb(var(--vot-primary-rgb,33,150,243))!important;height:2px!important;display:block!important;position:absolute!important;top:calc(50% - 1px)!important}.vot-slider>input:disabled{cursor:default!important;opacity:.38!important}.vot-slider>input:disabled+span{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-webkit-slider-runnable-track{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-moz-range-track{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-ms-fill-lower{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-ms-fill-upper{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-moz-range-thumb{background-color:rgb(var(--vot-onsurface-rgb,0,0,0))!important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb,255,255,255))!important;transform:scale(4)!important}.vot-slider>input:disabled::-ms-thumb{background-color:rgb(var(--vot-onsurface-rgb,0,0,0))!important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb,255,255,255))!important;transform:scale(4)!important}.vot-slider>input:disabled::-webkit-slider-thumb{background-color:rgb(var(--vot-onsurface-rgb,0,0,0))!important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb,255,255,255))!important;transform:scale(4)!important}.vot-slider>input:disabled::-ms-fill-upper{opacity:.38!important}.vot-slider>input:disabled::-moz-range-progress{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important}.vot-slider>input:disabled:-webkit-slider-thumb{color:rgb(var(--vot-surface-rgb,255,255,255))!important}.vot-slider>input:active::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--vot-safari-helper4)!important}.vot-slider>input:active::-moz-range-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.24)!important}.vot-slider>input:active::-ms-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.24)!important}.vot-slider>input:focus{outline:none!important}.vot-slider>input::-webkit-slider-runnable-track{background-color:rgba(var(--vot-primary-rgb,33,150,243),.24)!important;border-radius:1px!important;width:100%!important;height:2px!important;margin:17px 0!important}.vot-slider>input::-moz-range-track{background-color:rgba(var(--vot-primary-rgb,33,150,243),.24)!important;border-radius:1px!important;width:100%!important;height:2px!important;margin:17px 0!important}.vot-slider>input::-ms-track{box-sizing:border-box!important;background-color:transparent!important;border:none!important;border-radius:1px!important;width:100%!important;height:2px!important;margin:17px 0!important;padding:0 17px!important}.vot-slider>input::-webkit-slider-thumb{-webkit-appearance:none!important;appearance:none!important;background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border:none!important;border-radius:50%!important;width:2px!important;height:2px!important;transition:box-shadow .2s!important;transform:scale(6)!important}.vot-slider>input::-moz-range-thumb{-webkit-appearance:none!important;appearance:none!important;background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border:none!important;border-radius:50%!important;width:2px!important;height:2px!important;transition:box-shadow .2s!important;transform:scale(6)!important}.vot-slider>input::-ms-thumb{-webkit-appearance:none!important;appearance:none!important;background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border:none!important;border-radius:50%!important;width:2px!important;height:2px!important;transition:box-shadow .2s!important;transform:scale(6)!important}.vot-slider>input::-webkit-slider-thumb{-webkit-appearance:none!important;margin:0!important}.vot-slider>input::-moz-range-thumb{-moz-appearance:none!important}.vot-slider>input::-ms-thumb{margin:0 17px!important}.vot-slider>input::-moz-range-progress{background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border-radius:1px!important;height:2px!important}.vot-slider>input::-ms-fill-lower{background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border-radius:1px!important;height:2px!important}.vot-slider>input::-ms-fill-upper{background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border-radius:1px!important;height:2px!important}.vot-slider>input::-moz-focus-outer{border:none!important}.vot-slider>span{margin-bottom:36px!important;display:inline-block!important}.vot-slider:hover>input::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--vot-safari-helper1)!important}.vot-slider:hover>input::-ms-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.04)!important}.vot-slider:hover>input:hover::-moz-range-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.04)!important}.vot-select{font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;color:var(--vot-helper-theme);fill:var(--vot-helper-theme);justify-content:space-between;align-items:center;font-size:14px;font-weight:400;line-height:1.5;display:flex;--vot-helper-theme-rgb:var(--vot-onsurface-rgb,0,0,0)!important;--vot-helper-theme:rgba(var(--vot-helper-theme-rgb),.87)!important;--vot-helper-safari1:rgba(var(--vot-onsurface-rgb,0,0,0),.6)!important;--vot-helper-safari2:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important}.vot-select[hidden]{display:none!important}.vot-select-label{font-size:16px}.vot-select-outer{cursor:pointer;justify-content:space-between;align-items:center;width:120px;max-width:120px;padding:0 5px;display:flex;border-style:solid!important;border-width:1px!important;border-color:var(--vot-helper-safari1)!important;border-radius:4px!important;transition:border .2s!important}.vot-select-outer:hover{border-color:var(--vot-helper-safari2)!important}.vot-select-title{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.vot-select-arrow-icon{justify-content:center;align-items:center;width:20px;height:32px;display:flex}.vot-select-content-list{flex-direction:column;display:flex}.vot-select-content-list .vot-select-content-item{cursor:pointer;border-radius:8px;padding:5px 10px}.vot-select-content-list .vot-select-content-item:not([inert]):hover{background-color:#2a2c31}.vot-select-content-list .vot-select-content-item[data-vot-selected=true]{color:rgb(var(--vot-primary-rgb,33,150,243));background-color:rgba(var(--vot-primary-rgb,33,150,243),.2)}.vot-select-content-list .vot-select-content-item[data-vot-selected=true]:hover{background-color:rgba(var(--vot-primary-rgb,33,150,243),.1)!important}.vot-select-content-list .vot-select-content-item[data-vot-disabled=true]{cursor:default}.vot-select-content-list .vot-select-content-item[hidden]{display:none!important}.vot-header{color:rgba(var(--vot-helper-onsurface-rgb),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;font-weight:700;line-height:1.5}.vot-header[hidden]{display:none!important}.vot-header:not(:first-child){padding-top:8px}.vot-header-level-1{font-size:2em}.vot-header-level-2{font-size:1.5em}.vot-header-level-3{font-size:1.17em}.vot-header-level-4{font-size:1em}.vot-header-level-5{font-size:.83em}.vot-header-level-6{font-size:.67em}.vot-info{color:rgba(var(--vot-helper-onsurface-rgb),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;-webkit-user-select:text;user-select:text;font-size:16px;line-height:1.5;display:flex}.vot-info[hidden]{display:none!important}.vot-info>:not(:first-child){color:rgba(var(--vot-helper-onsurface-rgb),.5);flex:1;margin-left:8px}.vot-details{color:rgba(var(--vot-helper-onsurface-rgb),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;cursor:pointer;border-radius:.5em;justify-content:space-between;align-items:center;margin:0 -.5em;padding:.5em;font-size:16px;line-height:1.5;transition:background .5s;display:flex}.vot-details[hidden]{display:none!important}.vot-details-arrow-icon{width:20px;height:32px;fill:rgba(var(--vot-helper-onsurface-rgb),.87);justify-content:center;align-items:center;display:flex;transform:scale(1.25)rotate(-90deg)}.vot-details:hover{background:rgba(var(--vot-onsurface-rgb,0,0,0),.04)}.vot-lang-select{--vot-helper-theme-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-theme:rgba(var(--vot-helper-theme-rgb),.87);color:var(--vot-helper-theme);fill:var(--vot-helper-theme);justify-content:space-between;align-items:center;display:flex}.vot-lang-select[hidden]{display:none!important}.vot-lang-select-icon{justify-content:center;align-items:center;width:32px;height:32px;display:flex}.vot-segmented-button{--vot-helper-theme-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-theme:rgba(var(--vot-helper-theme-rgb),.87);-webkit-user-select:none;user-select:none;background:rgb(var(--vot-surface-rgb,255,255,255));max-width:100vw;height:32px;color:var(--vot-helper-theme);fill:var(--vot-helper-theme);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:default;z-index:2147483647;border-radius:4px;align-items:center;font-size:16px;line-height:1.5;transition:opacity .5s;display:flex;position:absolute;top:5rem;left:50%;overflow:hidden;transform:translate(-50%)}.vot-segmented-button[hidden]{display:none!important}.vot-segmented-button *{box-sizing:border-box!important}.vot-segmented-button .vot-separator{background:rgba(var(--vot-helper-theme-rgb),.1);width:1px;height:50%}.vot-segmented-button .vot-separator[hidden]{display:none!important}.vot-segmented-button .vot-segment,.vot-segmented-button .vot-segment-only-icon{height:100%;color:inherit;background-color:transparent;border:none;justify-content:center;align-items:center;padding:0 8px;transition:background-color .1s ease-in-out;display:flex;position:relative;overflow:hidden}.vot-segmented-button .vot-segment[hidden],.vot-segmented-button [hidden].vot-segment-only-icon{display:none!important}.vot-segmented-button .vot-segment:before,.vot-segmented-button .vot-segment-only-icon:before,.vot-segmented-button .vot-segment:after,.vot-segmented-button .vot-segment-only-icon:after{content:\"\";border-radius:inherit;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0}.vot-segmented-button .vot-segment:before,.vot-segmented-button .vot-segment-only-icon:before{background-color:rgb(var(--vot-helper-theme-rgb));transition:opacity .2s}.vot-segmented-button .vot-segment:after,.vot-segmented-button .vot-segment-only-icon:after{background:radial-gradient(circle,currentColor 1%,transparent 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-segmented-button .vot-segment:hover:before,.vot-segmented-button .vot-segment-only-icon:hover:before{opacity:.04}.vot-segmented-button .vot-segment:active:after,.vot-segmented-button .vot-segment-only-icon:active:after{opacity:.16;background-size:100% 100%;transition:background-size}.vot-segmented-button .vot-segment-only-icon{min-width:32px;padding:0}.vot-segmented-button .vot-segment-label{white-space:nowrap;color:inherit;margin-left:8px;font-weight:400}.vot-segmented-button[data-status=success] .vot-translate-button{color:rgb(var(--vot-primary-rgb,33,150,243));fill:rgb(var(--vot-primary-rgb,33,150,243))}.vot-segmented-button[data-status=error] .vot-translate-button{color:#f28b82;fill:#f28b82}.vot-segmented-button[data-loading=true] #vot-loading-icon{display:block!important}.vot-segmented-button[data-loading=true] #vot-translate-icon{display:none!important}.vot-segmented-button[data-direction=column]{flex-direction:column;height:fit-content}.vot-segmented-button[data-direction=column] .vot-segment-label{display:none}.vot-segmented-button[data-direction=column]>.vot-segment-only-icon,.vot-segmented-button[data-direction=column]>.vot-segment{padding:8px}.vot-segmented-button[data-direction=column] .vot-separator{width:50%;height:1px}.vot-segmented-button[data-position=left]{top:12.5vh;left:50px}.vot-segmented-button[data-position=right]{top:12.5vh;left:auto;right:0}.vot-segmented-button svg{width:24px}.vot-menu{--vot-helper-surface-rgb:var(--vot-surface-rgb,255,255,255);--vot-helper-surface:rgb(var(--vot-helper-surface-rgb));--vot-helper-onsurface-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-onsurface:rgba(var(--vot-helper-onsurface-rgb),.87);-webkit-user-select:none;user-select:none;background-color:var(--vot-helper-surface);color:var(--vot-helper-onsurface);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:default;z-index:2147483647;visibility:visible;opacity:1;transform-origin:top;border-radius:8px;min-width:300px;font-size:16px;line-height:1.5;transition:opacity .3s,transform .1s;position:absolute;top:calc(5rem + 48px);left:50%;overflow:hidden;transform:translate(-50%)scale(1)}.vot-menu *{box-sizing:border-box!important}.vot-menu[hidden]{pointer-events:none;visibility:hidden;opacity:0;transform:translate(-50%)scale(0);display:block!important}.vot-menu-content-wrapper{min-height:100px;max-height:calc(var(--vot-container-height,75vh) - (5rem + 32px + 16px)*2);flex-direction:column;display:flex;overflow:auto}.vot-menu-header-container{flex-shrink:0;align-items:flex-start;min-height:31px;display:flex}.vot-menu-header-container:empty{padding:0 0 16px}.vot-menu-header-container>.vot-icon-button{margin-inline-end:4px;margin-top:4px}.vot-menu-title-container{font-size:inherit;font-weight:inherit;text-align:start;outline:0;flex:1;margin:0;display:flex}.vot-menu-title{padding-bottom:16px;padding-inline-start:16px;padding-inline-end:16px;flex:1;padding-top:16px;font-size:16px;font-weight:400;line-height:1}.vot-menu-body-container{box-sizing:border-box;overscroll-behavior:contain;flex-direction:column;gap:8px;min-height:1.375rem;padding:0 16px;display:flex;overflow:auto;scrollbar-color:rgba(var(--vot-helper-onsurface-rgb),.1)var(--vot-helper-surface)!important}.vot-menu-body-container::-webkit-scrollbar{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-menu-body-container::-webkit-scrollbar-track{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-menu-body-container::-webkit-scrollbar-thumb{background:rgba(var(--vot-helper-onsurface-rgb),.1)!important;border:5px solid var(--vot-helper-surface)!important;-webkit-border-radius:1ex!important}.vot-menu-body-container::-webkit-scrollbar-thumb:hover{border:3px solid var(--vot-helper-surface)!important}.vot-menu-body-container::-webkit-scrollbar-corner{background:var(--vot-helper-surface)!important}.vot-menu-footer-container{padding-bottom:16px;padding-inline-start:16px;padding-inline-end:16px;flex-shrink:0;justify-content:flex-end;padding-top:16px;display:flex}.vot-menu-footer-container:empty{padding:16px 0 0}.vot-menu[data-position=left]{top:12.5vh;left:240px}.vot-menu[data-position=right]{top:12.5vh;left:auto;right:-80px}.vot-dialog{--vot-helper-surface-rgb:var(--vot-surface-rgb,255,255,255);--vot-helper-surface:rgb(var(--vot-helper-surface-rgb));--vot-helper-onsurface-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-onsurface:rgba(var(--vot-helper-onsurface-rgb),.87);max-width:initial;max-height:initial;width:min(var(--vot-dialog-width,512px),100%);top:50%;bottom:50%;background-color:var(--vot-helper-surface);height:fit-content;color:var(--vot-helper-onsurface);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);-webkit-user-select:none;user-select:none;visibility:visible;opacity:1;transform-origin:50%;border-radius:8px;margin:auto;padding:0;font-size:16px;line-height:1.5;transition:opacity .3s,transform .1s;display:block;position:fixed;top:0;bottom:0;left:0;right:0;overflow-x:auto;overflow-y:hidden;transform:scale(1);box-shadow:0 0 16px rgba(0,0,0,.12),0 16px 16px rgba(0,0,0,.24)}[hidden]>.vot-dialog{pointer-events:none;opacity:0;transition:opacity .1s,transform .2s;transform:scale(.5)}.vot-dialog-container{visibility:visible;z-index:2147483647;position:absolute}.vot-dialog-container[hidden]{pointer-events:none;visibility:hidden;display:block!important}.vot-dialog-container *{box-sizing:border-box!important}.vot-dialog-backdrop{opacity:1;background-color:rgba(0,0,0,.6);transition:opacity .3s;position:fixed;top:0;bottom:0;left:0;right:0}[hidden]>.vot-dialog-backdrop{pointer-events:none;opacity:0}.vot-dialog-content-wrapper{flex-direction:column;max-height:75vh;display:flex;overflow:auto}.vot-dialog-header-container{flex-shrink:0;align-items:flex-start;min-height:31px;display:flex}.vot-dialog-header-container:empty{padding:0 0 20px}.vot-dialog-header-container>.vot-icon-button{margin-inline-end:4px;margin-top:4px}.vot-dialog-title-container{font-size:inherit;font-weight:inherit;outline:0;flex:1;margin:0;display:flex}.vot-dialog-title{padding-bottom:16px;padding-inline-start:20px;padding-inline-end:20px;flex:1;padding-top:20px;font-size:115.385%;font-weight:700;line-height:1}.vot-dialog-body-container{box-sizing:border-box;overscroll-behavior:contain;flex-direction:column;gap:16px;min-height:1.375rem;padding:0 20px;display:flex;overflow:auto;scrollbar-color:rgba(var(--vot-helper-onsurface-rgb),.1)var(--vot-helper-surface)!important}.vot-dialog-body-container::-webkit-scrollbar{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-dialog-body-container::-webkit-scrollbar-track{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-dialog-body-container::-webkit-scrollbar-thumb{background:rgba(var(--vot-helper-onsurface-rgb),.1)!important;border:5px solid var(--vot-helper-surface)!important;-webkit-border-radius:1ex!important}.vot-dialog-body-container::-webkit-scrollbar-thumb:hover{border:3px solid var(--vot-helper-surface)!important}.vot-dialog-body-container::-webkit-scrollbar-corner{background:var(--vot-helper-surface)!important}.vot-dialog-footer-container{padding-bottom:16px;padding-inline-start:16px;padding-inline-end:16px;flex-shrink:0;justify-content:flex-end;padding-top:16px;display:flex}.vot-dialog-footer-container:empty{padding:20px 0 0}.vot-subtitles-widget{z-index:2147483647;pointer-events:none;justify-content:center;align-items:center;width:50%;min-height:20%;max-height:100%;display:flex;position:absolute;top:75%;left:25%}.vot-subtitles{--vot-subtitles-background:rgba(var(--vot-surface-rgb,46,47,52),var(--vot-subtitles-opacity,.8));background:var(--vot-subtitles-background,rgba(46,47,52,.8));width:max-content;max-width:100%;max-height:100%;color:var(--vot-subtitles-color,#e3e3e3);pointer-events:all;box-sizing:border-box;-webkit-user-select:none;user-select:none;border-radius:.5em;padding:.5em;font-size:20px;line-height:normal;position:relative}.vot-subtitles span{-webkit-user-select:text;user-select:text;font-size:inherit!important;line-height:normal!important}.vot-subtitles .passed{color:var(--vot-subtitles-passed-color,#2196f3)}:root{--vot-font-family:\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system;--vot-primary-rgb:139,180,245;--vot-onprimary-rgb:32,33,36;--vot-surface-rgb:32,33,36;--vot-onsurface-rgb:227,227,227;--vot-subtitles-color:rgb(var(--vot-onsurface-rgb,227,227,227));--vot-subtitles-passed-color:rgb(var(--vot-primary-rgb,33,150,243))}vot-block{display:block;visibility:visible!important}")
 
 /***/ }),
 
@@ -250,7 +259,65 @@ window.cancelIdleCallback =
 
 // EXTERNAL MODULE: ./node_modules/bowser/es5.js
 var es5 = __webpack_require__("./node_modules/bowser/es5.js");
-;// ./node_modules/vot.js/dist/protos/yandex.js
+;// ./node_modules/@vot.js/shared/dist/data/config.js
+/* harmony default export */ const config = ({
+    host: "api.browser.yandex.ru",
+    hostVOT: "vot-api.toil.cc/v1",
+    mediaProxy: "media-proxy.toil.cc",
+    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 YaBrowser/24.10.0.0 Safari/537.36",
+    componentVersion: "24.12.0.1807",
+    hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
+    defaultDuration: 343,
+    minChunkSize: 5295308,
+    loggerLevel: 1,
+    version: "2.0.14",
+});
+
+;// ./node_modules/@vot.js/shared/dist/types/logger.js
+var LoggerLevel;
+(function (LoggerLevel) {
+    LoggerLevel[LoggerLevel["DEBUG"] = 0] = "DEBUG";
+    LoggerLevel[LoggerLevel["INFO"] = 1] = "INFO";
+    LoggerLevel[LoggerLevel["WARN"] = 2] = "WARN";
+    LoggerLevel[LoggerLevel["ERROR"] = 3] = "ERROR";
+    LoggerLevel[LoggerLevel["SILENCE"] = 4] = "SILENCE";
+})(LoggerLevel || (LoggerLevel = {}));
+
+;// ./node_modules/@vot.js/shared/dist/utils/logger.js
+
+
+class Logger {
+    static prefix = `[vot.js v${config.version}]`;
+    static canLog(level) {
+        return config.loggerLevel <= level;
+    }
+    static log(...messages) {
+        if (!Logger.canLog(LoggerLevel.DEBUG)) {
+            return;
+        }
+        console.log(Logger.prefix, ...messages);
+    }
+    static info(...messages) {
+        if (!Logger.canLog(LoggerLevel.INFO)) {
+            return;
+        }
+        console.info(Logger.prefix, ...messages);
+    }
+    static warn(...messages) {
+        if (!Logger.canLog(LoggerLevel.WARN)) {
+            return;
+        }
+        console.warn(Logger.prefix, ...messages);
+    }
+    static error(...messages) {
+        if (!Logger.canLog(LoggerLevel.ERROR)) {
+            return;
+        }
+        console.error(Logger.prefix, ...messages);
+    }
+}
+
+;// ./node_modules/@vot.js/shared/dist/protos/yandex.js
 const _m0 = protobuf;
 const protobufPackage = "";
 var StreamInterval;
@@ -766,23 +833,23 @@ const VideoTranslationResponse = {
         return message;
     },
 };
-function createBaseAudioObject() {
-    return { audioFile: new Uint8Array(0), message: "" };
+function createBaseAudioBufferObject() {
+    return { audioFile: new Uint8Array(0), fileId: "" };
 }
-const AudioObject = {
+const AudioBufferObject = {
     encode(message, writer = _m0.Writer.create()) {
         if (message.audioFile.length !== 0) {
             writer.uint32(18).bytes(message.audioFile);
         }
-        if (message.message !== "") {
-            writer.uint32(10).string(message.message);
+        if (message.fileId !== "") {
+            writer.uint32(10).string(message.fileId);
         }
         return writer;
     },
     decode(input, length) {
         const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseAudioObject();
+        const message = createBaseAudioBufferObject();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
@@ -796,7 +863,7 @@ const AudioObject = {
                     if (tag !== 10) {
                         break;
                     }
-                    message.message = reader.string();
+                    message.fileId = reader.string();
                     continue;
             }
             if ((tag & 7) === 4 || tag === 0) {
@@ -809,7 +876,7 @@ const AudioObject = {
     fromJSON(object) {
         return {
             audioFile: isSet(object.audioFile) ? bytesFromBase64(object.audioFile) : new Uint8Array(0),
-            message: isSet(object.message) ? globalThis.String(object.message) : "",
+            fileId: isSet(object.fileId) ? globalThis.String(object.fileId) : "",
         };
     },
     toJSON(message) {
@@ -817,23 +884,119 @@ const AudioObject = {
         if (message.audioFile.length !== 0) {
             obj.audioFile = base64FromBytes(message.audioFile);
         }
-        if (message.message !== "") {
-            obj.message = message.message;
+        if (message.fileId !== "") {
+            obj.fileId = message.fileId;
         }
         return obj;
     },
     create(base) {
-        return AudioObject.fromPartial(base ?? {});
+        return AudioBufferObject.fromPartial(base ?? {});
     },
     fromPartial(object) {
-        const message = createBaseAudioObject();
+        const message = createBaseAudioBufferObject();
         message.audioFile = object.audioFile ?? new Uint8Array(0);
-        message.message = object.message ?? "";
+        message.fileId = object.fileId ?? "";
+        return message;
+    },
+};
+function createBaseChunkAudioObject() {
+    return { audioPartsLength: 0, audioBuffer: undefined, fileId: "", unknown0: 0 };
+}
+const ChunkAudioObject = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.audioPartsLength !== 0) {
+            writer.uint32(16).int32(message.audioPartsLength);
+        }
+        if (message.audioBuffer !== undefined) {
+            AudioBufferObject.encode(message.audioBuffer, writer.uint32(10).fork()).ldelim();
+        }
+        if (message.fileId !== "") {
+            writer.uint32(26).string(message.fileId);
+        }
+        if (message.unknown0 !== 0) {
+            writer.uint32(32).int32(message.unknown0);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseChunkAudioObject();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
+                    message.audioPartsLength = reader.int32();
+                    continue;
+                case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.audioBuffer = AudioBufferObject.decode(reader, reader.uint32());
+                    continue;
+                case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
+                    message.fileId = reader.string();
+                    continue;
+                case 4:
+                    if (tag !== 32) {
+                        break;
+                    }
+                    message.unknown0 = reader.int32();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            audioPartsLength: isSet(object.audioPartsLength) ? globalThis.Number(object.audioPartsLength) : 0,
+            audioBuffer: isSet(object.audioBuffer) ? AudioBufferObject.fromJSON(object.audioBuffer) : undefined,
+            fileId: isSet(object.fileId) ? globalThis.String(object.fileId) : "",
+            unknown0: isSet(object.unknown0) ? globalThis.Number(object.unknown0) : 0,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.audioPartsLength !== 0) {
+            obj.audioPartsLength = Math.round(message.audioPartsLength);
+        }
+        if (message.audioBuffer !== undefined) {
+            obj.audioBuffer = AudioBufferObject.toJSON(message.audioBuffer);
+        }
+        if (message.fileId !== "") {
+            obj.fileId = message.fileId;
+        }
+        if (message.unknown0 !== 0) {
+            obj.unknown0 = Math.round(message.unknown0);
+        }
+        return obj;
+    },
+    create(base) {
+        return ChunkAudioObject.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseChunkAudioObject();
+        message.audioPartsLength = object.audioPartsLength ?? 0;
+        message.audioBuffer = (object.audioBuffer !== undefined && object.audioBuffer !== null)
+            ? AudioBufferObject.fromPartial(object.audioBuffer)
+            : undefined;
+        message.fileId = object.fileId ?? "";
+        message.unknown0 = object.unknown0 ?? 0;
         return message;
     },
 };
 function createBaseVideoTranslationAudioRequest() {
-    return { translationId: "", url: "", audioInfo: undefined };
+    return { translationId: "", url: "", partialAudioInfo: undefined, audioInfo: undefined };
 }
 const VideoTranslationAudioRequest = {
     encode(message, writer = _m0.Writer.create()) {
@@ -843,8 +1006,11 @@ const VideoTranslationAudioRequest = {
         if (message.url !== "") {
             writer.uint32(18).string(message.url);
         }
+        if (message.partialAudioInfo !== undefined) {
+            ChunkAudioObject.encode(message.partialAudioInfo, writer.uint32(34).fork()).ldelim();
+        }
         if (message.audioInfo !== undefined) {
-            AudioObject.encode(message.audioInfo, writer.uint32(50).fork()).ldelim();
+            AudioBufferObject.encode(message.audioInfo, writer.uint32(50).fork()).ldelim();
         }
         return writer;
     },
@@ -867,11 +1033,17 @@ const VideoTranslationAudioRequest = {
                     }
                     message.url = reader.string();
                     continue;
+                case 4:
+                    if (tag !== 34) {
+                        break;
+                    }
+                    message.partialAudioInfo = ChunkAudioObject.decode(reader, reader.uint32());
+                    continue;
                 case 6:
                     if (tag !== 50) {
                         break;
                     }
-                    message.audioInfo = AudioObject.decode(reader, reader.uint32());
+                    message.audioInfo = AudioBufferObject.decode(reader, reader.uint32());
                     continue;
             }
             if ((tag & 7) === 4 || tag === 0) {
@@ -885,7 +1057,8 @@ const VideoTranslationAudioRequest = {
         return {
             translationId: isSet(object.translationId) ? globalThis.String(object.translationId) : "",
             url: isSet(object.url) ? globalThis.String(object.url) : "",
-            audioInfo: isSet(object.audioInfo) ? AudioObject.fromJSON(object.audioInfo) : undefined,
+            partialAudioInfo: isSet(object.partialAudioInfo) ? ChunkAudioObject.fromJSON(object.partialAudioInfo) : undefined,
+            audioInfo: isSet(object.audioInfo) ? AudioBufferObject.fromJSON(object.audioInfo) : undefined,
         };
     },
     toJSON(message) {
@@ -896,8 +1069,11 @@ const VideoTranslationAudioRequest = {
         if (message.url !== "") {
             obj.url = message.url;
         }
+        if (message.partialAudioInfo !== undefined) {
+            obj.partialAudioInfo = ChunkAudioObject.toJSON(message.partialAudioInfo);
+        }
         if (message.audioInfo !== undefined) {
-            obj.audioInfo = AudioObject.toJSON(message.audioInfo);
+            obj.audioInfo = AudioBufferObject.toJSON(message.audioInfo);
         }
         return obj;
     },
@@ -908,19 +1084,25 @@ const VideoTranslationAudioRequest = {
         const message = createBaseVideoTranslationAudioRequest();
         message.translationId = object.translationId ?? "";
         message.url = object.url ?? "";
+        message.partialAudioInfo = (object.partialAudioInfo !== undefined && object.partialAudioInfo !== null)
+            ? ChunkAudioObject.fromPartial(object.partialAudioInfo)
+            : undefined;
         message.audioInfo = (object.audioInfo !== undefined && object.audioInfo !== null)
-            ? AudioObject.fromPartial(object.audioInfo)
+            ? AudioBufferObject.fromPartial(object.audioInfo)
             : undefined;
         return message;
     },
 };
 function createBaseVideoTranslationAudioResponse() {
-    return { status: 0 };
+    return { status: 0, remainingChunks: [] };
 }
 const VideoTranslationAudioResponse = {
     encode(message, writer = _m0.Writer.create()) {
         if (message.status !== 0) {
-            writer.uint32(32).int32(message.status);
+            writer.uint32(8).int32(message.status);
+        }
+        for (const v of message.remainingChunks) {
+            writer.uint32(18).string(v);
         }
         return writer;
     },
@@ -931,11 +1113,17 @@ const VideoTranslationAudioResponse = {
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                case 4:
-                    if (tag !== 32) {
+                case 1:
+                    if (tag !== 8) {
                         break;
                     }
                     message.status = reader.int32();
+                    continue;
+                case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.remainingChunks.push(reader.string());
                     continue;
             }
             if ((tag & 7) === 4 || tag === 0) {
@@ -946,12 +1134,20 @@ const VideoTranslationAudioResponse = {
         return message;
     },
     fromJSON(object) {
-        return { status: isSet(object.status) ? globalThis.Number(object.status) : 0 };
+        return {
+            status: isSet(object.status) ? globalThis.Number(object.status) : 0,
+            remainingChunks: globalThis.Array.isArray(object?.remainingChunks)
+                ? object.remainingChunks.map((e) => globalThis.String(e))
+                : [],
+        };
     },
     toJSON(message) {
         const obj = {};
         if (message.status !== 0) {
             obj.status = Math.round(message.status);
+        }
+        if (message.remainingChunks?.length) {
+            obj.remainingChunks = message.remainingChunks;
         }
         return obj;
     },
@@ -961,6 +1157,7 @@ const VideoTranslationAudioResponse = {
     fromPartial(object) {
         const message = createBaseVideoTranslationAudioResponse();
         message.status = object.status ?? 0;
+        message.remainingChunks = object.remainingChunks?.map((e) => e) || [];
         return message;
     },
 };
@@ -1675,219 +1872,18 @@ function isSet(value) {
     return value !== null && value !== undefined;
 }
 
-;// ./node_modules/vot.js/dist/types/yandex.js
-var VideoService;
-(function (VideoService) {
-    VideoService["custom"] = "custom";
-    VideoService["directlink"] = "custom";
-    VideoService["youtube"] = "youtube";
-    VideoService["piped"] = "piped";
-    VideoService["invidious"] = "invidious";
-    VideoService["vk"] = "vk";
-    VideoService["nine_gag"] = "nine_gag";
-    VideoService["gag"] = "nine_gag";
-    VideoService["twitch"] = "twitch";
-    VideoService["proxitok"] = "proxitok";
-    VideoService["tiktok"] = "tiktok";
-    VideoService["vimeo"] = "vimeo";
-    VideoService["xvideos"] = "xvideos";
-    VideoService["pornhub"] = "pornhub";
-    VideoService["twitter"] = "twitter";
-    VideoService["rumble"] = "rumble";
-    VideoService["facebook"] = "facebook";
-    VideoService["rutube"] = "rutube";
-    VideoService["coub"] = "coub";
-    VideoService["bilibili"] = "bilibili";
-    VideoService["mail_ru"] = "mailru";
-    VideoService["mailru"] = "mailru";
-    VideoService["bitchute"] = "bitchute";
-    VideoService["eporner"] = "eporner";
-    VideoService["peertube"] = "peertube";
-    VideoService["dailymotion"] = "dailymotion";
-    VideoService["trovo"] = "trovo";
-    VideoService["yandexdisk"] = "yandexdisk";
-    VideoService["ok_ru"] = "okru";
-    VideoService["okru"] = "okru";
-    VideoService["googledrive"] = "googledrive";
-    VideoService["bannedvideo"] = "bannedvideo";
-    VideoService["weverse"] = "weverse";
-    VideoService["newgrounds"] = "newgrounds";
-    VideoService["egghead"] = "egghead";
-    VideoService["youku"] = "youku";
-    VideoService["archive"] = "archive";
-    VideoService["kodik"] = "kodik";
-    VideoService["patreon"] = "patreon";
-    VideoService["reddit"] = "reddit";
-    VideoService["kick"] = "kick";
-    VideoService["apple_developer"] = "apple_developer";
-    VideoService["appledeveloper"] = "apple_developer";
-    VideoService["poketube"] = "poketube";
-    VideoService["epicgames"] = "epicgames";
-    VideoService["nineanimetv"] = "nineanimetv";
-    VideoService["odysee"] = "odysee";
-    VideoService["coursehunterLike"] = "coursehunterLike";
-    VideoService["sap"] = "sap";
-    VideoService["udemy"] = "udemy";
-    VideoService["coursera"] = "coursera";
-    VideoService["watchpornto"] = "watchpornto";
-    VideoService["linkedin"] = "linkedin";
-    VideoService["ricktube"] = "ricktube";
-    VideoService["incestflix"] = "incestflix";
-    VideoService["porntn"] = "porntn";
-})(VideoService || (VideoService = {}));
-var VideoTranslationStatus;
-(function (VideoTranslationStatus) {
-    VideoTranslationStatus[VideoTranslationStatus["FAILED"] = 0] = "FAILED";
-    VideoTranslationStatus[VideoTranslationStatus["FINISHED"] = 1] = "FINISHED";
-    VideoTranslationStatus[VideoTranslationStatus["WAITING"] = 2] = "WAITING";
-    VideoTranslationStatus[VideoTranslationStatus["LONG_WAITING"] = 3] = "LONG_WAITING";
-    VideoTranslationStatus[VideoTranslationStatus["PART_CONTENT"] = 5] = "PART_CONTENT";
-    VideoTranslationStatus[VideoTranslationStatus["LONG_WAITING_2"] = 6] = "LONG_WAITING_2";
-})(VideoTranslationStatus || (VideoTranslationStatus = {}));
-var AudioInfoMessage;
-(function (AudioInfoMessage) {
-    AudioInfoMessage["WEB_API_GET_ALL_GENERATING_URLS_DATA_FROM_IFRAME"] = "web_api_get_all_generating_urls_data_from_iframe";
-    AudioInfoMessage["WEB_API_REPLACED_FETCH_INSIDE_IFRAME"] = "web_api_replaced_fetch_inside_iframe";
-    AudioInfoMessage["WEB_API_REPLACED_FETCH_FORCE_REQUEST_WITH_SEEK"] = "web_api_replaced_fetch_force_request_with_seek";
-    AudioInfoMessage["WEB_API_REPLACED_FETCH"] = "web_api_replaced_fetch";
-    AudioInfoMessage["ANDROID_API"] = "android_api";
-    AudioInfoMessage["WEB_API_SLOW"] = "web_api_slow";
-})(AudioInfoMessage || (AudioInfoMessage = {}));
-
-;// ./node_modules/vot.js/dist/protobuf.js
+;// ./node_modules/@vot.js/shared/dist/secure.js
 
 
-const yandexProtobuf = {
-    encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp, { forceSourceLang = false, bypassCache = false, useNewModel = true, } = {}) {
-        return VideoTranslationRequest.encode({
-            url,
-            firstRequest: true,
-            duration,
-            unknown0: 1,
-            language: requestLang,
-            forceSourceLang,
-            unknown1: 0,
-            translationHelp: translationHelp ? translationHelp : [],
-            responseLanguage: responseLang,
-            unknown2: 1,
-            unknown3: 1,
-            bypassCache,
-            useNewModel,
-        }).finish();
-    },
-    decodeTranslationResponse(response) {
-        return VideoTranslationResponse.decode(new Uint8Array(response));
-    },
-    encodeTranslationAudioRequest(url, translationId) {
-        return VideoTranslationAudioRequest.encode({
-            url,
-            translationId,
-            audioInfo: {
-                audioFile: new Uint8Array(0),
-                message: AudioInfoMessage.WEB_API_GET_ALL_GENERATING_URLS_DATA_FROM_IFRAME,
-            },
-        }).finish();
-    },
-    decodeTranslationAudioResponse(response) {
-        return VideoTranslationResponse.decode(new Uint8Array(response));
-    },
-    encodeSubtitlesRequest(url, requestLang) {
-        return SubtitlesRequest.encode({
-            url,
-            language: requestLang,
-        }).finish();
-    },
-    decodeSubtitlesResponse(response) {
-        return SubtitlesResponse.decode(new Uint8Array(response));
-    },
-    encodeStreamPingRequest(pingId) {
-        return StreamPingRequest.encode({
-            pingId,
-        }).finish();
-    },
-    encodeStreamRequest(url, requestLang, responseLang) {
-        return StreamTranslationRequest.encode({
-            url,
-            language: requestLang,
-            responseLanguage: responseLang,
-        }).finish();
-    },
-    decodeStreamResponse(response) {
-        return StreamTranslationResponse.decode(new Uint8Array(response));
-    },
-    encodeYandexSessionRequest(uuid, module) {
-        return YandexSessionRequest.encode({
-            uuid,
-            module,
-        }).finish();
-    },
-    decodeYandexSessionResponse(response) {
-        return YandexSessionResponse.decode(new Uint8Array(response));
-    },
-};
-
-;// ./node_modules/vot.js/dist/config/config.js
-/* harmony default export */ const config = ({
-    host: "api.browser.yandex.ru",
-    hostVOT: "vot-api.toil.cc/v1",
-    mediaProxy: "media-proxy.toil.cc",
-    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 YaBrowser/24.10.0.0 Safari/537.36",
-    componentVersion: "24.10.1.598",
-    hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
-    defaultDuration: 343,
-    loggerLevel: 1,
-    version: "1.3.10",
-});
-
-;// ./node_modules/vot.js/dist/types/logger.js
-var LoggerLevel;
-(function (LoggerLevel) {
-    LoggerLevel[LoggerLevel["DEBUG"] = 0] = "DEBUG";
-    LoggerLevel[LoggerLevel["INFO"] = 1] = "INFO";
-    LoggerLevel[LoggerLevel["WARN"] = 2] = "WARN";
-    LoggerLevel[LoggerLevel["ERROR"] = 3] = "ERROR";
-    LoggerLevel[LoggerLevel["SILENCE"] = 4] = "SILENCE";
-})(LoggerLevel || (LoggerLevel = {}));
-
-;// ./node_modules/vot.js/dist/utils/logger.js
-
-
-class Logger {
-    static prefix = `[vot.js v${config.version}]`;
-    static canLog(level) {
-        return config.loggerLevel <= level;
+async function getCrypto() {
+    if (typeof window !== "undefined" && window.crypto) {
+        return window.crypto;
     }
-    static log(...messages) {
-        if (!Logger.canLog(LoggerLevel.DEBUG)) {
-            return;
-        }
-        console.log(Logger.prefix, ...messages);
-    }
-    static info(...messages) {
-        if (!Logger.canLog(LoggerLevel.INFO)) {
-            return;
-        }
-        console.info(Logger.prefix, ...messages);
-    }
-    static warn(...messages) {
-        if (!Logger.canLog(LoggerLevel.WARN)) {
-            return;
-        }
-        console.warn(Logger.prefix, ...messages);
-    }
-    static error(...messages) {
-        if (!Logger.canLog(LoggerLevel.ERROR)) {
-            return;
-        }
-        console.error(Logger.prefix, ...messages);
-    }
+    return (await Promise.resolve().then(function webpackMissingModule() { var e = new Error("Cannot find module 'node:crypto'"); e.code = 'MODULE_NOT_FOUND'; throw e; }));
 }
-
-;// ./node_modules/vot.js/dist/secure.js
-
-
 const utf8Encoder = new TextEncoder();
 async function signHMAC(hashName, hmac, data) {
+    const crypto = await getCrypto();
     const key = await crypto.subtle.importKey("raw", utf8Encoder.encode(hmac), { name: "HMAC", hash: { name: hashName } }, false, ["sign", "verify"]);
     return await crypto.subtle.sign("HMAC", key, data);
 }
@@ -1928,7 +1924,7 @@ async function getHmacSha1(hmacKey, salt) {
     }
 }
 
-;// ./node_modules/vot.js/dist/utils/utils.js
+;// ./node_modules/@vot.js/shared/dist/utils/utils.js
 
 const iso6392to6391 = {
     afr: "af",
@@ -2073,516 +2069,189 @@ function normalizeLang(lang) {
     return lang.toLowerCase().split(/[_;-]/)[0].trim();
 }
 function proxyMedia(url, format = "mp4") {
-    return `https://${config.mediaProxy}/v1/proxy/video.${format}?url=${encodeURIComponent(url.href)}&origin=${url.origin}&referer=${url.origin}`;
+    const generalUrl = `https://${config.mediaProxy}/v1/proxy/video.${format}?format=base64&force=true`;
+    if (!(url instanceof URL)) {
+        return `${generalUrl}&url=${btoa(url)}`;
+    }
+    return `${generalUrl}&url=${btoa(encodeURIComponent(url.href))}&origin=${url.origin}&referer=${url.origin}`;
 }
 
-;// ./node_modules/vot.js/dist/config/alternativeUrls.js
-const sitesInvidious = [
-    "yewtu.be",
-    "yt.artemislena.eu",
-    "invidious.flokinet.to",
-    "iv.melmac.space",
-    "inv.nadeko.net",
-    "inv.tux.pizza",
-    "invidious.private.coffee",
-    "yt.drgnz.club",
-    "vid.puffyan.us",
-    "invidious.dhusch.de",
-];
-const sitesPiped = [
-    "piped.video",
-    "piped.tokhmi.xyz",
-    "piped.moomoo.me",
-    "piped.syncpundit.io",
-    "piped.mha.fi",
-    "watch.whatever.social",
-    "piped.garudalinux.org",
-    "efy.piped.pages.dev",
-    "watch.leptons.xyz",
-    "piped.lunar.icu",
-    "yt.dc09.ru",
-    "piped.mint.lgbt",
-    "il.ax",
-    "piped.privacy.com.de",
-    "piped.esmailelbob.xyz",
-    "piped.projectsegfau.lt",
-    "piped.in.projectsegfau.lt",
-    "piped.us.projectsegfau.lt",
-    "piped.privacydev.net",
-    "piped.palveluntarjoaja.eu",
-    "piped.smnz.de",
-    "piped.adminforge.de",
-    "piped.qdi.fi",
-    "piped.hostux.net",
-    "piped.chauvet.pro",
-    "piped.jotoma.de",
-    "piped.pfcd.me",
-    "piped.frontendfriendly.xyz",
-];
-const sitesProxiTok = [
-    "proxitok.pabloferreiro.es",
-    "proxitok.pussthecat.org",
-    "tok.habedieeh.re",
-    "proxitok.esmailelbob.xyz",
-    "proxitok.privacydev.net",
-    "tok.artemislena.eu",
-    "tok.adminforge.de",
-    "tt.vern.cc",
-    "cringe.whatever.social",
-    "proxitok.lunar.icu",
-    "proxitok.privacy.com.de",
-];
-const sitesPeertube = [
-    "peertube.1312.media",
-    "tube.shanti.cafe",
-    "bee-tube.fr",
-    "video.sadmin.io",
-    "dalek.zone",
-    "review.peertube.biz",
-    "peervideo.club",
-    "tube.la-dina.net",
-    "peertube.tmp.rcp.tf",
-    "peertube.su",
-    "video.blender.org",
-    "videos.viorsan.com",
-    "tube-sciences-technologies.apps.education.fr",
-    "tube-numerique-educatif.apps.education.fr",
-    "tube-arts-lettres-sciences-humaines.apps.education.fr",
-    "beetoons.tv",
-    "comics.peertube.biz",
-    "makertube.net",
-];
-const sitesPoketube = [
-    "poketube.fun",
-    "pt.sudovanilla.org",
-    "poke.ggtyler.dev",
-    "poke.uk2.littlekai.co.uk",
-    "poke.blahai.gay",
-];
-const sitesRicktube = ["ricktube.ru"];
-const sitesCoursehunterLike = ["coursehunter.net", "coursetrain.net"];
+;// ./node_modules/@vot.js/core/dist/protobuf.js
 
+const yandexProtobuf = {
+    encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp, { forceSourceLang = false, bypassCache = false, useNewModel = true, } = {}) {
+        return VideoTranslationRequest.encode({
+            url,
+            firstRequest: true,
+            duration,
+            unknown0: 1,
+            language: requestLang,
+            forceSourceLang,
+            unknown1: 0,
+            translationHelp: translationHelp ? translationHelp : [],
+            responseLanguage: responseLang,
+            unknown2: 1,
+            unknown3: 1,
+            bypassCache,
+            useNewModel,
+        }).finish();
+    },
+    decodeTranslationResponse(response) {
+        return VideoTranslationResponse.decode(new Uint8Array(response));
+    },
+    encodeTranslationAudioRequest(url, translationId, audioBuffer, partialAudio) {
+        return VideoTranslationAudioRequest.encode({
+            url,
+            translationId,
+            ...(partialAudio
+                ? {
+                    partialAudioInfo: {
+                        ...partialAudio,
+                        audioBuffer,
+                    },
+                }
+                : {
+                    audioInfo: audioBuffer,
+                }),
+        }).finish();
+    },
+    decodeTranslationAudioResponse(response) {
+        return VideoTranslationAudioResponse.decode(new Uint8Array(response));
+    },
+    encodeSubtitlesRequest(url, requestLang) {
+        return SubtitlesRequest.encode({
+            url,
+            language: requestLang,
+        }).finish();
+    },
+    decodeSubtitlesResponse(response) {
+        return SubtitlesResponse.decode(new Uint8Array(response));
+    },
+    encodeStreamPingRequest(pingId) {
+        return StreamPingRequest.encode({
+            pingId,
+        }).finish();
+    },
+    encodeStreamRequest(url, requestLang, responseLang) {
+        return StreamTranslationRequest.encode({
+            url,
+            language: requestLang,
+            responseLanguage: responseLang,
+        }).finish();
+    },
+    decodeStreamResponse(response) {
+        return StreamTranslationResponse.decode(new Uint8Array(response));
+    },
+    encodeYandexSessionRequest(uuid, module) {
+        return YandexSessionRequest.encode({
+            uuid,
+            module,
+        }).finish();
+    },
+    decodeYandexSessionResponse(response) {
+        return YandexSessionResponse.decode(new Uint8Array(response));
+    },
+};
 
-;// ./node_modules/vot.js/dist/config/sites.js
+;// ./node_modules/@vot.js/core/dist/types/yandex.js
+var VideoTranslationStatus;
+(function (VideoTranslationStatus) {
+    VideoTranslationStatus[VideoTranslationStatus["FAILED"] = 0] = "FAILED";
+    VideoTranslationStatus[VideoTranslationStatus["FINISHED"] = 1] = "FINISHED";
+    VideoTranslationStatus[VideoTranslationStatus["WAITING"] = 2] = "WAITING";
+    VideoTranslationStatus[VideoTranslationStatus["LONG_WAITING"] = 3] = "LONG_WAITING";
+    VideoTranslationStatus[VideoTranslationStatus["PART_CONTENT"] = 5] = "PART_CONTENT";
+    VideoTranslationStatus[VideoTranslationStatus["AUDIO_REQUESTED"] = 6] = "AUDIO_REQUESTED";
+})(VideoTranslationStatus || (VideoTranslationStatus = {}));
+var AudioDownloadType;
+(function (AudioDownloadType) {
+    AudioDownloadType["WEB_API_GET_ALL_GENERATING_URLS_DATA_FROM_IFRAME"] = "web_api_get_all_generating_urls_data_from_iframe";
+    AudioDownloadType["WEB_API_REPLACED_FETCH_INSIDE_IFRAME"] = "web_api_replaced_fetch_inside_iframe";
+    AudioDownloadType["WEB_API_REPLACED_FETCH_FORCE_REQUEST_WITH_SEEK"] = "web_api_replaced_fetch_force_request_with_seek";
+    AudioDownloadType["WEB_API_REPLACED_FETCH"] = "web_api_replaced_fetch";
+    AudioDownloadType["ANDROID_API"] = "android_api";
+    AudioDownloadType["WEB_API_SLOW"] = "web_api_slow";
+})(AudioDownloadType || (AudioDownloadType = {}));
 
+;// ./node_modules/@vot.js/core/dist/types/service.js
+var VideoService;
+(function (VideoService) {
+    VideoService["custom"] = "custom";
+    VideoService["directlink"] = "custom";
+    VideoService["youtube"] = "youtube";
+    VideoService["piped"] = "piped";
+    VideoService["invidious"] = "invidious";
+    VideoService["vk"] = "vk";
+    VideoService["nine_gag"] = "nine_gag";
+    VideoService["gag"] = "nine_gag";
+    VideoService["twitch"] = "twitch";
+    VideoService["proxitok"] = "proxitok";
+    VideoService["tiktok"] = "tiktok";
+    VideoService["vimeo"] = "vimeo";
+    VideoService["xvideos"] = "xvideos";
+    VideoService["pornhub"] = "pornhub";
+    VideoService["twitter"] = "twitter";
+    VideoService["x"] = "twitter";
+    VideoService["rumble"] = "rumble";
+    VideoService["facebook"] = "facebook";
+    VideoService["rutube"] = "rutube";
+    VideoService["coub"] = "coub";
+    VideoService["bilibili"] = "bilibili";
+    VideoService["mail_ru"] = "mailru";
+    VideoService["mailru"] = "mailru";
+    VideoService["bitchute"] = "bitchute";
+    VideoService["eporner"] = "eporner";
+    VideoService["peertube"] = "peertube";
+    VideoService["dailymotion"] = "dailymotion";
+    VideoService["trovo"] = "trovo";
+    VideoService["yandexdisk"] = "yandexdisk";
+    VideoService["ok_ru"] = "okru";
+    VideoService["okru"] = "okru";
+    VideoService["googledrive"] = "googledrive";
+    VideoService["bannedvideo"] = "bannedvideo";
+    VideoService["weverse"] = "weverse";
+    VideoService["newgrounds"] = "newgrounds";
+    VideoService["egghead"] = "egghead";
+    VideoService["youku"] = "youku";
+    VideoService["archive"] = "archive";
+    VideoService["kodik"] = "kodik";
+    VideoService["patreon"] = "patreon";
+    VideoService["reddit"] = "reddit";
+    VideoService["kick"] = "kick";
+    VideoService["apple_developer"] = "apple_developer";
+    VideoService["appledeveloper"] = "apple_developer";
+    VideoService["poketube"] = "poketube";
+    VideoService["epicgames"] = "epicgames";
+    VideoService["nineanimetv"] = "nineanimetv";
+    VideoService["odysee"] = "odysee";
+    VideoService["coursehunterLike"] = "coursehunterLike";
+    VideoService["sap"] = "sap";
+    VideoService["watchpornto"] = "watchpornto";
+    VideoService["linkedin"] = "linkedin";
+    VideoService["ricktube"] = "ricktube";
+    VideoService["incestflix"] = "incestflix";
+    VideoService["porntn"] = "porntn";
+    VideoService["dzen"] = "dzen";
+    VideoService["cloudflarestream"] = "cloudflarestream";
+})(VideoService || (VideoService = {}));
 
-/* harmony default export */ const sites = ([
-    {
-        additionalData: "mobile",
-        host: VideoService.youtube,
-        url: "https://youtu.be/",
-        match: /^m.youtube.com$/,
-        selector: "shorts-video #player",
-    },
-    {
-        additionalData: "mobile",
-        host: VideoService.youtube,
-        url: "https://youtu.be/",
-        match: /^m.youtube.com$/,
-        selector: ".player-container",
-    },
-    {
-        host: VideoService.youtube,
-        url: "https://youtu.be/",
-        match: /^(www.)?youtube(-nocookie|kids)?.com$/,
-        selector: ".html5-video-container:not(#inline-player *)",
-    },
-    {
-        host: VideoService.invidious,
-        url: "https://youtu.be/",
-        match: sitesInvidious,
-        selector: "#player",
-        needBypassCSP: true,
-    },
-    {
-        host: VideoService.piped,
-        url: "https://youtu.be/",
-        match: sitesPiped,
-        selector: ".shaka-video-container",
-        needBypassCSP: true,
-    },
-    {
-        host: VideoService.poketube,
-        url: "https://youtu.be/",
-        match: sitesPoketube,
-        selector: ".video-player-container",
-    },
-    {
-        host: VideoService.ricktube,
-        url: "https://youtu.be/",
-        match: sitesRicktube,
-        selector: "#oframeplayer > pjsdiv:has(video)"
-    },
-    {
-        additionalData: "mobile",
-        host: VideoService.vk,
-        url: "https://vk.com/video?z=",
-        match: /^m.vk.(com|ru)$/,
-        selector: "vk-video-player",
-        shadowRoot: true,
-    },
-    {
-        additionalData: "clips",
-        host: VideoService.vk,
-        url: "https://vk.com/video?z=",
-        match: /^(www.|m.)?vk.(com|ru)$/,
-        selector: 'div[data-testid="clipcontainer-video"]',
-    },
-    {
-        host: VideoService.vk,
-        url: "https://vk.com/video?z=",
-        match: /^(www.|m.)?vk.(com|ru)$/,
-        selector: ".videoplayer_media",
-    },
-    {
-        host: VideoService.nine_gag,
-        url: "https://9gag.com/gag/",
-        match: /^9gag.com$/,
-        selector: ".video-post",
-    },
-    {
-        host: VideoService.twitch,
-        url: "https://twitch.tv/",
-        match: [
-            /^m.twitch.tv$/,
-            /^(www.)?twitch.tv$/,
-            /^clips.twitch.tv$/,
-            /^player.twitch.tv$/,
-        ],
-        selector: ".video-ref, main > div > section > div > div > div",
-    },
-    {
-        host: VideoService.proxitok,
-        url: "https://www.tiktok.com/",
-        match: sitesProxiTok,
-        selector: ".column.has-text-centered",
-    },
-    {
-        host: VideoService.tiktok,
-        url: "https://www.tiktok.com/",
-        match: /^(www.)?tiktok.com$/,
-        selector: null,
-    },
-    {
-        host: VideoService.vimeo,
-        url: "https://vimeo.com/",
-        match: /^vimeo.com$/,
-        needExtraData: true,
-        selector: ".player",
-    },
-    {
-        host: VideoService.vimeo,
-        url: "https://player.vimeo.com/",
-        match: /^player.vimeo.com$/,
-        additionalData: "embed",
-        needExtraData: true,
-        needBypassCSP: true,
-        selector: ".player",
-    },
-    {
-        host: VideoService.xvideos,
-        url: "https://www.xvideos.com/",
-        match: /^(www.)?(xvideos|xv-ru).com$/,
-        selector: ".video-bg-pic",
-        needBypassCSP: true,
-    },
-    {
-        host: VideoService.pornhub,
-        url: "https://rt.pornhub.com/view_video.php?viewkey=",
-        match: /^[a-z]+.pornhub.com$/,
-        selector: ".mainPlayerDiv > .video-element-wrapper-js > div",
-        eventSelector: ".mgp_eventCatcher"
-    },
-    {
-        additionalData: "embed",
-        host: VideoService.pornhub,
-        url: "https://rt.pornhub.com/view_video.php?viewkey=",
-        match: (url) =>
-            url.host.includes("pornhub.com") && url.pathname.startsWith("/embed/"),
-        selector: "#player",
-    },
-    {
-        host: VideoService.twitter,
-        url: "https://twitter.com/i/status/",
-        match: /^(twitter|x).com$/,
-        selector: 'div[data-testid="videoComponent"] > div:nth-child(1) > div',
-        eventSelector: 'div[data-testid="videoPlayer"]',
-        needBypassCSP: true,
-    },
-    {
-        host: VideoService.rumble,
-        url: "https://rumble.com/",
-        match: /^rumble.com$/,
-        selector: "#videoPlayer > .videoPlayer-Rumble-cls > div",
-    },
-    {
-        host: VideoService.facebook,
-        url: "https://facebook.com/",
-        match: (url) =>
-            url.host.includes("facebook.com") && url.pathname.includes("/videos/"),
-        selector: 'div[role="main"] div[data-pagelet$="video" i]',
-        needBypassCSP: true,
-    },
-    {
-        additionalData: "reels",
-        host: VideoService.facebook,
-        url: "https://facebook.com/",
-        match: (url) =>
-            url.host.includes("facebook.com") && url.pathname.includes("/reel/"),
-        selector: 'div[role="main"]',
-        needBypassCSP: true,
-    },
-    {
-        host: VideoService.rutube,
-        url: "https://rutube.ru/video/",
-        match: /^rutube.ru$/,
-        selector: ".video-player > div > div > div:nth-child(2)",
-    },
-    {
-        additionalData: "embed",
-        host: VideoService.rutube,
-        url: "https://rutube.ru/video/",
-        match: /^rutube.ru$/,
-        selector: "#app > div > div",
-    },
-    {
-        host: VideoService.bilibili,
-        url: "https://www.bilibili.com/",
-        match: /^(www|m|player).bilibili.com$/,
-        selector: ".bpx-player-video-wrap",
-    },
-    // Добавляет лишние видео в обработчик
-    {
-        additionalData: "old", // /blackboard/webplayer/embed-old.html
-        host: VideoService.bilibili,
-        url: "https://www.bilibili.com/",
-        match: /^(www|m).bilibili.com$/,
-        selector: null,
-    },
-    {
-        host: VideoService.mailru,
-        url: "https://my.mail.ru/",
-        match: /^my.mail.ru$/,
-        selector: "#b-video-wrapper",
-    },
-    {
-        host: VideoService.bitchute,
-        url: "https://www.bitchute.com/video/",
-        match: /^(www.)?bitchute.com$/,
-        selector: ".video-js",
-    },
-    {
-        host: VideoService.eporner,
-        url: "https://www.eporner.com/",
-        match: /^(www.)?eporner.com$/,
-        selector: ".vjs-v7",
-    },
-    {
-        host: VideoService.peertube,
-        url: "stub",
-        match: sitesPeertube,
-        selector: ".vjs-v7",
-    },
-    {
-        host: VideoService.dailymotion,
-        url: "https://dai.ly/",
-        match: /^geo([\d]+)?.dailymotion.com$/,
-        selector: ".player",
-    },
-    {
-        host: VideoService.trovo,
-        url: "https://trovo.live/s/",
-        match: /^trovo.live$/,
-        selector: ".player-video",
-    },
-    {
-        host: VideoService.yandexdisk,
-        url: "https://yadi.sk/",
-        match: /^disk.yandex.ru$/,
-        selector: ".video-player__player > div:nth-child(1)",
-        eventSelector: ".video-player__player",
-        needBypassCSP: true,
-        needExtraData: true,
-    },
-    {
-        host: VideoService.okru,
-        url: "https://ok.ru/video/",
-        match: /^ok.ru$/,
-        selector: ".html5-vpl_vid",
-    },
-    {
-        host: VideoService.googledrive,
-        url: "https://drive.google.com/file/d/",
-        match: /^youtube.googleapis.com$/,
-        selector: ".html5-video-container",
-    },
-    {
-        host: VideoService.bannedvideo,
-        url: "https://madmaxworld.tv/watch?id=",
-        match: /^(www.)?banned.video|madmaxworld.tv$/,
-        selector: ".vjs-v7",
-        needExtraData: true,
-    },
-    {
-        host: VideoService.weverse,
-        url: "https://weverse.io/",
-        match: /^weverse.io$/,
-        selector: ".webplayer-internal-source-wrapper",
-        needExtraData: true,
-    },
-    {
-        host: VideoService.newgrounds,
-        url: "https://www.newgrounds.com/",
-        match: /^(www.)?newgrounds.com$/,
-        selector: ".ng-video-player",
-    },
-    {
-        host: VideoService.egghead,
-        url: "https://egghead.io/",
-        match: /^egghead.io$/,
-        selector: ".cueplayer-react-video-holder",
-    },
-    {
-        host: VideoService.youku,
-        url: "https://v.youku.com/",
-        match: /^v.youku.com$/,
-        selector: "#ykPlayer",
-    },
-    {
-        host: VideoService.archive,
-        url: "https://archive.org/details/",
-        match: /^archive.org$/,
-        selector: ".jw-media",
-    },
-    {
-        host: VideoService.kodik,
-        url: "stub",
-        match: /^kodik.(info|biz|cc)$/,
-        selector: ".fp-player",
-        needExtraData: true,
-    },
-    {
-        host: VideoService.patreon,
-        url: "stub",
-        match: /^(www.)?patreon.com$/,
-        selector:
-            'div[data-tag="post-card"] div[elevation="subtle"] > div > div > div > div',
-        needExtraData: true,
-    },
-    {
-        host: VideoService.reddit,
-        url: "stub",
-        match: /^(www.|new.|old.)?reddit.com$/,
-        selector: ".reddit-video-player-root",
-        needExtraData: true,
-        needBypassCSP: true,
-    },
-    {
-        host: VideoService.kick,
-        url: "https://kick.com/",
-        match: /^kick.com$/,
-        selector: "#injected-embedded-channel-player-video > div",
-        needExtraData: true,
-    },
-    {
-        host: VideoService.appledeveloper,
-        url: "https://developer.apple.com/",
-        match: /^developer.apple.com$/,
-        selector: ".developer-video-player",
-        needExtraData: true,
-        needBypassCSP: true,
-    },
-    {
-        host: VideoService.epicgames,
-        url: "https://dev.epicgames.com/community/learning/",
-        match: /^dev.epicgames.com$/,
-        selector: ".vjs-v7",
-        needExtraData: true,
-    },
-    {
-        host: VideoService.nineanimetv,
-        url: "https://9animetv.to/watch/",
-        match: /^rapid-cloud.co$/,
-        selector: ".jw-media",
-        needExtraData: true,
-    },
-    {
-        host: VideoService.odysee,
-        url: "stub",
-        match: /^odysee.com$/,
-        selector: ".vjs-v7",
-        needExtraData: true,
-    },
-    {
-        host: VideoService.coursehunterLike,
-        url: "stub",
-        match: sitesCoursehunterLike,
-        selector: "#oframeplayer > pjsdiv:has(video)",
-        needExtraData: true,
-    },
-    {
-        host: VideoService.sap,
-        url: "https://learning.sap.com/courses/",
-        match: /^learning.sap.com$/,
-        selector: ".playkit-container",
-        eventSelector: ".playkit-player",
-        needExtraData: true,
-        needBypassCSP: true,
-    },
-    {
-        host: VideoService.udemy,
-        url: "https://www.udemy.com/",
-        match: /udemy.com$/,
-        selector:
-            'div[data-purpose="curriculum-item-viewer-content"] > section > div > div > div > div:nth-of-type(2)',
-        needExtraData: true,
-    },
-    {
-        // ONLY IF YOU LOGINED TO COURSERA /learn/NAME/lecture/XXXX
-        host: VideoService.coursera,
-        url: "https://www.coursera.org/",
-        match: /coursera.org$/,
-        selector: ".vjs-v8",
-        needExtraData: true,
-    },
-    {
-        host: VideoService.watchpornto,
-        url: "https://watchporn.to/",
-        match: /^watchporn.to$/,
-        selector: ".fp-player",
-    },
-    {
-        host: VideoService.linkedin,
-        url: "https://www.linkedin.com/learning/",
-        match: /^(www.)?linkedin.com$/,
-        selector: ".vjs-v7",
-        needExtraData: true,
-        needBypassCSP: true,
-    },
-    {
-        host: VideoService.incestflix,
-        url: "https://www.incestflix.net/watch/",
-        match: /^(www.)?incestflix.(net|to|com)$/,
-        selector: "#incflix-stream",
-        needExtraData: true,
-    },
-    {
-        host: VideoService.porntn,
-        url: "https://porntn.com/videos/",
-        match: /^porntn.com$/,
-        selector: null,
-        needExtraData: true,
-    },
-    {
-        host: VideoService.custom,
-        url: "stub",
-        match: (url) => /([^.]+).(mp4|webm)/.test(url.pathname),
-        rawResult: true,
-    },
-]);
+;// ./node_modules/@vot.js/core/dist/utils/vot.js
+
+function convertVOT(service, videoId, url) {
+    if (service === VideoService.patreon) {
+        return {
+            service: "mux",
+            videoId: new URL(url).pathname.slice(1),
+        };
+    }
+    return {
+        service,
+        videoId,
+    };
+}
 
 ;// ./src/localization/locales/en.json
-const en_namespaceObject = /*#__PURE__*/JSON.parse('{"__version__":5,"recommended":"recommended","translateVideo":"Translate video","disableTranslate":"Turn off","translationSettings":"Translation settings","subtitlesSettings":"Subtitles settings","about":"About extension","resetSettings":"Reset settings","videoBeingTranslated":"The video is being translated","videoLanguage":"Video language","translationLanguage":"Translation language","translationTake":"The translation will take","translationTakeMoreThanHour":"The translation will take more than an hour","translationTakeAboutMinute":"The translation will take about a minute","translationTakeFewMinutes":"The translation will take a few minutes","translationTakeApproximatelyMinutes":"The translation will take approximately {0} minutes","translationTakeApproximatelyMinute":"The translation will take approximately {0} minutes","unSupportedExtensionError":"Error! {0} is not supported by this version of the extension!\\n\\nPlease use the cloudflare version of the VOT extension.","requestTranslationFailed":"Failed to request video translation","audioNotReceived":"Audio link not received","grantPermissionToAutoPlay":"Grant permission to autoplay","audioFormatNotSupported":"The audio format is not supported","VOTAutoTranslate":"Translate on open","VOTDontTranslateYourLang":"Do not translate from my language","VOTVolume":"Video volume","VOTVolumeTranslation":"Translation Volume","VOTAutoSetVolume":"Reduce video volume to ","VOTShowVideoSlider":"Video volume slider","VOTSyncVolume":"Link translation and video volume","VOTAudioProxy":"Proxy received audio","VOTDisableFromYourLang":"You have disabled the translation of the video in your language","VOTLiveNotSupported":"Translation of live streams is not supported","VOTPremiere":"Wait for the premiere to end before translating","VOTVideoIsTooLong":"Video is too long","VOTNoVideoIDFound":"No video ID found","VOTSubtitles":"Subtitles","VOTSubtitlesDisabled":"Disabled","VOTSubtitlesMaxLength":"Subtitles max length","VOTHighlightWords":"Highlight words","VOTTranslatedFrom":"translated from","VOTAutogenerated":"autogenerated","VOTSettings":"VOT Settings","VOTMenuLanguage":"Menu language","VOTAuthors":"Authors","VOTVersion":"Version","VOTLoader":"Loader","VOTBrowser":"Browser","VOTShowPiPButton":"Show PiP button","langs":{"auto":"Auto","af":"Afrikaans","ak":"Akan","sq":"Albanian","am":"Amharic","ar":"Arabic","hy":"Armenian","as":"Assamese","ay":"Aymara","az":"Azerbaijani","bn":"Bangla","eu":"Basque","be":"Belarusian","bho":"Bhojpuri","bs":"Bosnian","bg":"Bulgarian","my":"Burmese","ca":"Catalan","ceb":"Cebuano","zh":"Chinese","zh-Hans":"Chinese (Simplified)","zh-Hant":"Chinese (Traditional)","co":"Corsican","hr":"Croatian","cs":"Czech","da":"Danish","dv":"Divehi","nl":"Dutch","en":"English","eo":"Esperanto","et":"Estonian","ee":"Ewe","fil":"Filipino","fi":"Finnish","fr":"French","gl":"Galician","lg":"Ganda","ka":"Georgian","de":"German","el":"Greek","gn":"Guarani","gu":"Gujarati","ht":"Haitian Creole","ha":"Hausa","haw":"Hawaiian","iw":"Hebrew","hi":"Hindi","hmn":"Hmong","hu":"Hungarian","is":"Icelandic","ig":"Igbo","id":"Indonesian","ga":"Irish","it":"Italian","ja":"Japanese","jv":"Javanese","kn":"Kannada","kk":"Kazakh","km":"Khmer","rw":"Kinyarwanda","ko":"Korean","kri":"Krio","ku":"Kurdish","ky":"Kyrgyz","lo":"Lao","la":"Latin","lv":"Latvian","ln":"Lingala","lt":"Lithuanian","lb":"Luxembourgish","mk":"Macedonian","mg":"Malagasy","ms":"Malay","ml":"Malayalam","mt":"Maltese","mi":"Māori","mr":"Marathi","mn":"Mongolian","ne":"Nepali","nso":"Northern Sotho","no":"Norwegian","ny":"Nyanja","or":"Odia","om":"Oromo","ps":"Pashto","fa":"Persian","pl":"Polish","pt":"Portuguese","pa":"Punjabi","qu":"Quechua","ro":"Romanian","ru":"Russian","sm":"Samoan","sa":"Sanskrit","gd":"Scottish Gaelic","sr":"Serbian","sn":"Shona","sd":"Sindhi","si":"Sinhala","sk":"Slovak","sl":"Slovenian","so":"Somali","st":"Southern Sotho","es":"Spanish","su":"Sundanese","sw":"Swahili","sv":"Swedish","tg":"Tajik","ta":"Tamil","tt":"Tatar","te":"Telugu","th":"Thai","ti":"Tigrinya","ts":"Tsonga","tr":"Turkish","tk":"Turkmen","uk":"Ukrainian","ur":"Urdu","ug":"Uyghur","uz":"Uzbek","vi":"Vietnamese","cy":"Welsh","fy":"Western Frisian","xh":"Xhosa","yi":"Yiddish","yo":"Yoruba","zu":"Zulu"},"udemyModuleArgsNotFound":"Could not get udemy module data due to the fact that ModuleArgs was not found","VOTTranslationHelpNull":"Could not get the data required for the translate","streamNoConnectionToServer":"There is no connection to the server","searchField":"Search...","VOTTranslateAPIErrors":"Translate errors from the API","VOTTranslationService":"Translation Service","VOTDetectService":"Detect Service","VOTTranslatingError":"Translating the error","VOTProxyWorkerHost":"Enter the proxy worker address","VOTM3u8ProxyHost":"Enter the address of the m3u8 proxy worker","proxySettings":"Proxy Settings","translationTakeApproximatelyMinute2":"The translation will take approximately {0} minutes","VOTAudioBooster":"Extended translation volume increase","VOTSubtitlesDesign":"Subtitles design","VOTSubtitlesFontSize":"Font size of subtitles","VOTSubtitlesOpacity":"Transparency of the subtitle background","VOTPressNewHotkey":"Press the new hotkey...","VOTCreateTranslationHotkey":"Create Hotkey for Translation","VOTChangeHotkeyWithCurrent":"Change Hotkey (Current: {0})","VOTSubtitlesDownloadFormat":"The format for downloading subtitles","VOTDownloadWithName":"Download files with the video name","VOTUpdateLocaleFiles":"Update localization files","VOTLocaleHash":"Locale hash","VOTUpdatedAt":"Updated at","VOTNeedWebAudioAPI":"To enable this, you must have a Web Audio API","VOTMediaCSPEnabledOnSite":"Media CSP is enabled on this site","VOTOnlyBypassMediaCSP":"Use it only for bypassing Media CSP","VOTNewAudioPlayer":"Use the new audio player","VOTUseNewModel":"Use an experimental variation of Yandex voices for some videos"}');
+const en_namespaceObject = /*#__PURE__*/JSON.parse('{"recommended":"recommended","translateVideo":"Translate video","disableTranslate":"Turn off","translationSettings":"Translation settings","subtitlesSettings":"Subtitles settings","about":"About extension","resetSettings":"Reset settings","videoBeingTranslated":"The video is being translated","videoLanguage":"Video language","translationLanguage":"Translation language","translationTake":"The translation will take","translationTakeMoreThanHour":"The translation will take more than an hour","translationTakeAboutMinute":"The translation will take about a minute","translationTakeFewMinutes":"The translation will take a few minutes","translationTakeApproximatelyMinutes":"The translation will take approximately {0} minutes","translationTakeApproximatelyMinute":"The translation will take approximately {0} minutes","requestTranslationFailed":"Failed to request video translation","audioNotReceived":"Audio link not received","audioFormatNotSupported":"The audio format is not supported","VOTAutoTranslate":"Translate on open","VOTDontTranslateYourLang":"Don\'t translate from my language","VOTVolume":"Video volume","VOTVolumeTranslation":"Translation Volume","VOTAutoSetVolume":"Reduce video volume to ","VOTShowVideoSlider":"Video volume slider","VOTSyncVolume":"Link translation and video volume","VOTDisableFromYourLang":"You have disabled the translation of the video in your language","VOTVideoIsTooLong":"Video is too long","VOTNoVideoIDFound":"No video ID found","VOTSubtitles":"Subtitles","VOTSubtitlesDisabled":"Disabled","VOTSubtitlesMaxLength":"Subtitles max length","VOTHighlightWords":"Highlight words","VOTTranslatedFrom":"translated from","VOTAutogenerated":"autogenerated","VOTSettings":"VOT Settings","VOTMenuLanguage":"Menu language","VOTAuthors":"Authors","VOTVersion":"Version","VOTLoader":"Loader","VOTBrowser":"Browser","VOTShowPiPButton":"Show PiP button","langs":{"auto":"Auto","af":"Afrikaans","ak":"Akan","sq":"Albanian","am":"Amharic","ar":"Arabic","hy":"Armenian","as":"Assamese","ay":"Aymara","az":"Azerbaijani","bn":"Bangla","eu":"Basque","be":"Belarusian","bho":"Bhojpuri","bs":"Bosnian","bg":"Bulgarian","my":"Burmese","ca":"Catalan","ceb":"Cebuano","zh":"Chinese","zh-Hans":"Chinese (Simplified)","zh-Hant":"Chinese (Traditional)","co":"Corsican","hr":"Croatian","cs":"Czech","da":"Danish","dv":"Divehi","nl":"Dutch","en":"English","eo":"Esperanto","et":"Estonian","ee":"Ewe","fil":"Filipino","fi":"Finnish","fr":"French","gl":"Galician","lg":"Ganda","ka":"Georgian","de":"German","el":"Greek","gn":"Guarani","gu":"Gujarati","ht":"Haitian Creole","ha":"Hausa","haw":"Hawaiian","iw":"Hebrew","hi":"Hindi","hmn":"Hmong","hu":"Hungarian","is":"Icelandic","ig":"Igbo","id":"Indonesian","ga":"Irish","it":"Italian","ja":"Japanese","jv":"Javanese","kn":"Kannada","kk":"Kazakh","km":"Khmer","rw":"Kinyarwanda","ko":"Korean","kri":"Krio","ku":"Kurdish","ky":"Kyrgyz","lo":"Lao","la":"Latin","lv":"Latvian","ln":"Lingala","lt":"Lithuanian","lb":"Luxembourgish","mk":"Macedonian","mg":"Malagasy","ms":"Malay","ml":"Malayalam","mt":"Maltese","mi":"Māori","mr":"Marathi","mn":"Mongolian","ne":"Nepali","nso":"Northern Sotho","no":"Norwegian","ny":"Nyanja","or":"Odia","om":"Oromo","ps":"Pashto","fa":"Persian","pl":"Polish","pt":"Portuguese","pa":"Punjabi","qu":"Quechua","ro":"Romanian","ru":"Russian","sm":"Samoan","sa":"Sanskrit","gd":"Scottish Gaelic","sr":"Serbian","sn":"Shona","sd":"Sindhi","si":"Sinhala","sk":"Slovak","sl":"Slovenian","so":"Somali","st":"Southern Sotho","es":"Spanish","su":"Sundanese","sw":"Swahili","sv":"Swedish","tg":"Tajik","ta":"Tamil","tt":"Tatar","te":"Telugu","th":"Thai","ti":"Tigrinya","ts":"Tsonga","tr":"Turkish","tk":"Turkmen","uk":"Ukrainian","ur":"Urdu","ug":"Uyghur","uz":"Uzbek","vi":"Vietnamese","cy":"Welsh","fy":"Western Frisian","xh":"Xhosa","yi":"Yiddish","yo":"Yoruba","zu":"Zulu"},"streamNoConnectionToServer":"There is no connection to the server","searchField":"Search...","VOTTranslateAPIErrors":"Translate errors from the API","VOTDetectService":"Language detection service","VOTProxyWorkerHost":"Enter the proxy worker address","VOTM3u8ProxyHost":"Enter the address of the m3u8 proxy worker","proxySettings":"Proxy Settings","translationTakeApproximatelyMinute2":"The translation will take approximately {0} minutes","VOTAudioBooster":"Extended translation volume increase","VOTSubtitlesDesign":"Subtitles design","VOTSubtitlesFontSize":"Font size of subtitles","VOTSubtitlesOpacity":"Transparency of the subtitle background","VOTPressNewHotkey":"Press the new hotkey...","VOTCreateTranslationHotkey":"Create Hotkey for Translation","VOTChangeHotkeyWithCurrent":"Change Hotkey (Current: {0})","VOTSubtitlesDownloadFormat":"The format for downloading subtitles","VOTDownloadWithName":"Download files with the video name","VOTUpdateLocaleFiles":"Update localization files","VOTLocaleHash":"Locale hash","VOTUpdatedAt":"Updated at","VOTNeedWebAudioAPI":"To enable this, you must have a Web Audio API","VOTMediaCSPEnabledOnSite":"Media CSP is enabled on this site","VOTOnlyBypassMediaCSP":"Use it only for bypassing Media CSP","VOTNewAudioPlayer":"Use the new audio player","VOTUseNewModel":"Use an experimental variation of Yandex voices for some videos","VOTTranslationErrorsService":"Error translation service","TranslationDelayed":"The translation is slightly delayed","VOTTranslationCompletedNotify":"The translation on the {0} has been completed!","VOTSendNotifyOnComplete":"Send a notification that the video has been translated"}');
 ;// ./src/utils/debug.ts
 /* harmony default export */ const debug = ({
     log: (...text) => {
@@ -2596,27 +2265,30 @@ const en_namespaceObject = /*#__PURE__*/JSON.parse('{"__version__":5,"recommende
 ;// ./src/config/config.js
 // CONFIGURATION
 const workerHost = "api.browser.yandex.ru";
-const m3u8ProxyHost = "media-proxy.toil.cc/v1/proxy/m3u8"; // used for streaming
+/**
+ * used for streaming
+ */
+const m3u8ProxyHost = "media-proxy.toil.cc/v1/proxy/m3u8";
 const proxyWorkerHost = "vot-worker.toil.cc";
 const votBackendUrl = "https://vot.toil.cc/v1";
 const contentUrl =
   "https://raw.githubusercontent.com/ilyhalight/voice-over-translation";
 const repositoryUrl = "https://github.com/ilyhalight/voice-over-translation";
 
-const defaultAutoVolume = 0.15; // 0.0 - 1.0 (0% - 100%) - default volume of the video with the translation
+/**
+ * 0.0 - 1.0 (0% - 100%) - default volume of the video with the translation
+ */
+const defaultAutoVolume = 0.15;
 const maxAudioVolume = 900;
-const defaultTranslationService = "yandex";
-const defaultDetectService = "yandex";
+/**
+ * The number of repeated responses after which the message turns into "translation is delayed, please wait"
+ */
+const minLongWaitingCount = 5;
+const defaultTranslationService = "yandexbrowser";
+const defaultDetectService = "yandexbrowser";
 
-const detectUrls = {
-  yandex: "https://translate.toil.cc/detect",
-  rustServer: "https://rust-server-531j.onrender.com/detect",
-};
-
-const translateUrls = {
-  yandex: "https://translate.toil.cc/translate",
-  deepl: "https://translate-deepl.toil.cc/translate",
-};
+const foswlyTranslateUrl = "https://translate.toil.cc/v2";
+const detectRustServerUrl = "https://rust-server-531j.onrender.com/detect";
 
 const proxyOnlyExtensions = [
   "Violentmonkey",
@@ -2628,110 +2300,275 @@ const proxyOnlyExtensions = [
 
 
 
-;// ./src/utils/storage.js
+;// ./src/utils/storage.ts
 
-
+async function convertData(data, option, oldValue, newValue) {
+    if (data[option] === oldValue) {
+        data[option] = newValue;
+        await votStorage.set(option, newValue);
+        console.log(`[VOT] Old ${option} converted to new ${newValue}`);
+    }
+}
 const votStorage = new (class {
-  constructor() {
-    this.gmSupport = typeof GM_getValue === "function";
-    debug.log(`GM Storage Status: ${this.gmSupport}`);
-  }
-
-  syncGet(name, def = undefined) {
-    if (this.gmSupport) {
-      return GM_getValue(name, def);
+    gmSupport;
+    constructor() {
+        this.gmSupport = typeof GM_getValue === "function";
+        debug.log(`GM Storage Status: ${this.gmSupport}`);
     }
-
-    const toNumber = typeof def === "number";
-    let val = window.localStorage.getItem(name);
-
-    const result = val ?? def;
-    return toNumber ? Number(result) : result;
-  }
-
-  async get(name, def = undefined) {
-    if (this.gmSupport) {
-      return await GM_getValue(name, def);
+    syncGet(name, def = undefined) {
+        if (this.gmSupport) {
+            return GM_getValue(name, def);
+        }
+        const toNumber = typeof def === "number";
+        let val = window.localStorage.getItem(name);
+        const result = val ?? def;
+        return toNumber ? Number(result) : result;
     }
-
-    const toNumber = typeof def === "number";
-    return Promise.resolve(this.syncGet(name, def, toNumber));
-  }
-
-  syncSet(name, value) {
-    if (this.gmSupport) {
-      return GM_setValue(name, value);
+    async get(name, def = undefined) {
+        if (this.gmSupport) {
+            return await GM_getValue(name, def);
+        }
+        return Promise.resolve(this.syncGet(name, def));
     }
-
-    return window.localStorage.setItem(name, value);
-  }
-
-  async set(name, value) {
-    if (this.gmSupport) {
-      return await GM_setValue(name, value);
+    syncSet(name, value) {
+        if (this.gmSupport) {
+            return GM_setValue(name, value);
+        }
+        return window.localStorage.setItem(name, value);
     }
-
-    return Promise.resolve(this.syncSet(name, value));
-  }
-
-  syncDelete(name) {
-    if (this.gmSupport) {
-      return GM_deleteValue(name);
+    async set(name, value) {
+        if (this.gmSupport) {
+            return await GM_setValue(name, value);
+        }
+        return Promise.resolve(this.syncSet(name, value));
     }
-
-    return window.localStorage.removeItem(name);
-  }
-
-  async delete(name) {
-    if (this.gmSupport) {
-      return await GM_deleteValue(name);
+    syncDelete(name) {
+        if (this.gmSupport) {
+            return GM_deleteValue(name);
+        }
+        return window.localStorage.removeItem(name);
     }
-
-    return Promise.resolve(this.syncDelete(name));
-  }
-
-  syncList() {
-    if (this.gmSupport) {
-      return GM_listValues();
+    async delete(name) {
+        if (this.gmSupport) {
+            return await GM_deleteValue(name);
+        }
+        return Promise.resolve(this.syncDelete(name));
     }
-
-    return [
-      "autoTranslate",
-      "dontTranslateLanguage",
-      "dontTranslateYourLang",
-      "autoSetVolumeYandexStyle",
-      "autoVolume",
-      "buttonPos",
-      "showVideoSlider",
-      "syncVolume",
-      "subtitlesMaxLength",
-      "highlightWords",
-      "responseLanguage",
-      "defaultVolume",
-      "audioProxy",
-      "showPiPButton",
-      "translateAPIErrors",
-      "translationService",
-      "detectService",
-      "m3u8ProxyHost",
-      "translateProxyEnabled",
-      "hotkeyButton",
-      "proxyWorkerHost",
-      "audioBooster",
-      "locale-version",
-      "locale-lang",
-      "locale-phrases",
-    ];
-  }
-
-  async list() {
-    if (this.gmSupport) {
-      return await GM_listValues();
+    syncList() {
+        if (this.gmSupport) {
+            return GM_listValues();
+        }
+        return [
+            "autoTranslate",
+            "dontTranslateLanguage",
+            "dontTranslateYourLang",
+            "autoSetVolumeYandexStyle",
+            "autoVolume",
+            "buttonPos",
+            "showVideoSlider",
+            "syncVolume",
+            "subtitlesMaxLength",
+            "highlightWords",
+            "responseLanguage",
+            "defaultVolume",
+            "audioProxy",
+            "showPiPButton",
+            "translateAPIErrors",
+            "translationService",
+            "detectService",
+            "m3u8ProxyHost",
+            "translateProxyEnabled",
+            "hotkeyButton",
+            "proxyWorkerHost",
+            "audioBooster",
+            "locale-version",
+            "locale-lang",
+            "locale-phrases",
+        ];
     }
-
-    return Promise.resolve(this.syncList());
-  }
+    async list() {
+        if (this.gmSupport) {
+            return await GM_listValues();
+        }
+        return Promise.resolve(this.syncList());
+    }
 })();
+
+;// ./src/utils/utils.js
+
+
+
+const userlang = navigator.language || navigator.userLanguage;
+const MAX_SECS_FRACTION = 0.66;
+const lang = userlang?.substr(0, 2)?.toLowerCase() ?? "en";
+
+function secsToStrTime(secs) {
+  let minutes = Math.floor(secs / 60);
+  let seconds = Math.floor(secs % 60);
+  const fraction = seconds / 60;
+  if (fraction >= MAX_SECS_FRACTION) {
+    // rounding to the next minute if it has already been more than N%
+    // e.g. 100 -> 2 minutes
+    minutes += 1;
+    seconds = 0;
+  }
+
+  if (minutes >= 60) {
+    return localizationProvider.get("translationTakeMoreThanHour");
+  } else if (minutes === 1 || (minutes === 0 && seconds > 0)) {
+    return localizationProvider.get("translationTakeAboutMinute");
+  } else if (minutes !== 11 && minutes % 10 === 1) {
+    return localizationProvider
+      .get("translationTakeApproximatelyMinute2")
+      .replace("{0}", minutes);
+  } else if (
+    ![12, 13, 14].includes(minutes) &&
+    [2, 3, 4].includes(minutes % 10)
+  ) {
+    return localizationProvider
+      .get("translationTakeApproximatelyMinute")
+      .replace("{0}", minutes);
+  }
+
+  return localizationProvider
+    .get("translationTakeApproximatelyMinutes")
+    .replace("{0}", minutes);
+}
+
+function isPiPAvailable() {
+  return (
+    "pictureInPictureEnabled" in document && document.pictureInPictureEnabled
+  );
+}
+
+function initHls() {
+  return typeof Hls != "undefined" && Hls?.isSupported()
+    ? new Hls({
+        debug: false, // turn it on manually if necessary
+        lowLatencyMode: true,
+        backBufferLength: 90,
+      })
+    : undefined;
+}
+
+const deletefilter = [
+  /(?:https?|ftp):\/\/\S+/g,
+  /https?:\/\/\S+|www\.\S+/gm,
+  /\b\S+\.\S+/gm,
+  /#[^\s#]+/g,
+  /Auto-generated by YouTube/g,
+  /Provided to YouTube by/g,
+  /Released on/g,
+  /0x[a-fA-F0-9]{40}/g,
+  /[13][a-km-zA-HJ-NP-Z1-9]{25,34}/g,
+  /4[0-9AB][1-9A-HJ-NP-Za-km-z]{93}/g,
+  /Paypal/g,
+];
+
+const combinedRegex = new RegExp(
+  deletefilter.map((regex) => regex.source).join("|"),
+);
+
+function cleanText(title, description) {
+  const cleanedDescription = description
+    ? description
+        .split("\n")
+        .filter((line) => !combinedRegex.test(line))
+        .join(" ")
+    : "";
+
+  const fullText = `${title} ${cleanedDescription}`.slice(0, 450);
+  return fullText.replace(/[^\p{L}\s]+|\s+/gu, " ").trim();
+}
+/**
+ * Download binary file with entered filename
+ *
+ * @param {Blob} blob
+ * @param {string} filename
+ */
+function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+/**
+ * Remove all banned characters from filename
+ *
+ * @param {string} filename
+ * @return {string}
+ */
+function clearFileName(filename) {
+  if (filename.trim().length === 0) {
+    // generate a new filename
+    return new Date().toLocaleDateString("en-us").replaceAll("/", "-");
+  }
+
+  return filename.replace(/[\\/:*?"'<>|]/g, "");
+}
+
+async function GM_fetch(url, opts = {}) {
+  const { timeout = 15000, ...fetchOptions } = opts;
+  const controller = new AbortController();
+
+  try {
+    if (url.includes("api.browser.yandex.ru")) {
+      throw new Error("Preventing yandex cors");
+    }
+
+    const response = await fetch(url, {
+      signal: controller.signal,
+      ...fetchOptions,
+    });
+    return response;
+  } catch (err) {
+    // Если fetch завершился ошибкой, используем GM_xmlhttpRequest
+    // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
+    debug.log("GM_fetch preventing cors by GM_xmlhttpRequest", err.message);
+    return new Promise((resolve, reject) => {
+      GM_xmlhttpRequest({
+        method: fetchOptions.method || "GET",
+        url,
+        responseType: "blob",
+        ...fetchOptions,
+        data: fetchOptions.body,
+        timeout,
+        onload: (resp) => {
+          // chrome \n and ":", firefox \r\n and ": " (Only in GM_xmlhttpRequest)
+          // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/getAllResponseHeaders#examples
+          const headers = Object.fromEntries(
+            resp.responseHeaders
+              .trim()
+              .split(/\r?\n/)
+              .map((line) => line.split(/: (.+)/))
+              .filter(([key]) => key && /^[\w-]+$/.test(key)),
+          );
+
+          const response = new Response(resp.response, {
+            status: resp.status,
+            headers: headers,
+          });
+          Object.defineProperty(response, "url", {
+            value: resp.finalUrl ?? "",
+          });
+
+          resolve(response);
+        },
+        ontimeout: () => reject(new Error("Timeout")),
+        onerror: (error) => reject(error),
+        onabort: () => reject(new Error("AbortError")),
+      });
+    });
+  }
+}
+
+function utils_getTimestamp() {
+  return Math.floor(Date.now() / 1000);
+}
+
+
 
 ;// ./src/localization/localizationProvider.js
 
@@ -2887,183 +2724,1038 @@ const localizationProvider = new (class {
   }
 })();
 
-;// ./src/utils/utils.js
+;// ./src/utils/VOTLocalizedError.js
 
 
-
-const userlang = navigator.language || navigator.userLanguage;
-const MAX_SECS_FRACTION = 0.66;
-const lang = userlang?.substr(0, 2)?.toLowerCase() ?? "en";
-
-function secsToStrTime(secs) {
-  let minutes = Math.floor(secs / 60);
-  let seconds = Math.floor(secs % 60);
-  const fraction = seconds / 60;
-  if (fraction >= MAX_SECS_FRACTION) {
-    // rounding to the next minute if it has already been more than N%
-    // e.g. 100 -> 2 minutes
-    minutes += 1;
-    seconds = 0;
+class VOTLocalizedError extends Error {
+  constructor(message) {
+    super(localizationProvider.getDefault(message));
+    this.name = "VOTLocalizedError";
+    this.unlocalizedMessage = message;
+    this.localizedMessage = localizationProvider.get(message);
   }
-
-  if (minutes >= 60) {
-    return localizationProvider.get("translationTakeMoreThanHour");
-  } else if (minutes === 1 || (minutes === 0 && seconds > 0)) {
-    return localizationProvider.get("translationTakeAboutMinute");
-  } else if (minutes !== 11 && minutes % 10 === 1) {
-    return localizationProvider
-      .get("translationTakeApproximatelyMinute2")
-      .replace("{0}", minutes);
-  } else if (
-    ![12, 13, 14].includes(minutes) &&
-    [2, 3, 4].includes(minutes % 10)
-  ) {
-    return localizationProvider
-      .get("translationTakeApproximatelyMinute")
-      .replace("{0}", minutes);
-  }
-
-  return localizationProvider
-    .get("translationTakeApproximatelyMinutes")
-    .replace("{0}", minutes);
 }
 
-function isPiPAvailable() {
-  return (
-    "pictureInPictureEnabled" in document && document.pictureInPictureEnabled
-  );
-}
+;// ./node_modules/@vot.js/core/dist/client.js
 
-function initHls() {
-  return typeof Hls != "undefined" && Hls?.isSupported()
-    ? new Hls({
-        debug: false, // turn it on manually if necessary
-        lowLatencyMode: true,
-        backBufferLength: 90,
-      })
-    : undefined;
-}
 
-const deletefilter = [
-  /(?:https?|ftp):\/\/\S+/g,
-  /https?:\/\/\S+|www\.\S+/gm,
-  /\b\S+\.\S+/gm,
-  /#[^\s#]+/g,
-  /Auto-generated by YouTube/g,
-  /Provided to YouTube by/g,
-  /Released on/g,
-  /0x[a-fA-F0-9]{40}/g,
-  /[13][a-km-zA-HJ-NP-Z1-9]{25,34}/g,
-  /4[0-9AB][1-9A-HJ-NP-Za-km-z]{93}/g,
-  /Paypal/g,
-];
 
-const combinedRegex = new RegExp(
-  deletefilter.map((regex) => regex.source).join("|"),
-);
 
-function cleanText(title, description) {
-  const cleanedDescription = description
-    ? description
-        .split("\n")
-        .filter((line) => !combinedRegex.test(line))
-        .join(" ")
-    : "";
 
-  const fullText = `${title} ${cleanedDescription}`.slice(0, 450);
-  return fullText.replace(/[^\p{L}\s]+|\s+/gu, " ").trim();
-}
-/**
- * Download binary file with entered filename
- *
- * @param {Blob} blob
- * @param {string} filename
- */
-function downloadBlob(blob, filename) {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
-}
-/**
- * Remove all banned characters from filename
- *
- * @param {string} filename
- * @return {string}
- */
-function clearFileName(filename) {
-  if (filename.trim().length === 0) {
-    // generate a new filename
-    return new Date().toLocaleDateString("en-us").replaceAll("/", "-");
-  }
 
-  return filename.replace(/[\\/:*?"'<>|]/g, "");
-}
 
-async function GM_fetch(url, opts = {}) {
-  const { timeout = 15000, ...fetchOptions } = opts;
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), timeout);
 
-  try {
-    if (url.includes("api.browser.yandex.ru")) {
-      throw new Error("Preventing yandex cors");
+
+
+class VOTJSError extends Error {
+    data;
+    constructor(message, data = undefined) {
+        super(message);
+        this.data = data;
+        this.name = "VOTJSError";
+        this.message = message;
     }
-
-    const response = await fetch(url, {
-      signal: controller.signal,
-      ...fetchOptions,
-    });
-    clearTimeout(timeoutId);
-    return response;
-  } catch (err) {
-    // Если fetch завершился ошибкой, используем GM_xmlhttpRequest
-    // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
-    debug.log("GM_fetch preventing cors by GM_xmlhttpRequest", err.message);
-    return new Promise((resolve, reject) => {
-      clearTimeout(timeoutId);
-      GM_xmlhttpRequest({
-        method: fetchOptions.method || "GET",
-        url: url,
-        responseType: "blob",
-        ...fetchOptions,
-        data: fetchOptions.body,
-        timeout: timeout,
-        onload: (resp) => {
-          // chrome \n and ":", firefox \r\n and ": " (Only in GM_xmlhttpRequest)
-          // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/getAllResponseHeaders#examples
-          const headers = Object.fromEntries(
-            resp.responseHeaders
-              .trim()
-              .split(/\r?\n/)
-              .map((line) => line.split(/: (.+)/))
-              .filter(([key]) => key && /^[\w-]+$/.test(key)),
-          );
-
-          resolve(
-            new Response(resp.response, {
-              status: resp.status,
-              headers: headers,
-            }),
-          );
-        },
-        ontimeout: () => reject(new Error("Timeout")),
-        onerror: (error) => reject(error),
-        onabort: () => reject(new Error("AbortError")),
-      });
-    });
-  }
+}
+class client_VOTClient {
+    host;
+    hostVOT;
+    schema;
+    schemaVOT;
+    fetch;
+    fetchOpts;
+    sessions = {};
+    requestLang;
+    responseLang;
+    userAgent = config.userAgent;
+    paths = {
+        videoTranslation: "/video-translation/translate",
+        videoTranslationFailAudio: "/video-translation/fail-audio-js",
+        videoTranslationAudio: "/video-translation/audio",
+        videoSubtitles: "/video-subtitles/get-subtitles",
+        streamPing: "/stream-translation/ping-stream",
+        streamTranslation: "/stream-translation/translate-stream",
+        createSession: "/session/create",
+    };
+    isCustomLink(url) {
+        return !!(/\.(m3u8|m4(a|v)|mpd)/.exec(url) ??
+            /^https:\/\/cdn\.qstv\.on\.epicgames\.com/.exec(url));
+    }
+    headers = {
+        "User-Agent": this.userAgent,
+        Accept: "application/x-protobuf",
+        "Accept-Language": "en",
+        "Content-Type": "application/x-protobuf",
+        Pragma: "no-cache",
+        "Cache-Control": "no-cache",
+        "Sec-Fetch-Mode": "no-cors",
+    };
+    headersVOT = {
+        "User-Agent": `vot.js/${config.version}`,
+        "Content-Type": "application/json",
+        Pragma: "no-cache",
+        "Cache-Control": "no-cache",
+    };
+    constructor({ host = config.host, hostVOT = config.hostVOT, fetchFn = fetchWithTimeout, fetchOpts = {}, requestLang = "en", responseLang = "ru", headers = {}, } = {}) {
+        const schemaRe = /(http(s)?):\/\//;
+        const schema = schemaRe.exec(host)?.[1];
+        this.host = schema ? host.replace(`${schema}://`, "") : host;
+        this.schema = schema ?? "https";
+        const schemaVOT = schemaRe.exec(hostVOT)?.[1];
+        this.hostVOT = schemaVOT ? hostVOT.replace(`${schemaVOT}://`, "") : hostVOT;
+        this.schemaVOT = schemaVOT ?? "https";
+        this.fetch = fetchFn;
+        this.fetchOpts = fetchOpts;
+        this.requestLang = requestLang;
+        this.responseLang = responseLang;
+        this.headers = { ...this.headers, ...headers };
+    }
+    getOpts(body, headers = {}, method = "POST") {
+        return {
+            method,
+            headers: {
+                ...this.headers,
+                ...headers,
+            },
+            body,
+            ...this.fetchOpts,
+        };
+    }
+    async request(path, body, headers = {}, method = "POST") {
+        const options = this.getOpts(new Blob([body]), headers, method);
+        try {
+            const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
+            const data = (await res.arrayBuffer());
+            return {
+                success: res.status === 200,
+                data,
+            };
+        }
+        catch (err) {
+            return {
+                success: false,
+                data: err?.message,
+            };
+        }
+    }
+    async requestJSON(path, body = null, headers = {}, method = "POST") {
+        const options = this.getOpts(body, {
+            "Content-Type": "application/json",
+            ...headers,
+        }, method);
+        try {
+            const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
+            const data = (await res.json());
+            return {
+                success: res.status === 200,
+                data,
+            };
+        }
+        catch (err) {
+            return {
+                success: false,
+                data: err?.message,
+            };
+        }
+    }
+    async requestVOT(path, body, headers = {}) {
+        const options = this.getOpts(JSON.stringify(body), {
+            ...this.headersVOT,
+            ...headers,
+        });
+        try {
+            const res = await this.fetch(`${this.schemaVOT}://${this.hostVOT}${path}`, options);
+            const data = (await res.json());
+            return {
+                success: res.status === 200,
+                data,
+            };
+        }
+        catch (err) {
+            return {
+                success: false,
+                data: err?.message,
+            };
+        }
+    }
+    async getSession(module) {
+        const timestamp = getTimestamp();
+        const session = this.sessions[module];
+        if (session && session.timestamp + session.expires > timestamp) {
+            return session;
+        }
+        const { secretKey, expires, uuid } = await this.createSession(module);
+        this.sessions[module] = {
+            secretKey,
+            expires,
+            timestamp,
+            uuid,
+        };
+        return this.sessions[module];
+    }
+    async translateVideoYAImpl({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, extraOpts = {}, shouldSendFailedAudio = true, }) {
+        const { url, duration = config.defaultDuration } = videoData;
+        const session = await this.getSession("video-translation");
+        const body = yandexProtobuf.encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp, extraOpts);
+        const path = this.paths.videoTranslation;
+        const vtransHeaders = await getSecYaHeaders("Vtrans", session, body, path);
+        const res = await this.request(path, body, {
+            ...vtransHeaders,
+            ...headers,
+        });
+        if (!res.success) {
+            throw new VOTLocalizedError("requestTranslationFailed");
+        }
+        const translationData = yandexProtobuf.decodeTranslationResponse(res.data);
+        Logger.log("translateVideo", translationData);
+        const { status, translationId, } = translationData;
+        switch (status) {
+            case VideoTranslationStatus.FAILED:
+                throw translationData?.message ? new VOTJSError("Yandex couldn't translate video", translationData) : new VOTLocalizedError("requestTranslationFailed");
+            case VideoTranslationStatus.FINISHED:
+            case VideoTranslationStatus.PART_CONTENT:
+                if (!translationData.url) {
+                    throw new VOTLocalizedError("audioNotReceived");
+                }
+                return {
+                    translationId,
+                    translated: true,
+                    url: translationData.url,
+                    status,
+                    remainingTime: translationData.remainingTime ?? -1,
+                };
+            case VideoTranslationStatus.WAITING:
+            case VideoTranslationStatus.LONG_WAITING:
+                return {
+                    translationId,
+                    translated: false,
+                    status,
+                    remainingTime: translationData.remainingTime,
+                };
+            case VideoTranslationStatus.AUDIO_REQUESTED:
+                if (url.startsWith("https://youtu.be/") && shouldSendFailedAudio) {
+                    await this.requestVtransFailAudio(url);
+                    await this.requestVtransAudio(url, translationData.translationId, {
+                        audioFile: new Uint8Array(),
+                        fileId: AudioDownloadType.WEB_API_GET_ALL_GENERATING_URLS_DATA_FROM_IFRAME,
+                    });
+                    return await this.translateVideoYAImpl({
+                        videoData,
+                        requestLang,
+                        responseLang,
+                        translationHelp,
+                        headers,
+                        shouldSendFailedAudio: false,
+                    });
+                }
+                return {
+                    translationId,
+                    translated: false,
+                    status,
+                    remainingTime: translationData.remainingTime ?? -1,
+                };
+            default:
+                Logger.error("Unknown response", translationData);
+                throw new VOTJSError("Unknown response from Yandex", translationData);
+        }
+    }
+    async translateVideoVOTImpl({ url, videoId, service, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
+        const votData = convertVOT(service, videoId, url);
+        const res = await this.requestVOT(this.paths.videoTranslation, {
+            provider: "yandex",
+            service: votData.service,
+            videoId: votData.videoId,
+            fromLang: requestLang,
+            toLang: responseLang,
+            rawVideo: url,
+        }, headers);
+        if (!res.success) {
+            throw new VOTLocalizedError("requestTranslationFailed");
+        }
+        const translationData = res.data;
+        switch (translationData.status) {
+            case "failed":
+                throw new VOTJSError("Yandex couldn't translate video", translationData);
+            case "success":
+                if (!translationData.translatedUrl) {
+                    throw new VOTLocalizedError("audioNotReceived");
+                }
+                return {
+                    translationId: String(translationData.id),
+                    translated: true,
+                    url: translationData.translatedUrl,
+                    status: 1,
+                    remainingTime: -1,
+                };
+            case "waiting":
+                return {
+                    translationId: "",
+                    translated: false,
+                    remainingTime: translationData.remainingTime,
+                    status: 2,
+                    message: translationData.message,
+                };
+        }
+    }
+    async requestVtransFailAudio(url) {
+        const res = await this.requestJSON(this.paths.videoTranslationFailAudio, JSON.stringify({
+            video_url: url,
+        }), undefined, "PUT");
+        if (!res.data || typeof res.data === "string" || res.data.status !== 1) {
+            throw new VOTJSError("Failed to request to fake video translation fail audio js", res);
+        }
+        return res;
+    }
+    async requestVtransAudio(url, translationId, audioBuffer, partialAudio, headers = {}) {
+        const session = await this.getSession("video-translation");
+        const body = yandexProtobuf.encodeTranslationAudioRequest(url, translationId, audioBuffer, partialAudio);
+        const path = this.paths.videoTranslationAudio;
+        const vtransHeaders = await getSecYaHeaders("Vtrans", session, body, path);
+        const res = await this.request(path, body, {
+            ...vtransHeaders,
+            ...headers,
+        }, "PUT");
+        if (!res.success) {
+            throw new VOTJSError("Failed to request video translation audio", res);
+        }
+        return yandexProtobuf.decodeTranslationAudioResponse(res.data);
+    }
+    async translateVideo({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, extraOpts = {}, shouldSendFailedAudio = true, }) {
+        const { url, videoId, host } = videoData;
+        return this.isCustomLink(url)
+            ? await this.translateVideoVOTImpl({
+                url,
+                videoId,
+                service: host,
+                requestLang,
+                responseLang,
+                headers,
+            })
+            : await this.translateVideoYAImpl({
+                videoData,
+                requestLang,
+                responseLang,
+                translationHelp,
+                headers,
+                extraOpts,
+                shouldSendFailedAudio,
+            });
+    }
+    async getSubtitles({ videoData, requestLang = this.requestLang, headers = {}, }) {
+        const { url } = videoData;
+        if (this.isCustomLink(url)) {
+            return {
+                waiting: false,
+                subtitles: []
+            }
+        }
+        const session = await this.getSession("video-translation");
+        const body = yandexProtobuf.encodeSubtitlesRequest(url, requestLang);
+        const path = this.paths.videoSubtitles;
+        const vsubsHeaders = await getSecYaHeaders("Vsubs", session, body, path);
+        const res = await this.request(path, body, {
+            ...vsubsHeaders,
+            ...headers,
+        });
+        if (!res.success) {
+            throw new VOTJSError("Failed to request video subtitles", res);
+        }
+        return yandexProtobuf.decodeSubtitlesResponse(res.data);
+    }
+    async pingStream({ pingId, headers = {} }) {
+        const session = await this.getSession("video-translation");
+        const body = yandexProtobuf.encodeStreamPingRequest(pingId);
+        const path = this.paths.streamPing;
+        const vtransHeaders = await getSecYaHeaders("Vtrans", session, body, path);
+        const res = await this.request(path, body, {
+            ...vtransHeaders,
+            ...headers,
+        });
+        if (!res.success) {
+            throw new VOTJSError("Failed to request stream ping", res);
+        }
+        return true;
+    }
+    async translateStream({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
+        const { url } = videoData;
+        if (this.isCustomLink(url)) {
+            throw new VOTLocalizedError("VOTStreamNotSupportedUrl");
+        }
+        const session = await this.getSession("video-translation");
+        const body = yandexProtobuf.encodeStreamRequest(url, requestLang, responseLang);
+        const path = this.paths.streamTranslation;
+        const vtransHeaders = await getSecYaHeaders("Vtrans", session, body, path);
+        const res = await this.request(path, body, {
+            ...vtransHeaders,
+            ...headers,
+        });
+        if (!res.success) {
+            throw new VOTJSError("Failed to request stream translation", res);
+        }
+        const translateResponse = yandexProtobuf.decodeStreamResponse(res.data);
+        const interval = translateResponse.interval;
+        switch (interval) {
+            case StreamInterval.NO_CONNECTION:
+            case StreamInterval.TRANSLATING:
+                return {
+                    translated: false,
+                    interval,
+                    message: interval === StreamInterval.NO_CONNECTION
+                        ? "streamNoConnectionToServer"
+                        : "translationTakeFewMinutes",
+                };
+            case StreamInterval.STREAMING: {
+                return {
+                    translated: true,
+                    interval,
+                    pingId: translateResponse.pingId,
+                    result: translateResponse.translatedInfo,
+                };
+            }
+            default:
+                Logger.error("Unknown response", translateResponse);
+                throw new VOTJSError("Unknown response from Yandex", translateResponse);
+        }
+    }
+    async createSession(module) {
+        const uuid = getUUID();
+        const body = yandexProtobuf.encodeYandexSessionRequest(uuid, module);
+        const res = await this.request(this.paths.createSession, body, {
+            "Vtrans-Signature": await getSignature(body),
+        });
+        if (!res.success) {
+            throw new VOTJSError("Failed to request create session", res);
+        }
+        const sessionResponse = yandexProtobuf.decodeYandexSessionResponse(res.data);
+        return {
+            ...sessionResponse,
+            uuid,
+        };
+    }
+}
+class client_VOTWorkerClient extends client_VOTClient {
+    async request(path, body, headers = {}, method = "POST") {
+        const options = this.getOpts(JSON.stringify({
+            headers: {
+                ...this.headers,
+                ...headers,
+            },
+            body: Array.from(body),
+        }), {
+            "Content-Type": "application/json",
+        }, method);
+        try {
+            const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
+            const data = (await res.arrayBuffer());
+            return {
+                success: res.status === 200,
+                data,
+            };
+        }
+        catch (err) {
+            return {
+                success: false,
+                data: err?.message,
+            };
+        }
+    }
+    async requestJSON(path, body = null, headers = {}, method = "POST") {
+        const options = this.getOpts(JSON.stringify({
+            headers: {
+                ...this.headers,
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                ...headers,
+            },
+            body,
+        }), {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        }, method);
+        try {
+            const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
+            const data = (await res.json());
+            return {
+                success: res.status === 200,
+                data,
+            };
+        }
+        catch (err) {
+            return {
+                success: false,
+                data: err?.message,
+            };
+        }
+    }
 }
 
-function utils_getTimestamp() {
-  return Math.floor(Date.now() / 1000);
+;// ./node_modules/@vot.js/ext/dist/client.js
+
+class VOTClient extends client_VOTClient {
+    constructor(opts) {
+        super(opts);
+    }
+}
+class VOTWorkerClient extends client_VOTWorkerClient {
+    constructor(opts) {
+        super(opts);
+    }
 }
 
+;// ./node_modules/@vot.js/core/dist/utils/videoData.js
+class VideoDataError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "VideoDataError";
+        this.message = message;
+    }
+}
+const localLinkRe = /(file:\/\/(\/)?|(http(s)?:\/\/)(127\.0\.0\.1|localhost|192\.168\.(\d){1,3}\.(\d){1,3}))/;
+
+;// ./node_modules/@vot.js/shared/dist/data/alternativeUrls.js
+const sitesInvidious = [
+    "yewtu.be",
+    "yt.artemislena.eu",
+    "invidious.flokinet.to",
+    "iv.melmac.space",
+    "inv.nadeko.net",
+    "inv.tux.pizza",
+    "invidious.private.coffee",
+    "yt.drgnz.club",
+    "vid.puffyan.us",
+    "invidious.dhusch.de",
+];
+const sitesPiped = [
+    "piped.video",
+    "piped.tokhmi.xyz",
+    "piped.moomoo.me",
+    "piped.syncpundit.io",
+    "piped.mha.fi",
+    "watch.whatever.social",
+    "piped.garudalinux.org",
+    "efy.piped.pages.dev",
+    "watch.leptons.xyz",
+    "piped.lunar.icu",
+    "yt.dc09.ru",
+    "piped.mint.lgbt",
+    "il.ax",
+    "piped.privacy.com.de",
+    "piped.esmailelbob.xyz",
+    "piped.projectsegfau.lt",
+    "piped.in.projectsegfau.lt",
+    "piped.us.projectsegfau.lt",
+    "piped.privacydev.net",
+    "piped.palveluntarjoaja.eu",
+    "piped.smnz.de",
+    "piped.adminforge.de",
+    "piped.qdi.fi",
+    "piped.hostux.net",
+    "piped.chauvet.pro",
+    "piped.jotoma.de",
+    "piped.pfcd.me",
+    "piped.frontendfriendly.xyz",
+];
+const sitesProxiTok = [
+    "proxitok.pabloferreiro.es",
+    "proxitok.pussthecat.org",
+    "tok.habedieeh.re",
+    "proxitok.esmailelbob.xyz",
+    "proxitok.privacydev.net",
+    "tok.artemislena.eu",
+    "tok.adminforge.de",
+    "tt.vern.cc",
+    "cringe.whatever.social",
+    "proxitok.lunar.icu",
+    "proxitok.privacy.com.de",
+];
+const sitesPeertube = [
+    "peertube.1312.media",
+    "tube.shanti.cafe",
+    "bee-tube.fr",
+    "video.sadmin.io",
+    "dalek.zone",
+    "review.peertube.biz",
+    "peervideo.club",
+    "tube.la-dina.net",
+    "peertube.tmp.rcp.tf",
+    "peertube.su",
+    "video.blender.org",
+    "videos.viorsan.com",
+    "tube-sciences-technologies.apps.education.fr",
+    "tube-numerique-educatif.apps.education.fr",
+    "tube-arts-lettres-sciences-humaines.apps.education.fr",
+    "beetoons.tv",
+    "comics.peertube.biz",
+    "makertube.net",
+];
+const sitesPoketube = [
+    "poketube.fun",
+    "pt.sudovanilla.org",
+    "poke.ggtyler.dev",
+    "poke.uk2.littlekai.co.uk",
+    "poke.blahai.gay",
+];
+const sitesRicktube = ["ricktube.ru"];
+const sitesMaterialious = (/* unused pure expression or super */ null && ([
+    "materialious.nadeko.net",
+    "app.materialio.us",
+]));
+const sitesCoursehunterLike = ["coursehunter.net", "coursetrain.net"];
 
 
-;// ./node_modules/vot.js/dist/helpers/base.js
+;// ./node_modules/@vot.js/ext/dist/types/service.js
+var ExtVideoService;
+(function (ExtVideoService) {
+    ExtVideoService["udemy"] = "udemy";
+    ExtVideoService["coursera"] = "coursera";
+    ExtVideoService["douyin"] = "douyin";
+})(ExtVideoService || (ExtVideoService = {}));
+
+;// ./node_modules/@vot.js/ext/dist/data/sites.js
+
+
+
+/* harmony default export */ const sites = ([
+    {
+        additionalData: "mobile",
+        host: VideoService.youtube,
+        url: "https://youtu.be/",
+        match: /^m.youtube.com$/,
+        selector: "shorts-video #player",
+    },
+    {
+        additionalData: "mobile",
+        host: VideoService.youtube,
+        url: "https://youtu.be/",
+        match: /^m.youtube.com$/,
+        selector: ".player-container",
+    },
+    {
+        host: VideoService.youtube,
+        url: "https://youtu.be/",
+        match: /^(www.)?youtube(-nocookie|kids)?.com$/,
+        selector: ".html5-video-container:not(#inline-player *)",
+    },
+    {
+        host: VideoService.invidious,
+        url: "https://youtu.be/",
+        match: sitesInvidious,
+        selector: "#player",
+        needBypassCSP: true,
+    },
+    {
+        host: VideoService.piped,
+        url: "https://youtu.be/",
+        match: sitesPiped,
+        selector: ".shaka-video-container",
+        needBypassCSP: true,
+    },
+    {
+        host: VideoService.poketube,
+        url: "https://youtu.be/",
+        match: sitesPoketube,
+        selector: ".video-player-container",
+    },
+    {
+        host: VideoService.ricktube,
+        url: "https://youtu.be/",
+        match: sitesRicktube,
+        selector: "#oframeplayer > pjsdiv:has(video)",
+    },
+    {
+        additionalData: "mobile",
+        host: VideoService.vk,
+        url: "https://vk.com/video?z=",
+        match: /^m.vk.(com|ru)$/,
+        selector: "vk-video-player",
+        shadowRoot: true,
+        needExtraData: true,
+    },
+    {
+        additionalData: "clips",
+        host: VideoService.vk,
+        url: "https://vk.com/video?z=",
+        match: /^(www.|m.)?vk.(com|ru)$/,
+        selector: 'div[data-testid="clipcontainer-video"]',
+        needExtraData: true,
+    },
+    {
+        host: VideoService.vk,
+        url: "https://vk.com/video?z=",
+        match: [/^(www.|m.)?vk.(com|ru)$/, /^(www.|m.)?vkvideo.ru$/],
+        selector: ".videoplayer_media",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.nine_gag,
+        url: "https://9gag.com/gag/",
+        match: /^9gag.com$/,
+        selector: ".video-post",
+    },
+    {
+        host: VideoService.twitch,
+        url: "https://twitch.tv/",
+        match: [
+            /^m.twitch.tv$/,
+            /^(www.)?twitch.tv$/,
+            /^clips.twitch.tv$/,
+            /^player.twitch.tv$/,
+        ],
+        selector: ".video-ref, main > div > section > div > div > div",
+    },
+    {
+        host: VideoService.proxitok,
+        url: "https://www.tiktok.com/",
+        match: sitesProxiTok,
+        selector: ".column.has-text-centered",
+    },
+    {
+        host: VideoService.tiktok,
+        url: "https://www.tiktok.com/",
+        match: /^(www.)?tiktok.com$/,
+        selector: null,
+    },
+    {
+        host: ExtVideoService.douyin,
+        url: "https://www.douyin.com/",
+        match: /^(www.)?douyin.com/,
+        selector: ".xg-video-container",
+        needExtraData: true,
+        needBypassCSP: true,
+    },
+    {
+        host: VideoService.vimeo,
+        url: "https://vimeo.com/",
+        match: /^vimeo.com$/,
+        needExtraData: true,
+        selector: ".player",
+    },
+    {
+        host: VideoService.vimeo,
+        url: "https://player.vimeo.com/",
+        match: /^player.vimeo.com$/,
+        additionalData: "embed",
+        needExtraData: true,
+        needBypassCSP: true,
+        selector: ".player",
+    },
+    {
+        host: VideoService.xvideos,
+        url: "https://www.xvideos.com/",
+        match: /^(www.)?(xvideos|xv-ru).com$/,
+        selector: "#hlsplayer",
+        needBypassCSP: true,
+    },
+    {
+        host: VideoService.pornhub,
+        url: "https://rt.pornhub.com/view_video.php?viewkey=",
+        match: /^[a-z]+.pornhub.com$/,
+        selector: ".mainPlayerDiv > .video-element-wrapper-js > div",
+        eventSelector: ".mgp_eventCatcher",
+    },
+    {
+        additionalData: "embed",
+        host: VideoService.pornhub,
+        url: "https://rt.pornhub.com/view_video.php?viewkey=",
+        match: (url) => url.host.includes("pornhub.com") && url.pathname.startsWith("/embed/"),
+        selector: "#player",
+    },
+    {
+        host: VideoService.twitter,
+        url: "https://twitter.com/i/status/",
+        match: /^(twitter|x).com$/,
+        selector: 'div[data-testid="videoComponent"] > div:nth-child(1) > div',
+        eventSelector: 'div[data-testid="videoPlayer"]',
+        needBypassCSP: true,
+    },
+    {
+        host: VideoService.rumble,
+        url: "https://rumble.com/",
+        match: /^rumble.com$/,
+        selector: "#videoPlayer > .videoPlayer-Rumble-cls > div",
+    },
+    {
+        host: VideoService.facebook,
+        url: "https://facebook.com/",
+        match: (url) => url.host.includes("facebook.com") && url.pathname.includes("/videos/"),
+        selector: 'div[role="main"] div[data-pagelet$="video" i]',
+        needBypassCSP: true,
+    },
+    {
+        additionalData: "reels",
+        host: VideoService.facebook,
+        url: "https://facebook.com/",
+        match: (url) => url.host.includes("facebook.com") && url.pathname.includes("/reel/"),
+        selector: 'div[role="main"]',
+        needBypassCSP: true,
+    },
+    {
+        host: VideoService.rutube,
+        url: "https://rutube.ru/video/",
+        match: /^rutube.ru$/,
+        selector: ".video-player > div > div > div:nth-child(2)",
+    },
+    {
+        additionalData: "embed",
+        host: VideoService.rutube,
+        url: "https://rutube.ru/video/",
+        match: /^rutube.ru$/,
+        selector: "#app > div > div",
+    },
+    {
+        host: VideoService.bilibili,
+        url: "https://www.bilibili.com/",
+        match: /^(www|m|player).bilibili.com$/,
+        selector: ".bpx-player-video-wrap",
+    },
+    {
+        additionalData: "old",
+        host: VideoService.bilibili,
+        url: "https://www.bilibili.com/",
+        match: /^(www|m).bilibili.com$/,
+        selector: null,
+    },
+    {
+        host: VideoService.mailru,
+        url: "https://my.mail.ru/",
+        match: /^my.mail.ru$/,
+        selector: "#b-video-wrapper",
+    },
+    {
+        host: VideoService.bitchute,
+        url: "https://www.bitchute.com/video/",
+        match: /^(www.)?bitchute.com$/,
+        selector: ".video-js",
+    },
+    {
+        host: VideoService.eporner,
+        url: "https://www.eporner.com/",
+        match: /^(www.)?eporner.com$/,
+        selector: ".vjs-v7",
+    },
+    {
+        host: VideoService.peertube,
+        url: "stub",
+        match: sitesPeertube,
+        selector: ".vjs-v7",
+    },
+    {
+        host: VideoService.dailymotion,
+        url: "https://dai.ly/",
+        match: /^geo([\d]+)?.dailymotion.com$/,
+        selector: ".player",
+    },
+    {
+        host: VideoService.trovo,
+        url: "https://trovo.live/s/",
+        match: /^trovo.live$/,
+        selector: ".player-video",
+    },
+    {
+        host: VideoService.yandexdisk,
+        url: "https://yadi.sk/",
+        match: /^disk.yandex.ru$/,
+        selector: ".video-player__player > div:nth-child(1)",
+        eventSelector: ".video-player__player",
+        needBypassCSP: true,
+        needExtraData: true,
+    },
+    {
+        host: VideoService.okru,
+        url: "https://ok.ru/video/",
+        match: /^ok.ru$/,
+        selector: "vk-video-player",
+        shadowRoot: true,
+    },
+    {
+        host: VideoService.googledrive,
+        url: "https://drive.google.com/file/d/",
+        match: /^youtube.googleapis.com$/,
+        selector: ".html5-video-container",
+    },
+    {
+        host: VideoService.bannedvideo,
+        url: "https://madmaxworld.tv/watch?id=",
+        match: /^(www.)?banned.video|madmaxworld.tv$/,
+        selector: ".vjs-v7",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.weverse,
+        url: "https://weverse.io/",
+        match: /^weverse.io$/,
+        selector: ".webplayer-internal-source-wrapper",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.newgrounds,
+        url: "https://www.newgrounds.com/",
+        match: /^(www.)?newgrounds.com$/,
+        selector: ".ng-video-player",
+    },
+    {
+        host: VideoService.egghead,
+        url: "https://egghead.io/",
+        match: /^egghead.io$/,
+        selector: ".cueplayer-react-video-holder",
+    },
+    {
+        host: VideoService.youku,
+        url: "https://v.youku.com/",
+        match: /^v.youku.com$/,
+        selector: "#ykPlayer",
+    },
+    {
+        host: VideoService.archive,
+        url: "https://archive.org/details/",
+        match: /^archive.org$/,
+        selector: ".jw-media",
+    },
+    {
+        host: VideoService.kodik,
+        url: "stub",
+        match: /^kodik.(info|biz|cc)$/,
+        selector: ".fp-player",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.patreon,
+        url: "stub",
+        match: /^(www.)?patreon.com$/,
+        selector: 'div[data-tag="post-card"] div[elevation="subtle"] > div > div > div > div',
+        needExtraData: true,
+    },
+    {
+        additionalData: "old",
+        host: VideoService.reddit,
+        url: "stub",
+        match: /^old.reddit.com$/,
+        selector: ".reddit-video-player-root",
+        needExtraData: true,
+        needBypassCSP: true,
+    },
+    {
+        host: VideoService.reddit,
+        url: "stub",
+        match: /^(www.|new.)?reddit.com$/,
+        selector: "div[slot=post-media-container]",
+        shadowRoot: true,
+        needExtraData: true,
+        needBypassCSP: true,
+    },
+    {
+        host: VideoService.kick,
+        url: "https://kick.com/",
+        match: /^kick.com$/,
+        selector: "#injected-embedded-channel-player-video > div",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.appledeveloper,
+        url: "https://developer.apple.com/",
+        match: /^developer.apple.com$/,
+        selector: ".developer-video-player",
+        needExtraData: true,
+        needBypassCSP: true,
+    },
+    {
+        host: VideoService.epicgames,
+        url: "https://dev.epicgames.com/community/learning/",
+        match: /^dev.epicgames.com$/,
+        selector: ".vjs-v7",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.nineanimetv,
+        url: "https://9animetv.to/watch/",
+        match: /^rapid-cloud.co$/,
+        selector: ".jw-media",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.odysee,
+        url: "stub",
+        match: /^odysee.com$/,
+        selector: ".vjs-v7",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.coursehunterLike,
+        url: "stub",
+        match: sitesCoursehunterLike,
+        selector: "#oframeplayer > pjsdiv:has(video)",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.sap,
+        url: "https://learning.sap.com/courses/",
+        match: /^learning.sap.com$/,
+        selector: ".playkit-container",
+        eventSelector: ".playkit-player",
+        needExtraData: true,
+        needBypassCSP: true,
+    },
+    {
+        host: ExtVideoService.udemy,
+        url: "https://www.udemy.com/",
+        match: /udemy.com$/,
+        selector: 'div[data-purpose="curriculum-item-viewer-content"] > section > div > div > div > div:nth-of-type(2)',
+        needExtraData: true,
+    },
+    {
+        host: ExtVideoService.coursera,
+        url: "https://www.coursera.org/",
+        match: /coursera.org$/,
+        selector: ".vjs-v8",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.watchpornto,
+        url: "https://watchporn.to/",
+        match: /^watchporn.to$/,
+        selector: ".fp-player",
+    },
+    {
+        host: VideoService.linkedin,
+        url: "https://www.linkedin.com/learning/",
+        match: /^(www.)?linkedin.com$/,
+        selector: ".vjs-v7",
+        needExtraData: true,
+        needBypassCSP: true,
+    },
+    {
+        host: VideoService.incestflix,
+        url: "https://www.incestflix.net/watch/",
+        match: /^(www.)?incestflix.(net|to|com)$/,
+        selector: "#incflix-stream",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.porntn,
+        url: "https://porntn.com/videos/",
+        match: /^porntn.com$/,
+        selector: ".fp-player",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.dzen,
+        url: "https://dzen.ru/video/watch/",
+        match: /^dzen.ru$/,
+        selector: ".zen-ui-video-video-player",
+    },
+    {
+        host: VideoService.cloudflarestream,
+        url: "stub",
+        match: /^(watch|embed|iframe|customer-[^.]+).cloudflarestream.com$/,
+    },
+    {
+        host: VideoService.custom,
+        url: "stub",
+        match: (url) => /([^.]+).(mp4|webm)/.test(url.pathname),
+        rawResult: true,
+    },
+]);
+
+;// ./node_modules/@vot.js/ext/dist/helpers/base.js
 
 class VideoHelperError extends Error {
     constructor(message) {
@@ -3079,11 +3771,13 @@ class BaseHelper {
     referer;
     origin;
     service;
-    constructor({ fetchFn = GM_fetch, extraInfo = true, referer = document.referrer ?? window.location.origin + "/", origin = window.location.origin, service, } = {}) {
+    constructor({ fetchFn = fetchWithTimeout, extraInfo = true, referer = document.referrer ?? window.location.origin + "/", origin = window.location.origin, service, } = {}) {
         this.fetch = fetchFn;
         this.extraInfo = extraInfo;
         this.referer = referer;
-        this.origin = /^(http(s)?):\/\//.test(String(origin)) ? origin : window.location.origin;
+        this.origin = /^(http(s)?):\/\//.test(String(origin))
+            ? origin
+            : window.location.origin;
         this.service = service;
     }
     async getVideoData(videoId) {
@@ -3105,7 +3799,7 @@ class BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/mailru.js
+;// ./node_modules/@vot.js/ext/dist/helpers/mailru.js
 
 
 class MailRuHelper extends BaseHelper {
@@ -3137,7 +3831,7 @@ class MailRuHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/weverse.js
+;// ./node_modules/@vot.js/ext/dist/helpers/weverse.js
 
 
 
@@ -3278,7 +3972,7 @@ class WeverseHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/kodik.js
+;// ./node_modules/@vot.js/ext/dist/helpers/kodik.js
 
 
 
@@ -3368,7 +4062,7 @@ class KodikHelper extends BaseHelper {
             return undefined;
         }
         const videoDataLinks = Object.entries(videoData.links[videoData.default.toString()]);
-        const videoLink = videoDataLinks.find(([_, data]) => data.type === "application/x-mpegURL")?.[1];
+        const videoLink = videoDataLinks.find(([, data]) => data.type === "application/x-mpegURL")?.[1];
         if (!videoLink) {
             return undefined;
         }
@@ -3381,7 +4075,7 @@ class KodikHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/patreon.js
+;// ./node_modules/@vot.js/ext/dist/helpers/patreon.js
 
 
 class PatreonHelper extends BaseHelper {
@@ -3418,18 +4112,22 @@ class PatreonHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/reddit.js
+;// ./node_modules/@vot.js/ext/dist/helpers/reddit.js
 
 
 class RedditHelper extends BaseHelper {
     API_ORIGIN = "https://www.reddit.com";
+    async getContentUrl(videoId) {
+        if (!this.service.additionalData ||
+            this.service.additionalData !== "old") {
+            return document.querySelector("shreddit-player-2")?.src;
+        }
+        const playerEl = document.querySelector("[data-hls-url]");
+        return playerEl?.dataset.hlsUrl?.replaceAll("&amp;", "&");
+    }
     async getVideoData(videoId) {
         try {
-            const contentUrl = document
-                .querySelector("[data-hls-url]")
-                ?.dataset
-                .hlsUrl
-                .replaceAll("&amp;", "&");
+            const contentUrl = await this.getContentUrl(videoId);
             if (!contentUrl) {
                 throw new VideoHelperError("Failed to find content url");
             }
@@ -3447,7 +4145,7 @@ class RedditHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/bannedvideo.js
+;// ./node_modules/@vot.js/ext/dist/helpers/bannedvideo.js
 
 class BannedVideoHelper extends BaseHelper {
     API_ORIGIN = "https://api.banned.video";
@@ -3503,7 +4201,7 @@ class BannedVideoHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/kick.js
+;// ./node_modules/@vot.js/ext/dist/helpers/kick.js
 
 
 class KickHelper extends BaseHelper {
@@ -3551,14 +4249,14 @@ class KickHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/appledeveloper.js
+;// ./node_modules/@vot.js/ext/dist/helpers/appledeveloper.js
 
 
 class AppleDeveloperHelper extends BaseHelper {
     API_ORIGIN = "https://developer.apple.com";
     async getVideoData(videoId) {
         try {
-            const contentUrl = document.querySelector("meta[property='og:video']")?.content
+            const contentUrl = document.querySelector("meta[property='og:video']")?.content;
             if (!contentUrl) {
                 throw new VideoHelperError("Failed to find content url");
             }
@@ -3576,7 +4274,7 @@ class AppleDeveloperHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/epicgames.js
+;// ./node_modules/@vot.js/ext/dist/helpers/epicgames.js
 
 
 
@@ -3592,21 +4290,63 @@ class EpicGamesHelper extends BaseHelper {
             return false;
         }
     }
+    getVideoBlock() {
+        const videoUrlRe = /videoUrl\s?=\s"([^"]+)"?/;
+        const script = Array.from(document.body.querySelectorAll("script")).find((s) => videoUrlRe.exec(s.innerHTML));
+        if (!script) {
+            return undefined;
+        }
+        const content = script.innerHTML.trim();
+        const playlistUrl = videoUrlRe
+            .exec(content)?.[1]
+            ?.replace("qsep://", "https://");
+        if (!playlistUrl) {
+            return undefined;
+        }
+        let subtitlesString = /sources\s?=\s(\[([^\]]+)\])?/.exec(content)?.[1];
+        if (!subtitlesString) {
+            return {
+                playlistUrl,
+                subtitles: [],
+            };
+        }
+        try {
+            subtitlesString = (subtitlesString
+                .replace(/src:(\s)+?(videoUrl)/g, 'src:"removed"')
+                .substring(0, subtitlesString.lastIndexOf("},")) + "]")
+                .split("\n")
+                .map((line) => line.replace(/([^\s]+):\s?(?!.*\1)/, '"$1":'))
+                .join("\n");
+            const subtitlesObj = JSON.parse(subtitlesString);
+            const subtitles = subtitlesObj.filter((sub) => sub.type === "captions");
+            return {
+                playlistUrl,
+                subtitles,
+            };
+        }
+        catch {
+            return {
+                playlistUrl,
+                subtitles: [],
+            };
+        }
+    }
     async getVideoData(videoId) {
         const postInfo = await this.getPostInfo(videoId);
         if (!postInfo) {
             return undefined;
         }
-        const videoBlock = postInfo.blocks.find((block) => block.type === "video");
-        const playlistUrl = videoBlock?.video_url?.replace("qsep://", "https://");
-        if (!playlistUrl) {
+        const videoBlock = this.getVideoBlock();
+        if (!videoBlock) {
             return undefined;
         }
+        const { playlistUrl, subtitles: videoSubtitles } = videoBlock;
         const { title, description } = postInfo;
-        const subtitles = videoBlock?.video_captions?.map((caption) => ({
-            language: normalizeLang(caption.locale),
+        const subtitles = videoSubtitles.map((caption) => ({
+            language: normalizeLang(caption.srclang),
+            source: "epicgames",
             format: "vtt",
-            url: caption.signed_url,
+            url: caption.src,
         }));
         return {
             url: playlistUrl,
@@ -3616,11 +4356,24 @@ class EpicGamesHelper extends BaseHelper {
         };
     }
     async getVideoId(url) {
-        return /\/(\w{3,5})\/[^/]+$/.exec(url.pathname)?.[1];
+        return new Promise((resolve) => {
+            const origin = "https://dev.epicgames.com";
+            window.addEventListener("message", (e) => {
+                if (e.origin !== origin) {
+                    return undefined;
+                }
+                if (typeof e.data === "string" && e.data.startsWith("getVideoId:")) {
+                    const videoId = e.data.replace("getVideoId:", "");
+                    return resolve(videoId);
+                }
+                return undefined;
+            });
+            window.top.postMessage("getVideoId", origin);
+        });
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/nineanimetv.js
+;// ./node_modules/@vot.js/ext/dist/helpers/nineanimetv.js
 
 
 
@@ -3704,6 +4457,7 @@ class NineAnimeTVHelper extends BaseHelper {
             }
             result.push({
                 language,
+                source: "nineanimetv",
                 format: "vtt",
                 url: track.file,
             });
@@ -3715,23 +4469,24 @@ class NineAnimeTVHelper extends BaseHelper {
         };
     }
     async getVideoId(url) {
-        return new Promise(resolve => {
-            const origin = "https://9animetv.to"
+        return new Promise((resolve) => {
+            const origin = "https://9animetv.to";
             window.addEventListener("message", (e) => {
                 if (e.origin !== origin) {
-                    return;
+                    return undefined;
                 }
-
-                if (e.data?.startsWith("getVideoId:")) {
-                    resolve(e.data.replace("getVideoId:", ""))
+                if (typeof e.data === "string" && e.data.startsWith("getVideoId:")) {
+                    const videoId = e.data.replace("getVideoId:", "");
+                    return resolve(videoId);
                 }
-            })
+                return undefined;
+            });
             window.top.postMessage("getVideoId", origin);
         });
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/odysee.js
+;// ./node_modules/@vot.js/ext/dist/helpers/odysee.js
 
 
 class OdyseeHelper extends BaseHelper {
@@ -3756,34 +4511,47 @@ class OdyseeHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/coursehunterLike.js
+;// ./node_modules/@vot.js/ext/dist/helpers/coursehunterLike.js
 
 
 class CoursehunterLikeHelper extends BaseHelper {
     API_ORIGIN = this.origin ?? "https://coursehunter.net";
-    async getCourseId(videoId) {
-        try {
-            const res = await this.fetch(`${this.API_ORIGIN}/${videoId}`);
-            const content = await res.text();
-            return /course_id(\s)?=(\s)?([\d]+)/.exec(content)?.[3];
+    async getCourseId() {
+        const courseId = window.course_id;
+        if (courseId !== undefined) {
+            return String(courseId);
         }
-        catch (err) {
-            Logger.error(`Failed to get CoursehunterLike courseId by videoId: ${videoId}, because ${err.message}`);
-            return false;
-        }
+        const inputEl = document.querySelector('input[name="course_id"]');
+        return inputEl ? inputEl.value : undefined;
     }
     async getLessonsData(courseId) {
+        const lessons = window.lessons;
+        if (lessons?.length) {
+            return lessons;
+        }
         try {
             const res = await this.fetch(`${this.API_ORIGIN}/api/v1/course/${courseId}/lessons`);
             return (await res.json());
         }
         catch (err) {
             Logger.error(`Failed to get CoursehunterLike lessons data by courseId: ${courseId}, because ${err.message}`);
-            return false;
+            return undefined;
         }
     }
+    getLessondId(videoId) {
+        let lessondId = videoId.split("?lesson=")?.[1];
+        if (lessondId) {
+            return +lessondId;
+        }
+        const activeLessondEl = document.querySelector(".lessons-item_active");
+        lessondId = activeLessondEl?.dataset?.index;
+        if (lessondId) {
+            return +lessondId;
+        }
+        return 1;
+    }
     async getVideoData(videoId) {
-        const courseId = await this.getCourseId(videoId);
+        const courseId = await this.getCourseId();
         if (!courseId) {
             return undefined;
         }
@@ -3791,7 +4559,7 @@ class CoursehunterLikeHelper extends BaseHelper {
         if (!lessonsData) {
             return undefined;
         }
-        const lessonId = +(videoId.split("?lesson=")?.[1] ?? 1);
+        const lessonId = this.getLessondId(videoId);
         const currentLesson = lessonsData?.[lessonId - 1];
         const { file: videoUrl, duration, title } = currentLesson;
         if (!videoUrl) {
@@ -3809,40 +4577,30 @@ class CoursehunterLikeHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/twitch.js
-
+;// ./node_modules/@vot.js/ext/dist/helpers/twitch.js
 
 class TwitchHelper extends BaseHelper {
     API_ORIGIN = "https://clips.twitch.tv";
     async getClipLink(pathname, clipId) {
-        const schema = document.querySelector(
-            "script[type='application/ld+json']",
-        );
+        const schema = document.querySelector("script[type='application/ld+json']");
         const clearPathname = pathname.slice(1);
         if (schema) {
             const schemaJSON = JSON.parse(schema.innerText);
-            const channelLink = schemaJSON["@graph"].find(
-                (obj) => obj["@type"] === "VideoObject",
-            )?.creator.url;
-
+            const channelLink = schemaJSON["@graph"].find((obj) => obj["@type"] === "VideoObject")?.creator.url;
+            if (!channelLink) {
+                throw new VideoHelperError("Failed to find channel link");
+            }
             const channelName = channelLink.replace("https://www.twitch.tv/", "");
             return `${channelName}/clip/${clearPathname}`;
         }
         const isEmbed = clearPathname === "embed";
-        const channelLink = document.querySelector(
-            isEmbed
-                ? ".tw-link[data-test-selector='stream-info-card-component__stream-avatar-link']"
-                : ".clips-player a:not([class])",
-        );
+        const channelLink = document.querySelector(isEmbed
+            ? ".tw-link[data-test-selector='stream-info-card-component__stream-avatar-link']"
+            : ".clips-player a:not([class])");
         if (!channelLink) {
             return undefined;
         }
-
-        const channelName = channelLink.href.replace(
-            "https://www.twitch.tv/",
-            "",
-        );
-
+        const channelName = channelLink.href.replace("https://www.twitch.tv/", "");
         return `${channelName}/clip/${isEmbed ? clipId : clearPathname}`;
     }
     async getVideoId(url) {
@@ -3865,7 +4623,7 @@ class TwitchHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/sap.js
+;// ./node_modules/@vot.js/ext/dist/helpers/sap.js
 
 
 
@@ -3922,16 +4680,22 @@ class SapHelper extends BaseHelper {
     }
     async getKalturaData(videoId) {
         try {
-            const sapData = /https:\/\/([^"]+)\/p\/([^"]+)\/embedPlaykitJs\/uiconf_id\/([^"]+)/.exec(document.querySelector('script[data-nscript="beforeInteractive"]')?.src)
+            const scriptEl = document.querySelector('script[data-nscript="beforeInteractive"]');
+            if (!scriptEl) {
+                throw new VideoHelperError("Failed to find script element");
+            }
+            const sapData = /https:\/\/([^"]+)\/p\/([^"]+)\/embedPlaykitJs\/uiconf_id\/([^"]+)/.exec(scriptEl?.src);
             if (!sapData) {
                 throw new VideoHelperError(`Failed to get sap data for videoId: ${videoId}`);
             }
             const [, kalturaDomain, partnerId] = sapData;
-            let entryId = document
-                .querySelector("#shadow")
-                ?.firstChild?.getAttribute("id");
+            let entryId = document.querySelector("#shadow")?.firstChild?.getAttribute("id");
             if (!entryId) {
-                entryId = /"sourceId":\s?"([^"]+)"/.exec(document.querySelector("#__NEXT_DATA__")?.innerText)?.[1];
+                const nextDataEl = document.querySelector("#__NEXT_DATA__");
+                if (!nextDataEl) {
+                    throw new VideoHelperError("Failed to find next data element");
+                }
+                entryId = /"sourceId":\s?"([^"]+)"/.exec(nextDataEl.innerText)?.[1];
             }
             if (!kalturaDomain || Number.isNaN(+partnerId) || !entryId) {
                 throw new VideoHelperError(`One of the necessary parameters for getting a link to a sap video in wasn't found for ${videoId}. Params: kalturaDomain = ${kalturaDomain}, partnerId = ${partnerId}, entryId = ${entryId}`);
@@ -3959,6 +4723,7 @@ class SapHelper extends BaseHelper {
         const subtitles = playbackContext.playbackCaptions.map((caption) => {
             return {
                 language: normalizeLang(caption.languageCode),
+                source: "sap",
                 format: "vtt",
                 url: caption.webVttUrl,
                 isAutoGenerated: caption.label.includes("auto-generated"),
@@ -3975,282 +4740,39 @@ class SapHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/consts.js
-const availableLangs = [
-    "auto",
-    "ru",
-    "en",
-    "zh",
-    "ko",
-    "lt",
-    "lv",
-    "ar",
-    "fr",
-    "it",
-    "es",
-    "de",
-    "ja",
-];
-const availableTTS = ["ru", "en", "kk"];
-const subtitlesFormats = ["srt", "vtt", "json"];
-
-
-;// ./node_modules/vot.js/dist/helpers/udemy.js
-
-
-
-
-
-
-
-
-class UdemyHelper extends BaseHelper {
-  API_ORIGIN = "https://www.udemy.com/api-2.0";
-
-  getModuleData() {
-      const moduleArgs = document.querySelector(
-          ".ud-app-loader[data-module-id='course-taking']",
-      )?.dataset?.moduleArgs;
-      if (!moduleArgs) {
-          console.error(localizationProvider.get("udemyModuleArgsNotFound"));
-          return {};
-      }
-      return JSON.parse(moduleArgs);
-  }
-
-  getLectureId() {
-      return /learn\/lecture\/([^/]+)/.exec(window.location.pathname)?.[1];
-  }
-
-  async getLectureData(courseId, lectureId) {
-      const res = await this.fetch(
-          `${this.API_ORIGIN}/users/me/subscribed-courses/${courseId}/lectures/${lectureId}/?` +
-          new URLSearchParams({
-              "fields[lecture]": "title,description,asset",
-              "fields[asset]": "length,media_sources,captions",
-          })
-      );
-      return await res.json();
-  }
-
-  async getCourseLang(courseId) {
-      const res = await this.fetch(
-          `${this.API_ORIGIN}/users/me/subscribed-courses/${courseId}?` +
-          new URLSearchParams({
-              "fields[course]": "locale",
-          })
-      );
-      return await res.json();
-  }
-
-  findVideoUrl(sources) {
-      return sources?.find((src) => src.type === "video/mp4")?.src;
-  }
-
-  findSubtitleUrl(captions, detectedLanguage) {
-      let subtitle = captions?.find(
-          (caption) => normalizeLang(caption.locale_id) === detectedLanguage,
-      );
-
-      if (!subtitle) {
-          subtitle = captions?.find(
-              (caption) => normalizeLang(caption.locale_id) === "en",
-          ) ?? captions?.[0];
-      }
-
-      return subtitle?.url;
-  }
-
-  async getVideoData(videoId) {
-      const { courseId } = this.getModuleData();
-      if (!courseId) {
-          return undefined;
-      }
-
-      const lectureId = this.getLectureId();
-      debug.log(`[Udemy] courseId: ${courseId}, lectureId: ${lectureId}`)
-      if (!lectureId) {
-          return undefined;
-      }
-
-      const { title, description, asset } = await this.getLectureData(courseId, lectureId);
-      const { length: duration, media_sources, captions } = asset;
-
-      const videoUrl = this.findVideoUrl(media_sources);
-      if (!videoUrl) {
-          console.log("Failed to find .mp4 video file in media_sources", media_sources);
-          return undefined;
-      }
-
-      const courseLangData = await this.getCourseLang(courseId);
-      let { locale: { locale: courseLang } } = courseLangData;
-      courseLang = courseLang ? normalizeLang(courseLang) : "en";
-      if (!availableLangs.includes(courseLang)) {
-          courseLang = "en";
-      }
-
-      const subtitleUrl = this.findSubtitleUrl(captions, courseLang);
-      if (!subtitleUrl) {
-          console.log("Failed to find subtitle file in captions", captions)
-      }
-
-      return {
-          ...subtitleUrl ? {
-              url: this.service?.url + videoId,
-              translationHelp: [
-                  {
-                      target: "subtitles_file_url",
-                      targetUrl: subtitleUrl,
-                  },
-                  {
-                      target: "video_file_url",
-                      targetUrl: videoUrl,
-                  },
-              ],
-              detectedLanguage: courseLang,
-          } : {
-              url: videoUrl,
-              translationHelp: null,
-          },
-          duration,
-          title,
-          description,
-      };
-  }
-
-  async getVideoId(url) {
-      return url.pathname.slice(1);
-  }
-}
-
-;// ./node_modules/vot.js/dist/helpers/coursera.js
-
-
-
-
-
-
-class CourseraHelper extends BaseHelper {
-    API_ORIGIN = "https://www.coursera.org/api";
-
-    async getCourseData(courseId) {
-        const response = await this.fetch(
-            `${this.API_ORIGIN}/onDemandCourses.v1/${courseId}`,
-        );
-        const resJSON = await response.json();
-        return resJSON?.elements?.[0];
-    }
-
-    getPlayer() {
-        return document.querySelector(".vjs-v8");
-    }
-
-    getPlayerData() {
-        return this.getPlayer()?.player;
-    }
-
-    findVideoUrl(sources) {
-        return sources?.find((src) => src.type === "video/mp4")?.src;
-    }
-
-    findSubtitleUrl(captions, detectedLanguage) {
-        let subtitle = captions?.find(
-            (caption) => normalizeLang(caption.srclang) === detectedLanguage,
-        );
-
-        if (!subtitle) {
-            subtitle = captions?.find(
-                (caption) => normalizeLang(caption.srclang) === "en",
-            ) || captions?.[0];
-        }
-
-        return subtitle?.src;
-    }
-
-    async getVideoData(videoId) {
-        const data = this.getPlayerData();
-
-        const { duration } = data?.cache_ || {};
-        const { courseId, tracks, sources } = data?.options_ || {};
-
-        const videoUrl = this.findVideoUrl(sources);
-        if (!videoUrl) {
-            console.log("Failed to find .mp4 video file in sources", sources);
-            return undefined;
-        }
-
-        const { primaryLanguageCodes } = await this.getCourseData(courseId);
-        let courseLang = primaryLanguageCodes?.[0];
-        courseLang = courseLang ? normalizeLang(courseLang) : "en";
-
-        if (!availableLangs.includes(courseLang)) {
-            courseLang = "en";
-        }
-
-        const subtitleUrl = this.findSubtitleUrl(tracks, courseLang);
-        if (!subtitleUrl) {
-            console.log("Failed to find subtitle file in tracks", tracks)
-        }
-
-        return {
-            ...subtitleUrl ? {
-                url: this.service?.url + videoId,
-                translationHelp: [
-                    {
-                        target: "subtitles_file_url",
-                        targetUrl: subtitleUrl,
-                    },
-                    {
-                        target: "video_file_url",
-                        targetUrl: videoUrl,
-                    },
-                ],
-            } : {
-                url: videoUrl,
-                translationHelp: null,
-            },
-            detectedLanguage: courseLang,
-            duration,
-        };
-    }
-
-    async getVideoId(url) {
-        return /learn\/([^/]+)\/lecture\/([^/]+)/.exec(url.pathname)?.[0]; // <-- COURSE PASSING (IF YOU LOGINED TO COURSERA)
-    }
-}
-;// ./node_modules/vot.js/dist/helpers/linkedin.js
+;// ./node_modules/@vot.js/ext/dist/helpers/linkedin.js
 
 
 
 class LinkedinHelper extends BaseHelper {
-    API_ORIGIN = "https://www.linkedin.com/learning";
+    static getPlayer() {
+        const videoEl = document.querySelector(".video-js");
+        if (!videoEl) {
+            return undefined;
+        }
+        return videoEl.player;
+    }
     async getVideoData(videoId) {
         try {
-            const videoEl = document.querySelector(".video-js");
-            if (!videoEl) {
-                throw new VideoHelperError(`Failed to find video element for videoID ${videoId}`);
+            const player = LinkedinHelper.getPlayer();
+            if (!player) {
+                throw new Error(`Video player doesn't have player option, videoId ${videoId}`);
             }
-            const dataSource = (videoEl.getAttribute("data-sources") ?? "[]")
-                .replaceAll("&quot;", '"')
-                .replaceAll("&amp;", "&");
-            const sources = JSON.parse(dataSource);
-            const videoUrl = sources.find((source) => source.src.includes(".mp4"));
+            const { cache_: { sources, duration }, textTracks_: { tracks_ }, } = player;
+            const videoUrl = sources.find((source) => source.type === "video/mp4");
             if (!videoUrl) {
                 throw new Error(`Failed to find video url for videoID ${videoId}`);
             }
             const url = new URL(videoUrl.src);
-            const captionUrl = videoEl.getAttribute("data-captions-url");
-            const subtitles = captionUrl
-                ? [
-                    {
-                        language: "en",
-                        format: "vtt",
-                        url: captionUrl,
-                    },
-                ]
-                : undefined;
+            const subtitles = tracks_.map((track) => ({
+                language: normalizeLang(track.language),
+                source: "linkedin",
+                format: "vtt",
+                url: track.src,
+            }));
             return {
                 url: proxyMedia(url),
+                duration,
                 subtitles,
             };
         }
@@ -4264,7 +4786,7 @@ class LinkedinHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/vimeo.js
+;// ./node_modules/@vot.js/ext/dist/helpers/vimeo.js
 
 
 
@@ -4272,7 +4794,7 @@ class VimeoHelper extends BaseHelper {
     API_KEY = "";
     DEFAULT_SITE_ORIGIN = "https://vimeo.com";
     SITE_ORIGIN = this.isPrivatePlayer()
-        ? (this.service?.url?.slice(0, -1) ?? this.DEFAULT_SITE_ORIGIN)
+        ? this.service?.url?.slice(0, -1) ?? this.DEFAULT_SITE_ORIGIN
         : this.DEFAULT_SITE_ORIGIN;
     isErrorData(data) {
         return Object.hasOwn(data, "error");
@@ -4358,13 +4880,15 @@ class VimeoHelper extends BaseHelper {
     }
     async getPrivateVideoInfo(videoId) {
         try {
-            // playerConfig is window.playerConfig
-            const videoSource = await this.getPrivateVideoSource(playerConfig.request.files);
+            if (typeof playerConfig === "undefined") {
+                return undefined;
+            }
+            const vimeoPlayerConfig = playerConfig;
+            const videoSource = await this.getPrivateVideoSource(vimeoPlayerConfig.request.files);
             if (!videoSource) {
                 throw new VideoHelperError("Failed to get private video source");
             }
-            const { title, duration } = playerConfig.video;
-            const { text_tracks: subs } = playerConfig.request;
+            const { video: { title, duration }, request: { text_tracks: subs }, } = vimeoPlayerConfig;
             return {
                 url: `${this.SITE_ORIGIN}/${videoId}`,
                 video_url: videoSource,
@@ -4413,6 +4937,7 @@ class VimeoHelper extends BaseHelper {
             const { url, subs, video_url, title, duration } = videoInfo;
             const subtitles = subs.map((sub) => ({
                 language: normalizeLang(sub.lang),
+                source: "vimeo",
                 format: "vtt",
                 url: this.SITE_ORIGIN + sub.url,
                 isAutoGenerated: sub.lang.includes("autogenerated"),
@@ -4455,6 +4980,7 @@ class VimeoHelper extends BaseHelper {
         const subtitles = subsData
             ? subsData.data.map((caption) => ({
                 language: normalizeLang(caption.language),
+                source: "vimeo",
                 format: "vtt",
                 url: caption.link,
                 isAutoGenerated: caption.language.includes("autogen"),
@@ -4476,101 +5002,75 @@ class VimeoHelper extends BaseHelper {
         }
         return embedId?.startsWith("video/")
             ? embedId.replace("video/", "")
-            : (embedId ?? /[^/]+$/.exec(url.pathname)?.[0]);
+            : embedId ?? /[^/]+$/.exec(url.pathname)?.[0];
     }
 }
 
-;// ./src/utils/VOTLocalizedError.js
-
-
-class VOTLocalizedError extends Error {
-  constructor(message) {
-    super(localizationProvider.getDefault(message));
-    this.name = "VOTLocalizedError";
-    this.unlocalizedMessage = message;
-    this.localizedMessage = localizationProvider.get(message);
-  }
-}
-
-;// ./node_modules/vot.js/dist/helpers/yandexdisk.js
-
+;// ./node_modules/@vot.js/ext/dist/helpers/yandexdisk.js
 
 class YandexDiskHelper extends BaseHelper {
     API_ORIGIN = "https://disk.yandex.ru";
     CLIENT_PREFIX = "/client/disk";
+    isErrorData(data) {
+        return Object.hasOwn(data, "error");
+    }
     async getVideoData(videoId) {
         if (!videoId.startsWith(this.CLIENT_PREFIX)) {
             return {
                 url: this.service.url + videoId,
             };
         }
-
-        const url = new URL(window.location);
+        const url = new URL(window.location.href);
         const dialogId = url.searchParams.get("idDialog");
         if (!dialogId) {
             return undefined;
         }
-
         const preloadedScript = document.querySelector("#preloaded-data");
         if (!preloadedScript) {
             return undefined;
         }
-
         try {
             const preloadedData = JSON.parse(preloadedScript.innerText);
             const { idClient, sk } = preloadedData.config;
             const res = await this.fetch(this.API_ORIGIN + "/models/?_m=resource", {
                 method: "POST",
                 body: new URLSearchParams({
-                idClient,
-                sk,
-                "_model.0": "resource",
-                "id.0": dialogId.replaceAll(" ", "+"),
+                    idClient,
+                    sk,
+                    "_model.0": "resource",
+                    "id.0": dialogId.replaceAll(" ", "+"),
                 })
-                .toString()
-                .replaceAll(/%2B/g, "+"), // yandex requires this
+                    .toString()
+                    .replaceAll(/%2B/g, "+"),
                 headers: {
-                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
                 },
             });
-
-            const data = await res.json();
+            const data = (await res.json());
             if (!data.models) {
                 throw new VideoHelperError("Failed to get resource info");
             }
-
             const model = data.models[0];
             const modelData = model.data;
-            if (Object.hasOwn(modelData, "error")) {
+            if (this.isErrorData(modelData)) {
                 throw new VideoHelperError(modelData.error?.message);
             }
-
-            const { meta, name } = modelData;
-            const { short_url, video_info } = meta;
+            const { meta: { short_url, video_info }, name, } = modelData;
             if (!video_info) {
                 throw new VideoHelperError("There's no video open right now");
             }
-
             if (!short_url) {
-                throw new VideoHelperError("VOTLimitedVideoAccess");
+                throw new VideoHelperError("Access to the video is limited");
             }
-
             const title = name.replace(/(\.[^.]+)$/, "");
-
             return {
                 url: short_url,
                 title,
                 duration: video_info.duration,
             };
-        } catch (err) {
-            if (err.message?.startsWith("VOT")) {
-                throw new VOTLocalizedError(err.message);
-            }
-
-            console.error(
-                `Failed to get yandex disk video data by video ID: ${videoId}`,
-                err.message,
-            );
+        }
+        catch (err) {
+            console.error(`Failed to get yandex disk video data by video ID: ${videoId}`, err.message);
             return undefined;
         }
     }
@@ -4579,20 +5079,79 @@ class YandexDiskHelper extends BaseHelper {
         if (fileId) {
             return `i/${fileId}`;
         }
-
         return url.pathname.startsWith(this.CLIENT_PREFIX)
             ? url.pathname + url.search
             : undefined;
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/vk.js
+;// ./node_modules/@vot.js/ext/dist/helpers/vk.js
+
+
 
 class VKHelper extends BaseHelper {
+    static getPlayer() {
+        if (typeof Videoview === "undefined") {
+            return undefined;
+        }
+        const videoView = Videoview;
+        return videoView.getPlayerObject
+            ? videoView.getPlayerObject.call(undefined)
+            : undefined;
+    }
+    getDefault(videoId) {
+        if (!this.service) {
+            return undefined;
+        }
+        return {
+            url: this.service.url + videoId,
+            duration: undefined,
+        };
+    }
+    async getVideoData(videoId) {
+        const player = VKHelper.getPlayer();
+        if (!player) {
+            return this.getDefault(videoId);
+        }
+        try {
+            const { description: descriptionHTML, duration, md_title: title, } = player.vars;
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(descriptionHTML, "text/html");
+            const description = Array.from(doc.body.childNodes)
+                .filter((el) => el.nodeName !== "BR")
+                .map((el) => el.textContent)
+                .join("\n");
+            let subtitles;
+            if (Object.hasOwn(player.vars, "subs")) {
+                subtitles = player.vars.subs.map((sub) => ({
+                    language: normalizeLang(sub.lang),
+                    source: "vk",
+                    format: "vtt",
+                    url: sub.url,
+                    isAutoGenerated: !!sub.is_auto,
+                }));
+            }
+            return {
+                url: this.service.url + videoId,
+                title,
+                description,
+                duration,
+                subtitles,
+            };
+        }
+        catch (err) {
+            Logger.error(`Failed to get VK video data, because: ${err.message}`);
+            return this.getDefault(videoId);
+        }
+    }
     async getVideoId(url) {
         const pathID = /^\/(video|clip)-?\d{8,9}_\d{9}$/.exec(url.pathname);
         if (pathID) {
             return pathID[0].slice(1);
+        }
+        const idInsidePlaylist = /\/playlist\/[^/]+\/(video-\d{8,9}_\d{9})/.exec(url.pathname);
+        if (idInsidePlaylist) {
+            return idInsidePlaylist[1];
         }
         const paramZ = url.searchParams.get("z");
         if (paramZ) {
@@ -4607,7 +5166,7 @@ class VKHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/trovo.js
+;// ./node_modules/@vot.js/ext/dist/helpers/trovo.js
 
 class TrovoHelper extends BaseHelper {
     async getVideoId(url) {
@@ -4620,7 +5179,7 @@ class TrovoHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/incestflix.js
+;// ./node_modules/@vot.js/ext/dist/helpers/incestflix.js
 
 
 
@@ -4632,6 +5191,9 @@ class IncestflixHelper extends BaseHelper {
                 throw new VideoHelperError("Failed to find source element");
             }
             const srcLink = sourceEl.getAttribute("src");
+            if (!srcLink) {
+                throw new VideoHelperError("Failed to find source link");
+            }
             const source = new URL(srcLink.startsWith("//") ? `https:${srcLink}` : srcLink);
             source.searchParams.append("media-proxy", "video.mp4");
             return {
@@ -4648,37 +5210,29 @@ class IncestflixHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/porntn.js
+;// ./node_modules/@vot.js/ext/dist/helpers/porntn.js
 
 
 
 class PornTNHelper extends BaseHelper {
     async getVideoData(videoId) {
         try {
-            const content =  document.body.innerHTML;
-            const varDelimiter = /var flashvars\s=\s/;
-            const dataScript = document
-                .getElementsByTagName("script")
-                .find((node) => varDelimiter.exec(node.textContent));
-            if (!dataScript) {
-                throw new VideoHelperError("Failed to find data script");
+            if (typeof flashvars === "undefined") {
+                return undefined;
             }
-            const scriptText = dataScript.textContent
-                .split(varDelimiter)?.[1]
-                ?.split(";\n", 1)[0]
-                .replace(/(\t|\n)/g, "");
-            Logger.log(scriptText);
-            const source = /video_url: 'function\/0\/([^']+)'/.exec(content)?.[1];
-            const rnd = /rnd: '([^']+)'/.exec(content)?.[1];
+            const { rnd, video_url: source, video_title: title, } = flashvars;
             if (!source || !rnd) {
                 throw new VideoHelperError("Failed to find video source or rnd");
             }
-            const title = /video_title: '([^']+)'/.exec(content)?.[1];
-            const url = new URL(source);
-            url.searchParams.append("rnd", rnd);
-            Logger.log(url.href);
+            const getFileUrl = new URL(source);
+            getFileUrl.searchParams.append("rnd", rnd);
+            Logger.log("PornTN get_file link", getFileUrl.href);
+            const cdnResponse = await this.fetch(getFileUrl.href, { method: "head" });
+            const cdnUrl = new URL(cdnResponse.url);
+            Logger.log("PornTN cdn link", cdnUrl.href);
+            const proxiedUrl = proxyMedia(cdnUrl);
             return {
-                url: proxyMedia(url),
+                url: proxiedUrl,
                 title,
             };
         }
@@ -4692,7 +5246,526 @@ class PornTNHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/helpers/index.js
+;// ./node_modules/@vot.js/ext/dist/helpers/googledrive.js
+
+class GoogleDriveHelper extends BaseHelper {
+    getPlayerData() {
+        const playerEl = document.querySelector("#movie_player");
+        return playerEl?.getVideoData?.call() ?? undefined;
+    }
+    async getVideoId(url) {
+        return this.getPlayerData()?.video_id;
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/bilibili.js
+
+class BilibiliHelper extends BaseHelper {
+    async getVideoId(url) {
+        const bangumiId = /bangumi\/play\/([^/]+)/.exec(url.pathname)?.[0];
+        if (bangumiId) {
+            return bangumiId;
+        }
+        const bvid = url.searchParams.get("bvid");
+        if (bvid) {
+            return `video/${bvid}`;
+        }
+        let vid = /video\/([^/]+)/.exec(url.pathname)?.[0];
+        if (vid && url.searchParams.get("p") !== null) {
+            vid += `/?p=${url.searchParams.get("p")}`;
+        }
+        return vid;
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/xvideos.js
+
+class XVideosHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /[^/]+\/[^/]+$/.exec(url.pathname)?.[0];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/watchpornto.js
+
+class WatchPornToHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /(video|embed)\/(\d+)(\/[^/]+\/)?/.exec(url.pathname)?.[0];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/archive.js
+
+class ArchiveHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /(details|embed)\/([^/]+)/.exec(url.pathname)?.[2];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/dailymotion.js
+
+class DailymotionHelper extends BaseHelper {
+    async getVideoId(url) {
+        const plainPlayerConfig = Array.from(document.querySelectorAll("*")).filter((s) => s.innerHTML.trim().includes(".m3u8"));
+        const videoUrl = plainPlayerConfig?.[1]?.lastChild?.src;
+        return videoUrl ? /\/video\/(\w+)\.m3u8/.exec(videoUrl)?.[1] : undefined;
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/youku.js
+
+class YoukuHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /v_show\/id_[\w=]+/.exec(url.pathname)?.[0];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/egghead.js
+
+class EggheadHelper extends BaseHelper {
+    async getVideoId(url) {
+        return url.pathname.slice(1);
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/newgrounds.js
+
+class NewgroundsHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /([^/]+)\/(view)\/([^/]+)/.exec(url.pathname)?.[0];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/okru.js
+
+class OKRuHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /\/video\/(\d+)/.exec(url.pathname)?.[1];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/peertube.js
+
+class PeertubeHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /\/w\/([^/]+)/.exec(url.pathname)?.[0];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/eporner.js
+
+class EpornerHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /video-([^/]+)\/([^/]+)/.exec(url.pathname)?.[0];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/bitchute.js
+
+class BitchuteHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /(video|embed)\/([^/]+)/.exec(url.pathname)?.[2];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/rutube.js
+
+class RutubeHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /(?:video|embed)\/([^/]+)/.exec(url.pathname)?.[1];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/facebook.js
+
+class FacebookHelper extends BaseHelper {
+    async getVideoId(url) {
+        return url.pathname.slice(1);
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/rumble.js
+
+class RumbleHelper extends BaseHelper {
+    async getVideoId(url) {
+        return url.pathname.slice(1);
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/twitter.js
+
+class TwitterHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /status\/([^/]+)/.exec(url.pathname)?.[1];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/pornhub.js
+
+class PornhubHelper extends BaseHelper {
+    async getVideoId(url) {
+        return (url.searchParams.get("viewkey") ??
+            /embed\/([^/]+)/.exec(url.pathname)?.[1]);
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/tiktok.js
+
+class TikTokHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /([^/]+)\/video\/([^/]+)/.exec(url.pathname)?.[0];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/nine_gag.js
+
+class NineGAGHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /gag\/([^/]+)/.exec(url.pathname)?.[1];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/youtube.js
+
+class YoutubeHelper extends BaseHelper {
+    async getVideoId(url) {
+        if (url.hostname === "youtu.be") {
+            url.search = `?v=${url.pathname.replace("/", "")}`;
+            url.pathname = "/watch";
+        }
+        return (/(?:watch|embed|shorts|live)\/([^/]+)/.exec(url.pathname)?.[1] ??
+            url.searchParams.get("v"));
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/dzen.js
+
+class DzenHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /video\/watch\/([^/]+)/.exec(url.pathname)?.[1];
+    }
+}
+
+;// ./node_modules/@vot.js/shared/dist/data/consts.js
+const availableLangs = [
+    "auto",
+    "ru",
+    "en",
+    "zh",
+    "ko",
+    "lt",
+    "lv",
+    "ar",
+    "fr",
+    "it",
+    "es",
+    "de",
+    "ja",
+];
+const availableTTS = ["ru", "en", "kk"];
+const subtitlesFormats = ["srt", "vtt", "json"];
+
+
+;// ./node_modules/@vot.js/ext/dist/helpers/udemy.js
+
+
+
+
+class UdemyHelper extends BaseHelper {
+    API_ORIGIN = "https://www.udemy.com/api-2.0";
+    getModuleData() {
+        const appLoaderEl = document.querySelector(".ud-app-loader[data-module-id='course-taking']");
+        const moduleData = appLoaderEl?.dataset?.moduleArgs;
+        if (!moduleData) {
+            return undefined;
+        }
+        return JSON.parse(moduleData);
+    }
+    getLectureId() {
+        return /learn\/lecture\/([^/]+)/.exec(window.location.pathname)?.[1];
+    }
+    async getLectureData(courseId, lectureId) {
+        try {
+            const res = await this.fetch(`${this.API_ORIGIN}/users/me/subscribed-courses/${courseId}/lectures/${lectureId}/?` +
+                new URLSearchParams({
+                    "fields[lecture]": "title,description,asset",
+                    "fields[asset]": "length,media_sources,captions",
+                }).toString());
+            return (await res.json());
+        }
+        catch (err) {
+            Logger.error(`Failed to get lecture data by courseId: ${courseId} and lectureId: ${lectureId}`, err.message);
+            return undefined;
+        }
+    }
+    async getCourseLang(courseId) {
+        try {
+            const res = await this.fetch(`${this.API_ORIGIN}/users/me/subscribed-courses/${courseId}?` +
+                new URLSearchParams({
+                    "fields[course]": "locale",
+                }).toString());
+            return (await res.json());
+        }
+        catch (err) {
+            Logger.error(`Failed to get course lang by courseId: ${courseId}`, err.message);
+            return undefined;
+        }
+    }
+    findVideoUrl(sources) {
+        return sources?.find((src) => src.type === "video/mp4")?.src;
+    }
+    findSubtitleUrl(captions, detectedLanguage) {
+        let subtitle = captions?.find((caption) => normalizeLang(caption.locale_id) === detectedLanguage);
+        if (!subtitle) {
+            subtitle =
+                captions?.find((caption) => normalizeLang(caption.locale_id) === "en") ?? captions?.[0];
+        }
+        return subtitle?.url;
+    }
+    async getVideoData(videoId) {
+        const moduleData = this.getModuleData();
+        if (!moduleData) {
+            return undefined;
+        }
+        const { courseId } = moduleData;
+        const lectureId = this.getLectureId();
+        Logger.log(`[Udemy] courseId: ${courseId}, lectureId: ${lectureId}`);
+        if (!lectureId) {
+            return undefined;
+        }
+        const lectureData = await this.getLectureData(courseId, lectureId);
+        if (!lectureData) {
+            return undefined;
+        }
+        const { title, description, asset } = lectureData;
+        const { length: duration, media_sources, captions } = asset;
+        const videoUrl = this.findVideoUrl(media_sources);
+        if (!videoUrl) {
+            Logger.log("Failed to find .mp4 video file in media_sources", media_sources);
+            return undefined;
+        }
+        let courseLang = "en";
+        const courseLangData = await this.getCourseLang(courseId);
+        if (courseLangData) {
+            const { locale: { locale: courseLocale }, } = courseLangData;
+            courseLang = courseLocale ? normalizeLang(courseLocale) : courseLang;
+        }
+        if (!availableLangs.includes(courseLang)) {
+            courseLang = "en";
+        }
+        const subtitleUrl = this.findSubtitleUrl(captions, courseLang);
+        if (!subtitleUrl) {
+            Logger.log("Failed to find subtitle file in captions", captions);
+        }
+        return {
+            ...(subtitleUrl
+                ? {
+                    url: this.service?.url + videoId,
+                    translationHelp: [
+                        {
+                            target: "subtitles_file_url",
+                            targetUrl: subtitleUrl,
+                        },
+                        {
+                            target: "video_file_url",
+                            targetUrl: videoUrl,
+                        },
+                    ],
+                    detectedLanguage: courseLang,
+                }
+                : {
+                    url: videoUrl,
+                    translationHelp: null,
+                }),
+            duration,
+            title,
+            description,
+        };
+    }
+    async getVideoId(url) {
+        return url.pathname.slice(1);
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/coursera.js
+
+
+
+
+class CourseraHelper extends BaseHelper {
+    API_ORIGIN = "https://www.coursera.org/api";
+    async getCourseData(courseId) {
+        try {
+            const response = await this.fetch(`${this.API_ORIGIN}/onDemandCourses.v1/${courseId}`);
+            const resJSON = (await response.json());
+            return resJSON?.elements?.[0];
+        }
+        catch (err) {
+            Logger.error(`Failed to get course data by courseId: ${courseId}`, err.message);
+            return undefined;
+        }
+    }
+    getPlayer() {
+        return document.querySelector(".vjs-v8");
+    }
+    getPlayerData() {
+        return this.getPlayer()?.player;
+    }
+    findVideoUrl(sources) {
+        return sources?.find((src) => src.type === "video/mp4")?.src;
+    }
+    findSubtitleUrl(captions, detectedLanguage) {
+        let subtitle = captions?.find((caption) => normalizeLang(caption.srclang) === detectedLanguage);
+        if (!subtitle) {
+            subtitle =
+                captions?.find((caption) => normalizeLang(caption.srclang) === "en") ||
+                    captions?.[0];
+        }
+        return subtitle?.src;
+    }
+    async getVideoData(videoId) {
+        const playerData = this.getPlayerData();
+        if (!playerData) {
+            Logger.error("Failed to find player data");
+            return undefined;
+        }
+        const { cache_: { duration }, options_: { courseId, tracks, sources }, } = playerData;
+        const videoUrl = this.findVideoUrl(sources);
+        if (!videoUrl) {
+            Logger.error("Failed to find .mp4 video file in sources", sources);
+            return undefined;
+        }
+        let courseLang = "en";
+        const courseData = await this.getCourseData(courseId);
+        if (courseData) {
+            const { primaryLanguageCodes: [primaryLangauge], } = courseData;
+            courseLang = primaryLangauge ? normalizeLang(primaryLangauge) : "en";
+        }
+        if (!availableLangs.includes(courseLang)) {
+            courseLang = "en";
+        }
+        const subtitleUrl = this.findSubtitleUrl(tracks, courseLang);
+        if (!subtitleUrl) {
+            Logger.warn("Failed to find subtitle file in tracks", tracks);
+        }
+        return {
+            ...(subtitleUrl
+                ? {
+                    url: this.service?.url + videoId,
+                    translationHelp: [
+                        {
+                            target: "subtitles_file_url",
+                            targetUrl: subtitleUrl,
+                        },
+                        {
+                            target: "video_file_url",
+                            targetUrl: videoUrl,
+                        },
+                    ],
+                }
+                : {
+                    url: videoUrl,
+                    translationHelp: null,
+                }),
+            detectedLanguage: courseLang,
+            duration,
+        };
+    }
+    async getVideoId(url) {
+        return /learn\/([^/]+)\/lecture\/([^/]+)/.exec(url.pathname)?.[0];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/cloudflarestream.js
+
+class CloudflareStreamHelper extends BaseHelper {
+    async getVideoId(url) {
+        return url.pathname + url.search;
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/douyin.js
+
+
+
+class DouyinHelper extends BaseHelper {
+    async getVideoData(videoId) {
+        if (typeof player === "undefined") {
+            return undefined;
+        }
+        const xgPlayer = player;
+        const { url: sources, duration, lang, isLive: isStream } = xgPlayer.config;
+        if (!sources) {
+            return undefined;
+        }
+        const source = sources.find((s) => s.src.includes("www.douyin.com/aweme/v1/play/"));
+        if (!source) {
+            return undefined;
+        }
+        return {
+            url: proxyMedia(source.src),
+            duration,
+            isStream,
+            ...(availableLangs.includes(lang)
+                ? { detectedLanguage: lang }
+                : {}),
+        };
+    }
+    async getVideoId(url) {
+        return /video\/([\d]+)/.exec(url.pathname)?.[0];
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/index.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4755,8 +5828,6 @@ const availableHelpers = {
     [VideoService.coursehunterLike]: CoursehunterLikeHelper,
     [VideoService.twitch]: TwitchHelper,
     [VideoService.sap]: SapHelper,
-    [VideoService.udemy]: UdemyHelper,
-    [VideoService.coursera]: CourseraHelper,
     [VideoService.linkedin]: LinkedinHelper,
     [VideoService.vimeo]: VimeoHelper,
     [VideoService.yandexdisk]: YandexDiskHelper,
@@ -4764,6 +5835,37 @@ const availableHelpers = {
     [VideoService.trovo]: TrovoHelper,
     [VideoService.incestflix]: IncestflixHelper,
     [VideoService.porntn]: PornTNHelper,
+    [VideoService.googledrive]: GoogleDriveHelper,
+    [VideoService.bilibili]: BilibiliHelper,
+    [VideoService.xvideos]: XVideosHelper,
+    [VideoService.watchpornto]: WatchPornToHelper,
+    [VideoService.archive]: ArchiveHelper,
+    [VideoService.dailymotion]: DailymotionHelper,
+    [VideoService.youku]: YoukuHelper,
+    [VideoService.egghead]: EggheadHelper,
+    [VideoService.newgrounds]: NewgroundsHelper,
+    [VideoService.okru]: OKRuHelper,
+    [VideoService.peertube]: PeertubeHelper,
+    [VideoService.eporner]: EpornerHelper,
+    [VideoService.bitchute]: BitchuteHelper,
+    [VideoService.rutube]: RutubeHelper,
+    [VideoService.facebook]: FacebookHelper,
+    [VideoService.rumble]: RumbleHelper,
+    [VideoService.twitter]: TwitterHelper,
+    [VideoService.pornhub]: PornhubHelper,
+    [VideoService.tiktok]: TikTokHelper,
+    [VideoService.proxitok]: TikTokHelper,
+    [VideoService.nine_gag]: NineGAGHelper,
+    [VideoService.youtube]: YoutubeHelper,
+    [VideoService.ricktube]: YoutubeHelper,
+    [VideoService.invidious]: YoutubeHelper,
+    [VideoService.poketube]: YoutubeHelper,
+    [VideoService.piped]: YoutubeHelper,
+    [VideoService.dzen]: DzenHelper,
+    [VideoService.cloudflarestream]: CloudflareStreamHelper,
+    [ExtVideoService.udemy]: UdemyHelper,
+    [ExtVideoService.coursera]: CourseraHelper,
+    [ExtVideoService.douyin]: DouyinHelper,
 };
 class VideoHelper {
     helpersData;
@@ -4775,22 +5877,17 @@ class VideoHelper {
     }
 }
 
-;// ./node_modules/vot.js/dist/utils/videoData.js
+;// ./node_modules/@vot.js/ext/dist/utils/videoData.js
 
 
 
-class VideoDataError extends Error {
-    constructor(message) {
-        super(message);
-        this.name = "VideoDataError";
-        this.message = message;
-    }
-}
+
 function getService() {
-    if (/(http(s)?:\/\/)(127\.0\.0\.1|localhost)/.exec(window.location.href))
+    if (localLinkRe.exec(window.location.href)) {
         return [];
+    }
     const hostname = window.location.hostname;
-    const enteredURL = new URL(window.location);
+    const enteredURL = new URL(window.location.href);
     const isMathes = (match) => {
         if (match instanceof RegExp) {
             return match.test(hostname);
@@ -4816,89 +5913,7 @@ async function getVideoID(service, video, opts = {}) {
         const helper = new VideoHelper(opts).getHelper(serviceHost);
         return await helper.getVideoId(url);
     }
-    switch (serviceHost) {
-        case VideoService.custom:
-            return url.href;
-        case VideoService.piped:
-        case VideoService.poketube:
-        case VideoService.invidious:
-        case VideoService.ricktube:
-        case VideoService.youtube:
-            if (url.hostname === "youtu.be") {
-                url.search = `?v=${url.pathname.replace("/", "")}`;
-                url.pathname = "/watch";
-            }
-            return (/(?:watch|embed|shorts|live)\/([^/]+)/.exec(url.pathname)?.[1] ??
-                url.searchParams.get("v"));
-        case VideoService.nine_gag:
-        case VideoService.gag:
-            return /gag\/([^/]+)/.exec(url.pathname)?.[1];
-        case VideoService.proxitok:
-        case VideoService.tiktok:
-            return /([^/]+)\/video\/([^/]+)/.exec(url.pathname)?.[0];
-        case VideoService.xvideos:
-            return /[^/]+\/[^/]+$/.exec(url.pathname)?.[0];
-        case VideoService.pornhub:
-            return (url.searchParams.get("viewkey") ??
-                /embed\/([^/]+)/.exec(url.pathname)?.[1]);
-        case VideoService.twitter:
-            return /status\/([^/]+)/.exec(url.pathname)?.[1];
-        case VideoService.rumble:
-        case VideoService.facebook:
-            return url.pathname.slice(1);
-        case VideoService.rutube:
-            return /(?:video|embed)\/([^/]+)/.exec(url.pathname)?.[1];
-        case VideoService.bilibili: {
-            const bangumiId = /bangumi\/play\/([^/]+)/.exec(url.pathname)?.[0];
-            if (bangumiId) {
-                return bangumiId;
-            }
-            const bvid = url.searchParams.get("bvid");
-            if (bvid) {
-                return `video/${bvid}`;
-            }
-            let vid = /video\/([^/]+)/.exec(url.pathname)?.[0];
-            if (vid && url.searchParams.get("p") !== null) {
-                vid += `/?p=${url.searchParams.get("p")}`;
-            }
-            return vid;
-        }
-        case VideoService.bitchute:
-            return /(video|embed)\/([^/]+)/.exec(url.pathname)?.[2];
-        case VideoService.eporner:
-            return /video-([^/]+)\/([^/]+)/.exec(url.pathname)?.[0];
-        case VideoService.peertube:
-            return /\/w\/([^/]+)/.exec(url.pathname)?.[0];
-        case VideoService.dailymotion: {
-            // we work in the context of the player
-            // geo.dailymotion.com
-            const plainPlayerConfig = Array.from(
-                document.querySelectorAll("*"),
-            ).filter((s) => s.innerHTML.trim().includes(".m3u8"));
-            let videoUrl = plainPlayerConfig?.[1]?.lastChild?.src;
-            if (!videoUrl) {
-                return undefined
-            }
-            return /\/video\/(\w+)\.m3u8/.exec(videoUrl)?.[1];
-        }
-        case VideoService.okru: {
-            return /\/video\/(\d+)/.exec(url.pathname)?.[1];
-        }
-        case VideoService.googledrive:
-            return url.searchParams.get("docid");
-        case VideoService.newgrounds:
-            return /([^/]+)\/(view)\/([^/]+)/.exec(url.pathname)?.[0];
-        case VideoService.egghead:
-            return url.pathname.slice(1);
-        case VideoService.youku:
-            return /v_show\/id_[\w=]+/.exec(url.pathname)?.[0];
-        case VideoService.archive:
-            return /(details|embed)\/([^/]+)/.exec(url.pathname)?.[2];
-        case VideoService.watchpornto:
-            return /(video|embed)\/(\d+)(\/[^/]+\/)?/.exec(url.pathname)?.[0];
-        default:
-            return undefined;
-    }
+    return serviceHost === VideoService.custom ? url.href : undefined;
 }
 async function getVideoData(service, video, opts = {}) {
     const videoId = await getVideoID(service, video, opts);
@@ -4906,7 +5921,11 @@ async function getVideoData(service, video, opts = {}) {
         throw new VideoDataError(`Entered unsupported link: "${service.host}"`);
     }
     const origin = window.location.origin;
-    if ([VideoService.peertube, VideoService.coursehunterLike].includes(service.host)) {
+    if ([
+        VideoService.peertube,
+        VideoService.coursehunterLike,
+        VideoService.cloudflarestream,
+    ].includes(service.host)) {
         service.url = origin;
     }
     if (service.rawResult) {
@@ -4941,499 +5960,21 @@ async function getVideoData(service, video, opts = {}) {
     };
 }
 
-;// ./node_modules/vot.js/dist/utils/vot.js
-
-function convertVOT(service, videoId, url) {
-    if (service === VideoService.patreon) {
-        return {
-            service: "mux",
-            videoId: new URL(url).pathname.slice(1),
-        };
-    }
-    return {
-        service,
-        videoId,
-    };
-}
-
-;// ./node_modules/vot.js/dist/client.js
+;// ./node_modules/@vot.js/ext/dist/types/index.js
 
 
 
 
 
 
-
-
-
-
-
-class VOTJSError extends Error {
-    data;
-    constructor(message, data = undefined) {
-        super(message);
-        this.data = data;
-        this.name = "VOTJSError";
-        this.message = message;
-    }
-}
-class VOTClient {
-    host;
-    hostVOT;
-    schema;
-    schemaVOT;
-    fetch;
-    fetchOpts;
-    getVideoDataFn;
-    sessions = {};
-    requestLang;
-    responseLang;
-    userAgent = config.userAgent;
-    paths = {
-        videoTranslation: "/video-translation/translate",
-        videoTranslationFailAudio: "/video-translation/fail-audio-js",
-        videoTranslationAudio: "/video-translation/audio",
-        videoSubtitles: "/video-subtitles/get-subtitles",
-        streamPing: "/stream-translation/ping-stream",
-        streamTranslation: "/stream-translation/translate-stream",
-        createSession: "/session/create",
-    };
-    isCustomLink(url) {
-        return !!(/\.(m3u8|m4(a|v)|mpd)/.exec(url) ??
-            /^https:\/\/cdn\.qstv\.on\.epicgames\.com/.exec(url));
-    }
-    headers = {
-        "User-Agent": this.userAgent,
-        Accept: "application/x-protobuf",
-        "Accept-Language": "en",
-        "Content-Type": "application/x-protobuf",
-        Pragma: "no-cache",
-        "Cache-Control": "no-cache",
-        "Sec-Fetch-Mode": "no-cors",
-    };
-    headersVOT = {
-        "User-Agent": `vot.js/${config.version}`,
-        "Content-Type": "application/json",
-        Pragma: "no-cache",
-        "Cache-Control": "no-cache",
-    };
-    constructor({ host = config.host, hostVOT = config.hostVOT, fetchFn = fetchWithTimeout, fetchOpts = {}, getVideoDataFn = getVideoData, requestLang = "en", responseLang = "ru", headers = {}, } = {}) {
-        const schemaRe = /(http(s)?):\/\//;
-        const schema = schemaRe.exec(host)?.[1];
-        this.host = schema ? host.replace(`${schema}://`, "") : host;
-        this.schema = schema ?? "https";
-        const schemaVOT = schemaRe.exec(hostVOT)?.[1];
-        this.hostVOT = schemaVOT ? hostVOT.replace(`${schemaVOT}://`, "") : hostVOT;
-        this.schemaVOT = schemaVOT ?? "https";
-        this.fetch = fetchFn;
-        this.fetchOpts = fetchOpts;
-        this.getVideoDataFn = getVideoDataFn;
-        this.requestLang = requestLang;
-        this.responseLang = responseLang;
-        this.headers = { ...this.headers, ...headers };
-    }
-    getOpts(body, headers = {}, method = "POST") {
-        return {
-            method,
-            headers: {
-                ...this.headers,
-                ...headers,
-            },
-            body,
-            ...this.fetchOpts,
-        };
-    }
-    async request(path, body, headers = {}, method = "POST") {
-        const options = this.getOpts(new Blob([body]), headers, method);
-        try {
-            const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
-            const data = (await res.arrayBuffer());
-            return {
-                success: res.status === 200,
-                data,
-            };
-        }
-        catch (err) {
-            return {
-                success: false,
-                data: err?.message,
-            };
-        }
-    }
-    async requestJSON(path, body = null, headers = {}, method = "POST") {
-        const options = this.getOpts(body, {
-            "Content-Type": "application/json",
-            ...headers,
-        }, method);
-        try {
-            const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
-            const data = (await res.json());
-            return {
-                success: res.status === 200,
-                data,
-            };
-        }
-        catch (err) {
-            return {
-                success: false,
-                data: err?.message,
-            };
-        }
-    }
-    async requestVOT(path, body, headers = {}) {
-        const options = this.getOpts(JSON.stringify(body), {
-            ...this.headersVOT,
-            ...headers,
-        });
-        try {
-            const res = await this.fetch(`${this.schemaVOT}://${this.hostVOT}${path}`, options);
-            const data = (await res.json());
-            return {
-                success: res.status === 200,
-                data,
-            };
-        }
-        catch (err) {
-            return {
-                success: false,
-                data: err?.message,
-            };
-        }
-    }
-    async getSession(module) {
-        const timestamp = getTimestamp();
-        const session = this.sessions[module];
-        if (session && session.timestamp + session.expires > timestamp) {
-            return session;
-        }
-        const { secretKey, expires, uuid } = await this.createSession(module);
-        this.sessions[module] = {
-            secretKey,
-            expires,
-            timestamp,
-            uuid,
-        };
-        return this.sessions[module];
-    }
-    async translateVideoYAImpl({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, extraOpts = {}, shouldSendFailedAudio = true, }) {
-        const { url, duration = config.defaultDuration } = videoData;
-        const session = await this.getSession("video-translation");
-        const body = yandexProtobuf.encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp, extraOpts);
-        const path = this.paths.videoTranslation;
-        const vtransHeaders = await getSecYaHeaders("Vtrans", session, body, path);
-        const res = await this.request(path, body, {
-            ...vtransHeaders,
-            ...headers,
-        });
-        if (!res.success) {
-            throw new VOTLocalizedError("requestTranslationFailed");
-        }
-        const translationData = yandexProtobuf.decodeTranslationResponse(res.data);
-        debug.log("requestTranslation", translationData);
-        switch (translationData.status) {
-            case VideoTranslationStatus.FAILED:
-                throw translationData?.message ? new VOTJSError("Yandex couldn't translate video", translationData) : new VOTLocalizedError("requestTranslationFailed");
-            case VideoTranslationStatus.FINISHED:
-            case VideoTranslationStatus.PART_CONTENT:
-                if (!translationData.url) {
-                    throw new VOTLocalizedError("audioNotReceived");
-                }
-                return {
-                    translated: true,
-                    url: translationData.url,
-                    remainingTime: translationData.remainingTime ?? -1,
-                };
-            case VideoTranslationStatus.WAITING:
-                return {
-                    translated: false,
-                    remainingTime: translationData.remainingTime,
-                };
-            case VideoTranslationStatus.LONG_WAITING:
-            case VideoTranslationStatus.LONG_WAITING_2:
-                if (url.startsWith("https://youtu.be/") && shouldSendFailedAudio) {
-                    await this.requestVtransFailAudio(url);
-                    await this.requestVtransAudio(url, translationData.translationId);
-                    return await this.translateVideoYAImpl({
-                        videoData,
-                        requestLang,
-                        responseLang,
-                        translationHelp,
-                        headers,
-                        shouldSendFailedAudio: false,
-                    });
-                }
-                return {
-                    translated: false,
-                    remainingTime: translationData.remainingTime ?? -1,
-                };
-            default:
-                Logger.error("Unknown response", translationData);
-                throw new VOTJSError("Unknown response from Yandex", translationData);
-        }
-    }
-    async translateVideoVOTImpl({ url, videoId, service, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
-        const votData = convertVOT(service, videoId, url);
-        const res = await this.requestVOT(this.paths.videoTranslation, {
-            provider: "yandex",
-            service: votData.service,
-            videoId: votData.videoId,
-            fromLang: requestLang,
-            toLang: responseLang,
-            rawVideo: url,
-        }, headers);
-        if (!res.success) {
-            throw new VOTLocalizedError("requestTranslationFailed", res);
-        }
-        const translationData = res.data;
-        switch (translationData.status) {
-            case "failed":
-                throw new VOTJSError("Yandex couldn't translate video", translationData);
-            case "success":
-                if (!translationData.translatedUrl) {
-                    throw new VOTLocalizedError("audioNotReceived");
-                }
-                return {
-                    translated: true,
-                    url: translationData.translatedUrl,
-                    remainingTime: -1,
-                };
-            case "waiting":
-                return {
-                    translated: false,
-                    remainingTime: translationData.remainingTime,
-                    message: translationData.message,
-                };
-        }
-    }
-    async requestVtransFailAudio(url) {
-        const res = await this.requestJSON(this.paths.videoTranslationFailAudio, JSON.stringify({
-            video_url: url,
-        }), undefined, "PUT");
-        if (!res.data || typeof res.data === "string" || res.data.status !== 1) {
-            throw new VOTJSError("Failed to request to fake video translation fail audio js", res);
-        }
-        return res;
-    }
-    async requestVtransAudio(url, translationId, headers = {}) {
-        const session = await this.getSession("video-translation");
-        const body = yandexProtobuf.encodeTranslationAudioRequest(url, translationId);
-        const path = this.paths.videoTranslationAudio;
-        const vtransHeaders = await getSecYaHeaders("Vtrans", session, body, path);
-        const res = await this.request(path, body, {
-            ...vtransHeaders,
-            ...headers,
-        }, "PUT");
-        if (!res.success) {
-            throw new VOTJSError("Failed to request video translation audio", res);
-        }
-        return yandexProtobuf.decodeTranslationAudioResponse(res.data);
-    }
-    async translateVideo({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, extraOpts = {}, shouldSendFailedAudio = true, }) {
-        const { url, videoId, host } = videoData;
-        return this.isCustomLink(url)
-            ? await this.translateVideoVOTImpl({
-                url,
-                videoId,
-                service: host,
-                requestLang,
-                responseLang,
-                headers,
-            })
-            : await this.translateVideoYAImpl({
-                videoData,
-                requestLang,
-                responseLang,
-                translationHelp,
-                headers,
-                extraOpts,
-                shouldSendFailedAudio,
-            });
-    }
-    async getSubtitles({ videoData, requestLang = this.requestLang, headers = {}, }) {
-        const { url } = videoData;
-        if (this.isCustomLink(url)) {
-            return {
-                waiting: false,
-                subtitles: []
-            }
-        }
-        const session = await this.getSession("video-translation");
-        const body = yandexProtobuf.encodeSubtitlesRequest(url, requestLang);
-        const path = this.paths.videoSubtitles;
-        const vsubsHeaders = await getSecYaHeaders("Vsubs", session, body, path);
-        const res = await this.request(path, body, {
-            ...vsubsHeaders,
-            ...headers,
-        });
-        if (!res.success) {
-            throw new VOTJSError("Failed to request video subtitles", res);
-        }
-        return yandexProtobuf.decodeSubtitlesResponse(res.data);
-    }
-    async pingStream({ pingId, headers = {} }) {
-        const session = await this.getSession("video-translation");
-        const body = yandexProtobuf.encodeStreamPingRequest(pingId);
-        const path = this.paths.streamPing;
-        const vtransHeaders = await getSecYaHeaders("Vtrans", session, body, path);
-        const res = await this.request(path, body, {
-            ...vtransHeaders,
-            ...headers,
-        });
-        if (!res.success) {
-            throw new VOTJSError("Failed to request stream ping", res);
-        }
-        return true;
-    }
-    async translateStream({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
-        const { url } = videoData;
-        if (this.isCustomLink(url)) {
-            throw new VOTLocalizedError("VOTStreamNotSupportedUrl");
-        }
-        const session = await this.getSession("video-translation");
-        const body = yandexProtobuf.encodeStreamRequest(url, requestLang, responseLang);
-        const path = this.paths.streamTranslation;
-        const vtransHeaders = await getSecYaHeaders("Vtrans", session, body, path);
-        const res = await this.request(path, body, {
-            ...vtransHeaders,
-            ...headers,
-        });
-        if (!res.success) {
-            throw new VOTJSError("Failed to request stream translation", res);
-        }
-        const translateResponse = yandexProtobuf.decodeStreamResponse(res.data);
-        const interval = translateResponse.interval;
-        switch (interval) {
-            case StreamInterval.NO_CONNECTION:
-            case StreamInterval.TRANSLATING:
-                return {
-                    translated: false,
-                    interval,
-                    message: interval === StreamInterval.NO_CONNECTION
-                        ? "streamNoConnectionToServer"
-                        : "translationTakeFewMinutes",
-                };
-            case StreamInterval.STREAMING: {
-                return {
-                    translated: true,
-                    interval,
-                    pingId: translateResponse.pingId,
-                    result: translateResponse.translatedInfo,
-                };
-            }
-            default:
-                Logger.error("Unknown response", translateResponse);
-                throw new VOTJSError("Unknown response from Yandex", translateResponse);
-        }
-    }
-    async createSession(module) {
-        const uuid = getUUID();
-        const body = yandexProtobuf.encodeYandexSessionRequest(uuid, module);
-        const res = await this.request(this.paths.createSession, body, {
-            "Vtrans-Signature": await getSignature(body),
-        });
-        if (!res.success) {
-            throw new VOTJSError("Failed to request create session", res);
-        }
-        const sessionResponse = yandexProtobuf.decodeYandexSessionResponse(res.data);
-        return {
-            ...sessionResponse,
-            uuid,
-        };
-    }
-}
-class VOTWorkerClient extends VOTClient {
-    async request(path, body, headers = {}, method = "POST") {
-        const options = this.getOpts(JSON.stringify({
-            headers: {
-                ...this.headers,
-                ...headers,
-            },
-            body: Array.from(body),
-        }), {
-            "Content-Type": "application/json",
-        }, method);
-        try {
-            const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
-            const data = (await res.arrayBuffer());
-            return {
-                success: res.status === 200,
-                data,
-            };
-        }
-        catch (err) {
-            return {
-                success: false,
-                data: err?.message,
-            };
-        }
-    }
-    async requestJSON(path, body = null, headers = {}, method = "POST") {
-        const options = this.getOpts(JSON.stringify({
-            headers: {
-                ...this.headers,
-                "Content-Type": "application/json",
-                Accept: "application/json",
-                ...headers,
-            },
-            body,
-        }), {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        }, method);
-        try {
-            const res = await this.fetch(`${this.schema}://${this.host}${path}`, options);
-            const data = (await res.json());
-            return {
-                success: res.status === 200,
-                data,
-            };
-        }
-        catch (err) {
-            return {
-                success: false,
-                data: err?.message,
-            };
-        }
-    }
-}
-
-;// ./node_modules/vot.js/dist/types/helpers/bannedvideo.js
-var TypeName;
-(function (TypeName) {
-    TypeName["Channel"] = "Channel";
-    TypeName["Video"] = "Video";
-})(TypeName || (TypeName = {}));
-
-;// ./node_modules/vot.js/dist/types/index.js
+;// ./node_modules/@vot.js/ext/dist/index.js
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-;// ./node_modules/vot.js/dist/index.js
-
-
-
-
-
-
-;// ./node_modules/vot.js/dist/utils/subs.js
+;// ./node_modules/@vot.js/shared/dist/utils/subs.js
 function convertToStrTime(ms, delimiter = ",") {
     const seconds = ms / 1000;
     const hours = Math.floor(seconds / 3600);
@@ -5509,7 +6050,7 @@ function getSubsFormat(data) {
     if (typeof data !== "string") {
         return "json";
     }
-    if (/(WEBVTT)(\r?\n\r?\n)/.exec(data)) {
+    if (/^(WEBVTT)(\r?\n)/.exec(data)) {
         return "vtt";
     }
     return "srt";
@@ -5539,168 +6080,92 @@ const n=globalThis,c=n.trustedTypes,h=c?c.createPolicy("lit-html",{createHTML:t=
 
 ;// ./node_modules/browser-id3-writer/dist/browser-id3-writer.mjs
 function e(e){return String(e).split("").map((e=>e.charCodeAt(0)))}function t(t){return new Uint8Array(e(t))}function a(t){const a=new ArrayBuffer(2*t.length),r=new Uint8Array(a);return new Uint16Array(a).set(e(t)),r}function r(e){const t=255;return[e>>>24&t,e>>>16&t,e>>>8&t,e&t]}function browser_id3_writer_n(e){return 11+e}function s(e,t,a,r){return 11+t+1+1+(r?2+2*(a+1):a+1)+e}function i(e){let t=0;return e.forEach((e=>{t+=2+2*e[0].length+2+2+2*e[1].length+2})),11+t}function browser_id3_writer_c(e,t){const a=2*t;let r=0;return e.forEach((e=>{r+=2+2*e[0].length+2+4})),18+a+2+r}class o{_setIntegerFrame(e,t){const a=parseInt(t,10);this.frames.push({name:e,value:a,size:browser_id3_writer_n(a.toString().length)})}_setStringFrame(e,t){const a=t.toString();let r=13+2*a.length;"TDAT"===e&&(r=browser_id3_writer_n(a.length)),this.frames.push({name:e,value:a,size:r})}_setPictureFrame(e,t,a,r){const n=function(e){if(!e||!e.length)return null;if(255===e[0]&&216===e[1]&&255===e[2])return"image/jpeg";if(137===e[0]&&80===e[1]&&78===e[2]&&71===e[3])return"image/png";if(71===e[0]&&73===e[1]&&70===e[2])return"image/gif";if(87===e[8]&&69===e[9]&&66===e[10]&&80===e[11])return"image/webp";const t=73===e[0]&&73===e[1]&&42===e[2]&&0===e[3],a=77===e[0]&&77===e[1]&&0===e[2]&&42===e[3];return t||a?"image/tiff":66===e[0]&&77===e[1]?"image/bmp":0===e[0]&&0===e[1]&&1===e[2]&&0===e[3]?"image/x-icon":null}(new Uint8Array(t)),i=a.toString();if(!n)throw new Error("Unknown picture MIME type");a||(r=!1),this.frames.push({name:"APIC",value:t,pictureType:e,mimeType:n,useUnicodeEncoding:r,description:i,size:s(t.byteLength,n.length,i.length,r)})}_setLyricsFrame(e,t,a){const r=e.split("").map((e=>e.charCodeAt(0))),n=t.toString(),s=a.toString();var i,c;this.frames.push({name:"USLT",value:s,language:r,description:n,size:(i=n.length,c=s.length,16+2*i+2+2+2*c)})}_setCommentFrame(e,t,a){const r=e.split("").map((e=>e.charCodeAt(0))),n=t.toString(),s=a.toString();var i,c;this.frames.push({name:"COMM",value:s,language:r,description:n,size:(i=n.length,c=s.length,16+2*i+2+2+2*c)})}_setPrivateFrame(e,t){const a=e.toString();var r,n;this.frames.push({name:"PRIV",value:t,id:a,size:(r=a.length,n=t.byteLength,10+r+1+n)})}_setUserStringFrame(e,t){const a=e.toString(),r=t.toString();var n,s;this.frames.push({name:"TXXX",description:a,value:r,size:(n=a.length,s=r.length,13+2*n+2+2+2*s)})}_setUrlLinkFrame(e,t){const a=t.toString();var r;this.frames.push({name:e,value:a,size:(r=a.length,10+r)})}_setPairedTextFrame(e,t){this.frames.push({name:e,value:t,size:i(t)})}_setSynchronisedLyricsFrame(e,t,a,r,n){const s=n.toString(),i=r.split("").map((e=>e.charCodeAt(0)));this.frames.push({name:"SYLT",value:t,language:i,description:s,type:e,timestampFormat:a,size:browser_id3_writer_c(t,s.length)})}constructor(e){if(!e||"object"!=typeof e||!("byteLength"in e))throw new Error("First argument should be an instance of ArrayBuffer or Buffer");this.arrayBuffer=e,this.padding=4096,this.frames=[],this.url=""}setFrame(e,t){switch(e){case"TPE1":case"TCOM":case"TCON":{if(!Array.isArray(t))throw new Error(`${e} frame value should be an array of strings`);const a="TCON"===e?";":"/",r=t.join(a);this._setStringFrame(e,r);break}case"TLAN":case"TIT1":case"TIT2":case"TIT3":case"TALB":case"TPE2":case"TPE3":case"TPE4":case"TRCK":case"TPOS":case"TMED":case"TPUB":case"TCOP":case"TKEY":case"TEXT":case"TDAT":case"TSRC":this._setStringFrame(e,t);break;case"TBPM":case"TLEN":case"TYER":this._setIntegerFrame(e,t);break;case"USLT":if(t.language=t.language||"eng","object"!=typeof t||!("description"in t)||!("lyrics"in t))throw new Error("USLT frame value should be an object with keys description and lyrics");if(t.language&&!t.language.match(/[a-z]{3}/i))throw new Error("Language must be coded following the ISO 639-2 standards");this._setLyricsFrame(t.language,t.description,t.lyrics);break;case"APIC":if("object"!=typeof t||!("type"in t)||!("data"in t)||!("description"in t))throw new Error("APIC frame value should be an object with keys type, data and description");if(t.type<0||t.type>20)throw new Error("Incorrect APIC frame picture type");this._setPictureFrame(t.type,t.data,t.description,!!t.useUnicodeEncoding);break;case"TXXX":if("object"!=typeof t||!("description"in t)||!("value"in t))throw new Error("TXXX frame value should be an object with keys description and value");this._setUserStringFrame(t.description,t.value);break;case"WCOM":case"WCOP":case"WOAF":case"WOAR":case"WOAS":case"WORS":case"WPAY":case"WPUB":this._setUrlLinkFrame(e,t);break;case"COMM":if(t.language=t.language||"eng","object"!=typeof t||!("description"in t)||!("text"in t))throw new Error("COMM frame value should be an object with keys description and text");if(t.language&&!t.language.match(/[a-z]{3}/i))throw new Error("Language must be coded following the ISO 639-2 standards");this._setCommentFrame(t.language,t.description,t.text);break;case"PRIV":if("object"!=typeof t||!("id"in t)||!("data"in t))throw new Error("PRIV frame value should be an object with keys id and data");this._setPrivateFrame(t.id,t.data);break;case"IPLS":if(!Array.isArray(t)||!Array.isArray(t[0]))throw new Error("IPLS frame value should be an array of pairs");this._setPairedTextFrame(e,t);break;case"SYLT":if("object"!=typeof t||!("type"in t)||!("text"in t)||!("timestampFormat"in t))throw new Error("SYLT frame value should be an object with keys type, text and timestampFormat");if(!Array.isArray(t.text)||!Array.isArray(t.text[0]))throw new Error("SYLT frame text value should be an array of pairs");if(t.type<0||t.type>6)throw new Error("Incorrect SYLT frame content type");if(t.timestampFormat<1||t.timestampFormat>2)throw new Error("Incorrect SYLT frame time stamp format");t.language=t.language||"eng",t.description=t.description||"",this._setSynchronisedLyricsFrame(t.type,t.text,t.timestampFormat,t.language,t.description);break;default:throw new Error(`Unsupported frame ${e}`)}return this}removeTag(){if(this.arrayBuffer.byteLength<10)return;const e=new Uint8Array(this.arrayBuffer),t=e[3],a=((r=[e[6],e[7],e[8],e[9]])[0]<<21)+(r[1]<<14)+(r[2]<<7)+r[3]+10;var r,n;73!==(n=e)[0]||68!==n[1]||51!==n[2]||t<2||t>4||(this.arrayBuffer=new Uint8Array(e.subarray(a)).buffer)}addTag(){this.removeTag();const e=[255,254],n=10+this.frames.reduce(((e,t)=>e+t.size),0)+this.padding,s=new ArrayBuffer(this.arrayBuffer.byteLength+n),i=new Uint8Array(s);let c=0,o=[];return o=[73,68,51,3],i.set(o,c),c+=o.length,c++,c++,o=function(e){const t=127;return[e>>>21&t,e>>>14&t,e>>>7&t,e&t]}(n-10),i.set(o,c),c+=o.length,this.frames.forEach((n=>{switch(o=t(n.name),i.set(o,c),c+=o.length,o=r(n.size-10),i.set(o,c),c+=o.length,c+=2,n.name){case"WCOM":case"WCOP":case"WOAF":case"WOAR":case"WOAS":case"WORS":case"WPAY":case"WPUB":o=t(n.value),i.set(o,c),c+=o.length;break;case"TPE1":case"TCOM":case"TCON":case"TLAN":case"TIT1":case"TIT2":case"TIT3":case"TALB":case"TPE2":case"TPE3":case"TPE4":case"TRCK":case"TPOS":case"TKEY":case"TMED":case"TPUB":case"TCOP":case"TEXT":case"TSRC":o=[1].concat(e),i.set(o,c),c+=o.length,o=a(n.value),i.set(o,c),c+=o.length;break;case"TXXX":case"USLT":case"COMM":o=[1],"USLT"!==n.name&&"COMM"!==n.name||(o=o.concat(n.language)),o=o.concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,o=[0,0].concat(e),i.set(o,c),c+=o.length,o=a(n.value),i.set(o,c),c+=o.length;break;case"TBPM":case"TLEN":case"TDAT":case"TYER":c++,o=t(n.value),i.set(o,c),c+=o.length;break;case"PRIV":o=t(n.id),i.set(o,c),c+=o.length,c++,i.set(new Uint8Array(n.value),c),c+=n.value.byteLength;break;case"APIC":o=[n.useUnicodeEncoding?1:0],i.set(o,c),c+=o.length,o=t(n.mimeType),i.set(o,c),c+=o.length,o=[0,n.pictureType],i.set(o,c),c+=o.length,n.useUnicodeEncoding?(o=[].concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,c+=2):(o=t(n.description),i.set(o,c),c+=o.length,c++),i.set(new Uint8Array(n.value),c),c+=n.value.byteLength;break;case"IPLS":o=[1],i.set(o,c),c+=o.length,n.value.forEach((t=>{o=[].concat(e),i.set(o,c),c+=o.length,o=a(t[0].toString()),i.set(o,c),c+=o.length,o=[0,0].concat(e),i.set(o,c),c+=o.length,o=a(t[1].toString()),i.set(o,c),c+=o.length,o=[0,0],i.set(o,c),c+=o.length}));break;case"SYLT":o=[1].concat(n.language).concat(n.timestampFormat).concat(n.type),i.set(o,c),c+=o.length,o=[].concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,c+=2,n.value.forEach((t=>{o=[].concat(e),i.set(o,c),c+=o.length,o=a(t[0].toString()),i.set(o,c),c+=o.length,o=[0,0],i.set(o,c),c+=o.length,o=r(t[1]),i.set(o,c),c+=o.length}))}})),c+=this.padding,i.set(new Uint8Array(this.arrayBuffer),c),this.arrayBuffer=s,s}getBlob(){return new Blob([this.arrayBuffer],{type:"audio/mpeg"})}getURL(){return this.url||(this.url=URL.createObjectURL(this.getBlob())),this.url}revokeURL(){URL.revokeObjectURL(this.url)}}
-;// ./src/utils/translateApis.js
+;// ./src/utils/translateApis.ts
 
 
 
-
-const YandexTranslateAPI = {
-  async translate(text, lang) {
-    // Limit: 10k symbols
-    //
-    // Lang examples:
-    // en-ru, uk-ru, ru-en...
-    // ru, en (instead of auto-ru, auto-en)
-
-    try {
-      const response = await GM_fetch(
-        `${translateUrls.yandex}?${new URLSearchParams({
-          text,
-          lang,
-        })}`,
-        { timeout: 3000 },
-      );
-
-      if (response instanceof Error) {
-        throw response;
-      }
-
-      const content = await response.json();
-
-      if (content.code !== 200) {
-        throw content.message;
-      }
-
-      return content.text[0];
-    } catch (error) {
-      console.error("Error translating text:", error);
-      return text;
+/**
+ * Limit: 10k symbols for yandex, 50k for msedge
+ */
+const FOSWLYTranslateAPI = new (class {
+    isFOSWLYError(data) {
+        return Object.hasOwn(data, "error");
     }
-  },
-
-  async detect(text) {
-    // Limit: 10k symbols
-    try {
-      const response = await GM_fetch(
-        `${detectUrls.yandex}?${new URLSearchParams({
-          text,
-        })}`,
-        { timeout: 3000 },
-      );
-
-      if (response instanceof Error) {
-        throw response;
-      }
-
-      const content = await response.json();
-      if (content.code !== 200) {
-        throw content.message;
-      }
-
-      return content.lang ?? "en";
-    } catch (error) {
-      console.error("Error getting lang from text:", error);
-      return "en";
+    async request(path, opts = {}) {
+        try {
+            const res = await GM_fetch(`${foswlyTranslateUrl}${path}`, {
+                timeout: 3000,
+                ...opts,
+            });
+            const data = (await res.json());
+            if (this.isFOSWLYError(data)) {
+                throw data.error;
+            }
+            return data;
+        }
+        catch (err) {
+            console.error(`[VOT] Failed to get data from FOSWLY Translate API, because ${err.message}`);
+            return undefined;
+        }
     }
-  },
-};
-
-const RustServerAPI = {
-  async detect(text) {
-    try {
-      const response = await GM_fetch(
-        detectUrls.rustServer,
-        {
-          method: "POST",
-          body: text,
-        },
-        { timeout: 3000 },
-      );
-
-      if (response instanceof Error) {
-        throw response;
-      }
-
-      return await response.text();
-    } catch (error) {
-      console.error("Error getting lang from text:", error);
-      return "en";
-    }
-  },
-};
-
-const DeeplServerAPI = {
-  async translate(text, fromLang = "auto", toLang = "ru") {
-    try {
-      const response = await GM_fetch(
-        translateUrls.deepl,
-        {
-          method: "POST",
-          headers: {
-            "content-type": "application/x-www-form-urlencoded",
-          },
-          body: new URLSearchParams({
+    async translate(text, lang, service) {
+        const result = await this.request(`/translate?${new URLSearchParams({
             text,
-            source_lang: fromLang,
-            target_lang: toLang,
-          }),
-        },
-        { timeout: 3000 },
-      );
-
-      if (response instanceof Error) {
-        throw response;
-      }
-
-      const content = await response.json();
-
-      if (content.code !== 200) {
-        throw content.message;
-      }
-
-      return content.data;
-    } catch (error) {
-      console.error("Error translating text:", error);
-      return text;
+            lang,
+            service,
+        })}`);
+        return result ? result.translations[0] : text;
     }
-  },
+    async detect(text, service) {
+        const result = await this.request(`/detect?${new URLSearchParams({
+            text,
+            service,
+        })}`);
+        return result ? result.lang : "en";
+    }
+})();
+const RustServerAPI = {
+    async detect(text) {
+        try {
+            const response = await GM_fetch(detectRustServerUrl, {
+                method: "POST",
+                body: text,
+                timeout: 3000,
+            });
+            return await response.text();
+        }
+        catch (error) {
+            console.error(`[VOT] Error getting lang from text, because ${error.message}`);
+            return "en";
+        }
+    },
 };
-
 async function translate(text, fromLang = "", toLang = "ru") {
-  const service = await votStorage.get(
-    "translationService",
-    defaultTranslationService,
-  );
-  switch (service) {
-    case "yandex": {
-      const langPair = fromLang && toLang ? `${fromLang}-${toLang}` : toLang;
-      return await YandexTranslateAPI.translate(text, langPair);
+    const service = await votStorage.get("translationService", defaultTranslationService);
+    switch (service) {
+        case "yandexbrowser":
+        case "msedge": {
+            const langPair = fromLang && toLang ? `${fromLang}-${toLang}` : toLang;
+            return await FOSWLYTranslateAPI.translate(text, langPair, service);
+        }
+        default:
+            return text;
     }
-    case "deepl": {
-      return await DeeplServerAPI.translate(text, fromLang, toLang);
-    }
-    default:
-      return text;
-  }
 }
-
 async function detect(text) {
-  const service = await votStorage.get("detectService", defaultDetectService);
-  switch (service) {
-    case "yandex":
-      return await YandexTranslateAPI.detect(text);
-    case "rust-server":
-      return await RustServerAPI.detect(text);
-    default:
-      return "en";
-  }
+    const service = await votStorage.get("detectService", defaultDetectService);
+    switch (service) {
+        case "yandexbrowser":
+        case "msedge":
+            return await FOSWLYTranslateAPI.detect(text, service);
+        case "rust-server":
+            return await RustServerAPI.detect(text);
+        default:
+            return "en";
+    }
 }
-
-const translateServices = Object.keys(translateUrls);
-const detectServices = Object.keys(detectUrls).map((k) =>
-  k === "rustServer" ? "rust-server" : k,
-);
-
+const foswlyServices = ["yandexbrowser", "msedge"];
+const detectServices = [...foswlyServices, "rust-server"];
 
 
 ;// ./src/utils/youtubeUtils.js
@@ -5806,92 +6271,7 @@ function videoSeek(video, time) {
   video.currentTime = finalTime;
 }
 
-function isMusic() {
-  // Нужно доработать логику
-  const channelName = getPlayerData().author,
-    titleStr = getPlayerData().title.toUpperCase(),
-    titleWordsList = titleStr.match(/\w+/g),
-    playerData = document.body.querySelector("ytd-watch-flexy")?.playerData;
-
-  return (
-    [
-      titleStr,
-      document.URL,
-      channelName,
-      playerData?.microformat?.playerMicroformatRenderer.category,
-      playerData?.title,
-    ].some((i) => i?.toUpperCase().includes("MUSIC")) ||
-    document.body.querySelector(
-      "#upload-info #channel-name .badge-style-type-verified-artist",
-    ) ||
-    (channelName &&
-      /(VEVO|Topic|Records|RECORDS|Recordings|AMV)$/.test(channelName)) ||
-    (channelName &&
-      /(MUSIC|ROCK|SOUNDS|SONGS)/.test(channelName.toUpperCase())) ||
-    (titleWordsList?.length &&
-      [
-        "🎵",
-        "♫",
-        "SONG",
-        "SONGS",
-        "SOUNDTRACK",
-        "LYRIC",
-        "LYRICS",
-        "AMBIENT",
-        "MIX",
-        "VEVO",
-        "CLIP",
-        "KARAOKE",
-        "OPENING",
-        "COVER",
-        "COVERED",
-        "VOCAL",
-        "INSTRUMENTAL",
-        "ORCHESTRAL",
-        "DUBSTEP",
-        "DJ",
-        "DNB",
-        "BASS",
-        "BEAT",
-        "ALBUM",
-        "PLAYLIST",
-        "DUBSTEP",
-        "CHILL",
-        "RELAX",
-        "CLASSIC",
-        "CINEMATIC",
-      ].some((i) => titleWordsList.includes(i))) ||
-    [
-      "OFFICIAL VIDEO",
-      "OFFICIAL AUDIO",
-      "FEAT.",
-      "FT.",
-      "LIVE RADIO",
-      "DANCE VER",
-      "HIP HOP",
-      "ROCK N ROLL",
-      "HOUR VER",
-      "HOURS VER",
-      "INTRO THEME",
-    ].some((i) => titleStr.includes(i)) ||
-    (titleWordsList?.length &&
-      [
-        "OP",
-        "ED",
-        "MV",
-        "OST",
-        "NCS",
-        "BGM",
-        "EDM",
-        "GMV",
-        "AMV",
-        "MMD",
-        "MAD",
-      ].some((i) => titleWordsList.includes(i)))
-  );
-}
-
-function getSubtitles() {
+function getSubtitles(responseLang = localizationProvider.lang) {
   const response = getPlayerResponse();
   const playerCaptions = response?.captions?.playerCaptionsTracklistRenderer;
   if (!playerCaptions) {
@@ -5900,9 +6280,8 @@ function getSubtitles() {
 
   let captionTracks = playerCaptions.captionTracks ?? [];
   const translationLanguages = playerCaptions.translationLanguages ?? [];
-  const userLang = localizationProvider.lang;
   const userLangSupported = translationLanguages.find(
-    (language) => language.languageCode === userLang,
+    (language) => language.languageCode === responseLang,
   );
   const asrLang =
     captionTracks.find((captionTrack) => captionTrack?.kind === "asr")
@@ -5925,6 +6304,7 @@ function getSubtitles() {
     }&fmt=json3`;
     result.push({
       source: "youtube",
+      format: "json",
       language,
       isAutoGenerated: captionTrack?.kind === "asr",
       url: captionUrl,
@@ -5934,15 +6314,16 @@ function getSubtitles() {
       userLangSupported &&
       captionTrack.isTranslatable &&
       captionTrack.languageCode === asrLang &&
-      userLang !== language
+      responseLang !== language
     ) {
       // add translated youtube subtitles (if it possible)
       result.push({
         source: "youtube",
-        language: userLang,
+        format: "json",
+        language: responseLang,
         isAutoGenerated: captionTrack?.kind === "asr",
         translatedFromLanguage: language,
-        url: `${captionUrl}&tlang=${userLang}`,
+        url: `${captionUrl}&tlang=${responseLang}`,
       });
     }
 
@@ -5955,7 +6336,7 @@ function getSubtitles() {
 // Get the video data from the player
 async function youtubeUtils_getVideoData() {
   const player = getPlayer();
-  const response = getPlayerResponse(); // null in /embed
+  const response = getPlayerResponse();
   const data = getPlayerData();
   const { title: localizedTitle } = data ?? {};
   const {
@@ -5992,7 +6373,6 @@ async function youtubeUtils_getVideoData() {
   setVideoVolume,
   videoSeek,
   isMuted,
-  isMusic,
 });
 
 ;// ./src/subtitles.js
@@ -6143,11 +6523,24 @@ function formatYoutubeSubtitles(subtitles, isAsr = false) {
         startMs: subtitle.tStartMs,
         durationMs,
         ...(isAsr ? { tokens } : {}),
-        speakerId: "0",
       });
     }
   }
   return result;
+}
+
+/**
+ * Remove HTML tags from JSON subtitle text
+ */
+function clearJSONSubtitles(subtitles) {
+  const { containsTokens, subtitles: subtitlesList } = subtitles;
+  return {
+    containsTokens,
+    subtitles: subtitlesList.map((subtitleItem) => {
+      subtitleItem.text = subtitleItem.text.replace(/(<([^>]+)>)/gi, "");
+      return subtitleItem;
+    }),
+  };
 }
 
 async function fetchSubtitles(subtitlesObject) {
@@ -6174,6 +6567,10 @@ async function fetchSubtitles(subtitlesObject) {
     subtitles = formatYoutubeSubtitles(subtitles, isAutoGenerated);
   }
 
+  if (source === "vk") {
+    subtitles = clearJSONSubtitles(subtitles);
+  }
+
   subtitles.subtitles = getSubtitlesTokens(subtitles, subtitlesObject);
   console.log("[VOT] subtitles:", subtitles);
   return subtitles;
@@ -6184,12 +6581,15 @@ async function subtitles_getSubtitles(client, videoData) {
     host,
     url,
     detectedLanguage: requestLang,
+    responseLanguage,
     videoId,
     duration,
     subtitles,
   } = videoData;
   const extraSubtitles =
-    host === "youtube" ? youtubeUtils.getSubtitles() : subtitles ?? [];
+    host === "youtube"
+      ? youtubeUtils.getSubtitles(responseLanguage)
+      : subtitles ?? [];
 
   const timeoutPromise = new Promise((_, reject) =>
     setTimeout(() => reject(new Error("Timeout")), 5000),
@@ -6299,6 +6699,7 @@ class SubtitlesWidget {
     this.maxLength = 300;
     this.maxLengthRegexp = /.{1,300}(?:\s|$)/g;
 
+    this.abortController = new AbortController();
     this.bindEvents();
     this.updateContainerRect();
   }
@@ -6311,15 +6712,19 @@ class SubtitlesWidget {
   }
 
   bindEvents() {
+    const { signal } = this.abortController;
+
     this.onMouseDownBound = (e) => this.onMouseDown(e);
     this.onMouseUpBound = () => this.onMouseUp();
     this.onMouseMoveBound = (e) => this.onMouseMove(e);
     this.onTimeUpdateBound = this.debounce(() => this.update(), 100);
 
-    document.addEventListener("mousedown", this.onMouseDownBound);
-    document.addEventListener("mouseup", this.onMouseUpBound);
-    document.addEventListener("mousemove", this.onMouseMoveBound);
-    this.video?.addEventListener("timeupdate", this.onTimeUpdateBound);
+    document.addEventListener("mousedown", this.onMouseDownBound, { signal });
+    document.addEventListener("mouseup", this.onMouseUpBound, { signal });
+    document.addEventListener("mousemove", this.onMouseMoveBound, { signal });
+    this.video?.addEventListener("timeupdate", this.onTimeUpdateBound, {
+      signal,
+    });
 
     this.resizeObserver = new ResizeObserver(() => this.onResize());
     this.resizeObserver.observe(this.container);
@@ -6521,10 +6926,7 @@ class SubtitlesWidget {
   }
 
   release() {
-    document.removeEventListener("mousedown", this.onMouseDownBound);
-    document.removeEventListener("mouseup", this.onMouseUpBound);
-    document.removeEventListener("mousemove", this.onMouseMoveBound);
-    this.video?.removeEventListener("timeupdate", this.onTimeUpdateBound);
+    this.abortController.abort();
     this.resizeObserver.disconnect();
     this.subtitlesContainer.remove();
   }
@@ -7422,10 +7824,6 @@ function syncVolume(element, sliderVolume, otherSliderVolume, tempVolume) {
   return finalValue;
 }
 
-// 0.00 - 1.00
-const percentToDecibels = (percent) => 20 * Math.log10(percent / 1);
-const decibelsToPercent = (dB) => Math.pow(10, dB / 20);
-
 
 
 // EXTERNAL MODULE: ./node_modules/requestidlecallback-polyfill/index.js
@@ -7503,11 +7901,6 @@ const filterVideoNodes = (nodes) => {
       for (let j = 0; j < videos.length; j++) {
         result.push(videos[j]);
       }
-    } else if (node.shadowRoot) {
-      const shadowVideos = node.shadowRoot.querySelectorAll("video");
-      for (let k = 0; k < shadowVideos.length; k++) {
-        result.push(shadowVideos[k]);
-      }
     }
   }
   return result;
@@ -7541,7 +7934,8 @@ const isMutedVideo = (video) => {
   );
 };
 
-const isVideoReady = (video) => video.readyState >= 3;
+const isVideoReady = (video) =>
+  video.getVideoPlaybackQuality().totalVideoFrames;
 
 const waitForVideoReady = (video, callback) => {
   const checkVideoState = () => {
@@ -7562,10 +7956,23 @@ class VideoObserver {
     this.onVideoRemoved = new EventImpl();
 
     this.observer = new MutationObserver(this.handleMutations);
-    this.intersectionObserver = new IntersectionObserver(
-      this.handleIntersections,
-      { threshold: 0.1 },
-    );
+    this.patchAttachShadow();
+  }
+
+  patchAttachShadow() {
+    const originalAttachShadow = Element.prototype.attachShadow;
+    const self = this;
+    Element.prototype.attachShadow = function (...args) {
+      const shadowRoot = originalAttachShadow.apply(this, args);
+      self.searchInRoot(shadowRoot);
+      self.observeShadowRoot(shadowRoot);
+      return shadowRoot;
+    };
+  }
+
+  observeShadowRoot(shadowRoot) {
+    const shadowObserver = new MutationObserver(this.handleMutations);
+    shadowObserver.observe(shadowRoot, { childList: true, subtree: true });
   }
 
   handleMutations = (mutationsList) => {
@@ -7590,65 +7997,30 @@ class VideoObserver {
     );
   };
 
-  handleIntersections = (entries) => {
-    for (let i = 0; i < entries.length; i++) {
-      const entry = entries[i];
-      if (entry.isIntersecting) {
-        this.handleIntersectingVideo(entry.target);
-      }
-    }
-  };
-
-  enable() {
-    this.observer.observe(document, { childList: true, subtree: true });
-    const videos = this.getAllVideoEls();
+  searchInRoot(root) {
+    const videos = root.querySelectorAll("video");
     for (let i = 0; i < videos.length; i++) {
       this.checkAndHandleVideo(videos[i]);
     }
   }
 
-  disable() {
-    this.observer.disconnect();
-    this.intersectionObserver.disconnect();
+  enable() {
+    this.observer.observe(document, { childList: true, subtree: true });
+
+    const regularVideos = document.querySelectorAll("video");
+    for (let i = 0; i < regularVideos.length; i++) {
+      this.checkAndHandleVideo(regularVideos[i]);
+    }
   }
 
-  getAllVideoEls() {
-    const videos = document.querySelectorAll("video");
-    if (videos.length) return Array.from(videos);
-
-    // Use it only if we don't find videos
-    // It takes a long time to complete
-    const videoElements = new Set();
-    const traverseShadowRoot = (root) => {
-      if (!root) return;
-      const shadowVideos = root.querySelectorAll("video");
-      for (let i = 0; i < shadowVideos.length; i++) {
-        videoElements.add(shadowVideos[i]);
-      }
-      const shadowElements = root.querySelectorAll("*");
-      for (let i = 0; i < shadowElements.length; i++) {
-        if (shadowElements[i].shadowRoot)
-          traverseShadowRoot(shadowElements[i].shadowRoot);
-      }
-    };
-
-    const allElements = document.querySelectorAll("*");
-    for (let i = 0; i < allElements.length; i++) {
-      if (allElements[i].shadowRoot)
-        traverseShadowRoot(allElements[i].shadowRoot);
-    }
-
-    return Array.from(videoElements);
+  disable() {
+    this.observer.disconnect();
   }
 
   checkAndHandleVideo = (video) => {
     if (this.videoCache.has(video)) return;
     this.videoCache.add(video);
-    this.intersectionObserver.observe(video);
-  };
 
-  handleIntersectingVideo = (video) => {
-    this.intersectionObserver.unobserve(video);
     if (isAdVideo(video) || isMutedVideo(video)) {
       debug.log("The promotional/muted video was ignored", video);
       return;
@@ -8965,13 +9337,15 @@ const createHotkeyText = (hotkey) =>
         .replace("{0}", hotkey.replace("Key", ""))
     : localizationProvider.get("VOTCreateTranslationHotkey");
 
+let countryCode;
+
 class VideoHandler {
   /**
    * default language of video
    *
    * @type {import("./index").VideoHandler['translateFromLang']}
    */
-  translateFromLang = "en";
+  translateFromLang = "auto";
 
   /**
    * default language of audio response
@@ -9002,7 +9376,7 @@ class VideoHandler {
 
   hls = initHls(); // debug enabled only in dev mode
   /**
-   * @type {import("vot.js").default}
+   * @type {import("@vot.js/ext").default}
    */
   votClient;
 
@@ -9011,19 +9385,21 @@ class VideoHandler {
    */
   audioPlayer;
 
-  videoTranslations = [];
-  videoTranslationTTL = 7200;
-  cachedTranslation;
+  videoTranslations = []; // list of video translations
+  videoTranslationTTL = 7200; // 2 hours
+  translateProxyEnabled = 0; // 0 - disabled, 1 - enabled, 2 - proxy everything
+  cachedTranslation; // cached video translation
 
   downloadTranslationUrl = null;
 
-  autoRetry;
-  streamPing;
+  autoRetry; // auto retry timeout
+  streamPing; // stream ping interval
   votOpts;
   volumeOnStart;
   tempOriginalVolume; // temp video volume for syncing
   tempVolume; // temp translation volume for syncing
   firstSyncVolume = true; // used for skip 1st syncing with observer
+  longWaitingResCount = 0;
 
   subtitlesList = [];
   subtitlesListVideoId = null;
@@ -9053,6 +9429,8 @@ class VideoHandler {
     this.video = video;
     this.container = container;
     this.site = site;
+    this.abortController = new AbortController();
+    this.extraEvents = [];
     this.init();
   }
 
@@ -9077,7 +9455,10 @@ class VideoHandler {
       `Translate video (requestLang: ${requestLang}, responseLang: ${responseLang})`,
     );
 
-    if ((await getVideoID(this.site, this.video)) !== videoData.videoId) {
+    if (
+      (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) !==
+      videoData.videoId
+    ) {
       return null;
     }
 
@@ -9144,7 +9525,10 @@ class VideoHandler {
       `Translate stream (requestLang: ${requestLang}, responseLang: ${responseLang})`,
     );
 
-    if ((await getVideoID(this.site, this.video)) !== videoData.videoId) {
+    if (
+      (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) !==
+      videoData.videoId
+    ) {
       return null;
     }
 
@@ -9270,6 +9654,7 @@ class VideoHandler {
       showVideoSlider: votStorage.get("showVideoSlider", 1),
       syncVolume: votStorage.get("syncVolume", 0),
       downloadWithName: votStorage.get("downloadWithName", 1),
+      sendNotifyOnComplete: votStorage.get("sendNotifyOnComplete", 0),
       subtitlesMaxLength: votStorage.get("subtitlesMaxLength", 300),
       highlightWords: votStorage.get("highlightWords", 0),
       subtitlesFontSize: votStorage.get("subtitlesFontSize", 20),
@@ -9277,7 +9662,6 @@ class VideoHandler {
       subtitlesDownloadFormat: votStorage.get("subtitlesDownloadFormat", "srt"),
       responseLanguage: votStorage.get("responseLanguage", lang),
       defaultVolume: votStorage.get("defaultVolume", 100),
-      audioProxy: votStorage.get("audioProxy", 0),
       onlyBypassMediaCSP: votStorage.get(
         "onlyBypassMediaCSP",
         Number(!!this.audioContext),
@@ -9295,7 +9679,6 @@ class VideoHandler {
       detectService: votStorage.get("detectService", defaultDetectService),
       hotkeyButton: votStorage.get("hotkeyButton", null),
       m3u8ProxyHost: votStorage.get("m3u8ProxyHost", m3u8ProxyHost),
-      translateProxyEnabled: votStorage.get("translateProxyEnabled", 0),
       proxyWorkerHost: votStorage.get("proxyWorkerHost", proxyWorkerHost),
       audioBooster: votStorage.get("audioBooster", 0),
       useNewModel: votStorage.get("useNewModel", 1),
@@ -9314,61 +9697,75 @@ class VideoHandler {
 
     console.log("[VOT] data from db: ", this.data);
 
+    // TODO: delete converters after several versions
     // convert old m3u8-proxy-worker to new media-proxy
-    if (this.data.m3u8ProxyHost === "m3u8-proxy.toil.cc") {
-      this.data.m3u8ProxyHost = m3u8ProxyHost;
-      await votStorage.set("m3u8ProxyHost", m3u8ProxyHost);
-      console.log(
-        `[VOT] Old m3u8 proxy host converted to new ${this.data.m3u8ProxyHost} media-proxy`,
-      );
-    }
-
-    // convert old vot-worker domain to actual
-    // TODO: remove converter in one of the next versions after release 1.7.0
-    if (this.data.proxyWorkerHost === "vot.toil.cc") {
-      this.data.proxyWorkerHost = proxyWorkerHost;
-      await votStorage.set("proxyWorkerHost", proxyWorkerHost);
-      console.log(
-        `[VOT] Old proxy worker host converted to new ${this.data.proxyWorkerHost}`,
-      );
-    }
+    await convertData(
+      this.data,
+      "m3u8ProxyHost",
+      "m3u8-proxy.toil.cc",
+      m3u8ProxyHost,
+    );
+    await convertData(
+      this.data,
+      "proxyWorkerHost",
+      "vot.toil.cc",
+      proxyWorkerHost,
+    );
+    await convertData(
+      this.data,
+      "detectService",
+      "yandex",
+      defaultDetectService,
+    );
+    await convertData(
+      this.data,
+      "translationService",
+      "yandex",
+      defaultTranslationService,
+    );
 
     if (
-      !this.data.translateProxyEnabled &&
+      !this.translateProxyEnabled &&
       GM_info?.scriptHandler &&
       proxyOnlyExtensions.includes(GM_info.scriptHandler)
     ) {
-      this.data.translateProxyEnabled = 1;
-      await votStorage.set("translateProxyEnabled", 1);
-      debug.log("translateProxyEnabled", this.data.translateProxyEnabled);
+      this.translateProxyEnabled = 1;
     }
 
+    if (!countryCode) {
+      try {
+        const response = await GM_fetch("https://speed.cloudflare.com/meta", {
+          timeout: 7000,
+        });
+        const { country } = await response.json();
+        countryCode = country;
+        this.translateProxyEnabled =
+          country === "UA" ? 2 : this.translateProxyEnabled;
+      } catch (err) {
+        console.error("[VOT] Error getting country:", err);
+      }
+    } else if (countryCode === "UA") {
+      this.translateProxyEnabled = 2;
+    }
+
+    debug.log("translateProxyEnabled", this.translateProxyEnabled);
     debug.log("Extension compatibility passed...");
 
     this.votOpts = {
-      headers: this.data.translateProxyEnabled
+      headers: this.translateProxyEnabled
         ? {}
         : {
             "sec-ch-ua": null,
             "sec-ch-ua-mobile": null,
             "sec-ch-ua-platform": null,
-            // "sec-ch-ua-model": null,
-            // "sec-ch-ua-platform-version": null,
-            // "sec-ch-ua-wow64": null,
-            // "sec-ch-ua-arch": null,
-            // "sec-ch-ua-bitness": null,
-            // "sec-ch-ua-full-version": null,
-            // "sec-ch-ua-full-version-list": null,
           },
       fetchFn: GM_fetch,
       hostVOT: votBackendUrl,
-      host: this.data.translateProxyEnabled
-        ? this.data.proxyWorkerHost
-        : workerHost,
+      host: this.translateProxyEnabled ? this.data.proxyWorkerHost : workerHost,
     };
 
     this.votClient = new (
-      this.data.translateProxyEnabled ? VOTWorkerClient : VOTClient
+      this.translateProxyEnabled ? VOTWorkerClient : VOTClient
     )(this.votOpts);
 
     this.subtitlesWidget = new SubtitlesWidget(
@@ -9399,6 +9796,13 @@ class VideoHandler {
     this.initialized = true;
   }
 
+  isLoadingText(text) {
+    return (
+      text.includes(localizationProvider.get("translationTake")) ||
+      text.includes(localizationProvider.get("TranslationDelayed"))
+    );
+  }
+
   /**
    * Set translation button status and text
    *
@@ -9406,9 +9810,7 @@ class VideoHandler {
    */
   transformBtn(status, text) {
     this.votButton.container.dataset.status = status;
-    const isLoading =
-      status === "error" &&
-      text.includes(localizationProvider.get("translationTake"));
+    const isLoading = status === "error" && this.isLoadingText(text);
     this.setLoadingBtn(isLoading);
     this.votButton.label.textContent = text;
     this.votButton.container.title = status === "error" ? text : "";
@@ -9722,6 +10124,14 @@ class VideoHandler {
         this.votDownloadWithNameCheckbox.container,
       );
 
+      this.votSendNotifyOnCompleteCheckbox = ui.createCheckbox(
+        localizationProvider.get("VOTSendNotifyOnComplete"),
+        this.data?.sendNotifyOnComplete ?? false,
+      );
+      this.votSettingsDialog.bodyContainer.appendChild(
+        this.votSendNotifyOnCompleteCheckbox.container,
+      );
+
       this.votUseNewModelCheckbox = ui.createCheckbox(
         localizationProvider.get("VOTUseNewModel"),
         this.data?.useNewModel ?? false,
@@ -9730,10 +10140,10 @@ class VideoHandler {
         this.votUseNewModelCheckbox.container,
       );
 
-      this.votTranslationServiceSelect = ui.createVOTSelect(
+      this.votTranslationErrorsServiceSelect = ui.createVOTSelect(
         this.data.translationService.toUpperCase(),
-        localizationProvider.get("VOTTranslationService"),
-        genOptionsByOBJ(translateServices, this.data.translationService),
+        localizationProvider.get("VOTTranslationErrorsService"),
+        genOptionsByOBJ(foswlyServices, this.data.translationService),
         {
           onSelectCb: async (e) => {
             this.data.translationService = e.target.dataset.votValue;
@@ -9748,10 +10158,10 @@ class VideoHandler {
           ).container,
         },
       );
-      this.votTranslationServiceSelect.container.hidden =
+      this.votTranslationErrorsServiceSelect.container.hidden =
         localizationProvider.lang === "ru";
       this.votSettingsDialog.bodyContainer.appendChild(
-        this.votTranslationServiceSelect.container,
+        this.votTranslationErrorsServiceSelect.container,
       );
 
       this.votDetectServiceSelect = ui.createVOTSelect(
@@ -9809,14 +10219,6 @@ class VideoHandler {
       );
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votProxyWorkerHostTextfield.container,
-      );
-
-      this.votAudioProxyCheckbox = ui.createCheckbox(
-        localizationProvider.get("VOTAudioProxy"),
-        this.data?.audioProxy ?? false,
-      );
-      this.votSettingsDialog.bodyContainer.appendChild(
-        this.votAudioProxyCheckbox.container,
       );
 
       this.votNewAudioPlayerCheckbox = ui.createCheckbox(
@@ -10296,6 +10698,23 @@ class VideoHandler {
         })();
       });
 
+      this.votSendNotifyOnCompleteCheckbox.input.addEventListener(
+        "change",
+        (e) => {
+          (async () => {
+            this.data.sendNotifyOnComplete = Number(e.target.checked);
+            await votStorage.set(
+              "sendNotifyOnComplete",
+              this.data.sendNotifyOnComplete,
+            );
+            debug.log(
+              "sendNotifyOnComplete value changed. New value: ",
+              this.data.sendNotifyOnComplete,
+            );
+          })();
+        },
+      );
+
       this.votUseNewModelCheckbox.input.addEventListener("change", (e) => {
         (async () => {
           this.data.useNewModel = Number(e.target.checked);
@@ -10308,7 +10727,7 @@ class VideoHandler {
         })();
       });
 
-      this.votTranslationServiceSelect.labelElement.addEventListener(
+      this.votTranslationErrorsServiceSelect.labelElement.addEventListener(
         "change",
         (e) => {
           (async () => {
@@ -10504,20 +10923,9 @@ class VideoHandler {
             "proxyWorkerHost value changed. New value: ",
             this.data.proxyWorkerHost,
           );
-          if (this.data.translateProxyEnabled) {
+          if (this.translateProxyEnabled) {
             this.votClient.host = this.data.proxyWorkerHost;
           }
-        })();
-      });
-
-      this.votAudioProxyCheckbox.input.addEventListener("change", (e) => {
-        (async () => {
-          this.data.audioProxy = Number(e.target.checked);
-          await votStorage.set("audioProxy", this.data.audioProxy);
-          debug.log(
-            "audioProxy value changed. New value: ",
-            this.data.audioProxy,
-          );
         })();
       });
 
@@ -10582,6 +10990,7 @@ class VideoHandler {
   }
 
   releaseExtraEvents() {
+    this.abortController.abort();
     this.resizeObserver?.disconnect();
     if (
       ["youtube", "googledrive"].includes(this.site.host) &&
@@ -10589,17 +10998,10 @@ class VideoHandler {
     ) {
       this.syncVolumeObserver?.disconnect();
     }
-
-    if (this.extraEvents) {
-      for (let i = 0; i < this.extraEvents.length; i++) {
-        const e = this.extraEvents[i];
-        e.element.removeEventListener(e.event, e.handler);
-      }
-    }
   }
 
   initExtraEvents() {
-    this.extraEvents = [];
+    const { signal } = this.abortController;
 
     const addExtraEventListener = (element, event, handler) => {
       this.extraEvents.push({
@@ -10607,7 +11009,7 @@ class VideoHandler {
         event,
         handler,
       });
-      element.addEventListener(event, handler);
+      element.addEventListener(event, handler, { signal });
     };
 
     const addExtraEventListeners = (element, events, handler) => {
@@ -10688,41 +11090,49 @@ class VideoHandler {
       }
     }
 
-    document.addEventListener("click", (event) => {
-      const e = event.target;
+    document.addEventListener(
+      "click",
+      (event) => {
+        const e = event.target;
 
-      const button = this.votButton.container;
-      const menu = this.votMenu.container;
-      const container = this.container;
-      const settings = this.votSettingsDialog.container;
-      const tempDialog = document.querySelector(".vot-dialog-temp");
+        const button = this.votButton.container;
+        const menu = this.votMenu.container;
+        const container = this.container;
+        const settings = this.votSettingsDialog.container;
+        const tempDialog = document.querySelector(".vot-dialog-temp");
 
-      const isButton = button.contains(e);
-      const isMenu = menu.contains(e);
-      const isVideo = container.contains(e);
-      const isSettings = settings.contains(e);
-      const isTempDialog = tempDialog?.contains(e) ?? false;
+        const isButton = button.contains(e);
+        const isMenu = menu.contains(e);
+        const isVideo = container.contains(e);
+        const isSettings = settings.contains(e);
+        const isTempDialog = tempDialog?.contains(e) ?? false;
 
-      debug.log(
-        `[document click] ${isButton} ${isMenu} ${isVideo} ${isSettings} ${isTempDialog}`,
-      );
-      if (!(!isButton && !isMenu && !isSettings && !isTempDialog)) return;
-      if (!isVideo) this.logout(0);
+        debug.log(
+          `[document click] ${isButton} ${isMenu} ${isVideo} ${isSettings} ${isTempDialog}`,
+        );
+        if (!(!isButton && !isMenu && !isSettings && !isTempDialog)) return;
+        if (!isVideo) this.logout(0);
 
-      this.votMenu.container.hidden = true;
-    });
+        this.votMenu.container.hidden = true;
+      },
+      { signal },
+    );
 
-    document.addEventListener("keydown", async (event) => {
-      const code = event.code;
-      // Проверка, если активный элемент - это вводимый элемент
-      const activeElement = document.activeElement;
-      const isInputElement =
-        ["input", "textarea"].includes(activeElement.tagName.toLowerCase()) ||
-        activeElement.isContentEditable;
-      if (!isInputElement && code === this.data.hotkeyButton) {
-        await this.handleTranslationBtnClick();
-      }
-    });
+    document.addEventListener(
+      "keydown",
+      async (event) => {
+        const code = event.code;
+        // Проверка, если активный элемент - это вводимый элемент
+        const activeElement = document.activeElement;
+        const isInputElement =
+          ["input", "textarea"].includes(activeElement.tagName.toLowerCase()) ||
+          activeElement.isContentEditable;
+        if (!isInputElement && code === this.data.hotkeyButton) {
+          await this.handleTranslationBtnClick();
+        }
+      },
+      { signal },
+    );
 
     let eventContainer = this.site.eventSelector
       ? document.querySelector(this.site.eventSelector)
@@ -10744,11 +11154,14 @@ class VideoHandler {
       "mousemove",
       this.changeOpacityOnEvent,
     );
-    addExtraEventListeners(
-      document,
-      ["touchstart", "touchmove", "touchend"],
-      this.changeOpacityOnEvent,
-    );
+    // remove listener on xvideos to fix #866
+    if (this.site.host !== "xvideos") {
+      addExtraEventListeners(
+        document,
+        ["touchstart", "touchmove", "touchend"],
+        this.changeOpacityOnEvent,
+      );
+    }
 
     // fix youtube hold to fast
     addExtraEventListener(this.votButton.container, "mousedown", (e) => {
@@ -10778,7 +11191,8 @@ class VideoHandler {
     addExtraEventListener(this.video, "emptied", async () => {
       if (
         this.video.src &&
-        (await getVideoID(this.site, this.video)) === this.videoData.videoId
+        (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) ===
+          this.videoData.videoId
       )
         return;
       debug.log("lipsync mode is emptied");
@@ -10805,7 +11219,10 @@ class VideoHandler {
   }
 
   async setCanPlay() {
-    if ((await getVideoID(this.site, this.video)) === this.videoData.videoId)
+    if (
+      (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) ===
+      this.videoData.videoId
+    )
       return;
     await this.handleSrcChanged();
     await this.autoTranslate();
@@ -10844,7 +11261,7 @@ class VideoHandler {
     } else {
       const subtitlesObj = this.subtitlesList.at(parseInt(subs));
       if (
-        this.data.audioProxy === 1 &&
+        this.translateProxyEnabled >= 1 &&
         subtitlesObj.url.startsWith(
           "https://brosubs.s3-private.mds.yandex.net/vtrans/",
         )
@@ -10916,19 +11333,7 @@ class VideoHandler {
       return;
     }
 
-    try {
-      this.subtitlesList = await subtitles_getSubtitles(this.votClient, this.videoData);
-    } catch (err) {
-      debug.log("Error with yandex server, try auto-fix...", err);
-      this.votOpts = {
-        fetchFn: GM_fetch,
-        hostVOT: votBackendUrl,
-        host: this.data.proxyWorkerHost,
-      };
-      this.votClient = new VOTWorkerClient(this.votOpts);
-      this.subtitlesList = await subtitles_getSubtitles(this.votClient, this.videoData);
-      await votStorage.set("translateProxyEnabled", 1);
-    }
+    this.subtitlesList = await subtitles_getSubtitles(this.votClient, this.videoData);
 
     if (!this.subtitlesList) {
       await this.changeSubtitlesLang("disabled");
@@ -11052,20 +11457,23 @@ class VideoHandler {
       videoId,
       host,
       title,
-      translationHelp,
-      detectedLanguage,
+      translationHelp = null,
+      detectedLanguage = this.translateFromLang,
       subtitles,
-    } = await getVideoData(this.site, this.video);
+      isStream = false,
+    } = await getVideoData(this.site, this.video, {
+      fetchFn: GM_fetch,
+    });
     const videoData = {
-      translationHelp: translationHelp ?? null,
+      translationHelp,
       // by default, we request the translation of the video
-      isStream: false,
+      isStream,
       // ! if 0 - we get 400 error
-      duration: this.video?.duration || duration || config.defaultDuration,
+      duration: duration || this.video?.duration || config.defaultDuration,
       videoId,
       url,
       host,
-      detectedLanguage: detectedLanguage ?? this.translateFromLang,
+      detectedLanguage,
       responseLanguage: this.translateToLang,
       subtitles,
       title,
@@ -11087,35 +11495,18 @@ class VideoHandler {
       videoData.detectedLanguage = trackLang || "auto";
     } else if (this.site.host === "weverse") {
       videoData.detectedLanguage = "ko";
-    } else if (
-      [
-        "bilibili",
-        "bitchute",
-        "rumble",
-        "peertube",
-        "dailymotion",
-        "trovo",
-        "yandexdisk",
-        "coursehunterLike",
-        "archive",
-        "nineanimetv",
-        "directlink",
-      ].includes(this.site.host)
-    ) {
-      videoData.detectedLanguage = "auto";
     }
+
     return videoData;
   }
 
   videoValidator() {
-    if (["youtube", "ok.ru", "vk"].includes(this.site.host)) {
-      debug.log("VideoValidator videoData: ", this.videoData);
-      if (
-        this.data.dontTranslateYourLang === 1 &&
-        this.videoData.detectedLanguage === this.data.dontTranslateLanguage
-      ) {
-        throw new VOTLocalizedError("VOTDisableFromYourLang");
-      }
+    debug.log("VideoValidator videoData: ", this.videoData);
+    if (
+      this.data.dontTranslateYourLang === 1 &&
+      this.videoData.detectedLanguage === this.data.dontTranslateLanguage
+    ) {
+      throw new VOTLocalizedError("VOTDisableFromYourLang");
     }
 
     if (!this.videoData.isStream && this.videoData.duration > 14_400) {
@@ -11136,6 +11527,7 @@ class VideoHandler {
     this.votVideoTranslationVolumeSlider.container.hidden = true;
     this.votDownloadButton.hidden = true;
     this.downloadTranslationUrl = null;
+    this.longWaitingResCount = 0;
     this.transformBtn("none", localizationProvider.get("translateVideo"));
     debug.log(`Volume on start: ${this.volumeOnStart}`);
     if (this.volumeOnStart) {
@@ -11163,6 +11555,16 @@ class VideoHandler {
     const translationTake = localizationProvider.get("translationTake");
     const lang = localizationProvider.lang;
 
+    // we always change it so isn't to accidentally replace the error message
+    this.longWaitingResCount =
+      errorMessage === localizationProvider.get("translationTakeAboutMinute")
+        ? this.longWaitingResCount + 1
+        : 0;
+    debug.log("longWaitingResCount", this.longWaitingResCount);
+    if (this.longWaitingResCount > minLongWaitingCount) {
+      errorMessage = new VOTLocalizedError("TranslationDelayed");
+    }
+
     if (errorMessage?.name === "VOTLocalizedError") {
       this.transformBtn("error", errorMessage.localizedMessage);
     } else if (errorMessage instanceof Error) {
@@ -11170,8 +11572,8 @@ class VideoHandler {
       this.transformBtn("error", errorMessage?.message);
     } else if (
       this.data.translateAPIErrors === 1 &&
-      !errorMessage.includes(translationTake) &&
-      lang !== "ru"
+      lang !== "ru" &&
+      !errorMessage.includes(translationTake)
     ) {
       // adds a stub text until a text translation is received to avoid a long delay with long text
       this.setLoadingBtn(true);
@@ -11195,11 +11597,10 @@ class VideoHandler {
   }
 
   afterUpdateTranslation(audioUrl) {
+    const isSuccess = this.votButton.container.dataset.status === "success";
     this.votVideoVolumeSlider.container.hidden =
-      this.data.showVideoSlider !== 1 ||
-      this.votButton.container.dataset.status !== "success";
-    this.votVideoTranslationVolumeSlider.container.hidden =
-      this.votButton.container.dataset.status !== "success";
+      this.data.showVideoSlider !== 1 || !isSuccess;
+    this.votVideoTranslationVolumeSlider.container.hidden = !isSuccess;
 
     if (this.data.autoSetVolumeYandexStyle === 1) {
       this.votVideoVolumeSlider.input.value = this.data.autoVolume * 100;
@@ -11211,13 +11612,33 @@ class VideoHandler {
 
     this.votDownloadButton.hidden = false;
     this.downloadTranslationUrl = audioUrl;
+    debug.log(
+      "afterUpdateTranslation downloadTranslationUrl",
+      this.downloadTranslationUrl,
+    );
+    if (this.data.sendNotifyOnComplete && isSuccess) {
+      GM_notification({
+        text: localizationProvider
+          .get("VOTTranslationCompletedNotify")
+          .replace("{0}", window.location.hostname),
+        title: GM_info.script.name,
+        highlight: true,
+        timeout: 5000,
+        silent: true,
+        tag: "VOTTranslationCompleted", // TM 5.0
+        url: window.location.href, // TM 5.0
+        onclick: (e) => {
+          e.preventDefault();
+          window.focus();
+        },
+      });
+    }
   }
 
   async validateAudioUrl(audioUrl) {
     try {
       const response = await GM_fetch(audioUrl, {
         method: "HEAD",
-        timeout: 5000,
       });
       debug.log("Test audio response", response);
       if (response.status !== 404) {
@@ -11239,13 +11660,7 @@ class VideoHandler {
       audioUrl = translateRes.url;
       debug.log("Fixed audio audioUrl", audioUrl);
     } catch (err) {
-      if (err.message === "Timeout") {
-        debug.log("Request timed out. Handling timeout error...");
-        this.data.audioProxy = 1;
-        await votStorage.set("audioProxy", 1);
-      } else {
-        debug.log("Test audio error:", err);
-      }
+      debug.log("Test audio error:", err);
     }
 
     return audioUrl;
@@ -11259,7 +11674,7 @@ class VideoHandler {
     }
 
     if (
-      this.data.audioProxy === 1 &&
+      this.translateProxyEnabled === 2 &&
       audioUrl.startsWith("https://vtrans.s3-private.mds.yandex.net/tts/prod/")
     ) {
       const audioPath = audioUrl.replace(
@@ -11278,12 +11693,7 @@ class VideoHandler {
       this.audioPlayer.init();
     } catch (err) {
       debug.log("this.audioPlayer.init() error", err);
-      if (err.message.includes("Failed to fetch audio file")) {
-        this.videoHandler.data.audioProxy = 1;
-        await votStorage.set("audioProxy", 1);
-      } else {
-        this.videoHandler.transformBtn("error", err.message);
-      }
+      this.videoHandler.transformBtn("error", err.message);
     }
 
     this.setupAudioSettings();
@@ -11516,6 +11926,31 @@ const videoObserver = new VideoObserver();
 const videosWrappers = new WeakMap();
 
 /**
+ * Finds the parent element of a given element that matches a specified selector.
+ *
+ * @param {HTMLElement} el - The element to start searching from.
+ * @param {string} selector - The CSS selector to match.
+ * @returns {HTMLElement|null} The parent element that matches the selector, or null if no match is found.
+ */
+function climb(el, selector) {
+  if (!el || !selector) {
+    return null;
+  }
+
+  if (el instanceof Document) {
+    return el.querySelector(selector);
+  }
+
+  const foundEl = el.closest(selector);
+  if (foundEl) {
+    return foundEl;
+  }
+
+  const root = el.getRootNode();
+  return climb(root instanceof Document ? root : root.host, selector);
+}
+
+/**
  * Finds the container element for a given video element and site object.
  *
  * @param {Object} site - The site object.
@@ -11523,16 +11958,15 @@ const videosWrappers = new WeakMap();
  * @return {Object|null} The container element or null if not found.
  */
 function findContainer(site, video) {
+  debug.log("findContainer", site, video);
   if (site.shadowRoot) {
-    let container = site.selector
-      ? Array.from(document.querySelectorAll(site.selector)).find((e) =>
-          e.shadowRoot.contains(video),
-        )
-      : video.parentElement;
-    return container && container.shadowRoot
-      ? container.parentElement
-      : container;
+    let container = climb(video, site.selector);
+
+    debug.log("findContainer with site.shadowRoot", container);
+    return container ?? video.parentElement;
   }
+
+  debug.log("findContainer without shadowRoot");
 
   const browserVersion = browserInfo.browser.version?.split(".")?.[0];
   if (
@@ -11557,13 +11991,7 @@ function findContainer(site, video) {
     : video.parentElement;
 }
 
-async function src_main() {
-  debug.log("Loading extension...");
-
-  await localizationProvider.update();
-
-  debug.log(`Selected menu language: ${localizationProvider.lang}`);
-
+function initIframeInteractor() {
   // I haven't figured out how to do it any other way
   if (window.location.origin === "https://9animetv.to") {
     window.addEventListener("message", (e) => {
@@ -11571,18 +11999,55 @@ async function src_main() {
         return;
       }
 
-      if (e.data === "getVideoId") {
-        const videoId = /[^/]+$/.exec(window.location.href)?.[0];
-        const iframeWin =
-          document.querySelector("#iframe-embed")?.contentWindow;
-
-        iframeWin.postMessage(
-          `getVideoId:${videoId}`,
-          "https://rapid-cloud.co/",
-        );
+      if (e.data !== "getVideoId") {
+        return;
       }
+
+      const videoId = /[^/]+$/.exec(window.location.href)?.[0];
+      const iframeWin = document.querySelector("#iframe-embed")?.contentWindow;
+
+      iframeWin.postMessage(`getVideoId:${videoId}`, "https://rapid-cloud.co");
     });
+
+    return;
   }
+
+  if (
+    window.location.origin === "https://dev.epicgames.com" &&
+    window.location.pathname.includes("/community/learning/")
+  ) {
+    window.addEventListener("message", (e) => {
+      if (e.origin !== "https://dev.epicgames.com") {
+        return;
+      }
+
+      if (e.data !== "getVideoId") {
+        return;
+      }
+
+      const videoId = /\/(\w{3,5})\/[^/]+$/.exec(window.location.pathname)?.[1];
+      const iframeWin = document.querySelector(
+        "electra-player > iframe",
+      )?.contentWindow;
+
+      iframeWin.postMessage(
+        `getVideoId:${videoId}`,
+        "https://dev.epicgames.com",
+      );
+    });
+
+    return;
+  }
+}
+
+async function src_main() {
+  debug.log("Loading extension...");
+
+  await localizationProvider.update();
+
+  debug.log(`Selected menu language: ${localizationProvider.lang}`);
+
+  initIframeInteractor();
 
   videoObserver.onVideoAdded.addListener((video) => {
     for (const site of getService()) {
@@ -11594,13 +12059,6 @@ async function src_main() {
       if (site.host === "rumble" && !video.style.display) {
         continue; // fix multiply translation buttons in rumble.com
       }
-
-      // if (
-      //   site.host === "youku" &&
-      //   !video.parentElement?.classList.contains("video-layer")
-      // ) {
-      //   continue;
-      // }
 
       if (["peertube", "directlink"].includes(site.host)) {
         site.url = window.location.origin; // set the url of the current site for peertube and directlink
