@@ -11616,7 +11616,7 @@ class VideoHandler {
       "afterUpdateTranslation downloadTranslationUrl",
       this.downloadTranslationUrl,
     );
-    if (this.data.sendNotifyOnComplete && isSuccess) {
+    if (this.data.sendNotifyOnComplete && this.longWaitingResCount && isSuccess) {
       GM_notification({
         text: localizationProvider
           .get("VOTTranslationCompletedNotify")

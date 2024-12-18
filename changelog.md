@@ -8,6 +8,10 @@
 <!-- Придумать как нормально реализовать отображение кнопки в Google Drive -->
 <!-- - Исправлена работа Google Drive (#888, #883, #912) -->
 
+# 1.x
+
+- Убрана отправка уведомления о переводе, если перевод уже существует ([ee3a66d0b6ef3c6af7b61136dae0c65df0d74337#commitcomment-150456758](https://github.com/ilyhalight/voice-over-translation/commit/ee3a66d0b6ef3c6af7b61136dae0c65df0d74337#commitcomment-150456758))
+
 # 1.8.0
 
 - Доработана логика поиска видео внутри ShadowDOM (#914)
