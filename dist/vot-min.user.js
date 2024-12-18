@@ -176,7 +176,7 @@
 // @connect        speed.cloudflare.com
 // @connect        porntn.com
 // @namespace      vot-min
-// @version        1.8.0
+// @version        1.8.1
 // @icon           https://translate.yandex.ru/icons/favicon.ico
 // @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation
