@@ -37,6 +37,7 @@
     "*://disk.yandex.ru/*",
     "*://youtube.googleapis.com/embed/*",
     "*://*.banned.video/*",
+    "*://*.madmaxworld.tv/*",
     "*://*.weverse.io/*",
     "*://*.newgrounds.com/*",
     "*://*.egghead.io/*",
@@ -62,6 +63,7 @@
     "*://*.porntn.com/*",
     "*://*.dzen.ru/*",
     "*://*.cloudflarestream.com/*",
+    "*://*.loom.com/*",
     "*://*/*.mp4*",
     "*://*/*.webm*"
   ],
