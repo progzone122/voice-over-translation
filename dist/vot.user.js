@@ -7564,152 +7564,204 @@ function createVOTSelectLabel(text) {
 }
 
 /**
- * Create VOTSelect
+ * Create VOTSelect - A customizable select component with search functionality
+ * and support for single/multi-select modes.
  *
- * @param {string} selectTitle - select title
- * @param {string} dialogTitle - dialog title
- * @param {{label: string, value: string, selected: boolean}[]} items - items to select
- * @param {{onSelectCb: function, labelElement: string}} options - items to select
- * @return {{
- *  container: HTMLElement,
- *  title: HTMLSpanElement,
- *  arrowIcon: HTMLElement,
- *  labelElement: HTMLElement,
- *  setTitle: (newTitle: string) => void,
- *  setSelected: (val: string) => void,
- *  updateItems: (newItems: {label: string, value: string, selected: boolean}[]) => void,
- * }} VOTSelect elements
- */
+ * @param {string} selectTitle - Default title shown when no items are selected
+ * @param {string} dialogTitle - Title displayed in the selection dialog
+ * @param {{label: string, value: string, selected: boolean, disabled?: boolean}[]} items - Array of selectable items
+ * @param {{
+*   onSelectCb?: function,      // Callback function triggered on item selection
+*   labelElement?: string,      // Optional label element to display above select
+*   multiSelect?: boolean       // Enable multiple item selection
+* }} options - Configuration options
+* @return {{
+*  container: HTMLElement,      // Main container element
+*  title: HTMLSpanElement,      // Title element showing selected items
+*  arrowIcon: HTMLElement,      // Dropdown arrow icon element
+*  labelElement: HTMLElement,   // Label element if provided
+*  setTitle: (newTitle: string) => void,          // Function to update select title
+*  setSelected: (val: string | string[]) => void, // Function to set selected items
+*  updateItems: (newItems: {label: string, value: string, selected: boolean}[]) => void, // Update available items
+*  selectedValues: Set<string>  // Set containing currently selected values
+* }} VOTSelect elements and control functions
+*/
 function createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
-  const { onSelectCb = function () {}, labelElement = "" } = options;
-  let selectedItems = [];
+ // Extract and set default options
+ const { onSelectCb = function () {}, labelElement = "", multiSelect = false } = options;
+ let selectedItems = [];
+ // Initialize set of selected values from items marked as selected
+ let selectedValues = new Set(items.filter(i => i.selected).map(i => i.value));
 
-  const container = document.createElement("vot-block");
-  container.classList.add("vot-select");
+ // Create main container and add select class
+ const container = document.createElement("vot-block");
+ container.classList.add("vot-select");
 
-  if (labelElement) {
-    container.append(labelElement);
-  }
+ // Add label element if provided
+ if (labelElement) {
+   container.append(labelElement);
+ }
 
-  const outer = document.createElement("vot-block");
-  outer.classList.add("vot-select-outer");
+ // Create outer container for select control
+ const outer = document.createElement("vot-block");
+ outer.classList.add("vot-select-outer");
 
-  const title = document.createElement("span");
-  title.classList.add("vot-select-title");
-  title.textContent = selectTitle;
+ // Create and style title element
+ const title = document.createElement("span");
+ title.classList.add("vot-select-title");
 
-  if (selectTitle === undefined) {
-    title.textContent = items.find((i) => i.selected === true)?.label;
-  }
+ // Function to update the displayed title based on selected items
+ const updateTitle = () => {
+   const selectedLabels = items
+     .filter(i => selectedValues.has(i.value))
+     .map(i => i.label)
+     .join(", ");
+   title.textContent = selectedLabels || selectTitle;
+ };
+ updateTitle();
 
-  const arrowIcon = document.createElement("vot-block");
-  arrowIcon.classList.add("vot-select-arrow-icon");
-  Q(arrowIconRaw, arrowIcon);
+ // Create and add arrow icon
+ const arrowIcon = document.createElement("vot-block");
+ arrowIcon.classList.add("vot-select-arrow-icon");
+ Q(arrowIconRaw, arrowIcon);
 
-  outer.append(title, arrowIcon);
-  outer.onclick = () => {
-    const votSelectDialog = createDialog(dialogTitle);
-    votSelectDialog.container.classList.add("vot-dialog-temp");
-    votSelectDialog.container.hidden = false;
-    document.documentElement.appendChild(votSelectDialog.container);
+ // Update the selected state of items in the list
+ const updateSelectedState = () => {
+   if (selectedItems.length > 0) {
+     for (const item of selectedItems) {
+       item.dataset.votSelected = selectedValues.has(item.dataset.votValue);
+     }
+   }
+   updateTitle();
+ };
 
-    const contentList = document.createElement("vot-block");
-    contentList.classList.add("vot-select-content-list");
+ // Add title and arrow icon to outer container
+ outer.append(title, arrowIcon);
 
-    for (const item of items) {
-      const contentItem = document.createElement("vot-block");
-      contentItem.classList.add("vot-select-content-item");
-      contentItem.textContent = item.label;
-      contentItem.dataset.votSelected = item.selected;
-      contentItem.dataset.votValue = item.value;
-      if (item.disabled) {
-        contentItem.inert = true;
-      }
+ // Configure click handler to show selection dialog
+ outer.onclick = () => {
+   // Create and configure dialog
+   const votSelectDialog = createDialog(dialogTitle);
+   votSelectDialog.container.classList.add("vot-dialog-temp");
+   votSelectDialog.container.hidden = false;
+   document.documentElement.appendChild(votSelectDialog.container);
 
-      contentItem.onclick = async (e) => {
-        if (e.target.inert) return;
+   // Create container for select items
+   const contentList = document.createElement("vot-block");
+   contentList.classList.add("vot-select-content-list");
 
-        // removing the selected value for updating
-        const contentItems = contentList.childNodes;
-        for (let ci of contentItems) {
-          ci.dataset.votSelected = false;
-        }
-        // fixed selection after closing the modal and opening again
-        for (let i of items) {
-          i.selected = i.value === item.value;
-        }
+   // Create and configure items in the selection list
+   for (const item of items) {
+     const contentItem = document.createElement("vot-block");
+     contentItem.classList.add("vot-select-content-item");
+     contentItem.textContent = item.label;
+     contentItem.dataset.votSelected = selectedValues.has(item.value);
+     contentItem.dataset.votValue = item.value;
+     
+     // Handle disabled state
+     if (item.disabled) {
+       contentItem.inert = true;
+     }
 
-        contentItem.dataset.votSelected = true;
-        title.textContent = item.label;
+     // Configure item click handler
+     contentItem.onclick = async (e) => {
+       if (e.target.inert) return;
 
-        // !!! use e.target.dataset.votValue instead of e.target.value !!!
-        await onSelectCb(e);
-      };
-      contentList.appendChild(contentItem);
-    }
+       if (multiSelect) {
+         // Handle multi-select mode
+         const value = item.value;
+         if (selectedValues.has(value)) {
+           selectedValues.delete(value);
+           item.selected = false;
+         } else {
+           selectedValues.add(value);
+           item.selected = true;
+         }
+         contentItem.dataset.votSelected = selectedValues.has(value);
+         updateSelectedState();
+         await onSelectCb(e, Array.from(selectedValues));
+       } else {
+         // Handle single-select mode
+         const contentItems = contentList.childNodes;
+         for (const ci of contentItems) {
+           ci.dataset.votSelected = false;
+         }
+         for (const i of items) {
+           i.selected = i.value === item.value;
+         }
+         selectedValues = new Set([item.value]);
+         contentItem.dataset.votSelected = true;
+         updateTitle();
+         await onSelectCb(e);
+       }
+     };
+     contentList.appendChild(contentItem);
+   }
 
-    // search logic
-    const votSearchLangTextfield = createTextfield(
-      localizationProvider.get("searchField"),
-    );
+   // Create and configure search field
+   const votSearchLangTextfield = createTextfield(
+     localizationProvider.get("searchField"),
+   );
 
-    votSearchLangTextfield.input.oninput = (e) => {
-      const searchText = e.target.value.toLowerCase();
-      // check if there are lovercase characters in the string. used for smarter search
-      for (let i = 0; i < selectedItems.length; i++) {
-        const ci = selectedItems[i];
-        ci.hidden = !ci.textContent.toLowerCase().includes(searchText);
-      }
-    };
+   // Configure search functionality
+   votSearchLangTextfield.input.oninput = (e) => {
+     const searchText = e.target.value.toLowerCase();
+     for (const ci of selectedItems) {
+       ci.hidden = !ci.textContent.toLowerCase().includes(searchText);
+     }
+   };
 
-    votSelectDialog.bodyContainer.append(
-      votSearchLangTextfield.container,
-      contentList,
-    );
-    selectedItems = contentList.childNodes;
+   // Add search field and content list to dialog
+   votSelectDialog.bodyContainer.append(
+     votSearchLangTextfield.container,
+     contentList,
+   );
+   selectedItems = contentList.childNodes;
 
-    // remove the modal so that they do not accumulate
-    votSelectDialog.backdrop.onclick = votSelectDialog.closeButton.onclick =
-      () => {
-        votSelectDialog.container.remove();
-        selectedItems = [];
-      };
-  };
+   // Configure dialog close handlers
+   votSelectDialog.backdrop.onclick = votSelectDialog.closeButton.onclick = () => {
+     votSelectDialog.container.remove();
+     selectedItems = [];
+   };
+ };
 
-  container.append(outer);
+ // Add outer container to main container
+ container.append(outer);
 
-  const setTitle = (newTitle) => {
-    title.textContent = newTitle;
-  };
+ // Function to programmatically set selected items
+ const setSelected = (val) => {
+   if (typeof val === 'string') {
+     selectedValues = new Set([val]);
+   } else if (Array.isArray(val)) {
+     selectedValues = new Set(val);
+   }
+   for (const item of items) {
+     item.selected = selectedValues.has(item.value);
+   }
+   updateSelectedState();
+ };
 
-  const setSelected = (val) => {
-    const selectedItemsArray = Array.from(selectedItems).filter(
-      (ci) => !ci.inert,
-    );
-    for (let i = 0; i < selectedItemsArray.length; i++) {
-      const ci = selectedItemsArray[i];
-      ci.dataset.votSelected = ci.dataset.votValue === val;
-    }
+ // Function to update available items
+ const updateItems = (newItems) => {
+   items = newItems;
+   selectedValues = new Set(items.filter(i => i.selected).map(i => i.value));
+   updateSelectedState();
+ };
 
-    for (let i = 0; i < items.length; i++) {
-      const currentItem = items[i];
-      currentItem.selected = String(currentItem.value) === val;
-    }
-  };
-
-  const updateItems = (newItems) => {
-    items = newItems;
-  };
-
-  return {
-    container,
-    title,
-    arrowIcon,
-    labelElement,
-    setTitle,
-    setSelected,
-    updateItems,
-  };
+ // Return component interface
+ return {
+   container,
+   title,
+   arrowIcon,
+   labelElement,
+   setTitle: (newTitle) => {
+     selectTitle = newTitle;
+     updateTitle();
+   },
+   setSelected,
+   updateItems,
+   selectedValues
+ };
 }
 
 function createVOTLanguageSelect(options) {
@@ -9771,7 +9823,7 @@ class VideoHandler {
 
     const dataPromises = {
       autoTranslate: votStorage.get("autoTranslate", 0),
-      dontTranslateLanguage: votStorage.get("dontTranslateLanguage", lang),
+      dontTranslateLanguages: votStorage.get("dontTranslateLanguages", [lang]),
       dontTranslateYourLang: votStorage.get("dontTranslateYourLang", 1),
       autoSetVolumeYandexStyle: votStorage.get("autoSetVolumeYandexStyle", 1),
       autoVolume: votStorage.get("autoVolume", defaultAutoVolume),
@@ -10164,22 +10216,34 @@ class VideoHandler {
       );
 
       this.votDontTranslateYourLangSelect = ui.createVOTSelect(
-        localizationProvider.get("langs")[this.data.dontTranslateLanguage],
+        this.data.dontTranslateLanguages
+          .map(lang => localizationProvider.get("langs")[lang])
+          .join(", ") || localizationProvider.get("langs")[lang],
         localizationProvider.get("VOTDontTranslateYourLang"),
-        genOptionsByOBJ(availableLangs, this.data.dontTranslateLanguage),
+        genOptionsByOBJ(availableLangs).map(option => ({
+          ...option,
+          selected: this.data.dontTranslateLanguages.includes(option.value)
+        })),
         {
-          onSelectCb: async (e) => {
-            this.data.dontTranslateLanguage = e.target.dataset.votValue;
+          multiSelect: true,
+          onSelectCb: async (e, selectedValues) => {
+            this.data.dontTranslateLanguages = selectedValues;
             await votStorage.set(
-              "dontTranslateLanguage",
-              this.data.dontTranslateLanguage,
+              "dontTranslateLanguages",
+              this.data.dontTranslateLanguages
+            );
+            
+            this.votDontTranslateYourLangSelect.setTitle(
+              selectedValues
+                .map(lang => localizationProvider.get("langs")[lang])
+                .join(", ") || localizationProvider.get("langs")[lang]
             );
           },
           labelElement: ui.createCheckbox(
             localizationProvider.get("VOTDontTranslateYourLang"),
-            this.data?.dontTranslateYourLang ?? true,
+            this.data?.dontTranslateYourLang ?? true
           ).container,
-        },
+        }
       );
 
       this.votSettingsDialog.bodyContainer.appendChild(
@@ -11629,7 +11693,7 @@ class VideoHandler {
     debug.log("VideoValidator videoData: ", this.videoData);
     if (
       this.data.dontTranslateYourLang === 1 &&
-      this.videoData.detectedLanguage === this.data.dontTranslateLanguage
+      this.data.dontTranslateLanguages?.includes(this.videoData.detectedLanguage)
     ) {
       throw new VOTLocalizedError("VOTDisableFromYourLang");
     }

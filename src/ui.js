@@ -502,111 +502,167 @@ export function createVOTSelectLabel(text) {
 }
 
 /**
- * Create VOTSelect
+ * Create VOTSelect - A customizable select component with search functionality
+ * and support for single/multi-select modes.
  *
- * @param {string} selectTitle - select title
- * @param {string} dialogTitle - dialog title
- * @param {{label: string, value: string, selected: boolean}[]} items - items to select
- * @param {{onSelectCb: function, labelElement: string}} options - items to select
+ * @param {string} selectTitle - Default title shown when no items are selected
+ * @param {string} dialogTitle - Title displayed in the selection dialog
+ * @param {{label: string, value: string, selected: boolean, disabled?: boolean}[]} items - Array of selectable items
+ * @param {{
+ *   onSelectCb?: function,      // Callback function triggered on item selection
+ *   labelElement?: string,      // Optional label element to display above select
+ *   multiSelect?: boolean       // Enable multiple item selection
+ * }} options - Configuration options
  * @return {{
- *  container: HTMLElement,
- *  title: HTMLSpanElement,
- *  arrowIcon: HTMLElement,
- *  labelElement: HTMLElement,
- *  setTitle: (newTitle: string) => void,
- *  setSelected: (val: string) => void,
- *  updateItems: (newItems: {label: string, value: string, selected: boolean}[]) => void,
- * }} VOTSelect elements
+ *  container: HTMLElement,      // Main container element
+ *  title: HTMLSpanElement,      // Title element showing selected items
+ *  arrowIcon: HTMLElement,      // Dropdown arrow icon element
+ *  labelElement: HTMLElement,   // Label element if provided
+ *  setTitle: (newTitle: string) => void,          // Function to update select title
+ *  setSelected: (val: string | string[]) => void, // Function to set selected items
+ *  updateItems: (newItems: {label: string, value: string, selected: boolean}[]) => void, // Update available items
+ *  selectedValues: Set<string>  // Set containing currently selected values
+ * }} VOTSelect elements and control functions
  */
 export function createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
-  const { onSelectCb = function () {}, labelElement = "" } = options;
+  // Extract and set default options
+  const {
+    onSelectCb = function () {},
+    labelElement = "",
+    multiSelect = false,
+  } = options;
   let selectedItems = [];
+  // Initialize set of selected values from items marked as selected
+  let selectedValues = new Set(
+    items.filter((i) => i.selected).map((i) => i.value),
+  );
 
+  // Create main container and add select class
   const container = document.createElement("vot-block");
   container.classList.add("vot-select");
 
+  // Add label element if provided
   if (labelElement) {
     container.append(labelElement);
   }
 
+  // Create outer container for select control
   const outer = document.createElement("vot-block");
   outer.classList.add("vot-select-outer");
 
+  // Create and style title element
   const title = document.createElement("span");
   title.classList.add("vot-select-title");
-  title.textContent = selectTitle;
 
-  if (selectTitle === undefined) {
-    title.textContent = items.find((i) => i.selected === true)?.label;
-  }
+  // Function to update the displayed title based on selected items
+  const updateTitle = () => {
+    const selectedLabels = items
+      .filter((i) => selectedValues.has(i.value))
+      .map((i) => i.label)
+      .join(", ");
+    title.textContent = selectedLabels || selectTitle;
+  };
+  updateTitle();
 
+  // Create and add arrow icon
   const arrowIcon = document.createElement("vot-block");
   arrowIcon.classList.add("vot-select-arrow-icon");
   render(arrowIconRaw, arrowIcon);
 
+  // Update the selected state of items in the list
+  const updateSelectedState = () => {
+    if (selectedItems.length > 0) {
+      for (const item of selectedItems) {
+        item.dataset.votSelected = selectedValues.has(item.dataset.votValue);
+      }
+    }
+    updateTitle();
+  };
+
+  // Add title and arrow icon to outer container
   outer.append(title, arrowIcon);
+
+  // Configure click handler to show selection dialog
   outer.onclick = () => {
+    // Create and configure dialog
     const votSelectDialog = createDialog(dialogTitle);
     votSelectDialog.container.classList.add("vot-dialog-temp");
     votSelectDialog.container.hidden = false;
     document.documentElement.appendChild(votSelectDialog.container);
 
+    // Create container for select items
     const contentList = document.createElement("vot-block");
     contentList.classList.add("vot-select-content-list");
 
+    // Create and configure items in the selection list
     for (const item of items) {
       const contentItem = document.createElement("vot-block");
       contentItem.classList.add("vot-select-content-item");
       contentItem.textContent = item.label;
-      contentItem.dataset.votSelected = item.selected;
+      contentItem.dataset.votSelected = selectedValues.has(item.value);
       contentItem.dataset.votValue = item.value;
+
+      // Handle disabled state
       if (item.disabled) {
         contentItem.inert = true;
       }
 
+      // Configure item click handler
       contentItem.onclick = async (e) => {
         if (e.target.inert) return;
 
-        // removing the selected value for updating
-        const contentItems = contentList.childNodes;
-        for (let ci of contentItems) {
-          ci.dataset.votSelected = false;
+        if (multiSelect) {
+          // Handle multi-select mode
+          const value = item.value;
+          if (selectedValues.has(value)) {
+            selectedValues.delete(value);
+            item.selected = false;
+          } else {
+            selectedValues.add(value);
+            item.selected = true;
+          }
+          contentItem.dataset.votSelected = selectedValues.has(value);
+          updateSelectedState();
+          await onSelectCb(e, Array.from(selectedValues));
+        } else {
+          // Handle single-select mode
+          const contentItems = contentList.childNodes;
+          for (const ci of contentItems) {
+            ci.dataset.votSelected = false;
+          }
+          for (const i of items) {
+            i.selected = i.value === item.value;
+          }
+          selectedValues = new Set([item.value]);
+          contentItem.dataset.votSelected = true;
+          updateTitle();
+          await onSelectCb(e);
         }
-        // fixed selection after closing the modal and opening again
-        for (let i of items) {
-          i.selected = i.value === item.value;
-        }
-
-        contentItem.dataset.votSelected = true;
-        title.textContent = item.label;
-
-        // !!! use e.target.dataset.votValue instead of e.target.value !!!
-        await onSelectCb(e);
       };
       contentList.appendChild(contentItem);
     }
 
-    // search logic
+    // Create and configure search field
     const votSearchLangTextfield = createTextfield(
       localizationProvider.get("searchField"),
     );
 
+    // Configure search functionality
     votSearchLangTextfield.input.oninput = (e) => {
       const searchText = e.target.value.toLowerCase();
-      // check if there are lovercase characters in the string. used for smarter search
-      for (let i = 0; i < selectedItems.length; i++) {
-        const ci = selectedItems[i];
+      for (const ci of selectedItems) {
         ci.hidden = !ci.textContent.toLowerCase().includes(searchText);
       }
     };
 
+    // Add search field and content list to dialog
     votSelectDialog.bodyContainer.append(
       votSearchLangTextfield.container,
       contentList,
     );
     selectedItems = contentList.childNodes;
 
-    // remove the modal so that they do not accumulate
+    // Configure dialog close handlers
     votSelectDialog.backdrop.onclick = votSelectDialog.closeButton.onclick =
       () => {
         votSelectDialog.container.remove();
@@ -614,39 +670,44 @@ export function createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
       };
   };
 
+  // Add outer container to main container
   container.append(outer);
 
-  const setTitle = (newTitle) => {
-    title.textContent = newTitle;
-  };
-
+  // Function to programmatically set selected items
   const setSelected = (val) => {
-    const selectedItemsArray = Array.from(selectedItems).filter(
-      (ci) => !ci.inert,
-    );
-    for (let i = 0; i < selectedItemsArray.length; i++) {
-      const ci = selectedItemsArray[i];
-      ci.dataset.votSelected = ci.dataset.votValue === val;
+    if (typeof val === "string") {
+      selectedValues = new Set([val]);
+    } else if (Array.isArray(val)) {
+      selectedValues = new Set(val);
     }
-
-    for (let i = 0; i < items.length; i++) {
-      const currentItem = items[i];
-      currentItem.selected = String(currentItem.value) === val;
+    for (const item of items) {
+      item.selected = selectedValues.has(item.value);
     }
+    updateSelectedState();
   };
 
+  // Function to update available items
   const updateItems = (newItems) => {
     items = newItems;
+    selectedValues = new Set(
+      items.filter((i) => i.selected).map((i) => i.value),
+    );
+    updateSelectedState();
   };
 
+  // Return component interface
   return {
     container,
     title,
     arrowIcon,
     labelElement,
-    setTitle,
+    setTitle: (newTitle) => {
+      selectTitle = newTitle;
+      updateTitle();
+    },
     setSelected,
     updateItems,
+    selectedValues,
   };
 }
 
