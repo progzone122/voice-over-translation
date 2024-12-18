@@ -10,7 +10,11 @@
 
 # 1.x
 
+- Добавлена поддержка Loom (#946, #34)
+<!-- ^ субтиры от сайта не работают до обновления vot.js  -->
+- Добавлена поддержка домена `madmaxworld.tv` для BannedVideo
 - Убрана отправка уведомления о переводе, если перевод уже существует ([ee3a66d0b6ef3c6af7b61136dae0c65df0d74337#commitcomment-150456758](https://github.com/ilyhalight/voice-over-translation/commit/ee3a66d0b6ef3c6af7b61136dae0c65df0d74337#commitcomment-150456758))
+- Исправлена работа с некоторыми плейлистами VK Video (если ссылка содержала слитно написанный видео ID)
 
 # 1.8.0
 

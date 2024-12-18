@@ -57,6 +57,7 @@
 // @match          *://disk.yandex.ru/*
 // @match          *://youtube.googleapis.com/embed/*
 // @match          *://*.banned.video/*
+// @match          *://*.madmaxworld.tv/*
 // @match          *://*.weverse.io/*
 // @match          *://*.newgrounds.com/*
 // @match          *://*.egghead.io/*
@@ -82,6 +83,7 @@
 // @match          *://*.porntn.com/*
 // @match          *://*.dzen.ru/*
 // @match          *://*.cloudflarestream.com/*
+// @match          *://*.loom.com/*
 // @match          *://*/*.mp4*
 // @match          *://*/*.webm*
 // @match          *://*.yewtu.be/*
@@ -270,7 +272,7 @@ var es5 = __webpack_require__("./node_modules/bowser/es5.js");
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.0.14",
+    version: "2.0.16",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -2233,6 +2235,7 @@ var VideoService;
     VideoService["porntn"] = "porntn";
     VideoService["dzen"] = "dzen";
     VideoService["cloudflarestream"] = "cloudflarestream";
+    VideoService["loom"] = "loom";
 })(VideoService || (VideoService = {}));
 
 ;// ./node_modules/@vot.js/core/dist/utils/vot.js
@@ -3746,6 +3749,14 @@ var ExtVideoService;
         host: VideoService.cloudflarestream,
         url: "stub",
         match: /^(watch|embed|iframe|customer-[^.]+).cloudflarestream.com$/,
+        selector: null,
+    },
+    {
+        host: VideoService.loom,
+        url: "https://www.loom.com/share/",
+        match: /^(www.)?loom.com$/,
+        selector: ".VideoLayersContainer",
+        needExtraData: true,
     },
     {
         host: VideoService.custom,
@@ -4794,7 +4805,7 @@ class VimeoHelper extends BaseHelper {
     API_KEY = "";
     DEFAULT_SITE_ORIGIN = "https://vimeo.com";
     SITE_ORIGIN = this.isPrivatePlayer()
-        ? this.service?.url?.slice(0, -1) ?? this.DEFAULT_SITE_ORIGIN
+        ? (this.service?.url?.slice(0, -1) ?? this.DEFAULT_SITE_ORIGIN)
         : this.DEFAULT_SITE_ORIGIN;
     isErrorData(data) {
         return Object.hasOwn(data, "error");
@@ -5002,7 +5013,7 @@ class VimeoHelper extends BaseHelper {
         }
         return embedId?.startsWith("video/")
             ? embedId.replace("video/", "")
-            : embedId ?? /[^/]+$/.exec(url.pathname)?.[0];
+            : (embedId ?? /[^/]+$/.exec(url.pathname)?.[0]);
     }
 }
 
@@ -5149,7 +5160,7 @@ class VKHelper extends BaseHelper {
         if (pathID) {
             return pathID[0].slice(1);
         }
-        const idInsidePlaylist = /\/playlist\/[^/]+\/(video-\d{8,9}_\d{9})/.exec(url.pathname);
+        const idInsidePlaylist = /\/playlist\/[^/]+\/(video-?\d{8,9}_\d{9})/.exec(url.pathname);
         if (idInsidePlaylist) {
             return idInsidePlaylist[1];
         }
@@ -5716,7 +5727,117 @@ class DouyinHelper extends BaseHelper {
     }
 }
 
+;// ./node_modules/@vot.js/shared/dist/types/helpers/bannedvideo.js
+var TypeName;
+(function (TypeName) {
+    TypeName["Channel"] = "Channel";
+    TypeName["Video"] = "Video";
+})(TypeName || (TypeName = {}));
+
+;// ./node_modules/@vot.js/shared/dist/types/index.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;// ./node_modules/@vot.js/shared/dist/index.js
+
+
+
+
+
+
+
+
+
+;// ./node_modules/@vot.js/ext/dist/helpers/loom.js
+
+
+
+
+class LoomHelper extends BaseHelper {
+    getClientVersion() {
+        if (typeof SENTRY_RELEASE === "undefined") {
+            return undefined;
+        }
+        const release = SENTRY_RELEASE;
+        return release?.id;
+    }
+    getDefault(videoId) {
+        if (!this.service) {
+            return undefined;
+        }
+        return {
+            url: this.service.url + videoId,
+            duration: undefined,
+        };
+    }
+    async getVideoData(videoId) {
+        try {
+            const clientVer = this.getClientVersion();
+            if (!clientVer) {
+                throw new VideoHelperError("Failed to get client version");
+            }
+            const res = await this.fetch("https://www.loom.com/graphql", {
+                headers: {
+                    "User-Agent": config.userAgent,
+                    "content-type": "application/json",
+                    "x-loom-request-source": `loom_web_${clientVer}`,
+                    "apollographql-client-name": "web",
+                    "apollographql-client-version": clientVer,
+                    "Alt-Used": "www.loom.com",
+                },
+                body: `{"operationName":"FetchCaptions","variables":{"videoId":"${videoId}"},"query":"query FetchCaptions($videoId: ID!, $password: String) {\\n  fetchVideoTranscript(videoId: $videoId, password: $password) {\\n    ... on VideoTranscriptDetails {\\n      id\\n      captions_source_url\\n      language\\n      __typename\\n    }\\n    ... on GenericError {\\n      message\\n      __typename\\n    }\\n    __typename\\n  }\\n}"}`,
+                method: "POST",
+            });
+            if (res.status !== 200) {
+                throw new VideoHelperError("Failed to get data from graphql");
+            }
+            const result = (await res.json());
+            const data = result.data.fetchVideoTranscript;
+            if (data.__typename === "GenericError") {
+                throw new VideoHelperError(data.message);
+            }
+            return {
+                url: this.service.url + videoId,
+                subtitles: [
+                    {
+                        format: "vtt",
+                        language: normalizeLang(data.language),
+                        source: "loom",
+                        url: data.captions_source_url,
+                    },
+                ],
+            };
+        }
+        catch (err) {
+            Logger.error(`Failed to get Loom video data, because: ${err.message}`);
+            return this.getDefault(videoId);
+        }
+    }
+    async getVideoId(url) {
+        return /(embed|share)\/([^/]+)?/.exec(url.pathname)?.[2];
+    }
+}
+
 ;// ./node_modules/@vot.js/ext/dist/helpers/index.js
+
+
 
 
 
@@ -5863,6 +5984,7 @@ const availableHelpers = {
     [VideoService.piped]: YoutubeHelper,
     [VideoService.dzen]: DzenHelper,
     [VideoService.cloudflarestream]: CloudflareStreamHelper,
+    [VideoService.loom]: LoomHelper,
     [ExtVideoService.udemy]: UdemyHelper,
     [ExtVideoService.coursera]: CourseraHelper,
     [ExtVideoService.douyin]: DouyinHelper,
@@ -6015,6 +6137,9 @@ function convertSubsToJSON(data, from = "srt") {
     const parts = data.split(/\r?\n\r?\n/g);
     if (from === "vtt") {
         parts.shift();
+    }
+    if (/^\d+\n/.exec(parts?.[0] ?? "")) {
+        from = "srt";
     }
     const offset = +(from === "srt");
     const subtitles = parts.reduce((result, part) => {
@@ -11616,7 +11741,11 @@ class VideoHandler {
       "afterUpdateTranslation downloadTranslationUrl",
       this.downloadTranslationUrl,
     );
-    if (this.data.sendNotifyOnComplete && this.longWaitingResCount && isSuccess) {
+    if (
+      this.data.sendNotifyOnComplete &&
+      this.longWaitingResCount &&
+      isSuccess
+    ) {
       GM_notification({
         text: localizationProvider
           .get("VOTTranslationCompletedNotify")
