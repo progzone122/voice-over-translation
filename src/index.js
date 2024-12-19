@@ -219,8 +219,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : res.message ??
-              localizationProvider.get("translationTakeFewMinutes"),
+          : (res.message ??
+              localizationProvider.get("translationTakeFewMinutes")),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
@@ -384,7 +384,7 @@ class VideoHandler {
 
     const dataPromises = {
       autoTranslate: votStorage.get("autoTranslate", 0),
-      dontTranslateLanguage: votStorage.get("dontTranslateLanguage", lang),
+      dontTranslateLanguages: votStorage.get("dontTranslateLanguages", [lang]),
       dontTranslateYourLang: votStorage.get("dontTranslateYourLang", 1),
       autoSetVolumeYandexStyle: votStorage.get("autoSetVolumeYandexStyle", 1),
       autoVolume: votStorage.get("autoVolume", defaultAutoVolume),
@@ -777,15 +777,27 @@ class VideoHandler {
       );
 
       this.votDontTranslateYourLangSelect = ui.createVOTSelect(
-        localizationProvider.get("langs")[this.data.dontTranslateLanguage],
+        this.data.dontTranslateLanguages
+          .map((lang) => localizationProvider.get("langs")[lang])
+          .join(", ") || localizationProvider.get("langs")[lang],
         localizationProvider.get("VOTDontTranslateYourLang"),
-        genOptionsByOBJ(availableLangs, this.data.dontTranslateLanguage),
+        genOptionsByOBJ(availableLangs).map((option) => ({
+          ...option,
+          selected: this.data.dontTranslateLanguages.includes(option.value),
+        })),
         {
-          onSelectCb: async (e) => {
-            this.data.dontTranslateLanguage = e.target.dataset.votValue;
+          multiSelect: true,
+          onSelectCb: async (e, selectedValues) => {
+            this.data.dontTranslateLanguages = selectedValues;
             await votStorage.set(
-              "dontTranslateLanguage",
-              this.data.dontTranslateLanguage,
+              "dontTranslateLanguages",
+              this.data.dontTranslateLanguages,
+            );
+
+            this.votDontTranslateYourLangSelect.setTitle(
+              selectedValues
+                .map((lang) => localizationProvider.get("langs")[lang])
+                .join(", ") || localizationProvider.get("langs")[lang],
             );
           },
           labelElement: ui.createCheckbox(
@@ -2242,7 +2254,9 @@ class VideoHandler {
     debug.log("VideoValidator videoData: ", this.videoData);
     if (
       this.data.dontTranslateYourLang === 1 &&
-      this.videoData.detectedLanguage === this.data.dontTranslateLanguage
+      this.data.dontTranslateLanguages?.includes(
+        this.videoData.detectedLanguage,
+      )
     ) {
       throw new VOTLocalizedError("VOTDisableFromYourLang");
     }
