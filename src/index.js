@@ -31,7 +31,7 @@ import {
   availableLocales,
   localizationProvider,
 } from "./localization/localizationProvider.js";
-import { SubtitlesWidget, fetchSubtitles, getSubtitles } from "./subtitles.js";
+import { SubtitlesWidget, SubtitlesProcessor } from "./subtitles.js";
 
 import ui from "./ui.js";
 import youtubeUtils from "./utils/youtubeUtils.js";
@@ -384,7 +384,7 @@ class VideoHandler {
 
     const dataPromises = {
       autoTranslate: votStorage.get("autoTranslate", 0),
-      dontTranslateLanguages: votStorage.get("dontTranslateLanguages", [lang]),
+      dontTranslateLanguage: votStorage.get("dontTranslateLanguage", [lang]),
       dontTranslateYourLang: votStorage.get("dontTranslateYourLang", 1),
       autoSetVolumeYandexStyle: votStorage.get("autoSetVolumeYandexStyle", 1),
       autoVolume: votStorage.get("autoVolume", defaultAutoVolume),
@@ -777,21 +777,21 @@ class VideoHandler {
       );
 
       this.votDontTranslateYourLangSelect = ui.createVOTSelect(
-        this.data.dontTranslateLanguages
+        this.data.dontTranslateLanguage
           .map((lang) => localizationProvider.get("langs")[lang])
           .join(", ") || localizationProvider.get("langs")[lang],
         localizationProvider.get("VOTDontTranslateYourLang"),
         genOptionsByOBJ(availableLangs).map((option) => ({
           ...option,
-          selected: this.data.dontTranslateLanguages.includes(option.value),
+          selected: this.data.dontTranslateLanguage.includes(option.value),
         })),
         {
           multiSelect: true,
           onSelectCb: async (e, selectedValues) => {
-            this.data.dontTranslateLanguages = selectedValues;
+            this.data.dontTranslateLanguage = selectedValues;
             await votStorage.set(
-              "dontTranslateLanguages",
-              this.data.dontTranslateLanguages,
+              "dontTranslateLanguage",
+              this.data.dontTranslateLanguage,
             );
 
             this.votDontTranslateYourLangSelect.setTitle(
@@ -2011,7 +2011,7 @@ class VideoHandler {
     } else {
       const subtitlesObj = this.subtitlesList.at(parseInt(subs));
       if (
-        this.translateProxyEnabled >= 1 &&
+        this.translateProxyEnabled === 2 &&
         subtitlesObj.url.startsWith(
           "https://brosubs.s3-private.mds.yandex.net/vtrans/",
         )
@@ -2024,7 +2024,8 @@ class VideoHandler {
         console.log(`[VOT] Subs proxied via ${subtitlesObj.url}`);
       }
 
-      this.yandexSubtitles = await fetchSubtitles(subtitlesObj);
+      this.yandexSubtitles =
+        await SubtitlesProcessor.fetchSubtitles(subtitlesObj);
       this.subtitlesWidget.setContent(this.yandexSubtitles);
       this.votDownloadSubtitlesButton.hidden = false;
     }
@@ -2083,7 +2084,10 @@ class VideoHandler {
       return;
     }
 
-    this.subtitlesList = await getSubtitles(this.votClient, this.videoData);
+    this.subtitlesList = await SubtitlesProcessor.getSubtitles(
+      this.votClient,
+      this.videoData,
+    );
 
     if (!this.subtitlesList) {
       await this.changeSubtitlesLang("disabled");
@@ -2254,9 +2258,7 @@ class VideoHandler {
     debug.log("VideoValidator videoData: ", this.videoData);
     if (
       this.data.dontTranslateYourLang === 1 &&
-      this.data.dontTranslateLanguages?.includes(
-        this.videoData.detectedLanguage,
-      )
+      this.data.dontTranslateLanguage?.includes(this.videoData.detectedLanguage)
     ) {
       throw new VOTLocalizedError("VOTDisableFromYourLang");
     }
@@ -2545,7 +2547,10 @@ class VideoHandler {
           item.language === this.videoData.responseLanguage,
       )
     ) {
-      this.subtitlesList = await getSubtitles(this.votClient, this.videoData);
+      this.subtitlesList = await SubtitlesProcessor.getSubtitles(
+        this.votClient,
+        this.videoData,
+      );
       await this.updateSubtitlesLangSelect();
     }
 

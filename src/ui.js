@@ -556,11 +556,16 @@ export function createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
 
   // Function to update the displayed title based on selected items
   const updateTitle = () => {
-    const selectedLabels = items
-      .filter((i) => selectedValues.has(i.value))
-      .map((i) => i.label)
-      .join(", ");
-    title.textContent = selectedLabels || selectTitle;
+    if (multiSelect) {
+      const selectedLabels = items
+        .filter((i) => selectedValues.has(i.value))
+        .map((i) => i.label)
+        .join(", ");
+      title.textContent = selectedLabels || selectTitle;
+    } else {
+      const selectedItem = items.find((i) => i.selected);
+      title.textContent = selectedItem ? selectedItem.label : selectTitle;
+    }
   };
   updateTitle();
 
@@ -599,7 +604,7 @@ export function createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
       const contentItem = document.createElement("vot-block");
       contentItem.classList.add("vot-select-content-item");
       contentItem.textContent = item.label;
-      contentItem.dataset.votSelected = selectedValues.has(item.value);
+      contentItem.dataset.votSelected = item.selected;
       contentItem.dataset.votValue = item.value;
 
       // Handle disabled state
@@ -614,7 +619,7 @@ export function createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
         if (multiSelect) {
           // Handle multi-select mode
           const value = item.value;
-          if (selectedValues.has(value)) {
+          if (selectedValues.has(value) && selectedValues.size > 1) {
             selectedValues.delete(value);
             item.selected = false;
           } else {
@@ -626,15 +631,16 @@ export function createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
           await onSelectCb(e, Array.from(selectedValues));
         } else {
           // Handle single-select mode
+          const value = e.target.dataset.votValue;
+          selectedValues = new Set([value]);
+
           const contentItems = contentList.childNodes;
           for (const ci of contentItems) {
-            ci.dataset.votSelected = false;
+            ci.dataset.votSelected = ci.dataset.votValue === value;
           }
           for (const i of items) {
-            i.selected = i.value === item.value;
+            i.selected = i.value === value;
           }
-          selectedValues = new Set([item.value]);
-          contentItem.dataset.votSelected = true;
           updateTitle();
           await onSelectCb(e);
         }
@@ -675,13 +681,18 @@ export function createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
 
   // Function to programmatically set selected items
   const setSelected = (val) => {
-    if (typeof val === "string") {
-      selectedValues = new Set([val]);
-    } else if (Array.isArray(val)) {
-      selectedValues = new Set(val);
+    if (multiSelect) {
+      if (Array.isArray(val)) {
+        selectedValues = new Set(val.map(String));
+      } else if (typeof val === "string") {
+        selectedValues = new Set([val]);
+      }
+    } else {
+      selectedValues = new Set([String(val)]);
     }
+
     for (const item of items) {
-      item.selected = selectedValues.has(item.value);
+      item.selected = selectedValues.has(String(item.value));
     }
     updateSelectedState();
   };
