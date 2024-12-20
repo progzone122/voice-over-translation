@@ -64,6 +64,7 @@
     "*://*.dzen.ru/*",
     "*://*.cloudflarestream.com/*",
     "*://*.loom.com/*",
+    "*://*.artstation.com/learning/*",
     "*://*/*.mp4*",
     "*://*/*.webm*"
   ],
