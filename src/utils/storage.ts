@@ -79,7 +79,7 @@ export const votStorage = new (class {
 
     return [
       "autoTranslate",
-      "dontTranslateLanguage",
+      "dontTranslateLanguages",
       "dontTranslateYourLang",
       "autoSetVolumeYandexStyle",
       "autoVolume",
