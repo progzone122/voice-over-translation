@@ -219,8 +219,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : (res.message ??
-              localizationProvider.get("translationTakeFewMinutes")),
+          : res.message ??
+              localizationProvider.get("translationTakeFewMinutes"),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
@@ -2364,8 +2364,11 @@ class VideoHandler {
       ui.updateSlider(this.votVideoVolumeSlider.input);
     }
 
-    this.votDownloadButton.hidden = false;
-    this.downloadTranslationUrl = audioUrl;
+    if (!this.videoData.isStream) {
+      this.votDownloadButton.hidden = false;
+      this.downloadTranslationUrl = audioUrl;
+    }
+
     debug.log(
       "afterUpdateTranslation downloadTranslationUrl",
       this.downloadTranslationUrl,
