@@ -84,6 +84,7 @@
 // @match          *://*.dzen.ru/*
 // @match          *://*.cloudflarestream.com/*
 // @match          *://*.loom.com/*
+// @match          *://*.artstation.com/learning/*
 // @match          *://*/*.mp4*
 // @match          *://*/*.webm*
 // @match          *://*.yewtu.be/*
@@ -267,12 +268,12 @@ var es5 = __webpack_require__("./node_modules/bowser/es5.js");
     hostVOT: "vot-api.toil.cc/v1",
     mediaProxy: "media-proxy.toil.cc",
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 YaBrowser/24.10.0.0 Safari/537.36",
-    componentVersion: "24.12.0.1807",
+    componentVersion: "24.12.1.714",
     hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.0.16",
+    version: "2.0.17",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -3311,6 +3312,7 @@ var ExtVideoService;
     ExtVideoService["udemy"] = "udemy";
     ExtVideoService["coursera"] = "coursera";
     ExtVideoService["douyin"] = "douyin";
+    ExtVideoService["artstation"] = "artstation";
 })(ExtVideoService || (ExtVideoService = {}));
 
 ;// ./node_modules/@vot.js/ext/dist/data/sites.js
@@ -3756,6 +3758,13 @@ var ExtVideoService;
         url: "https://www.loom.com/share/",
         match: /^(www.)?loom.com$/,
         selector: ".VideoLayersContainer",
+        needExtraData: true,
+    },
+    {
+        host: ExtVideoService.artstation,
+        url: "https://www.artstation.com/learning/",
+        match: /^(www.)?artstation.com$/,
+        selector: ".vjs-v7",
         needExtraData: true,
     },
     {
@@ -5835,7 +5844,71 @@ class LoomHelper extends BaseHelper {
     }
 }
 
+;// ./node_modules/@vot.js/ext/dist/helpers/artstation.js
+
+
+
+class ArtstationHelper extends BaseHelper {
+    API_ORIGIN = "https://www.artstation.com/api/v2/learning";
+    async getCourseInfo(courseId) {
+        try {
+            const res = await this.fetch(`${this.API_ORIGIN}/courses/${courseId}/autoplay.json`);
+            return (await res.json());
+        }
+        catch (err) {
+            Logger.error(`Failed to get artstation course info by courseId: ${courseId}.`, err.message);
+            return false;
+        }
+    }
+    async getVideoUrl(chapterId) {
+        try {
+            const res = await this.fetch(`${this.API_ORIGIN}/quicksilver/video_url.json?chapter_id=${chapterId}`);
+            const data = (await res.json());
+            return data.url.replace("qsep://", "https://");
+        }
+        catch (err) {
+            Logger.error(`Failed to get artstation video url by chapterId: ${chapterId}.`, err.message);
+            return false;
+        }
+    }
+    async getVideoData(videoId) {
+        const [, courseId, , , chapterId] = videoId.split("/")?.[1];
+        const courseInfo = await this.getCourseInfo(courseId);
+        if (!courseInfo) {
+            return undefined;
+        }
+        const chapter = courseInfo.chapters.find((chapter) => chapter.hash_id === chapterId);
+        if (!chapter) {
+            return undefined;
+        }
+        const videoUrl = await this.getVideoUrl(chapter.id);
+        if (!videoUrl) {
+            return undefined;
+        }
+        const { title, duration, subtitles: videoSubtitles } = chapter;
+        const subtitles = videoSubtitles
+            .filter((subtitle) => subtitle.format === "vtt")
+            .map((subtitle) => ({
+            language: normalizeLang(subtitle.locale),
+            source: "artstation",
+            format: "vtt",
+            url: subtitle.file_url,
+        }));
+        return {
+            url: videoUrl,
+            title,
+            duration,
+            subtitles,
+        };
+    }
+    async getVideoId(url) {
+        return /courses\/(\w{3,5})\/([^/]+)\/chapters\/(\w{3,5})/.exec(url.pathname)?.[0];
+    }
+}
+
 ;// ./node_modules/@vot.js/ext/dist/helpers/index.js
+
+
 
 
 
@@ -5988,6 +6061,7 @@ const availableHelpers = {
     [ExtVideoService.udemy]: UdemyHelper,
     [ExtVideoService.coursera]: CourseraHelper,
     [ExtVideoService.douyin]: DouyinHelper,
+    [ExtVideoService.artstation]: ArtstationHelper,
 };
 class VideoHelper {
     helpersData;
@@ -6138,7 +6212,7 @@ function convertSubsToJSON(data, from = "srt") {
     if (from === "vtt") {
         parts.shift();
     }
-    if (/^\d+\n/.exec(parts?.[0] ?? "")) {
+    if (/^\d+\r?\n/.exec(parts?.[0] ?? "")) {
         from = "srt";
     }
     const offset = +(from === "srt");
@@ -9702,8 +9776,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : (res.message ??
-              localizationProvider.get("translationTakeFewMinutes")),
+          : res.message ??
+              localizationProvider.get("translationTakeFewMinutes"),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
@@ -11847,8 +11921,11 @@ class VideoHandler {
       ui.updateSlider(this.votVideoVolumeSlider.input);
     }
 
-    this.votDownloadButton.hidden = false;
-    this.downloadTranslationUrl = audioUrl;
+    if (!this.videoData.isStream) {
+      this.votDownloadButton.hidden = false;
+      this.downloadTranslationUrl = audioUrl;
+    }
+
     debug.log(
       "afterUpdateTranslation downloadTranslationUrl",
       this.downloadTranslationUrl,
@@ -11979,6 +12056,14 @@ class VideoHandler {
         "success",
         localizationProvider.get("disableTranslate"),
       );
+
+      try {
+        this.audioPlayer.init();
+      } catch (err) {
+        debug.log("this.audioPlayer.init() error", err);
+        this.videoHandler.transformBtn("error", err.message);
+      }
+
       const streamURL = this.setHLSSource(translateRes.result.url);
       if (this.site.host === "youtube") {
         youtubeUtils.videoSeek(this.video, 10); // 10 is the most successful number for streaming. With it, the audio is not so far behind the original
