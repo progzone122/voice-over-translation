@@ -619,7 +619,7 @@ export function createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
         if (multiSelect) {
           // Handle multi-select mode
           const value = item.value;
-          if (selectedValues.has(value)) {
+          if (selectedValues.has(value) && selectedValues.size > 1) {
             selectedValues.delete(value);
             item.selected = false;
           } else {

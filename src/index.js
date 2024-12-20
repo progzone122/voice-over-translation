@@ -384,7 +384,7 @@ class VideoHandler {
 
     const dataPromises = {
       autoTranslate: votStorage.get("autoTranslate", 0),
-      dontTranslateLanguages: votStorage.get("dontTranslateLanguages", [lang]),
+      dontTranslateLanguage: votStorage.get("dontTranslateLanguage", [lang]),
       dontTranslateYourLang: votStorage.get("dontTranslateYourLang", 1),
       autoSetVolumeYandexStyle: votStorage.get("autoSetVolumeYandexStyle", 1),
       autoVolume: votStorage.get("autoVolume", defaultAutoVolume),
@@ -777,22 +777,21 @@ class VideoHandler {
       );
 
       this.votDontTranslateYourLangSelect = ui.createVOTSelect(
-        this.data.dontTranslateLanguages
+        this.data.dontTranslateLanguage
           .map((lang) => localizationProvider.get("langs")[lang])
           .join(", ") || localizationProvider.get("langs")[lang],
         localizationProvider.get("VOTDontTranslateYourLang"),
         genOptionsByOBJ(availableLangs).map((option) => ({
           ...option,
-          selected: this.data.dontTranslateLanguages.includes(option.value),
-          disabled: option.value === lang,
+          selected: this.data.dontTranslateLanguage.includes(option.value),
         })),
         {
           multiSelect: true,
           onSelectCb: async (e, selectedValues) => {
-            this.data.dontTranslateLanguages = selectedValues;
+            this.data.dontTranslateLanguage = selectedValues;
             await votStorage.set(
-              "dontTranslateLanguages",
-              this.data.dontTranslateLanguages,
+              "dontTranslateLanguage",
+              this.data.dontTranslateLanguage,
             );
 
             this.votDontTranslateYourLangSelect.setTitle(
@@ -2259,9 +2258,7 @@ class VideoHandler {
     debug.log("VideoValidator videoData: ", this.videoData);
     if (
       this.data.dontTranslateYourLang === 1 &&
-      this.data.dontTranslateLanguages?.includes(
-        this.videoData.detectedLanguage,
-      )
+      this.data.dontTranslateLanguage?.includes(this.videoData.detectedLanguage)
     ) {
       throw new VOTLocalizedError("VOTDisableFromYourLang");
     }
