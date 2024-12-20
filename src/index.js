@@ -2499,6 +2499,14 @@ class VideoHandler {
         "success",
         localizationProvider.get("disableTranslate"),
       );
+
+      try {
+        this.audioPlayer.init();
+      } catch (err) {
+        debug.log("this.audioPlayer.init() error", err);
+        this.videoHandler.transformBtn("error", err.message);
+      }
+
       const streamURL = this.setHLSSource(translateRes.result.url);
       if (this.site.host === "youtube") {
         youtubeUtils.videoSeek(this.video, 10); // 10 is the most successful number for streaming. With it, the audio is not so far behind the original
