@@ -219,8 +219,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : res.message ??
-              localizationProvider.get("translationTakeFewMinutes"),
+          : (res.message ??
+              localizationProvider.get("translationTakeFewMinutes")),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
@@ -1157,49 +1157,96 @@ class VideoHandler {
         await this.handleTranslationBtnClick();
       });
 
-      this.votButton.pipButton.addEventListener("click", () => {
-        (async () => {
-          if (this.video !== document.pictureInPictureElement) {
-            await this.video.requestPictureInPicture();
-          } else {
-            await document.exitPictureInPicture();
-          }
-        })();
+      this.votButton.pipButton.addEventListener("click", async () => {
+        const isPiPActive = this.video === document.pictureInPictureElement;
+        await (isPiPActive
+          ? document.exitPictureInPicture()
+          : this.video.requestPictureInPicture());
       });
-
       this.votButton.menuButton.addEventListener("click", () => {
         this.votMenu.container.hidden = !this.votMenu.container.hidden;
       });
 
-      this.votButton.container.addEventListener("mousedown", () => {
-        this.dragging = true;
-      });
+      // Position update logic
+      const updateButtonPosition = async (percentX) => {
+        const isBigContainer = this.container.clientWidth > 550;
+        const position = isBigContainer
+          ? percentX <= 44
+            ? "left"
+            : percentX >= 66
+              ? "right"
+              : "default"
+          : "default";
 
-      this.container.addEventListener("mouseup", () => {
-        this.dragging = false;
-      });
+        this.data.buttonPos = position;
+        this.votButton.container.dataset.direction =
+          position === "default" ? "row" : "column";
+        this.votButton.container.dataset.position = position;
+        this.votMenu.container.dataset.position = position;
 
-      this.container.addEventListener("mousemove", async (e) => {
-        if (this.dragging) {
-          e.preventDefault();
-
-          const percentX = (e.clientX / this.container.clientWidth) * 100;
-          // const percentY = (e.clientY / this.video.clientHeight) * 100;
-          const isBigContainer = this.container.clientWidth > 550;
-          const isLeft = percentX <= 44;
-          const isRightSide = percentX >= 66 ? "right" : "default";
-          const side = isLeft ? "left" : isRightSide;
-
-          this.data.buttonPos = isBigContainer ? side : "default";
-          this.votButton.container.dataset.direction =
-            this.data.buttonPos === "default" ? "row" : "column";
-          this.votButton.container.dataset.position = this.data.buttonPos;
-          this.votMenu.container.dataset.position = this.data.buttonPos;
-          if (isBigContainer) {
-            await votStorage.set("buttonPos", this.data.buttonPos);
-          }
+        if (isBigContainer) {
+          await votStorage.set("buttonPos", position);
         }
+      };
+
+      // Drag event handler
+      const handleDragMove = async (
+        clientX,
+        rect = this.container.getBoundingClientRect(),
+      ) => {
+        if (!this.dragging) return;
+
+        const x = rect ? clientX - rect.left : clientX;
+        const percentX =
+          (x / (rect ? rect.width : this.container.clientWidth)) * 100;
+        await updateButtonPosition(percentX);
+      };
+
+      // Mouse/pointer events
+      this.votButton.container.addEventListener("pointerdown", (e) => {
+        this.dragging = true;
+        e.preventDefault();
       });
+
+      this.container.addEventListener(
+        "pointerup",
+        () => (this.dragging = false),
+      );
+      this.container.addEventListener("pointermove", (e) => {
+        e.preventDefault();
+        handleDragMove(e.clientX);
+      });
+
+      // Touch events
+      this.votButton.container.addEventListener(
+        "touchstart",
+        (e) => {
+          this.dragging = true;
+          e.preventDefault();
+        },
+        { passive: false },
+      );
+
+      this.container.addEventListener(
+        "touchend",
+        () => (this.dragging = false),
+      );
+      this.container.addEventListener(
+        "touchmove",
+        (e) => {
+          e.preventDefault();
+          handleDragMove(
+            e.touches[0].clientX,
+            this.container.getBoundingClientRect(),
+          );
+        },
+        { passive: false },
+      );
+
+      // Cancel events
+      for (const event of ["pointercancel", "touchcancel"]) {
+        document.addEventListener(event, () => (this.dragging = false));
+      }
     }
 
     // VOT Menu
@@ -1890,18 +1937,18 @@ class VideoHandler {
     if (eventContainer)
       addExtraEventListeners(
         eventContainer,
-        ["mousemove", "mouseout"],
+        ["pointermove", "pointerout"],
         this.resetTimer,
       );
 
     addExtraEventListener(
       this.votButton.container,
-      "mousemove",
+      "pointermove",
       this.changeOpacityOnEvent,
     );
     addExtraEventListener(
       this.votMenu.container,
-      "mousemove",
+      "pointermove",
       this.changeOpacityOnEvent,
     );
     // remove listener on xvideos to fix #866
@@ -1914,10 +1961,10 @@ class VideoHandler {
     }
 
     // fix youtube hold to fast
-    addExtraEventListener(this.votButton.container, "mousedown", (e) => {
+    addExtraEventListener(this.votButton.container, "pointerdown", (e) => {
       e.stopImmediatePropagation();
     });
-    addExtraEventListener(this.votMenu.container, "mousedown", (e) => {
+    addExtraEventListener(this.votMenu.container, "pointerdown", (e) => {
       e.stopImmediatePropagation();
     });
 
