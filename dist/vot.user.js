@@ -265,7 +265,8 @@ var es5 = __webpack_require__("./node_modules/bowser/es5.js");
 ;// ./node_modules/@vot.js/shared/dist/data/config.js
 /* harmony default export */ const config = ({
     host: "api.browser.yandex.ru",
-    hostVOT: "vot-api.toil.cc/v1",
+    hostVOT: "vot.toil.cc/v1",
+    hostWorker: "vot-worker.toil.cc",
     mediaProxy: "media-proxy.toil.cc",
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 YaBrowser/24.10.0.0 Safari/537.36",
     componentVersion: "24.12.1.714",
@@ -273,7 +274,7 @@ var es5 = __webpack_require__("./node_modules/bowser/es5.js");
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.0.17",
+    version: "2.0.19",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -3137,6 +3138,10 @@ class client_VOTClient {
     }
 }
 class client_VOTWorkerClient extends client_VOTClient {
+    constructor(opts = {}) {
+        opts.host = opts.host ?? config.hostWorker;
+        super(opts);
+    }
     async request(path, body, headers = {}, method = "POST") {
         const options = this.getOpts(JSON.stringify({
             headers: {
@@ -5850,9 +5855,17 @@ class LoomHelper extends BaseHelper {
 
 class ArtstationHelper extends BaseHelper {
     API_ORIGIN = "https://www.artstation.com/api/v2/learning";
+    getCSRFToken() {
+        return document.querySelector('meta[name="public-csrf-token"]')?.content;
+    }
     async getCourseInfo(courseId) {
         try {
-            const res = await this.fetch(`${this.API_ORIGIN}/courses/${courseId}/autoplay.json`);
+            const res = await this.fetch(`${this.API_ORIGIN}/courses/${courseId}/autoplay.json`, {
+                method: "POST",
+                headers: {
+                    "PUBLIC-CSRF-TOKEN": this.getCSRFToken(),
+                },
+            });
             return (await res.json());
         }
         catch (err) {
@@ -5872,7 +5885,7 @@ class ArtstationHelper extends BaseHelper {
         }
     }
     async getVideoData(videoId) {
-        const [, courseId, , , chapterId] = videoId.split("/")?.[1];
+        const [, courseId, , , chapterId] = videoId.split("/");
         const courseInfo = await this.getCourseInfo(courseId);
         if (!courseInfo) {
             return undefined;
