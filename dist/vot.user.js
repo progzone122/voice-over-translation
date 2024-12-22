@@ -6405,7 +6405,7 @@ async function getLanguage(player, response, title, description) {
     const audioTracks = player.getAvailableAudioTracks();
     // Find automatic caption track in audio tracks
     const autoCaption = audioTracks?.find(
-      track => track.kind === "asr" && track.languageCode
+      (track) => track.kind === "asr" && track.languageCode,
     );
     if (autoCaption) {
       return normalizeLang(autoCaption.languageCode);
@@ -6413,9 +6413,10 @@ async function getLanguage(player, response, title, description) {
   }
 
   // If there is no caption track, use detect to get the language code from the description
-  const autoCaption = response?.captions?.playerCaptionsTracklistRenderer?.captionTracks?.find(
-    (caption) => caption.kind === "asr" && caption.languageCode
-  );
+  const autoCaption =
+    response?.captions?.playerCaptionsTracklistRenderer?.captionTracks?.find(
+      (caption) => caption.kind === "asr" && caption.languageCode,
+    );
   if (autoCaption) {
     return normalizeLang(autoCaption.languageCode);
   }
@@ -6957,12 +6958,18 @@ class SubtitlesWidget {
     this.onPointerUpBound = () => this.onPointerUp();
     this.onPointerMoveBound = (e) => this.onPointerMove(e);
     this.onTimeUpdateBound = this.debounce(() => this.update(), 100);
-  
-    document.addEventListener("pointerdown", this.onPointerDownBound, { signal });
+
+    document.addEventListener("pointerdown", this.onPointerDownBound, {
+      signal,
+    });
     document.addEventListener("pointerup", this.onPointerUpBound, { signal });
-    document.addEventListener("pointermove", this.onPointerMoveBound, { signal });
-    
-    this.video?.addEventListener("timeupdate", this.onTimeUpdateBound, { signal });
+    document.addEventListener("pointermove", this.onPointerMoveBound, {
+      signal,
+    });
+
+    this.video?.addEventListener("timeupdate", this.onTimeUpdateBound, {
+      signal,
+    });
     this.resizeObserver = new ResizeObserver(() => this.onResize());
     this.resizeObserver.observe(this.container);
   }
@@ -9790,8 +9797,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : res.message ??
-              localizationProvider.get("translationTakeFewMinutes"),
+          : (res.message ??
+              localizationProvider.get("translationTakeFewMinutes")),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
@@ -10724,72 +10731,100 @@ class VideoHandler {
   initUIEvents() {
     // VOT Button
     {
-      this.votButton.translateButton.addEventListener("click", async () => {
+      this.votButton.translateButton.addEventListener("pointerdown", async () => {
         await this.handleTranslationBtnClick();
       });
-    
-      this.votButton.pipButton.addEventListener("click", async () => {
+
+      this.votButton.pipButton.addEventListener("pointerdown", async () => {
         const isPiPActive = this.video === document.pictureInPictureElement;
-        await (isPiPActive ? document.exitPictureInPicture() : this.video.requestPictureInPicture());
+        await (isPiPActive
+          ? document.exitPictureInPicture()
+          : this.video.requestPictureInPicture());
       });
-      this.votButton.menuButton.addEventListener("click", () => {
+      this.votButton.menuButton.addEventListener("pointerdown", () => {
         this.votMenu.container.hidden = !this.votMenu.container.hidden;
       });
-    
+
       // Position update logic
       const updateButtonPosition = async (percentX) => {
         const isBigContainer = this.container.clientWidth > 550;
-        const position = isBigContainer 
-          ? (percentX <= 44 ? "left" : percentX >= 66 ? "right" : "default")
+        const position = isBigContainer
+          ? percentX <= 44
+            ? "left"
+            : percentX >= 66
+              ? "right"
+              : "default"
           : "default";
-    
+
         this.data.buttonPos = position;
-        this.votButton.container.dataset.direction = position === "default" ? "row" : "column";
+        this.votButton.container.dataset.direction =
+          position === "default" ? "row" : "column";
         this.votButton.container.dataset.position = position;
         this.votMenu.container.dataset.position = position;
-    
+
         if (isBigContainer) {
           await votStorage.set("buttonPos", position);
         }
       };
-    
+
       // Drag event handler
-      const handleDragMove = async (clientX, rect = this.container.getBoundingClientRect()) => {
+      const handleDragMove = async (
+        clientX,
+        rect = this.container.getBoundingClientRect(),
+      ) => {
         if (!this.dragging) return;
-        
+
         const x = rect ? clientX - rect.left : clientX;
-        const percentX = (x / (rect ? rect.width : this.container.clientWidth)) * 100;
+        const percentX =
+          (x / (rect ? rect.width : this.container.clientWidth)) * 100;
         await updateButtonPosition(percentX);
       };
-    
+
       // Mouse/pointer events
       this.votButton.container.addEventListener("pointerdown", (e) => {
         this.dragging = true;
         e.preventDefault();
       });
-    
-      this.container.addEventListener("pointerup", () => this.dragging = false);
+
+      this.container.addEventListener(
+        "pointerup",
+        () => (this.dragging = false),
+      );
       this.container.addEventListener("pointermove", (e) => {
         e.preventDefault();
         handleDragMove(e.clientX);
       });
-    
+
       // Touch events
-      this.votButton.container.addEventListener("touchstart", (e) => {
-        this.dragging = true;
-        e.preventDefault();
-      }, { passive: false });
-    
-      this.container.addEventListener("touchend", () => this.dragging = false);
-      this.container.addEventListener("touchmove", (e) => {
-        e.preventDefault();
-        handleDragMove(e.touches[0].clientX, this.container.getBoundingClientRect());
-      }, { passive: false });
-    
+      this.votButton.container.addEventListener(
+        "touchstart",
+        (e) => {
+          this.dragging = true;
+          e.preventDefault();
+        },
+        { passive: false },
+      );
+
+      this.container.addEventListener(
+        "touchend",
+        () => (this.dragging = false),
+      );
+      this.container.addEventListener(
+        "touchmove",
+        (e) => {
+          e.preventDefault();
+          handleDragMove(
+            e.touches[0].clientX,
+            this.container.getBoundingClientRect(),
+          );
+        },
+        { passive: false },
+      );
+
       // Cancel events
       for (const event of ["pointercancel", "touchcancel"]) {
-        document.addEventListener(event, () => this.dragging = false);
-      }      
+        document.addEventListener(event, () => (this.dragging = false));
+      }
     }
 
     // VOT Menu
