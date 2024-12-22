@@ -274,7 +274,7 @@ var es5 = __webpack_require__("./node_modules/bowser/es5.js");
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.0.19",
+    version: "2.1.0",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -3796,7 +3796,8 @@ class BaseHelper {
     referer;
     origin;
     service;
-    constructor({ fetchFn = fetchWithTimeout, extraInfo = true, referer = document.referrer ?? window.location.origin + "/", origin = window.location.origin, service, } = {}) {
+    video;
+    constructor({ fetchFn = fetchWithTimeout, extraInfo = true, referer = document.referrer ?? window.location.origin + "/", origin = window.location.origin, service, video, } = {}) {
         this.fetch = fetchFn;
         this.extraInfo = extraInfo;
         this.referer = referer;
@@ -3804,6 +3805,7 @@ class BaseHelper {
             ? origin
             : window.location.origin;
         this.service = service;
+        this.video = video;
     }
     async getVideoData(videoId) {
         return undefined;
@@ -5421,7 +5423,13 @@ class RumbleHelper extends BaseHelper {
 
 class TwitterHelper extends BaseHelper {
     async getVideoId(url) {
-        return /status\/([^/]+)/.exec(url.pathname)?.[1];
+        const videoId = /status\/([^/]+)/.exec(url.pathname)?.[1];
+        if (videoId) {
+            return videoId;
+        }
+        const postEl = this.video?.closest('[data-testid="tweet"]');
+        const newLink = postEl?.querySelector('a[role="link"][aria-label]')?.href;
+        return newLink ? /status\/([^/]+)/.exec(newLink)?.[1] : undefined;
     }
 }
 
@@ -6115,7 +6123,7 @@ function getService() {
             e.url);
     });
 }
-async function getVideoID(service, video, opts = {}) {
+async function getVideoID(service, opts = {}) {
     const url = new URL(window.location.href);
     const serviceHost = service.host;
     if (Object.keys(availableHelpers).includes(serviceHost)) {
@@ -6124,8 +6132,8 @@ async function getVideoID(service, video, opts = {}) {
     }
     return serviceHost === VideoService.custom ? url.href : undefined;
 }
-async function getVideoData(service, video, opts = {}) {
-    const videoId = await getVideoID(service, video, opts);
+async function getVideoData(service, opts = {}) {
+    const videoId = await getVideoID(service, opts);
     if (!videoId) {
         throw new VideoDataError(`Entered unsupported link: "${service.host}"`);
     }
@@ -6170,6 +6178,9 @@ async function getVideoData(service, video, opts = {}) {
 }
 
 ;// ./node_modules/@vot.js/ext/dist/types/index.js
+
+
+
 
 
 
@@ -9772,8 +9783,10 @@ class VideoHandler {
     );
 
     if (
-      (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) !==
-      videoData.videoId
+      (await getVideoID(this.site, {
+        fetchFn: GM_fetch,
+        video: this.video,
+      })) !== videoData.videoId
     ) {
       return null;
     }
@@ -9797,8 +9810,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : (res.message ??
-              localizationProvider.get("translationTakeFewMinutes")),
+          : res.message ??
+              localizationProvider.get("translationTakeFewMinutes"),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
@@ -9842,8 +9855,10 @@ class VideoHandler {
     );
 
     if (
-      (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) !==
-      videoData.videoId
+      (await getVideoID(this.site, {
+        fetchFn: GM_fetch,
+        video: this.video,
+      })) !== videoData.videoId
     ) {
       return null;
     }
@@ -10731,9 +10746,12 @@ class VideoHandler {
   initUIEvents() {
     // VOT Button
     {
-      this.votButton.translateButton.addEventListener("pointerdown", async () => {
-        await this.handleTranslationBtnClick();
-      });
+      this.votButton.translateButton.addEventListener(
+        "pointerdown",
+        async () => {
+          await this.handleTranslationBtnClick();
+        },
+      );
 
       this.votButton.pipButton.addEventListener("pointerdown", async () => {
         const isPiPActive = this.video === document.pictureInPictureElement;
@@ -10752,8 +10770,8 @@ class VideoHandler {
           ? percentX <= 44
             ? "left"
             : percentX >= 66
-              ? "right"
-              : "default"
+            ? "right"
+            : "default"
           : "default";
 
         this.data.buttonPos = position;
@@ -11376,6 +11394,18 @@ class VideoHandler {
     }
   }
 
+  getEventContainer() {
+    if (!this.site.eventSelector) {
+      return this.container;
+    }
+
+    if (this.site.host === "twitter") {
+      return this.container.closest(this.site.eventSelector);
+    }
+
+    return document.querySelector(this.site.eventSelector);
+  }
+
   initExtraEvents() {
     const { signal } = this.abortController;
 
@@ -11510,9 +11540,7 @@ class VideoHandler {
       { signal },
     );
 
-    let eventContainer = this.site.eventSelector
-      ? document.querySelector(this.site.eventSelector)
-      : this.container;
+    let eventContainer = this.getEventContainer();
     if (eventContainer)
       addExtraEventListeners(
         eventContainer,
@@ -11567,8 +11595,10 @@ class VideoHandler {
     addExtraEventListener(this.video, "emptied", async () => {
       if (
         this.video.src &&
-        (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) ===
-          this.videoData.videoId
+        (await getVideoID(this.site, {
+          fetchFn: GM_fetch,
+          video: this.video,
+        })) === this.videoData.videoId
       )
         return;
       debug.log("lipsync mode is emptied");
@@ -11596,8 +11626,10 @@ class VideoHandler {
 
   async setCanPlay() {
     if (
-      (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) ===
-      this.videoData.videoId
+      (await getVideoID(this.site, {
+        fetchFn: GM_fetch,
+        video: this.video,
+      })) === this.videoData.videoId
     )
       return;
     await this.handleSrcChanged();
@@ -11843,8 +11875,9 @@ class VideoHandler {
       detectedLanguage = this.translateFromLang,
       subtitles,
       isStream = false,
-    } = await getVideoData(this.site, this.video, {
+    } = await getVideoData(this.site, {
       fetchFn: GM_fetch,
+      video: this.video,
     });
     const videoData = {
       translationHelp,
