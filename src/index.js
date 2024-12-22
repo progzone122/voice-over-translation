@@ -1153,17 +1153,20 @@ class VideoHandler {
   initUIEvents() {
     // VOT Button
     {
-      this.votButton.translateButton.addEventListener("click", async () => {
-        await this.handleTranslationBtnClick();
-      });
+      this.votButton.translateButton.addEventListener(
+        "pointerdown",
+        async () => {
+          await this.handleTranslationBtnClick();
+        },
+      );
 
-      this.votButton.pipButton.addEventListener("click", async () => {
+      this.votButton.pipButton.addEventListener("pointerdown", async () => {
         const isPiPActive = this.video === document.pictureInPictureElement;
         await (isPiPActive
           ? document.exitPictureInPicture()
           : this.video.requestPictureInPicture());
       });
-      this.votButton.menuButton.addEventListener("click", () => {
+      this.votButton.menuButton.addEventListener("pointerdown", () => {
         this.votMenu.container.hidden = !this.votMenu.container.hidden;
       });
 
