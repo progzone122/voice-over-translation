@@ -12,27 +12,33 @@ async function getLanguage(player, response, title, description) {
     !window.location.hostname.includes("m.youtube.com") &&
     player?.getAudioTrack
   ) {
-    // ! Experimental ! get lang from selected audio track if availabled
-    const audioTracks = player.getAudioTrack();
-    const trackInfo = audioTracks?.getLanguageInfo(); // get selected track info (id === "und" if tracks are not available)
+    // Experimental: Get language from selected audio track if available
+    const trackInfo = player.getAudioTrack()?.getLanguageInfo(); // Get selected track info
     if (trackInfo?.id !== "und") {
       return normalizeLang(trackInfo.id.split(".")[0]);
     }
-  }
 
-  // TODO: If the audio tracks will work fine, transfer the receipt of captions to the audioTracks variable
-  // Check if there is an automatic caption track in the response
-  const captionTracks =
-    response?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
-  if (captionTracks?.length) {
-    const autoCaption = captionTracks.find((caption) => caption.kind === "asr");
-    if (autoCaption && autoCaption.languageCode) {
+    // Get available audio tracks
+    const audioTracks = player.getAvailableAudioTracks();
+    // Find automatic caption track in audio tracks
+    const autoCaption = audioTracks?.find(
+      (track) => track.kind === "asr" && track.languageCode,
+    );
+    if (autoCaption) {
       return normalizeLang(autoCaption.languageCode);
     }
   }
 
   // If there is no caption track, use detect to get the language code from the description
+  const autoCaption =
+    response?.captions?.playerCaptionsTracklistRenderer?.captionTracks?.find(
+      (caption) => caption.kind === "asr" && caption.languageCode,
+    );
+  if (autoCaption) {
+    return normalizeLang(autoCaption.languageCode);
+  }
 
+  // Use the description text to detect the language if no captions are available
   const text = cleanText(title, description);
 
   debug.log(`Detecting language text: ${text}`);
