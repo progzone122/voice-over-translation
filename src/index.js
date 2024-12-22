@@ -2477,13 +2477,7 @@ class VideoHandler {
     return audioUrl;
   }
 
-  // update translation audio src
-  async updateTranslation(audioUrl) {
-    // ! Don't use this function for streams
-    if (this.cachedTranslation?.url !== this.audioPlayer.player.currentSrc) {
-      audioUrl = await this.validateAudioUrl(audioUrl);
-    }
-
+  proxifyAudio(audioUrl) {
     if (
       this.translateProxyEnabled === 2 &&
       audioUrl.startsWith("https://vtrans.s3-private.mds.yandex.net/tts/prod/")
@@ -2494,6 +2488,16 @@ class VideoHandler {
       );
       audioUrl = `https://${this.data.proxyWorkerHost}/video-translation/audio-proxy/${audioPath}`;
       console.log(`[VOT] Audio proxied via ${audioUrl}`);
+    }
+
+    return audioUrl;
+  }
+
+  // update translation audio src
+  async updateTranslation(audioUrl) {
+    // ! Don't use this function for streams
+    if (this.cachedTranslation?.url !== this.audioPlayer.player.currentSrc) {
+      audioUrl = await this.validateAudioUrl(this.proxifyAudio(audioUrl));
     }
 
     if (this.audioPlayer.player.src !== audioUrl) {
