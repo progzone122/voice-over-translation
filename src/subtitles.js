@@ -358,24 +358,27 @@ export class SubtitlesWidget {
 
   bindEvents() {
     const { signal } = this.abortController;
-
-    this.onMouseDownBound = (e) => this.onMouseDown(e);
-    this.onMouseUpBound = () => this.onMouseUp();
-    this.onMouseMoveBound = (e) => this.onMouseMove(e);
+    this.onPointerDownBound = (e) => this.onPointerDown(e);
+    this.onPointerUpBound = () => this.onPointerUp();
+    this.onPointerMoveBound = (e) => this.onPointerMove(e);
     this.onTimeUpdateBound = this.debounce(() => this.update(), 100);
 
-    document.addEventListener("mousedown", this.onMouseDownBound, { signal });
-    document.addEventListener("mouseup", this.onMouseUpBound, { signal });
-    document.addEventListener("mousemove", this.onMouseMoveBound, { signal });
-    this.video?.addEventListener("timeupdate", this.onTimeUpdateBound, {
+    document.addEventListener("pointerdown", this.onPointerDownBound, {
+      signal,
+    });
+    document.addEventListener("pointerup", this.onPointerUpBound, { signal });
+    document.addEventListener("pointermove", this.onPointerMoveBound, {
       signal,
     });
 
+    this.video?.addEventListener("timeupdate", this.onTimeUpdateBound, {
+      signal,
+    });
     this.resizeObserver = new ResizeObserver(() => this.onResize());
     this.resizeObserver.observe(this.container);
   }
 
-  onMouseDown(e) {
+  onPointerDown(e) {
     if (!this.subtitlesContainer.contains(e.target)) return;
 
     const rect = this.subtitlesContainer.getBoundingClientRect();
@@ -393,12 +396,11 @@ export class SubtitlesWidget {
       },
     };
   }
-
-  onMouseUp() {
+  onPointerUp() {
     this.dragging.active = false;
   }
 
-  onMouseMove(e) {
+  onPointerMove(e) {
     if (!this.dragging.active) return;
 
     e.preventDefault();
