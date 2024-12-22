@@ -194,8 +194,10 @@ class VideoHandler {
     );
 
     if (
-      (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) !==
-      videoData.videoId
+      (await getVideoID(this.site, {
+        fetchFn: GM_fetch,
+        video: this.video,
+      })) !== videoData.videoId
     ) {
       return null;
     }
@@ -219,8 +221,8 @@ class VideoHandler {
       await this.updateTranslationErrorMsg(
         res.remainingTime > 0
           ? secsToStrTime(res.remainingTime)
-          : (res.message ??
-              localizationProvider.get("translationTakeFewMinutes")),
+          : res.message ??
+              localizationProvider.get("translationTakeFewMinutes"),
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
@@ -264,8 +266,10 @@ class VideoHandler {
     );
 
     if (
-      (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) !==
-      videoData.videoId
+      (await getVideoID(this.site, {
+        fetchFn: GM_fetch,
+        video: this.video,
+      })) !== videoData.videoId
     ) {
       return null;
     }
@@ -1800,6 +1804,18 @@ class VideoHandler {
     }
   }
 
+  getEventContainer() {
+    if (!this.site.eventSelector) {
+      return this.container;
+    }
+
+    if (this.site.host === "twitter") {
+      return this.container.closest(this.site.eventSelector);
+    }
+
+    return document.querySelector(this.site.eventSelector);
+  }
+
   initExtraEvents() {
     const { signal } = this.abortController;
 
@@ -1934,9 +1950,7 @@ class VideoHandler {
       { signal },
     );
 
-    let eventContainer = this.site.eventSelector
-      ? document.querySelector(this.site.eventSelector)
-      : this.container;
+    let eventContainer = this.getEventContainer();
     if (eventContainer)
       addExtraEventListeners(
         eventContainer,
@@ -1991,8 +2005,10 @@ class VideoHandler {
     addExtraEventListener(this.video, "emptied", async () => {
       if (
         this.video.src &&
-        (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) ===
-          this.videoData.videoId
+        (await getVideoID(this.site, {
+          fetchFn: GM_fetch,
+          video: this.video,
+        })) === this.videoData.videoId
       )
         return;
       debug.log("lipsync mode is emptied");
@@ -2020,8 +2036,10 @@ class VideoHandler {
 
   async setCanPlay() {
     if (
-      (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) ===
-      this.videoData.videoId
+      (await getVideoID(this.site, {
+        fetchFn: GM_fetch,
+        video: this.video,
+      })) === this.videoData.videoId
     )
       return;
     await this.handleSrcChanged();
@@ -2265,8 +2283,9 @@ class VideoHandler {
       detectedLanguage = this.translateFromLang,
       subtitles,
       isStream = false,
-    } = await getVideoData(this.site, this.video, {
+    } = await getVideoData(this.site, {
       fetchFn: GM_fetch,
+      video: this.video,
     });
     const videoData = {
       translationHelp,
