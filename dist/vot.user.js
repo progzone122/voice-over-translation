@@ -10846,8 +10846,9 @@ class VideoHandler {
 
       this.votVideoVolumeSlider.input.addEventListener("input", (e) => {
         const value = Number(e.target.value);
-        this.votVideoVolumeSlider.label.querySelector("strong").textContent =
-          `${value}%`;
+        this.votVideoVolumeSlider.label.querySelector(
+          "strong",
+        ).textContent = `${value}%`;
         this.setVideoVolume(value / 100);
         if (this.data.syncVolume) {
           this.syncVolumeWrapper("video", value);
@@ -11594,8 +11595,9 @@ class VideoHandler {
         console.log(`[VOT] Subs proxied via ${subtitlesObj.url}`);
       }
 
-      this.yandexSubtitles =
-        await SubtitlesProcessor.fetchSubtitles(subtitlesObj);
+      this.yandexSubtitles = await SubtitlesProcessor.fetchSubtitles(
+        subtitlesObj,
+      );
       this.subtitlesWidget.setContent(this.yandexSubtitles);
       this.votDownloadSubtitlesButton.hidden = false;
     }
@@ -11713,8 +11715,9 @@ class VideoHandler {
     const newSlidersVolume = Math.round(videoVolume);
 
     this.votVideoVolumeSlider.input.value = newSlidersVolume;
-    this.votVideoVolumeSlider.label.querySelector("strong").textContent =
-      `${newSlidersVolume}%`;
+    this.votVideoVolumeSlider.label.querySelector(
+      "strong",
+    ).textContent = `${newSlidersVolume}%`;
     ui.updateSlider(this.votVideoVolumeSlider.input);
 
     if (this.data.syncVolume === 1) {
@@ -11997,13 +12000,7 @@ class VideoHandler {
     return audioUrl;
   }
 
-  // update translation audio src
-  async updateTranslation(audioUrl) {
-    // ! Don't use this function for streams
-    if (this.cachedTranslation?.url !== this.audioPlayer.player.currentSrc) {
-      audioUrl = await this.validateAudioUrl(audioUrl);
-    }
-
+  proxifyAudio(audioUrl) {
     if (
       this.translateProxyEnabled === 2 &&
       audioUrl.startsWith("https://vtrans.s3-private.mds.yandex.net/tts/prod/")
@@ -12014,6 +12011,16 @@ class VideoHandler {
       );
       audioUrl = `https://${this.data.proxyWorkerHost}/video-translation/audio-proxy/${audioPath}`;
       console.log(`[VOT] Audio proxied via ${audioUrl}`);
+    }
+
+    return audioUrl;
+  }
+
+  // update translation audio src
+  async updateTranslation(audioUrl) {
+    // ! Don't use this function for streams
+    if (this.cachedTranslation?.url !== this.audioPlayer.player.currentSrc) {
+      audioUrl = await this.validateAudioUrl(this.proxifyAudio(audioUrl));
     }
 
     if (this.audioPlayer.player.src !== audioUrl) {
