@@ -274,7 +274,7 @@ var es5 = __webpack_require__("./node_modules/bowser/es5.js");
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.1.0",
+    version: "2.1.1",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -5093,7 +5093,7 @@ class YandexDiskHelper extends BaseHelper {
             return {
                 url: short_url,
                 title,
-                duration: video_info.duration,
+                duration: Math.round(video_info.duration / 1000),
             };
         }
         catch (err) {
@@ -10770,8 +10770,8 @@ class VideoHandler {
           ? percentX <= 44
             ? "left"
             : percentX >= 66
-            ? "right"
-            : "default"
+              ? "right"
+              : "default"
           : "default";
 
         this.data.buttonPos = position;
@@ -10919,9 +10919,8 @@ class VideoHandler {
 
       this.votVideoVolumeSlider.input.addEventListener("input", (e) => {
         const value = Number(e.target.value);
-        this.votVideoVolumeSlider.label.querySelector(
-          "strong",
-        ).textContent = `${value}%`;
+        this.votVideoVolumeSlider.label.querySelector("strong").textContent =
+          `${value}%`;
         this.setVideoVolume(value / 100);
         if (this.data.syncVolume) {
           this.syncVolumeWrapper("video", value);
@@ -11682,9 +11681,8 @@ class VideoHandler {
         console.log(`[VOT] Subs proxied via ${subtitlesObj.url}`);
       }
 
-      this.yandexSubtitles = await SubtitlesProcessor.fetchSubtitles(
-        subtitlesObj,
-      );
+      this.yandexSubtitles =
+        await SubtitlesProcessor.fetchSubtitles(subtitlesObj);
       this.subtitlesWidget.setContent(this.yandexSubtitles);
       this.votDownloadSubtitlesButton.hidden = false;
     }
@@ -11802,9 +11800,8 @@ class VideoHandler {
     const newSlidersVolume = Math.round(videoVolume);
 
     this.votVideoVolumeSlider.input.value = newSlidersVolume;
-    this.votVideoVolumeSlider.label.querySelector(
-      "strong",
-    ).textContent = `${newSlidersVolume}%`;
+    this.votVideoVolumeSlider.label.querySelector("strong").textContent =
+      `${newSlidersVolume}%`;
     ui.updateSlider(this.votVideoVolumeSlider.input);
 
     if (this.data.syncVolume === 1) {
