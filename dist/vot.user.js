@@ -2301,6 +2301,7 @@ const proxyOnlyExtensions = [
   "Greasemonkey",
   "AdGuard",
   "OrangeMonkey",
+  "Other (Polyfill)",
 ];
 
 
