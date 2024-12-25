@@ -1140,7 +1140,11 @@ class VideoHandler {
 
       // при скролле ленты клипов в вк сохраняется старый айди видео для перевода,
       // но для субтитров используется новый, поэтому перед запуском перевода необходимо получить актуальный айди
-      if (this.site.host === "vk" && this.site.additionalData === "clips") {
+      // для douyin аналогичная логика
+      if (
+        (this.site.host === "vk" && this.site.additionalData === "clips") ||
+        this.site.host === "douyin"
+      ) {
         this.videoData = await this.getVideoData();
       }
       await this.translateExecutor(this.videoData.videoId);

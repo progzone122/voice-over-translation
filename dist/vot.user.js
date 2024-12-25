@@ -274,7 +274,7 @@ var es5 = __webpack_require__("./node_modules/bowser/es5.js");
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.1.1",
+    version: "2.1.2",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -5724,11 +5724,17 @@ class CloudflareStreamHelper extends BaseHelper {
 
 
 class DouyinHelper extends BaseHelper {
-    async getVideoData(videoId) {
+    getPlayer() {
         if (typeof player === "undefined") {
             return undefined;
         }
-        const xgPlayer = player;
+        return player;
+    }
+    async getVideoData(videoId) {
+        const xgPlayer = this.getPlayer();
+        if (!xgPlayer) {
+            return undefined;
+        }
         const { url: sources, duration, lang, isLive: isStream } = xgPlayer.config;
         if (!sources) {
             return undefined;
@@ -5747,7 +5753,15 @@ class DouyinHelper extends BaseHelper {
         };
     }
     async getVideoId(url) {
-        return /video\/([\d]+)/.exec(url.pathname)?.[0];
+        const pathId = /video\/([\d]+)/.exec(url.pathname)?.[0];
+        if (pathId) {
+            return pathId;
+        }
+        const xgPlayer = this.getPlayer();
+        if (!xgPlayer) {
+            return undefined;
+        }
+        return xgPlayer.config.vid;
     }
 }
 
@@ -10731,7 +10745,11 @@ class VideoHandler {
 
       // при скролле ленты клипов в вк сохраняется старый айди видео для перевода,
       // но для субтитров используется новый, поэтому перед запуском перевода необходимо получить актуальный айди
-      if (this.site.host === "vk" && this.site.additionalData === "clips") {
+      // для douyin аналогичная логика
+      if (
+        (this.site.host === "vk" && this.site.additionalData === "clips") ||
+        this.site.host === "douyin"
+      ) {
         this.videoData = await this.getVideoData();
       }
       await this.translateExecutor(this.videoData.videoId);
@@ -10772,8 +10790,8 @@ class VideoHandler {
           ? percentX <= 44
             ? "left"
             : percentX >= 66
-              ? "right"
-              : "default"
+            ? "right"
+            : "default"
           : "default";
 
         this.data.buttonPos = position;
@@ -10921,8 +10939,9 @@ class VideoHandler {
 
       this.votVideoVolumeSlider.input.addEventListener("input", (e) => {
         const value = Number(e.target.value);
-        this.votVideoVolumeSlider.label.querySelector("strong").textContent =
-          `${value}%`;
+        this.votVideoVolumeSlider.label.querySelector(
+          "strong",
+        ).textContent = `${value}%`;
         this.setVideoVolume(value / 100);
         if (this.data.syncVolume) {
           this.syncVolumeWrapper("video", value);
@@ -11683,8 +11702,9 @@ class VideoHandler {
         console.log(`[VOT] Subs proxied via ${subtitlesObj.url}`);
       }
 
-      this.yandexSubtitles =
-        await SubtitlesProcessor.fetchSubtitles(subtitlesObj);
+      this.yandexSubtitles = await SubtitlesProcessor.fetchSubtitles(
+        subtitlesObj,
+      );
       this.subtitlesWidget.setContent(this.yandexSubtitles);
       this.votDownloadSubtitlesButton.hidden = false;
     }
@@ -11802,8 +11822,9 @@ class VideoHandler {
     const newSlidersVolume = Math.round(videoVolume);
 
     this.votVideoVolumeSlider.input.value = newSlidersVolume;
-    this.votVideoVolumeSlider.label.querySelector("strong").textContent =
-      `${newSlidersVolume}%`;
+    this.votVideoVolumeSlider.label.querySelector(
+      "strong",
+    ).textContent = `${newSlidersVolume}%`;
     ui.updateSlider(this.votVideoVolumeSlider.input);
 
     if (this.data.syncVolume === 1) {
