@@ -84,6 +84,7 @@
 // @match          *://*.dzen.ru/*
 // @match          *://*.cloudflarestream.com/*
 // @match          *://*.loom.com/*
+// @match          *://*.artstation.com/learning/*
 // @match          *://*/*.mp4*
 // @match          *://*/*.webm*
 // @match          *://*.yewtu.be/*
@@ -176,7 +177,7 @@
 // @connect        speed.cloudflare.com
 // @connect        porntn.com
 // @namespace      vot
-// @version        1.8.1
+// @version        1.8.2
 // @icon           https://translate.yandex.ru/icons/favicon.ico
 // @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation
@@ -264,15 +265,16 @@ var es5 = __webpack_require__("./node_modules/bowser/es5.js");
 ;// ./node_modules/@vot.js/shared/dist/data/config.js
 /* harmony default export */ const config = ({
     host: "api.browser.yandex.ru",
-    hostVOT: "vot-api.toil.cc/v1",
+    hostVOT: "vot.toil.cc/v1",
+    hostWorker: "vot-worker.toil.cc",
     mediaProxy: "media-proxy.toil.cc",
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 YaBrowser/24.10.0.0 Safari/537.36",
-    componentVersion: "24.12.0.1807",
+    componentVersion: "24.12.1.714",
     hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.0.16",
+    version: "2.1.2",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -2299,6 +2301,8 @@ const proxyOnlyExtensions = [
   "Greasemonkey",
   "AdGuard",
   "OrangeMonkey",
+  "Userscripts",
+  "Other (Polyfill)",
 ];
 
 
@@ -3136,6 +3140,10 @@ class client_VOTClient {
     }
 }
 class client_VOTWorkerClient extends client_VOTClient {
+    constructor(opts = {}) {
+        opts.host = opts.host ?? config.hostWorker;
+        super(opts);
+    }
     async request(path, body, headers = {}, method = "POST") {
         const options = this.getOpts(JSON.stringify({
             headers: {
@@ -3311,6 +3319,7 @@ var ExtVideoService;
     ExtVideoService["udemy"] = "udemy";
     ExtVideoService["coursera"] = "coursera";
     ExtVideoService["douyin"] = "douyin";
+    ExtVideoService["artstation"] = "artstation";
 })(ExtVideoService || (ExtVideoService = {}));
 
 ;// ./node_modules/@vot.js/ext/dist/data/sites.js
@@ -3759,6 +3768,13 @@ var ExtVideoService;
         needExtraData: true,
     },
     {
+        host: ExtVideoService.artstation,
+        url: "https://www.artstation.com/learning/",
+        match: /^(www.)?artstation.com$/,
+        selector: ".vjs-v7",
+        needExtraData: true,
+    },
+    {
         host: VideoService.custom,
         url: "stub",
         match: (url) => /([^.]+).(mp4|webm)/.test(url.pathname),
@@ -3782,7 +3798,8 @@ class BaseHelper {
     referer;
     origin;
     service;
-    constructor({ fetchFn = fetchWithTimeout, extraInfo = true, referer = document.referrer ?? window.location.origin + "/", origin = window.location.origin, service, } = {}) {
+    video;
+    constructor({ fetchFn = fetchWithTimeout, extraInfo = true, referer = document.referrer ?? window.location.origin + "/", origin = window.location.origin, service, video, } = {}) {
         this.fetch = fetchFn;
         this.extraInfo = extraInfo;
         this.referer = referer;
@@ -3790,6 +3807,7 @@ class BaseHelper {
             ? origin
             : window.location.origin;
         this.service = service;
+        this.video = video;
     }
     async getVideoData(videoId) {
         return undefined;
@@ -5077,7 +5095,7 @@ class YandexDiskHelper extends BaseHelper {
             return {
                 url: short_url,
                 title,
-                duration: video_info.duration,
+                duration: Math.round(video_info.duration / 1000),
             };
         }
         catch (err) {
@@ -5407,7 +5425,13 @@ class RumbleHelper extends BaseHelper {
 
 class TwitterHelper extends BaseHelper {
     async getVideoId(url) {
-        return /status\/([^/]+)/.exec(url.pathname)?.[1];
+        const videoId = /status\/([^/]+)/.exec(url.pathname)?.[1];
+        if (videoId) {
+            return videoId;
+        }
+        const postEl = this.video?.closest('[data-testid="tweet"]');
+        const newLink = postEl?.querySelector('a[role="link"][aria-label]')?.href;
+        return newLink ? /status\/([^/]+)/.exec(newLink)?.[1] : undefined;
     }
 }
 
@@ -5700,11 +5724,17 @@ class CloudflareStreamHelper extends BaseHelper {
 
 
 class DouyinHelper extends BaseHelper {
-    async getVideoData(videoId) {
+    getPlayer() {
         if (typeof player === "undefined") {
             return undefined;
         }
-        const xgPlayer = player;
+        return player;
+    }
+    async getVideoData(videoId) {
+        const xgPlayer = this.getPlayer();
+        if (!xgPlayer) {
+            return undefined;
+        }
         const { url: sources, duration, lang, isLive: isStream } = xgPlayer.config;
         if (!sources) {
             return undefined;
@@ -5723,7 +5753,15 @@ class DouyinHelper extends BaseHelper {
         };
     }
     async getVideoId(url) {
-        return /video\/([\d]+)/.exec(url.pathname)?.[0];
+        const pathId = /video\/([\d]+)/.exec(url.pathname)?.[0];
+        if (pathId) {
+            return pathId;
+        }
+        const xgPlayer = this.getPlayer();
+        if (!xgPlayer) {
+            return undefined;
+        }
+        return xgPlayer.config.vid;
     }
 }
 
@@ -5835,7 +5873,79 @@ class LoomHelper extends BaseHelper {
     }
 }
 
+;// ./node_modules/@vot.js/ext/dist/helpers/artstation.js
+
+
+
+class ArtstationHelper extends BaseHelper {
+    API_ORIGIN = "https://www.artstation.com/api/v2/learning";
+    getCSRFToken() {
+        return document.querySelector('meta[name="public-csrf-token"]')?.content;
+    }
+    async getCourseInfo(courseId) {
+        try {
+            const res = await this.fetch(`${this.API_ORIGIN}/courses/${courseId}/autoplay.json`, {
+                method: "POST",
+                headers: {
+                    "PUBLIC-CSRF-TOKEN": this.getCSRFToken(),
+                },
+            });
+            return (await res.json());
+        }
+        catch (err) {
+            Logger.error(`Failed to get artstation course info by courseId: ${courseId}.`, err.message);
+            return false;
+        }
+    }
+    async getVideoUrl(chapterId) {
+        try {
+            const res = await this.fetch(`${this.API_ORIGIN}/quicksilver/video_url.json?chapter_id=${chapterId}`);
+            const data = (await res.json());
+            return data.url.replace("qsep://", "https://");
+        }
+        catch (err) {
+            Logger.error(`Failed to get artstation video url by chapterId: ${chapterId}.`, err.message);
+            return false;
+        }
+    }
+    async getVideoData(videoId) {
+        const [, courseId, , , chapterId] = videoId.split("/");
+        const courseInfo = await this.getCourseInfo(courseId);
+        if (!courseInfo) {
+            return undefined;
+        }
+        const chapter = courseInfo.chapters.find((chapter) => chapter.hash_id === chapterId);
+        if (!chapter) {
+            return undefined;
+        }
+        const videoUrl = await this.getVideoUrl(chapter.id);
+        if (!videoUrl) {
+            return undefined;
+        }
+        const { title, duration, subtitles: videoSubtitles } = chapter;
+        const subtitles = videoSubtitles
+            .filter((subtitle) => subtitle.format === "vtt")
+            .map((subtitle) => ({
+            language: normalizeLang(subtitle.locale),
+            source: "artstation",
+            format: "vtt",
+            url: subtitle.file_url,
+        }));
+        return {
+            url: videoUrl,
+            title,
+            duration,
+            subtitles,
+        };
+    }
+    async getVideoId(url) {
+        return /courses\/(\w{3,5})\/([^/]+)\/chapters\/(\w{3,5})/.exec(url.pathname)?.[0];
+    }
+}
+
 ;// ./node_modules/@vot.js/ext/dist/helpers/index.js
+
+
 
 
 
@@ -5988,6 +6098,7 @@ const availableHelpers = {
     [ExtVideoService.udemy]: UdemyHelper,
     [ExtVideoService.coursera]: CourseraHelper,
     [ExtVideoService.douyin]: DouyinHelper,
+    [ExtVideoService.artstation]: ArtstationHelper,
 };
 class VideoHelper {
     helpersData;
@@ -6028,7 +6139,7 @@ function getService() {
             e.url);
     });
 }
-async function getVideoID(service, video, opts = {}) {
+async function getVideoID(service, opts = {}) {
     const url = new URL(window.location.href);
     const serviceHost = service.host;
     if (Object.keys(availableHelpers).includes(serviceHost)) {
@@ -6037,8 +6148,8 @@ async function getVideoID(service, video, opts = {}) {
     }
     return serviceHost === VideoService.custom ? url.href : undefined;
 }
-async function getVideoData(service, video, opts = {}) {
-    const videoId = await getVideoID(service, video, opts);
+async function getVideoData(service, opts = {}) {
+    const videoId = await getVideoID(service, opts);
     if (!videoId) {
         throw new VideoDataError(`Entered unsupported link: "${service.host}"`);
     }
@@ -6083,6 +6194,9 @@ async function getVideoData(service, video, opts = {}) {
 }
 
 ;// ./node_modules/@vot.js/ext/dist/types/index.js
+
+
+
 
 
 
@@ -6138,7 +6252,7 @@ function convertSubsToJSON(data, from = "srt") {
     if (from === "vtt") {
         parts.shift();
     }
-    if (/^\d+\n/.exec(parts?.[0] ?? "")) {
+    if (/^\d+\r?\n/.exec(parts?.[0] ?? "")) {
         from = "srt";
     }
     const offset = +(from === "srt");
@@ -6308,27 +6422,33 @@ async function getLanguage(player, response, title, description) {
     !window.location.hostname.includes("m.youtube.com") &&
     player?.getAudioTrack
   ) {
-    // ! Experimental ! get lang from selected audio track if availabled
-    const audioTracks = player.getAudioTrack();
-    const trackInfo = audioTracks?.getLanguageInfo(); // get selected track info (id === "und" if tracks are not available)
+    // Experimental: Get language from selected audio track if available
+    const trackInfo = player.getAudioTrack()?.getLanguageInfo(); // Get selected track info
     if (trackInfo?.id !== "und") {
       return normalizeLang(trackInfo.id.split(".")[0]);
     }
-  }
 
-  // TODO: If the audio tracks will work fine, transfer the receipt of captions to the audioTracks variable
-  // Check if there is an automatic caption track in the response
-  const captionTracks =
-    response?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
-  if (captionTracks?.length) {
-    const autoCaption = captionTracks.find((caption) => caption.kind === "asr");
-    if (autoCaption && autoCaption.languageCode) {
+    // Get available audio tracks
+    const audioTracks = player.getAvailableAudioTracks();
+    // Find automatic caption track in audio tracks
+    const autoCaption = audioTracks?.find(
+      (track) => track.kind === "asr" && track.languageCode,
+    );
+    if (autoCaption) {
       return normalizeLang(autoCaption.languageCode);
     }
   }
 
   // If there is no caption track, use detect to get the language code from the description
+  const autoCaption =
+    response?.captions?.playerCaptionsTracklistRenderer?.captionTracks?.find(
+      (caption) => caption.kind === "asr" && caption.languageCode,
+    );
+  if (autoCaption) {
+    return normalizeLang(autoCaption.languageCode);
+  }
 
+  // Use the description text to detect the language if no captions are available
   const text = cleanText(title, description);
 
   debug.log(`Detecting language text: ${text}`);
@@ -6507,46 +6627,49 @@ async function youtubeUtils_getVideoData() {
 
 
 
-function formatYandexSubtitlesTokens(line) {
-  const lineEndMs = line.startMs + line.durationMs;
-  return line.tokens.reduce((result, token, index) => {
-    const nextToken = line.tokens[index + 1];
-    let lastToken;
-    if (result.length > 0) {
-      lastToken = result[result.length - 1];
-    }
-    const alignRangeEnd = lastToken?.alignRange?.end ?? 0;
-    const newAlignRangeEnd = alignRangeEnd + token.text.length;
-    token.alignRange = {
-      start: alignRangeEnd,
-      end: newAlignRangeEnd,
-    };
-    result.push(token);
-    if (nextToken) {
-      const endMs = token.startMs + token.durationMs;
-      const durationMs = nextToken.startMs
-        ? nextToken.startMs - endMs
-        : lineEndMs - endMs;
-      result.push({
-        text: " ",
-        startMs: endMs,
-        durationMs,
-        alignRange: {
-          start: newAlignRangeEnd,
-          end: newAlignRangeEnd + 1,
-        },
-      });
-    }
-    return result;
-  }, []);
-}
+class SubtitlesProcessor {
+  static formatYandexTokens(line) {
+    const lineEndMs = line.startMs + line.durationMs;
+    return line.tokens.reduce((result, token, index) => {
+      const nextToken = line.tokens[index + 1];
+      const lastToken = result[result.length - 1];
+      const alignRangeEnd = lastToken?.alignRange?.end ?? 0;
+      const newAlignRangeEnd = alignRangeEnd + token.text.length;
 
-function createSubtitlesTokens(line, previousLineLastToken) {
-  const tokens = line.text.split(/([\n \t])/).reduce((result, tokenText) => {
-    if (tokenText.length) {
+      token.alignRange = {
+        start: alignRangeEnd,
+        end: newAlignRangeEnd,
+      };
+      result.push(token);
+
+      if (nextToken) {
+        const endMs = token.startMs + token.durationMs;
+        const durationMs = nextToken.startMs
+          ? nextToken.startMs - endMs
+          : lineEndMs - endMs;
+
+        result.push({
+          text: " ",
+          startMs: endMs,
+          durationMs,
+          alignRange: {
+            start: newAlignRangeEnd,
+            end: newAlignRangeEnd + 1,
+          },
+        });
+      }
+      return result;
+    }, []);
+  }
+
+  static createTokens(line, previousLineLastToken) {
+    const tokens = line.text.split(/([\n \t])/).reduce((result, tokenText) => {
+      if (!tokenText.length) return result;
+
       const lastToken = result[result.length - 1] ?? previousLineLastToken;
       const alignRangeStart = lastToken?.alignRange?.end ?? 0;
       const alignRangeEnd = alignRangeStart + tokenText.length;
+
       result.push({
         text: tokenText,
         alignRange: {
@@ -6554,252 +6677,273 @@ function createSubtitlesTokens(line, previousLineLastToken) {
           end: alignRangeEnd,
         },
       });
-    }
-    return result;
-  }, []);
-  const tokenDurationMs = Math.floor(line.durationMs / tokens.length);
-  const lineEndMs = line.startMs + line.durationMs;
-  return tokens.map((token, index) => {
-    const isLastToken = index === tokens.length - 1;
-    const startMs = line.startMs + tokenDurationMs * index;
-    const durationMs = isLastToken ? lineEndMs - startMs : tokenDurationMs;
-    return {
-      ...token,
-      startMs,
-      durationMs,
-    };
-  });
-}
+      return result;
+    }, []);
 
-function getSubtitlesTokens(subtitles, subtitlesObject) {
-  const result = [];
-  let lastToken;
-  const { source, isAutoGenerated } = subtitlesObject;
-  for (let i = 0; i < subtitles.subtitles.length; i++) {
-    const line = subtitles.subtitles[i];
-    const hasTokens = line?.tokens?.length;
+    const tokenDurationMs = Math.floor(line.durationMs / tokens.length);
+    const lineEndMs = line.startMs + line.durationMs;
 
-    let tokens =
-      hasTokens &&
-      (source === "yandex" || (source === "youtube" && isAutoGenerated))
-        ? formatYandexSubtitlesTokens(line)
-        : createSubtitlesTokens(line, lastToken);
-    lastToken = tokens[tokens.length - 1];
-    result.push({
-      ...line,
-      tokens,
+    return tokens.map((token, index) => {
+      const isLastToken = index === tokens.length - 1;
+      const startMs = line.startMs + tokenDurationMs * index;
+      const durationMs = isLastToken ? lineEndMs - startMs : tokenDurationMs;
+      return { ...token, startMs, durationMs };
     });
   }
-  subtitles.containsTokens = true;
-  return result;
-}
 
-function formatYoutubeSubtitles(subtitles, isAsr = false) {
-  const result = {
-    containsTokens: isAsr,
-    subtitles: [],
-  };
-  if (typeof subtitles !== "object" || !Array.isArray(subtitles.events)) {
-    console.error("[VOT] Failed to format youtube subtitles", subtitles);
+  static processTokens(subtitles, subtitlesObject) {
+    const result = [];
+    let lastToken;
+    const { source, isAutoGenerated } = subtitlesObject;
+
+    for (const line of subtitles.subtitles) {
+      const hasTokens = line?.tokens?.length;
+      const tokens =
+        hasTokens &&
+        (source === "yandex" || (source === "youtube" && isAutoGenerated))
+          ? this.formatYandexTokens(line)
+          : this.createTokens(line, lastToken);
+
+      lastToken = tokens[tokens.length - 1];
+      result.push({ ...line, tokens });
+    }
+
+    subtitles.containsTokens = true;
     return result;
   }
 
-  for (let i = 0; i < subtitles.events.length; i++) {
-    const subtitle = subtitles.events[i];
-    if (!subtitle.segs) continue;
-
-    let durationMs = subtitle.dDurationMs;
-    if (
-      subtitles.events[i + 1] &&
-      subtitle.tStartMs + subtitle.dDurationMs >
-        subtitles.events[i + 1].tStartMs
-    ) {
-      durationMs = subtitles.events[i + 1].tStartMs - subtitle.tStartMs;
+  static formatYoutubeSubtitles(subtitles, isAsr = false) {
+    if (!subtitles?.events?.length) {
+      console.error("[VOT] Invalid YouTube subtitles format:", subtitles);
+      return { containsTokens: isAsr, subtitles: [] };
     }
 
-    const tokens = [];
-    let lastSegDuration = durationMs;
-    for (let j = 0; j < subtitle.segs.length; j++) {
-      const seg = subtitle.segs[j];
-      const text = seg.utf8.trim();
-      if (text === "\n") {
-        continue;
+    const result = {
+      containsTokens: isAsr,
+      subtitles: [],
+    };
+
+    for (let i = 0; i < subtitles.events.length; i++) {
+      const subtitle = subtitles.events[i];
+      if (!subtitle.segs) continue;
+
+      let durationMs = subtitle.dDurationMs;
+      if (
+        subtitles.events[i + 1] &&
+        subtitle.tStartMs + subtitle.dDurationMs >
+          subtitles.events[i + 1].tStartMs
+      ) {
+        durationMs = subtitles.events[i + 1].tStartMs - subtitle.tStartMs;
       }
 
-      const offset = seg.tOffsetMs ?? 0;
-      let segDuration = durationMs;
-      const nextSeg = subtitle.segs[j + 1];
-      if (nextSeg?.tOffsetMs) {
-        segDuration = nextSeg.tOffsetMs - offset;
-        lastSegDuration -= segDuration;
+      const tokens = [];
+      let lastSegDuration = durationMs;
+
+      for (let j = 0; j < subtitle.segs.length; j++) {
+        const seg = subtitle.segs[j];
+        const text = seg.utf8.trim();
+        if (text === "\n") continue;
+
+        const offset = seg.tOffsetMs ?? 0;
+        let segDuration = durationMs;
+        const nextSeg = subtitle.segs[j + 1];
+
+        if (nextSeg?.tOffsetMs) {
+          segDuration = nextSeg.tOffsetMs - offset;
+          lastSegDuration -= segDuration;
+        }
+
+        tokens.push({
+          text,
+          startMs: subtitle.tStartMs + offset,
+          durationMs: nextSeg ? segDuration : lastSegDuration,
+        });
       }
 
-      tokens.push({
-        text,
-        startMs: subtitle.tStartMs + offset,
-        durationMs: nextSeg ? segDuration : lastSegDuration,
-      });
+      const text = tokens.map((e) => e.text).join(" ");
+      if (text) {
+        result.subtitles.push({
+          text,
+          startMs: subtitle.tStartMs,
+          durationMs,
+          ...(isAsr ? { tokens } : {}),
+        });
+      }
     }
 
-    const text = tokens.map((e) => e.text).join(" ");
-    if (text) {
-      result.subtitles.push({
-        text,
-        startMs: subtitle.tStartMs,
-        durationMs,
-        ...(isAsr ? { tokens } : {}),
-      });
+    return result;
+  }
+  /**
+   * Remove HTML tags from JSON subtitle text
+   */
+  static cleanJsonSubtitles(subtitles) {
+    const { containsTokens, subtitles: subtitlesList } = subtitles;
+    return {
+      containsTokens,
+      subtitles: subtitlesList.map((item) => ({
+        ...item,
+        text: item.text.replace(/(<([^>]+)>)/gi, ""),
+      })),
+    };
+  }
+
+  static async fetchWithTimeout(url, timeout = 5000) {
+    try {
+      const response = await GM_fetch(url, { timeout });
+      return response;
+    } catch (error) {
+      console.error("[VOT] Fetch failed:", error);
+      throw error;
     }
   }
-  return result;
-}
 
-/**
- * Remove HTML tags from JSON subtitle text
- */
-function clearJSONSubtitles(subtitles) {
-  const { containsTokens, subtitles: subtitlesList } = subtitles;
-  return {
-    containsTokens,
-    subtitles: subtitlesList.map((subtitleItem) => {
-      subtitleItem.text = subtitleItem.text.replace(/(<([^>]+)>)/gi, "");
-      return subtitleItem;
-    }),
-  };
-}
+  static async fetchSubtitles(subtitlesObject) {
+    const { source, isAutoGenerated, format, url } = subtitlesObject;
 
-async function fetchSubtitles(subtitlesObject) {
-  const { source, isAutoGenerated, format, url } = subtitlesObject;
-  const fetchPromise = (async () => {
     try {
-      const response = await GM_fetch(url, { timeout: 5000 });
+      const response = await this.fetchWithTimeout(url);
+      let subtitles;
+
       if (["vtt", "srt"].includes(format)) {
-        const plain = await response.text();
-        return convertSubs(plain, "json");
+        const text = await response.text();
+        subtitles = await convertSubs(text, "json");
+      } else {
+        subtitles = await response.json();
       }
-      return await response.json();
+
+      if (source === "youtube") {
+        subtitles = this.formatYoutubeSubtitles(subtitles, isAutoGenerated);
+      }
+
+      if (source === "vk") {
+        subtitles = this.cleanJsonSubtitles(subtitles);
+      }
+
+      subtitles.subtitles = this.processTokens(subtitles, subtitlesObject);
+      console.log("[VOT] Processed subtitles:", subtitles);
+      return subtitles;
     } catch (error) {
-      console.error("[VOT] Failed to fetch subtitles.", error);
+      console.error("[VOT] Failed to process subtitles:", error);
       return {
         containsTokens: false,
         subtitles: [],
       };
     }
-  })();
-
-  let subtitles = await fetchPromise;
-  if (source === "youtube") {
-    subtitles = formatYoutubeSubtitles(subtitles, isAutoGenerated);
   }
 
-  if (source === "vk") {
-    subtitles = clearJSONSubtitles(subtitles);
-  }
+  static async getSubtitles(client, videoData) {
+    const {
+      host,
+      url,
+      detectedLanguage: requestLang,
+      responseLanguage,
+      videoId,
+      duration,
+      subtitles,
+    } = videoData;
 
-  subtitles.subtitles = getSubtitlesTokens(subtitles, subtitlesObject);
-  console.log("[VOT] subtitles:", subtitles);
-  return subtitles;
-}
+    const extraSubtitles =
+      host === "youtube"
+        ? youtubeUtils.getSubtitles(responseLanguage)
+        : (subtitles ?? []);
 
-async function subtitles_getSubtitles(client, videoData) {
-  const {
-    host,
-    url,
-    detectedLanguage: requestLang,
-    responseLanguage,
-    videoId,
-    duration,
-    subtitles,
-  } = videoData;
-  const extraSubtitles =
-    host === "youtube"
-      ? youtubeUtils.getSubtitles(responseLanguage)
-      : subtitles ?? [];
+    try {
+      const res = await Promise.race([
+        client.getSubtitles({
+          videoData: { host, url, videoId, duration },
+          requestLang,
+        }),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Timeout")), 5000),
+        ),
+      ]);
 
-  const timeoutPromise = new Promise((_, reject) =>
-    setTimeout(() => reject(new Error("Timeout")), 5000),
-  );
+      console.log("[VOT] Subtitles response:", res);
 
-  try {
-    const res = await Promise.race([
-      client.getSubtitles({
-        videoData: { host, url, videoId, duration },
-        requestLang,
-      }),
-      timeoutPromise,
-    ]);
-
-    console.log("[VOT] Subtitles response: ", res);
-
-    if (res.waiting) {
-      console.error("[VOT] Failed to get yandex subtitles");
-    }
-
-    // Обработка субтитров
-    let subtitles = res.subtitles ?? [];
-    subtitles = subtitles.reduce((result, yaSubtitlesObject) => {
-      if (
-        yaSubtitlesObject.language &&
-        !result.find(
-          (e) =>
-            e.source === "yandex" &&
-            e.language === yaSubtitlesObject.language &&
-            !e.translatedFromLanguage,
-        )
-      ) {
-        result.push({
-          source: "yandex",
-          language: yaSubtitlesObject.language,
-          url: yaSubtitlesObject.url,
-        });
+      if (res.waiting) {
+        console.error("[VOT] Failed to get Yandex subtitles");
       }
-      if (yaSubtitlesObject.translatedLanguage) {
-        result.push({
-          source: "yandex",
-          language: yaSubtitlesObject.translatedLanguage,
-          translatedFromLanguage: yaSubtitlesObject.language,
-          url: yaSubtitlesObject.translatedUrl,
-        });
-      }
-      return result;
-    }, []);
 
-    return [...subtitles, ...extraSubtitles].sort((a, b) => {
-      if (a.source !== b.source) return a.source === "yandex" ? -1 : 1;
-      if (
-        a.language !== b.language &&
-        (a.language === lang || b.language === lang)
-      )
-        return a.language === lang ? -1 : 1;
-      if (a.source === "yandex") {
-        // sort by translation
-        if (a.translatedFromLanguage !== b.translatedFromLanguage) {
-          // sort by translatedFromLanguage
-          if (!a.translatedFromLanguage || !b.translatedFromLanguage) {
-            // sort by isTranslated
-            if (a.language === b.language)
-              return a.translatedFromLanguage ? 1 : -1;
-            return !a.translatedFromLanguage ? 1 : -1;
-          }
-          return a.translatedFromLanguage === requestLang ? -1 : 1;
+      const yandexSubs = (res.subtitles ?? []).reduce((result, sub) => {
+        if (
+          sub.language &&
+          !result.find(
+            (e) =>
+              e.source === "yandex" &&
+              e.language === sub.language &&
+              !e.translatedFromLanguage,
+          )
+        ) {
+          result.push({
+            source: "yandex",
+            language: sub.language,
+            url: sub.url,
+          });
         }
-        // sort non translated by language
-        if (!a.translatedFromLanguage)
-          return a.language === requestLang ? -1 : 1;
-      }
-      // sort by isAutoGenerated
-      if (a.source !== "yandex" && a.isAutoGenerated !== b.isAutoGenerated)
-        return a.isAutoGenerated ? 1 : -1;
-      return 0;
-    });
-  } catch (error) {
-    if (error.message === "Timeout") {
-      console.error("[VOT] Failed to get yandex subtitles. Reason: timeout");
-    } else {
-      console.error("[VOT] Error in getSubtitles function", error);
+
+        if (sub.translatedLanguage) {
+          result.push({
+            source: "yandex",
+            language: sub.translatedLanguage,
+            translatedFromLanguage: sub.language,
+            url: sub.translatedUrl,
+          });
+        }
+
+        return result;
+      }, []);
+
+      return [...yandexSubs, ...extraSubtitles].sort((a, b) => {
+        // Source priority
+        if (a.source !== b.source) {
+          return a.source === "yandex" ? -1 : 1;
+        }
+
+        // Language priority
+        if (
+          a.language !== b.language &&
+          (a.language === lang || b.language === lang)
+        ) {
+          return a.language === lang ? -1 : 1;
+        }
+
+        if (a.source === "yandex") {
+          // Translation priority
+          if (a.translatedFromLanguage !== b.translatedFromLanguage) {
+            if (!a.translatedFromLanguage || !b.translatedFromLanguage) {
+              return a.language === b.language
+                ? a.translatedFromLanguage
+                  ? 1
+                  : -1
+                : !a.translatedFromLanguage
+                  ? 1
+                  : -1;
+            }
+            return a.translatedFromLanguage === requestLang ? -1 : 1;
+          }
+
+          // Non-translated language priority
+          if (!a.translatedFromLanguage) {
+            return a.language === requestLang ? -1 : 1;
+          }
+        }
+
+        // Auto-generated priority
+        if (a.source !== "yandex" && a.isAutoGenerated !== b.isAutoGenerated) {
+          return a.isAutoGenerated ? 1 : -1;
+        }
+
+        return 0;
+      });
+    } catch (error) {
+      const message =
+        error.message === "Timeout"
+          ? "Failed to get Yandex subtitles: timeout"
+          : "Error in getSubtitles function";
+      console.error(`[VOT] ${message}`, error);
+      // на сайтах, где нет сабов всегда красит кнопку
+      throw error;
     }
-    // на сайтах, где нет сабов всегда красит кнопку
-    throw error;
   }
 }
 
@@ -6822,7 +6966,6 @@ class SubtitlesWidget {
     this.fontSize = 20;
     this.opacity = 0.2;
     this.maxLength = 300;
-    this.maxLengthRegexp = /.{1,300}(?:\s|$)/g;
 
     this.abortController = new AbortController();
     this.bindEvents();
@@ -6830,68 +6973,69 @@ class SubtitlesWidget {
   }
 
   createSubtitlesContainer() {
-    const container = document.createElement("vot-block");
-    container.classList.add("vot-subtitles-widget");
-    this.container.appendChild(container);
-    return container;
+    this.subtitlesContainer = document.createElement("vot-block");
+    this.subtitlesContainer.classList.add("vot-subtitles-widget");
+    this.container.appendChild(this.subtitlesContainer);
+    return this.subtitlesContainer;
   }
 
   bindEvents() {
     const { signal } = this.abortController;
-
-    this.onMouseDownBound = (e) => this.onMouseDown(e);
-    this.onMouseUpBound = () => this.onMouseUp();
-    this.onMouseMoveBound = (e) => this.onMouseMove(e);
+    this.onPointerDownBound = (e) => this.onPointerDown(e);
+    this.onPointerUpBound = () => this.onPointerUp();
+    this.onPointerMoveBound = (e) => this.onPointerMove(e);
     this.onTimeUpdateBound = this.debounce(() => this.update(), 100);
 
-    document.addEventListener("mousedown", this.onMouseDownBound, { signal });
-    document.addEventListener("mouseup", this.onMouseUpBound, { signal });
-    document.addEventListener("mousemove", this.onMouseMoveBound, { signal });
-    this.video?.addEventListener("timeupdate", this.onTimeUpdateBound, {
+    document.addEventListener("pointerdown", this.onPointerDownBound, {
+      signal,
+    });
+    document.addEventListener("pointerup", this.onPointerUpBound, { signal });
+    document.addEventListener("pointermove", this.onPointerMoveBound, {
       signal,
     });
 
+    this.video?.addEventListener("timeupdate", this.onTimeUpdateBound, {
+      signal,
+    });
     this.resizeObserver = new ResizeObserver(() => this.onResize());
     this.resizeObserver.observe(this.container);
   }
 
-  onMouseDown(e) {
-    if (this.subtitlesContainer.contains(e.target)) {
-      const rect = this.subtitlesContainer.getBoundingClientRect();
-      const containerRect = this.container.getBoundingClientRect();
-      this.dragging = {
-        active: true,
-        offset: {
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top,
-        },
-        containerOffset: {
-          x: containerRect.left,
-          y: containerRect.top,
-        },
-      };
-    }
-  }
+  onPointerDown(e) {
+    if (!this.subtitlesContainer.contains(e.target)) return;
 
-  onMouseUp() {
+    const rect = this.subtitlesContainer.getBoundingClientRect();
+    const containerRect = this.container.getBoundingClientRect();
+
+    this.dragging = {
+      active: true,
+      offset: {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      },
+      containerOffset: {
+        x: containerRect.left,
+        y: containerRect.top,
+      },
+    };
+  }
+  onPointerUp() {
     this.dragging.active = false;
   }
 
-  onMouseMove(e) {
-    if (this.dragging.active) {
-      e.preventDefault();
-      const { width, height } = this.container.getBoundingClientRect();
-      const containerOffset = this.dragging.containerOffset;
-      this.position = {
-        left:
-          ((e.clientX - this.dragging.offset.x - containerOffset.x) / width) *
-          100,
-        top:
-          ((e.clientY - this.dragging.offset.y - containerOffset.y) / height) *
-          100,
-      };
-      this.applySubtitlePosition();
-    }
+  onPointerMove(e) {
+    if (!this.dragging.active) return;
+
+    e.preventDefault();
+    const { width, height } = this.container.getBoundingClientRect();
+    const { containerOffset, offset } = this.dragging;
+
+    this.position = {
+      left: ((e.clientX - offset.x - containerOffset.x) / width) * 100,
+      top: ((e.clientY - offset.y - containerOffset.y) / height) * 100,
+    };
+
+    this.applySubtitlePosition();
   }
 
   onResize() {
@@ -6917,86 +7061,10 @@ class SubtitlesWidget {
     this.subtitlesContainer.style.top = `${this.position.top}%`;
   }
 
-  setContent(subtitles) {
-    if (subtitles && this.video) {
-      this.subtitles = subtitles;
-      this.update();
-    } else {
-      this.subtitles = null;
-      Q(null, this.subtitlesContainer);
-    }
-  }
-
-  setMaxLength(len) {
-    if (typeof len === "number" && len) {
-      this.maxLength = len;
-      this.maxLengthRegexp = new RegExp(`.{1,${len}}(?:\\s|$)`, "g");
-      this.update();
-    }
-  }
-
-  setHighlightWords(value) {
-    this.highlightWords = Boolean(value);
-    this.update();
-  }
-
-  setFontSize(size) {
-    this.fontSize = size;
-    const subtitlesEl =
-      this.subtitlesContainer?.querySelector(".vot-subtitles");
-    if (subtitlesEl) {
-      subtitlesEl.style.fontSize = `${this.fontSize}px`;
-    }
-  }
-
-  /**
-   * Set subtitles opacity by percentage where 100 - full transparent, 0 - not transparent
-   *
-   * @param {number} rate - 0-100 percent of opacity
-   */
-  setOpacity(rate) {
-    this.opacity = ((100 - +rate) / 100).toFixed(2);
-    const subtitlesEl =
-      this.subtitlesContainer?.querySelector(".vot-subtitles");
-    if (subtitlesEl) {
-      subtitlesEl.style.setProperty("--vot-subtitles-opacity", this.opacity);
-    }
-  }
-
-  update() {
-    if (!this.video || !this.subtitles) return;
-
-    const time = this.video.currentTime * 1000;
-    const line = this.subtitles.subtitles?.findLast(
-      (e) => e.startMs < time && time < e.startMs + e.durationMs,
-    );
-
-    if (!line) {
-      Q(null, this.subtitlesContainer);
-      return;
-    }
-
-    let tokens = this.processTokens(line.tokens);
-    const content = this.renderTokens(tokens, time);
-    const stringContent = JSON.stringify(content);
-    if (stringContent !== this.lastContent) {
-      this.lastContent = stringContent;
-      Q(
-        ke`<vot-block
-          class="vot-subtitles"
-          style="font-size: ${this.fontSize}px; --vot-subtitles-opacity: ${this
-            .opacity}"
-          >${content}</vot-block
-        >`,
-        this.subtitlesContainer,
-      );
-    }
-  }
-
   processTokens(tokens) {
     if (tokens.at(-1).alignRange.end <= this.maxLength) return tokens;
 
-    let chunks = [];
+    const chunks = [];
     let chunkTokens = [];
     let length = 0;
 
@@ -7024,8 +7092,8 @@ class SubtitlesWidget {
   }
 
   trimChunk(tokens) {
-    if (tokens[0].text === " ") tokens.shift();
-    if (tokens.at(-1).text === " ") tokens.pop();
+    if (tokens[0]?.text === " ") tokens.shift();
+    if (tokens.at(-1)?.text === " ") tokens.pop();
     return tokens;
   }
 
@@ -7036,9 +7104,10 @@ class SubtitlesWidget {
         (time > token.startMs + token.durationMs / 2 ||
           (time > token.startMs - 100 &&
             token.startMs + token.durationMs / 2 - time < 275));
-      return ke`<span class="${passed ? "passed" : D}"
-        >${token.text.replace("\\n", "<br>")}</span
-      >`;
+
+      return ke`<span class="${passed ? "passed" : D}">
+        ${token.text.replace("\\n", "<br>")}
+      </span>`;
     });
   }
 
@@ -7048,6 +7117,83 @@ class SubtitlesWidget {
       clearTimeout(timeout);
       timeout = setTimeout(() => func.apply(this, args), wait);
     };
+  }
+
+  setContent(subtitles) {
+    if (!subtitles || !this.video) {
+      this.subtitles = null;
+      Q(null, this.subtitlesContainer);
+      return;
+    }
+
+    this.subtitles = subtitles;
+    this.update();
+  }
+
+  setMaxLength(len) {
+    if (typeof len === "number" && len > 0) {
+      this.maxLength = len;
+      this.update();
+    }
+  }
+
+  setHighlightWords(value) {
+    this.highlightWords = Boolean(value);
+    this.update();
+  }
+
+  setFontSize(size) {
+    this.fontSize = size;
+    const subtitlesEl =
+      this.subtitlesContainer?.querySelector(".vot-subtitles");
+    if (subtitlesEl) {
+      subtitlesEl.style.fontSize = `${size}px`;
+    }
+  }
+
+  /**
+   * Set subtitles opacity by percentage where 100 - full transparent, 0 - not transparent
+   *
+   * @param {number} rate - 0-100 percent of opacity
+   */
+  setOpacity(rate) {
+    this.opacity = ((100 - +rate) / 100).toFixed(2);
+    const subtitlesEl =
+      this.subtitlesContainer?.querySelector(".vot-subtitles");
+    if (subtitlesEl) {
+      subtitlesEl.style.setProperty("--vot-subtitles-opacity", this.opacity);
+    }
+  }
+
+  update() {
+    if (!this.video || !this.subtitles) return;
+
+    const time = this.video.currentTime * 1000;
+    const line = this.subtitles.subtitles.findLast(
+      (e) => e.startMs < time && time < e.startMs + e.durationMs,
+    );
+
+    if (!line) {
+      Q(null, this.subtitlesContainer);
+      return;
+    }
+
+    const tokens = this.processTokens(line.tokens);
+    const content = this.renderTokens(tokens, time);
+    const stringContent = JSON.stringify(content);
+
+    if (stringContent !== this.lastContent) {
+      this.lastContent = stringContent;
+      Q(
+        ke`<vot-block
+          class="vot-subtitles"
+          style="font-size: ${this.fontSize}px; --vot-subtitles-opacity: ${this
+            .opacity}"
+          >${content}</vot-block
+        >`,
+        this.subtitlesContainer,
+      );
+    }
   }
 
   release() {
@@ -7564,111 +7710,173 @@ function createVOTSelectLabel(text) {
 }
 
 /**
- * Create VOTSelect
+ * Create VOTSelect - A customizable select component with search functionality
+ * and support for single/multi-select modes.
  *
- * @param {string} selectTitle - select title
- * @param {string} dialogTitle - dialog title
- * @param {{label: string, value: string, selected: boolean}[]} items - items to select
- * @param {{onSelectCb: function, labelElement: string}} options - items to select
+ * @param {string} selectTitle - Default title shown when no items are selected
+ * @param {string} dialogTitle - Title displayed in the selection dialog
+ * @param {{label: string, value: string, selected: boolean, disabled?: boolean}[]} items - Array of selectable items
+ * @param {{
+ *   onSelectCb?: function,      // Callback function triggered on item selection
+ *   labelElement?: string,      // Optional label element to display above select
+ *   multiSelect?: boolean       // Enable multiple item selection
+ * }} options - Configuration options
  * @return {{
- *  container: HTMLElement,
- *  title: HTMLSpanElement,
- *  arrowIcon: HTMLElement,
- *  labelElement: HTMLElement,
- *  setTitle: (newTitle: string) => void,
- *  setSelected: (val: string) => void,
- *  updateItems: (newItems: {label: string, value: string, selected: boolean}[]) => void,
- * }} VOTSelect elements
+ *  container: HTMLElement,      // Main container element
+ *  title: HTMLSpanElement,      // Title element showing selected items
+ *  arrowIcon: HTMLElement,      // Dropdown arrow icon element
+ *  labelElement: HTMLElement,   // Label element if provided
+ *  setTitle: (newTitle: string) => void,          // Function to update select title
+ *  setSelected: (val: string | string[]) => void, // Function to set selected items
+ *  updateItems: (newItems: {label: string, value: string, selected: boolean}[]) => void, // Update available items
+ *  selectedValues: Set<string>  // Set containing currently selected values
+ * }} VOTSelect elements and control functions
  */
 function createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
-  const { onSelectCb = function () {}, labelElement = "" } = options;
+  // Extract and set default options
+  const {
+    onSelectCb = function () {},
+    labelElement = "",
+    multiSelect = false,
+  } = options;
   let selectedItems = [];
+  // Initialize set of selected values from items marked as selected
+  let selectedValues = new Set(
+    items.filter((i) => i.selected).map((i) => i.value),
+  );
 
+  // Create main container and add select class
   const container = document.createElement("vot-block");
   container.classList.add("vot-select");
 
+  // Add label element if provided
   if (labelElement) {
     container.append(labelElement);
   }
 
+  // Create outer container for select control
   const outer = document.createElement("vot-block");
   outer.classList.add("vot-select-outer");
 
+  // Create and style title element
   const title = document.createElement("span");
   title.classList.add("vot-select-title");
-  title.textContent = selectTitle;
 
-  if (selectTitle === undefined) {
-    title.textContent = items.find((i) => i.selected === true)?.label;
-  }
+  // Function to update the displayed title based on selected items
+  const updateTitle = () => {
+    if (multiSelect) {
+      const selectedLabels = items
+        .filter((i) => selectedValues.has(i.value))
+        .map((i) => i.label)
+        .join(", ");
+      title.textContent = selectedLabels || selectTitle;
+    } else {
+      const selectedItem = items.find((i) => i.selected);
+      title.textContent = selectedItem ? selectedItem.label : selectTitle;
+    }
+  };
+  updateTitle();
 
+  // Create and add arrow icon
   const arrowIcon = document.createElement("vot-block");
   arrowIcon.classList.add("vot-select-arrow-icon");
   Q(arrowIconRaw, arrowIcon);
 
+  // Update the selected state of items in the list
+  const updateSelectedState = () => {
+    if (selectedItems.length > 0) {
+      for (const item of selectedItems) {
+        item.dataset.votSelected = selectedValues.has(item.dataset.votValue);
+      }
+    }
+    updateTitle();
+  };
+
+  // Add title and arrow icon to outer container
   outer.append(title, arrowIcon);
+
+  // Configure click handler to show selection dialog
   outer.onclick = () => {
+    // Create and configure dialog
     const votSelectDialog = createDialog(dialogTitle);
     votSelectDialog.container.classList.add("vot-dialog-temp");
     votSelectDialog.container.hidden = false;
     document.documentElement.appendChild(votSelectDialog.container);
 
+    // Create container for select items
     const contentList = document.createElement("vot-block");
     contentList.classList.add("vot-select-content-list");
 
+    // Create and configure items in the selection list
     for (const item of items) {
       const contentItem = document.createElement("vot-block");
       contentItem.classList.add("vot-select-content-item");
       contentItem.textContent = item.label;
       contentItem.dataset.votSelected = item.selected;
       contentItem.dataset.votValue = item.value;
+
+      // Handle disabled state
       if (item.disabled) {
         contentItem.inert = true;
       }
 
+      // Configure item click handler
       contentItem.onclick = async (e) => {
         if (e.target.inert) return;
 
-        // removing the selected value for updating
-        const contentItems = contentList.childNodes;
-        for (let ci of contentItems) {
-          ci.dataset.votSelected = false;
-        }
-        // fixed selection after closing the modal and opening again
-        for (let i of items) {
-          i.selected = i.value === item.value;
-        }
+        if (multiSelect) {
+          // Handle multi-select mode
+          const value = item.value;
+          if (selectedValues.has(value) && selectedValues.size > 1) {
+            selectedValues.delete(value);
+            item.selected = false;
+          } else {
+            selectedValues.add(value);
+            item.selected = true;
+          }
+          contentItem.dataset.votSelected = selectedValues.has(value);
+          updateSelectedState();
+          await onSelectCb(e, Array.from(selectedValues));
+        } else {
+          // Handle single-select mode
+          const value = e.target.dataset.votValue;
+          selectedValues = new Set([value]);
 
-        contentItem.dataset.votSelected = true;
-        title.textContent = item.label;
-
-        // !!! use e.target.dataset.votValue instead of e.target.value !!!
-        await onSelectCb(e);
+          const contentItems = contentList.childNodes;
+          for (const ci of contentItems) {
+            ci.dataset.votSelected = ci.dataset.votValue === value;
+          }
+          for (const i of items) {
+            i.selected = i.value === value;
+          }
+          updateTitle();
+          await onSelectCb(e);
+        }
       };
       contentList.appendChild(contentItem);
     }
 
-    // search logic
+    // Create and configure search field
     const votSearchLangTextfield = createTextfield(
       localizationProvider.get("searchField"),
     );
 
+    // Configure search functionality
     votSearchLangTextfield.input.oninput = (e) => {
       const searchText = e.target.value.toLowerCase();
-      // check if there are lovercase characters in the string. used for smarter search
-      for (let i = 0; i < selectedItems.length; i++) {
-        const ci = selectedItems[i];
+      for (const ci of selectedItems) {
         ci.hidden = !ci.textContent.toLowerCase().includes(searchText);
       }
     };
 
+    // Add search field and content list to dialog
     votSelectDialog.bodyContainer.append(
       votSearchLangTextfield.container,
       contentList,
     );
     selectedItems = contentList.childNodes;
 
-    // remove the modal so that they do not accumulate
+    // Configure dialog close handlers
     votSelectDialog.backdrop.onclick = votSelectDialog.closeButton.onclick =
       () => {
         votSelectDialog.container.remove();
@@ -7676,39 +7884,49 @@ function createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
       };
   };
 
+  // Add outer container to main container
   container.append(outer);
 
-  const setTitle = (newTitle) => {
-    title.textContent = newTitle;
-  };
-
+  // Function to programmatically set selected items
   const setSelected = (val) => {
-    const selectedItemsArray = Array.from(selectedItems).filter(
-      (ci) => !ci.inert,
-    );
-    for (let i = 0; i < selectedItemsArray.length; i++) {
-      const ci = selectedItemsArray[i];
-      ci.dataset.votSelected = ci.dataset.votValue === val;
+    if (multiSelect) {
+      if (Array.isArray(val)) {
+        selectedValues = new Set(val.map(String));
+      } else if (typeof val === "string") {
+        selectedValues = new Set([val]);
+      }
+    } else {
+      selectedValues = new Set([String(val)]);
     }
 
-    for (let i = 0; i < items.length; i++) {
-      const currentItem = items[i];
-      currentItem.selected = String(currentItem.value) === val;
+    for (const item of items) {
+      item.selected = selectedValues.has(String(item.value));
     }
+    updateSelectedState();
   };
 
+  // Function to update available items
   const updateItems = (newItems) => {
     items = newItems;
+    selectedValues = new Set(
+      items.filter((i) => i.selected).map((i) => i.value),
+    );
+    updateSelectedState();
   };
 
+  // Return component interface
   return {
     container,
     title,
     arrowIcon,
     labelElement,
-    setTitle,
+    setTitle: (newTitle) => {
+      selectTitle = newTitle;
+      updateTitle();
+    },
     setSelected,
     updateItems,
+    selectedValues,
   };
 }
 
@@ -9581,8 +9799,10 @@ class VideoHandler {
     );
 
     if (
-      (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) !==
-      videoData.videoId
+      (await getVideoID(this.site, {
+        fetchFn: GM_fetch,
+        video: this.video,
+      })) !== videoData.videoId
     ) {
       return null;
     }
@@ -9651,8 +9871,10 @@ class VideoHandler {
     );
 
     if (
-      (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) !==
-      videoData.videoId
+      (await getVideoID(this.site, {
+        fetchFn: GM_fetch,
+        video: this.video,
+      })) !== videoData.videoId
     ) {
       return null;
     }
@@ -9771,7 +9993,7 @@ class VideoHandler {
 
     const dataPromises = {
       autoTranslate: votStorage.get("autoTranslate", 0),
-      dontTranslateLanguage: votStorage.get("dontTranslateLanguage", lang),
+      dontTranslateLanguage: votStorage.get("dontTranslateLanguage", [lang]),
       dontTranslateYourLang: votStorage.get("dontTranslateYourLang", 1),
       autoSetVolumeYandexStyle: votStorage.get("autoSetVolumeYandexStyle", 1),
       autoVolume: votStorage.get("autoVolume", defaultAutoVolume),
@@ -10164,15 +10386,27 @@ class VideoHandler {
       );
 
       this.votDontTranslateYourLangSelect = ui.createVOTSelect(
-        localizationProvider.get("langs")[this.data.dontTranslateLanguage],
+        this.data.dontTranslateLanguage
+          .map((lang) => localizationProvider.get("langs")[lang])
+          .join(", ") || localizationProvider.get("langs")[lang],
         localizationProvider.get("VOTDontTranslateYourLang"),
-        genOptionsByOBJ(availableLangs, this.data.dontTranslateLanguage),
+        genOptionsByOBJ(availableLangs).map((option) => ({
+          ...option,
+          selected: this.data.dontTranslateLanguage.includes(option.value),
+        })),
         {
-          onSelectCb: async (e) => {
-            this.data.dontTranslateLanguage = e.target.dataset.votValue;
+          multiSelect: true,
+          onSelectCb: async (e, selectedValues) => {
+            this.data.dontTranslateLanguage = selectedValues;
             await votStorage.set(
               "dontTranslateLanguage",
               this.data.dontTranslateLanguage,
+            );
+
+            this.votDontTranslateYourLangSelect.setTitle(
+              selectedValues
+                .map((lang) => localizationProvider.get("langs")[lang])
+                .join(", ") || localizationProvider.get("langs")[lang],
             );
           },
           labelElement: ui.createCheckbox(
@@ -10511,7 +10745,11 @@ class VideoHandler {
 
       // при скролле ленты клипов в вк сохраняется старый айди видео для перевода,
       // но для субтитров используется новый, поэтому перед запуском перевода необходимо получить актуальный айди
-      if (this.site.host === "vk" && this.site.additionalData === "clips") {
+      // для douyin аналогичная логика
+      if (
+        (this.site.host === "vk" && this.site.additionalData === "clips") ||
+        this.site.host === "douyin"
+      ) {
         this.videoData = await this.getVideoData();
       }
       await this.translateExecutor(this.videoData.videoId);
@@ -10528,53 +10766,103 @@ class VideoHandler {
   initUIEvents() {
     // VOT Button
     {
-      this.votButton.translateButton.addEventListener("click", async () => {
-        await this.handleTranslationBtnClick();
-      });
+      this.votButton.translateButton.addEventListener(
+        "pointerdown",
+        async () => {
+          await this.handleTranslationBtnClick();
+        },
+      );
 
-      this.votButton.pipButton.addEventListener("click", () => {
-        (async () => {
-          if (this.video !== document.pictureInPictureElement) {
-            await this.video.requestPictureInPicture();
-          } else {
-            await document.exitPictureInPicture();
-          }
-        })();
+      this.votButton.pipButton.addEventListener("pointerdown", async () => {
+        const isPiPActive = this.video === document.pictureInPictureElement;
+        await (isPiPActive
+          ? document.exitPictureInPicture()
+          : this.video.requestPictureInPicture());
       });
-
-      this.votButton.menuButton.addEventListener("click", () => {
+      this.votButton.menuButton.addEventListener("pointerdown", () => {
         this.votMenu.container.hidden = !this.votMenu.container.hidden;
       });
 
-      this.votButton.container.addEventListener("mousedown", () => {
-        this.dragging = true;
-      });
+      // Position update logic
+      const updateButtonPosition = async (percentX) => {
+        const isBigContainer = this.container.clientWidth > 550;
+        const position = isBigContainer
+          ? percentX <= 44
+            ? "left"
+            : percentX >= 66
+              ? "right"
+              : "default"
+          : "default";
 
-      this.container.addEventListener("mouseup", () => {
-        this.dragging = false;
-      });
+        this.data.buttonPos = position;
+        this.votButton.container.dataset.direction =
+          position === "default" ? "row" : "column";
+        this.votButton.container.dataset.position = position;
+        this.votMenu.container.dataset.position = position;
 
-      this.container.addEventListener("mousemove", async (e) => {
-        if (this.dragging) {
-          e.preventDefault();
-
-          const percentX = (e.clientX / this.container.clientWidth) * 100;
-          // const percentY = (e.clientY / this.video.clientHeight) * 100;
-          const isBigContainer = this.container.clientWidth > 550;
-          const isLeft = percentX <= 44;
-          const isRightSide = percentX >= 66 ? "right" : "default";
-          const side = isLeft ? "left" : isRightSide;
-
-          this.data.buttonPos = isBigContainer ? side : "default";
-          this.votButton.container.dataset.direction =
-            this.data.buttonPos === "default" ? "row" : "column";
-          this.votButton.container.dataset.position = this.data.buttonPos;
-          this.votMenu.container.dataset.position = this.data.buttonPos;
-          if (isBigContainer) {
-            await votStorage.set("buttonPos", this.data.buttonPos);
-          }
+        if (isBigContainer) {
+          await votStorage.set("buttonPos", position);
         }
+      };
+
+      // Drag event handler
+      const handleDragMove = async (
+        clientX,
+        rect = this.container.getBoundingClientRect(),
+      ) => {
+        if (!this.dragging) return;
+
+        const x = rect ? clientX - rect.left : clientX;
+        const percentX =
+          (x / (rect ? rect.width : this.container.clientWidth)) * 100;
+        await updateButtonPosition(percentX);
+      };
+
+      // Mouse/pointer events
+      this.votButton.container.addEventListener("pointerdown", (e) => {
+        this.dragging = true;
+        e.preventDefault();
       });
+
+      this.container.addEventListener(
+        "pointerup",
+        () => (this.dragging = false),
+      );
+      this.container.addEventListener("pointermove", (e) => {
+        e.preventDefault();
+        handleDragMove(e.clientX);
+      });
+
+      // Touch events
+      this.votButton.container.addEventListener(
+        "touchstart",
+        (e) => {
+          this.dragging = true;
+          e.preventDefault();
+        },
+        { passive: false },
+      );
+
+      this.container.addEventListener(
+        "touchend",
+        () => (this.dragging = false),
+      );
+      this.container.addEventListener(
+        "touchmove",
+        (e) => {
+          e.preventDefault();
+          handleDragMove(
+            e.touches[0].clientX,
+            this.container.getBoundingClientRect(),
+          );
+        },
+        { passive: false },
+      );
+
+      // Cancel events
+      for (const event of ["pointercancel", "touchcancel"]) {
+        document.addEventListener(event, () => (this.dragging = false));
+      }
     }
 
     // VOT Menu
@@ -11125,6 +11413,18 @@ class VideoHandler {
     }
   }
 
+  getEventContainer() {
+    if (!this.site.eventSelector) {
+      return this.container;
+    }
+
+    if (this.site.host === "twitter") {
+      return this.container.closest(this.site.eventSelector);
+    }
+
+    return document.querySelector(this.site.eventSelector);
+  }
+
   initExtraEvents() {
     const { signal } = this.abortController;
 
@@ -11259,24 +11559,22 @@ class VideoHandler {
       { signal },
     );
 
-    let eventContainer = this.site.eventSelector
-      ? document.querySelector(this.site.eventSelector)
-      : this.container;
+    let eventContainer = this.getEventContainer();
     if (eventContainer)
       addExtraEventListeners(
         eventContainer,
-        ["mousemove", "mouseout"],
+        ["pointermove", "pointerout"],
         this.resetTimer,
       );
 
     addExtraEventListener(
       this.votButton.container,
-      "mousemove",
+      "pointermove",
       this.changeOpacityOnEvent,
     );
     addExtraEventListener(
       this.votMenu.container,
-      "mousemove",
+      "pointermove",
       this.changeOpacityOnEvent,
     );
     // remove listener on xvideos to fix #866
@@ -11289,10 +11587,10 @@ class VideoHandler {
     }
 
     // fix youtube hold to fast
-    addExtraEventListener(this.votButton.container, "mousedown", (e) => {
+    addExtraEventListener(this.votButton.container, "pointerdown", (e) => {
       e.stopImmediatePropagation();
     });
-    addExtraEventListener(this.votMenu.container, "mousedown", (e) => {
+    addExtraEventListener(this.votMenu.container, "pointerdown", (e) => {
       e.stopImmediatePropagation();
     });
 
@@ -11316,8 +11614,10 @@ class VideoHandler {
     addExtraEventListener(this.video, "emptied", async () => {
       if (
         this.video.src &&
-        (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) ===
-          this.videoData.videoId
+        (await getVideoID(this.site, {
+          fetchFn: GM_fetch,
+          video: this.video,
+        })) === this.videoData.videoId
       )
         return;
       debug.log("lipsync mode is emptied");
@@ -11345,8 +11645,10 @@ class VideoHandler {
 
   async setCanPlay() {
     if (
-      (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) ===
-      this.videoData.videoId
+      (await getVideoID(this.site, {
+        fetchFn: GM_fetch,
+        video: this.video,
+      })) === this.videoData.videoId
     )
       return;
     await this.handleSrcChanged();
@@ -11386,7 +11688,7 @@ class VideoHandler {
     } else {
       const subtitlesObj = this.subtitlesList.at(parseInt(subs));
       if (
-        this.translateProxyEnabled >= 1 &&
+        this.translateProxyEnabled === 2 &&
         subtitlesObj.url.startsWith(
           "https://brosubs.s3-private.mds.yandex.net/vtrans/",
         )
@@ -11399,7 +11701,8 @@ class VideoHandler {
         console.log(`[VOT] Subs proxied via ${subtitlesObj.url}`);
       }
 
-      this.yandexSubtitles = await fetchSubtitles(subtitlesObj);
+      this.yandexSubtitles =
+        await SubtitlesProcessor.fetchSubtitles(subtitlesObj);
       this.subtitlesWidget.setContent(this.yandexSubtitles);
       this.votDownloadSubtitlesButton.hidden = false;
     }
@@ -11458,7 +11761,10 @@ class VideoHandler {
       return;
     }
 
-    this.subtitlesList = await subtitles_getSubtitles(this.votClient, this.videoData);
+    this.subtitlesList = await SubtitlesProcessor.getSubtitles(
+      this.votClient,
+      this.videoData,
+    );
 
     if (!this.subtitlesList) {
       await this.changeSubtitlesLang("disabled");
@@ -11586,8 +11892,9 @@ class VideoHandler {
       detectedLanguage = this.translateFromLang,
       subtitles,
       isStream = false,
-    } = await getVideoData(this.site, this.video, {
+    } = await getVideoData(this.site, {
       fetchFn: GM_fetch,
+      video: this.video,
     });
     const videoData = {
       translationHelp,
@@ -11629,7 +11936,7 @@ class VideoHandler {
     debug.log("VideoValidator videoData: ", this.videoData);
     if (
       this.data.dontTranslateYourLang === 1 &&
-      this.videoData.detectedLanguage === this.data.dontTranslateLanguage
+      this.data.dontTranslateLanguage?.includes(this.videoData.detectedLanguage)
     ) {
       throw new VOTLocalizedError("VOTDisableFromYourLang");
     }
@@ -11735,8 +12042,11 @@ class VideoHandler {
       ui.updateSlider(this.votVideoVolumeSlider.input);
     }
 
-    this.votDownloadButton.hidden = false;
-    this.downloadTranslationUrl = audioUrl;
+    if (!this.videoData.isStream) {
+      this.votDownloadButton.hidden = false;
+      this.downloadTranslationUrl = audioUrl;
+    }
+
     debug.log(
       "afterUpdateTranslation downloadTranslationUrl",
       this.downloadTranslationUrl,
@@ -11795,13 +12105,7 @@ class VideoHandler {
     return audioUrl;
   }
 
-  // update translation audio src
-  async updateTranslation(audioUrl) {
-    // ! Don't use this function for streams
-    if (this.cachedTranslation?.url !== this.audioPlayer.player.currentSrc) {
-      audioUrl = await this.validateAudioUrl(audioUrl);
-    }
-
+  proxifyAudio(audioUrl) {
     if (
       this.translateProxyEnabled === 2 &&
       audioUrl.startsWith("https://vtrans.s3-private.mds.yandex.net/tts/prod/")
@@ -11812,6 +12116,16 @@ class VideoHandler {
       );
       audioUrl = `https://${this.data.proxyWorkerHost}/video-translation/audio-proxy/${audioPath}`;
       console.log(`[VOT] Audio proxied via ${audioUrl}`);
+    }
+
+    return audioUrl;
+  }
+
+  // update translation audio src
+  async updateTranslation(audioUrl) {
+    // ! Don't use this function for streams
+    if (this.cachedTranslation?.url !== this.audioPlayer.player.currentSrc) {
+      audioUrl = await this.validateAudioUrl(this.proxifyAudio(audioUrl));
     }
 
     if (this.audioPlayer.player.src !== audioUrl) {
@@ -11867,6 +12181,14 @@ class VideoHandler {
         "success",
         localizationProvider.get("disableTranslate"),
       );
+
+      try {
+        this.audioPlayer.init();
+      } catch (err) {
+        debug.log("this.audioPlayer.init() error", err);
+        this.videoHandler.transformBtn("error", err.message);
+      }
+
       const streamURL = this.setHLSSource(translateRes.result.url);
       if (this.site.host === "youtube") {
         youtubeUtils.videoSeek(this.video, 10); // 10 is the most successful number for streaming. With it, the audio is not so far behind the original
@@ -11918,7 +12240,10 @@ class VideoHandler {
           item.language === this.videoData.responseLanguage,
       )
     ) {
-      this.subtitlesList = await subtitles_getSubtitles(this.votClient, this.videoData);
+      this.subtitlesList = await SubtitlesProcessor.getSubtitles(
+        this.votClient,
+        this.videoData,
+      );
       await this.updateSubtitlesLangSelect();
     }
 

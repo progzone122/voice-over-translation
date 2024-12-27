@@ -31,7 +31,7 @@ import {
   availableLocales,
   localizationProvider,
 } from "./localization/localizationProvider.js";
-import { SubtitlesWidget, fetchSubtitles, getSubtitles } from "./subtitles.js";
+import { SubtitlesWidget, SubtitlesProcessor } from "./subtitles.js";
 
 import ui from "./ui.js";
 import youtubeUtils from "./utils/youtubeUtils.js";
@@ -194,8 +194,10 @@ class VideoHandler {
     );
 
     if (
-      (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) !==
-      videoData.videoId
+      (await getVideoID(this.site, {
+        fetchFn: GM_fetch,
+        video: this.video,
+      })) !== videoData.videoId
     ) {
       return null;
     }
@@ -264,8 +266,10 @@ class VideoHandler {
     );
 
     if (
-      (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) !==
-      videoData.videoId
+      (await getVideoID(this.site, {
+        fetchFn: GM_fetch,
+        video: this.video,
+      })) !== videoData.videoId
     ) {
       return null;
     }
@@ -384,7 +388,7 @@ class VideoHandler {
 
     const dataPromises = {
       autoTranslate: votStorage.get("autoTranslate", 0),
-      dontTranslateLanguage: votStorage.get("dontTranslateLanguage", lang),
+      dontTranslateLanguage: votStorage.get("dontTranslateLanguage", [lang]),
       dontTranslateYourLang: votStorage.get("dontTranslateYourLang", 1),
       autoSetVolumeYandexStyle: votStorage.get("autoSetVolumeYandexStyle", 1),
       autoVolume: votStorage.get("autoVolume", defaultAutoVolume),
@@ -777,15 +781,27 @@ class VideoHandler {
       );
 
       this.votDontTranslateYourLangSelect = ui.createVOTSelect(
-        localizationProvider.get("langs")[this.data.dontTranslateLanguage],
+        this.data.dontTranslateLanguage
+          .map((lang) => localizationProvider.get("langs")[lang])
+          .join(", ") || localizationProvider.get("langs")[lang],
         localizationProvider.get("VOTDontTranslateYourLang"),
-        genOptionsByOBJ(availableLangs, this.data.dontTranslateLanguage),
+        genOptionsByOBJ(availableLangs).map((option) => ({
+          ...option,
+          selected: this.data.dontTranslateLanguage.includes(option.value),
+        })),
         {
-          onSelectCb: async (e) => {
-            this.data.dontTranslateLanguage = e.target.dataset.votValue;
+          multiSelect: true,
+          onSelectCb: async (e, selectedValues) => {
+            this.data.dontTranslateLanguage = selectedValues;
             await votStorage.set(
               "dontTranslateLanguage",
               this.data.dontTranslateLanguage,
+            );
+
+            this.votDontTranslateYourLangSelect.setTitle(
+              selectedValues
+                .map((lang) => localizationProvider.get("langs")[lang])
+                .join(", ") || localizationProvider.get("langs")[lang],
             );
           },
           labelElement: ui.createCheckbox(
@@ -1124,7 +1140,11 @@ class VideoHandler {
 
       // при скролле ленты клипов в вк сохраняется старый айди видео для перевода,
       // но для субтитров используется новый, поэтому перед запуском перевода необходимо получить актуальный айди
-      if (this.site.host === "vk" && this.site.additionalData === "clips") {
+      // для douyin аналогичная логика
+      if (
+        (this.site.host === "vk" && this.site.additionalData === "clips") ||
+        this.site.host === "douyin"
+      ) {
         this.videoData = await this.getVideoData();
       }
       await this.translateExecutor(this.videoData.videoId);
@@ -1141,53 +1161,103 @@ class VideoHandler {
   initUIEvents() {
     // VOT Button
     {
-      this.votButton.translateButton.addEventListener("click", async () => {
-        await this.handleTranslationBtnClick();
-      });
+      this.votButton.translateButton.addEventListener(
+        "pointerdown",
+        async () => {
+          await this.handleTranslationBtnClick();
+        },
+      );
 
-      this.votButton.pipButton.addEventListener("click", () => {
-        (async () => {
-          if (this.video !== document.pictureInPictureElement) {
-            await this.video.requestPictureInPicture();
-          } else {
-            await document.exitPictureInPicture();
-          }
-        })();
+      this.votButton.pipButton.addEventListener("pointerdown", async () => {
+        const isPiPActive = this.video === document.pictureInPictureElement;
+        await (isPiPActive
+          ? document.exitPictureInPicture()
+          : this.video.requestPictureInPicture());
       });
-
-      this.votButton.menuButton.addEventListener("click", () => {
+      this.votButton.menuButton.addEventListener("pointerdown", () => {
         this.votMenu.container.hidden = !this.votMenu.container.hidden;
       });
 
-      this.votButton.container.addEventListener("mousedown", () => {
-        this.dragging = true;
-      });
+      // Position update logic
+      const updateButtonPosition = async (percentX) => {
+        const isBigContainer = this.container.clientWidth > 550;
+        const position = isBigContainer
+          ? percentX <= 44
+            ? "left"
+            : percentX >= 66
+              ? "right"
+              : "default"
+          : "default";
 
-      this.container.addEventListener("mouseup", () => {
-        this.dragging = false;
-      });
+        this.data.buttonPos = position;
+        this.votButton.container.dataset.direction =
+          position === "default" ? "row" : "column";
+        this.votButton.container.dataset.position = position;
+        this.votMenu.container.dataset.position = position;
 
-      this.container.addEventListener("mousemove", async (e) => {
-        if (this.dragging) {
-          e.preventDefault();
-
-          const percentX = (e.clientX / this.container.clientWidth) * 100;
-          // const percentY = (e.clientY / this.video.clientHeight) * 100;
-          const isBigContainer = this.container.clientWidth > 550;
-          const isLeft = percentX <= 44;
-          const isRightSide = percentX >= 66 ? "right" : "default";
-          const side = isLeft ? "left" : isRightSide;
-
-          this.data.buttonPos = isBigContainer ? side : "default";
-          this.votButton.container.dataset.direction =
-            this.data.buttonPos === "default" ? "row" : "column";
-          this.votButton.container.dataset.position = this.data.buttonPos;
-          this.votMenu.container.dataset.position = this.data.buttonPos;
-          if (isBigContainer) {
-            await votStorage.set("buttonPos", this.data.buttonPos);
-          }
+        if (isBigContainer) {
+          await votStorage.set("buttonPos", position);
         }
+      };
+
+      // Drag event handler
+      const handleDragMove = async (
+        clientX,
+        rect = this.container.getBoundingClientRect(),
+      ) => {
+        if (!this.dragging) return;
+
+        const x = rect ? clientX - rect.left : clientX;
+        const percentX =
+          (x / (rect ? rect.width : this.container.clientWidth)) * 100;
+        await updateButtonPosition(percentX);
+      };
+
+      // Mouse/pointer events
+      this.votButton.container.addEventListener("pointerdown", (e) => {
+        this.dragging = true;
+        e.preventDefault();
       });
+
+      this.container.addEventListener(
+        "pointerup",
+        () => (this.dragging = false),
+      );
+      this.container.addEventListener("pointermove", (e) => {
+        e.preventDefault();
+        handleDragMove(e.clientX);
+      });
+
+      // Touch events
+      this.votButton.container.addEventListener(
+        "touchstart",
+        (e) => {
+          this.dragging = true;
+          e.preventDefault();
+        },
+        { passive: false },
+      );
+
+      this.container.addEventListener(
+        "touchend",
+        () => (this.dragging = false),
+      );
+      this.container.addEventListener(
+        "touchmove",
+        (e) => {
+          e.preventDefault();
+          handleDragMove(
+            e.touches[0].clientX,
+            this.container.getBoundingClientRect(),
+          );
+        },
+        { passive: false },
+      );
+
+      // Cancel events
+      for (const event of ["pointercancel", "touchcancel"]) {
+        document.addEventListener(event, () => (this.dragging = false));
+      }
     }
 
     // VOT Menu
@@ -1738,6 +1808,18 @@ class VideoHandler {
     }
   }
 
+  getEventContainer() {
+    if (!this.site.eventSelector) {
+      return this.container;
+    }
+
+    if (this.site.host === "twitter") {
+      return this.container.closest(this.site.eventSelector);
+    }
+
+    return document.querySelector(this.site.eventSelector);
+  }
+
   initExtraEvents() {
     const { signal } = this.abortController;
 
@@ -1872,24 +1954,22 @@ class VideoHandler {
       { signal },
     );
 
-    let eventContainer = this.site.eventSelector
-      ? document.querySelector(this.site.eventSelector)
-      : this.container;
+    let eventContainer = this.getEventContainer();
     if (eventContainer)
       addExtraEventListeners(
         eventContainer,
-        ["mousemove", "mouseout"],
+        ["pointermove", "pointerout"],
         this.resetTimer,
       );
 
     addExtraEventListener(
       this.votButton.container,
-      "mousemove",
+      "pointermove",
       this.changeOpacityOnEvent,
     );
     addExtraEventListener(
       this.votMenu.container,
-      "mousemove",
+      "pointermove",
       this.changeOpacityOnEvent,
     );
     // remove listener on xvideos to fix #866
@@ -1902,10 +1982,10 @@ class VideoHandler {
     }
 
     // fix youtube hold to fast
-    addExtraEventListener(this.votButton.container, "mousedown", (e) => {
+    addExtraEventListener(this.votButton.container, "pointerdown", (e) => {
       e.stopImmediatePropagation();
     });
-    addExtraEventListener(this.votMenu.container, "mousedown", (e) => {
+    addExtraEventListener(this.votMenu.container, "pointerdown", (e) => {
       e.stopImmediatePropagation();
     });
 
@@ -1929,8 +2009,10 @@ class VideoHandler {
     addExtraEventListener(this.video, "emptied", async () => {
       if (
         this.video.src &&
-        (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) ===
-          this.videoData.videoId
+        (await getVideoID(this.site, {
+          fetchFn: GM_fetch,
+          video: this.video,
+        })) === this.videoData.videoId
       )
         return;
       debug.log("lipsync mode is emptied");
@@ -1958,8 +2040,10 @@ class VideoHandler {
 
   async setCanPlay() {
     if (
-      (await getVideoID(this.site, this.video, { fetchFn: GM_fetch })) ===
-      this.videoData.videoId
+      (await getVideoID(this.site, {
+        fetchFn: GM_fetch,
+        video: this.video,
+      })) === this.videoData.videoId
     )
       return;
     await this.handleSrcChanged();
@@ -1999,7 +2083,7 @@ class VideoHandler {
     } else {
       const subtitlesObj = this.subtitlesList.at(parseInt(subs));
       if (
-        this.translateProxyEnabled >= 1 &&
+        this.translateProxyEnabled === 2 &&
         subtitlesObj.url.startsWith(
           "https://brosubs.s3-private.mds.yandex.net/vtrans/",
         )
@@ -2012,7 +2096,8 @@ class VideoHandler {
         console.log(`[VOT] Subs proxied via ${subtitlesObj.url}`);
       }
 
-      this.yandexSubtitles = await fetchSubtitles(subtitlesObj);
+      this.yandexSubtitles =
+        await SubtitlesProcessor.fetchSubtitles(subtitlesObj);
       this.subtitlesWidget.setContent(this.yandexSubtitles);
       this.votDownloadSubtitlesButton.hidden = false;
     }
@@ -2071,7 +2156,10 @@ class VideoHandler {
       return;
     }
 
-    this.subtitlesList = await getSubtitles(this.votClient, this.videoData);
+    this.subtitlesList = await SubtitlesProcessor.getSubtitles(
+      this.votClient,
+      this.videoData,
+    );
 
     if (!this.subtitlesList) {
       await this.changeSubtitlesLang("disabled");
@@ -2199,8 +2287,9 @@ class VideoHandler {
       detectedLanguage = this.translateFromLang,
       subtitles,
       isStream = false,
-    } = await getVideoData(this.site, this.video, {
+    } = await getVideoData(this.site, {
       fetchFn: GM_fetch,
+      video: this.video,
     });
     const videoData = {
       translationHelp,
@@ -2242,7 +2331,7 @@ class VideoHandler {
     debug.log("VideoValidator videoData: ", this.videoData);
     if (
       this.data.dontTranslateYourLang === 1 &&
-      this.videoData.detectedLanguage === this.data.dontTranslateLanguage
+      this.data.dontTranslateLanguage?.includes(this.videoData.detectedLanguage)
     ) {
       throw new VOTLocalizedError("VOTDisableFromYourLang");
     }
@@ -2348,8 +2437,11 @@ class VideoHandler {
       ui.updateSlider(this.votVideoVolumeSlider.input);
     }
 
-    this.votDownloadButton.hidden = false;
-    this.downloadTranslationUrl = audioUrl;
+    if (!this.videoData.isStream) {
+      this.votDownloadButton.hidden = false;
+      this.downloadTranslationUrl = audioUrl;
+    }
+
     debug.log(
       "afterUpdateTranslation downloadTranslationUrl",
       this.downloadTranslationUrl,
@@ -2408,13 +2500,7 @@ class VideoHandler {
     return audioUrl;
   }
 
-  // update translation audio src
-  async updateTranslation(audioUrl) {
-    // ! Don't use this function for streams
-    if (this.cachedTranslation?.url !== this.audioPlayer.player.currentSrc) {
-      audioUrl = await this.validateAudioUrl(audioUrl);
-    }
-
+  proxifyAudio(audioUrl) {
     if (
       this.translateProxyEnabled === 2 &&
       audioUrl.startsWith("https://vtrans.s3-private.mds.yandex.net/tts/prod/")
@@ -2425,6 +2511,16 @@ class VideoHandler {
       );
       audioUrl = `https://${this.data.proxyWorkerHost}/video-translation/audio-proxy/${audioPath}`;
       console.log(`[VOT] Audio proxied via ${audioUrl}`);
+    }
+
+    return audioUrl;
+  }
+
+  // update translation audio src
+  async updateTranslation(audioUrl) {
+    // ! Don't use this function for streams
+    if (this.cachedTranslation?.url !== this.audioPlayer.player.currentSrc) {
+      audioUrl = await this.validateAudioUrl(this.proxifyAudio(audioUrl));
     }
 
     if (this.audioPlayer.player.src !== audioUrl) {
@@ -2480,6 +2576,14 @@ class VideoHandler {
         "success",
         localizationProvider.get("disableTranslate"),
       );
+
+      try {
+        this.audioPlayer.init();
+      } catch (err) {
+        debug.log("this.audioPlayer.init() error", err);
+        this.videoHandler.transformBtn("error", err.message);
+      }
+
       const streamURL = this.setHLSSource(translateRes.result.url);
       if (this.site.host === "youtube") {
         youtubeUtils.videoSeek(this.video, 10); // 10 is the most successful number for streaming. With it, the audio is not so far behind the original
@@ -2531,7 +2635,10 @@ class VideoHandler {
           item.language === this.videoData.responseLanguage,
       )
     ) {
-      this.subtitlesList = await getSubtitles(this.votClient, this.videoData);
+      this.subtitlesList = await SubtitlesProcessor.getSubtitles(
+        this.votClient,
+        this.videoData,
+      );
       await this.updateSubtitlesLangSelect();
     }
 

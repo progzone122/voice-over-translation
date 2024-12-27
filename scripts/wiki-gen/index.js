@@ -62,16 +62,18 @@ function fixRegexStr(str) {
   brackets = brackets.map((bracket) => bracket[0]);
   const optionalBrackets = brackets.filter((bracket) => bracket.includes("?"));
   if (optionalBrackets.length) {
-    getDomainFromRegex(domain, optionalBrackets).map((dom) => domains.add(dom));
+    for (const dom of getDomainFromRegex(domain, optionalBrackets)) {
+      domains.add(dom);
+    }
   }
 
   for (const bracket of brackets) {
     const parts = bracket.replace(/[?()]+/g, "").split("|");
     for (const part of parts) {
       let partedDomain = domain.replace(bracket, part);
-      getDomainFromRegex(partedDomain, optionalBrackets).map((dom) =>
-        domains.add(dom),
-      );
+      for (const dom of getDomainFromRegex(partedDomain, optionalBrackets)) {
+        domains.add(dom);
+      }
     }
   }
 
@@ -107,7 +109,7 @@ function genMarkdown(supportedSites, lang = "ru") {
 
   return removeDuplicatesKeepLast(sitesData, "host").map((site) => {
     const hasData = Object.hasOwn(siteData, site.host);
-    const limitsData = hasData ? siteData[site.host].limits ?? [] : [];
+    const limitsData = hasData ? (siteData[site.host].limits ?? []) : [];
     if (site.needBypassCSP && !limitsData.includes(locales.needBypassCSP)) {
       limitsData.push(locales.needBypassCSP);
     }
