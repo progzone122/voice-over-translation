@@ -5,7 +5,7 @@ export async function convertData(
   option: string,
   oldValue: unknown,
   newValue: string | number | boolean,
-  optionValue: string | undefined = undefined,
+  optionValue: string | number | boolean | undefined = undefined,
 ) {
   const optionVal = optionValue ?? data[option];
   if (optionVal !== oldValue) {
