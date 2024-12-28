@@ -465,6 +465,13 @@ class VideoHandler {
       "yandex",
       defaultTranslationService,
     );
+    await convertData(
+      this.data,
+      "dontTranslateLanguage",
+      false,
+      [this.data.dontTranslateLanguage],
+      Array.isArray(this.data.dontTranslateLanguage),
+    );
 
     if (
       !this.translateProxyEnabled &&
@@ -1985,9 +1992,14 @@ class VideoHandler {
     addExtraEventListener(this.votButton.container, "pointerdown", (e) => {
       e.stopImmediatePropagation();
     });
-    addExtraEventListener(this.votMenu.container, "pointerdown", (e) => {
-      e.stopImmediatePropagation();
-    });
+    // don't change mousedown, otherwise it may break on youtube
+    addExtraEventListeners(
+      this.votMenu.container,
+      ["pointerdown", "mousedown"],
+      (e) => {
+        e.stopImmediatePropagation();
+      },
+    );
 
     // fix draggable menu in youtube (#394, #417)
     if (this.site.host === "youtube") {
