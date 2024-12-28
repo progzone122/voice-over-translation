@@ -144,8 +144,9 @@
 Доступные пути:
 
 - /video-xxxxxxxxx_xxxxxxxxx
-- ?z=VIDEO_ID
+- ?z=video-xxxxxxxxx_xxxxxxxxx
 - /video_ext.php?oid=VIDEO_ID_PART_ONE&id=VIDEO_ID_PART_TWO
+- .../playlist/PLAYLIST_ID/video-xxxxxxxxx_xxxxxxxxx
 
 ## 9GAG
 
@@ -222,6 +223,18 @@
 Ограничения:
 
 - Не работает перевод в ленте (Работает только в открытых видео)
+
+## Douyin
+
+Статус: [✅] Работает
+
+Доступные (под)домены:
+
+- `(www.)?douyin.com`
+
+Ограничения:
+
+- Для гарантированной работы скрипта необходимо [включить настройку "Обход Media CSP"](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) в расширение или удалить CSP другим способом
 
 ## Vimeo
 
@@ -803,6 +816,33 @@
 Доступные (под)домены:
 
 - `dzen.ru`
+
+## Cloudflarestream
+
+Статус: [✅] Работает
+
+Доступные (под)домены:
+
+- `watch.cloudflarestream.com`
+- `embed.cloudflarestream.com`
+- `iframe.cloudflarestream.com`
+- `customer-[^.]+.cloudflarestream.com`
+
+## Loom
+
+Статус: [✅] Работает
+
+Доступные (под)домены:
+
+- `(www.)?loom.com`
+
+## Artstation
+
+Статус: [✅] Работает
+
+Доступные (под)домены:
+
+- `(www.)?artstation.com`
 
 ## Direct link to MP4/WEBM
 
