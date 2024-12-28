@@ -5,12 +5,16 @@ export async function convertData(
   option: string,
   oldValue: unknown,
   newValue: string | number | boolean,
+  optionValue: string | undefined = undefined,
 ) {
-  if (data[option] === oldValue) {
-    data[option] = newValue;
-    await votStorage.set(option, newValue);
-    console.log(`[VOT] Old ${option} converted to new ${newValue}`);
+  const optionVal = optionValue ?? data[option];
+  if (optionVal !== oldValue) {
+    return;
   }
+
+  data[option] = newValue;
+  await votStorage.set(option, newValue);
+  console.log(`[VOT] Old ${option} converted to new ${newValue}`);
 }
 
 export const votStorage = new (class {
