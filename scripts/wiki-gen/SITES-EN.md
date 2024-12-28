@@ -144,8 +144,9 @@ Available (sub)domains:
 Available paths:
 
 - /video-xxxxxxxxx_xxxxxxxxx
-- ?z=VIDEO_ID
+- ?z=video-xxxxxxxxx_xxxxxxxxx
 - /video_ext.php?oid=VIDEO_ID_PART_ONE&id=VIDEO_ID_PART_TWO
+- .../playlist/PLAYLIST_ID/video-xxxxxxxxx_xxxxxxxxx
 
 ## 9GAG
 
@@ -222,6 +223,18 @@ Available paths:
 Limitations:
 
 - The translation in the feed doesn't work (It only works in open videos)
+
+## Douyin
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `(www.)?douyin.com`
+
+Limitations:
+
+- To ensure that the script works, you need to [enable the "Bypass Media CSP" setting](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) in the extension or delete the CSP in another way
 
 ## Vimeo
 
@@ -803,6 +816,33 @@ Status: [✅] Working
 Available (sub)domains:
 
 - `dzen.ru`
+
+## Cloudflarestream
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `watch.cloudflarestream.com`
+- `embed.cloudflarestream.com`
+- `iframe.cloudflarestream.com`
+- `customer-[^.]+.cloudflarestream.com`
+
+## Loom
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `(www.)?loom.com`
+
+## Artstation
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `(www.)?artstation.com`
 
 ## Direct link to MP4/WEBM
 

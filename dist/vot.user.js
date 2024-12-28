@@ -177,7 +177,7 @@
 // @connect        speed.cloudflare.com
 // @connect        porntn.com
 // @namespace      vot
-// @version        1.8.2
+// @version        1.8.3
 // @icon           https://translate.yandex.ru/icons/favicon.ico
 // @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation
@@ -2309,12 +2309,14 @@ const proxyOnlyExtensions = [
 
 ;// ./src/utils/storage.ts
 
-async function convertData(data, option, oldValue, newValue) {
-    if (data[option] === oldValue) {
-        data[option] = newValue;
-        await votStorage.set(option, newValue);
-        console.log(`[VOT] Old ${option} converted to new ${newValue}`);
+async function convertData(data, option, oldValue, newValue, optionValue = undefined) {
+    const optionVal = optionValue ?? data[option];
+    if (optionVal !== oldValue) {
+        return;
     }
+    data[option] = newValue;
+    await votStorage.set(option, newValue);
+    console.log(`[VOT] Old ${option} converted to new ${newValue}`);
 }
 const votStorage = new (class {
     gmSupport;
@@ -10070,6 +10072,13 @@ class VideoHandler {
       "yandex",
       defaultTranslationService,
     );
+    await convertData(
+      this.data,
+      "dontTranslateLanguage",
+      false,
+      [this.data.dontTranslateLanguage],
+      Array.isArray(this.data.dontTranslateLanguage),
+    );
 
     if (
       !this.translateProxyEnabled &&
@@ -11590,9 +11599,14 @@ class VideoHandler {
     addExtraEventListener(this.votButton.container, "pointerdown", (e) => {
       e.stopImmediatePropagation();
     });
-    addExtraEventListener(this.votMenu.container, "pointerdown", (e) => {
-      e.stopImmediatePropagation();
-    });
+    // don't change mousedown, otherwise it may break on youtube
+    addExtraEventListeners(
+      this.votMenu.container,
+      ["pointerdown", "mousedown"],
+      (e) => {
+        e.stopImmediatePropagation();
+      },
+    );
 
     // fix draggable menu in youtube (#394, #417)
     if (this.site.host === "youtube") {
