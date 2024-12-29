@@ -218,11 +218,10 @@ class VideoHandler {
         return res;
       }
 
+      const message =
+        res.message ?? localizationProvider.get("translationTakeFewMinutes");
       await this.updateTranslationErrorMsg(
-        res.remainingTime > 0
-          ? secsToStrTime(res.remainingTime)
-          : res.message ??
-              localizationProvider.get("translationTakeFewMinutes"),
+        res.remainingTime > 0 ? secsToStrTime(res.remainingTime) : message,
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
