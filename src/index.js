@@ -1209,11 +1209,13 @@ class VideoHandler {
 
       // Drag event handler
       const handleDragMove = async (
+        event,
         clientX,
         rect = this.container.getBoundingClientRect(),
       ) => {
         if (!this.dragging) return;
 
+        event.preventDefault();
         const x = rect ? clientX - rect.left : clientX;
         const percentX =
           (x / (rect ? rect.width : this.container.clientWidth)) * 100;
@@ -1230,10 +1232,9 @@ class VideoHandler {
         "pointerup",
         () => (this.dragging = false),
       );
-      this.container.addEventListener("pointermove", (e) => {
-        e.preventDefault();
-        handleDragMove(e.clientX);
-      });
+      this.container.addEventListener("pointermove", (e) =>
+        handleDragMove(e, e.clientX),
+      );
 
       // Touch events
       this.votButton.container.addEventListener(
@@ -1252,8 +1253,8 @@ class VideoHandler {
       this.container.addEventListener(
         "touchmove",
         (e) => {
-          e.preventDefault();
           handleDragMove(
+            e,
             e.touches[0].clientX,
             this.container.getBoundingClientRect(),
           );
