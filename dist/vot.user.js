@@ -9825,11 +9825,10 @@ class VideoHandler {
         return res;
       }
 
+      const message =
+        res.message ?? localizationProvider.get("translationTakeFewMinutes");
       await this.updateTranslationErrorMsg(
-        res.remainingTime > 0
-          ? secsToStrTime(res.remainingTime)
-          : res.message ??
-              localizationProvider.get("translationTakeFewMinutes"),
+        res.remainingTime > 0 ? secsToStrTime(res.remainingTime) : message,
       );
     } catch (err) {
       console.error("[VOT] Failed to translate video", err);
@@ -10799,8 +10798,8 @@ class VideoHandler {
           ? percentX <= 44
             ? "left"
             : percentX >= 66
-              ? "right"
-              : "default"
+            ? "right"
+            : "default"
           : "default";
 
         this.data.buttonPos = position;
@@ -10816,11 +10815,13 @@ class VideoHandler {
 
       // Drag event handler
       const handleDragMove = async (
+        event,
         clientX,
         rect = this.container.getBoundingClientRect(),
       ) => {
         if (!this.dragging) return;
 
+        event.preventDefault();
         const x = rect ? clientX - rect.left : clientX;
         const percentX =
           (x / (rect ? rect.width : this.container.clientWidth)) * 100;
@@ -10837,10 +10838,9 @@ class VideoHandler {
         "pointerup",
         () => (this.dragging = false),
       );
-      this.container.addEventListener("pointermove", (e) => {
-        e.preventDefault();
-        handleDragMove(e.clientX);
-      });
+      this.container.addEventListener("pointermove", (e) =>
+        handleDragMove(e, e.clientX),
+      );
 
       // Touch events
       this.votButton.container.addEventListener(
@@ -10859,8 +10859,8 @@ class VideoHandler {
       this.container.addEventListener(
         "touchmove",
         (e) => {
-          e.preventDefault();
           handleDragMove(
+            e,
             e.touches[0].clientX,
             this.container.getBoundingClientRect(),
           );
@@ -10948,8 +10948,9 @@ class VideoHandler {
 
       this.votVideoVolumeSlider.input.addEventListener("input", (e) => {
         const value = Number(e.target.value);
-        this.votVideoVolumeSlider.label.querySelector("strong").textContent =
-          `${value}%`;
+        this.votVideoVolumeSlider.label.querySelector(
+          "strong",
+        ).textContent = `${value}%`;
         this.setVideoVolume(value / 100);
         if (this.data.syncVolume) {
           this.syncVolumeWrapper("video", value);
@@ -11588,11 +11589,7 @@ class VideoHandler {
     );
     // remove listener on xvideos to fix #866
     if (this.site.host !== "xvideos") {
-      addExtraEventListeners(
-        document,
-        ["touchstart", "touchmove", "touchend"],
-        this.changeOpacityOnEvent,
-      );
+      addExtraEventListener(document, "touchmove", this.resetTimer);
     }
 
     // fix youtube hold to fast
@@ -11715,8 +11712,9 @@ class VideoHandler {
         console.log(`[VOT] Subs proxied via ${subtitlesObj.url}`);
       }
 
-      this.yandexSubtitles =
-        await SubtitlesProcessor.fetchSubtitles(subtitlesObj);
+      this.yandexSubtitles = await SubtitlesProcessor.fetchSubtitles(
+        subtitlesObj,
+      );
       this.subtitlesWidget.setContent(this.yandexSubtitles);
       this.votDownloadSubtitlesButton.hidden = false;
     }
@@ -11834,8 +11832,9 @@ class VideoHandler {
     const newSlidersVolume = Math.round(videoVolume);
 
     this.votVideoVolumeSlider.input.value = newSlidersVolume;
-    this.votVideoVolumeSlider.label.querySelector("strong").textContent =
-      `${newSlidersVolume}%`;
+    this.votVideoVolumeSlider.label.querySelector(
+      "strong",
+    ).textContent = `${newSlidersVolume}%`;
     ui.updateSlider(this.votVideoVolumeSlider.input);
 
     if (this.data.syncVolume === 1) {
