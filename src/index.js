@@ -1982,11 +1982,7 @@ class VideoHandler {
     );
     // remove listener on xvideos to fix #866
     if (this.site.host !== "xvideos") {
-      addExtraEventListeners(
-        document,
-        ["touchstart", "touchmove", "touchend"],
-        this.changeOpacityOnEvent,
-      );
+      addExtraEventListener(document, "touchmove", this.resetTimer);
     }
 
     // fix youtube hold to fast
