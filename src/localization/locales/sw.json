@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "Huduma ya tafsiri ya makosa",
   "TranslationDelayed": "Tafsiri imechelewa kidogo",
   "VOTTranslationCompletedNotify": "Tafsiri ya {0} imekamilika!",
-  "VOTSendNotifyOnComplete": "Tuma arifa kwamba video imetafsiriwa"
+  "VOTSendNotifyOnComplete": "Tuma arifa kwamba video imetafsiriwa",
+  "VOTBugReport": "Ripoti mdudu"
 }

@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "Usługa tłumaczenia błędów",
   "TranslationDelayed": "Tłumaczenie jest nieco opóźnione",
   "VOTTranslationCompletedNotify": "Tłumaczenie na {0} zostało zakończone!",
-  "VOTSendNotifyOnComplete": "Wyślij powiadomienie, że film został przetłumaczony"
+  "VOTSendNotifyOnComplete": "Wyślij powiadomienie, że film został przetłumaczony",
+  "VOTBugReport": "Zgłoś błąd"
 }

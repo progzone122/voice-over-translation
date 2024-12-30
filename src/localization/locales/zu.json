@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "Isevisi yokuhumusha amaphutha",
   "TranslationDelayed": "Ukuhumusha kubambezeleke kancane",
   "VOTTranslationCompletedNotify": "Ukuhunyushwa kwe - {0} sekuqediwe!",
-  "VOTSendNotifyOnComplete": "Thumela isaziso sokuthi ividiyo ihunyushwe"
+  "VOTSendNotifyOnComplete": "Thumela isaziso sokuthi ividiyo ihunyushwe",
+  "VOTBugReport": "Bika iphutha"
 }

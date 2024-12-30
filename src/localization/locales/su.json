@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "Jasa tarjamahan kasalahan",
   "TranslationDelayed": "Tarjamahan rada ditunda",
   "VOTTranslationCompletedNotify": "Tarjamahan dina {0} geus réngsé!",
-  "VOTSendNotifyOnComplete": "Kirimkeun bewara yén video geus ditarjamahkeun"
+  "VOTSendNotifyOnComplete": "Kirimkeun bewara yén video geus ditarjamahkeun",
+  "VOTBugReport": "Laporan hiji bug"
 }

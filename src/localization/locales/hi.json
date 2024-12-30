@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "त्रुटि अनुवाद सेवा",
   "TranslationDelayed": "अनुवाद में थोड़ी देरी हो रही है",
   "VOTTranslationCompletedNotify": "पर अनुवाद {0} पूरा हो गया है!",
-  "VOTSendNotifyOnComplete": "एक अधिसूचना भेजें कि वीडियो का अनुवाद किया गया है"
+  "VOTSendNotifyOnComplete": "एक अधिसूचना भेजें कि वीडियो का अनुवाद किया गया है",
+  "VOTBugReport": "बग की रिपोर्ट करें"
 }

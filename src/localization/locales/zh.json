@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "错误翻译服务",
   "TranslationDelayed": "翻译稍有延迟",
   "VOTTranslationCompletedNotify": "{0}上的翻译已经完成！",
-  "VOTSendNotifyOnComplete": "发送视频已翻译的通知"
+  "VOTSendNotifyOnComplete": "发送视频已翻译的通知",
+  "VOTBugReport": "报告错误"
 }

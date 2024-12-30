@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "အမှားဘာသာပြန်ဝန်ဆောင်မှု",
   "TranslationDelayed": "ဘာသာပြန်မှုအနည်းငယ်နှောင့်နှေးပါတယ်။",
   "VOTTranslationCompletedNotify": "{0}မှာဘာသာပြန်ပြီးပါပြီ။",
-  "VOTSendNotifyOnComplete": "ဗီဒီယိုကိုဘာသာပြန်ထားကြောင်းအသိပေးချက်ပို့ပါ။"
+  "VOTSendNotifyOnComplete": "ဗီဒီယိုကိုဘာသာပြန်ထားကြောင်းအသိပေးချက်ပို့ပါ။",
+  "VOTBugReport": "အမှားတစ်ခုကိုအစီရင်ခံပါ"
 }

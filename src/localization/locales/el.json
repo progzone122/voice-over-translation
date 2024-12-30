@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "Υπηρεσία μετάφρασης σφαλμάτων",
   "TranslationDelayed": "Η μετάφραση καθυστερεί ελαφρώς",
   "VOTTranslationCompletedNotify": "Η μετάφραση στο {0} έχει ολοκληρωθεί!",
-  "VOTSendNotifyOnComplete": "Στείλτε μια ειδοποίηση ότι το βίντεο έχει μεταφραστεί"
+  "VOTSendNotifyOnComplete": "Στείλτε μια ειδοποίηση ότι το βίντεο έχει μεταφραστεί",
+  "VOTBugReport": "Αναφορά σφάλματος"
 }

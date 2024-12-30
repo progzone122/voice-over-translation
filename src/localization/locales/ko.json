@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "오류 번역 서비스",
   "TranslationDelayed": "번역이 약간 지연되었습니다.",
   "VOTTranslationCompletedNotify": "{0}에 대한 번역이 완료되었습니다!",
-  "VOTSendNotifyOnComplete": "동영상이 번역되었다는 알림 보내기"
+  "VOTSendNotifyOnComplete": "동영상이 번역되었다는 알림 보내기",
+  "VOTBugReport": "버그 신고"
 }

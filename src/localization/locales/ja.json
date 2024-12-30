@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "エラー翻訳サービス",
   "TranslationDelayed": "翻訳が少し遅れています",
   "VOTTranslationCompletedNotify": "{0}の翻訳が完了しました！",
-  "VOTSendNotifyOnComplete": "動画が翻訳されたことを通知する"
+  "VOTSendNotifyOnComplete": "動画が翻訳されたことを通知する",
+  "VOTBugReport": "バグを報告する"
 }

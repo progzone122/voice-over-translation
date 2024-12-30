@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "Perkhidmatan terjemahan ralat",
   "TranslationDelayed": "Terjemahan sedikit ditangguhkan",
   "VOTTranslationCompletedNotify": "Terjemahan pada {0} telah selesai!",
-  "VOTSendNotifyOnComplete": "Hantar pemberitahuan bahawa video telah diterjemahkan"
+  "VOTSendNotifyOnComplete": "Hantar pemberitahuan bahawa video telah diterjemahkan",
+  "VOTBugReport": "Laporkan pepijat"
 }

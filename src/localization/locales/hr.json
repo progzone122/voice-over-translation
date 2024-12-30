@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "Usluga prevođenja pogrešaka",
   "TranslationDelayed": "Prijevod je malo odgođen",
   "VOTTranslationCompletedNotify": "Prijevod na {0} dovršen!",
-  "VOTSendNotifyOnComplete": "Pošaljite obavijest da je videozapis preveden"
+  "VOTSendNotifyOnComplete": "Pošaljite obavijest da je videozapis preveden",
+  "VOTBugReport": "Prijavi pogrešku"
 }

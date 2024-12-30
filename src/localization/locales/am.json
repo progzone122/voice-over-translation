@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "የስህተት ትርጉም አገልግሎት",
   "TranslationDelayed": "ትርጉሙ ትንሽ ዘግይቷል",
   "VOTTranslationCompletedNotify": "በ {0} ላይ ያለው ትርጉም ተጠናቅቋል!",
-  "VOTSendNotifyOnComplete": "ቪዲዮው የተተረጎመ መሆኑን ማሳወቂያ ይላኩ"
+  "VOTSendNotifyOnComplete": "ቪዲዮው የተተረጎመ መሆኑን ማሳወቂያ ይላኩ",
+  "VOTBugReport": "ሳንካ ሪፖርት ያድርጉ"
 }

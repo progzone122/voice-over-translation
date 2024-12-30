@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "Қателерді аудару қызметі",
   "TranslationDelayed": "Аударма сәл кешіктірілді",
   "VOTTranslationCompletedNotify": "{0} бойынша аударма аяқталды!",
-  "VOTSendNotifyOnComplete": "Бейне аударылғаны туралы хабарлама жіберіңіз"
+  "VOTSendNotifyOnComplete": "Бейне аударылғаны туралы хабарлама жіберіңіз",
+  "VOTBugReport": "Қате туралы хабарлау"
 }

@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "Shërbimi i përkthimit të gabimeve",
   "TranslationDelayed": "Përkthimi është vonuar pak",
   "VOTTranslationCompletedNotify": "Përkthimi në {0} ka përfunduar!",
-  "VOTSendNotifyOnComplete": "Dërgoni një njoftim se videoja është përkthyer"
+  "VOTSendNotifyOnComplete": "Dërgoni një njoftim se videoja është përkthyer",
+  "VOTBugReport": "Raportoni një gabim"
 }

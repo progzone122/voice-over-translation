@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "Servizio di traduzione degli errori",
   "TranslationDelayed": "La traduzione è leggermente ritardata",
   "VOTTranslationCompletedNotify": "La traduzione sul {0} è stata completata!",
-  "VOTSendNotifyOnComplete": "Invia una notifica che il video è stato tradotto"
+  "VOTSendNotifyOnComplete": "Invia una notifica che il video è stato tradotto",
+  "VOTBugReport": "Segnala un bug"
 }

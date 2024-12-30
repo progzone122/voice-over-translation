@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "Səhv tərcümə xidməti",
   "TranslationDelayed": "Tərcümə bir az gecikir",
   "VOTTranslationCompletedNotify": "Tərcümə {0} tamamlandı!",
-  "VOTSendNotifyOnComplete": "Videonun tərcümə olunduğunu bildirən bildiriş göndərin"
+  "VOTSendNotifyOnComplete": "Videonun tərcümə olunduğunu bildirən bildiriş göndərin",
+  "VOTBugReport": "Səhv bildirin"
 }
