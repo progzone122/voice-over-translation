@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "Servizo de tradución de erros",
   "TranslationDelayed": "A tradución está un pouco atrasada",
   "VOTTranslationCompletedNotify": "A tradución do {0} foi completada!",
-  "VOTSendNotifyOnComplete": "Enviar unha notificación de que o vídeo foi traducido"
+  "VOTSendNotifyOnComplete": "Enviar unha notificación de que o vídeo foi traducido",
+  "VOTBugReport": "Informar dun erro"
 }

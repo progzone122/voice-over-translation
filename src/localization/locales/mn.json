@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "Алдааны орчуулгын үйлчилгээ",
   "TranslationDelayed": "Орчуулга нь бага зэрэг хойшлогдож байна",
   "VOTTranslationCompletedNotify": "Орчуулга дууссан байна!",
-  "VOTSendNotifyOnComplete": "Видеог орчуулсан тухай мэдэгдэл илгээх"
+  "VOTSendNotifyOnComplete": "Видеог орчуулсан тухай мэдэгдэл илгээх",
+  "VOTBugReport": "Алдааг мэдээлэх"
 }

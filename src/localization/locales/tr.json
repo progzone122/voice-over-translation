@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "Hata çeviri hizmeti",
   "TranslationDelayed": "Çeviri biraz gecikti",
   "VOTTranslationCompletedNotify": "{0}'daki çeviri tamamlandı!",
-  "VOTSendNotifyOnComplete": "Videonun çevrildiğine dair bir bildirim gönderin"
+  "VOTSendNotifyOnComplete": "Videonun çevrildiğine dair bir bildirim gönderin",
+  "VOTBugReport": "Hata bildir"
 }

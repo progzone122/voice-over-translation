@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "Error translation service",
   "TranslationDelayed": "De vertaling is iets vertraagd",
   "VOTTranslationCompletedNotify": "De vertaling op {0} is voltooid!",
-  "VOTSendNotifyOnComplete": "Stuur een melding dat de video is vertaald"
+  "VOTSendNotifyOnComplete": "Stuur een melding dat de video is vertaald",
+  "VOTBugReport": "Meld een bug"
 }

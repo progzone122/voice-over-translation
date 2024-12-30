@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "Serviciul de traducere a erorilor",
   "TranslationDelayed": "Traducerea este ușor întârziată",
   "VOTTranslationCompletedNotify": "Traducerea pe {0} a fost finalizată!",
-  "VOTSendNotifyOnComplete": "Trimiteți o notificare că videoclipul a fost tradus"
+  "VOTSendNotifyOnComplete": "Trimiteți o notificare că videoclipul a fost tradus",
+  "VOTBugReport": "Raportați o eroare"
 }

@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "വിവർത്തന സേവനം പിശക്",
   "TranslationDelayed": "പരിഭാഷ അല്പം വൈകി",
   "VOTTranslationCompletedNotify": "വിവർത്തനം {0} പൂർത്തിയായി!",
-  "VOTSendNotifyOnComplete": "വീഡിയോ പരിഭാഷപ്പെടുത്തിയതായി അറിയിപ്പ് അയയ്ക്കുക"
+  "VOTSendNotifyOnComplete": "വീഡിയോ പരിഭാഷപ്പെടുത്തിയതായി അറിയിപ്പ് അയയ്ക്കുക",
+  "VOTBugReport": "ഒരു ബഗ് റിപ്പോർട്ട് ചെയ്യുക"
 }

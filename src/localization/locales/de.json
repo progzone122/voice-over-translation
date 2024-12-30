@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "Fehlerübersetzungsdienst",
   "TranslationDelayed": "Die Übersetzung ist etwas verzögert",
   "VOTTranslationCompletedNotify": "Die Übersetzung auf der {0} ist abgeschlossen!",
-  "VOTSendNotifyOnComplete": "Senden Sie eine Benachrichtigung, dass das Video übersetzt wurde"
+  "VOTSendNotifyOnComplete": "Senden Sie eine Benachrichtigung, dass das Video übersetzt wurde",
+  "VOTBugReport": "Einen Fehler melden"
 }

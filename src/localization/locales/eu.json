@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "Errorea itzulpen zerbitzua",
   "TranslationDelayed": "Itzulpena atzeratu egin da",
   "VOTTranslationCompletedNotify": "{0} (r) en itzulpena osatu da!",
-  "VOTSendNotifyOnComplete": "Bidali bideoa itzuli dela jakinarazpena"
+  "VOTSendNotifyOnComplete": "Bidali bideoa itzuli dela jakinarazpena",
+  "VOTBugReport": "Errore baten berri eman"
 }

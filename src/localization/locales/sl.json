@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "Storitev prevajanja napak",
   "TranslationDelayed": "Prevod je nekoliko zakasnjen",
   "VOTTranslationCompletedNotify": "Prevod na {0} je končan!",
-  "VOTSendNotifyOnComplete": "Pošljite obvestilo, da je bil video preveden"
+  "VOTSendNotifyOnComplete": "Pošljite obvestilo, da je bil video preveden",
+  "VOTBugReport": "Prijavite napako"
 }

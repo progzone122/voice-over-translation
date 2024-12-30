@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "Viga tõlketeenus",
   "TranslationDelayed": "Tõlge on veidi hilinenud",
   "VOTTranslationCompletedNotify": "{0} tõlge on lõpetatud!",
-  "VOTSendNotifyOnComplete": "Saada teade, et video on tõlgitud"
+  "VOTSendNotifyOnComplete": "Saada teade, et video on tõlgitud",
+  "VOTBugReport": "Teata veast"
 }

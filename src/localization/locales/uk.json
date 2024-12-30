@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "Сервіс перекладу помилок",
   "TranslationDelayed": "Переклад трохи затримується",
   "VOTTranslationCompletedNotify": "Переклад на {0} завершено!",
-  "VOTSendNotifyOnComplete": "Надішліть повідомлення про те, що відео було перекладено"
+  "VOTSendNotifyOnComplete": "Надішліть повідомлення про те, що відео було перекладено",
+  "VOTBugReport": "Повідомити про помилку"
 }

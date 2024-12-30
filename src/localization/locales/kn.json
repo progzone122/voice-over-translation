@@ -198,5 +198,6 @@
   "VOTTranslationErrorsService": "ಅನುವಾದ ಸೇವೆ ದೋಷ",
   "TranslationDelayed": "ಅನುವಾದ ಸ್ವಲ್ಪ ವಿಳಂಬ",
   "VOTTranslationCompletedNotify": "{0} ನಲ್ಲಿನ ಅನುವಾದ ಪೂರ್ಣಗೊಂಡಿದೆ!",
-  "VOTSendNotifyOnComplete": "ವೀಡಿಯೊ ಅನುವಾದಿಸಲಾಗಿದೆ ಎಂದು ಅಧಿಸೂಚನೆಯನ್ನು ಕಳುಹಿಸಿ"
+  "VOTSendNotifyOnComplete": "ವೀಡಿಯೊ ಅನುವಾದಿಸಲಾಗಿದೆ ಎಂದು ಅಧಿಸೂಚನೆಯನ್ನು ಕಳುಹಿಸಿ",
+  "VOTBugReport": "ದೋಷವನ್ನು ವರದಿ ಮಾಡಿ"
 }
