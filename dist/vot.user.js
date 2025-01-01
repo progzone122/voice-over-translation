@@ -269,12 +269,12 @@ var es5 = __webpack_require__("./node_modules/bowser/es5.js");
     hostWorker: "vot-worker.toil.cc",
     mediaProxy: "media-proxy.toil.cc",
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 YaBrowser/24.10.0.0 Safari/537.36",
-    componentVersion: "24.12.1.714",
+    componentVersion: "24.12.2.856",
     hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.1.2",
+    version: "2.1.3",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -3379,7 +3379,7 @@ var ExtVideoService;
         additionalData: "mobile",
         host: VideoService.vk,
         url: "https://vk.com/video?z=",
-        match: /^m.vk.(com|ru)$/,
+        match: [/^m.vk.(com|ru)$/, /^m.vkvideo.ru$/],
         selector: "vk-video-player",
         shadowRoot: true,
         needExtraData: true,
