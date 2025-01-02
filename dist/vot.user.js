@@ -55,6 +55,22 @@
 // @match          *://*.ok.ru/*
 // @match          *://trovo.live/*
 // @match          *://disk.yandex.ru/*
+// @match          *://disk.yandex.kz/*
+// @match          *://disk.yandex.com/*
+// @match          *://disk.yandex.com.am/*
+// @match          *://disk.yandex.com.ge/*
+// @match          *://disk.yandex.com.tr/*
+// @match          *://disk.yandex.by/*
+// @match          *://disk.yandex.az/*
+// @match          *://disk.yandex.co.il/*
+// @match          *://disk.yandex.ee/*
+// @match          *://disk.yandex.lt/*
+// @match          *://disk.yandex.lv/*
+// @match          *://disk.yandex.md/*
+// @match          *://disk.yandex.net/*
+// @match          *://disk.yandex.tj/*
+// @match          *://disk.yandex.tm/*
+// @match          *://disk.yandex.uz/*
 // @match          *://youtube.googleapis.com/embed/*
 // @match          *://*.banned.video/*
 // @match          *://*.madmaxworld.tv/*
@@ -165,6 +181,22 @@
 // @exclude        file://*/*.webm*
 // @exclude        *://accounts.youtube.com/*
 // @connect        yandex.ru
+// @connect        disk.yandex.kz
+// @connect        disk.yandex.com
+// @connect        disk.yandex.com.am
+// @connect        disk.yandex.com.ge
+// @connect        disk.yandex.com.tr
+// @connect        disk.yandex.by
+// @connect        disk.yandex.az
+// @connect        disk.yandex.co.il
+// @connect        disk.yandex.ee
+// @connect        disk.yandex.lt
+// @connect        disk.yandex.lv
+// @connect        disk.yandex.md
+// @connect        disk.yandex.net
+// @connect        disk.yandex.tj
+// @connect        disk.yandex.tm
+// @connect        disk.yandex.uz
 // @connect        yandex.net
 // @connect        timeweb.cloud
 // @connect        raw.githubusercontent.com
@@ -274,7 +306,7 @@ var es5 = __webpack_require__("./node_modules/bowser/es5.js");
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.1.3",
+    version: "2.1.4",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -2077,7 +2109,7 @@ function proxyMedia(url, format = "mp4") {
     if (!(url instanceof URL)) {
         return `${generalUrl}&url=${btoa(url)}`;
     }
-    return `${generalUrl}&url=${btoa(encodeURIComponent(url.href))}&origin=${url.origin}&referer=${url.origin}`;
+    return `${generalUrl}&url=${btoa(url.href)}&origin=${url.origin}&referer=${url.origin}`;
 }
 
 ;// ./node_modules/@vot.js/core/dist/protobuf.js
@@ -3567,7 +3599,7 @@ var ExtVideoService;
     {
         host: VideoService.yandexdisk,
         url: "https://yadi.sk/",
-        match: /^disk.yandex.ru$/,
+        match: /^disk.yandex.(ru|kz|com(\.(am|ge|tr))?|by|az|co\.il|ee|lt|lv|md|net|tj|tm|uz)$/,
         selector: ".video-player__player > div:nth-child(1)",
         eventSelector: ".video-player__player",
         needBypassCSP: true,
@@ -5039,18 +5071,17 @@ class VimeoHelper extends BaseHelper {
 
 ;// ./node_modules/@vot.js/ext/dist/helpers/yandexdisk.js
 
+
+
 class YandexDiskHelper extends BaseHelper {
-    API_ORIGIN = "https://disk.yandex.ru";
+    API_ORIGIN = window.location.origin;
     CLIENT_PREFIX = "/client/disk";
+    INLINE_PREFIX = "/i/";
+    DISK_PREFIX = "/d/";
     isErrorData(data) {
         return Object.hasOwn(data, "error");
     }
-    async getVideoData(videoId) {
-        if (!videoId.startsWith(this.CLIENT_PREFIX)) {
-            return {
-                url: this.service.url + videoId,
-            };
-        }
+    async getClientVideoData(videoId) {
         const url = new URL(window.location.href);
         const dialogId = url.searchParams.get("idDialog");
         if (!dialogId) {
@@ -5093,25 +5124,128 @@ class YandexDiskHelper extends BaseHelper {
             if (!short_url) {
                 throw new VideoHelperError("Access to the video is limited");
             }
-            const title = name.replace(/(\.[^.]+)$/, "");
+            const title = this.clearTitle(name);
+            const duration = Math.round(video_info.duration / 1000);
             return {
                 url: short_url,
                 title,
-                duration: Math.round(video_info.duration / 1000),
+                duration,
             };
         }
         catch (err) {
-            console.error(`Failed to get yandex disk video data by video ID: ${videoId}`, err.message);
+            Logger.error(`Failed to get yandex disk video data by video ID: ${videoId}, because ${err.message}`);
             return undefined;
         }
     }
-    async getVideoId(url) {
-        const fileId = /\/i\/([^/]+)/.exec(url.pathname)?.[1];
-        if (fileId) {
-            return `i/${fileId}`;
+    clearTitle(title) {
+        return title.replace(/(\.[^.]+)$/, "");
+    }
+    getBodyHash(fileHash, sk) {
+        const data = JSON.stringify({
+            hash: fileHash,
+            sk,
+        });
+        return encodeURIComponent(data);
+    }
+    async fetchList(dirHash, sk) {
+        const body = this.getBodyHash(dirHash, sk);
+        const res = await this.fetch(this.API_ORIGIN + "/public/api/fetch-list", {
+            method: "POST",
+            body,
+        });
+        const data = (await res.json());
+        if (Object.hasOwn(data, "error")) {
+            throw new VideoHelperError("Failed to fetch folder list");
         }
-        return url.pathname.startsWith(this.CLIENT_PREFIX)
-            ? url.pathname + url.search
+        return data.resources;
+    }
+    async getDownloadUrl(fileHash, sk) {
+        const body = this.getBodyHash(fileHash, sk);
+        const res = await this.fetch(this.API_ORIGIN + "/public/api/download-url", {
+            method: "POST",
+            body,
+        });
+        const data = (await res.json());
+        if (data.error) {
+            throw new VideoHelperError("Failed to get download url");
+        }
+        return data.data.url;
+    }
+    async getDiskVideoData(videoId) {
+        try {
+            const prefetchEl = document.getElementById("store-prefetch");
+            if (!prefetchEl) {
+                throw new VideoHelperError("Failed to get prefetch data");
+            }
+            const resourcePaths = videoId.split("/").slice(3);
+            if (!resourcePaths.length) {
+                throw new VideoHelperError("Failed to find video file path");
+            }
+            const data = JSON.parse(prefetchEl.innerText);
+            const { resources, rootResourceId, environment: { sk }, } = data;
+            const rootResource = resources[rootResourceId];
+            const resourcePathsLastIdx = resourcePaths.length - 1;
+            const resourcePath = resourcePaths
+                .filter((_, idx) => idx !== resourcePathsLastIdx)
+                .join("/");
+            let resourcesList = Object.values(resources);
+            if (resourcePath.includes("/")) {
+                resourcesList = await this.fetchList(`${rootResource.hash}:/${resourcePath}`, sk);
+            }
+            const resource = resourcesList.find((resource) => resource.name === resourcePaths[resourcePathsLastIdx]);
+            if (!resource) {
+                throw new VideoHelperError("Failed to find resource");
+            }
+            if (resource && resource.type === "dir") {
+                throw new VideoHelperError("Path is dir, but expected file");
+            }
+            const { meta: { short_url, mediatype, videoDuration }, path, name, } = resource;
+            if (mediatype !== "video") {
+                throw new VideoHelperError("Resource isn't a video");
+            }
+            const title = this.clearTitle(name);
+            const duration = Math.round(videoDuration / 1000);
+            if (short_url) {
+                return {
+                    url: short_url,
+                    duration,
+                    title,
+                };
+            }
+            const downloadUrl = await this.getDownloadUrl(path, sk);
+            return {
+                url: proxyMedia(new URL(downloadUrl)),
+                duration,
+                title,
+            };
+        }
+        catch (err) {
+            Logger.error(`Failed to get yandex disk video data by disk video ID: ${videoId}`, err.message);
+            return undefined;
+        }
+    }
+    async getVideoData(videoId) {
+        if (videoId.startsWith(this.INLINE_PREFIX)) {
+            return {
+                url: this.service.url + videoId.slice(1),
+            };
+        }
+        videoId = decodeURIComponent(videoId);
+        if (videoId.startsWith(this.CLIENT_PREFIX)) {
+            return await this.getClientVideoData(videoId);
+        }
+        return await this.getDiskVideoData(videoId);
+    }
+    async getVideoId(url) {
+        if (url.pathname.startsWith(this.CLIENT_PREFIX)) {
+            return url.pathname + url.search;
+        }
+        const fileId = /\/i\/([^/]+)/.exec(url.pathname)?.[0];
+        if (fileId) {
+            return fileId;
+        }
+        return /\/d\/([^/]+)\/([^/]+)/.exec(url.pathname)
+            ? url.pathname
             : undefined;
     }
 }
@@ -5775,6 +5909,7 @@ var TypeName;
 })(TypeName || (TypeName = {}));
 
 ;// ./node_modules/@vot.js/shared/dist/types/index.js
+
 
 
 
