@@ -2328,7 +2328,6 @@ const foswlyTranslateUrl = "https://translate.toil.cc/v2";
 const detectRustServerUrl = "https://rust-server-531j.onrender.com/detect";
 
 const proxyOnlyExtensions = [
-  "Violentmonkey",
   "FireMonkey",
   "Greasemonkey",
   "AdGuard",
@@ -2553,22 +2552,27 @@ function clearFileName(filename) {
 async function GM_fetch(url, opts = {}) {
   const { timeout = 15000, ...fetchOptions } = opts;
   const controller = new AbortController();
+  const headers = new Headers(fetchOptions.headers || {});
 
   try {
     if (url.includes("api.browser.yandex.ru")) {
       throw new Error("Preventing yandex cors");
     }
-
-    const response = await fetch(url, {
+    return await fetch(url, {
       signal: controller.signal,
       ...fetchOptions,
     });
-    return response;
   } catch (err) {
     // Если fetch завершился ошибкой, используем GM_xmlhttpRequest
     // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
     debug.log("GM_fetch preventing cors by GM_xmlhttpRequest", err.message);
     return new Promise((resolve, reject) => {
+      const requestHeaders = {};
+
+      for (const [key, value] of headers.entries()) {
+        requestHeaders[key] = value;
+      }
+
       GM_xmlhttpRequest({
         method: fetchOptions.method || "GET",
         url,
@@ -2576,16 +2580,17 @@ async function GM_fetch(url, opts = {}) {
         ...fetchOptions,
         data: fetchOptions.body,
         timeout,
+        headers: requestHeaders,
         onload: (resp) => {
-          // chrome \n and ":", firefox \r\n and ": " (Only in GM_xmlhttpRequest)
-          // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/getAllResponseHeaders#examples
-          const headers = Object.fromEntries(
-            resp.responseHeaders
-              .trim()
-              .split(/\r?\n/)
-              .map((line) => line.split(/: (.+)/))
-              .filter(([key]) => key && /^[\w-]+$/.test(key)),
-          );
+          const headers = new Headers();
+
+          const lines = resp.responseHeaders.trim().split(/\r?\n/);
+          for (const line of lines) {
+            const [key, ...values] = line.split(/:\s*/);
+            if (key) {
+              headers.set(key, values.join(": "));
+            }
+          }
 
           const response = new Response(resp.response, {
             status: resp.status,
@@ -2598,7 +2603,7 @@ async function GM_fetch(url, opts = {}) {
           resolve(response);
         },
         ontimeout: () => reject(new Error("Timeout")),
-        onerror: (error) => reject(error),
+        onerror: (error) => reject(new Error(error)),
         onabort: () => reject(new Error("AbortError")),
       });
     });
@@ -10242,13 +10247,6 @@ class VideoHandler {
     debug.log("Extension compatibility passed...");
 
     this.votOpts = {
-      headers: this.translateProxyEnabled
-        ? {}
-        : {
-            "sec-ch-ua": null,
-            "sec-ch-ua-mobile": null,
-            "sec-ch-ua-platform": null,
-          },
       fetchFn: GM_fetch,
       hostVOT: votBackendUrl,
       host: this.translateProxyEnabled ? this.data.proxyWorkerHost : workerHost,

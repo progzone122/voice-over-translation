@@ -501,13 +501,6 @@ class VideoHandler {
     debug.log("Extension compatibility passed...");
 
     this.votOpts = {
-      headers: this.translateProxyEnabled
-        ? {}
-        : {
-            "sec-ch-ua": null,
-            "sec-ch-ua-mobile": null,
-            "sec-ch-ua-platform": null,
-          },
       fetchFn: GM_fetch,
       hostVOT: votBackendUrl,
       host: this.translateProxyEnabled ? this.data.proxyWorkerHost : workerHost,

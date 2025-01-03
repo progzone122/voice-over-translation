@@ -26,7 +26,6 @@ const foswlyTranslateUrl = "https://translate.toil.cc/v2";
 const detectRustServerUrl = "https://rust-server-531j.onrender.com/detect";
 
 const proxyOnlyExtensions = [
-  "Violentmonkey",
   "FireMonkey",
   "Greasemonkey",
   "AdGuard",
