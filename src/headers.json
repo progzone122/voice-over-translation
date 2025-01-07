@@ -11,6 +11,8 @@
     "*://*.youtubekids.com/*",
     "*://*.twitch.tv/*",
     "*://*.xvideos.com/*",
+    "*://*.xvideos-ar.com/*",
+    "*://*.xvideos005.com/*",
     "*://*.xv-ru.com/*",
     "*://*.pornhub.com/*",
     "*://*.vk.com/*",
@@ -81,6 +83,7 @@
     "*://*.cloudflarestream.com/*",
     "*://*.loom.com/*",
     "*://*.artstation.com/learning/*",
+    "*://*.rt.com/*",
     "*://*/*.mp4*",
     "*://*/*.webm*"
   ],
