@@ -115,7 +115,6 @@ function clearFileName(filename) {
 async function GM_fetch(url, opts = {}) {
   const { timeout = 15000, ...fetchOptions } = opts;
   const controller = new AbortController();
-  const headers = new Headers(fetchOptions.headers || {});
 
   try {
     if (url.includes("api.browser.yandex.ru")) {
@@ -128,14 +127,9 @@ async function GM_fetch(url, opts = {}) {
   } catch (err) {
     // Если fetch завершился ошибкой, используем GM_xmlhttpRequest
     // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
-    debug.log("GM_fetch preventing cors by GM_xmlhttpRequest", err.message);
+    debug.log("GM_fetch preventing CORS by GM_xmlhttpRequest", err.message);
+
     return new Promise((resolve, reject) => {
-      const requestHeaders = {};
-
-      for (const [key, value] of headers.entries()) {
-        requestHeaders[key] = value;
-      }
-
       GM_xmlhttpRequest({
         method: fetchOptions.method || "GET",
         url,
@@ -143,27 +137,21 @@ async function GM_fetch(url, opts = {}) {
         ...fetchOptions,
         data: fetchOptions.body,
         timeout,
-        headers: requestHeaders,
+        headers: Object.fromEntries(new Headers(fetchOptions.headers || {})),
         onload: (resp) => {
-          const headers = new Headers();
-
-          const lines = resp.responseHeaders.trim().split(/\r?\n/);
-          for (const line of lines) {
-            const [key, ...values] = line.split(/:\s*/);
-            if (key) {
-              headers.set(key, values.join(": "));
-            }
-          }
-
-          const response = new Response(resp.response, {
-            status: resp.status,
-            headers: headers,
-          });
-          Object.defineProperty(response, "url", {
-            value: resp.finalUrl ?? "",
-          });
-
-          resolve(response);
+          resolve(
+            new Response(resp.response, {
+              status: resp.status,
+              headers: new Headers(
+                Object.fromEntries(
+                  resp.responseHeaders
+                    .trim()
+                    .split(/\r?\n/)
+                    .map((line) => line.split(/:\s*/)),
+                ),
+              ),
+            }),
+          );
         },
         ontimeout: () => reject(new Error("Timeout")),
         onerror: (error) => reject(new Error(error)),
