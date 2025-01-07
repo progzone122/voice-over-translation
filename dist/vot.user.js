@@ -2552,27 +2552,18 @@ function clearFileName(filename) {
 async function GM_fetch(url, opts = {}) {
   const { timeout = 15000, ...fetchOptions } = opts;
   const controller = new AbortController();
-  const headers = new Headers(fetchOptions.headers || {});
 
   try {
     if (url.includes("api.browser.yandex.ru")) {
       throw new Error("Preventing yandex cors");
     }
-    return await fetch(url, {
-      signal: controller.signal,
-      ...fetchOptions,
-    });
+    return await fetch(url, { signal: controller.signal, ...fetchOptions });
   } catch (err) {
-    // Если fetch завершился ошибкой, используем GM_xmlhttpRequest
-    // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
-    debug.log("GM_fetch preventing cors by GM_xmlhttpRequest", err.message);
+     // Если fetch завершился ошибкой, используем GM_xmlhttpRequest
+     // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
+    debug.log("GM_fetch preventing CORS by GM_xmlhttpRequest", err.message);
+
     return new Promise((resolve, reject) => {
-      const requestHeaders = {};
-
-      for (const [key, value] of headers.entries()) {
-        requestHeaders[key] = value;
-      }
-
       GM_xmlhttpRequest({
         method: fetchOptions.method || "GET",
         url,
@@ -2580,27 +2571,21 @@ async function GM_fetch(url, opts = {}) {
         ...fetchOptions,
         data: fetchOptions.body,
         timeout,
-        headers: requestHeaders,
+        headers: Object.fromEntries(new Headers(fetchOptions.headers || {})),
         onload: (resp) => {
-          const headers = new Headers();
-
-          const lines = resp.responseHeaders.trim().split(/\r?\n/);
-          for (const line of lines) {
-            const [key, ...values] = line.split(/:\s*/);
-            if (key) {
-              headers.set(key, values.join(": "));
-            }
-          }
-
-          const response = new Response(resp.response, {
-            status: resp.status,
-            headers: headers,
-          });
-          Object.defineProperty(response, "url", {
-            value: resp.finalUrl ?? "",
-          });
-
-          resolve(response);
+          resolve(
+            new Response(resp.response, {
+              status: resp.status,
+              headers: new Headers(
+                Object.fromEntries(
+                  resp.responseHeaders
+                    .trim()
+                    .split(/\r?\n/)
+                    .map((line) => line.split(/:\s*/))
+                )
+              ),
+            })
+          );
         },
         ontimeout: () => reject(new Error("Timeout")),
         onerror: (error) => reject(new Error(error)),
@@ -2632,31 +2617,30 @@ const localizationUrl = `${contentUrl}/${
 // TODO: add get from hashes.json or use DEFAULT_LOCALES
 const availableLocales = ["auto","en","ru","af","am","ar","az","bg","bn","bs","ca","cs","cy","da","de","el","es","et","eu","fa","fi","fr","gl","hi","hr","hu","hy","id","it","ja","jv","kk","km","kn","ko","lo","mk","ml","mn","ms","mt","my","ne","nl","pa","pl","pt","ro","si","sk","sl","sq","sr","su","sv","sw","tr","uk","ur","uz","vi","zh","zu"];
 
-const localizationProvider = new (class {
-  lang = "en";
-  locale = {};
-  gmValues = [
-    "locale-phrases",
-    "locale-lang",
-    "locale-hash",
-    "locale-updated-at",
-    "locale-lang-override",
-  ];
-
+class LocalizationProvider {
   constructor() {
-    const langOverride = votStorage.syncGet("locale-lang-override", "auto");
-    this.lang =
-      langOverride && langOverride !== "auto"
-        ? langOverride
-        : (navigator.language || navigator.userLanguage)
-            ?.substr(0, 2)
-            ?.toLowerCase() ?? "en";
+    this.gmValues = [
+      "locale-phrases",
+      "locale-lang",
+      "locale-hash",
+      "locale-updated-at",
+      "locale-lang-override",
+    ];
+    this.lang = this.getLang();
+    this.locale = {};
     this.setLocaleFromJsonString(votStorage.syncGet("locale-phrases", ""));
   }
 
+  getLang() {
+    const langOverride = votStorage.syncGet("locale-lang-override", "auto");
+    return langOverride !== "auto"
+      ? langOverride
+      : lang;
+  }
+
   reset() {
-    for (let i = 0; i < this.gmValues.length; i++) {
-      votStorage.syncDelete(this.gmValues[i]);
+    for (const key of this.gmValues) {
+      votStorage.syncDelete(key);
     }
   }
 
@@ -2664,97 +2648,77 @@ const localizationProvider = new (class {
     debug.log("Check locale updates...");
     try {
       const res = await GM_fetch(
-        `${localizationUrl}/hashes.json${
-          force ? `?timestamp=${utils_getTimestamp()}` : ""
-        }`,
+        `${localizationUrl}/hashes.json${force ? `?timestamp=${utils_getTimestamp()}` : ""}`,
       );
-      if (res.status !== 200) {
-        throw res.status;
-      }
-
+      if (!res.ok) throw res.status;
       const hashes = await res.json();
-      const localeHash = await votStorage.get("locale-hash");
-      const actualHash = hashes[this.lang];
-
-      return localeHash !== actualHash ? actualHash : false;
+      return (await votStorage.get("locale-hash")) !== hashes[this.lang]
+        ? hashes[this.lang]
+        : false;
     } catch (err) {
       console.error(
-        "[VOT] [localizationProvider] Failed to get locales hash, cause:",
+        "[VOT] [localizationProvider] Failed to get locales hash:",
         err,
       );
-
       return false;
     }
   }
 
   async update(force = false) {
     const localeUpdatedAt = await votStorage.get("locale-updated-at", 0);
-    const localeLang = await votStorage.get("locale-lang");
-    const timestamp = utils_getTimestamp();
     if (
       !force &&
-      localeUpdatedAt + localeCacheTTL > timestamp &&
-      localeLang === this.lang
-    ) {
+      localeUpdatedAt + localeCacheTTL > utils_getTimestamp() &&
+      (await votStorage.get("locale-lang")) === this.lang
+    )
       return;
-    }
 
     const hash = await this.checkUpdates(force);
-    await votStorage.set("locale-updated-at", timestamp);
-    if (!hash) {
-      return;
-    }
+    await votStorage.set("locale-updated-at", utils_getTimestamp());
+    if (!hash) return;
 
     debug.log("Updating locale...");
     try {
       const res = await GM_fetch(
-        `${localizationUrl}/locales/${this.lang}.json${
-          force ? `?timestamp=${timestamp}` : ""
-        }`,
+        `${localizationUrl}/locales/${this.lang}.json${force ? `?timestamp=${utils_getTimestamp()}` : ""}`,
       );
-      if (res.status !== 200) {
-        throw res.status;
-      }
-
+      if (!res.ok) throw res.status;
       // We use it .text() in order for there to be a single logic for GM_Storage and localStorage
       const text = await res.text();
       await votStorage.set("locale-phrases", text);
-      this.setLocaleFromJsonString(text);
-
       await votStorage.set("locale-hash", hash);
       await votStorage.set("locale-lang", this.lang);
+      this.setLocaleFromJsonString(text);
     } catch (err) {
-      console.error(
-        "[VOT] [localizationProvider] Failed to get locale, cause:",
-        err,
-      );
+      console.error("[VOT] [localizationProvider] Failed to get locale:", err);
       this.setLocaleFromJsonString(await votStorage.get("locale-phrases", ""));
     }
   }
 
   setLocaleFromJsonString(json) {
     try {
-      this.locale = JSON.parse(json) ?? {};
-    } catch (exception) {
-      console.error("[VOT] [localizationProvider]", exception);
+      this.locale = JSON.parse(json) || {};
+    } catch (err) {
+      console.error("[VOT] [localizationProvider]", err);
       this.locale = {};
     }
   }
 
   getFromLocale(locale, key) {
-    const result = key.split(".").reduce((locale, key) => {
-      if (typeof locale === "object" && locale) return locale[key];
-      return undefined;
-    }, locale);
-    if (result === undefined) {
-      console.warn(
-        "[VOT] [localizationProvider] locale",
-        locale,
-        "doesn't contain key",
-        key,
-      );
-    }
-    return result;
+    return (
+      key.split(".").reduce((acc, k) => acc?.[k], locale) ??
+      this.warnMissingKey(locale, key)
+    );
+  }
+
+  warnMissingKey(locale, key) {
+    console.warn(
+      "[VOT] [localizationProvider] locale",
+      locale,
+      "doesn't contain key",
+      key,
+    );
+    return undefined;
   }
 
   getDefault(key) {
@@ -2762,13 +2726,11 @@ const localizationProvider = new (class {
   }
 
   get(key) {
-    return (
-      this.getFromLocale(this.locale, key) ??
-      this.getFromLocale(en_namespaceObject, key) ??
-      key
-    );
+    return this.getFromLocale(this.locale, key) ?? this.getDefault(key);
   }
-})();
+}
+
+const localizationProvider = new LocalizationProvider();
 
 ;// ./src/utils/VOTLocalizedError.js
 
@@ -9573,35 +9535,24 @@ class EventImpl {
     this.listeners = new Set();
   }
 
-  hasListener(e) {
-    return this.listeners.has(e);
-  }
-
-  dispatchToListener(handler, ...args) {
-    try {
-      handler(...args);
-    } catch (exception) {
-      console.error("[VOT]", exception);
-    }
-  }
-
   addListener(handler) {
-    if (this.hasListener(handler)) {
+    if (this.listeners.has(handler)) {
       throw new Error("[VOT] The listener has already been added.");
     }
     this.listeners.add(handler);
   }
 
   removeListener(handler) {
-    if (!this.hasListener(handler)) {
-      throw new Error("[VOT] The listener has not been added yet.");
-    }
     this.listeners.delete(handler);
   }
 
   dispatch(...args) {
-    for (const handler of Array.from(this.listeners)) {
-      this.dispatchToListener(handler, ...args);
+    for (const handler of this.listeners) {
+      try {
+        handler(...args);
+      } catch (exception) {
+        console.error("[VOT]", exception);
+      }
     }
   }
 }
