@@ -31,6 +31,8 @@
 // @match          *://*.youtubekids.com/*
 // @match          *://*.twitch.tv/*
 // @match          *://*.xvideos.com/*
+// @match          *://*.xvideos-ar.com/*
+// @match          *://*.xvideos005.com/*
 // @match          *://*.xv-ru.com/*
 // @match          *://*.pornhub.com/*
 // @match          *://*.vk.com/*
@@ -101,6 +103,7 @@
 // @match          *://*.cloudflarestream.com/*
 // @match          *://*.loom.com/*
 // @match          *://*.artstation.com/learning/*
+// @match          *://*.rt.com/*
 // @match          *://*/*.mp4*
 // @match          *://*/*.webm*
 // @match          *://*.yewtu.be/*
@@ -306,7 +309,7 @@ var es5 = __webpack_require__("./node_modules/bowser/es5.js");
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.1.4",
+    version: "2.1.5",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -2270,6 +2273,7 @@ var VideoService;
     VideoService["dzen"] = "dzen";
     VideoService["cloudflarestream"] = "cloudflarestream";
     VideoService["loom"] = "loom";
+    VideoService["rtnews"] = "rtnews";
 })(VideoService || (VideoService = {}));
 
 ;// ./node_modules/@vot.js/core/dist/utils/vot.js
@@ -2557,10 +2561,13 @@ async function GM_fetch(url, opts = {}) {
     if (url.includes("api.browser.yandex.ru")) {
       throw new Error("Preventing yandex cors");
     }
-    return await fetch(url, { signal: controller.signal, ...fetchOptions });
+    return await fetch(url, {
+      signal: controller.signal,
+      ...fetchOptions,
+    });
   } catch (err) {
-     // Если fetch завершился ошибкой, используем GM_xmlhttpRequest
-     // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
+    // Если fetch завершился ошибкой, используем GM_xmlhttpRequest
+    // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
     debug.log("GM_fetch preventing CORS by GM_xmlhttpRequest", err.message);
 
     return new Promise((resolve, reject) => {
@@ -2581,10 +2588,10 @@ async function GM_fetch(url, opts = {}) {
                   resp.responseHeaders
                     .trim()
                     .split(/\r?\n/)
-                    .map((line) => line.split(/:\s*/))
-                )
+                    .map((line) => line.split(/:\s*/)),
+                ),
               ),
-            })
+            }),
           );
         },
         ontimeout: () => reject(new Error("Timeout")),
@@ -2633,9 +2640,7 @@ class LocalizationProvider {
 
   getLang() {
     const langOverride = votStorage.syncGet("locale-lang-override", "auto");
-    return langOverride !== "auto"
-      ? langOverride
-      : lang;
+    return langOverride !== "auto" ? langOverride : lang;
   }
 
   reset() {
@@ -3454,7 +3459,11 @@ var ExtVideoService;
     {
         host: VideoService.xvideos,
         url: "https://www.xvideos.com/",
-        match: /^(www.)?(xvideos|xv-ru).com$/,
+        match: [
+            /^(www.)?xvideos(-ar)?.com$/,
+            /^(www.)?xvideos(\d\d\d).com$/,
+            /^(www.)?xv-ru.com$/,
+        ],
         selector: "#hlsplayer",
         needBypassCSP: true,
     },
@@ -3773,6 +3782,13 @@ var ExtVideoService;
         url: "https://www.artstation.com/learning/",
         match: /^(www.)?artstation.com$/,
         selector: ".vjs-v7",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.rtnews,
+        url: "https://www.rt.com/",
+        match: /^(www.)?rt.com$/,
+        selector: ".jw-media",
         needExtraData: true,
     },
     {
@@ -6047,7 +6063,35 @@ class ArtstationHelper extends BaseHelper {
     }
 }
 
+;// ./node_modules/@vot.js/ext/dist/helpers/rtnews.js
+
+
+class RtNewsHelper extends BaseHelper {
+    async getVideoData(videoId) {
+        const videoEl = document.querySelector(".jw-video, .media__video_noscript");
+        if (!videoEl) {
+            return undefined;
+        }
+        let videoSrc = videoEl.getAttribute("src");
+        if (!videoSrc) {
+            return undefined;
+        }
+        if (videoSrc.endsWith(".MP4")) {
+            videoSrc = proxyMedia(videoSrc);
+        }
+        return {
+            videoId,
+            url: videoSrc,
+        };
+    }
+    async getVideoId(url) {
+        return url.pathname.slice(1);
+    }
+}
+
 ;// ./node_modules/@vot.js/ext/dist/helpers/index.js
+
+
 
 
 
@@ -6199,6 +6243,7 @@ const availableHelpers = {
     [VideoService.dzen]: DzenHelper,
     [VideoService.cloudflarestream]: CloudflareStreamHelper,
     [VideoService.loom]: LoomHelper,
+    [VideoService.rtnews]: RtNewsHelper,
     [ExtVideoService.udemy]: UdemyHelper,
     [ExtVideoService.coursera]: CourseraHelper,
     [ExtVideoService.douyin]: DouyinHelper,
