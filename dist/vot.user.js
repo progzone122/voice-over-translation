@@ -9818,7 +9818,7 @@ const createHotkeyText = (hotkey) =>
         .replace("{0}", hotkey.replace("Key", ""))
     : localizationProvider.get("VOTCreateTranslationHotkey");
 
-let hasBlockedYandex;
+let hasBlockedYandex = -1;
 
 class VideoHandler {
   /**
