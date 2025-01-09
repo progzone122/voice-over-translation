@@ -199,5 +199,8 @@
   "TranslationDelayed": "De vertaling is iets vertraagd",
   "VOTTranslationCompletedNotify": "De vertaling op {0} is voltooid!",
   "VOTSendNotifyOnComplete": "Stuur een melding dat de video is vertaald",
-  "VOTBugReport": "Meld een bug"
+  "VOTBugReport": "Meld een bug",
+  "VOTTranslateProxyDisabled": "Gehandicapten",
+  "VOTTranslateProxyEnabled": "Ingeschakeld",
+  "VOTTranslateProxyEverything": "Proxy alles"
 }

@@ -199,5 +199,8 @@
   "TranslationDelayed": "Переклад трохи затримується",
   "VOTTranslationCompletedNotify": "Переклад на {0} завершено!",
   "VOTSendNotifyOnComplete": "Надішліть повідомлення про те, що відео було перекладено",
-  "VOTBugReport": "Повідомити про помилку"
+  "VOTBugReport": "Повідомити про помилку",
+  "VOTTranslateProxyDisabled": "Непрацездатний",
+  "VOTTranslateProxyEnabled": "Включений",
+  "VOTTranslateProxyEverything": "Проксіровать всьо"
 }

@@ -199,5 +199,8 @@
   "TranslationDelayed": "Превод мало касни",
   "VOTTranslationCompletedNotify": "Превод на {0} је завршен!",
   "VOTSendNotifyOnComplete": "Пошаљите обавештење да је видео преведен",
-  "VOTBugReport": "Пријавите грешку"
+  "VOTBugReport": "Пријавите грешку",
+  "VOTTranslateProxyDisabled": "Неспособан за рад",
+  "VOTTranslateProxyEnabled": "Укључено",
+  "VOTTranslateProxyEverything": "Проки сервер за све"
 }

@@ -199,5 +199,8 @@
   "TranslationDelayed": "अनुवाद केही ढिलाइ भएको छ",
   "VOTTranslationCompletedNotify": "{0} मा अनुवाद पूरा भएको छ!",
   "VOTSendNotifyOnComplete": "भिडियो अनुवाद गरिएको सूचना पठाउनुहोस्",
-  "VOTBugReport": "बग रिपोर्ट गर्नुहोस्"
+  "VOTBugReport": "बग रिपोर्ट गर्नुहोस्",
+  "VOTTranslateProxyDisabled": "अक्षम पारिएको",
+  "VOTTranslateProxyEnabled": "सक्षम पारिएको",
+  "VOTTranslateProxyEverything": "प्रोक्सी सबै कुरा"
 }

@@ -199,5 +199,8 @@
   "TranslationDelayed": "অনুবাদ সামান্য বিলম্বিত হয়",
   "VOTTranslationCompletedNotify": "{0} এর অনুবাদ সম্পন্ন হয়েছে!",
   "VOTSendNotifyOnComplete": "একটি বিজ্ঞপ্তি পাঠান যে ভিডিওটি অনুবাদ করা হয়েছে",
-  "VOTBugReport": "একটি বাগ রিপোর্ট করুন"
+  "VOTBugReport": "একটি বাগ রিপোর্ট করুন",
+  "VOTTranslateProxyDisabled": "নিষ্ক্রিয়",
+  "VOTTranslateProxyEnabled": "সক্রিয়",
+  "VOTTranslateProxyEverything": "প্রক্সি সবকিছু"
 }

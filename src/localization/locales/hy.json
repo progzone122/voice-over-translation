@@ -199,5 +199,8 @@
   "TranslationDelayed": "Թարգմանությունը Մի փոքր ուշանում է",
   "VOTTranslationCompletedNotify": "Թարգմանությունը {0} ավարտված է:",
   "VOTSendNotifyOnComplete": "Ուղարկեք ծանուցում այն մասին, որ տեսանյութը թարգմանվել է",
-  "VOTBugReport": "Հաղորդել սխալի մասին"
+  "VOTBugReport": "Հաղորդել սխալի մասին",
+  "VOTTranslateProxyDisabled": "Անաշխատունակ",
+  "VOTTranslateProxyEnabled": "Ներառված է",
+  "VOTTranslateProxyEverything": "Վստահված սերվեր ամեն ինչի համար"
 }

@@ -199,5 +199,8 @@
   "TranslationDelayed": "ترجمہ میں قدرے تاخیر ہوئی ہے ۔ ",
   "VOTTranslationCompletedNotify": "{0} پر ترجمہ مکمل ہو گیا ہے!",
   "VOTSendNotifyOnComplete": "ایک نوٹیفکیشن بھیجیں کہ ویڈیو کا ترجمہ ہوچکا ہے",
-  "VOTBugReport": "ایک بگ کی اطلاع دیں"
+  "VOTBugReport": "ایک بگ کی اطلاع دیں",
+  "VOTTranslateProxyDisabled": "معذور",
+  "VOTTranslateProxyEnabled": "فعال",
+  "VOTTranslateProxyEverything": "پراکسی سب کچھ"
 }

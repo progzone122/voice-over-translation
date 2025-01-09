@@ -199,5 +199,8 @@
   "TranslationDelayed": "Tłumaczenie jest nieco opóźnione",
   "VOTTranslationCompletedNotify": "Tłumaczenie na {0} zostało zakończone!",
   "VOTSendNotifyOnComplete": "Wyślij powiadomienie, że film został przetłumaczony",
-  "VOTBugReport": "Zgłoś błąd"
+  "VOTBugReport": "Zgłoś błąd",
+  "VOTTranslateProxyDisabled": "Niepełnosprawni",
+  "VOTTranslateProxyEnabled": "Włączone",
+  "VOTTranslateProxyEverything": "Proxy wszystko"
 }

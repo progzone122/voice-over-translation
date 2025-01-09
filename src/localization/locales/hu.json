@@ -199,5 +199,8 @@
   "TranslationDelayed": "A fordítás kissé késik",
   "VOTTranslationCompletedNotify": "A fordítás a {0} befejeződött!",
   "VOTSendNotifyOnComplete": "Küldjön értesítést arról, hogy a videót lefordították",
-  "VOTBugReport": "Hibabejelentés"
+  "VOTBugReport": "Hibabejelentés",
+  "VOTTranslateProxyDisabled": "Mozgáskorlátozottak",
+  "VOTTranslateProxyEnabled": "Engedélyezett",
+  "VOTTranslateProxyEverything": "Proxy mindent"
 }

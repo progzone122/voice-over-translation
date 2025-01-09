@@ -199,5 +199,8 @@
   "TranslationDelayed": "Tərcümə bir az gecikir",
   "VOTTranslationCompletedNotify": "Tərcümə {0} tamamlandı!",
   "VOTSendNotifyOnComplete": "Videonun tərcümə olunduğunu bildirən bildiriş göndərin",
-  "VOTBugReport": "Səhv bildirin"
+  "VOTBugReport": "Səhv bildirin",
+  "VOTTranslateProxyDisabled": "Əlil",
+  "VOTTranslateProxyEnabled": "Daxildir",
+  "VOTTranslateProxyEverything": "Hər şey üçün proxy server"
 }

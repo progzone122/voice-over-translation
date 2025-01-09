@@ -199,5 +199,8 @@
   "TranslationDelayed": "ਅਨੁਵਾਦ ਥੋੜ੍ਹਾ ਦੇਰੀ ਨਾਲ ਹੋਇਆ ਹੈ",
   "VOTTranslationCompletedNotify": "{0} ਉੱਤੇ ਅਨੁਵਾਦ ਪੂਰਾ ਹੋ ਗਿਆ ਹੈ!",
   "VOTSendNotifyOnComplete": "ਇੱਕ ਨੋਟੀਫਿਕੇਸ਼ਨ ਭੇਜੋ ਕਿ ਵੀਡੀਓ ਦਾ ਅਨੁਵਾਦ ਕੀਤਾ ਗਿਆ ਹੈ",
-  "VOTBugReport": "ਬੱਗ ਰਿਪੋਰਟ ਕਰੋ"
+  "VOTBugReport": "ਬੱਗ ਰਿਪੋਰਟ ਕਰੋ",
+  "VOTTranslateProxyDisabled": "ਆਯੋਗ",
+  "VOTTranslateProxyEnabled": "ਯੋਗ",
+  "VOTTranslateProxyEverything": "ਪਰਾਕਸੀ ਸਭ ਕੁਝ"
 }

@@ -199,5 +199,8 @@
   "TranslationDelayed": "Terjemahannya sedikit tertunda",
   "VOTTranslationCompletedNotify": "Terjemahan pada {0} telah selesai!",
   "VOTSendNotifyOnComplete": "Kirim pemberitahuan bahwa video telah diterjemahkan",
-  "VOTBugReport": "Laporkan bug"
+  "VOTBugReport": "Laporkan bug",
+  "VOTTranslateProxyDisabled": "Dinonaktifkan",
+  "VOTTranslateProxyEnabled": "Diaktifkan",
+  "VOTTranslateProxyEverything": "Proksi semuanya"
 }

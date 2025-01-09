@@ -126,7 +126,6 @@ class VideoHandler {
 
   videoTranslations = []; // list of video translations
   videoTranslationTTL = 7200; // 2 hours
-  translateProxyEnabled = 0; // 0 - disabled, 1 - enabled, 2 - proxy everything
   cachedTranslation; // cached video translation
 
   downloadTranslationUrl = null;
@@ -422,6 +421,8 @@ class VideoHandler {
       hotkeyButton: votStorage.get("hotkeyButton", null),
       m3u8ProxyHost: votStorage.get("m3u8ProxyHost", m3u8ProxyHost),
       proxyWorkerHost: votStorage.get("proxyWorkerHost", proxyWorkerHost),
+      // 0 - disabled, 1 - enabled, 2 - proxy everything
+      translateProxyEnabled: votStorage.get("translateProxyEnabled", 0),
       audioBooster: votStorage.get("audioBooster", 0),
       useNewModel: votStorage.get("useNewModel", 1),
       localeHash: votStorage.get("locale-hash", ""),
@@ -474,11 +475,11 @@ class VideoHandler {
     );
 
     if (
-      !this.translateProxyEnabled &&
+      !this.data.translateProxyEnabled &&
       GM_info?.scriptHandler &&
       proxyOnlyExtensions.includes(GM_info.scriptHandler)
     ) {
-      this.translateProxyEnabled = 1;
+      this.data.translateProxyEnabled = 1;
     }
 
     if (!countryCode) {
@@ -486,29 +487,21 @@ class VideoHandler {
         const response = await GM_fetch("https://speed.cloudflare.com/meta", {
           timeout: 7000,
         });
-        const { country } = await response.json();
-        countryCode = country;
-        this.translateProxyEnabled =
-          country === "UA" ? 2 : this.translateProxyEnabled;
+        ({ country: countryCode } = await response.json());
+        if (countryCode === "UA") {
+          this.data.translateProxyEnabled = 2;
+        }
       } catch (err) {
         console.error("[VOT] Error getting country:", err);
       }
     } else if (countryCode === "UA") {
-      this.translateProxyEnabled = 2;
+      this.data.translateProxyEnabled = 2;
     }
 
-    debug.log("translateProxyEnabled", this.translateProxyEnabled);
+    debug.log("translateProxyEnabled", this.data.translateProxyEnabled);
     debug.log("Extension compatibility passed...");
 
-    this.votOpts = {
-      fetchFn: GM_fetch,
-      hostVOT: votBackendUrl,
-      host: this.translateProxyEnabled ? this.data.proxyWorkerHost : workerHost,
-    };
-
-    this.votClient = new (
-      this.translateProxyEnabled ? VOTWorkerClient : VOTClient
-    )(this.votOpts);
+    this.initVOTClient();
 
     this.subtitlesWidget = new SubtitlesWidget(
       this.video,
@@ -536,6 +529,21 @@ class VideoHandler {
     await Promise.all([this.updateSubtitles(), this.autoTranslate()]);
 
     this.initialized = true;
+  }
+
+  initVOTClient() {
+    this.votOpts = {
+      fetchFn: GM_fetch,
+      hostVOT: votBackendUrl,
+      host: this.data.translateProxyEnabled
+        ? this.data.proxyWorkerHost
+        : workerHost,
+    };
+
+    this.votClient = new (
+      this.data.translateProxyEnabled ? VOTWorkerClient : VOTClient
+    )(this.votOpts);
+    return this;
   }
 
   isLoadingText(text) {
@@ -973,6 +981,40 @@ class VideoHandler {
       );
       this.votSettingsDialog.bodyContainer.appendChild(
         this.votProxyWorkerHostTextfield.container,
+      );
+
+      const proxyEnabledLabels = [
+        localizationProvider.get("VOTTranslateProxyDisabled"),
+        localizationProvider.get("VOTTranslateProxyEnabled"),
+        localizationProvider.get("VOTTranslateProxyEverything"),
+      ];
+
+      this.votTranslateProxyEnabledSelect = ui.createVOTSelect(
+        proxyEnabledLabels[this.data.translateProxyEnabled],
+        localizationProvider.get("VOTTranslateProxyStatus"),
+        genOptionsByOBJ(
+          proxyEnabledLabels,
+          proxyEnabledLabels[this.data.translateProxyEnabled],
+        ),
+        {
+          onSelectCb: async (_, selectedValue) => {
+            this.data.translateProxyEnabled =
+              proxyEnabledLabels.findIndex((val) => val === selectedValue) ?? 0;
+            await votStorage.set(
+              "translateProxyEnabled",
+              this.data.translateProxyEnabled,
+            );
+            this.initVOTClient();
+            this.videoTranslations = [];
+          },
+          labelElement: ui.createVOTSelectLabel(
+            localizationProvider.get("VOTTranslateProxyStatus"),
+          ),
+        },
+      );
+
+      this.votSettingsDialog.bodyContainer.appendChild(
+        this.votTranslateProxyEnabledSelect.container,
       );
 
       this.votNewAudioPlayerCheckbox = ui.createCheckbox(
@@ -1735,7 +1777,7 @@ class VideoHandler {
             "proxyWorkerHost value changed. New value: ",
             this.data.proxyWorkerHost,
           );
-          if (this.translateProxyEnabled) {
+          if (this.data.translateProxyEnabled) {
             this.votClient.host = this.data.proxyWorkerHost;
           }
         })();
@@ -2111,7 +2153,7 @@ class VideoHandler {
     } else {
       const subtitlesObj = this.subtitlesList.at(parseInt(subs));
       if (
-        this.translateProxyEnabled === 2 &&
+        this.data.translateProxyEnabled === 2 &&
         subtitlesObj.url.startsWith(
           "https://brosubs.s3-private.mds.yandex.net/vtrans/",
         )
@@ -2530,7 +2572,7 @@ class VideoHandler {
 
   proxifyAudio(audioUrl) {
     if (
-      this.translateProxyEnabled === 2 &&
+      this.data.translateProxyEnabled === 2 &&
       audioUrl.startsWith("https://vtrans.s3-private.mds.yandex.net/tts/prod/")
     ) {
       const audioPath = audioUrl.replace(
