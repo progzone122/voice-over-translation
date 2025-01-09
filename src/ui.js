@@ -642,7 +642,7 @@ export function createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
             i.selected = i.value === value;
           }
           updateTitle();
-          await onSelectCb(e);
+          await onSelectCb(e, value);
         }
       };
       contentList.appendChild(contentItem);
