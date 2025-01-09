@@ -202,5 +202,6 @@
   "VOTBugReport": "Irrapporta bug",
   "VOTTranslateProxyDisabled": "Diżattivat",
   "VOTTranslateProxyEnabled": "Attivat",
-  "VOTTranslateProxyEverything": "Prokura kollox"
+  "VOTTranslateProxyEverything": "Prokura kollox",
+  "VOTTranslateProxyStatus": "Mod ta'prokura"
 }

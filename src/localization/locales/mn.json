@@ -202,5 +202,6 @@
   "VOTBugReport": "Алдааг мэдээлэх",
   "VOTTranslateProxyDisabled": "Хөгжлийн бэрхшээлтэй",
   "VOTTranslateProxyEnabled": "Идэвхжсэн",
-  "VOTTranslateProxyEverything": "Прокси бүх зүйл"
+  "VOTTranslateProxyEverything": "Прокси бүх зүйл",
+  "VOTTranslateProxyStatus": "Proxying горим"
 }

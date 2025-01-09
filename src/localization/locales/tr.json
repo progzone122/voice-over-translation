@@ -202,5 +202,6 @@
   "VOTBugReport": "Hata bildir",
   "VOTTranslateProxyDisabled": "Engelli",
   "VOTTranslateProxyEnabled": "Etkin",
-  "VOTTranslateProxyEverything": "Proxy her şey"
+  "VOTTranslateProxyEverything": "Proxy her şey",
+  "VOTTranslateProxyStatus": "Proxy modu"
 }

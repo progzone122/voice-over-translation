@@ -202,5 +202,6 @@
   "VOTBugReport": "ລາຍງານຂໍ້ບົກພ່ອງ",
   "VOTTranslateProxyDisabled": "ພິການ",
   "VOTTranslateProxyEnabled": "ເປີດໃຊ້ງານ",
-  "VOTTranslateProxyEverything": "ຕົວແທນທຸກສິ່ງທຸກຢ່າງ"
+  "VOTTranslateProxyEverything": "ຕົວແທນທຸກສິ່ງທຸກຢ່າງ",
+  "VOTTranslateProxyStatus": "ຮູບແບບຕົວແທນ"
 }

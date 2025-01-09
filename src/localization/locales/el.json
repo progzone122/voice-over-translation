@@ -202,5 +202,6 @@
   "VOTBugReport": "Αναφορά σφάλματος",
   "VOTTranslateProxyDisabled": "Απενεργοποιημένη",
   "VOTTranslateProxyEnabled": "Ενεργοποιήσετε",
-  "VOTTranslateProxyEverything": "Πληρεξούσιο τα πάντα"
+  "VOTTranslateProxyEverything": "Πληρεξούσιο τα πάντα",
+  "VOTTranslateProxyStatus": "Λειτουργία μεσολάβησης"
 }

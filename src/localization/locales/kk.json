@@ -202,5 +202,6 @@
   "VOTBugReport": "Қате туралы хабарлау",
   "VOTTranslateProxyDisabled": "Мүгедек",
   "VOTTranslateProxyEnabled": "Қосылған",
-  "VOTTranslateProxyEverything": "Барлығын прокси арқылы жіберіңіз"
+  "VOTTranslateProxyEverything": "Барлығын прокси арқылы жіберіңіз",
+  "VOTTranslateProxyStatus": "Прокси режимі"
 }

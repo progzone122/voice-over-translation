@@ -202,5 +202,6 @@
   "VOTBugReport": "Rapportera ett fel",
   "VOTTranslateProxyDisabled": "Inaktiverad",
   "VOTTranslateProxyEnabled": "Aktiverad",
-  "VOTTranslateProxyEverything": "Proxy allt"
+  "VOTTranslateProxyEverything": "Proxy allt",
+  "VOTTranslateProxyStatus": "Proxying-läge"
 }

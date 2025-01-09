@@ -202,5 +202,6 @@
   "VOTBugReport": "ایک بگ کی اطلاع دیں",
   "VOTTranslateProxyDisabled": "معذور",
   "VOTTranslateProxyEnabled": "فعال",
-  "VOTTranslateProxyEverything": "پراکسی سب کچھ"
+  "VOTTranslateProxyEverything": "پراکسی سب کچھ",
+  "VOTTranslateProxyStatus": "پراکسی موڈ"
 }

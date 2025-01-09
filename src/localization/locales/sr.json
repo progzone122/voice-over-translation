@@ -202,5 +202,6 @@
   "VOTBugReport": "Пријавите грешку",
   "VOTTranslateProxyDisabled": "Неспособан за рад",
   "VOTTranslateProxyEnabled": "Укључено",
-  "VOTTranslateProxyEverything": "Проки сервер за све"
+  "VOTTranslateProxyEverything": "Проки сервер за све",
+  "VOTTranslateProxyStatus": "Режим проксирања"
 }

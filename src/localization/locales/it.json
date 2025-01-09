@@ -202,5 +202,6 @@
   "VOTBugReport": "Segnala un bug",
   "VOTTranslateProxyDisabled": "Disabilita",
   "VOTTranslateProxyEnabled": "Abilitato",
-  "VOTTranslateProxyEverything": "Proxy tutto"
+  "VOTTranslateProxyEverything": "Proxy tutto",
+  "VOTTranslateProxyStatus": "Modalità proxy"
 }

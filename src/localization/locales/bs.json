@@ -202,5 +202,6 @@
   "VOTBugReport": "Prijavi grešku",
   "VOTTranslateProxyDisabled": "Isključeno",
   "VOTTranslateProxyEnabled": "Uključeno",
-  "VOTTranslateProxyEverything": "Proxy sve"
+  "VOTTranslateProxyEverything": "Proxy sve",
+  "VOTTranslateProxyStatus": "Proxying mode"
 }

@@ -202,5 +202,6 @@
   "VOTBugReport": "バグを報告する",
   "VOTTranslateProxyDisabled": "無効",
   "VOTTranslateProxyEnabled": "有効になっている",
-  "VOTTranslateProxyEverything": "すべてをプロキシ"
+  "VOTTranslateProxyEverything": "すべてをプロキシ",
+  "VOTTranslateProxyStatus": "プロキシモード"
 }

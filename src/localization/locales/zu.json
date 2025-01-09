@@ -202,5 +202,6 @@
   "VOTBugReport": "Bika iphutha",
   "VOTTranslateProxyDisabled": "Abakhubazekile",
   "VOTTranslateProxyEnabled": "Inikwe amandla",
-  "VOTTranslateProxyEverything": "Ummeleli konke"
+  "VOTTranslateProxyEverything": "Ummeleli konke",
+  "VOTTranslateProxyStatus": "Imodi yokumisa"
 }

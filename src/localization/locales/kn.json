@@ -202,5 +202,6 @@
   "VOTBugReport": "ದೋಷವನ್ನು ವರದಿ ಮಾಡಿ",
   "VOTTranslateProxyDisabled": "ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ",
   "VOTTranslateProxyEnabled": "ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ",
-  "VOTTranslateProxyEverything": "ಪ್ರಾಕ್ಸಿ ಎಲ್ಲವೂ"
+  "VOTTranslateProxyEverything": "ಪ್ರಾಕ್ಸಿ ಎಲ್ಲವೂ",
+  "VOTTranslateProxyStatus": "ಪ್ರಾಕ್ಸಿ ಮೋಡ್"
 }

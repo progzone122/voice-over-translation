@@ -202,5 +202,6 @@
   "VOTBugReport": "Հաղորդել սխալի մասին",
   "VOTTranslateProxyDisabled": "Անաշխատունակ",
   "VOTTranslateProxyEnabled": "Ներառված է",
-  "VOTTranslateProxyEverything": "Վստահված սերվեր ամեն ինչի համար"
+  "VOTTranslateProxyEverything": "Վստահված սերվեր ամեն ինչի համար",
+  "VOTTranslateProxyStatus": "Պրոքսի ռեժիմ"
 }

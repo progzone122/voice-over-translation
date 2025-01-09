@@ -202,5 +202,6 @@
   "VOTBugReport": "Prijavite napako",
   "VOTTranslateProxyDisabled": "Onemogočeno",
   "VOTTranslateProxyEnabled": "Omogočeno",
-  "VOTTranslateProxyEverything": "Pooblaščenec vse"
+  "VOTTranslateProxyEverything": "Pooblaščenec vse",
+  "VOTTranslateProxyStatus": "Način posredovanja"
 }

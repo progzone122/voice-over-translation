@@ -202,5 +202,6 @@
   "VOTBugReport": "报告错误",
   "VOTTranslateProxyDisabled": "残疾人士",
   "VOTTranslateProxyEnabled": "已启用",
-  "VOTTranslateProxyEverything": "代理一切"
+  "VOTTranslateProxyEverything": "代理一切",
+  "VOTTranslateProxyStatus": "代理模式"
 }

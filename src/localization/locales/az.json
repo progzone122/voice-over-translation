@@ -202,5 +202,6 @@
   "VOTBugReport": "Səhv bildirin",
   "VOTTranslateProxyDisabled": "Əlil",
   "VOTTranslateProxyEnabled": "Daxildir",
-  "VOTTranslateProxyEverything": "Hər şey üçün proxy server"
+  "VOTTranslateProxyEverything": "Hər şey üçün proxy server",
+  "VOTTranslateProxyStatus": "Proksasiya rejimi"
 }

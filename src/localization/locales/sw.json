@@ -202,5 +202,6 @@
   "VOTBugReport": "Ripoti mdudu",
   "VOTTranslateProxyDisabled": "Walemavu",
   "VOTTranslateProxyEnabled": "Imewezeshwa",
-  "VOTTranslateProxyEverything": "Wakala kila kitu"
+  "VOTTranslateProxyEverything": "Wakala kila kitu",
+  "VOTTranslateProxyStatus": "Hali ya wakala"
 }

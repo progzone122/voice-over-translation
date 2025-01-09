@@ -202,5 +202,6 @@
   "VOTBugReport": "រាយការណ៍កំហុស",
   "VOTTranslateProxyDisabled": "មិនអនុញ្ញាត",
   "VOTTranslateProxyEnabled": "បានអនុញ្ញាត",
-  "VOTTranslateProxyEverything": "អ្វីគ្រប់យ៉ាងប្រូកស៊ី"
+  "VOTTranslateProxyEverything": "អ្វីគ្រប់យ៉ាងប្រូកស៊ី",
+  "VOTTranslateProxyStatus": "របៀបប្រូកស៊ី"
 }

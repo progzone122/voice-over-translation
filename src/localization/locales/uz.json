@@ -202,5 +202,6 @@
   "VOTBugReport": "Xato haqida xabar bering",
   "VOTTranslateProxyDisabled": "Nogiron",
   "VOTTranslateProxyEnabled": "Yoqilgan",
-  "VOTTranslateProxyEverything": "Proksi hamma narsa"
+  "VOTTranslateProxyEverything": "Proksi hamma narsa",
+  "VOTTranslateProxyStatus": "Proksi rejimi"
 }

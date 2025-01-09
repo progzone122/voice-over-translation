@@ -202,5 +202,6 @@
   "VOTBugReport": "Rhoi gwybod am nam",
   "VOTTranslateProxyDisabled": "Analluogwyd",
   "VOTTranslateProxyEnabled": "Galluogwyd",
-  "VOTTranslateProxyEverything": "Dirprwy popeth"
+  "VOTTranslateProxyEverything": "Dirprwy popeth",
+  "VOTTranslateProxyStatus": "Modd dirprwyo"
 }

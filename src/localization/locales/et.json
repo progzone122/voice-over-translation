@@ -202,5 +202,6 @@
   "VOTBugReport": "Teata veast",
   "VOTTranslateProxyDisabled": "Puudega",
   "VOTTranslateProxyEnabled": "Võimaldama",
-  "VOTTranslateProxyEverything": "Puhverserver kõik"
+  "VOTTranslateProxyEverything": "Puhverserver kõik",
+  "VOTTranslateProxyStatus": "Puhverserveri režiim"
 }

@@ -202,5 +202,6 @@
   "VOTBugReport": "දෝෂයක් වාර්තා කරන්න",
   "VOTTranslateProxyDisabled": "අක්රිය කර ඇත",
   "VOTTranslateProxyEnabled": "සක් රීය කර ඇත",
-  "VOTTranslateProxyEverything": "ප්රොක්සි සියල්ල"
+  "VOTTranslateProxyEverything": "ප්රොක්සි සියල්ල",
+  "VOTTranslateProxyStatus": "ප් රොක්සි මාදිලිය"
 }

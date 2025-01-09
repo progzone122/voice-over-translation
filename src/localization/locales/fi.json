@@ -202,5 +202,6 @@
   "VOTBugReport": "Ilmoita virheestä",
   "VOTTranslateProxyDisabled": "Käytöstä",
   "VOTTranslateProxyEnabled": "Käyttöön",
-  "VOTTranslateProxyEverything": "Proxy kaikki"
+  "VOTTranslateProxyEverything": "Proxy kaikki",
+  "VOTTranslateProxyStatus": "Välityspalvelin"
 }

@@ -202,5 +202,6 @@
   "VOTBugReport": "Raportați o eroare",
   "VOTTranslateProxyDisabled": "Dezactivat",
   "VOTTranslateProxyEnabled": "Activat",
-  "VOTTranslateProxyEverything": "Proxy totul"
+  "VOTTranslateProxyEverything": "Proxy totul",
+  "VOTTranslateProxyStatus": "Modul proxy"
 }

@@ -202,5 +202,6 @@
   "VOTBugReport": "একটি বাগ রিপোর্ট করুন",
   "VOTTranslateProxyDisabled": "নিষ্ক্রিয়",
   "VOTTranslateProxyEnabled": "সক্রিয়",
-  "VOTTranslateProxyEverything": "প্রক্সি সবকিছু"
+  "VOTTranslateProxyEverything": "প্রক্সি সবকিছু",
+  "VOTTranslateProxyStatus": "প্রক্সি মোড"
 }

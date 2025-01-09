@@ -202,5 +202,6 @@
   "VOTBugReport": "Rapporteer'n fout",
   "VOTTranslateProxyDisabled": "Gedeaktiveer",
   "VOTTranslateProxyEnabled": "Geaktiveer",
-  "VOTTranslateProxyEverything": "Volmag alles"
+  "VOTTranslateProxyEverything": "Volmag alles",
+  "VOTTranslateProxyStatus": "Volmagmodus"
 }

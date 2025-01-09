@@ -202,5 +202,6 @@
   "VOTBugReport": "ਬੱਗ ਰਿਪੋਰਟ ਕਰੋ",
   "VOTTranslateProxyDisabled": "ਆਯੋਗ",
   "VOTTranslateProxyEnabled": "ਯੋਗ",
-  "VOTTranslateProxyEverything": "ਪਰਾਕਸੀ ਸਭ ਕੁਝ"
+  "VOTTranslateProxyEverything": "ਪਰਾਕਸੀ ਸਭ ਕੁਝ",
+  "VOTTranslateProxyStatus": "ਪ੍ਰੌਕਸੀ ਮੋਡ"
 }

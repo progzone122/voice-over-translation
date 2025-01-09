@@ -202,5 +202,6 @@
   "VOTBugReport": "ഒരു ബഗ് റിപ്പോർട്ട് ചെയ്യുക",
   "VOTTranslateProxyDisabled": "Disabled",
   "VOTTranslateProxyEnabled": "പ്രാപ്തമാക്കി",
-  "VOTTranslateProxyEverything": "പ്രോക്സി എല്ലാം"
+  "VOTTranslateProxyEverything": "പ്രോക്സി എല്ലാം",
+  "VOTTranslateProxyStatus": "പ്രോക്സി മോഡ്"
 }

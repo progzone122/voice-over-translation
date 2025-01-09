@@ -202,5 +202,6 @@
   "VOTBugReport": "Laporan hiji bug",
   "VOTTranslateProxyDisabled": "Cacat",
   "VOTTranslateProxyEnabled": "Diaktipkeun",
-  "VOTTranslateProxyEverything": "Proxy sagalana"
+  "VOTTranslateProxyEverything": "Proxy sagalana",
+  "VOTTranslateProxyStatus": "Modeu proxy"
 }

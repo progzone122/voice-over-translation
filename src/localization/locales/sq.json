@@ -202,5 +202,6 @@
   "VOTBugReport": "Raportoni një gabim",
   "VOTTranslateProxyDisabled": "Me aftësi të kufizuara",
   "VOTTranslateProxyEnabled": "Aktivizuar",
-  "VOTTranslateProxyEverything": "Proxy gjithçka"
+  "VOTTranslateProxyEverything": "Proxy gjithçka",
+  "VOTTranslateProxyStatus": "Modaliteti i Proxying"
 }

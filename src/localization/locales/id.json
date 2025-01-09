@@ -202,5 +202,6 @@
   "VOTBugReport": "Laporkan bug",
   "VOTTranslateProxyDisabled": "Dinonaktifkan",
   "VOTTranslateProxyEnabled": "Diaktifkan",
-  "VOTTranslateProxyEverything": "Proksi semuanya"
+  "VOTTranslateProxyEverything": "Proksi semuanya",
+  "VOTTranslateProxyStatus": "Mode proxy"
 }

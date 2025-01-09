@@ -202,5 +202,6 @@
   "VOTBugReport": "버그 신고",
   "VOTTranslateProxyDisabled": "사용 안 함",
   "VOTTranslateProxyEnabled": "사용",
-  "VOTTranslateProxyEverything": "프록시 모든 것"
+  "VOTTranslateProxyEverything": "프록시 모든 것",
+  "VOTTranslateProxyStatus": "프록시 모드"
 }

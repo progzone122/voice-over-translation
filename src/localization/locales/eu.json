@@ -202,5 +202,6 @@
   "VOTBugReport": "Errore baten berri eman",
   "VOTTranslateProxyDisabled": "Desgaituta",
   "VOTTranslateProxyEnabled": "Gaituta",
-  "VOTTranslateProxyEverything": "Ordezko dena"
+  "VOTTranslateProxyEverything": "Ordezko dena",
+  "VOTTranslateProxyStatus": "Ordezko modua"
 }

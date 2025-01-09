@@ -202,5 +202,6 @@
   "VOTBugReport": "Повідомити про помилку",
   "VOTTranslateProxyDisabled": "Непрацездатний",
   "VOTTranslateProxyEnabled": "Включений",
-  "VOTTranslateProxyEverything": "Проксіровать всьо"
+  "VOTTranslateProxyEverything": "Проксіровать всьо",
+  "VOTTranslateProxyStatus": "Режим проксирования"
 }

@@ -202,5 +202,6 @@
   "VOTBugReport": "Пријави грешка",
   "VOTTranslateProxyDisabled": "Оневозможено",
   "VOTTranslateProxyEnabled": "Овозможено",
-  "VOTTranslateProxyEverything": "Прокси се"
+  "VOTTranslateProxyEverything": "Прокси се",
+  "VOTTranslateProxyStatus": "Режим на прокси"
 }

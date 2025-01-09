@@ -202,5 +202,6 @@
   "VOTBugReport": "گزارش یک اشکال",
   "VOTTranslateProxyDisabled": "معلول",
   "VOTTranslateProxyEnabled": "فعال شده",
-  "VOTTranslateProxyEverything": "پروکسی همه چیز"
+  "VOTTranslateProxyEverything": "پروکسی همه چیز",
+  "VOTTranslateProxyStatus": "حالت پروکسی"
 }

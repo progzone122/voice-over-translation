@@ -202,5 +202,6 @@
   "VOTBugReport": "Nahlásit chybu",
   "VOTTranslateProxyDisabled": "Zakázán",
   "VOTTranslateProxyEnabled": "Povolit",
-  "VOTTranslateProxyEverything": "Proxy vše"
+  "VOTTranslateProxyEverything": "Proxy vše",
+  "VOTTranslateProxyStatus": "Režim proxy"
 }

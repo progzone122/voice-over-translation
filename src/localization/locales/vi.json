@@ -202,5 +202,6 @@
   "VOTBugReport": "Báo cáo lỗi",
   "VOTTranslateProxyDisabled": "Vô hiệu hóa",
   "VOTTranslateProxyEnabled": "Đã bật",
-  "VOTTranslateProxyEverything": "Proxy mọi thứ"
+  "VOTTranslateProxyEverything": "Proxy mọi thứ",
+  "VOTTranslateProxyStatus": "Chế độ proxy"
 }

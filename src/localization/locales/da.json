@@ -202,5 +202,6 @@
   "VOTBugReport": "Rapporter en fejl",
   "VOTTranslateProxyDisabled": "Deaktiveret",
   "VOTTranslateProxyEnabled": "Aktiveret",
-  "VOTTranslateProxyEverything": "Fuldmagt alt"
+  "VOTTranslateProxyEverything": "Fuldmagt alt",
+  "VOTTranslateProxyStatus": "Fuldførelsestilstand"
 }

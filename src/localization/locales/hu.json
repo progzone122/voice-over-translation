@@ -202,5 +202,6 @@
   "VOTBugReport": "Hibabejelentés",
   "VOTTranslateProxyDisabled": "Mozgáskorlátozottak",
   "VOTTranslateProxyEnabled": "Engedélyezett",
-  "VOTTranslateProxyEverything": "Proxy mindent"
+  "VOTTranslateProxyEverything": "Proxy mindent",
+  "VOTTranslateProxyStatus": "Proxy mód"
 }

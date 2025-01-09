@@ -202,5 +202,6 @@
   "VOTBugReport": "बग रिपोर्ट गर्नुहोस्",
   "VOTTranslateProxyDisabled": "अक्षम पारिएको",
   "VOTTranslateProxyEnabled": "सक्षम पारिएको",
-  "VOTTranslateProxyEverything": "प्रोक्सी सबै कुरा"
+  "VOTTranslateProxyEverything": "प्रोक्सी सबै कुरा",
+  "VOTTranslateProxyStatus": "प्रोक्सी मोड"
 }

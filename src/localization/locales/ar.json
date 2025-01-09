@@ -202,5 +202,6 @@
   "VOTBugReport": "الإبلاغ عن خطأ",
   "VOTTranslateProxyDisabled": "معاق",
   "VOTTranslateProxyEnabled": "ممكن",
-  "VOTTranslateProxyEverything": "وكيل كل شيء"
+  "VOTTranslateProxyEverything": "وكيل كل شيء",
+  "VOTTranslateProxyStatus": "وضع الوكيل"
 }

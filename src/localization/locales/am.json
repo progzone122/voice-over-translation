@@ -202,5 +202,6 @@
   "VOTBugReport": "ሳንካ ሪፖርት ያድርጉ",
   "VOTTranslateProxyDisabled": "አካል ጉዳተኞች",
   "VOTTranslateProxyEnabled": "ነቅቷል",
-  "VOTTranslateProxyEverything": "ሁሉንም ነገር ተኪ"
+  "VOTTranslateProxyEverything": "ሁሉንም ነገር ተኪ",
+  "VOTTranslateProxyStatus": "ፕሮክሲ ሁነታ"
 }

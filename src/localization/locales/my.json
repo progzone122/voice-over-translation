@@ -202,5 +202,6 @@
   "VOTBugReport": "အမှားတစ်ခုကိုအစီရင်ခံပါ",
   "VOTTranslateProxyDisabled": "မသန်စွမ်း",
   "VOTTranslateProxyEnabled": "ခွင့်ပြုထားသည်",
-  "VOTTranslateProxyEverything": "Proxy အရာရာတိုင်း"
+  "VOTTranslateProxyEverything": "Proxy အရာရာတိုင်း",
+  "VOTTranslateProxyStatus": "Proxying mode ကို"
 }
