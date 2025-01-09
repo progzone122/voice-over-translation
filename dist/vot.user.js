@@ -9841,7 +9841,7 @@ const createHotkeyText = (hotkey) =>
         .replace("{0}", hotkey.replace("Key", ""))
     : localizationProvider.get("VOTCreateTranslationHotkey");
 
-let hasBlockedYandex;
+let countryCode;
 
 class VideoHandler {
   /**
@@ -10246,20 +10246,19 @@ class VideoHandler {
       this.translateProxyEnabled = 1;
     }
 
-    if (hasBlockedYandex === -1) {
+    if (!countryCode) {
       try {
-        const res = await GM_fetch("https://yandex.ru/favicon.ico", {
+        const response = await GM_fetch("https://speed.cloudflare.com/meta", {
           timeout: 7000,
         });
-
-        hasBlockedYandex = !res.ok;
+        const { country } = await response.json();
+        countryCode = country;
+        this.translateProxyEnabled =
+          country === "UA" ? 2 : this.translateProxyEnabled;
       } catch (err) {
-        console.error("[VOT] Has blocked yandex:", err);
-        hasBlockedYandex = true;
+        console.error("[VOT] Error getting country:", err);
       }
-    }
-
-    if (hasBlockedYandex) {
+    } else if (countryCode === "UA") {
       this.translateProxyEnabled = 2;
     }
 
