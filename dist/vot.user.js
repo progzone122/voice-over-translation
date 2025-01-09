@@ -8265,13 +8265,13 @@ class SubtitlesProcessor {
       responseLanguage,
       videoId,
       duration,
-      subtitles,
+      subtitles = [],
     } = videoData;
 
     const extraSubtitles =
       host === "youtube"
         ? youtubeUtils.getSubtitles(responseLanguage)
-        : (subtitles ?? []);
+        : subtitles;
 
     try {
       const res = await Promise.race([
