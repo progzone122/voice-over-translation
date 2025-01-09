@@ -2580,17 +2580,21 @@ async function GM_fetch(url, opts = {}) {
         timeout,
         headers: Object.fromEntries(new Headers(fetchOptions.headers || {})),
         onload: (resp) => {
+          const headers = {};
+          resp.responseHeaders
+            .trim()
+            .split(/\r?\n/)
+            .forEach((line) => {
+              const [name, value] = line.split(/:\s*/);
+              if (name && value) {
+                headers[name.trim()] = value.trim();
+              }
+            });
+
           resolve(
             new Response(resp.response, {
               status: resp.status,
-              headers: new Headers(
-                Object.fromEntries(
-                  resp.responseHeaders
-                    .trim()
-                    .split(/\r?\n/)
-                    .map((line) => line.split(/:\s*/)),
-                ),
-              ),
+              headers: new Headers(headers),
             }),
           );
         },
