@@ -303,13 +303,13 @@ var es5 = __webpack_require__("./node_modules/bowser/es5.js");
     hostVOT: "vot.toil.cc/v1",
     hostWorker: "vot-worker.toil.cc",
     mediaProxy: "media-proxy.toil.cc",
-    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 YaBrowser/24.10.0.0 Safari/537.36",
+    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 YaBrowser/24.12.0.0 Safari/537.36",
     componentVersion: "24.12.2.856",
     hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.1.5",
+    version: "2.1.6",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -3207,14 +3207,28 @@ class client_VOTWorkerClient extends client_VOTClient {
 
 ;// ./node_modules/@vot.js/ext/dist/client.js
 
+
+const { componentVersion } = config;
+const secHeaders = {
+    "sec-ch-ua": `"Chromium";v="130", "YaBrowser";v="${componentVersion.slice(0, 5)}", "Not?A_Brand";v="99", "Yowser";v="2.5"`,
+    "sec-ch-ua-full-version-list": `"Chromium";v="130.0.6723.152", "YaBrowser";v="${componentVersion}", "Not?A_Brand";v="99.0.0.0", "Yowser";v="2.5"`,
+};
 class VOTClient extends client_VOTClient {
     constructor(opts) {
         super(opts);
+        this.headers = {
+            ...secHeaders,
+            ...this.headers,
+        };
     }
 }
 class VOTWorkerClient extends client_VOTWorkerClient {
     constructor(opts) {
         super(opts);
+        this.headers = {
+            ...secHeaders,
+            ...this.headers,
+        };
     }
 }
 
