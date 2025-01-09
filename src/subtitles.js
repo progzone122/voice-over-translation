@@ -183,7 +183,7 @@ export class SubtitlesProcessor {
 
       if (["vtt", "srt"].includes(format)) {
         const text = await response.text();
-        subtitles = await convertSubs(text, "json");
+        subtitles = convertSubs(text, "json");
       } else {
         subtitles = await response.json();
       }
