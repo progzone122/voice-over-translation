@@ -2591,12 +2591,17 @@ async function GM_fetch(url, opts = {}) {
               }
             });
 
-          resolve(
-            new Response(resp.response, {
-              status: resp.status,
-              headers: new Headers(headers),
-            }),
-          );
+          const response = new Response(resp.response, {
+            status: resp.status,
+            headers: new Headers(headers),
+          });
+          // Response have empty url by default
+          // this need to get same response url as in classic fetch
+          Object.defineProperty(response, "url", {
+            value: resp.finalUrl ?? "",
+          });
+
+          resolve(response);
         },
         ontimeout: () => reject(new Error("Timeout")),
         onerror: (error) => reject(new Error(error)),
