@@ -1,4 +1,8 @@
 import Bowser from "bowser";
+import { svg, html } from "lit-html";
+import { ID3Writer } from "browser-id3-writer";
+import Chaimu, { initAudioContext } from "chaimu";
+
 import VOTClient, { VOTWorkerClient } from "@vot.js/ext";
 import votConfig from "@vot.js/shared/config";
 import {
@@ -12,9 +16,7 @@ import {
   subtitlesFormats,
 } from "@vot.js/shared/consts";
 import { convertSubs } from "@vot.js/shared/utils/subs";
-import { svg, html } from "lit-html";
-import { ID3Writer } from "browser-id3-writer";
-import Chaimu, { initAudioContext } from "chaimu";
+import YoutubeHelper from "@vot.js/ext/helpers/youtube";
 
 import {
   defaultAutoVolume,
@@ -36,7 +38,6 @@ import {
 import { SubtitlesWidget, SubtitlesProcessor } from "./subtitles.js";
 
 import ui from "./ui.js";
-import youtubeUtils from "./utils/youtubeUtils.js";
 import debug from "./utils/debug.ts";
 
 import { VOTLocalizedError } from "./utils/VOTLocalizedError.js";
@@ -49,12 +50,14 @@ import {
   downloadBlob,
   clearFileName,
   getTimestamp,
+  cleanText,
 } from "./utils/utils.js";
 import { syncVolume } from "./utils/volume.js";
 import { VideoObserver } from "./utils/VideoObserver.js";
 import { votStorage, convertData } from "./utils/storage.ts";
 import {
   detectServices,
+  detect,
   translate,
   translateServices,
 } from "./utils/translateApis.ts";
@@ -1345,9 +1348,7 @@ class VideoHandler {
 
         ui.afterAnimateLoader(votLoader, primaryColor);
         const blob = new Blob(chunks);
-        const filename = clearFileName(
-          this.videoData.title ?? this.videoData.videoId,
-        );
+        const filename = clearFileName(this.videoData.downloadTitle);
         const arrayBuffer = await blob.arrayBuffer();
         const writer = new ID3Writer(arrayBuffer);
         writer.setFrame("TIT2", filename);
@@ -1366,7 +1367,7 @@ class VideoHandler {
         );
 
         const filename = this.data.downloadWithName
-          ? clearFileName(this.videoData.title ?? this.videoData.videoId)
+          ? clearFileName(this.videoData.downloadTitle)
           : `subtitles_${this.videoData.videoId}`;
         downloadBlob(blob, `${filename}.${format}`);
       });
@@ -2247,7 +2248,7 @@ class VideoHandler {
   getVideoVolume() {
     let videoVolume = this.video?.volume;
     if (["youtube", "googledrive"].includes(this.site.host)) {
-      videoVolume = youtubeUtils.getVideoVolume() ?? videoVolume;
+      videoVolume = YoutubeHelper.getVolume() ?? videoVolume;
     }
 
     return videoVolume;
@@ -2260,7 +2261,7 @@ class VideoHandler {
    */
   setVideoVolume(volume) {
     if (["youtube", "googledrive"].includes(this.site.host)) {
-      const videoVolume = youtubeUtils.setVideoVolume(volume);
+      const videoVolume = YoutubeHelper.setVolume(volume);
       if (videoVolume) {
         return this;
       }
@@ -2275,7 +2276,7 @@ class VideoHandler {
    */
   isMuted() {
     return ["youtube", "googledrive"].includes(this.site.host)
-      ? youtubeUtils.isMuted()
+      ? YoutubeHelper.isMuted()
       : this.video?.muted;
   }
 
@@ -2354,16 +2355,30 @@ class VideoHandler {
       host,
       title,
       translationHelp = null,
-      detectedLanguage = this.translateFromLang,
+      localizedTitle,
+      description,
+      detectedLanguage: possibleLanguage,
       subtitles,
       isStream = false,
     } = await getVideoData(this.site, {
       fetchFn: GM_fetch,
       video: this.video,
+      language: localizationProvider.lang,
     });
+
+    let detectedLanguage = this.translateFromLang;
+    if (!possibleLanguage && title) {
+      const text = cleanText(title, description);
+      debug.log(`Detecting language text: ${text}`);
+
+      const language = detect(text);
+      if (availableLangs.includes(language)) {
+        detectedLanguage = language;
+      }
+    }
+
     const videoData = {
       translationHelp,
-      // by default, we request the translation of the video
       isStream,
       // ! if 0 - we get 400 error
       duration: duration || this.video?.duration || votConfig.defaultDuration,
@@ -2374,16 +2389,12 @@ class VideoHandler {
       responseLanguage: this.translateToLang,
       subtitles,
       title,
+      localizedTitle,
+      downloadTitle: localizedTitle ?? title ?? videoId,
     };
 
-    if (this.site.host === "youtube") {
-      const youtubeData = await youtubeUtils.getVideoData();
-      videoData.isStream = youtubeData.isLive;
-      if (youtubeData.title) {
-        videoData.detectedLanguage = youtubeData.detectedLanguage;
-        videoData.title = youtubeData.localizedTitle;
-      }
-    } else if (["rutube", "ok.ru", "mail_ru"].includes(this.site.host)) {
+    console.log("[VOT] Detected language: ", detectedLanguage);
+    if (["rutube", "ok.ru", "mail_ru"].includes(this.site.host)) {
       videoData.detectedLanguage = "ru";
     } else if (this.site.host === "youku") {
       videoData.detectedLanguage = "zh";
@@ -2656,7 +2667,7 @@ class VideoHandler {
 
       const streamURL = this.setHLSSource(translateRes.result.url);
       if (this.site.host === "youtube") {
-        youtubeUtils.videoSeek(this.video, 10); // 10 is the most successful number for streaming. With it, the audio is not so far behind the original
+        YoutubeHelper.videoSeek(this.video, 10); // 10 is the most successful number for streaming. With it, the audio is not so far behind the original
       }
 
       this.setupAudioSettings();

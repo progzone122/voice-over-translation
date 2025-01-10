@@ -1,6 +1,5 @@
 import { html, render, nothing } from "lit-html";
 
-import youtubeUtils from "./utils/youtubeUtils.js";
 import { lang, GM_fetch } from "./utils/utils.js";
 import { convertSubs } from "@vot.js/shared/utils/subs";
 
@@ -213,16 +212,10 @@ export class SubtitlesProcessor {
       host,
       url,
       detectedLanguage: requestLang,
-      responseLanguage,
       videoId,
       duration,
-      subtitles = [],
+      subtitles: extraSubtitles = [],
     } = videoData;
-
-    const extraSubtitles =
-      host === "youtube"
-        ? youtubeUtils.getSubtitles(responseLanguage)
-        : subtitles;
 
     try {
       const res = await Promise.race([
