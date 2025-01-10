@@ -2366,12 +2366,12 @@ class VideoHandler {
       language: localizationProvider.lang,
     });
 
-    let detectedLanguage = this.translateFromLang;
+    let detectedLanguage = possibleLanguage ?? this.translateFromLang;
     if (!possibleLanguage && title) {
       const text = cleanText(title, description);
       debug.log(`Detecting language text: ${text}`);
 
-      const language = detect(text);
+      const language = await detect(text);
       if (availableLangs.includes(language)) {
         detectedLanguage = language;
       }
@@ -2393,7 +2393,7 @@ class VideoHandler {
       downloadTitle: localizedTitle ?? title ?? videoId,
     };
 
-    console.log("[VOT] Detected language: ", detectedLanguage);
+    console.log("[VOT] Detected language:", detectedLanguage);
     if (["rutube", "ok.ru", "mail_ru"].includes(this.site.host)) {
       videoData.detectedLanguage = "ru";
     } else if (this.site.host === "youku") {
