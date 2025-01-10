@@ -163,7 +163,7 @@ export class VideoObserver {
   };
 
   handleVideoRemoved = (video) => {
-    if (!document.contains(video)) {
+    if (!video.isConnected) {
       this.videoCache.delete(video);
       this.onVideoRemoved.dispatch(video);
     }

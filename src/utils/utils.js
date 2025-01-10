@@ -138,12 +138,15 @@ async function GM_fetch(url, opts = {}) {
         timeout,
         headers: fetchOptions.headers || {},
         onload: (resp) => {
-          const headers = Object.fromEntries(
-            resp.responseHeaders.split(/\r?\n/).flatMap((line) => {
-              const match = /^([\w-]+): (.+)$/.exec(line);
-              return match ? [[match[1], match[2]]] : [];
-            }),
-          );
+          const headers = resp.responseHeaders
+            .split(/\r?\n/)
+            .reduce((acc, line) => {
+              const [, key, value] = line.match(/^([\w-]+): (.+)$/) || [];
+              if (key) {
+                acc[key] = value;
+              }
+              return acc;
+            }, {});
 
           const response = new Response(resp.response, {
             status: resp.status,
