@@ -3840,25 +3840,20 @@ async function GM_fetch(url, opts = {}) {
         method: fetchOptions.method || "GET",
         url,
         responseType: "blob",
-        ...fetchOptions,
         data: fetchOptions.body,
         timeout,
-        headers: Object.fromEntries(new Headers(fetchOptions.headers || {})),
+        headers: fetchOptions.headers || {},
         onload: (resp) => {
-          const headers = {};
-          resp.responseHeaders
-            .trim()
-            .split(/\r?\n/)
-            .forEach((line) => {
-              const [name, value] = line.split(/:\s*/);
-              if (name && value) {
-                headers[name.trim()] = value.trim();
-              }
-            });
+          const headers = Object.fromEntries(
+            resp.responseHeaders.split(/\r?\n/).flatMap((line) => {
+              const match = /^([\w-]+): (.+)$/.exec(line);
+              return match ? [[match[1], match[2]]] : [];
+            }),
+          );
 
           const response = new Response(resp.response, {
             status: resp.status,
-            headers: new Headers(headers),
+            headers: headers,
           });
           // Response have empty url by default
           // this need to get same response url as in classic fetch
