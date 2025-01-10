@@ -1574,7 +1574,7 @@ class Chaimu {
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.1.8",
+    version: "2.1.7",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -3844,12 +3844,15 @@ async function GM_fetch(url, opts = {}) {
         timeout,
         headers: fetchOptions.headers || {},
         onload: (resp) => {
-          const headers = Object.fromEntries(
-            resp.responseHeaders.split(/\r?\n/).flatMap((line) => {
-              const match = /^([\w-]+): (.+)$/.exec(line);
-              return match ? [[match[1], match[2]]] : [];
-            }),
-          );
+          const headers = resp.responseHeaders
+            .split(/\r?\n/)
+            .reduce((acc, line) => {
+              const [, key, value] = line.match(/^([\w-]+): (.+)$/) || [];
+              if (key) {
+                acc[key] = value;
+              }
+              return acc;
+            }, {});
 
           const response = new Response(resp.response, {
             status: resp.status,
@@ -5452,7 +5455,8 @@ class PatreonHelper extends BaseHelper {
 class RedditHelper extends BaseHelper {
     API_ORIGIN = "https://www.reddit.com";
     async getContentUrl(videoId) {
-        if (this.service?.additionalData !== "old") {
+        if (!this.service.additionalData ||
+            this.service.additionalData !== "old") {
             return document.querySelector("shreddit-player-2")?.src;
         }
         const playerEl = document.querySelector("[data-hls-url]");
@@ -5854,8 +5858,8 @@ class CoursehunterLikeHelper extends BaseHelper {
         if (courseId !== undefined) {
             return String(courseId);
         }
-        return document.querySelector('input[name="course_id"]')
-            ?.value;
+        const inputEl = document.querySelector('input[name="course_id"]');
+        return inputEl ? inputEl.value : undefined;
     }
     async getLessonsData(courseId) {
         const lessons = window.lessons;
@@ -6073,69 +6077,46 @@ class SapHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/@vot.js/ext/dist/helpers/videojs.js
+;// ./node_modules/@vot.js/ext/dist/helpers/linkedin.js
 
 
 
-class VideoJSHelper extends BaseHelper {
-    SUBTITLE_SOURCE = "videojs";
-    SUBTITLE_FORMAT = "vtt";
+class LinkedinHelper extends BaseHelper {
     static getPlayer() {
-        return document.querySelector(".video-js")
-            ?.player;
+        const videoEl = document.querySelector(".video-js");
+        if (!videoEl) {
+            return undefined;
+        }
+        return videoEl.player;
     }
-    getVideoDataByPlayer(videoId) {
+    async getVideoData(videoId) {
         try {
-            const player = VideoJSHelper.getPlayer();
+            const player = LinkedinHelper.getPlayer();
             if (!player) {
                 throw new Error(`Video player doesn't have player option, videoId ${videoId}`);
             }
-            const duration = player.duration();
-            const sources = Array.isArray(player.currentSources)
-                ? player.currentSources
-                : player.getCache()?.sources;
-            const { tracks_: tracks } = player.textTracks();
-            const videoUrl = sources.find((source) => source.type === "video/mp4" || source.type === "video/webm");
+            const { cache_: { sources, duration }, textTracks_: { tracks_ }, } = player;
+            const videoUrl = sources.find((source) => source.type === "video/mp4");
             if (!videoUrl) {
                 throw new Error(`Failed to find video url for videoID ${videoId}`);
             }
-            const subtitles = tracks
-                .filter((track) => track.src)
-                .map((track) => ({
+            const url = new URL(videoUrl.src);
+            const subtitles = tracks_.map((track) => ({
                 language: normalizeLang(track.language),
-                source: this.SUBTITLE_SOURCE,
-                format: this.SUBTITLE_FORMAT,
+                source: "linkedin",
+                format: "vtt",
                 url: track.src,
             }));
             return {
-                url: videoUrl.src,
+                url: proxyMedia(url),
                 duration,
                 subtitles,
             };
         }
         catch (err) {
-            Logger.error("Failed to get videojs video data", err.message);
+            Logger.error("Failed to get linkedin video data", err.message);
             return undefined;
         }
-    }
-}
-
-;// ./node_modules/@vot.js/ext/dist/helpers/linkedin.js
-
-
-class LinkedinHelper extends VideoJSHelper {
-    SUBTITLE_SOURCE = "linkedin";
-    async getVideoData(videoId) {
-        const data = this.getVideoDataByPlayer(videoId);
-        if (!data) {
-            return undefined;
-        }
-        const { url, duration, subtitles } = data;
-        return {
-            url: proxyMedia(new URL(url)),
-            duration,
-            subtitles,
-        };
     }
     async getVideoId(url) {
         return /\/learning\/(([^/]+)\/([^/]+))/.exec(url.pathname)?.[1];
@@ -6553,12 +6534,23 @@ class VKHelper extends BaseHelper {
             return undefined;
         }
         const videoView = Videoview;
-        return videoView?.getPlayerObject?.call(undefined);
+        return videoView.getPlayerObject
+            ? videoView.getPlayerObject.call(undefined)
+            : undefined;
+    }
+    getDefault(videoId) {
+        if (!this.service) {
+            return undefined;
+        }
+        return {
+            url: this.service.url + videoId,
+            duration: undefined,
+        };
     }
     async getVideoData(videoId) {
         const player = VKHelper.getPlayer();
         if (!player) {
-            return this.returnBaseData(videoId);
+            return this.getDefault(videoId);
         }
         try {
             const { description: descriptionHTML, duration, md_title: title, } = player.vars;
@@ -6588,7 +6580,7 @@ class VKHelper extends BaseHelper {
         }
         catch (err) {
             Logger.error(`Failed to get VK video data, because: ${err.message}`);
-            return this.returnBaseData(videoId);
+            return this.getDefault(videoId);
         }
     }
     async getVideoId(url) {
@@ -7179,9 +7171,8 @@ class UdemyHelper extends BaseHelper {
 
 
 
-class CourseraHelper extends VideoJSHelper {
+class CourseraHelper extends BaseHelper {
     API_ORIGIN = "https://www.coursera.org/api";
-    SUBTITLE_SOURCE = "coursera";
     async getCourseData(courseId) {
         try {
             const response = await this.fetch(`${this.API_ORIGIN}/onDemandCourses.v1/${courseId}`);
@@ -7193,75 +7184,74 @@ class CourseraHelper extends VideoJSHelper {
             return undefined;
         }
     }
-    static getPlayer() {
-        return super.getPlayer();
+    getPlayer() {
+        return document.querySelector(".vjs-v8");
+    }
+    getPlayerData() {
+        return this.getPlayer()?.player;
+    }
+    findVideoUrl(sources) {
+        return sources?.find((src) => src.type === "video/mp4")?.src;
+    }
+    findSubtitleUrl(captions, detectedLanguage) {
+        let subtitle = captions?.find((caption) => normalizeLang(caption.srclang) === detectedLanguage);
+        if (!subtitle) {
+            subtitle =
+                captions?.find((caption) => normalizeLang(caption.srclang) === "en") ||
+                    captions?.[0];
+        }
+        return subtitle?.src;
     }
     async getVideoData(videoId) {
-        const data = this.getVideoDataByPlayer(videoId);
-        if (!data) {
+        const playerData = this.getPlayerData();
+        if (!playerData) {
+            Logger.error("Failed to find player data");
             return undefined;
         }
-        const { options_: options } = CourseraHelper.getPlayer() ?? {};
-        if (!data.subtitles?.length && options) {
-            data.subtitles = options.tracks.map((track) => ({
-                url: track.src,
-                language: normalizeLang(track.srclang),
-                source: this.SUBTITLE_SOURCE,
-                format: this.SUBTITLE_FORMAT,
-            }));
-        }
-        const courseId = options?.courseId;
-        if (!courseId) {
-            return data;
+        const { cache_: { duration }, options_: { courseId, tracks, sources }, } = playerData;
+        const videoUrl = this.findVideoUrl(sources);
+        if (!videoUrl) {
+            Logger.error("Failed to find .mp4 video file in sources", sources);
+            return undefined;
         }
         let courseLang = "en";
         const courseData = await this.getCourseData(courseId);
         if (courseData) {
             const { primaryLanguageCodes: [primaryLangauge], } = courseData;
-            courseLang = primaryLangauge
-                ? normalizeLang(primaryLangauge)
-                : "en";
+            courseLang = primaryLangauge ? normalizeLang(primaryLangauge) : "en";
         }
         if (!availableLangs.includes(courseLang)) {
             courseLang = "en";
         }
-        const subtitleItem = data.subtitles.find((subtitle) => subtitle.language === courseLang) ??
-            data.subtitles?.[0];
-        const subtitleUrl = subtitleItem?.url;
+        const subtitleUrl = this.findSubtitleUrl(tracks, courseLang);
         if (!subtitleUrl) {
-            Logger.warn("Failed to find any subtitle file");
+            Logger.warn("Failed to find subtitle file in tracks", tracks);
         }
-        const { url, duration } = data;
-        const translationHelp = subtitleUrl
-            ? [
-                {
-                    target: "subtitles_file_url",
-                    targetUrl: subtitleUrl,
-                },
-                {
-                    target: "video_file_url",
-                    targetUrl: url,
-                },
-            ]
-            : null;
         return {
             ...(subtitleUrl
                 ? {
                     url: this.service?.url + videoId,
-                    translationHelp,
+                    translationHelp: [
+                        {
+                            target: "subtitles_file_url",
+                            targetUrl: subtitleUrl,
+                        },
+                        {
+                            target: "video_file_url",
+                            targetUrl: videoUrl,
+                        },
+                    ],
                 }
                 : {
-                    url,
-                    translationHelp,
+                    url: videoUrl,
+                    translationHelp: null,
                 }),
             detectedLanguage: courseLang,
             duration,
         };
     }
     async getVideoId(url) {
-        const matched = /learn\/([^/]+)\/lecture\/([^/]+)/.exec(url.pathname) ??
-            /lecture\/([^/]+)\/([^/]+)/.exec(url.pathname);
-        return matched?.[0];
+        return /learn\/([^/]+)\/lecture\/([^/]+)/.exec(url.pathname)?.[0];
     }
 }
 
@@ -7278,18 +7268,18 @@ class CloudflareStreamHelper extends BaseHelper {
 
 
 class DouyinHelper extends BaseHelper {
-    static getPlayer() {
+    getPlayer() {
         if (typeof player === "undefined") {
             return undefined;
         }
         return player;
     }
     async getVideoData(videoId) {
-        const xgPlayer = DouyinHelper.getPlayer();
+        const xgPlayer = this.getPlayer();
         if (!xgPlayer) {
             return undefined;
         }
-        const { config: { url: sources, duration, lang, isLive: isStream }, } = xgPlayer;
+        const { url: sources, duration, lang, isLive: isStream } = xgPlayer.config;
         if (!sources) {
             return undefined;
         }
@@ -7311,7 +7301,11 @@ class DouyinHelper extends BaseHelper {
         if (pathId) {
             return pathId;
         }
-        return DouyinHelper.getPlayer()?.config.vid;
+        const xgPlayer = this.getPlayer();
+        if (!xgPlayer) {
+            return undefined;
+        }
+        return xgPlayer.config.vid;
     }
 }
 
@@ -7365,7 +7359,16 @@ class LoomHelper extends BaseHelper {
             return undefined;
         }
         const release = SENTRY_RELEASE;
-        return release.id;
+        return release?.id;
+    }
+    getDefault(videoId) {
+        if (!this.service) {
+            return undefined;
+        }
+        return {
+            url: this.service.url + videoId,
+            duration: undefined,
+        };
     }
     async getVideoData(videoId) {
         try {
@@ -7407,7 +7410,7 @@ class LoomHelper extends BaseHelper {
         }
         catch (err) {
             Logger.error(`Failed to get Loom video data, because: ${err.message}`);
-            return this.returnBaseData(videoId);
+            return this.getDefault(videoId);
         }
     }
     async getVideoId(url) {
@@ -7765,7 +7768,6 @@ async function getVideoData(service, opts = {}) {
 }
 
 ;// ./node_modules/@vot.js/ext/dist/types/index.js
-
 
 
 
@@ -9618,7 +9620,7 @@ class VideoObserver {
   };
 
   handleVideoRemoved = (video) => {
-    if (!document.contains(video)) {
+    if (!video.isConnected) {
       this.videoCache.delete(video);
       this.onVideoRemoved.dispatch(video);
     }
