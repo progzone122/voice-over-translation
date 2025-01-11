@@ -51,7 +51,6 @@
     "lint": "npx oxlint --ignore-path=.oxlintignore && npx eslint",
     "prepare": "husky",
     "gen:wiki": "bun run ./scripts/wiki-gen/index.js",
-    "l10n": "bun run ./scripts/l10n-tui/index.ts",
     "localize": "bun run l10n",
     "postinstall": "patch-package"
   },
