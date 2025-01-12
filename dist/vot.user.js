@@ -9525,19 +9525,11 @@ class VideoObserver {
   checkVideoState(video) {
     if (this.videoCache.has(video) || !this.isValidVideo(video)) return;
     this.videoCache.add(video);
-    if (video.readyState >= 2 && video.videoWidth) {
-      this.onVideoAdded.dispatch(video);
-    } else {
-      video.addEventListener(
-        "loadeddata",
-        () => {
-          if (video.readyState >= 2 && video.videoWidth) {
-            this.onVideoAdded.dispatch(video);
-          }
-        },
-        { once: true },
-      );
-    }
+    video.addEventListener(
+      "timeupdate",
+      () => this.onVideoAdded.dispatch(video),
+      { once: true },
+    );
   }
 
   handleMutations = (mutations) => {
