@@ -20,6 +20,7 @@ export class VideoObserver {
   );
 
   constructor() {
+    this.videoCache = new WeakSet();
     this.onVideoAdded = new EventImpl();
     this.onVideoRemoved = new EventImpl();
     this.observer = new MutationObserver(this.handleMutations);
@@ -35,53 +36,38 @@ export class VideoObserver {
 
   isValidVideo(video) {
     if (this.isAdRelated(video)) return false;
-
     let parent = video.parentElement;
     while (parent) {
       if (this.isAdRelated(parent)) return false;
       parent = parent.parentElement;
     }
-
-    return !(
+    if (
       video.hasAttribute("muted") &&
       !video.classList.contains("vjs-tech") &&
       !video.preload
-    );
+    ) {
+      debug.log("Ignored promotional/muted video:", video);
+      return false;
+    }
+    return true;
   }
 
   findVideosInElement(root) {
     const videos = [];
-
     if (!root.querySelectorAll) return videos;
-
-    const directVideos = root.querySelectorAll("video");
-    for (const video of directVideos) {
-      videos.push(video);
-    }
-
-    const elements = root.querySelectorAll("*");
-    for (const element of elements) {
-      const shadowRoot = element.shadowRoot;
-      if (shadowRoot) {
-        const shadowVideos = this.findVideosInElement(shadowRoot);
-        for (const video of shadowVideos) {
-          videos.push(video);
-        }
+    videos.push(...root.querySelectorAll("video"));
+    for (const element of root.querySelectorAll("*")) {
+      if (element.shadowRoot) {
+        videos.push(...this.findVideosInElement(element.shadowRoot));
       }
     }
-
     return videos;
   }
 
   checkVideoState(video) {
-    if (!this.isValidVideo(video)) {
-      debug.log("Ignored promotional/muted video:", video);
-      return;
-    }
-
-    const isReady = video.readyState >= 2 && video.videoWidth;
-
-    if (isReady) {
+    if (this.videoCache.has(video) || !this.isValidVideo(video)) return;
+    this.videoCache.add(video);
+    if (video.readyState >= 2 && video.videoWidth) {
       this.onVideoAdded.dispatch(video);
     } else {
       video.addEventListener(
@@ -101,23 +87,20 @@ export class VideoObserver {
       () => {
         for (const mutation of mutations) {
           if (mutation.type !== "childList") continue;
-
           for (const node of mutation.addedNodes) {
-            if (!(node instanceof HTMLElement)) continue;
-
-            const videos = this.findVideosInElement(node);
-            for (const video of videos) {
-              this.checkVideoState(video);
+            if (node instanceof HTMLElement) {
+              for (const video of this.findVideosInElement(node)) {
+                this.checkVideoState(video);
+              }
             }
           }
-
           for (const node of mutation.removedNodes) {
-            if (!(node instanceof HTMLElement)) continue;
-
-            const videos = this.findVideosInElement(node);
-            for (const video of videos) {
-              if (!video.isConnected) {
-                this.onVideoRemoved.dispatch(video);
+            if (node instanceof HTMLElement) {
+              for (const video of this.findVideosInElement(node)) {
+                if (!video.isConnected) {
+                  this.onVideoRemoved.dispatch(video);
+                  this.videoCache.delete(video);
+                }
               }
             }
           }
@@ -132,9 +115,7 @@ export class VideoObserver {
       childList: true,
       subtree: true,
     });
-
-    const videos = this.findVideosInElement(document.documentElement);
-    for (const video of videos) {
+    for (const video of this.findVideosInElement(document.documentElement)) {
       this.checkVideoState(video);
     }
   }
