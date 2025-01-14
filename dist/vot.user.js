@@ -1574,7 +1574,7 @@ class Chaimu {
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.1.8",
+    version: "2.1.9",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -5668,7 +5668,8 @@ class EpicGamesHelper extends BaseHelper {
         }
     }
     async getVideoData(videoId) {
-        const postInfo = await this.getPostInfo(videoId);
+        const courseId = videoId.split(":")?.[1];
+        const postInfo = await this.getPostInfo(courseId);
         if (!postInfo) {
             return undefined;
         }
@@ -5694,17 +5695,18 @@ class EpicGamesHelper extends BaseHelper {
     async getVideoId(url) {
         return new Promise((resolve) => {
             const origin = "https://dev.epicgames.com";
+            const reqId = btoa(window.location.href);
             window.addEventListener("message", (e) => {
                 if (e.origin !== origin) {
                     return undefined;
                 }
-                if (typeof e.data === "string" && e.data.startsWith("getVideoId:")) {
-                    const videoId = e.data.replace("getVideoId:", "");
-                    return resolve(videoId);
+                if (!(typeof e.data === "string" && e.data.startsWith("getVideoId:"))) {
+                    return undefined;
                 }
-                return undefined;
+                const videoId = e.data.replace("getVideoId:", "");
+                return resolve(videoId);
             });
-            window.top.postMessage("getVideoId", origin);
+            window.top.postMessage(`getVideoId:${reqId}`, origin);
         });
     }
 }
@@ -7515,6 +7517,7 @@ class RtNewsHelper extends BaseHelper {
 }
 
 ;// ./node_modules/@vot.js/ext/dist/helpers/index.js
+
 
 
 
@@ -12597,17 +12600,23 @@ function initIframeInteractor() {
         return;
       }
 
-      if (e.data !== "getVideoId") {
+      if (!(typeof e.data === "string" && e.data.startsWith("getVideoId:"))) {
         return;
       }
 
+      const reqId = e.data.replace("getVideoId:", "");
+      const iframeLink = atob(reqId);
       const videoId = /\/(\w{3,5})\/[^/]+$/.exec(window.location.pathname)?.[1];
-      const iframeWin = document.querySelector(
-        "electra-player > iframe",
+      const iframes = Array.from(
+        document.querySelectorAll("electra-player > iframe"),
+      );
+
+      const iframeWin = iframes.find(
+        (iframe) => iframe.src === iframeLink,
       )?.contentWindow;
 
       iframeWin.postMessage(
-        `getVideoId:${videoId}`,
+        `${e.data}:${videoId}`,
         "https://dev.epicgames.com",
       );
     });
