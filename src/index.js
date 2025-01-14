@@ -2951,17 +2951,23 @@ function initIframeInteractor() {
         return;
       }
 
-      if (e.data !== "getVideoId") {
+      if (!(typeof e.data === "string" && e.data.startsWith("getVideoId:"))) {
         return;
       }
 
+      const reqId = e.data.replace("getVideoId:", "");
+      const iframeLink = atob(reqId);
       const videoId = /\/(\w{3,5})\/[^/]+$/.exec(window.location.pathname)?.[1];
-      const iframeWin = document.querySelector(
-        "electra-player > iframe",
+      const iframes = Array.from(
+        document.querySelectorAll("electra-player > iframe"),
+      );
+
+      const iframeWin = iframes.find(
+        (iframe) => iframe.src === iframeLink,
       )?.contentWindow;
 
       iframeWin.postMessage(
-        `getVideoId:${videoId}`,
+        `${e.data}:${videoId}`,
         "https://dev.epicgames.com",
       );
     });
