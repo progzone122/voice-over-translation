@@ -12607,12 +12607,8 @@ function initIframeInteractor() {
       const reqId = e.data.replace("getVideoId:", "");
       const iframeLink = atob(reqId);
       const videoId = /\/(\w{3,5})\/[^/]+$/.exec(window.location.pathname)?.[1];
-      const iframes = Array.from(
-        document.querySelectorAll("electra-player > iframe"),
-      );
-
-      const iframeWin = iframes.find(
-        (iframe) => iframe.src === iframeLink,
+      const iframeWin = document.querySelector(
+        `electra-player > iframe[src="${iframeLink}"]`,
       )?.contentWindow;
 
       iframeWin.postMessage(
