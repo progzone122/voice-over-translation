@@ -104,6 +104,7 @@
 // @match          *://*.loom.com/*
 // @match          *://*.artstation.com/learning/*
 // @match          *://*.rt.com/*
+// @match          *://*.bitview.net/*
 // @match          *://*/*.mp4*
 // @match          *://*/*.webm*
 // @match          *://*.yewtu.be/*
@@ -1574,7 +1575,7 @@ class Chaimu {
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.1.9",
+    version: "2.1.10",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -3539,6 +3540,7 @@ var VideoService;
     VideoService["cloudflarestream"] = "cloudflarestream";
     VideoService["loom"] = "loom";
     VideoService["rtnews"] = "rtnews";
+    VideoService["bitview"] = "bitview";
 })(VideoService || (VideoService = {}));
 
 ;// ./node_modules/@vot.js/core/dist/utils/vot.js
@@ -5078,6 +5080,12 @@ var ExtVideoService;
         url: "https://www.rt.com/",
         match: /^(www.)?rt.com$/,
         selector: ".jw-media",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.bitview,
+        url: "https://www.bitview.net/watch?v=",
+        match: /^(www.)?bitview.net$/,
         needExtraData: true,
     },
     {
@@ -7516,7 +7524,33 @@ class RtNewsHelper extends BaseHelper {
     }
 }
 
+;// ./node_modules/@vot.js/ext/dist/helpers/bitview.js
+
+
+class BitviewHelper extends BaseHelper {
+    async getVideoData(videoId) {
+        try {
+            const videoUrl = document.querySelector(".vlScreen > video")?.src;
+            if (!videoUrl) {
+                throw new VideoHelperError("Failed to find video URL");
+            }
+            return {
+                url: videoUrl,
+            };
+        }
+        catch (err) {
+            Logger.error(`Failed to get Bitview data by videoId: ${videoId}`, err.message);
+            return undefined;
+        }
+    }
+    async getVideoId(url) {
+        return url.searchParams.get("v");
+    }
+}
+
 ;// ./node_modules/@vot.js/ext/dist/helpers/index.js
+
+
 
 
 
@@ -7672,6 +7706,7 @@ const availableHelpers = {
     [VideoService.cloudflarestream]: CloudflareStreamHelper,
     [VideoService.loom]: LoomHelper,
     [VideoService.rtnews]: RtNewsHelper,
+    [VideoService.bitview]: BitviewHelper,
     [ExtVideoService.udemy]: UdemyHelper,
     [ExtVideoService.coursera]: CourseraHelper,
     [ExtVideoService.douyin]: DouyinHelper,
