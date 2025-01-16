@@ -84,6 +84,7 @@
     "*://*.loom.com/*",
     "*://*.artstation.com/learning/*",
     "*://*.rt.com/*",
+    "*://*.bitview.net/*",
     "*://*/*.mp4*",
     "*://*/*.webm*"
   ],
