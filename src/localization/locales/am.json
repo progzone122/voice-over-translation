@@ -199,5 +199,9 @@
   "TranslationDelayed": "ትርጉሙ ትንሽ ዘግይቷል",
   "VOTTranslationCompletedNotify": "በ {0} ላይ ያለው ትርጉም ተጠናቅቋል!",
   "VOTSendNotifyOnComplete": "ቪዲዮው የተተረጎመ መሆኑን ማሳወቂያ ይላኩ",
-  "VOTBugReport": "ሳንካ ሪፖርት ያድርጉ"
+  "VOTBugReport": "ሳንካ ሪፖርት ያድርጉ",
+  "VOTTranslateProxyDisabled": "አካል ጉዳተኞች",
+  "VOTTranslateProxyEnabled": "ነቅቷል",
+  "VOTTranslateProxyEverything": "ሁሉንም ነገር ተኪ",
+  "VOTTranslateProxyStatus": "ፕሮክሲ ሁነታ"
 }

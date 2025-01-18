@@ -51,13 +51,12 @@
     "lint": "npx oxlint --ignore-path=.oxlintignore && npx eslint",
     "prepare": "husky",
     "gen:wiki": "bun run ./scripts/wiki-gen/index.js",
-    "l10n": "bun run ./scripts/l10n-tui/index.ts",
     "localize": "bun run l10n",
     "postinstall": "patch-package"
   },
   "dependencies": {
-    "@vot.js/ext": "^2.1.2",
-    "@vot.js/shared": "^2.1.2",
+    "@vot.js/ext": "^2.1.10",
+    "@vot.js/shared": "^2.1.10",
     "bowser": "^2.11.0",
     "chaimu": "^1.0.3",
     "lit": "^3.2.1",

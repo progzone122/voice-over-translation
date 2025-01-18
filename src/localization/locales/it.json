@@ -199,5 +199,9 @@
   "TranslationDelayed": "La traduzione è leggermente ritardata",
   "VOTTranslationCompletedNotify": "La traduzione sul {0} è stata completata!",
   "VOTSendNotifyOnComplete": "Invia una notifica che il video è stato tradotto",
-  "VOTBugReport": "Segnala un bug"
+  "VOTBugReport": "Segnala un bug",
+  "VOTTranslateProxyDisabled": "Disabilita",
+  "VOTTranslateProxyEnabled": "Abilitato",
+  "VOTTranslateProxyEverything": "Proxy tutto",
+  "VOTTranslateProxyStatus": "Modalità proxy"
 }

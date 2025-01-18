@@ -120,39 +120,40 @@ async function GM_fetch(url, opts = {}) {
     if (url.includes("api.browser.yandex.ru")) {
       throw new Error("Preventing yandex cors");
     }
-
-    const response = await fetch(url, {
+    return await fetch(url, {
       signal: controller.signal,
       ...fetchOptions,
     });
-    return response;
   } catch (err) {
     // Если fetch завершился ошибкой, используем GM_xmlhttpRequest
     // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
-    debug.log("GM_fetch preventing cors by GM_xmlhttpRequest", err.message);
+    debug.log("GM_fetch preventing CORS by GM_xmlhttpRequest", err.message);
+
     return new Promise((resolve, reject) => {
       GM_xmlhttpRequest({
         method: fetchOptions.method || "GET",
         url,
         responseType: "blob",
-        ...fetchOptions,
         data: fetchOptions.body,
         timeout,
+        headers: fetchOptions.headers || {},
         onload: (resp) => {
-          // chrome \n and ":", firefox \r\n and ": " (Only in GM_xmlhttpRequest)
-          // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/getAllResponseHeaders#examples
-          const headers = Object.fromEntries(
-            resp.responseHeaders
-              .trim()
-              .split(/\r?\n/)
-              .map((line) => line.split(/: (.+)/))
-              .filter(([key]) => key && /^[\w-]+$/.test(key)),
-          );
+          const headers = resp.responseHeaders
+            .split(/\r?\n/)
+            .reduce((acc, line) => {
+              const [, key, value] = line.match(/^([\w-]+): (.+)$/) || [];
+              if (key) {
+                acc[key] = value;
+              }
+              return acc;
+            }, {});
 
           const response = new Response(resp.response, {
             status: resp.status,
             headers: headers,
           });
+          // Response have empty url by default
+          // this need to get same response url as in classic fetch
           Object.defineProperty(response, "url", {
             value: resp.finalUrl ?? "",
           });
@@ -160,7 +161,7 @@ async function GM_fetch(url, opts = {}) {
           resolve(response);
         },
         ontimeout: () => reject(new Error("Timeout")),
-        onerror: (error) => reject(error),
+        onerror: (error) => reject(new Error(error)),
         onabort: () => reject(new Error("AbortError")),
       });
     });

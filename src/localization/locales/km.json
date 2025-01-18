@@ -199,5 +199,9 @@
   "TranslationDelayed": "ការបកប្រែនេះត្រូវបានពន្យារពេលបន្តិច",
   "VOTTranslationCompletedNotify": "ការបកប្រែនៅលើនេះ{0}ត្រូវបានបញ្ចប់!",
   "VOTSendNotifyOnComplete": "ផ្ញើការជូនដំណឹងថាវីដេអូនេះត្រូវបានបកប្រែ",
-  "VOTBugReport": "រាយការណ៍កំហុស"
+  "VOTBugReport": "រាយការណ៍កំហុស",
+  "VOTTranslateProxyDisabled": "មិនអនុញ្ញាត",
+  "VOTTranslateProxyEnabled": "បានអនុញ្ញាត",
+  "VOTTranslateProxyEverything": "អ្វីគ្រប់យ៉ាងប្រូកស៊ី",
+  "VOTTranslateProxyStatus": "របៀបប្រូកស៊ី"
 }

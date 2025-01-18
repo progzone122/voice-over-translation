@@ -199,5 +199,9 @@
   "TranslationDelayed": "Çeviri biraz gecikti",
   "VOTTranslationCompletedNotify": "{0}'daki çeviri tamamlandı!",
   "VOTSendNotifyOnComplete": "Videonun çevrildiğine dair bir bildirim gönderin",
-  "VOTBugReport": "Hata bildir"
+  "VOTBugReport": "Hata bildir",
+  "VOTTranslateProxyDisabled": "Engelli",
+  "VOTTranslateProxyEnabled": "Etkin",
+  "VOTTranslateProxyEverything": "Proxy her şey",
+  "VOTTranslateProxyStatus": "Proxy modu"
 }

@@ -199,5 +199,9 @@
   "TranslationDelayed": "Itzulpena atzeratu egin da",
   "VOTTranslationCompletedNotify": "{0} (r) en itzulpena osatu da!",
   "VOTSendNotifyOnComplete": "Bidali bideoa itzuli dela jakinarazpena",
-  "VOTBugReport": "Errore baten berri eman"
+  "VOTBugReport": "Errore baten berri eman",
+  "VOTTranslateProxyDisabled": "Desgaituta",
+  "VOTTranslateProxyEnabled": "Gaituta",
+  "VOTTranslateProxyEverything": "Ordezko dena",
+  "VOTTranslateProxyStatus": "Ordezko modua"
 }

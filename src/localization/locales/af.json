@@ -199,5 +199,9 @@
   "TranslationDelayed": "Die vertaling is effens vertraag",
   "VOTTranslationCompletedNotify": "Die vertaling op die {0} is voltooi!",
   "VOTSendNotifyOnComplete": "Stuur'n kennisgewing dat die video vertaal is",
-  "VOTBugReport": "Rapporteer'n fout"
+  "VOTBugReport": "Rapporteer'n fout",
+  "VOTTranslateProxyDisabled": "Gedeaktiveer",
+  "VOTTranslateProxyEnabled": "Geaktiveer",
+  "VOTTranslateProxyEverything": "Volmag alles",
+  "VOTTranslateProxyStatus": "Volmagmodus"
 }

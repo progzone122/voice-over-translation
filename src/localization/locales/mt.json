@@ -199,5 +199,9 @@
   "TranslationDelayed": "It traduzzjoni hija kemmxejn ittardjata",
   "VOTTranslationCompletedNotify": "It-traduzzjoni fuq il - {0} tlestiet!",
   "VOTSendNotifyOnComplete": "Ibgħat notifika li l-video ġie tradott",
-  "VOTBugReport": "Irrapporta bug"
+  "VOTBugReport": "Irrapporta bug",
+  "VOTTranslateProxyDisabled": "Diżattivat",
+  "VOTTranslateProxyEnabled": "Attivat",
+  "VOTTranslateProxyEverything": "Prokura kollox",
+  "VOTTranslateProxyStatus": "Mod ta'prokura"
 }

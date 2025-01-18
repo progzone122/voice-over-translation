@@ -199,5 +199,9 @@
   "TranslationDelayed": "ການແປພາສາແມ່ນຊັກຊ້າເລັກນ້ອຍ",
   "VOTTranslationCompletedNotify": "ການແປພາສາໃນ{0}ໄດ້ສໍາເລັດແລ້ວ!",
   "VOTSendNotifyOnComplete": "ສົ່ງແຈ້ງການວ່າວິດີໂອໄດ້ຮັບການແປ",
-  "VOTBugReport": "ລາຍງານຂໍ້ບົກພ່ອງ"
+  "VOTBugReport": "ລາຍງານຂໍ້ບົກພ່ອງ",
+  "VOTTranslateProxyDisabled": "ພິການ",
+  "VOTTranslateProxyEnabled": "ເປີດໃຊ້ງານ",
+  "VOTTranslateProxyEverything": "ຕົວແທນທຸກສິ່ງທຸກຢ່າງ",
+  "VOTTranslateProxyStatus": "ຮູບແບບຕົວແທນ"
 }

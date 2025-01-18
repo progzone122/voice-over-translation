@@ -199,5 +199,9 @@
   "TranslationDelayed": "Terjemahan rada telat",
   "VOTTranslationCompletedNotify": "Terjemahan ing {0} wis rampung!",
   "VOTSendNotifyOnComplete": "Kirimi kabar sing video wis diterjemahaké",
-  "VOTBugReport": "Laporan bug"
+  "VOTBugReport": "Laporan bug",
+  "VOTTranslateProxyDisabled": "Cacat",
+  "VOTTranslateProxyEnabled": "Diaktifake",
+  "VOTTranslateProxyEverything": "Proxy kabèh",
+  "VOTTranslateProxyStatus": "Mode proxy"
 }

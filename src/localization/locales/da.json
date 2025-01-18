@@ -199,5 +199,9 @@
   "TranslationDelayed": "Oversættelsen er lidt forsinket",
   "VOTTranslationCompletedNotify": "Oversættelsen på {0} er afsluttet!",
   "VOTSendNotifyOnComplete": "Send en meddelelse om, at videoen er blevet oversat",
-  "VOTBugReport": "Rapporter en fejl"
+  "VOTBugReport": "Rapporter en fejl",
+  "VOTTranslateProxyDisabled": "Deaktiveret",
+  "VOTTranslateProxyEnabled": "Aktiveret",
+  "VOTTranslateProxyEverything": "Fuldmagt alt",
+  "VOTTranslateProxyStatus": "Fuldførelsestilstand"
 }

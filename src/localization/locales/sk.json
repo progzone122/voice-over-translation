@@ -199,5 +199,9 @@
   "TranslationDelayed": "Preklad je mierne oneskorený",
   "VOTTranslationCompletedNotify": "Preklad na {0} bol dokončený!",
   "VOTSendNotifyOnComplete": "Pošlite upozornenie, že video bolo preložené",
-  "VOTBugReport": "Nahlásiť chybu"
+  "VOTBugReport": "Nahlásiť chybu",
+  "VOTTranslateProxyDisabled": "Vypnutý",
+  "VOTTranslateProxyEnabled": "Povoliť",
+  "VOTTranslateProxyEverything": "Proxy všetko",
+  "VOTTranslateProxyStatus": "Režim proxy"
 }

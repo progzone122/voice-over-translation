@@ -199,5 +199,9 @@
   "TranslationDelayed": "Traducerea este ușor întârziată",
   "VOTTranslationCompletedNotify": "Traducerea pe {0} a fost finalizată!",
   "VOTSendNotifyOnComplete": "Trimiteți o notificare că videoclipul a fost tradus",
-  "VOTBugReport": "Raportați o eroare"
+  "VOTBugReport": "Raportați o eroare",
+  "VOTTranslateProxyDisabled": "Dezactivat",
+  "VOTTranslateProxyEnabled": "Activat",
+  "VOTTranslateProxyEverything": "Proxy totul",
+  "VOTTranslateProxyStatus": "Modul proxy"
 }

@@ -199,5 +199,9 @@
   "TranslationDelayed": "Преводът леко закъснява.",
   "VOTTranslationCompletedNotify": "Преводът на {0} е завършен!",
   "VOTSendNotifyOnComplete": "Изпратете съобщение, че видеото е преведено",
-  "VOTBugReport": "Съобщете за грешка"
+  "VOTBugReport": "Съобщете за грешка",
+  "VOTTranslateProxyDisabled": "Изключено",
+  "VOTTranslateProxyEnabled": "Включено",
+  "VOTTranslateProxyEverything": "Прокси всичко",
+  "VOTTranslateProxyStatus": "Прокси режим"
 }

@@ -199,5 +199,9 @@
   "TranslationDelayed": "Översättningen är något försenad",
   "VOTTranslationCompletedNotify": "Översättningen på {0} är klar!",
   "VOTSendNotifyOnComplete": "Skicka ett meddelande om att videon har översatts",
-  "VOTBugReport": "Rapportera ett fel"
+  "VOTBugReport": "Rapportera ett fel",
+  "VOTTranslateProxyDisabled": "Inaktiverad",
+  "VOTTranslateProxyEnabled": "Aktiverad",
+  "VOTTranslateProxyEverything": "Proxy allt",
+  "VOTTranslateProxyStatus": "Proxying-läge"
 }

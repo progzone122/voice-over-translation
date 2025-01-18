@@ -1,4 +1,8 @@
 import Bowser from "bowser";
+import { svg, html } from "lit-html";
+import { ID3Writer } from "browser-id3-writer";
+import Chaimu, { initAudioContext } from "chaimu";
+
 import VOTClient, { VOTWorkerClient } from "@vot.js/ext";
 import votConfig from "@vot.js/shared/config";
 import {
@@ -12,9 +16,7 @@ import {
   subtitlesFormats,
 } from "@vot.js/shared/consts";
 import { convertSubs } from "@vot.js/shared/utils/subs";
-import { svg, html } from "lit-html";
-import { ID3Writer } from "browser-id3-writer";
-import Chaimu, { initAudioContext } from "chaimu";
+import YoutubeHelper from "@vot.js/ext/helpers/youtube";
 
 import {
   defaultAutoVolume,
@@ -36,7 +38,6 @@ import {
 import { SubtitlesWidget, SubtitlesProcessor } from "./subtitles.js";
 
 import ui from "./ui.js";
-import youtubeUtils from "./utils/youtubeUtils.js";
 import debug from "./utils/debug.ts";
 
 import { VOTLocalizedError } from "./utils/VOTLocalizedError.js";
@@ -49,12 +50,14 @@ import {
   downloadBlob,
   clearFileName,
   getTimestamp,
+  cleanText,
 } from "./utils/utils.js";
 import { syncVolume } from "./utils/volume.js";
 import { VideoObserver } from "./utils/VideoObserver.js";
 import { votStorage, convertData } from "./utils/storage.ts";
 import {
   detectServices,
+  detect,
   translate,
   translateServices,
 } from "./utils/translateApis.ts";
@@ -126,7 +129,6 @@ class VideoHandler {
 
   videoTranslations = []; // list of video translations
   videoTranslationTTL = 7200; // 2 hours
-  translateProxyEnabled = 0; // 0 - disabled, 1 - enabled, 2 - proxy everything
   cachedTranslation; // cached video translation
 
   downloadTranslationUrl = null;
@@ -422,6 +424,8 @@ class VideoHandler {
       hotkeyButton: votStorage.get("hotkeyButton", null),
       m3u8ProxyHost: votStorage.get("m3u8ProxyHost", m3u8ProxyHost),
       proxyWorkerHost: votStorage.get("proxyWorkerHost", proxyWorkerHost),
+      // 0 - disabled, 1 - enabled, 2 - proxy everything
+      translateProxyEnabled: votStorage.get("translateProxyEnabled", 0),
       audioBooster: votStorage.get("audioBooster", 0),
       useNewModel: votStorage.get("useNewModel", 1),
       localeHash: votStorage.get("locale-hash", ""),
@@ -474,11 +478,11 @@ class VideoHandler {
     );
 
     if (
-      !this.translateProxyEnabled &&
+      !this.data.translateProxyEnabled &&
       GM_info?.scriptHandler &&
       proxyOnlyExtensions.includes(GM_info.scriptHandler)
     ) {
-      this.translateProxyEnabled = 1;
+      this.data.translateProxyEnabled = 1;
     }
 
     if (!countryCode) {
@@ -486,36 +490,21 @@ class VideoHandler {
         const response = await GM_fetch("https://speed.cloudflare.com/meta", {
           timeout: 7000,
         });
-        const { country } = await response.json();
-        countryCode = country;
-        this.translateProxyEnabled =
-          country === "UA" ? 2 : this.translateProxyEnabled;
+        ({ country: countryCode } = await response.json());
+        if (countryCode === "UA") {
+          this.data.translateProxyEnabled = 2;
+        }
       } catch (err) {
         console.error("[VOT] Error getting country:", err);
       }
     } else if (countryCode === "UA") {
-      this.translateProxyEnabled = 2;
+      this.data.translateProxyEnabled = 2;
     }
 
-    debug.log("translateProxyEnabled", this.translateProxyEnabled);
+    debug.log("translateProxyEnabled", this.data.translateProxyEnabled);
     debug.log("Extension compatibility passed...");
 
-    this.votOpts = {
-      headers: this.translateProxyEnabled
-        ? {}
-        : {
-            "sec-ch-ua": null,
-            "sec-ch-ua-mobile": null,
-            "sec-ch-ua-platform": null,
-          },
-      fetchFn: GM_fetch,
-      hostVOT: votBackendUrl,
-      host: this.translateProxyEnabled ? this.data.proxyWorkerHost : workerHost,
-    };
-
-    this.votClient = new (
-      this.translateProxyEnabled ? VOTWorkerClient : VOTClient
-    )(this.votOpts);
+    this.initVOTClient();
 
     this.subtitlesWidget = new SubtitlesWidget(
       this.video,
@@ -543,6 +532,21 @@ class VideoHandler {
     await Promise.all([this.updateSubtitles(), this.autoTranslate()]);
 
     this.initialized = true;
+  }
+
+  initVOTClient() {
+    this.votOpts = {
+      fetchFn: GM_fetch,
+      hostVOT: votBackendUrl,
+      host: this.data.translateProxyEnabled
+        ? this.data.proxyWorkerHost
+        : workerHost,
+    };
+
+    this.votClient = new (
+      this.data.translateProxyEnabled ? VOTWorkerClient : VOTClient
+    )(this.votOpts);
+    return this;
   }
 
   isLoadingText(text) {
@@ -982,6 +986,40 @@ class VideoHandler {
         this.votProxyWorkerHostTextfield.container,
       );
 
+      const proxyEnabledLabels = [
+        localizationProvider.get("VOTTranslateProxyDisabled"),
+        localizationProvider.get("VOTTranslateProxyEnabled"),
+        localizationProvider.get("VOTTranslateProxyEverything"),
+      ];
+
+      this.votTranslateProxyEnabledSelect = ui.createVOTSelect(
+        proxyEnabledLabels[this.data.translateProxyEnabled],
+        localizationProvider.get("VOTTranslateProxyStatus"),
+        genOptionsByOBJ(
+          proxyEnabledLabels,
+          proxyEnabledLabels[this.data.translateProxyEnabled],
+        ),
+        {
+          onSelectCb: async (_, selectedValue) => {
+            this.data.translateProxyEnabled =
+              proxyEnabledLabels.findIndex((val) => val === selectedValue) ?? 0;
+            await votStorage.set(
+              "translateProxyEnabled",
+              this.data.translateProxyEnabled,
+            );
+            this.initVOTClient();
+            this.videoTranslations = [];
+          },
+          labelElement: ui.createVOTSelectLabel(
+            localizationProvider.get("VOTTranslateProxyStatus"),
+          ),
+        },
+      );
+
+      this.votSettingsDialog.bodyContainer.appendChild(
+        this.votTranslateProxyEnabledSelect.container,
+      );
+
       this.votNewAudioPlayerCheckbox = ui.createCheckbox(
         localizationProvider.get("VOTNewAudioPlayer"),
         this.data?.newAudioPlayer ?? false,
@@ -1310,9 +1348,7 @@ class VideoHandler {
 
         ui.afterAnimateLoader(votLoader, primaryColor);
         const blob = new Blob(chunks);
-        const filename = clearFileName(
-          this.videoData.title ?? this.videoData.videoId,
-        );
+        const filename = clearFileName(this.videoData.downloadTitle);
         const arrayBuffer = await blob.arrayBuffer();
         const writer = new ID3Writer(arrayBuffer);
         writer.setFrame("TIT2", filename);
@@ -1331,7 +1367,7 @@ class VideoHandler {
         );
 
         const filename = this.data.downloadWithName
-          ? clearFileName(this.videoData.title ?? this.videoData.videoId)
+          ? clearFileName(this.videoData.downloadTitle)
           : `subtitles_${this.videoData.videoId}`;
         downloadBlob(blob, `${filename}.${format}`);
       });
@@ -1742,7 +1778,7 @@ class VideoHandler {
             "proxyWorkerHost value changed. New value: ",
             this.data.proxyWorkerHost,
           );
-          if (this.translateProxyEnabled) {
+          if (this.data.translateProxyEnabled) {
             this.votClient.host = this.data.proxyWorkerHost;
           }
         })();
@@ -2118,7 +2154,7 @@ class VideoHandler {
     } else {
       const subtitlesObj = this.subtitlesList.at(parseInt(subs));
       if (
-        this.translateProxyEnabled === 2 &&
+        this.data.translateProxyEnabled === 2 &&
         subtitlesObj.url.startsWith(
           "https://brosubs.s3-private.mds.yandex.net/vtrans/",
         )
@@ -2212,7 +2248,7 @@ class VideoHandler {
   getVideoVolume() {
     let videoVolume = this.video?.volume;
     if (["youtube", "googledrive"].includes(this.site.host)) {
-      videoVolume = youtubeUtils.getVideoVolume() ?? videoVolume;
+      videoVolume = YoutubeHelper.getVolume() ?? videoVolume;
     }
 
     return videoVolume;
@@ -2225,7 +2261,7 @@ class VideoHandler {
    */
   setVideoVolume(volume) {
     if (["youtube", "googledrive"].includes(this.site.host)) {
-      const videoVolume = youtubeUtils.setVideoVolume(volume);
+      const videoVolume = YoutubeHelper.setVolume(volume);
       if (videoVolume) {
         return this;
       }
@@ -2240,7 +2276,7 @@ class VideoHandler {
    */
   isMuted() {
     return ["youtube", "googledrive"].includes(this.site.host)
-      ? youtubeUtils.isMuted()
+      ? YoutubeHelper.isMuted()
       : this.video?.muted;
   }
 
@@ -2319,16 +2355,30 @@ class VideoHandler {
       host,
       title,
       translationHelp = null,
-      detectedLanguage = this.translateFromLang,
+      localizedTitle,
+      description,
+      detectedLanguage: possibleLanguage,
       subtitles,
       isStream = false,
     } = await getVideoData(this.site, {
       fetchFn: GM_fetch,
       video: this.video,
+      language: localizationProvider.lang,
     });
+
+    let detectedLanguage = possibleLanguage ?? this.translateFromLang;
+    if (!possibleLanguage && title) {
+      const text = cleanText(title, description);
+      debug.log(`Detecting language text: ${text}`);
+
+      const language = await detect(text);
+      if (availableLangs.includes(language)) {
+        detectedLanguage = language;
+      }
+    }
+
     const videoData = {
       translationHelp,
-      // by default, we request the translation of the video
       isStream,
       // ! if 0 - we get 400 error
       duration: duration || this.video?.duration || votConfig.defaultDuration,
@@ -2339,16 +2389,12 @@ class VideoHandler {
       responseLanguage: this.translateToLang,
       subtitles,
       title,
+      localizedTitle,
+      downloadTitle: localizedTitle ?? title ?? videoId,
     };
 
-    if (this.site.host === "youtube") {
-      const youtubeData = await youtubeUtils.getVideoData();
-      videoData.isStream = youtubeData.isLive;
-      if (youtubeData.title) {
-        videoData.detectedLanguage = youtubeData.detectedLanguage;
-        videoData.title = youtubeData.localizedTitle;
-      }
-    } else if (["rutube", "ok.ru", "mail_ru"].includes(this.site.host)) {
+    console.log("[VOT] Detected language:", detectedLanguage);
+    if (["rutube", "ok.ru", "mail_ru"].includes(this.site.host)) {
       videoData.detectedLanguage = "ru";
     } else if (this.site.host === "youku") {
       videoData.detectedLanguage = "zh";
@@ -2537,7 +2583,7 @@ class VideoHandler {
 
   proxifyAudio(audioUrl) {
     if (
-      this.translateProxyEnabled === 2 &&
+      this.data.translateProxyEnabled === 2 &&
       audioUrl.startsWith("https://vtrans.s3-private.mds.yandex.net/tts/prod/")
     ) {
       const audioPath = audioUrl.replace(
@@ -2621,7 +2667,7 @@ class VideoHandler {
 
       const streamURL = this.setHLSSource(translateRes.result.url);
       if (this.site.host === "youtube") {
-        youtubeUtils.videoSeek(this.video, 10); // 10 is the most successful number for streaming. With it, the audio is not so far behind the original
+        YoutubeHelper.videoSeek(this.video, 10); // 10 is the most successful number for streaming. With it, the audio is not so far behind the original
       }
 
       this.setupAudioSettings();
@@ -2905,17 +2951,19 @@ function initIframeInteractor() {
         return;
       }
 
-      if (e.data !== "getVideoId") {
+      if (!(typeof e.data === "string" && e.data.startsWith("getVideoId:"))) {
         return;
       }
 
+      const reqId = e.data.replace("getVideoId:", "");
+      const iframeLink = atob(reqId);
       const videoId = /\/(\w{3,5})\/[^/]+$/.exec(window.location.pathname)?.[1];
       const iframeWin = document.querySelector(
-        "electra-player > iframe",
+        `electra-player > iframe[src="${iframeLink}"]`,
       )?.contentWindow;
 
       iframeWin.postMessage(
-        `getVideoId:${videoId}`,
+        `${e.data}:${videoId}`,
         "https://dev.epicgames.com",
       );
     });

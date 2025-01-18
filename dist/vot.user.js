@@ -31,6 +31,8 @@
 // @match          *://*.youtubekids.com/*
 // @match          *://*.twitch.tv/*
 // @match          *://*.xvideos.com/*
+// @match          *://*.xvideos-ar.com/*
+// @match          *://*.xvideos005.com/*
 // @match          *://*.xv-ru.com/*
 // @match          *://*.pornhub.com/*
 // @match          *://*.vk.com/*
@@ -45,7 +47,7 @@
 // @match          *://*.bilibili.com/*
 // @match          *://my.mail.ru/*
 // @match          *://*.bitchute.com/*
-// @match          *://*.coursera.org/learn/*
+// @match          *://*.coursera.org/*
 // @match          *://*.udemy.com/course/*
 // @match          *://*.tiktok.com/*
 // @match          *://*.douyin.com/*
@@ -55,6 +57,22 @@
 // @match          *://*.ok.ru/*
 // @match          *://trovo.live/*
 // @match          *://disk.yandex.ru/*
+// @match          *://disk.yandex.kz/*
+// @match          *://disk.yandex.com/*
+// @match          *://disk.yandex.com.am/*
+// @match          *://disk.yandex.com.ge/*
+// @match          *://disk.yandex.com.tr/*
+// @match          *://disk.yandex.by/*
+// @match          *://disk.yandex.az/*
+// @match          *://disk.yandex.co.il/*
+// @match          *://disk.yandex.ee/*
+// @match          *://disk.yandex.lt/*
+// @match          *://disk.yandex.lv/*
+// @match          *://disk.yandex.md/*
+// @match          *://disk.yandex.net/*
+// @match          *://disk.yandex.tj/*
+// @match          *://disk.yandex.tm/*
+// @match          *://disk.yandex.uz/*
 // @match          *://youtube.googleapis.com/embed/*
 // @match          *://*.banned.video/*
 // @match          *://*.madmaxworld.tv/*
@@ -85,6 +103,8 @@
 // @match          *://*.cloudflarestream.com/*
 // @match          *://*.loom.com/*
 // @match          *://*.artstation.com/learning/*
+// @match          *://*.rt.com/*
+// @match          *://*.bitview.net/*
 // @match          *://*/*.mp4*
 // @match          *://*/*.webm*
 // @match          *://*.yewtu.be/*
@@ -165,6 +185,22 @@
 // @exclude        file://*/*.webm*
 // @exclude        *://accounts.youtube.com/*
 // @connect        yandex.ru
+// @connect        disk.yandex.kz
+// @connect        disk.yandex.com
+// @connect        disk.yandex.com.am
+// @connect        disk.yandex.com.ge
+// @connect        disk.yandex.com.tr
+// @connect        disk.yandex.by
+// @connect        disk.yandex.az
+// @connect        disk.yandex.co.il
+// @connect        disk.yandex.ee
+// @connect        disk.yandex.lt
+// @connect        disk.yandex.lv
+// @connect        disk.yandex.md
+// @connect        disk.yandex.net
+// @connect        disk.yandex.tj
+// @connect        disk.yandex.tm
+// @connect        disk.yandex.uz
 // @connect        yandex.net
 // @connect        timeweb.cloud
 // @connect        raw.githubusercontent.com
@@ -177,7 +213,7 @@
 // @connect        speed.cloudflare.com
 // @connect        porntn.com
 // @namespace      vot
-// @version        1.8.4
+// @version        1.8.5
 // @icon           https://translate.yandex.ru/icons/favicon.ico
 // @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation
@@ -262,19 +298,1284 @@ window.cancelIdleCallback =
 
 // EXTERNAL MODULE: ./node_modules/bowser/es5.js
 var es5 = __webpack_require__("./node_modules/bowser/es5.js");
-;// ./node_modules/@vot.js/shared/dist/data/config.js
+;// ./node_modules/lit-html/lit-html.js
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+const n=globalThis,c=n.trustedTypes,h=c?c.createPolicy("lit-html",{createHTML:t=>t}):void 0,f="$lit$",v=`lit$${Math.random().toFixed(9).slice(2)}$`,m="?"+v,_=`<${m}>`,w=document,lt=()=>w.createComment(""),st=t=>null===t||"object"!=typeof t&&"function"!=typeof t,g=Array.isArray,$=t=>g(t)||"function"==typeof t?.[Symbol.iterator],x="[ \t\n\f\r]",T=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,E=/-->/g,k=/>/g,O=RegExp(`>|${x}(?:([^\\s"'>=/]+)(${x}*=${x}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),S=/'/g,j=/"/g,M=/^(?:script|style|textarea|title)$/i,P=t=>(i,...s)=>({_$litType$:t,strings:i,values:s}),ke=P(1),Oe=P(2),Se=P(3),R=Symbol.for("lit-noChange"),D=Symbol.for("lit-nothing"),V=new WeakMap,I=w.createTreeWalker(w,129);function N(t,i){if(!g(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==h?h.createHTML(i):i}const U=(t,i)=>{const s=t.length-1,e=[];let h,o=2===i?"<svg>":3===i?"<math>":"",n=T;for(let i=0;i<s;i++){const s=t[i];let r,l,c=-1,a=0;for(;a<s.length&&(n.lastIndex=a,l=n.exec(s),null!==l);)a=n.lastIndex,n===T?"!--"===l[1]?n=E:void 0!==l[1]?n=k:void 0!==l[2]?(M.test(l[2])&&(h=RegExp("</"+l[2],"g")),n=O):void 0!==l[3]&&(n=O):n===O?">"===l[0]?(n=h??T,c=-1):void 0===l[1]?c=-2:(c=n.lastIndex-l[2].length,r=l[1],n=void 0===l[3]?O:'"'===l[3]?j:S):n===j||n===S?n=O:n===E||n===k?n=T:(n=O,h=void 0);const u=n===O&&t[i+1].startsWith("/>")?" ":"";o+=n===T?s+_:c>=0?(e.push(r),s.slice(0,c)+f+s.slice(c)+v+u):s+v+(-2===c?i:u)}return[N(t,o+(t[s]||"<?>")+(2===i?"</svg>":3===i?"</math>":"")),e]};class B{constructor({strings:t,_$litType$:i},s){let e;this.parts=[];let h=0,o=0;const n=t.length-1,r=this.parts,[l,a]=U(t,i);if(this.el=B.createElement(l,s),I.currentNode=this.el.content,2===i||3===i){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(e=I.nextNode())&&r.length<n;){if(1===e.nodeType){if(e.hasAttributes())for(const t of e.getAttributeNames())if(t.endsWith(f)){const i=a[o++],s=e.getAttribute(t).split(v),n=/([.?@])?(.*)/.exec(i);r.push({type:1,index:h,name:n[2],strings:s,ctor:"."===n[1]?Y:"?"===n[1]?Z:"@"===n[1]?q:G}),e.removeAttribute(t)}else t.startsWith(v)&&(r.push({type:6,index:h}),e.removeAttribute(t));if(M.test(e.tagName)){const t=e.textContent.split(v),i=t.length-1;if(i>0){e.textContent=c?c.emptyScript:"";for(let s=0;s<i;s++)e.append(t[s],lt()),I.nextNode(),r.push({type:2,index:++h});e.append(t[i],lt())}}}else if(8===e.nodeType)if(e.data===m)r.push({type:2,index:h});else{let t=-1;for(;-1!==(t=e.data.indexOf(v,t+1));)r.push({type:7,index:h}),t+=v.length-1}h++}}static createElement(t,i){const s=w.createElement("template");return s.innerHTML=t,s}}function z(t,i,s=t,e){if(i===R)return i;let h=void 0!==e?s.o?.[e]:s.l;const o=st(i)?void 0:i._$litDirective$;return h?.constructor!==o&&(h?._$AO?.(!1),void 0===o?h=void 0:(h=new o(t),h._$AT(t,s,e)),void 0!==e?(s.o??=[])[e]=h:s.l=h),void 0!==h&&(i=z(t,h._$AS(t,i.values),h,e)),i}class F{constructor(t,i){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=i}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:i},parts:s}=this._$AD,e=(t?.creationScope??w).importNode(i,!0);I.currentNode=e;let h=I.nextNode(),o=0,n=0,r=s[0];for(;void 0!==r;){if(o===r.index){let i;2===r.type?i=new et(h,h.nextSibling,this,t):1===r.type?i=new r.ctor(h,r.name,r.strings,this,t):6===r.type&&(i=new K(h,this,t)),this._$AV.push(i),r=s[++n]}o!==r?.index&&(h=I.nextNode(),o++)}return I.currentNode=w,e}p(t){let i=0;for(const s of this._$AV)void 0!==s&&(void 0!==s.strings?(s._$AI(t,s,i),i+=s.strings.length-2):s._$AI(t[i])),i++}}class et{get _$AU(){return this._$AM?._$AU??this.v}constructor(t,i,s,e){this.type=2,this._$AH=D,this._$AN=void 0,this._$AA=t,this._$AB=i,this._$AM=s,this.options=e,this.v=e?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const i=this._$AM;return void 0!==i&&11===t?.nodeType&&(t=i.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,i=this){t=z(this,t,i),st(t)?t===D||null==t||""===t?(this._$AH!==D&&this._$AR(),this._$AH=D):t!==this._$AH&&t!==R&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):$(t)?this.k(t):this._(t)}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t))}_(t){this._$AH!==D&&st(this._$AH)?this._$AA.nextSibling.data=t:this.T(w.createTextNode(t)),this._$AH=t}$(t){const{values:i,_$litType$:s}=t,e="number"==typeof s?this._$AC(t):(void 0===s.el&&(s.el=B.createElement(N(s.h,s.h[0]),this.options)),s);if(this._$AH?._$AD===e)this._$AH.p(i);else{const t=new F(e,this),s=t.u(this.options);t.p(i),this.T(s),this._$AH=t}}_$AC(t){let i=V.get(t.strings);return void 0===i&&V.set(t.strings,i=new B(t)),i}k(t){g(this._$AH)||(this._$AH=[],this._$AR());const i=this._$AH;let s,e=0;for(const h of t)e===i.length?i.push(s=new et(this.O(lt()),this.O(lt()),this,this.options)):s=i[e],s._$AI(h),e++;e<i.length&&(this._$AR(s&&s._$AB.nextSibling,e),i.length=e)}_$AR(t=this._$AA.nextSibling,i){for(this._$AP?.(!1,!0,i);t&&t!==this._$AB;){const i=t.nextSibling;t.remove(),t=i}}setConnected(t){void 0===this._$AM&&(this.v=t,this._$AP?.(t))}}class G{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,i,s,e,h){this.type=1,this._$AH=D,this._$AN=void 0,this.element=t,this.name=i,this._$AM=e,this.options=h,s.length>2||""!==s[0]||""!==s[1]?(this._$AH=Array(s.length-1).fill(new String),this.strings=s):this._$AH=D}_$AI(t,i=this,s,e){const h=this.strings;let o=!1;if(void 0===h)t=z(this,t,i,0),o=!st(t)||t!==this._$AH&&t!==R,o&&(this._$AH=t);else{const e=t;let n,r;for(t=h[0],n=0;n<h.length-1;n++)r=z(this,e[s+n],i,n),r===R&&(r=this._$AH[n]),o||=!st(r)||r!==this._$AH[n],r===D?t=D:t!==D&&(t+=(r??"")+h[n+1]),this._$AH[n]=r}o&&!e&&this.j(t)}j(t){t===D?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class Y extends G{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===D?void 0:t}}class Z extends G{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==D)}}class q extends G{constructor(t,i,s,e,h){super(t,i,s,e,h),this.type=5}_$AI(t,i=this){if((t=z(this,t,i,0)??D)===R)return;const s=this._$AH,e=t===D&&s!==D||t.capture!==s.capture||t.once!==s.once||t.passive!==s.passive,h=t!==D&&(s===D||e);e&&this.element.removeEventListener(this.name,this,s),h&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class K{constructor(t,i,s){this.element=t,this.type=6,this._$AN=void 0,this._$AM=i,this.options=s}get _$AU(){return this._$AM._$AU}_$AI(t){z(this,t)}}const si={M:f,P:v,A:m,C:1,L:U,R:F,D:$,V:z,I:et,H:G,N:Z,U:q,B:Y,F:K},Re=n.litHtmlPolyfillSupport;Re?.(B,et),(n.litHtmlVersions??=[]).push("3.2.0");const Q=(t,i,s)=>{const e=s?.renderBefore??i;let h=e._$litPart$;if(void 0===h){const t=s?.renderBefore??null;e._$litPart$=h=new et(i.insertBefore(lt(),t),t,void 0,s??{})}return h._$AI(t),h};
+//# sourceMappingURL=lit-html.js.map
+
+;// ./node_modules/browser-id3-writer/dist/browser-id3-writer.mjs
+function e(e){return String(e).split("").map((e=>e.charCodeAt(0)))}function t(t){return new Uint8Array(e(t))}function a(t){const a=new ArrayBuffer(2*t.length),r=new Uint8Array(a);return new Uint16Array(a).set(e(t)),r}function r(e){const t=255;return[e>>>24&t,e>>>16&t,e>>>8&t,e&t]}function browser_id3_writer_n(e){return 11+e}function s(e,t,a,r){return 11+t+1+1+(r?2+2*(a+1):a+1)+e}function i(e){let t=0;return e.forEach((e=>{t+=2+2*e[0].length+2+2+2*e[1].length+2})),11+t}function browser_id3_writer_c(e,t){const a=2*t;let r=0;return e.forEach((e=>{r+=2+2*e[0].length+2+4})),18+a+2+r}class o{_setIntegerFrame(e,t){const a=parseInt(t,10);this.frames.push({name:e,value:a,size:browser_id3_writer_n(a.toString().length)})}_setStringFrame(e,t){const a=t.toString();let r=13+2*a.length;"TDAT"===e&&(r=browser_id3_writer_n(a.length)),this.frames.push({name:e,value:a,size:r})}_setPictureFrame(e,t,a,r){const n=function(e){if(!e||!e.length)return null;if(255===e[0]&&216===e[1]&&255===e[2])return"image/jpeg";if(137===e[0]&&80===e[1]&&78===e[2]&&71===e[3])return"image/png";if(71===e[0]&&73===e[1]&&70===e[2])return"image/gif";if(87===e[8]&&69===e[9]&&66===e[10]&&80===e[11])return"image/webp";const t=73===e[0]&&73===e[1]&&42===e[2]&&0===e[3],a=77===e[0]&&77===e[1]&&0===e[2]&&42===e[3];return t||a?"image/tiff":66===e[0]&&77===e[1]?"image/bmp":0===e[0]&&0===e[1]&&1===e[2]&&0===e[3]?"image/x-icon":null}(new Uint8Array(t)),i=a.toString();if(!n)throw new Error("Unknown picture MIME type");a||(r=!1),this.frames.push({name:"APIC",value:t,pictureType:e,mimeType:n,useUnicodeEncoding:r,description:i,size:s(t.byteLength,n.length,i.length,r)})}_setLyricsFrame(e,t,a){const r=e.split("").map((e=>e.charCodeAt(0))),n=t.toString(),s=a.toString();var i,c;this.frames.push({name:"USLT",value:s,language:r,description:n,size:(i=n.length,c=s.length,16+2*i+2+2+2*c)})}_setCommentFrame(e,t,a){const r=e.split("").map((e=>e.charCodeAt(0))),n=t.toString(),s=a.toString();var i,c;this.frames.push({name:"COMM",value:s,language:r,description:n,size:(i=n.length,c=s.length,16+2*i+2+2+2*c)})}_setPrivateFrame(e,t){const a=e.toString();var r,n;this.frames.push({name:"PRIV",value:t,id:a,size:(r=a.length,n=t.byteLength,10+r+1+n)})}_setUserStringFrame(e,t){const a=e.toString(),r=t.toString();var n,s;this.frames.push({name:"TXXX",description:a,value:r,size:(n=a.length,s=r.length,13+2*n+2+2+2*s)})}_setUrlLinkFrame(e,t){const a=t.toString();var r;this.frames.push({name:e,value:a,size:(r=a.length,10+r)})}_setPairedTextFrame(e,t){this.frames.push({name:e,value:t,size:i(t)})}_setSynchronisedLyricsFrame(e,t,a,r,n){const s=n.toString(),i=r.split("").map((e=>e.charCodeAt(0)));this.frames.push({name:"SYLT",value:t,language:i,description:s,type:e,timestampFormat:a,size:browser_id3_writer_c(t,s.length)})}constructor(e){if(!e||"object"!=typeof e||!("byteLength"in e))throw new Error("First argument should be an instance of ArrayBuffer or Buffer");this.arrayBuffer=e,this.padding=4096,this.frames=[],this.url=""}setFrame(e,t){switch(e){case"TPE1":case"TCOM":case"TCON":{if(!Array.isArray(t))throw new Error(`${e} frame value should be an array of strings`);const a="TCON"===e?";":"/",r=t.join(a);this._setStringFrame(e,r);break}case"TLAN":case"TIT1":case"TIT2":case"TIT3":case"TALB":case"TPE2":case"TPE3":case"TPE4":case"TRCK":case"TPOS":case"TMED":case"TPUB":case"TCOP":case"TKEY":case"TEXT":case"TDAT":case"TSRC":this._setStringFrame(e,t);break;case"TBPM":case"TLEN":case"TYER":this._setIntegerFrame(e,t);break;case"USLT":if(t.language=t.language||"eng","object"!=typeof t||!("description"in t)||!("lyrics"in t))throw new Error("USLT frame value should be an object with keys description and lyrics");if(t.language&&!t.language.match(/[a-z]{3}/i))throw new Error("Language must be coded following the ISO 639-2 standards");this._setLyricsFrame(t.language,t.description,t.lyrics);break;case"APIC":if("object"!=typeof t||!("type"in t)||!("data"in t)||!("description"in t))throw new Error("APIC frame value should be an object with keys type, data and description");if(t.type<0||t.type>20)throw new Error("Incorrect APIC frame picture type");this._setPictureFrame(t.type,t.data,t.description,!!t.useUnicodeEncoding);break;case"TXXX":if("object"!=typeof t||!("description"in t)||!("value"in t))throw new Error("TXXX frame value should be an object with keys description and value");this._setUserStringFrame(t.description,t.value);break;case"WCOM":case"WCOP":case"WOAF":case"WOAR":case"WOAS":case"WORS":case"WPAY":case"WPUB":this._setUrlLinkFrame(e,t);break;case"COMM":if(t.language=t.language||"eng","object"!=typeof t||!("description"in t)||!("text"in t))throw new Error("COMM frame value should be an object with keys description and text");if(t.language&&!t.language.match(/[a-z]{3}/i))throw new Error("Language must be coded following the ISO 639-2 standards");this._setCommentFrame(t.language,t.description,t.text);break;case"PRIV":if("object"!=typeof t||!("id"in t)||!("data"in t))throw new Error("PRIV frame value should be an object with keys id and data");this._setPrivateFrame(t.id,t.data);break;case"IPLS":if(!Array.isArray(t)||!Array.isArray(t[0]))throw new Error("IPLS frame value should be an array of pairs");this._setPairedTextFrame(e,t);break;case"SYLT":if("object"!=typeof t||!("type"in t)||!("text"in t)||!("timestampFormat"in t))throw new Error("SYLT frame value should be an object with keys type, text and timestampFormat");if(!Array.isArray(t.text)||!Array.isArray(t.text[0]))throw new Error("SYLT frame text value should be an array of pairs");if(t.type<0||t.type>6)throw new Error("Incorrect SYLT frame content type");if(t.timestampFormat<1||t.timestampFormat>2)throw new Error("Incorrect SYLT frame time stamp format");t.language=t.language||"eng",t.description=t.description||"",this._setSynchronisedLyricsFrame(t.type,t.text,t.timestampFormat,t.language,t.description);break;default:throw new Error(`Unsupported frame ${e}`)}return this}removeTag(){if(this.arrayBuffer.byteLength<10)return;const e=new Uint8Array(this.arrayBuffer),t=e[3],a=((r=[e[6],e[7],e[8],e[9]])[0]<<21)+(r[1]<<14)+(r[2]<<7)+r[3]+10;var r,n;73!==(n=e)[0]||68!==n[1]||51!==n[2]||t<2||t>4||(this.arrayBuffer=new Uint8Array(e.subarray(a)).buffer)}addTag(){this.removeTag();const e=[255,254],n=10+this.frames.reduce(((e,t)=>e+t.size),0)+this.padding,s=new ArrayBuffer(this.arrayBuffer.byteLength+n),i=new Uint8Array(s);let c=0,o=[];return o=[73,68,51,3],i.set(o,c),c+=o.length,c++,c++,o=function(e){const t=127;return[e>>>21&t,e>>>14&t,e>>>7&t,e&t]}(n-10),i.set(o,c),c+=o.length,this.frames.forEach((n=>{switch(o=t(n.name),i.set(o,c),c+=o.length,o=r(n.size-10),i.set(o,c),c+=o.length,c+=2,n.name){case"WCOM":case"WCOP":case"WOAF":case"WOAR":case"WOAS":case"WORS":case"WPAY":case"WPUB":o=t(n.value),i.set(o,c),c+=o.length;break;case"TPE1":case"TCOM":case"TCON":case"TLAN":case"TIT1":case"TIT2":case"TIT3":case"TALB":case"TPE2":case"TPE3":case"TPE4":case"TRCK":case"TPOS":case"TKEY":case"TMED":case"TPUB":case"TCOP":case"TEXT":case"TSRC":o=[1].concat(e),i.set(o,c),c+=o.length,o=a(n.value),i.set(o,c),c+=o.length;break;case"TXXX":case"USLT":case"COMM":o=[1],"USLT"!==n.name&&"COMM"!==n.name||(o=o.concat(n.language)),o=o.concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,o=[0,0].concat(e),i.set(o,c),c+=o.length,o=a(n.value),i.set(o,c),c+=o.length;break;case"TBPM":case"TLEN":case"TDAT":case"TYER":c++,o=t(n.value),i.set(o,c),c+=o.length;break;case"PRIV":o=t(n.id),i.set(o,c),c+=o.length,c++,i.set(new Uint8Array(n.value),c),c+=n.value.byteLength;break;case"APIC":o=[n.useUnicodeEncoding?1:0],i.set(o,c),c+=o.length,o=t(n.mimeType),i.set(o,c),c+=o.length,o=[0,n.pictureType],i.set(o,c),c+=o.length,n.useUnicodeEncoding?(o=[].concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,c+=2):(o=t(n.description),i.set(o,c),c+=o.length,c++),i.set(new Uint8Array(n.value),c),c+=n.value.byteLength;break;case"IPLS":o=[1],i.set(o,c),c+=o.length,n.value.forEach((t=>{o=[].concat(e),i.set(o,c),c+=o.length,o=a(t[0].toString()),i.set(o,c),c+=o.length,o=[0,0].concat(e),i.set(o,c),c+=o.length,o=a(t[1].toString()),i.set(o,c),c+=o.length,o=[0,0],i.set(o,c),c+=o.length}));break;case"SYLT":o=[1].concat(n.language).concat(n.timestampFormat).concat(n.type),i.set(o,c),c+=o.length,o=[].concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,c+=2,n.value.forEach((t=>{o=[].concat(e),i.set(o,c),c+=o.length,o=a(t[0].toString()),i.set(o,c),c+=o.length,o=[0,0],i.set(o,c),c+=o.length,o=r(t[1]),i.set(o,c),c+=o.length}))}})),c+=this.padding,i.set(new Uint8Array(this.arrayBuffer),c),this.arrayBuffer=s,s}getBlob(){return new Blob([this.arrayBuffer],{type:"audio/mpeg"})}getURL(){return this.url||(this.url=URL.createObjectURL(this.getBlob())),this.url}revokeURL(){URL.revokeObjectURL(this.url)}}
+;// ./node_modules/chaimu/dist/config.js
 /* harmony default export */ const config = ({
+    version: "1.0.3",
+    debug: false,
+    fetchFn: fetch.bind(window),
+});
+
+;// ./node_modules/soundtouchjs/dist/soundtouch.js
+/*
+ * SoundTouch JS v0.1.30 audio processing library
+ * Copyright (c) Olli Parviainen
+ * Copyright (c) Ryan Berdeen
+ * Copyright (c) Jakub Fiala
+ * Copyright (c) Steve 'Cutter' Blades
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
+class FifoSampleBuffer {
+  constructor() {
+    this._vector = new Float32Array();
+    this._position = 0;
+    this._frameCount = 0;
+  }
+  get vector() {
+    return this._vector;
+  }
+  get position() {
+    return this._position;
+  }
+  get startIndex() {
+    return this._position * 2;
+  }
+  get frameCount() {
+    return this._frameCount;
+  }
+  get endIndex() {
+    return (this._position + this._frameCount) * 2;
+  }
+  clear() {
+    this.receive(this._frameCount);
+    this.rewind();
+  }
+  put(numFrames) {
+    this._frameCount += numFrames;
+  }
+  putSamples(samples, position, numFrames = 0) {
+    position = position || 0;
+    const sourceOffset = position * 2;
+    if (!(numFrames >= 0)) {
+      numFrames = (samples.length - sourceOffset) / 2;
+    }
+    const numSamples = numFrames * 2;
+    this.ensureCapacity(numFrames + this._frameCount);
+    const destOffset = this.endIndex;
+    this.vector.set(samples.subarray(sourceOffset, sourceOffset + numSamples), destOffset);
+    this._frameCount += numFrames;
+  }
+  putBuffer(buffer, position, numFrames = 0) {
+    position = position || 0;
+    if (!(numFrames >= 0)) {
+      numFrames = buffer.frameCount - position;
+    }
+    this.putSamples(buffer.vector, buffer.position + position, numFrames);
+  }
+  receive(numFrames) {
+    if (!(numFrames >= 0) || numFrames > this._frameCount) {
+      numFrames = this.frameCount;
+    }
+    this._frameCount -= numFrames;
+    this._position += numFrames;
+  }
+  receiveSamples(output, numFrames = 0) {
+    const numSamples = numFrames * 2;
+    const sourceOffset = this.startIndex;
+    output.set(this._vector.subarray(sourceOffset, sourceOffset + numSamples));
+    this.receive(numFrames);
+  }
+  extract(output, position = 0, numFrames = 0) {
+    const sourceOffset = this.startIndex + position * 2;
+    const numSamples = numFrames * 2;
+    output.set(this._vector.subarray(sourceOffset, sourceOffset + numSamples));
+  }
+  ensureCapacity(numFrames = 0) {
+    const minLength = parseInt(numFrames * 2);
+    if (this._vector.length < minLength) {
+      const newVector = new Float32Array(minLength);
+      newVector.set(this._vector.subarray(this.startIndex, this.endIndex));
+      this._vector = newVector;
+      this._position = 0;
+    } else {
+      this.rewind();
+    }
+  }
+  ensureAdditionalCapacity(numFrames = 0) {
+    this.ensureCapacity(this._frameCount + numFrames);
+  }
+  rewind() {
+    if (this._position > 0) {
+      this._vector.set(this._vector.subarray(this.startIndex, this.endIndex));
+      this._position = 0;
+    }
+  }
+}
+
+class AbstractFifoSamplePipe {
+  constructor(createBuffers) {
+    if (createBuffers) {
+      this._inputBuffer = new FifoSampleBuffer();
+      this._outputBuffer = new FifoSampleBuffer();
+    } else {
+      this._inputBuffer = this._outputBuffer = null;
+    }
+  }
+  get inputBuffer() {
+    return this._inputBuffer;
+  }
+  set inputBuffer(inputBuffer) {
+    this._inputBuffer = inputBuffer;
+  }
+  get outputBuffer() {
+    return this._outputBuffer;
+  }
+  set outputBuffer(outputBuffer) {
+    this._outputBuffer = outputBuffer;
+  }
+  clear() {
+    this._inputBuffer.clear();
+    this._outputBuffer.clear();
+  }
+}
+
+class RateTransposer extends AbstractFifoSamplePipe {
+  constructor(createBuffers) {
+    super(createBuffers);
+    this.reset();
+    this._rate = 1;
+  }
+  set rate(rate) {
+    this._rate = rate;
+  }
+  reset() {
+    this.slopeCount = 0;
+    this.prevSampleL = 0;
+    this.prevSampleR = 0;
+  }
+  clone() {
+    const result = new RateTransposer();
+    result.rate = this._rate;
+    return result;
+  }
+  process() {
+    const numFrames = this._inputBuffer.frameCount;
+    this._outputBuffer.ensureAdditionalCapacity(numFrames / this._rate + 1);
+    const numFramesOutput = this.transpose(numFrames);
+    this._inputBuffer.receive();
+    this._outputBuffer.put(numFramesOutput);
+  }
+  transpose(numFrames = 0) {
+    if (numFrames === 0) {
+      return 0;
+    }
+    const src = this._inputBuffer.vector;
+    const srcOffset = this._inputBuffer.startIndex;
+    const dest = this._outputBuffer.vector;
+    const destOffset = this._outputBuffer.endIndex;
+    let used = 0;
+    let i = 0;
+    while (this.slopeCount < 1.0) {
+      dest[destOffset + 2 * i] = (1.0 - this.slopeCount) * this.prevSampleL + this.slopeCount * src[srcOffset];
+      dest[destOffset + 2 * i + 1] = (1.0 - this.slopeCount) * this.prevSampleR + this.slopeCount * src[srcOffset + 1];
+      i = i + 1;
+      this.slopeCount += this._rate;
+    }
+    this.slopeCount -= 1.0;
+    if (numFrames !== 1) {
+      out: while (true) {
+        while (this.slopeCount > 1.0) {
+          this.slopeCount -= 1.0;
+          used = used + 1;
+          if (used >= numFrames - 1) {
+            break out;
+          }
+        }
+        const srcIndex = srcOffset + 2 * used;
+        dest[destOffset + 2 * i] = (1.0 - this.slopeCount) * src[srcIndex] + this.slopeCount * src[srcIndex + 2];
+        dest[destOffset + 2 * i + 1] = (1.0 - this.slopeCount) * src[srcIndex + 1] + this.slopeCount * src[srcIndex + 3];
+        i = i + 1;
+        this.slopeCount += this._rate;
+      }
+    }
+    this.prevSampleL = src[srcOffset + 2 * numFrames - 2];
+    this.prevSampleR = src[srcOffset + 2 * numFrames - 1];
+    return i;
+  }
+}
+
+class FilterSupport {
+  constructor(pipe) {
+    this._pipe = pipe;
+  }
+  get pipe() {
+    return this._pipe;
+  }
+  get inputBuffer() {
+    return this._pipe.inputBuffer;
+  }
+  get outputBuffer() {
+    return this._pipe.outputBuffer;
+  }
+  fillInputBuffer() {
+    throw new Error('fillInputBuffer() not overridden');
+  }
+  fillOutputBuffer(numFrames = 0) {
+    while (this.outputBuffer.frameCount < numFrames) {
+      const numInputFrames = 8192 * 2 - this.inputBuffer.frameCount;
+      this.fillInputBuffer(numInputFrames);
+      if (this.inputBuffer.frameCount < 8192 * 2) {
+        break;
+      }
+      this._pipe.process();
+    }
+  }
+  clear() {
+    this._pipe.clear();
+  }
+}
+
+const noop = function () {
+  return;
+};
+
+class SimpleFilter extends FilterSupport {
+  constructor(sourceSound, pipe, callback = noop) {
+    super(pipe);
+    this.callback = callback;
+    this.sourceSound = sourceSound;
+    this.historyBufferSize = 22050;
+    this._sourcePosition = 0;
+    this.outputBufferPosition = 0;
+    this._position = 0;
+  }
+  get position() {
+    return this._position;
+  }
+  set position(position) {
+    if (position > this._position) {
+      throw new RangeError('New position may not be greater than current position');
+    }
+    const newOutputBufferPosition = this.outputBufferPosition - (this._position - position);
+    if (newOutputBufferPosition < 0) {
+      throw new RangeError('New position falls outside of history buffer');
+    }
+    this.outputBufferPosition = newOutputBufferPosition;
+    this._position = position;
+  }
+  get sourcePosition() {
+    return this._sourcePosition;
+  }
+  set sourcePosition(sourcePosition) {
+    this.clear();
+    this._sourcePosition = sourcePosition;
+  }
+  onEnd() {
+    this.callback();
+  }
+  fillInputBuffer(numFrames = 0) {
+    const samples = new Float32Array(numFrames * 2);
+    const numFramesExtracted = this.sourceSound.extract(samples, numFrames, this._sourcePosition);
+    this._sourcePosition += numFramesExtracted;
+    this.inputBuffer.putSamples(samples, 0, numFramesExtracted);
+  }
+  extract(target, numFrames = 0) {
+    this.fillOutputBuffer(this.outputBufferPosition + numFrames);
+    const numFramesExtracted = Math.min(numFrames, this.outputBuffer.frameCount - this.outputBufferPosition);
+    this.outputBuffer.extract(target, this.outputBufferPosition, numFramesExtracted);
+    const currentFrames = this.outputBufferPosition + numFramesExtracted;
+    this.outputBufferPosition = Math.min(this.historyBufferSize, currentFrames);
+    this.outputBuffer.receive(Math.max(currentFrames - this.historyBufferSize, 0));
+    this._position += numFramesExtracted;
+    return numFramesExtracted;
+  }
+  handleSampleData(event) {
+    this.extract(event.data, 4096);
+  }
+  clear() {
+    super.clear();
+    this.outputBufferPosition = 0;
+  }
+}
+
+const USE_AUTO_SEQUENCE_LEN = 0;
+const DEFAULT_SEQUENCE_MS = USE_AUTO_SEQUENCE_LEN;
+const USE_AUTO_SEEKWINDOW_LEN = 0;
+const DEFAULT_SEEKWINDOW_MS = USE_AUTO_SEEKWINDOW_LEN;
+const DEFAULT_OVERLAP_MS = 8;
+const _SCAN_OFFSETS = [[124, 186, 248, 310, 372, 434, 496, 558, 620, 682, 744, 806, 868, 930, 992, 1054, 1116, 1178, 1240, 1302, 1364, 1426, 1488, 0], [-100, -75, -50, -25, 25, 50, 75, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [-20, -15, -10, -5, 5, 10, 15, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [-4, -3, -2, -1, 1, 2, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
+const AUTOSEQ_TEMPO_LOW = 0.5;
+const AUTOSEQ_TEMPO_TOP = 2.0;
+const AUTOSEQ_AT_MIN = 125.0;
+const AUTOSEQ_AT_MAX = 50.0;
+const AUTOSEQ_K = (AUTOSEQ_AT_MAX - AUTOSEQ_AT_MIN) / (AUTOSEQ_TEMPO_TOP - AUTOSEQ_TEMPO_LOW);
+const AUTOSEQ_C = AUTOSEQ_AT_MIN - AUTOSEQ_K * AUTOSEQ_TEMPO_LOW;
+const AUTOSEEK_AT_MIN = 25.0;
+const AUTOSEEK_AT_MAX = 15.0;
+const AUTOSEEK_K = (AUTOSEEK_AT_MAX - AUTOSEEK_AT_MIN) / (AUTOSEQ_TEMPO_TOP - AUTOSEQ_TEMPO_LOW);
+const AUTOSEEK_C = AUTOSEEK_AT_MIN - AUTOSEEK_K * AUTOSEQ_TEMPO_LOW;
+class Stretch extends AbstractFifoSamplePipe {
+  constructor(createBuffers) {
+    super(createBuffers);
+    this._quickSeek = true;
+    this.midBufferDirty = false;
+    this.midBuffer = null;
+    this.overlapLength = 0;
+    this.autoSeqSetting = true;
+    this.autoSeekSetting = true;
+    this._tempo = 1;
+    this.setParameters(44100, DEFAULT_SEQUENCE_MS, DEFAULT_SEEKWINDOW_MS, DEFAULT_OVERLAP_MS);
+  }
+  clear() {
+    super.clear();
+    this.clearMidBuffer();
+  }
+  clearMidBuffer() {
+    if (this.midBufferDirty) {
+      this.midBufferDirty = false;
+      this.midBuffer = null;
+    }
+  }
+  setParameters(sampleRate, sequenceMs, seekWindowMs, overlapMs) {
+    if (sampleRate > 0) {
+      this.sampleRate = sampleRate;
+    }
+    if (overlapMs > 0) {
+      this.overlapMs = overlapMs;
+    }
+    if (sequenceMs > 0) {
+      this.sequenceMs = sequenceMs;
+      this.autoSeqSetting = false;
+    } else {
+      this.autoSeqSetting = true;
+    }
+    if (seekWindowMs > 0) {
+      this.seekWindowMs = seekWindowMs;
+      this.autoSeekSetting = false;
+    } else {
+      this.autoSeekSetting = true;
+    }
+    this.calculateSequenceParameters();
+    this.calculateOverlapLength(this.overlapMs);
+    this.tempo = this._tempo;
+  }
+  set tempo(newTempo) {
+    let intskip;
+    this._tempo = newTempo;
+    this.calculateSequenceParameters();
+    this.nominalSkip = this._tempo * (this.seekWindowLength - this.overlapLength);
+    this.skipFract = 0;
+    intskip = Math.floor(this.nominalSkip + 0.5);
+    this.sampleReq = Math.max(intskip + this.overlapLength, this.seekWindowLength) + this.seekLength;
+  }
+  get tempo() {
+    return this._tempo;
+  }
+  get inputChunkSize() {
+    return this.sampleReq;
+  }
+  get outputChunkSize() {
+    return this.overlapLength + Math.max(0, this.seekWindowLength - 2 * this.overlapLength);
+  }
+  calculateOverlapLength(overlapInMsec = 0) {
+    let newOvl;
+    newOvl = this.sampleRate * overlapInMsec / 1000;
+    newOvl = newOvl < 16 ? 16 : newOvl;
+    newOvl -= newOvl % 8;
+    this.overlapLength = newOvl;
+    this.refMidBuffer = new Float32Array(this.overlapLength * 2);
+    this.midBuffer = new Float32Array(this.overlapLength * 2);
+  }
+  checkLimits(x, mi, ma) {
+    return x < mi ? mi : x > ma ? ma : x;
+  }
+  calculateSequenceParameters() {
+    let seq;
+    let seek;
+    if (this.autoSeqSetting) {
+      seq = AUTOSEQ_C + AUTOSEQ_K * this._tempo;
+      seq = this.checkLimits(seq, AUTOSEQ_AT_MAX, AUTOSEQ_AT_MIN);
+      this.sequenceMs = Math.floor(seq + 0.5);
+    }
+    if (this.autoSeekSetting) {
+      seek = AUTOSEEK_C + AUTOSEEK_K * this._tempo;
+      seek = this.checkLimits(seek, AUTOSEEK_AT_MAX, AUTOSEEK_AT_MIN);
+      this.seekWindowMs = Math.floor(seek + 0.5);
+    }
+    this.seekWindowLength = Math.floor(this.sampleRate * this.sequenceMs / 1000);
+    this.seekLength = Math.floor(this.sampleRate * this.seekWindowMs / 1000);
+  }
+  set quickSeek(enable) {
+    this._quickSeek = enable;
+  }
+  clone() {
+    const result = new Stretch();
+    result.tempo = this._tempo;
+    result.setParameters(this.sampleRate, this.sequenceMs, this.seekWindowMs, this.overlapMs);
+    return result;
+  }
+  seekBestOverlapPosition() {
+    return this._quickSeek ? this.seekBestOverlapPositionStereoQuick() : this.seekBestOverlapPositionStereo();
+  }
+  seekBestOverlapPositionStereo() {
+    let bestOffset;
+    let bestCorrelation;
+    let correlation;
+    let i = 0;
+    this.preCalculateCorrelationReferenceStereo();
+    bestOffset = 0;
+    bestCorrelation = Number.MIN_VALUE;
+    for (; i < this.seekLength; i = i + 1) {
+      correlation = this.calculateCrossCorrelationStereo(2 * i, this.refMidBuffer);
+      if (correlation > bestCorrelation) {
+        bestCorrelation = correlation;
+        bestOffset = i;
+      }
+    }
+    return bestOffset;
+  }
+  seekBestOverlapPositionStereoQuick() {
+    let bestOffset;
+    let bestCorrelation;
+    let correlation;
+    let scanCount = 0;
+    let correlationOffset;
+    let tempOffset;
+    this.preCalculateCorrelationReferenceStereo();
+    bestCorrelation = Number.MIN_VALUE;
+    bestOffset = 0;
+    correlationOffset = 0;
+    tempOffset = 0;
+    for (; scanCount < 4; scanCount = scanCount + 1) {
+      let j = 0;
+      while (_SCAN_OFFSETS[scanCount][j]) {
+        tempOffset = correlationOffset + _SCAN_OFFSETS[scanCount][j];
+        if (tempOffset >= this.seekLength) {
+          break;
+        }
+        correlation = this.calculateCrossCorrelationStereo(2 * tempOffset, this.refMidBuffer);
+        if (correlation > bestCorrelation) {
+          bestCorrelation = correlation;
+          bestOffset = tempOffset;
+        }
+        j = j + 1;
+      }
+      correlationOffset = bestOffset;
+    }
+    return bestOffset;
+  }
+  preCalculateCorrelationReferenceStereo() {
+    let i = 0;
+    let context;
+    let temp;
+    for (; i < this.overlapLength; i = i + 1) {
+      temp = i * (this.overlapLength - i);
+      context = i * 2;
+      this.refMidBuffer[context] = this.midBuffer[context] * temp;
+      this.refMidBuffer[context + 1] = this.midBuffer[context + 1] * temp;
+    }
+  }
+  calculateCrossCorrelationStereo(mixingPosition, compare) {
+    const mixing = this._inputBuffer.vector;
+    mixingPosition += this._inputBuffer.startIndex;
+    let correlation = 0;
+    let i = 2;
+    const calcLength = 2 * this.overlapLength;
+    let mixingOffset;
+    for (; i < calcLength; i = i + 2) {
+      mixingOffset = i + mixingPosition;
+      correlation += mixing[mixingOffset] * compare[i] + mixing[mixingOffset + 1] * compare[i + 1];
+    }
+    return correlation;
+  }
+  overlap(overlapPosition) {
+    this.overlapStereo(2 * overlapPosition);
+  }
+  overlapStereo(inputPosition) {
+    const input = this._inputBuffer.vector;
+    inputPosition += this._inputBuffer.startIndex;
+    const output = this._outputBuffer.vector;
+    const outputPosition = this._outputBuffer.endIndex;
+    let i = 0;
+    let context;
+    let tempFrame;
+    const frameScale = 1 / this.overlapLength;
+    let fi;
+    let inputOffset;
+    let outputOffset;
+    for (; i < this.overlapLength; i = i + 1) {
+      tempFrame = (this.overlapLength - i) * frameScale;
+      fi = i * frameScale;
+      context = 2 * i;
+      inputOffset = context + inputPosition;
+      outputOffset = context + outputPosition;
+      output[outputOffset + 0] = input[inputOffset + 0] * fi + this.midBuffer[context + 0] * tempFrame;
+      output[outputOffset + 1] = input[inputOffset + 1] * fi + this.midBuffer[context + 1] * tempFrame;
+    }
+  }
+  process() {
+    let offset;
+    let temp;
+    let overlapSkip;
+    if (this.midBuffer === null) {
+      if (this._inputBuffer.frameCount < this.overlapLength) {
+        return;
+      }
+      this.midBuffer = new Float32Array(this.overlapLength * 2);
+      this._inputBuffer.receiveSamples(this.midBuffer, this.overlapLength);
+    }
+    while (this._inputBuffer.frameCount >= this.sampleReq) {
+      offset = this.seekBestOverlapPosition();
+      this._outputBuffer.ensureAdditionalCapacity(this.overlapLength);
+      this.overlap(Math.floor(offset));
+      this._outputBuffer.put(this.overlapLength);
+      temp = this.seekWindowLength - 2 * this.overlapLength;
+      if (temp > 0) {
+        this._outputBuffer.putBuffer(this._inputBuffer, offset + this.overlapLength, temp);
+      }
+      const start = this._inputBuffer.startIndex + 2 * (offset + this.seekWindowLength - this.overlapLength);
+      this.midBuffer.set(this._inputBuffer.vector.subarray(start, start + 2 * this.overlapLength));
+      this.skipFract += this.nominalSkip;
+      overlapSkip = Math.floor(this.skipFract);
+      this.skipFract -= overlapSkip;
+      this._inputBuffer.receive(overlapSkip);
+    }
+  }
+}
+
+const testFloatEqual = function (a, b) {
+  return (a > b ? a - b : b - a) > 1e-10;
+};
+
+class SoundTouch {
+  constructor() {
+    this.transposer = new RateTransposer(false);
+    this.stretch = new Stretch(false);
+    this._inputBuffer = new FifoSampleBuffer();
+    this._intermediateBuffer = new FifoSampleBuffer();
+    this._outputBuffer = new FifoSampleBuffer();
+    this._rate = 0;
+    this._tempo = 0;
+    this.virtualPitch = 1.0;
+    this.virtualRate = 1.0;
+    this.virtualTempo = 1.0;
+    this.calculateEffectiveRateAndTempo();
+  }
+  clear() {
+    this.transposer.clear();
+    this.stretch.clear();
+  }
+  clone() {
+    const result = new SoundTouch();
+    result.rate = this.rate;
+    result.tempo = this.tempo;
+    return result;
+  }
+  get rate() {
+    return this._rate;
+  }
+  set rate(rate) {
+    this.virtualRate = rate;
+    this.calculateEffectiveRateAndTempo();
+  }
+  set rateChange(rateChange) {
+    this._rate = 1.0 + 0.01 * rateChange;
+  }
+  get tempo() {
+    return this._tempo;
+  }
+  set tempo(tempo) {
+    this.virtualTempo = tempo;
+    this.calculateEffectiveRateAndTempo();
+  }
+  set tempoChange(tempoChange) {
+    this.tempo = 1.0 + 0.01 * tempoChange;
+  }
+  set pitch(pitch) {
+    this.virtualPitch = pitch;
+    this.calculateEffectiveRateAndTempo();
+  }
+  set pitchOctaves(pitchOctaves) {
+    this.pitch = Math.exp(0.69314718056 * pitchOctaves);
+    this.calculateEffectiveRateAndTempo();
+  }
+  set pitchSemitones(pitchSemitones) {
+    this.pitchOctaves = pitchSemitones / 12.0;
+  }
+  get inputBuffer() {
+    return this._inputBuffer;
+  }
+  get outputBuffer() {
+    return this._outputBuffer;
+  }
+  calculateEffectiveRateAndTempo() {
+    const previousTempo = this._tempo;
+    const previousRate = this._rate;
+    this._tempo = this.virtualTempo / this.virtualPitch;
+    this._rate = this.virtualRate * this.virtualPitch;
+    if (testFloatEqual(this._tempo, previousTempo)) {
+      this.stretch.tempo = this._tempo;
+    }
+    if (testFloatEqual(this._rate, previousRate)) {
+      this.transposer.rate = this._rate;
+    }
+    if (this._rate > 1.0) {
+      if (this._outputBuffer != this.transposer.outputBuffer) {
+        this.stretch.inputBuffer = this._inputBuffer;
+        this.stretch.outputBuffer = this._intermediateBuffer;
+        this.transposer.inputBuffer = this._intermediateBuffer;
+        this.transposer.outputBuffer = this._outputBuffer;
+      }
+    } else {
+      if (this._outputBuffer != this.stretch.outputBuffer) {
+        this.transposer.inputBuffer = this._inputBuffer;
+        this.transposer.outputBuffer = this._intermediateBuffer;
+        this.stretch.inputBuffer = this._intermediateBuffer;
+        this.stretch.outputBuffer = this._outputBuffer;
+      }
+    }
+  }
+  process() {
+    if (this._rate > 1.0) {
+      this.stretch.process();
+      this.transposer.process();
+    } else {
+      this.transposer.process();
+      this.stretch.process();
+    }
+  }
+}
+
+class WebAudioBufferSource {
+  constructor(buffer) {
+    this.buffer = buffer;
+    this._position = 0;
+  }
+  get dualChannel() {
+    return this.buffer.numberOfChannels > 1;
+  }
+  get position() {
+    return this._position;
+  }
+  set position(value) {
+    this._position = value;
+  }
+  extract(target, numFrames = 0, position = 0) {
+    this.position = position;
+    let left = this.buffer.getChannelData(0);
+    let right = this.dualChannel ? this.buffer.getChannelData(1) : this.buffer.getChannelData(0);
+    let i = 0;
+    for (; i < numFrames; i++) {
+      target[i * 2] = left[i + position];
+      target[i * 2 + 1] = right[i + position];
+    }
+    return Math.min(numFrames, left.length - position);
+  }
+}
+
+const getWebAudioNode = function (context, filter, sourcePositionCallback = noop, bufferSize = 4096) {
+  const node = context.createScriptProcessor(bufferSize, 2, 2);
+  const samples = new Float32Array(bufferSize * 2);
+  node.onaudioprocess = event => {
+    let left = event.outputBuffer.getChannelData(0);
+    let right = event.outputBuffer.getChannelData(1);
+    let framesExtracted = filter.extract(samples, bufferSize);
+    sourcePositionCallback(filter.sourcePosition);
+    if (framesExtracted === 0) {
+      filter.onEnd();
+    }
+    let i = 0;
+    for (; i < framesExtracted; i++) {
+      left[i] = samples[i * 2];
+      right[i] = samples[i * 2 + 1];
+    }
+  };
+  return node;
+};
+
+const pad = function (n, width, z) {
+  z = z || '0';
+  n = n + '';
+  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+};
+const minsSecs = function (secs) {
+  const mins = Math.floor(secs / 60);
+  const seconds = secs - mins * 60;
+  return `${mins}:${pad(parseInt(seconds), 2)}`;
+};
+
+const onUpdate = function (sourcePosition) {
+  const currentTimePlayed = this.timePlayed;
+  const sampleRate = this.sampleRate;
+  this.sourcePosition = sourcePosition;
+  this.timePlayed = sourcePosition / sampleRate;
+  if (currentTimePlayed !== this.timePlayed) {
+    const timePlayed = new CustomEvent('play', {
+      detail: {
+        timePlayed: this.timePlayed,
+        formattedTimePlayed: this.formattedTimePlayed,
+        percentagePlayed: this.percentagePlayed
+      }
+    });
+    this._node.dispatchEvent(timePlayed);
+  }
+};
+class PitchShifter {
+  constructor(context, buffer, bufferSize, onEnd = noop) {
+    this._soundtouch = new SoundTouch();
+    const source = new WebAudioBufferSource(buffer);
+    this.timePlayed = 0;
+    this.sourcePosition = 0;
+    this._filter = new SimpleFilter(source, this._soundtouch, onEnd);
+    this._node = getWebAudioNode(context, this._filter, sourcePostion => onUpdate.call(this, sourcePostion), bufferSize);
+    this.tempo = 1;
+    this.rate = 1;
+    this.duration = buffer.duration;
+    this.sampleRate = context.sampleRate;
+    this.listeners = [];
+  }
+  get formattedDuration() {
+    return minsSecs(this.duration);
+  }
+  get formattedTimePlayed() {
+    return minsSecs(this.timePlayed);
+  }
+  get percentagePlayed() {
+    return 100 * this._filter.sourcePosition / (this.duration * this.sampleRate);
+  }
+  set percentagePlayed(perc) {
+    this._filter.sourcePosition = parseInt(perc * this.duration * this.sampleRate);
+    this.sourcePosition = this._filter.sourcePosition;
+    this.timePlayed = this.sourcePosition / this.sampleRate;
+  }
+  get node() {
+    return this._node;
+  }
+  set pitch(pitch) {
+    this._soundtouch.pitch = pitch;
+  }
+  set pitchSemitones(semitone) {
+    this._soundtouch.pitchSemitones = semitone;
+  }
+  set rate(rate) {
+    this._soundtouch.rate = rate;
+  }
+  set tempo(tempo) {
+    this._soundtouch.tempo = tempo;
+  }
+  connect(toNode) {
+    this._node.connect(toNode);
+  }
+  disconnect() {
+    this._node.disconnect();
+  }
+  on(eventName, cb) {
+    this.listeners.push({
+      name: eventName,
+      cb: cb
+    });
+    this._node.addEventListener(eventName, event => cb(event.detail));
+  }
+  off(eventName = null) {
+    let listeners = this.listeners;
+    if (eventName) {
+      listeners = listeners.filter(e => e.name === eventName);
+    }
+    listeners.forEach(e => {
+      this._node.removeEventListener(e.name, event => e.cb(event.detail));
+    });
+  }
+}
+
+
+//# sourceMappingURL=soundtouch.js.map
+
+;// ./node_modules/chaimu/dist/debug.js
+
+/* harmony default export */ const debug = ({
+    log: (...text) => {
+        if (!config.debug) {
+            return;
+        }
+        return console.log(`%c✦ chaimu.js v${config.version} ✦`, "background: #000; color: #fff; padding: 0 8px", ...text);
+    },
+});
+
+;// ./node_modules/chaimu/dist/player.js
+
+
+
+const videoLipSyncEvents = [
+    "playing",
+    "ratechange",
+    "play",
+    "waiting",
+    "pause",
+    "seeked",
+];
+function initAudioContext() {
+    const audioContext = window.AudioContext || window.webkitAudioContext;
+    return audioContext ? new audioContext() : undefined;
+}
+class BasePlayer {
+    static name = "BasePlayer";
+    chaimu;
+    _src;
+    fetch;
+    constructor(chaimu, src) {
+        this.chaimu = chaimu;
+        this._src = src;
+        this.fetch = config.fetchFn;
+    }
+    async init() {
+        return new Promise((resolve) => {
+            return resolve(this);
+        });
+    }
+    clear() {
+        return new Promise((resolve) => {
+            return resolve(this);
+        });
+    }
+    lipSync(mode = false) {
+        return this;
+    }
+    handleVideoEvent = (event) => {
+        debug.log(`handle video ${event.type}`);
+        this.lipSync(event.type);
+        return this;
+    };
+    removeVideoEvents() {
+        for (const e of videoLipSyncEvents) {
+            this.chaimu.video.removeEventListener(e, this.handleVideoEvent);
+        }
+        return this;
+    }
+    addVideoEvents() {
+        for (const e of videoLipSyncEvents) {
+            this.chaimu.video.addEventListener(e, this.handleVideoEvent);
+        }
+        return this;
+    }
+    async play() {
+        return new Promise((resolve) => {
+            return resolve(this);
+        });
+    }
+    async pause() {
+        return new Promise((resolve) => {
+            return resolve(this);
+        });
+    }
+    get name() {
+        return this.constructor.name;
+    }
+    set src(url) {
+        this._src = url;
+    }
+    get src() {
+        return this._src;
+    }
+    get currentSrc() {
+        return this._src;
+    }
+    set volume(value) {
+        return;
+    }
+    get volume() {
+        return 0;
+    }
+    get playbackRate() {
+        return 0;
+    }
+    set playbackRate(value) {
+        return;
+    }
+    get currentTime() {
+        return 0;
+    }
+}
+class AudioPlayer extends BasePlayer {
+    static name = "AudioPlayer";
+    audio;
+    gainNode;
+    audioSource;
+    constructor(chaimu, src) {
+        super(chaimu, src);
+        this.updateAudio();
+    }
+    initAudioBooster() {
+        if (!this.chaimu.audioContext) {
+            return this;
+        }
+        if (this.gainNode && this.audioSource) {
+            this.audioSource.disconnect(this.gainNode);
+            this.gainNode.disconnect();
+        }
+        this.gainNode = this.chaimu.audioContext.createGain();
+        this.gainNode.connect(this.chaimu.audioContext.destination);
+        this.audioSource = this.chaimu.audioContext.createMediaElementSource(this.audio);
+        this.audioSource.connect(this.gainNode);
+        return this;
+    }
+    updateAudio() {
+        this.audio = new Audio(this.src);
+        this.audio.crossOrigin = "anonymous";
+        return this;
+    }
+    async init() {
+        return new Promise((resolve) => {
+            this.updateAudio();
+            this.initAudioBooster();
+            return resolve(this);
+        });
+    }
+    audioErrorHandle = (e) => {
+        console.error("[AudioPlayer]", e);
+    };
+    lipSync(mode = false) {
+        debug.log("[AudioPlayer] lipsync video", this.chaimu.video);
+        if (!this.chaimu.video) {
+            return this;
+        }
+        this.audio.currentTime = this.chaimu.video.currentTime;
+        this.audio.playbackRate = this.chaimu.video.playbackRate;
+        if (!mode) {
+            debug.log("[AudioPlayer] lipsync mode isn't set");
+            return this;
+        }
+        debug.log(`[AudioPlayer] lipsync mode is ${mode}`);
+        switch (mode) {
+            case "play":
+            case "playing":
+            case "seeked": {
+                if (!this.chaimu.video.paused) {
+                    this.syncPlay();
+                }
+                return this;
+            }
+            case "pause":
+            case "waiting": {
+                void this.pause();
+                return this;
+            }
+            default: {
+                return this;
+            }
+        }
+    }
+    async clear() {
+        return new Promise((resolve) => {
+            this.audio.pause();
+            this.audio.src = "";
+            this.audio.removeAttribute("src");
+            return resolve(this);
+        });
+    }
+    syncPlay() {
+        debug.log("[AudioPlayer] sync play called");
+        this.audio.play().catch(this.audioErrorHandle);
+        return this;
+    }
+    async play() {
+        debug.log("[AudioPlayer] play called");
+        await this.audio.play().catch(this.audioErrorHandle);
+        return this;
+    }
+    async pause() {
+        return new Promise((resolve) => {
+            debug.log("[AudioPlayer] pause called");
+            this.audio.pause();
+            return resolve(this);
+        });
+    }
+    set src(url) {
+        this._src = url;
+        if (!url) {
+            void this.clear();
+            return;
+        }
+        this.audio.src = url;
+    }
+    get src() {
+        return this._src;
+    }
+    get currentSrc() {
+        return this.audio.currentSrc;
+    }
+    set volume(value) {
+        if (this.gainNode) {
+            this.gainNode.gain.value = value;
+            return;
+        }
+        this.audio.volume = value;
+    }
+    get volume() {
+        return this.gainNode ? this.gainNode.gain.value : this.audio.volume;
+    }
+    get playbackRate() {
+        return this.audio.playbackRate;
+    }
+    set playbackRate(value) {
+        this.audio.playbackRate = value;
+    }
+    get currentTime() {
+        return this.audio.currentTime;
+    }
+}
+class ChaimuPlayer extends BasePlayer {
+    static name = "ChaimuPlayer";
+    audioBuffer;
+    sourceNode;
+    gainNode;
+    audioShifter;
+    cleanerRunned = false;
+    async fetchAudio() {
+        if (!this._src) {
+            throw new Error("No audio source provided");
+        }
+        if (!this.chaimu.audioContext) {
+            throw new Error("No audio context available");
+        }
+        debug.log(`[ChaimuPlayer] Fetching audio from ${this._src}...`);
+        try {
+            const res = await this.fetch(this._src);
+            debug.log(`[ChaimuPlayer] Decoding fetched audio...`);
+            const data = await res.arrayBuffer();
+            this.audioBuffer = await this.chaimu.audioContext.decodeAudioData(data);
+        }
+        catch (err) {
+            throw new Error(`Failed to fetch audio file, because ${err.message}`);
+        }
+        return this;
+    }
+    initAudioBooster() {
+        if (!this.chaimu.audioContext) {
+            return this;
+        }
+        if (this.gainNode) {
+            this.gainNode.disconnect();
+        }
+        this.gainNode = this.chaimu.audioContext.createGain();
+        return this;
+    }
+    async init() {
+        await this.fetchAudio();
+        this.initAudioBooster();
+        return this;
+    }
+    lipSync(mode = false) {
+        debug.log("[ChaimuPlayer] lipsync video", this.chaimu.video, this);
+        if (!this.chaimu.video) {
+            return this;
+        }
+        if (!mode) {
+            debug.log("[ChaimuPlayer] lipsync mode isn't set");
+            return this;
+        }
+        debug.log(`[ChaimuPlayer] lipsync mode is ${mode}`);
+        switch (mode) {
+            case "play":
+            case "playing":
+            case "ratechange":
+            case "seeked": {
+                if (!this.chaimu.video.paused) {
+                    void this.start();
+                }
+                return this;
+            }
+            case "pause":
+            case "waiting": {
+                void this.pause();
+                return this;
+            }
+            default: {
+                return this;
+            }
+        }
+    }
+    async reopenCtx() {
+        if (!this.chaimu.audioContext) {
+            throw new Error("No audio context available");
+        }
+        try {
+            await this.chaimu.audioContext.close();
+        }
+        catch {
+        }
+        return this;
+    }
+    async clear() {
+        if (!this.chaimu.audioContext) {
+            throw new Error("No audio context available");
+        }
+        debug.log("clear audio context");
+        this.cleanerRunned = true;
+        await this.pause();
+        if (!this.gainNode) {
+            this.cleanerRunned = false;
+            return this;
+        }
+        if (this.sourceNode) {
+            this.sourceNode.stop();
+            this.sourceNode.disconnect(this.gainNode);
+            this.sourceNode = undefined;
+        }
+        if (this.audioShifter) {
+            this.audioShifter._node.disconnect(this.gainNode);
+            this.audioShifter = undefined;
+        }
+        this.gainNode.disconnect();
+        const oldVolume = this.volume;
+        this.gainNode = undefined;
+        await this.reopenCtx();
+        this.chaimu.audioContext = initAudioContext();
+        this.initAudioBooster();
+        this.volume = oldVolume;
+        this.cleanerRunned = false;
+        return this;
+    }
+    async start() {
+        if (!this.chaimu.audioContext) {
+            throw new Error("No audio context available");
+        }
+        if (!this.audioBuffer) {
+            throw new Error("The player isn't initialized");
+        }
+        if (!this.gainNode ||
+            (this.audioShifter && this.audioShifter.duration < this.chaimu.video.currentTime)) {
+            debug.log("Skip starting player");
+            return this;
+        }
+        if (this.cleanerRunned) {
+            debug.log("The other cleaner is still running, waiting...");
+            return this;
+        }
+        debug.log("starting audio");
+        await this.clear();
+        await this.play();
+        this.audioShifter = new PitchShifter(this.chaimu.audioContext, this.audioBuffer, 1024);
+        this.audioShifter.tempo = this.chaimu.video.playbackRate;
+        this.audioShifter.percentagePlayed = this.chaimu.video.currentTime / this.audioShifter.duration;
+        this.sourceNode = this.chaimu.audioContext.createBufferSource();
+        this.sourceNode.buffer = null;
+        this.sourceNode.connect(this.gainNode);
+        this.audioShifter.connect(this.gainNode);
+        this.gainNode.connect(this.chaimu.audioContext.destination);
+        this.sourceNode.start(undefined, this.chaimu.video.currentTime);
+        return this;
+    }
+    async pause() {
+        if (!this.chaimu.audioContext) {
+            throw new Error("No audio context available");
+        }
+        if (this.chaimu.audioContext.state !== "running") {
+            return this;
+        }
+        await this.chaimu.audioContext.suspend();
+        return this;
+    }
+    async play() {
+        if (!this.chaimu.audioContext) {
+            throw new Error("No audio context available");
+        }
+        await this.chaimu.audioContext.resume();
+        return this;
+    }
+    set src(url) {
+        this._src = url;
+    }
+    get src() {
+        return this._src;
+    }
+    get currentSrc() {
+        return this._src;
+    }
+    set volume(value) {
+        if (this.gainNode) {
+            this.gainNode.gain.value = value;
+        }
+    }
+    get volume() {
+        return this.gainNode ? this.gainNode.gain.value : 0;
+    }
+    set playbackRate(value) {
+        if (!this.audioShifter) {
+            throw new Error("No audio source available");
+        }
+        this.audioShifter.pitch = value;
+    }
+    get playbackRate() {
+        return this.audioShifter?._soundtouch?.tempo ?? 0;
+    }
+    get currentTime() {
+        return this.chaimu.video.currentTime;
+    }
+}
+
+;// ./node_modules/chaimu/dist/client.js
+
+
+class Chaimu {
+    _debug = false;
+    audioContext;
+    player;
+    video;
+    constructor({ url, video, debug = false, fetchFn = config.fetchFn, preferAudio = false, }) {
+        this._debug = config.debug = debug;
+        config.fetchFn = fetchFn;
+        this.audioContext = initAudioContext();
+        this.player =
+            this.audioContext && !preferAudio ? new ChaimuPlayer(this, url) : new AudioPlayer(this, url);
+        this.video = video;
+    }
+    async init() {
+        await this.player.init();
+        if (this.video && !this.video.paused) {
+            this.player.lipSync("play");
+        }
+        this.player.addVideoEvents();
+    }
+    set debug(value) {
+        this._debug = config.debug = value;
+    }
+    get debug() {
+        return this._debug;
+    }
+}
+
+;// ./node_modules/chaimu/dist/index.js
+
+
+
+
+;// ./node_modules/@vot.js/shared/dist/data/config.js
+/* harmony default export */ const data_config = ({
     host: "api.browser.yandex.ru",
     hostVOT: "vot.toil.cc/v1",
     hostWorker: "vot-worker.toil.cc",
     mediaProxy: "media-proxy.toil.cc",
-    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 YaBrowser/24.10.0.0 Safari/537.36",
-    componentVersion: "24.12.1.714",
+    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 YaBrowser/24.12.0.0 Safari/537.36",
+    componentVersion: "24.12.2.856",
     hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.1.2",
+    version: "2.1.10",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -291,9 +1592,9 @@ var LoggerLevel;
 
 
 class Logger {
-    static prefix = `[vot.js v${config.version}]`;
+    static prefix = `[vot.js v${data_config.version}]`;
     static canLog(level) {
-        return config.loggerLevel <= level;
+        return data_config.loggerLevel <= level;
     }
     static log(...messages) {
         if (!Logger.canLog(LoggerLevel.DEBUG)) {
@@ -1892,13 +3193,13 @@ async function signHMAC(hashName, hmac, data) {
     return await crypto.subtle.sign("HMAC", key, data);
 }
 async function getSignature(body) {
-    const signature = await signHMAC("SHA-256", config.hmac, body);
+    const signature = await signHMAC("SHA-256", data_config.hmac, body);
     return new Uint8Array(signature).reduce((str, byte) => str + byte.toString(16).padStart(2, "0"), "");
 }
 async function getSecYaHeaders(secType, session, body, path) {
     const { secretKey, uuid } = session;
     const sign = await getSignature(body);
-    const token = `${uuid}:${path}:${config.componentVersion}`;
+    const token = `${uuid}:${path}:${data_config.componentVersion}`;
     const tokenBody = utf8Encoder.encode(token);
     const tokenSign = await getSignature(tokenBody);
     return {
@@ -2050,7 +3351,7 @@ const iso6392to6391 = {
 };
 async function fetchWithTimeout(url, options = {
     headers: {
-        "User-Agent": config.userAgent,
+        "User-Agent": data_config.userAgent,
     },
 }) {
     const { timeout = 3000, ...fetchOptions } = options;
@@ -2073,11 +3374,11 @@ function normalizeLang(lang) {
     return lang.toLowerCase().split(/[_;-]/)[0].trim();
 }
 function proxyMedia(url, format = "mp4") {
-    const generalUrl = `https://${config.mediaProxy}/v1/proxy/video.${format}?format=base64&force=true`;
+    const generalUrl = `https://${data_config.mediaProxy}/v1/proxy/video.${format}?format=base64&force=true`;
     if (!(url instanceof URL)) {
         return `${generalUrl}&url=${btoa(url)}`;
     }
-    return `${generalUrl}&url=${btoa(encodeURIComponent(url.href))}&origin=${url.origin}&referer=${url.origin}`;
+    return `${generalUrl}&url=${btoa(url.href)}&origin=${url.origin}&referer=${url.origin}`;
 }
 
 ;// ./node_modules/@vot.js/core/dist/protobuf.js
@@ -2238,6 +3539,8 @@ var VideoService;
     VideoService["dzen"] = "dzen";
     VideoService["cloudflarestream"] = "cloudflarestream";
     VideoService["loom"] = "loom";
+    VideoService["rtnews"] = "rtnews";
+    VideoService["bitview"] = "bitview";
 })(VideoService || (VideoService = {}));
 
 ;// ./node_modules/@vot.js/core/dist/utils/vot.js
@@ -2256,9 +3559,9 @@ function convertVOT(service, videoId, url) {
 }
 
 ;// ./src/localization/locales/en.json
-const en_namespaceObject = /*#__PURE__*/JSON.parse('{"recommended":"recommended","translateVideo":"Translate video","disableTranslate":"Turn off","translationSettings":"Translation settings","subtitlesSettings":"Subtitles settings","about":"About extension","resetSettings":"Reset settings","videoBeingTranslated":"The video is being translated","videoLanguage":"Video language","translationLanguage":"Translation language","translationTake":"The translation will take","translationTakeMoreThanHour":"The translation will take more than an hour","translationTakeAboutMinute":"The translation will take about a minute","translationTakeFewMinutes":"The translation will take a few minutes","translationTakeApproximatelyMinutes":"The translation will take approximately {0} minutes","translationTakeApproximatelyMinute":"The translation will take approximately {0} minutes","requestTranslationFailed":"Failed to request video translation","audioNotReceived":"Audio link not received","audioFormatNotSupported":"The audio format is not supported","VOTAutoTranslate":"Translate on open","VOTDontTranslateYourLang":"Don\'t translate from my language","VOTVolume":"Video volume","VOTVolumeTranslation":"Translation Volume","VOTAutoSetVolume":"Reduce video volume to ","VOTShowVideoSlider":"Video volume slider","VOTSyncVolume":"Link translation and video volume","VOTDisableFromYourLang":"You have disabled the translation of the video in your language","VOTVideoIsTooLong":"Video is too long","VOTNoVideoIDFound":"No video ID found","VOTSubtitles":"Subtitles","VOTSubtitlesDisabled":"Disabled","VOTSubtitlesMaxLength":"Subtitles max length","VOTHighlightWords":"Highlight words","VOTTranslatedFrom":"translated from","VOTAutogenerated":"autogenerated","VOTSettings":"VOT Settings","VOTMenuLanguage":"Menu language","VOTAuthors":"Authors","VOTVersion":"Version","VOTLoader":"Loader","VOTBrowser":"Browser","VOTShowPiPButton":"Show PiP button","langs":{"auto":"Auto","af":"Afrikaans","ak":"Akan","sq":"Albanian","am":"Amharic","ar":"Arabic","hy":"Armenian","as":"Assamese","ay":"Aymara","az":"Azerbaijani","bn":"Bangla","eu":"Basque","be":"Belarusian","bho":"Bhojpuri","bs":"Bosnian","bg":"Bulgarian","my":"Burmese","ca":"Catalan","ceb":"Cebuano","zh":"Chinese","zh-Hans":"Chinese (Simplified)","zh-Hant":"Chinese (Traditional)","co":"Corsican","hr":"Croatian","cs":"Czech","da":"Danish","dv":"Divehi","nl":"Dutch","en":"English","eo":"Esperanto","et":"Estonian","ee":"Ewe","fil":"Filipino","fi":"Finnish","fr":"French","gl":"Galician","lg":"Ganda","ka":"Georgian","de":"German","el":"Greek","gn":"Guarani","gu":"Gujarati","ht":"Haitian Creole","ha":"Hausa","haw":"Hawaiian","iw":"Hebrew","hi":"Hindi","hmn":"Hmong","hu":"Hungarian","is":"Icelandic","ig":"Igbo","id":"Indonesian","ga":"Irish","it":"Italian","ja":"Japanese","jv":"Javanese","kn":"Kannada","kk":"Kazakh","km":"Khmer","rw":"Kinyarwanda","ko":"Korean","kri":"Krio","ku":"Kurdish","ky":"Kyrgyz","lo":"Lao","la":"Latin","lv":"Latvian","ln":"Lingala","lt":"Lithuanian","lb":"Luxembourgish","mk":"Macedonian","mg":"Malagasy","ms":"Malay","ml":"Malayalam","mt":"Maltese","mi":"Māori","mr":"Marathi","mn":"Mongolian","ne":"Nepali","nso":"Northern Sotho","no":"Norwegian","ny":"Nyanja","or":"Odia","om":"Oromo","ps":"Pashto","fa":"Persian","pl":"Polish","pt":"Portuguese","pa":"Punjabi","qu":"Quechua","ro":"Romanian","ru":"Russian","sm":"Samoan","sa":"Sanskrit","gd":"Scottish Gaelic","sr":"Serbian","sn":"Shona","sd":"Sindhi","si":"Sinhala","sk":"Slovak","sl":"Slovenian","so":"Somali","st":"Southern Sotho","es":"Spanish","su":"Sundanese","sw":"Swahili","sv":"Swedish","tg":"Tajik","ta":"Tamil","tt":"Tatar","te":"Telugu","th":"Thai","ti":"Tigrinya","ts":"Tsonga","tr":"Turkish","tk":"Turkmen","uk":"Ukrainian","ur":"Urdu","ug":"Uyghur","uz":"Uzbek","vi":"Vietnamese","cy":"Welsh","fy":"Western Frisian","xh":"Xhosa","yi":"Yiddish","yo":"Yoruba","zu":"Zulu"},"streamNoConnectionToServer":"There is no connection to the server","searchField":"Search...","VOTTranslateAPIErrors":"Translate errors from the API","VOTDetectService":"Language detection service","VOTProxyWorkerHost":"Enter the proxy worker address","VOTM3u8ProxyHost":"Enter the address of the m3u8 proxy worker","proxySettings":"Proxy Settings","translationTakeApproximatelyMinute2":"The translation will take approximately {0} minutes","VOTAudioBooster":"Extended translation volume increase","VOTSubtitlesDesign":"Subtitles design","VOTSubtitlesFontSize":"Font size of subtitles","VOTSubtitlesOpacity":"Transparency of the subtitle background","VOTPressNewHotkey":"Press the new hotkey...","VOTCreateTranslationHotkey":"Create Hotkey for Translation","VOTChangeHotkeyWithCurrent":"Change Hotkey (Current: {0})","VOTSubtitlesDownloadFormat":"The format for downloading subtitles","VOTDownloadWithName":"Download files with the video name","VOTUpdateLocaleFiles":"Update localization files","VOTLocaleHash":"Locale hash","VOTUpdatedAt":"Updated at","VOTNeedWebAudioAPI":"To enable this, you must have a Web Audio API","VOTMediaCSPEnabledOnSite":"Media CSP is enabled on this site","VOTOnlyBypassMediaCSP":"Use it only for bypassing Media CSP","VOTNewAudioPlayer":"Use the new audio player","VOTUseNewModel":"Use an experimental variation of Yandex voices for some videos","VOTTranslationErrorsService":"Error translation service","TranslationDelayed":"The translation is slightly delayed","VOTTranslationCompletedNotify":"The translation on the {0} has been completed!","VOTSendNotifyOnComplete":"Send a notification that the video has been translated","VOTBugReport":"Report a bug"}');
+const en_namespaceObject = /*#__PURE__*/JSON.parse('{"recommended":"recommended","translateVideo":"Translate video","disableTranslate":"Turn off","translationSettings":"Translation settings","subtitlesSettings":"Subtitles settings","about":"About extension","resetSettings":"Reset settings","videoBeingTranslated":"The video is being translated","videoLanguage":"Video language","translationLanguage":"Translation language","translationTake":"The translation will take","translationTakeMoreThanHour":"The translation will take more than an hour","translationTakeAboutMinute":"The translation will take about a minute","translationTakeFewMinutes":"The translation will take a few minutes","translationTakeApproximatelyMinutes":"The translation will take approximately {0} minutes","translationTakeApproximatelyMinute":"The translation will take approximately {0} minutes","requestTranslationFailed":"Failed to request video translation","audioNotReceived":"Audio link not received","audioFormatNotSupported":"The audio format is not supported","VOTAutoTranslate":"Translate on open","VOTDontTranslateYourLang":"Don\'t translate from my language","VOTVolume":"Video volume","VOTVolumeTranslation":"Translation Volume","VOTAutoSetVolume":"Reduce video volume to ","VOTShowVideoSlider":"Video volume slider","VOTSyncVolume":"Link translation and video volume","VOTDisableFromYourLang":"You have disabled the translation of the video in your language","VOTVideoIsTooLong":"Video is too long","VOTNoVideoIDFound":"No video ID found","VOTSubtitles":"Subtitles","VOTSubtitlesDisabled":"Disabled","VOTSubtitlesMaxLength":"Subtitles max length","VOTHighlightWords":"Highlight words","VOTTranslatedFrom":"translated from","VOTAutogenerated":"autogenerated","VOTSettings":"VOT Settings","VOTMenuLanguage":"Menu language","VOTAuthors":"Authors","VOTVersion":"Version","VOTLoader":"Loader","VOTBrowser":"Browser","VOTShowPiPButton":"Show PiP button","langs":{"auto":"Auto","af":"Afrikaans","ak":"Akan","sq":"Albanian","am":"Amharic","ar":"Arabic","hy":"Armenian","as":"Assamese","ay":"Aymara","az":"Azerbaijani","bn":"Bangla","eu":"Basque","be":"Belarusian","bho":"Bhojpuri","bs":"Bosnian","bg":"Bulgarian","my":"Burmese","ca":"Catalan","ceb":"Cebuano","zh":"Chinese","zh-Hans":"Chinese (Simplified)","zh-Hant":"Chinese (Traditional)","co":"Corsican","hr":"Croatian","cs":"Czech","da":"Danish","dv":"Divehi","nl":"Dutch","en":"English","eo":"Esperanto","et":"Estonian","ee":"Ewe","fil":"Filipino","fi":"Finnish","fr":"French","gl":"Galician","lg":"Ganda","ka":"Georgian","de":"German","el":"Greek","gn":"Guarani","gu":"Gujarati","ht":"Haitian Creole","ha":"Hausa","haw":"Hawaiian","iw":"Hebrew","hi":"Hindi","hmn":"Hmong","hu":"Hungarian","is":"Icelandic","ig":"Igbo","id":"Indonesian","ga":"Irish","it":"Italian","ja":"Japanese","jv":"Javanese","kn":"Kannada","kk":"Kazakh","km":"Khmer","rw":"Kinyarwanda","ko":"Korean","kri":"Krio","ku":"Kurdish","ky":"Kyrgyz","lo":"Lao","la":"Latin","lv":"Latvian","ln":"Lingala","lt":"Lithuanian","lb":"Luxembourgish","mk":"Macedonian","mg":"Malagasy","ms":"Malay","ml":"Malayalam","mt":"Maltese","mi":"Māori","mr":"Marathi","mn":"Mongolian","ne":"Nepali","nso":"Northern Sotho","no":"Norwegian","ny":"Nyanja","or":"Odia","om":"Oromo","ps":"Pashto","fa":"Persian","pl":"Polish","pt":"Portuguese","pa":"Punjabi","qu":"Quechua","ro":"Romanian","ru":"Russian","sm":"Samoan","sa":"Sanskrit","gd":"Scottish Gaelic","sr":"Serbian","sn":"Shona","sd":"Sindhi","si":"Sinhala","sk":"Slovak","sl":"Slovenian","so":"Somali","st":"Southern Sotho","es":"Spanish","su":"Sundanese","sw":"Swahili","sv":"Swedish","tg":"Tajik","ta":"Tamil","tt":"Tatar","te":"Telugu","th":"Thai","ti":"Tigrinya","ts":"Tsonga","tr":"Turkish","tk":"Turkmen","uk":"Ukrainian","ur":"Urdu","ug":"Uyghur","uz":"Uzbek","vi":"Vietnamese","cy":"Welsh","fy":"Western Frisian","xh":"Xhosa","yi":"Yiddish","yo":"Yoruba","zu":"Zulu"},"streamNoConnectionToServer":"There is no connection to the server","searchField":"Search...","VOTTranslateAPIErrors":"Translate errors from the API","VOTDetectService":"Language detection service","VOTProxyWorkerHost":"Enter the proxy worker address","VOTM3u8ProxyHost":"Enter the address of the m3u8 proxy worker","proxySettings":"Proxy Settings","translationTakeApproximatelyMinute2":"The translation will take approximately {0} minutes","VOTAudioBooster":"Extended translation volume increase","VOTSubtitlesDesign":"Subtitles design","VOTSubtitlesFontSize":"Font size of subtitles","VOTSubtitlesOpacity":"Transparency of the subtitle background","VOTPressNewHotkey":"Press the new hotkey...","VOTCreateTranslationHotkey":"Create Hotkey for Translation","VOTChangeHotkeyWithCurrent":"Change Hotkey (Current: {0})","VOTSubtitlesDownloadFormat":"The format for downloading subtitles","VOTDownloadWithName":"Download files with the video name","VOTUpdateLocaleFiles":"Update localization files","VOTLocaleHash":"Locale hash","VOTUpdatedAt":"Updated at","VOTNeedWebAudioAPI":"To enable this, you must have a Web Audio API","VOTMediaCSPEnabledOnSite":"Media CSP is enabled on this site","VOTOnlyBypassMediaCSP":"Use it only for bypassing Media CSP","VOTNewAudioPlayer":"Use the new audio player","VOTUseNewModel":"Use an experimental variation of Yandex voices for some videos","VOTTranslationErrorsService":"Error translation service","TranslationDelayed":"The translation is slightly delayed","VOTTranslationCompletedNotify":"The translation on the {0} has been completed!","VOTSendNotifyOnComplete":"Send a notification that the video has been translated","VOTBugReport":"Report a bug","VOTTranslateProxyDisabled":"Disabled","VOTTranslateProxyEnabled":"Enabled","VOTTranslateProxyEverything":"Proxy everything","VOTTranslateProxyStatus":"Proxying mode"}');
 ;// ./src/utils/debug.ts
-/* harmony default export */ const debug = ({
+/* harmony default export */ const utils_debug = ({
     log: (...text) => {
         if (true) {
             return;
@@ -2296,7 +3599,6 @@ const foswlyTranslateUrl = "https://translate.toil.cc/v2";
 const detectRustServerUrl = "https://rust-server-531j.onrender.com/detect";
 
 const proxyOnlyExtensions = [
-  "Violentmonkey",
   "FireMonkey",
   "Greasemonkey",
   "AdGuard",
@@ -2322,7 +3624,7 @@ const votStorage = new (class {
     gmSupport;
     constructor() {
         this.gmSupport = typeof GM_getValue === "function";
-        debug.log(`GM Storage Status: ${this.gmSupport}`);
+        utils_debug.log(`GM Storage Status: ${this.gmSupport}`);
     }
     syncGet(name, def = undefined) {
         if (this.gmSupport) {
@@ -2526,39 +3828,40 @@ async function GM_fetch(url, opts = {}) {
     if (url.includes("api.browser.yandex.ru")) {
       throw new Error("Preventing yandex cors");
     }
-
-    const response = await fetch(url, {
+    return await fetch(url, {
       signal: controller.signal,
       ...fetchOptions,
     });
-    return response;
   } catch (err) {
     // Если fetch завершился ошибкой, используем GM_xmlhttpRequest
     // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
-    debug.log("GM_fetch preventing cors by GM_xmlhttpRequest", err.message);
+    utils_debug.log("GM_fetch preventing CORS by GM_xmlhttpRequest", err.message);
+
     return new Promise((resolve, reject) => {
       GM_xmlhttpRequest({
         method: fetchOptions.method || "GET",
         url,
         responseType: "blob",
-        ...fetchOptions,
         data: fetchOptions.body,
         timeout,
+        headers: fetchOptions.headers || {},
         onload: (resp) => {
-          // chrome \n and ":", firefox \r\n and ": " (Only in GM_xmlhttpRequest)
-          // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/getAllResponseHeaders#examples
-          const headers = Object.fromEntries(
-            resp.responseHeaders
-              .trim()
-              .split(/\r?\n/)
-              .map((line) => line.split(/: (.+)/))
-              .filter(([key]) => key && /^[\w-]+$/.test(key)),
-          );
+          const headers = resp.responseHeaders
+            .split(/\r?\n/)
+            .reduce((acc, line) => {
+              const [, key, value] = line.match(/^([\w-]+): (.+)$/) || [];
+              if (key) {
+                acc[key] = value;
+              }
+              return acc;
+            }, {});
 
           const response = new Response(resp.response, {
             status: resp.status,
             headers: headers,
           });
+          // Response have empty url by default
+          // this need to get same response url as in classic fetch
           Object.defineProperty(response, "url", {
             value: resp.finalUrl ?? "",
           });
@@ -2566,7 +3869,7 @@ async function GM_fetch(url, opts = {}) {
           resolve(response);
         },
         ontimeout: () => reject(new Error("Timeout")),
-        onerror: (error) => reject(error),
+        onerror: (error) => reject(new Error(error)),
         onabort: () => reject(new Error("AbortError")),
       });
     });
@@ -2595,129 +3898,106 @@ const localizationUrl = `${contentUrl}/${
 // TODO: add get from hashes.json or use DEFAULT_LOCALES
 const availableLocales = ["auto","en","ru","af","am","ar","az","bg","bn","bs","ca","cs","cy","da","de","el","es","et","eu","fa","fi","fr","gl","hi","hr","hu","hy","id","it","ja","jv","kk","km","kn","ko","lo","mk","ml","mn","ms","mt","my","ne","nl","pa","pl","pt","ro","si","sk","sl","sq","sr","su","sv","sw","tr","uk","ur","uz","vi","zh","zu"];
 
-const localizationProvider = new (class {
-  lang = "en";
-  locale = {};
-  gmValues = [
-    "locale-phrases",
-    "locale-lang",
-    "locale-hash",
-    "locale-updated-at",
-    "locale-lang-override",
-  ];
-
+class LocalizationProvider {
   constructor() {
-    const langOverride = votStorage.syncGet("locale-lang-override", "auto");
-    this.lang =
-      langOverride && langOverride !== "auto"
-        ? langOverride
-        : (navigator.language || navigator.userLanguage)
-            ?.substr(0, 2)
-            ?.toLowerCase() ?? "en";
+    this.gmValues = [
+      "locale-phrases",
+      "locale-lang",
+      "locale-hash",
+      "locale-updated-at",
+      "locale-lang-override",
+    ];
+    this.lang = this.getLang();
+    this.locale = {};
     this.setLocaleFromJsonString(votStorage.syncGet("locale-phrases", ""));
   }
 
+  getLang() {
+    const langOverride = votStorage.syncGet("locale-lang-override", "auto");
+    return langOverride !== "auto" ? langOverride : lang;
+  }
+
   reset() {
-    for (let i = 0; i < this.gmValues.length; i++) {
-      votStorage.syncDelete(this.gmValues[i]);
+    for (const key of this.gmValues) {
+      votStorage.syncDelete(key);
     }
   }
 
   async checkUpdates(force = false) {
-    debug.log("Check locale updates...");
+    utils_debug.log("Check locale updates...");
     try {
       const res = await GM_fetch(
-        `${localizationUrl}/hashes.json${
-          force ? `?timestamp=${utils_getTimestamp()}` : ""
-        }`,
+        `${localizationUrl}/hashes.json${force ? `?timestamp=${utils_getTimestamp()}` : ""}`,
       );
-      if (res.status !== 200) {
-        throw res.status;
-      }
-
+      if (!res.ok) throw res.status;
       const hashes = await res.json();
-      const localeHash = await votStorage.get("locale-hash");
-      const actualHash = hashes[this.lang];
-
-      return localeHash !== actualHash ? actualHash : false;
+      return (await votStorage.get("locale-hash")) !== hashes[this.lang]
+        ? hashes[this.lang]
+        : false;
     } catch (err) {
       console.error(
-        "[VOT] [localizationProvider] Failed to get locales hash, cause:",
+        "[VOT] [localizationProvider] Failed to get locales hash:",
         err,
       );
-
       return false;
     }
   }
 
   async update(force = false) {
     const localeUpdatedAt = await votStorage.get("locale-updated-at", 0);
-    const localeLang = await votStorage.get("locale-lang");
-    const timestamp = utils_getTimestamp();
     if (
       !force &&
-      localeUpdatedAt + localeCacheTTL > timestamp &&
-      localeLang === this.lang
-    ) {
+      localeUpdatedAt + localeCacheTTL > utils_getTimestamp() &&
+      (await votStorage.get("locale-lang")) === this.lang
+    )
       return;
-    }
 
     const hash = await this.checkUpdates(force);
-    await votStorage.set("locale-updated-at", timestamp);
-    if (!hash) {
-      return;
-    }
+    await votStorage.set("locale-updated-at", utils_getTimestamp());
+    if (!hash) return;
 
-    debug.log("Updating locale...");
+    utils_debug.log("Updating locale...");
     try {
       const res = await GM_fetch(
-        `${localizationUrl}/locales/${this.lang}.json${
-          force ? `?timestamp=${timestamp}` : ""
-        }`,
+        `${localizationUrl}/locales/${this.lang}.json${force ? `?timestamp=${utils_getTimestamp()}` : ""}`,
       );
-      if (res.status !== 200) {
-        throw res.status;
-      }
-
+      if (!res.ok) throw res.status;
       // We use it .text() in order for there to be a single logic for GM_Storage and localStorage
       const text = await res.text();
       await votStorage.set("locale-phrases", text);
-      this.setLocaleFromJsonString(text);
-
       await votStorage.set("locale-hash", hash);
       await votStorage.set("locale-lang", this.lang);
+      this.setLocaleFromJsonString(text);
     } catch (err) {
-      console.error(
-        "[VOT] [localizationProvider] Failed to get locale, cause:",
-        err,
-      );
+      console.error("[VOT] [localizationProvider] Failed to get locale:", err);
       this.setLocaleFromJsonString(await votStorage.get("locale-phrases", ""));
     }
   }
 
   setLocaleFromJsonString(json) {
     try {
-      this.locale = JSON.parse(json) ?? {};
-    } catch (exception) {
-      console.error("[VOT] [localizationProvider]", exception);
+      this.locale = JSON.parse(json) || {};
+    } catch (err) {
+      console.error("[VOT] [localizationProvider]", err);
       this.locale = {};
     }
   }
 
   getFromLocale(locale, key) {
-    const result = key.split(".").reduce((locale, key) => {
-      if (typeof locale === "object" && locale) return locale[key];
-      return undefined;
-    }, locale);
-    if (result === undefined) {
-      console.warn(
-        "[VOT] [localizationProvider] locale",
-        locale,
-        "doesn't contain key",
-        key,
-      );
-    }
-    return result;
+    return (
+      key.split(".").reduce((acc, k) => acc?.[k], locale) ??
+      this.warnMissingKey(locale, key)
+    );
+  }
+
+  warnMissingKey(locale, key) {
+    console.warn(
+      "[VOT] [localizationProvider] locale",
+      locale,
+      "doesn't contain key",
+      key,
+    );
+    return undefined;
   }
 
   getDefault(key) {
@@ -2725,13 +4005,11 @@ const localizationProvider = new (class {
   }
 
   get(key) {
-    return (
-      this.getFromLocale(this.locale, key) ??
-      this.getFromLocale(en_namespaceObject, key) ??
-      key
-    );
+    return this.getFromLocale(this.locale, key) ?? this.getDefault(key);
   }
-})();
+}
+
+const localizationProvider = new LocalizationProvider();
 
 ;// ./src/utils/VOTLocalizedError.js
 
@@ -2775,7 +4053,7 @@ class client_VOTClient {
     sessions = {};
     requestLang;
     responseLang;
-    userAgent = config.userAgent;
+    userAgent = data_config.userAgent;
     paths = {
         videoTranslation: "/video-translation/translate",
         videoTranslationFailAudio: "/video-translation/fail-audio-js",
@@ -2799,12 +4077,12 @@ class client_VOTClient {
         "Sec-Fetch-Mode": "no-cors",
     };
     headersVOT = {
-        "User-Agent": `vot.js/${config.version}`,
+        "User-Agent": `vot.js/${data_config.version}`,
         "Content-Type": "application/json",
         Pragma: "no-cache",
         "Cache-Control": "no-cache",
     };
-    constructor({ host = config.host, hostVOT = config.hostVOT, fetchFn = fetchWithTimeout, fetchOpts = {}, requestLang = "en", responseLang = "ru", headers = {}, } = {}) {
+    constructor({ host = data_config.host, hostVOT = data_config.hostVOT, fetchFn = fetchWithTimeout, fetchOpts = {}, requestLang = "en", responseLang = "ru", headers = {}, } = {}) {
         const schemaRe = /(http(s)?):\/\//;
         const schema = schemaRe.exec(host)?.[1];
         this.host = schema ? host.replace(`${schema}://`, "") : host;
@@ -2902,7 +4180,7 @@ class client_VOTClient {
         return this.sessions[module];
     }
     async translateVideoYAImpl({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, extraOpts = {}, shouldSendFailedAudio = true, }) {
-        const { url, duration = config.defaultDuration } = videoData;
+        const { url, duration = data_config.defaultDuration } = videoData;
         const session = await this.getSession("video-translation");
         const body = yandexProtobuf.encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp, extraOpts);
         const path = this.paths.videoTranslation;
@@ -3143,7 +4421,7 @@ class client_VOTClient {
 }
 class client_VOTWorkerClient extends client_VOTClient {
     constructor(opts = {}) {
-        opts.host = opts.host ?? config.hostWorker;
+        opts.host = opts.host ?? data_config.hostWorker;
         super(opts);
     }
     async request(path, body, headers = {}, method = "POST") {
@@ -3203,14 +4481,28 @@ class client_VOTWorkerClient extends client_VOTClient {
 
 ;// ./node_modules/@vot.js/ext/dist/client.js
 
+
+const { componentVersion } = data_config;
+const secHeaders = {
+    "sec-ch-ua": `"Chromium";v="130", "YaBrowser";v="${componentVersion.slice(0, 5)}", "Not?A_Brand";v="99", "Yowser";v="2.5"`,
+    "sec-ch-ua-full-version-list": `"Chromium";v="130.0.6723.152", "YaBrowser";v="${componentVersion}", "Not?A_Brand";v="99.0.0.0", "Yowser";v="2.5"`,
+};
 class VOTClient extends client_VOTClient {
     constructor(opts) {
         super(opts);
+        this.headers = {
+            ...secHeaders,
+            ...this.headers,
+        };
     }
 }
 class VOTWorkerClient extends client_VOTWorkerClient {
     constructor(opts) {
         super(opts);
+        this.headers = {
+            ...secHeaders,
+            ...this.headers,
+        };
     }
 }
 
@@ -3335,6 +4627,7 @@ var ExtVideoService;
         url: "https://youtu.be/",
         match: /^m.youtube.com$/,
         selector: "shorts-video #player",
+        needExtraData: true,
     },
     {
         additionalData: "mobile",
@@ -3342,12 +4635,14 @@ var ExtVideoService;
         url: "https://youtu.be/",
         match: /^m.youtube.com$/,
         selector: ".player-container",
+        needExtraData: true,
     },
     {
         host: VideoService.youtube,
         url: "https://youtu.be/",
         match: /^(www.)?youtube(-nocookie|kids)?.com$/,
         selector: ".html5-video-container:not(#inline-player *)",
+        needExtraData: true,
     },
     {
         host: VideoService.invidious,
@@ -3379,7 +4674,7 @@ var ExtVideoService;
         additionalData: "mobile",
         host: VideoService.vk,
         url: "https://vk.com/video?z=",
-        match: /^m.vk.(com|ru)$/,
+        match: [/^m.vk.(com|ru)$/, /^m.vkvideo.ru$/],
         selector: "vk-video-player",
         shadowRoot: true,
         needExtraData: true,
@@ -3455,7 +4750,11 @@ var ExtVideoService;
     {
         host: VideoService.xvideos,
         url: "https://www.xvideos.com/",
-        match: /^(www.)?(xvideos|xv-ru).com$/,
+        match: [
+            /^(www.)?xvideos(-ar)?.com$/,
+            /^(www.)?xvideos(\d\d\d).com$/,
+            /^(www.)?xv-ru.com$/,
+        ],
         selector: "#hlsplayer",
         needBypassCSP: true,
     },
@@ -3567,7 +4866,7 @@ var ExtVideoService;
     {
         host: VideoService.yandexdisk,
         url: "https://yadi.sk/",
-        match: /^disk.yandex.ru$/,
+        match: /^disk.yandex.(ru|kz|com(\.(am|ge|tr))?|by|az|co\.il|ee|lt|lv|md|net|tj|tm|uz)$/,
         selector: ".video-player__player > div:nth-child(1)",
         eventSelector: ".video-player__player",
         needBypassCSP: true,
@@ -3777,6 +5076,19 @@ var ExtVideoService;
         needExtraData: true,
     },
     {
+        host: VideoService.rtnews,
+        url: "https://www.rt.com/",
+        match: /^(www.)?rt.com$/,
+        selector: ".jw-media",
+        needExtraData: true,
+    },
+    {
+        host: VideoService.bitview,
+        url: "https://www.bitview.net/watch?v=",
+        match: /^(www.)?bitview.net$/,
+        needExtraData: true,
+    },
+    {
         host: VideoService.custom,
         url: "stub",
         match: (url) => /([^.]+).(mp4|webm)/.test(url.pathname),
@@ -3801,7 +5113,8 @@ class BaseHelper {
     origin;
     service;
     video;
-    constructor({ fetchFn = fetchWithTimeout, extraInfo = true, referer = document.referrer ?? window.location.origin + "/", origin = window.location.origin, service, video, } = {}) {
+    language;
+    constructor({ fetchFn = fetchWithTimeout, extraInfo = true, referer = document.referrer ?? window.location.origin + "/", origin = window.location.origin, service, video, language = "en", } = {}) {
         this.fetch = fetchFn;
         this.extraInfo = extraInfo;
         this.referer = referer;
@@ -3810,6 +5123,7 @@ class BaseHelper {
             : window.location.origin;
         this.service = service;
         this.video = video;
+        this.language = language;
     }
     async getVideoData(videoId) {
         return undefined;
@@ -4013,7 +5327,7 @@ class KodikHelper extends BaseHelper {
         try {
             const res = await this.fetch(`${this.API_ORIGIN}${videoPath}`, {
                 headers: {
-                    "User-Agent": config.userAgent,
+                    "User-Agent": data_config.userAgent,
                     Origin: this.API_ORIGIN,
                     Referer: this.API_ORIGIN,
                 },
@@ -4049,7 +5363,7 @@ class KodikHelper extends BaseHelper {
             const res = await this.fetch(this.API_ORIGIN + "/ftor", {
                 method: "POST",
                 headers: {
-                    "User-Agent": config.userAgent,
+                    "User-Agent": data_config.userAgent,
                     Origin: this.API_ORIGIN,
                     Referer: `${this.API_ORIGIN}/${videoType}/${id}/${hash}/360p`,
                 },
@@ -4149,8 +5463,7 @@ class PatreonHelper extends BaseHelper {
 class RedditHelper extends BaseHelper {
     API_ORIGIN = "https://www.reddit.com";
     async getContentUrl(videoId) {
-        if (!this.service.additionalData ||
-            this.service.additionalData !== "old") {
+        if (this.service?.additionalData !== "old") {
             return document.querySelector("shreddit-player-2")?.src;
         }
         const playerEl = document.querySelector("[data-hls-url]");
@@ -4363,7 +5676,8 @@ class EpicGamesHelper extends BaseHelper {
         }
     }
     async getVideoData(videoId) {
-        const postInfo = await this.getPostInfo(videoId);
+        const courseId = videoId.split(":")?.[1];
+        const postInfo = await this.getPostInfo(courseId);
         if (!postInfo) {
             return undefined;
         }
@@ -4389,17 +5703,18 @@ class EpicGamesHelper extends BaseHelper {
     async getVideoId(url) {
         return new Promise((resolve) => {
             const origin = "https://dev.epicgames.com";
+            const reqId = btoa(window.location.href);
             window.addEventListener("message", (e) => {
                 if (e.origin !== origin) {
                     return undefined;
                 }
-                if (typeof e.data === "string" && e.data.startsWith("getVideoId:")) {
-                    const videoId = e.data.replace("getVideoId:", "");
-                    return resolve(videoId);
+                if (!(typeof e.data === "string" && e.data.startsWith("getVideoId:"))) {
+                    return undefined;
                 }
-                return undefined;
+                const videoId = e.data.replace("getVideoId:", "");
+                return resolve(videoId);
             });
-            window.top.postMessage("getVideoId", origin);
+            window.top.postMessage(`getVideoId:${reqId}`, origin);
         });
     }
 }
@@ -4552,8 +5867,8 @@ class CoursehunterLikeHelper extends BaseHelper {
         if (courseId !== undefined) {
             return String(courseId);
         }
-        const inputEl = document.querySelector('input[name="course_id"]');
-        return inputEl ? inputEl.value : undefined;
+        return document.querySelector('input[name="course_id"]')
+            ?.value;
     }
     async getLessonsData(courseId) {
         const lessons = window.lessons;
@@ -4771,46 +6086,69 @@ class SapHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/@vot.js/ext/dist/helpers/linkedin.js
+;// ./node_modules/@vot.js/ext/dist/helpers/videojs.js
 
 
 
-class LinkedinHelper extends BaseHelper {
+class VideoJSHelper extends BaseHelper {
+    SUBTITLE_SOURCE = "videojs";
+    SUBTITLE_FORMAT = "vtt";
     static getPlayer() {
-        const videoEl = document.querySelector(".video-js");
-        if (!videoEl) {
-            return undefined;
-        }
-        return videoEl.player;
+        return document.querySelector(".video-js")
+            ?.player;
     }
-    async getVideoData(videoId) {
+    getVideoDataByPlayer(videoId) {
         try {
-            const player = LinkedinHelper.getPlayer();
+            const player = VideoJSHelper.getPlayer();
             if (!player) {
                 throw new Error(`Video player doesn't have player option, videoId ${videoId}`);
             }
-            const { cache_: { sources, duration }, textTracks_: { tracks_ }, } = player;
-            const videoUrl = sources.find((source) => source.type === "video/mp4");
+            const duration = player.duration();
+            const sources = Array.isArray(player.currentSources)
+                ? player.currentSources
+                : player.getCache()?.sources;
+            const { tracks_: tracks } = player.textTracks();
+            const videoUrl = sources.find((source) => source.type === "video/mp4" || source.type === "video/webm");
             if (!videoUrl) {
                 throw new Error(`Failed to find video url for videoID ${videoId}`);
             }
-            const url = new URL(videoUrl.src);
-            const subtitles = tracks_.map((track) => ({
+            const subtitles = tracks
+                .filter((track) => track.src)
+                .map((track) => ({
                 language: normalizeLang(track.language),
-                source: "linkedin",
-                format: "vtt",
+                source: this.SUBTITLE_SOURCE,
+                format: this.SUBTITLE_FORMAT,
                 url: track.src,
             }));
             return {
-                url: proxyMedia(url),
+                url: videoUrl.src,
                 duration,
                 subtitles,
             };
         }
         catch (err) {
-            Logger.error("Failed to get linkedin video data", err.message);
+            Logger.error("Failed to get videojs video data", err.message);
             return undefined;
         }
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/linkedin.js
+
+
+class LinkedinHelper extends VideoJSHelper {
+    SUBTITLE_SOURCE = "linkedin";
+    async getVideoData(videoId) {
+        const data = this.getVideoDataByPlayer(videoId);
+        if (!data) {
+            return undefined;
+        }
+        const { url, duration, subtitles } = data;
+        return {
+            url: proxyMedia(new URL(url)),
+            duration,
+            subtitles,
+        };
     }
     async getVideoId(url) {
         return /\/learning\/(([^/]+)\/([^/]+))/.exec(url.pathname)?.[1];
@@ -5039,18 +6377,17 @@ class VimeoHelper extends BaseHelper {
 
 ;// ./node_modules/@vot.js/ext/dist/helpers/yandexdisk.js
 
+
+
 class YandexDiskHelper extends BaseHelper {
-    API_ORIGIN = "https://disk.yandex.ru";
+    API_ORIGIN = window.location.origin;
     CLIENT_PREFIX = "/client/disk";
+    INLINE_PREFIX = "/i/";
+    DISK_PREFIX = "/d/";
     isErrorData(data) {
         return Object.hasOwn(data, "error");
     }
-    async getVideoData(videoId) {
-        if (!videoId.startsWith(this.CLIENT_PREFIX)) {
-            return {
-                url: this.service.url + videoId,
-            };
-        }
+    async getClientVideoData(videoId) {
         const url = new URL(window.location.href);
         const dialogId = url.searchParams.get("idDialog");
         if (!dialogId) {
@@ -5093,25 +6430,128 @@ class YandexDiskHelper extends BaseHelper {
             if (!short_url) {
                 throw new VideoHelperError("Access to the video is limited");
             }
-            const title = name.replace(/(\.[^.]+)$/, "");
+            const title = this.clearTitle(name);
+            const duration = Math.round(video_info.duration / 1000);
             return {
                 url: short_url,
                 title,
-                duration: Math.round(video_info.duration / 1000),
+                duration,
             };
         }
         catch (err) {
-            console.error(`Failed to get yandex disk video data by video ID: ${videoId}`, err.message);
+            Logger.error(`Failed to get yandex disk video data by video ID: ${videoId}, because ${err.message}`);
             return undefined;
         }
     }
-    async getVideoId(url) {
-        const fileId = /\/i\/([^/]+)/.exec(url.pathname)?.[1];
-        if (fileId) {
-            return `i/${fileId}`;
+    clearTitle(title) {
+        return title.replace(/(\.[^.]+)$/, "");
+    }
+    getBodyHash(fileHash, sk) {
+        const data = JSON.stringify({
+            hash: fileHash,
+            sk,
+        });
+        return encodeURIComponent(data);
+    }
+    async fetchList(dirHash, sk) {
+        const body = this.getBodyHash(dirHash, sk);
+        const res = await this.fetch(this.API_ORIGIN + "/public/api/fetch-list", {
+            method: "POST",
+            body,
+        });
+        const data = (await res.json());
+        if (Object.hasOwn(data, "error")) {
+            throw new VideoHelperError("Failed to fetch folder list");
         }
-        return url.pathname.startsWith(this.CLIENT_PREFIX)
-            ? url.pathname + url.search
+        return data.resources;
+    }
+    async getDownloadUrl(fileHash, sk) {
+        const body = this.getBodyHash(fileHash, sk);
+        const res = await this.fetch(this.API_ORIGIN + "/public/api/download-url", {
+            method: "POST",
+            body,
+        });
+        const data = (await res.json());
+        if (data.error) {
+            throw new VideoHelperError("Failed to get download url");
+        }
+        return data.data.url;
+    }
+    async getDiskVideoData(videoId) {
+        try {
+            const prefetchEl = document.getElementById("store-prefetch");
+            if (!prefetchEl) {
+                throw new VideoHelperError("Failed to get prefetch data");
+            }
+            const resourcePaths = videoId.split("/").slice(3);
+            if (!resourcePaths.length) {
+                throw new VideoHelperError("Failed to find video file path");
+            }
+            const data = JSON.parse(prefetchEl.innerText);
+            const { resources, rootResourceId, environment: { sk }, } = data;
+            const rootResource = resources[rootResourceId];
+            const resourcePathsLastIdx = resourcePaths.length - 1;
+            const resourcePath = resourcePaths
+                .filter((_, idx) => idx !== resourcePathsLastIdx)
+                .join("/");
+            let resourcesList = Object.values(resources);
+            if (resourcePath.includes("/")) {
+                resourcesList = await this.fetchList(`${rootResource.hash}:/${resourcePath}`, sk);
+            }
+            const resource = resourcesList.find((resource) => resource.name === resourcePaths[resourcePathsLastIdx]);
+            if (!resource) {
+                throw new VideoHelperError("Failed to find resource");
+            }
+            if (resource && resource.type === "dir") {
+                throw new VideoHelperError("Path is dir, but expected file");
+            }
+            const { meta: { short_url, mediatype, videoDuration }, path, name, } = resource;
+            if (mediatype !== "video") {
+                throw new VideoHelperError("Resource isn't a video");
+            }
+            const title = this.clearTitle(name);
+            const duration = Math.round(videoDuration / 1000);
+            if (short_url) {
+                return {
+                    url: short_url,
+                    duration,
+                    title,
+                };
+            }
+            const downloadUrl = await this.getDownloadUrl(path, sk);
+            return {
+                url: proxyMedia(new URL(downloadUrl)),
+                duration,
+                title,
+            };
+        }
+        catch (err) {
+            Logger.error(`Failed to get yandex disk video data by disk video ID: ${videoId}`, err.message);
+            return undefined;
+        }
+    }
+    async getVideoData(videoId) {
+        if (videoId.startsWith(this.INLINE_PREFIX)) {
+            return {
+                url: this.service.url + videoId.slice(1),
+            };
+        }
+        videoId = decodeURIComponent(videoId);
+        if (videoId.startsWith(this.CLIENT_PREFIX)) {
+            return await this.getClientVideoData(videoId);
+        }
+        return await this.getDiskVideoData(videoId);
+    }
+    async getVideoId(url) {
+        if (url.pathname.startsWith(this.CLIENT_PREFIX)) {
+            return url.pathname + url.search;
+        }
+        const fileId = /\/i\/([^/]+)/.exec(url.pathname)?.[0];
+        if (fileId) {
+            return fileId;
+        }
+        return /\/d\/([^/]+)\/([^/]+)/.exec(url.pathname)
+            ? url.pathname
             : undefined;
     }
 }
@@ -5126,23 +6566,12 @@ class VKHelper extends BaseHelper {
             return undefined;
         }
         const videoView = Videoview;
-        return videoView.getPlayerObject
-            ? videoView.getPlayerObject.call(undefined)
-            : undefined;
-    }
-    getDefault(videoId) {
-        if (!this.service) {
-            return undefined;
-        }
-        return {
-            url: this.service.url + videoId,
-            duration: undefined,
-        };
+        return videoView?.getPlayerObject?.call(undefined);
     }
     async getVideoData(videoId) {
         const player = VKHelper.getPlayer();
         if (!player) {
-            return this.getDefault(videoId);
+            return this.returnBaseData(videoId);
         }
         try {
             const { description: descriptionHTML, duration, md_title: title, } = player.vars;
@@ -5172,7 +6601,7 @@ class VKHelper extends BaseHelper {
         }
         catch (err) {
             Logger.error(`Failed to get VK video data, because: ${err.message}`);
-            return this.getDefault(videoId);
+            return this.returnBaseData(videoId);
         }
     }
     async getVideoId(url) {
@@ -5462,27 +6891,6 @@ class NineGAGHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/@vot.js/ext/dist/helpers/youtube.js
-
-class YoutubeHelper extends BaseHelper {
-    async getVideoId(url) {
-        if (url.hostname === "youtu.be") {
-            url.search = `?v=${url.pathname.replace("/", "")}`;
-            url.pathname = "/watch";
-        }
-        return (/(?:watch|embed|shorts|live)\/([^/]+)/.exec(url.pathname)?.[1] ??
-            url.searchParams.get("v"));
-    }
-}
-
-;// ./node_modules/@vot.js/ext/dist/helpers/dzen.js
-
-class DzenHelper extends BaseHelper {
-    async getVideoId(url) {
-        return /video\/watch\/([^/]+)/.exec(url.pathname)?.[1];
-    }
-}
-
 ;// ./node_modules/@vot.js/shared/dist/data/consts.js
 const availableLangs = [
     "auto",
@@ -5502,6 +6910,161 @@ const availableLangs = [
 const availableTTS = ["ru", "en", "kk"];
 const subtitlesFormats = ["srt", "vtt", "json"];
 
+
+;// ./node_modules/@vot.js/ext/dist/helpers/youtube.js
+
+
+
+
+class YoutubeHelper extends BaseHelper {
+    static isMobile() {
+        return /^m\.youtube\.com$/.test(window.location.hostname);
+    }
+    static getPlayer() {
+        if (window.location.pathname.startsWith("/shorts/") &&
+            !YoutubeHelper.isMobile()) {
+            return document.querySelector("#shorts-player");
+        }
+        return document.querySelector("#movie_player");
+    }
+    static getPlayerResponse() {
+        return YoutubeHelper.getPlayer()?.getPlayerResponse();
+    }
+    static getPlayerData() {
+        return YoutubeHelper.getPlayer()?.getVideoData();
+    }
+    static getVolume() {
+        const player = YoutubeHelper.getPlayer();
+        if (player) {
+            return player.getVolume() / 100;
+        }
+        return 1;
+    }
+    static setVolume(volume) {
+        const player = YoutubeHelper.getPlayer();
+        if (player) {
+            player.setVolume(Math.round(volume * 100));
+            return true;
+        }
+        return false;
+    }
+    static isMuted() {
+        const player = YoutubeHelper.getPlayer();
+        if (player) {
+            return player.isMuted();
+        }
+        return false;
+    }
+    static videoSeek(video, time) {
+        Logger.log("videoSeek", time);
+        const preTime = YoutubeHelper.getPlayer()?.getProgressState()?.seekableEnd ??
+            video.currentTime;
+        const finalTime = preTime - time;
+        video.currentTime = finalTime;
+    }
+    static getSubtitles(userLang) {
+        const response = YoutubeHelper.getPlayerResponse();
+        const playerCaptions = response?.captions?.playerCaptionsTracklistRenderer;
+        if (!playerCaptions) {
+            return [];
+        }
+        const captionTracks = playerCaptions.captionTracks ?? [];
+        const translationLanguages = playerCaptions.translationLanguages ?? [];
+        const userLangSupported = translationLanguages.find((language) => language.languageCode === userLang);
+        const asrSubtitleItem = captionTracks.find((captionTrack) => captionTrack?.kind === "asr");
+        const asrLang = asrSubtitleItem?.languageCode ?? "en";
+        const subtitles = captionTracks.reduce((result, captionTrack) => {
+            if (!("languageCode" in captionTrack)) {
+                return result;
+            }
+            const language = captionTrack.languageCode
+                ? normalizeLang(captionTrack.languageCode)
+                : undefined;
+            const url = captionTrack.baseUrl;
+            if (!language || !url) {
+                return result;
+            }
+            const captionUrl = `${url.startsWith("http") ? url : `${window.location.origin}/${url}`}&fmt=json3`;
+            result.push({
+                source: "youtube",
+                format: "json",
+                language,
+                isAutoGenerated: captionTrack?.kind === "asr",
+                url: captionUrl,
+            });
+            if (userLangSupported &&
+                captionTrack.isTranslatable &&
+                captionTrack.languageCode === asrLang &&
+                userLang !== language) {
+                result.push({
+                    source: "youtube",
+                    format: "json",
+                    language: userLang,
+                    isAutoGenerated: captionTrack?.kind === "asr",
+                    translatedFromLanguage: language,
+                    url: `${captionUrl}&tlang=${userLang}`,
+                });
+            }
+            return result;
+        }, []);
+        Logger.log("youtube subtitles:", subtitles);
+        return subtitles;
+    }
+    static getLanguage() {
+        if (!YoutubeHelper.isMobile()) {
+            const player = YoutubeHelper.getPlayer();
+            const trackInfo = player?.getAudioTrack
+                ?.call(undefined)
+                ?.getLanguageInfo();
+            if (trackInfo && trackInfo.id !== "und") {
+                return normalizeLang(trackInfo.id.split(".")[0]);
+            }
+        }
+        const response = YoutubeHelper.getPlayerResponse();
+        const autoCaption = response?.captions?.playerCaptionsTracklistRenderer.captionTracks.find((caption) => caption.kind === "asr" && caption.languageCode);
+        return autoCaption ? normalizeLang(autoCaption.languageCode) : undefined;
+    }
+    async getVideoData(videoId) {
+        const { title: localizedTitle } = YoutubeHelper.getPlayerData() ?? {};
+        const { shortDescription: description, isLive: isStream, title, } = YoutubeHelper.getPlayerResponse()?.videoDetails ?? {};
+        const subtitles = YoutubeHelper.getSubtitles(this.language);
+        let detectedLanguage = YoutubeHelper.getLanguage();
+        if (detectedLanguage && !availableLangs.includes(detectedLanguage)) {
+            detectedLanguage = undefined;
+        }
+        const duration = YoutubeHelper.getPlayer()?.getDuration() ?? undefined;
+        return {
+            url: this.service.url + videoId,
+            isStream,
+            title,
+            localizedTitle,
+            detectedLanguage,
+            description,
+            subtitles,
+            duration,
+        };
+    }
+    async getVideoId(url) {
+        if (url.hostname === "youtu.be") {
+            url.search = `?v=${url.pathname.replace("/", "")}`;
+            url.pathname = "/watch";
+        }
+        if (url.searchParams.has("enablejsapi")) {
+            const videoUrl = YoutubeHelper.getPlayer()?.getVideoUrl();
+            url = videoUrl ? new URL(videoUrl) : url;
+        }
+        return (/(?:watch|embed|shorts|live)\/([^/]+)/.exec(url.pathname)?.[1] ??
+            url.searchParams.get("v"));
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/dzen.js
+
+class DzenHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /video\/watch\/([^/]+)/.exec(url.pathname)?.[1];
+    }
+}
 
 ;// ./node_modules/@vot.js/ext/dist/helpers/udemy.js
 
@@ -5629,8 +7192,9 @@ class UdemyHelper extends BaseHelper {
 
 
 
-class CourseraHelper extends BaseHelper {
+class CourseraHelper extends VideoJSHelper {
     API_ORIGIN = "https://www.coursera.org/api";
+    SUBTITLE_SOURCE = "coursera";
     async getCourseData(courseId) {
         try {
             const response = await this.fetch(`${this.API_ORIGIN}/onDemandCourses.v1/${courseId}`);
@@ -5642,74 +7206,75 @@ class CourseraHelper extends BaseHelper {
             return undefined;
         }
     }
-    getPlayer() {
-        return document.querySelector(".vjs-v8");
-    }
-    getPlayerData() {
-        return this.getPlayer()?.player;
-    }
-    findVideoUrl(sources) {
-        return sources?.find((src) => src.type === "video/mp4")?.src;
-    }
-    findSubtitleUrl(captions, detectedLanguage) {
-        let subtitle = captions?.find((caption) => normalizeLang(caption.srclang) === detectedLanguage);
-        if (!subtitle) {
-            subtitle =
-                captions?.find((caption) => normalizeLang(caption.srclang) === "en") ||
-                    captions?.[0];
-        }
-        return subtitle?.src;
+    static getPlayer() {
+        return super.getPlayer();
     }
     async getVideoData(videoId) {
-        const playerData = this.getPlayerData();
-        if (!playerData) {
-            Logger.error("Failed to find player data");
+        const data = this.getVideoDataByPlayer(videoId);
+        if (!data) {
             return undefined;
         }
-        const { cache_: { duration }, options_: { courseId, tracks, sources }, } = playerData;
-        const videoUrl = this.findVideoUrl(sources);
-        if (!videoUrl) {
-            Logger.error("Failed to find .mp4 video file in sources", sources);
-            return undefined;
+        const { options_: options } = CourseraHelper.getPlayer() ?? {};
+        if (!data.subtitles?.length && options) {
+            data.subtitles = options.tracks.map((track) => ({
+                url: track.src,
+                language: normalizeLang(track.srclang),
+                source: this.SUBTITLE_SOURCE,
+                format: this.SUBTITLE_FORMAT,
+            }));
+        }
+        const courseId = options?.courseId;
+        if (!courseId) {
+            return data;
         }
         let courseLang = "en";
         const courseData = await this.getCourseData(courseId);
         if (courseData) {
             const { primaryLanguageCodes: [primaryLangauge], } = courseData;
-            courseLang = primaryLangauge ? normalizeLang(primaryLangauge) : "en";
+            courseLang = primaryLangauge
+                ? normalizeLang(primaryLangauge)
+                : "en";
         }
         if (!availableLangs.includes(courseLang)) {
             courseLang = "en";
         }
-        const subtitleUrl = this.findSubtitleUrl(tracks, courseLang);
+        const subtitleItem = data.subtitles.find((subtitle) => subtitle.language === courseLang) ??
+            data.subtitles?.[0];
+        const subtitleUrl = subtitleItem?.url;
         if (!subtitleUrl) {
-            Logger.warn("Failed to find subtitle file in tracks", tracks);
+            Logger.warn("Failed to find any subtitle file");
         }
+        const { url, duration } = data;
+        const translationHelp = subtitleUrl
+            ? [
+                {
+                    target: "subtitles_file_url",
+                    targetUrl: subtitleUrl,
+                },
+                {
+                    target: "video_file_url",
+                    targetUrl: url,
+                },
+            ]
+            : null;
         return {
             ...(subtitleUrl
                 ? {
                     url: this.service?.url + videoId,
-                    translationHelp: [
-                        {
-                            target: "subtitles_file_url",
-                            targetUrl: subtitleUrl,
-                        },
-                        {
-                            target: "video_file_url",
-                            targetUrl: videoUrl,
-                        },
-                    ],
+                    translationHelp,
                 }
                 : {
-                    url: videoUrl,
-                    translationHelp: null,
+                    url,
+                    translationHelp,
                 }),
             detectedLanguage: courseLang,
             duration,
         };
     }
     async getVideoId(url) {
-        return /learn\/([^/]+)\/lecture\/([^/]+)/.exec(url.pathname)?.[0];
+        const matched = /learn\/([^/]+)\/lecture\/([^/]+)/.exec(url.pathname) ??
+            /lecture\/([^/]+)\/([^/]+)/.exec(url.pathname);
+        return matched?.[0];
     }
 }
 
@@ -5726,18 +7291,18 @@ class CloudflareStreamHelper extends BaseHelper {
 
 
 class DouyinHelper extends BaseHelper {
-    getPlayer() {
+    static getPlayer() {
         if (typeof player === "undefined") {
             return undefined;
         }
         return player;
     }
     async getVideoData(videoId) {
-        const xgPlayer = this.getPlayer();
+        const xgPlayer = DouyinHelper.getPlayer();
         if (!xgPlayer) {
             return undefined;
         }
-        const { url: sources, duration, lang, isLive: isStream } = xgPlayer.config;
+        const { config: { url: sources, duration, lang, isLive: isStream }, } = xgPlayer;
         if (!sources) {
             return undefined;
         }
@@ -5759,11 +7324,7 @@ class DouyinHelper extends BaseHelper {
         if (pathId) {
             return pathId;
         }
-        const xgPlayer = this.getPlayer();
-        if (!xgPlayer) {
-            return undefined;
-        }
-        return xgPlayer.config.vid;
+        return DouyinHelper.getPlayer()?.config.vid;
     }
 }
 
@@ -5775,6 +7336,7 @@ var TypeName;
 })(TypeName || (TypeName = {}));
 
 ;// ./node_modules/@vot.js/shared/dist/types/index.js
+
 
 
 
@@ -5816,16 +7378,7 @@ class LoomHelper extends BaseHelper {
             return undefined;
         }
         const release = SENTRY_RELEASE;
-        return release?.id;
-    }
-    getDefault(videoId) {
-        if (!this.service) {
-            return undefined;
-        }
-        return {
-            url: this.service.url + videoId,
-            duration: undefined,
-        };
+        return release.id;
     }
     async getVideoData(videoId) {
         try {
@@ -5835,7 +7388,7 @@ class LoomHelper extends BaseHelper {
             }
             const res = await this.fetch("https://www.loom.com/graphql", {
                 headers: {
-                    "User-Agent": config.userAgent,
+                    "User-Agent": data_config.userAgent,
                     "content-type": "application/json",
                     "x-loom-request-source": `loom_web_${clientVer}`,
                     "apollographql-client-name": "web",
@@ -5867,7 +7420,7 @@ class LoomHelper extends BaseHelper {
         }
         catch (err) {
             Logger.error(`Failed to get Loom video data, because: ${err.message}`);
-            return this.getDefault(videoId);
+            return this.returnBaseData(videoId);
         }
     }
     async getVideoId(url) {
@@ -5945,7 +7498,62 @@ class ArtstationHelper extends BaseHelper {
     }
 }
 
+;// ./node_modules/@vot.js/ext/dist/helpers/rtnews.js
+
+
+class RtNewsHelper extends BaseHelper {
+    async getVideoData(videoId) {
+        const videoEl = document.querySelector(".jw-video, .media__video_noscript");
+        if (!videoEl) {
+            return undefined;
+        }
+        let videoSrc = videoEl.getAttribute("src");
+        if (!videoSrc) {
+            return undefined;
+        }
+        if (videoSrc.endsWith(".MP4")) {
+            videoSrc = proxyMedia(videoSrc);
+        }
+        return {
+            videoId,
+            url: videoSrc,
+        };
+    }
+    async getVideoId(url) {
+        return url.pathname.slice(1);
+    }
+}
+
+;// ./node_modules/@vot.js/ext/dist/helpers/bitview.js
+
+
+class BitviewHelper extends BaseHelper {
+    async getVideoData(videoId) {
+        try {
+            const videoUrl = document.querySelector(".vlScreen > video")?.src;
+            if (!videoUrl) {
+                throw new VideoHelperError("Failed to find video URL");
+            }
+            return {
+                url: videoUrl,
+            };
+        }
+        catch (err) {
+            Logger.error(`Failed to get Bitview data by videoId: ${videoId}`, err.message);
+            return undefined;
+        }
+    }
+    async getVideoId(url) {
+        return url.searchParams.get("v");
+    }
+}
+
 ;// ./node_modules/@vot.js/ext/dist/helpers/index.js
+
+
+
+
+
 
 
 
@@ -6097,6 +7705,8 @@ const availableHelpers = {
     [VideoService.dzen]: DzenHelper,
     [VideoService.cloudflarestream]: CloudflareStreamHelper,
     [VideoService.loom]: LoomHelper,
+    [VideoService.rtnews]: RtNewsHelper,
+    [VideoService.bitview]: BitviewHelper,
     [ExtVideoService.udemy]: UdemyHelper,
     [ExtVideoService.coursera]: CourseraHelper,
     [ExtVideoService.douyin]: DouyinHelper,
@@ -6196,6 +7806,7 @@ async function getVideoData(service, opts = {}) {
 }
 
 ;// ./node_modules/@vot.js/ext/dist/types/index.js
+
 
 
 
@@ -6310,1574 +7921,7 @@ function convertSubs(data, output = "srt") {
     return convertSubsFromJSON(data, output);
 }
 
-;// ./node_modules/lit-html/lit-html.js
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-const n=globalThis,c=n.trustedTypes,h=c?c.createPolicy("lit-html",{createHTML:t=>t}):void 0,f="$lit$",v=`lit$${Math.random().toFixed(9).slice(2)}$`,m="?"+v,_=`<${m}>`,w=document,lt=()=>w.createComment(""),st=t=>null===t||"object"!=typeof t&&"function"!=typeof t,g=Array.isArray,$=t=>g(t)||"function"==typeof t?.[Symbol.iterator],x="[ \t\n\f\r]",T=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,E=/-->/g,k=/>/g,O=RegExp(`>|${x}(?:([^\\s"'>=/]+)(${x}*=${x}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),S=/'/g,j=/"/g,M=/^(?:script|style|textarea|title)$/i,P=t=>(i,...s)=>({_$litType$:t,strings:i,values:s}),ke=P(1),Oe=P(2),Se=P(3),R=Symbol.for("lit-noChange"),D=Symbol.for("lit-nothing"),V=new WeakMap,I=w.createTreeWalker(w,129);function N(t,i){if(!g(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==h?h.createHTML(i):i}const U=(t,i)=>{const s=t.length-1,e=[];let h,o=2===i?"<svg>":3===i?"<math>":"",n=T;for(let i=0;i<s;i++){const s=t[i];let r,l,c=-1,a=0;for(;a<s.length&&(n.lastIndex=a,l=n.exec(s),null!==l);)a=n.lastIndex,n===T?"!--"===l[1]?n=E:void 0!==l[1]?n=k:void 0!==l[2]?(M.test(l[2])&&(h=RegExp("</"+l[2],"g")),n=O):void 0!==l[3]&&(n=O):n===O?">"===l[0]?(n=h??T,c=-1):void 0===l[1]?c=-2:(c=n.lastIndex-l[2].length,r=l[1],n=void 0===l[3]?O:'"'===l[3]?j:S):n===j||n===S?n=O:n===E||n===k?n=T:(n=O,h=void 0);const u=n===O&&t[i+1].startsWith("/>")?" ":"";o+=n===T?s+_:c>=0?(e.push(r),s.slice(0,c)+f+s.slice(c)+v+u):s+v+(-2===c?i:u)}return[N(t,o+(t[s]||"<?>")+(2===i?"</svg>":3===i?"</math>":"")),e]};class B{constructor({strings:t,_$litType$:i},s){let e;this.parts=[];let h=0,o=0;const n=t.length-1,r=this.parts,[l,a]=U(t,i);if(this.el=B.createElement(l,s),I.currentNode=this.el.content,2===i||3===i){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(e=I.nextNode())&&r.length<n;){if(1===e.nodeType){if(e.hasAttributes())for(const t of e.getAttributeNames())if(t.endsWith(f)){const i=a[o++],s=e.getAttribute(t).split(v),n=/([.?@])?(.*)/.exec(i);r.push({type:1,index:h,name:n[2],strings:s,ctor:"."===n[1]?Y:"?"===n[1]?Z:"@"===n[1]?q:G}),e.removeAttribute(t)}else t.startsWith(v)&&(r.push({type:6,index:h}),e.removeAttribute(t));if(M.test(e.tagName)){const t=e.textContent.split(v),i=t.length-1;if(i>0){e.textContent=c?c.emptyScript:"";for(let s=0;s<i;s++)e.append(t[s],lt()),I.nextNode(),r.push({type:2,index:++h});e.append(t[i],lt())}}}else if(8===e.nodeType)if(e.data===m)r.push({type:2,index:h});else{let t=-1;for(;-1!==(t=e.data.indexOf(v,t+1));)r.push({type:7,index:h}),t+=v.length-1}h++}}static createElement(t,i){const s=w.createElement("template");return s.innerHTML=t,s}}function z(t,i,s=t,e){if(i===R)return i;let h=void 0!==e?s.o?.[e]:s.l;const o=st(i)?void 0:i._$litDirective$;return h?.constructor!==o&&(h?._$AO?.(!1),void 0===o?h=void 0:(h=new o(t),h._$AT(t,s,e)),void 0!==e?(s.o??=[])[e]=h:s.l=h),void 0!==h&&(i=z(t,h._$AS(t,i.values),h,e)),i}class F{constructor(t,i){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=i}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:i},parts:s}=this._$AD,e=(t?.creationScope??w).importNode(i,!0);I.currentNode=e;let h=I.nextNode(),o=0,n=0,r=s[0];for(;void 0!==r;){if(o===r.index){let i;2===r.type?i=new et(h,h.nextSibling,this,t):1===r.type?i=new r.ctor(h,r.name,r.strings,this,t):6===r.type&&(i=new K(h,this,t)),this._$AV.push(i),r=s[++n]}o!==r?.index&&(h=I.nextNode(),o++)}return I.currentNode=w,e}p(t){let i=0;for(const s of this._$AV)void 0!==s&&(void 0!==s.strings?(s._$AI(t,s,i),i+=s.strings.length-2):s._$AI(t[i])),i++}}class et{get _$AU(){return this._$AM?._$AU??this.v}constructor(t,i,s,e){this.type=2,this._$AH=D,this._$AN=void 0,this._$AA=t,this._$AB=i,this._$AM=s,this.options=e,this.v=e?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const i=this._$AM;return void 0!==i&&11===t?.nodeType&&(t=i.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,i=this){t=z(this,t,i),st(t)?t===D||null==t||""===t?(this._$AH!==D&&this._$AR(),this._$AH=D):t!==this._$AH&&t!==R&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):$(t)?this.k(t):this._(t)}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t))}_(t){this._$AH!==D&&st(this._$AH)?this._$AA.nextSibling.data=t:this.T(w.createTextNode(t)),this._$AH=t}$(t){const{values:i,_$litType$:s}=t,e="number"==typeof s?this._$AC(t):(void 0===s.el&&(s.el=B.createElement(N(s.h,s.h[0]),this.options)),s);if(this._$AH?._$AD===e)this._$AH.p(i);else{const t=new F(e,this),s=t.u(this.options);t.p(i),this.T(s),this._$AH=t}}_$AC(t){let i=V.get(t.strings);return void 0===i&&V.set(t.strings,i=new B(t)),i}k(t){g(this._$AH)||(this._$AH=[],this._$AR());const i=this._$AH;let s,e=0;for(const h of t)e===i.length?i.push(s=new et(this.O(lt()),this.O(lt()),this,this.options)):s=i[e],s._$AI(h),e++;e<i.length&&(this._$AR(s&&s._$AB.nextSibling,e),i.length=e)}_$AR(t=this._$AA.nextSibling,i){for(this._$AP?.(!1,!0,i);t&&t!==this._$AB;){const i=t.nextSibling;t.remove(),t=i}}setConnected(t){void 0===this._$AM&&(this.v=t,this._$AP?.(t))}}class G{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,i,s,e,h){this.type=1,this._$AH=D,this._$AN=void 0,this.element=t,this.name=i,this._$AM=e,this.options=h,s.length>2||""!==s[0]||""!==s[1]?(this._$AH=Array(s.length-1).fill(new String),this.strings=s):this._$AH=D}_$AI(t,i=this,s,e){const h=this.strings;let o=!1;if(void 0===h)t=z(this,t,i,0),o=!st(t)||t!==this._$AH&&t!==R,o&&(this._$AH=t);else{const e=t;let n,r;for(t=h[0],n=0;n<h.length-1;n++)r=z(this,e[s+n],i,n),r===R&&(r=this._$AH[n]),o||=!st(r)||r!==this._$AH[n],r===D?t=D:t!==D&&(t+=(r??"")+h[n+1]),this._$AH[n]=r}o&&!e&&this.j(t)}j(t){t===D?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class Y extends G{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===D?void 0:t}}class Z extends G{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==D)}}class q extends G{constructor(t,i,s,e,h){super(t,i,s,e,h),this.type=5}_$AI(t,i=this){if((t=z(this,t,i,0)??D)===R)return;const s=this._$AH,e=t===D&&s!==D||t.capture!==s.capture||t.once!==s.once||t.passive!==s.passive,h=t!==D&&(s===D||e);e&&this.element.removeEventListener(this.name,this,s),h&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class K{constructor(t,i,s){this.element=t,this.type=6,this._$AN=void 0,this._$AM=i,this.options=s}get _$AU(){return this._$AM._$AU}_$AI(t){z(this,t)}}const si={M:f,P:v,A:m,C:1,L:U,R:F,D:$,V:z,I:et,H:G,N:Z,U:q,B:Y,F:K},Re=n.litHtmlPolyfillSupport;Re?.(B,et),(n.litHtmlVersions??=[]).push("3.2.0");const Q=(t,i,s)=>{const e=s?.renderBefore??i;let h=e._$litPart$;if(void 0===h){const t=s?.renderBefore??null;e._$litPart$=h=new et(i.insertBefore(lt(),t),t,void 0,s??{})}return h._$AI(t),h};
-//# sourceMappingURL=lit-html.js.map
-
-;// ./node_modules/browser-id3-writer/dist/browser-id3-writer.mjs
-function e(e){return String(e).split("").map((e=>e.charCodeAt(0)))}function t(t){return new Uint8Array(e(t))}function a(t){const a=new ArrayBuffer(2*t.length),r=new Uint8Array(a);return new Uint16Array(a).set(e(t)),r}function r(e){const t=255;return[e>>>24&t,e>>>16&t,e>>>8&t,e&t]}function browser_id3_writer_n(e){return 11+e}function s(e,t,a,r){return 11+t+1+1+(r?2+2*(a+1):a+1)+e}function i(e){let t=0;return e.forEach((e=>{t+=2+2*e[0].length+2+2+2*e[1].length+2})),11+t}function browser_id3_writer_c(e,t){const a=2*t;let r=0;return e.forEach((e=>{r+=2+2*e[0].length+2+4})),18+a+2+r}class o{_setIntegerFrame(e,t){const a=parseInt(t,10);this.frames.push({name:e,value:a,size:browser_id3_writer_n(a.toString().length)})}_setStringFrame(e,t){const a=t.toString();let r=13+2*a.length;"TDAT"===e&&(r=browser_id3_writer_n(a.length)),this.frames.push({name:e,value:a,size:r})}_setPictureFrame(e,t,a,r){const n=function(e){if(!e||!e.length)return null;if(255===e[0]&&216===e[1]&&255===e[2])return"image/jpeg";if(137===e[0]&&80===e[1]&&78===e[2]&&71===e[3])return"image/png";if(71===e[0]&&73===e[1]&&70===e[2])return"image/gif";if(87===e[8]&&69===e[9]&&66===e[10]&&80===e[11])return"image/webp";const t=73===e[0]&&73===e[1]&&42===e[2]&&0===e[3],a=77===e[0]&&77===e[1]&&0===e[2]&&42===e[3];return t||a?"image/tiff":66===e[0]&&77===e[1]?"image/bmp":0===e[0]&&0===e[1]&&1===e[2]&&0===e[3]?"image/x-icon":null}(new Uint8Array(t)),i=a.toString();if(!n)throw new Error("Unknown picture MIME type");a||(r=!1),this.frames.push({name:"APIC",value:t,pictureType:e,mimeType:n,useUnicodeEncoding:r,description:i,size:s(t.byteLength,n.length,i.length,r)})}_setLyricsFrame(e,t,a){const r=e.split("").map((e=>e.charCodeAt(0))),n=t.toString(),s=a.toString();var i,c;this.frames.push({name:"USLT",value:s,language:r,description:n,size:(i=n.length,c=s.length,16+2*i+2+2+2*c)})}_setCommentFrame(e,t,a){const r=e.split("").map((e=>e.charCodeAt(0))),n=t.toString(),s=a.toString();var i,c;this.frames.push({name:"COMM",value:s,language:r,description:n,size:(i=n.length,c=s.length,16+2*i+2+2+2*c)})}_setPrivateFrame(e,t){const a=e.toString();var r,n;this.frames.push({name:"PRIV",value:t,id:a,size:(r=a.length,n=t.byteLength,10+r+1+n)})}_setUserStringFrame(e,t){const a=e.toString(),r=t.toString();var n,s;this.frames.push({name:"TXXX",description:a,value:r,size:(n=a.length,s=r.length,13+2*n+2+2+2*s)})}_setUrlLinkFrame(e,t){const a=t.toString();var r;this.frames.push({name:e,value:a,size:(r=a.length,10+r)})}_setPairedTextFrame(e,t){this.frames.push({name:e,value:t,size:i(t)})}_setSynchronisedLyricsFrame(e,t,a,r,n){const s=n.toString(),i=r.split("").map((e=>e.charCodeAt(0)));this.frames.push({name:"SYLT",value:t,language:i,description:s,type:e,timestampFormat:a,size:browser_id3_writer_c(t,s.length)})}constructor(e){if(!e||"object"!=typeof e||!("byteLength"in e))throw new Error("First argument should be an instance of ArrayBuffer or Buffer");this.arrayBuffer=e,this.padding=4096,this.frames=[],this.url=""}setFrame(e,t){switch(e){case"TPE1":case"TCOM":case"TCON":{if(!Array.isArray(t))throw new Error(`${e} frame value should be an array of strings`);const a="TCON"===e?";":"/",r=t.join(a);this._setStringFrame(e,r);break}case"TLAN":case"TIT1":case"TIT2":case"TIT3":case"TALB":case"TPE2":case"TPE3":case"TPE4":case"TRCK":case"TPOS":case"TMED":case"TPUB":case"TCOP":case"TKEY":case"TEXT":case"TDAT":case"TSRC":this._setStringFrame(e,t);break;case"TBPM":case"TLEN":case"TYER":this._setIntegerFrame(e,t);break;case"USLT":if(t.language=t.language||"eng","object"!=typeof t||!("description"in t)||!("lyrics"in t))throw new Error("USLT frame value should be an object with keys description and lyrics");if(t.language&&!t.language.match(/[a-z]{3}/i))throw new Error("Language must be coded following the ISO 639-2 standards");this._setLyricsFrame(t.language,t.description,t.lyrics);break;case"APIC":if("object"!=typeof t||!("type"in t)||!("data"in t)||!("description"in t))throw new Error("APIC frame value should be an object with keys type, data and description");if(t.type<0||t.type>20)throw new Error("Incorrect APIC frame picture type");this._setPictureFrame(t.type,t.data,t.description,!!t.useUnicodeEncoding);break;case"TXXX":if("object"!=typeof t||!("description"in t)||!("value"in t))throw new Error("TXXX frame value should be an object with keys description and value");this._setUserStringFrame(t.description,t.value);break;case"WCOM":case"WCOP":case"WOAF":case"WOAR":case"WOAS":case"WORS":case"WPAY":case"WPUB":this._setUrlLinkFrame(e,t);break;case"COMM":if(t.language=t.language||"eng","object"!=typeof t||!("description"in t)||!("text"in t))throw new Error("COMM frame value should be an object with keys description and text");if(t.language&&!t.language.match(/[a-z]{3}/i))throw new Error("Language must be coded following the ISO 639-2 standards");this._setCommentFrame(t.language,t.description,t.text);break;case"PRIV":if("object"!=typeof t||!("id"in t)||!("data"in t))throw new Error("PRIV frame value should be an object with keys id and data");this._setPrivateFrame(t.id,t.data);break;case"IPLS":if(!Array.isArray(t)||!Array.isArray(t[0]))throw new Error("IPLS frame value should be an array of pairs");this._setPairedTextFrame(e,t);break;case"SYLT":if("object"!=typeof t||!("type"in t)||!("text"in t)||!("timestampFormat"in t))throw new Error("SYLT frame value should be an object with keys type, text and timestampFormat");if(!Array.isArray(t.text)||!Array.isArray(t.text[0]))throw new Error("SYLT frame text value should be an array of pairs");if(t.type<0||t.type>6)throw new Error("Incorrect SYLT frame content type");if(t.timestampFormat<1||t.timestampFormat>2)throw new Error("Incorrect SYLT frame time stamp format");t.language=t.language||"eng",t.description=t.description||"",this._setSynchronisedLyricsFrame(t.type,t.text,t.timestampFormat,t.language,t.description);break;default:throw new Error(`Unsupported frame ${e}`)}return this}removeTag(){if(this.arrayBuffer.byteLength<10)return;const e=new Uint8Array(this.arrayBuffer),t=e[3],a=((r=[e[6],e[7],e[8],e[9]])[0]<<21)+(r[1]<<14)+(r[2]<<7)+r[3]+10;var r,n;73!==(n=e)[0]||68!==n[1]||51!==n[2]||t<2||t>4||(this.arrayBuffer=new Uint8Array(e.subarray(a)).buffer)}addTag(){this.removeTag();const e=[255,254],n=10+this.frames.reduce(((e,t)=>e+t.size),0)+this.padding,s=new ArrayBuffer(this.arrayBuffer.byteLength+n),i=new Uint8Array(s);let c=0,o=[];return o=[73,68,51,3],i.set(o,c),c+=o.length,c++,c++,o=function(e){const t=127;return[e>>>21&t,e>>>14&t,e>>>7&t,e&t]}(n-10),i.set(o,c),c+=o.length,this.frames.forEach((n=>{switch(o=t(n.name),i.set(o,c),c+=o.length,o=r(n.size-10),i.set(o,c),c+=o.length,c+=2,n.name){case"WCOM":case"WCOP":case"WOAF":case"WOAR":case"WOAS":case"WORS":case"WPAY":case"WPUB":o=t(n.value),i.set(o,c),c+=o.length;break;case"TPE1":case"TCOM":case"TCON":case"TLAN":case"TIT1":case"TIT2":case"TIT3":case"TALB":case"TPE2":case"TPE3":case"TPE4":case"TRCK":case"TPOS":case"TKEY":case"TMED":case"TPUB":case"TCOP":case"TEXT":case"TSRC":o=[1].concat(e),i.set(o,c),c+=o.length,o=a(n.value),i.set(o,c),c+=o.length;break;case"TXXX":case"USLT":case"COMM":o=[1],"USLT"!==n.name&&"COMM"!==n.name||(o=o.concat(n.language)),o=o.concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,o=[0,0].concat(e),i.set(o,c),c+=o.length,o=a(n.value),i.set(o,c),c+=o.length;break;case"TBPM":case"TLEN":case"TDAT":case"TYER":c++,o=t(n.value),i.set(o,c),c+=o.length;break;case"PRIV":o=t(n.id),i.set(o,c),c+=o.length,c++,i.set(new Uint8Array(n.value),c),c+=n.value.byteLength;break;case"APIC":o=[n.useUnicodeEncoding?1:0],i.set(o,c),c+=o.length,o=t(n.mimeType),i.set(o,c),c+=o.length,o=[0,n.pictureType],i.set(o,c),c+=o.length,n.useUnicodeEncoding?(o=[].concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,c+=2):(o=t(n.description),i.set(o,c),c+=o.length,c++),i.set(new Uint8Array(n.value),c),c+=n.value.byteLength;break;case"IPLS":o=[1],i.set(o,c),c+=o.length,n.value.forEach((t=>{o=[].concat(e),i.set(o,c),c+=o.length,o=a(t[0].toString()),i.set(o,c),c+=o.length,o=[0,0].concat(e),i.set(o,c),c+=o.length,o=a(t[1].toString()),i.set(o,c),c+=o.length,o=[0,0],i.set(o,c),c+=o.length}));break;case"SYLT":o=[1].concat(n.language).concat(n.timestampFormat).concat(n.type),i.set(o,c),c+=o.length,o=[].concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,c+=2,n.value.forEach((t=>{o=[].concat(e),i.set(o,c),c+=o.length,o=a(t[0].toString()),i.set(o,c),c+=o.length,o=[0,0],i.set(o,c),c+=o.length,o=r(t[1]),i.set(o,c),c+=o.length}))}})),c+=this.padding,i.set(new Uint8Array(this.arrayBuffer),c),this.arrayBuffer=s,s}getBlob(){return new Blob([this.arrayBuffer],{type:"audio/mpeg"})}getURL(){return this.url||(this.url=URL.createObjectURL(this.getBlob())),this.url}revokeURL(){URL.revokeObjectURL(this.url)}}
-;// ./node_modules/chaimu/dist/config.js
-/* harmony default export */ const dist_config = ({
-    version: "1.0.3",
-    debug: false,
-    fetchFn: fetch.bind(window),
-});
-
-;// ./node_modules/soundtouchjs/dist/soundtouch.js
-/*
- * SoundTouch JS v0.1.30 audio processing library
- * Copyright (c) Olli Parviainen
- * Copyright (c) Ryan Berdeen
- * Copyright (c) Jakub Fiala
- * Copyright (c) Steve 'Cutter' Blades
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
-
-class FifoSampleBuffer {
-  constructor() {
-    this._vector = new Float32Array();
-    this._position = 0;
-    this._frameCount = 0;
-  }
-  get vector() {
-    return this._vector;
-  }
-  get position() {
-    return this._position;
-  }
-  get startIndex() {
-    return this._position * 2;
-  }
-  get frameCount() {
-    return this._frameCount;
-  }
-  get endIndex() {
-    return (this._position + this._frameCount) * 2;
-  }
-  clear() {
-    this.receive(this._frameCount);
-    this.rewind();
-  }
-  put(numFrames) {
-    this._frameCount += numFrames;
-  }
-  putSamples(samples, position, numFrames = 0) {
-    position = position || 0;
-    const sourceOffset = position * 2;
-    if (!(numFrames >= 0)) {
-      numFrames = (samples.length - sourceOffset) / 2;
-    }
-    const numSamples = numFrames * 2;
-    this.ensureCapacity(numFrames + this._frameCount);
-    const destOffset = this.endIndex;
-    this.vector.set(samples.subarray(sourceOffset, sourceOffset + numSamples), destOffset);
-    this._frameCount += numFrames;
-  }
-  putBuffer(buffer, position, numFrames = 0) {
-    position = position || 0;
-    if (!(numFrames >= 0)) {
-      numFrames = buffer.frameCount - position;
-    }
-    this.putSamples(buffer.vector, buffer.position + position, numFrames);
-  }
-  receive(numFrames) {
-    if (!(numFrames >= 0) || numFrames > this._frameCount) {
-      numFrames = this.frameCount;
-    }
-    this._frameCount -= numFrames;
-    this._position += numFrames;
-  }
-  receiveSamples(output, numFrames = 0) {
-    const numSamples = numFrames * 2;
-    const sourceOffset = this.startIndex;
-    output.set(this._vector.subarray(sourceOffset, sourceOffset + numSamples));
-    this.receive(numFrames);
-  }
-  extract(output, position = 0, numFrames = 0) {
-    const sourceOffset = this.startIndex + position * 2;
-    const numSamples = numFrames * 2;
-    output.set(this._vector.subarray(sourceOffset, sourceOffset + numSamples));
-  }
-  ensureCapacity(numFrames = 0) {
-    const minLength = parseInt(numFrames * 2);
-    if (this._vector.length < minLength) {
-      const newVector = new Float32Array(minLength);
-      newVector.set(this._vector.subarray(this.startIndex, this.endIndex));
-      this._vector = newVector;
-      this._position = 0;
-    } else {
-      this.rewind();
-    }
-  }
-  ensureAdditionalCapacity(numFrames = 0) {
-    this.ensureCapacity(this._frameCount + numFrames);
-  }
-  rewind() {
-    if (this._position > 0) {
-      this._vector.set(this._vector.subarray(this.startIndex, this.endIndex));
-      this._position = 0;
-    }
-  }
-}
-
-class AbstractFifoSamplePipe {
-  constructor(createBuffers) {
-    if (createBuffers) {
-      this._inputBuffer = new FifoSampleBuffer();
-      this._outputBuffer = new FifoSampleBuffer();
-    } else {
-      this._inputBuffer = this._outputBuffer = null;
-    }
-  }
-  get inputBuffer() {
-    return this._inputBuffer;
-  }
-  set inputBuffer(inputBuffer) {
-    this._inputBuffer = inputBuffer;
-  }
-  get outputBuffer() {
-    return this._outputBuffer;
-  }
-  set outputBuffer(outputBuffer) {
-    this._outputBuffer = outputBuffer;
-  }
-  clear() {
-    this._inputBuffer.clear();
-    this._outputBuffer.clear();
-  }
-}
-
-class RateTransposer extends AbstractFifoSamplePipe {
-  constructor(createBuffers) {
-    super(createBuffers);
-    this.reset();
-    this._rate = 1;
-  }
-  set rate(rate) {
-    this._rate = rate;
-  }
-  reset() {
-    this.slopeCount = 0;
-    this.prevSampleL = 0;
-    this.prevSampleR = 0;
-  }
-  clone() {
-    const result = new RateTransposer();
-    result.rate = this._rate;
-    return result;
-  }
-  process() {
-    const numFrames = this._inputBuffer.frameCount;
-    this._outputBuffer.ensureAdditionalCapacity(numFrames / this._rate + 1);
-    const numFramesOutput = this.transpose(numFrames);
-    this._inputBuffer.receive();
-    this._outputBuffer.put(numFramesOutput);
-  }
-  transpose(numFrames = 0) {
-    if (numFrames === 0) {
-      return 0;
-    }
-    const src = this._inputBuffer.vector;
-    const srcOffset = this._inputBuffer.startIndex;
-    const dest = this._outputBuffer.vector;
-    const destOffset = this._outputBuffer.endIndex;
-    let used = 0;
-    let i = 0;
-    while (this.slopeCount < 1.0) {
-      dest[destOffset + 2 * i] = (1.0 - this.slopeCount) * this.prevSampleL + this.slopeCount * src[srcOffset];
-      dest[destOffset + 2 * i + 1] = (1.0 - this.slopeCount) * this.prevSampleR + this.slopeCount * src[srcOffset + 1];
-      i = i + 1;
-      this.slopeCount += this._rate;
-    }
-    this.slopeCount -= 1.0;
-    if (numFrames !== 1) {
-      out: while (true) {
-        while (this.slopeCount > 1.0) {
-          this.slopeCount -= 1.0;
-          used = used + 1;
-          if (used >= numFrames - 1) {
-            break out;
-          }
-        }
-        const srcIndex = srcOffset + 2 * used;
-        dest[destOffset + 2 * i] = (1.0 - this.slopeCount) * src[srcIndex] + this.slopeCount * src[srcIndex + 2];
-        dest[destOffset + 2 * i + 1] = (1.0 - this.slopeCount) * src[srcIndex + 1] + this.slopeCount * src[srcIndex + 3];
-        i = i + 1;
-        this.slopeCount += this._rate;
-      }
-    }
-    this.prevSampleL = src[srcOffset + 2 * numFrames - 2];
-    this.prevSampleR = src[srcOffset + 2 * numFrames - 1];
-    return i;
-  }
-}
-
-class FilterSupport {
-  constructor(pipe) {
-    this._pipe = pipe;
-  }
-  get pipe() {
-    return this._pipe;
-  }
-  get inputBuffer() {
-    return this._pipe.inputBuffer;
-  }
-  get outputBuffer() {
-    return this._pipe.outputBuffer;
-  }
-  fillInputBuffer() {
-    throw new Error('fillInputBuffer() not overridden');
-  }
-  fillOutputBuffer(numFrames = 0) {
-    while (this.outputBuffer.frameCount < numFrames) {
-      const numInputFrames = 8192 * 2 - this.inputBuffer.frameCount;
-      this.fillInputBuffer(numInputFrames);
-      if (this.inputBuffer.frameCount < 8192 * 2) {
-        break;
-      }
-      this._pipe.process();
-    }
-  }
-  clear() {
-    this._pipe.clear();
-  }
-}
-
-const noop = function () {
-  return;
-};
-
-class SimpleFilter extends FilterSupport {
-  constructor(sourceSound, pipe, callback = noop) {
-    super(pipe);
-    this.callback = callback;
-    this.sourceSound = sourceSound;
-    this.historyBufferSize = 22050;
-    this._sourcePosition = 0;
-    this.outputBufferPosition = 0;
-    this._position = 0;
-  }
-  get position() {
-    return this._position;
-  }
-  set position(position) {
-    if (position > this._position) {
-      throw new RangeError('New position may not be greater than current position');
-    }
-    const newOutputBufferPosition = this.outputBufferPosition - (this._position - position);
-    if (newOutputBufferPosition < 0) {
-      throw new RangeError('New position falls outside of history buffer');
-    }
-    this.outputBufferPosition = newOutputBufferPosition;
-    this._position = position;
-  }
-  get sourcePosition() {
-    return this._sourcePosition;
-  }
-  set sourcePosition(sourcePosition) {
-    this.clear();
-    this._sourcePosition = sourcePosition;
-  }
-  onEnd() {
-    this.callback();
-  }
-  fillInputBuffer(numFrames = 0) {
-    const samples = new Float32Array(numFrames * 2);
-    const numFramesExtracted = this.sourceSound.extract(samples, numFrames, this._sourcePosition);
-    this._sourcePosition += numFramesExtracted;
-    this.inputBuffer.putSamples(samples, 0, numFramesExtracted);
-  }
-  extract(target, numFrames = 0) {
-    this.fillOutputBuffer(this.outputBufferPosition + numFrames);
-    const numFramesExtracted = Math.min(numFrames, this.outputBuffer.frameCount - this.outputBufferPosition);
-    this.outputBuffer.extract(target, this.outputBufferPosition, numFramesExtracted);
-    const currentFrames = this.outputBufferPosition + numFramesExtracted;
-    this.outputBufferPosition = Math.min(this.historyBufferSize, currentFrames);
-    this.outputBuffer.receive(Math.max(currentFrames - this.historyBufferSize, 0));
-    this._position += numFramesExtracted;
-    return numFramesExtracted;
-  }
-  handleSampleData(event) {
-    this.extract(event.data, 4096);
-  }
-  clear() {
-    super.clear();
-    this.outputBufferPosition = 0;
-  }
-}
-
-const USE_AUTO_SEQUENCE_LEN = 0;
-const DEFAULT_SEQUENCE_MS = USE_AUTO_SEQUENCE_LEN;
-const USE_AUTO_SEEKWINDOW_LEN = 0;
-const DEFAULT_SEEKWINDOW_MS = USE_AUTO_SEEKWINDOW_LEN;
-const DEFAULT_OVERLAP_MS = 8;
-const _SCAN_OFFSETS = [[124, 186, 248, 310, 372, 434, 496, 558, 620, 682, 744, 806, 868, 930, 992, 1054, 1116, 1178, 1240, 1302, 1364, 1426, 1488, 0], [-100, -75, -50, -25, 25, 50, 75, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [-20, -15, -10, -5, 5, 10, 15, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [-4, -3, -2, -1, 1, 2, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
-const AUTOSEQ_TEMPO_LOW = 0.5;
-const AUTOSEQ_TEMPO_TOP = 2.0;
-const AUTOSEQ_AT_MIN = 125.0;
-const AUTOSEQ_AT_MAX = 50.0;
-const AUTOSEQ_K = (AUTOSEQ_AT_MAX - AUTOSEQ_AT_MIN) / (AUTOSEQ_TEMPO_TOP - AUTOSEQ_TEMPO_LOW);
-const AUTOSEQ_C = AUTOSEQ_AT_MIN - AUTOSEQ_K * AUTOSEQ_TEMPO_LOW;
-const AUTOSEEK_AT_MIN = 25.0;
-const AUTOSEEK_AT_MAX = 15.0;
-const AUTOSEEK_K = (AUTOSEEK_AT_MAX - AUTOSEEK_AT_MIN) / (AUTOSEQ_TEMPO_TOP - AUTOSEQ_TEMPO_LOW);
-const AUTOSEEK_C = AUTOSEEK_AT_MIN - AUTOSEEK_K * AUTOSEQ_TEMPO_LOW;
-class Stretch extends AbstractFifoSamplePipe {
-  constructor(createBuffers) {
-    super(createBuffers);
-    this._quickSeek = true;
-    this.midBufferDirty = false;
-    this.midBuffer = null;
-    this.overlapLength = 0;
-    this.autoSeqSetting = true;
-    this.autoSeekSetting = true;
-    this._tempo = 1;
-    this.setParameters(44100, DEFAULT_SEQUENCE_MS, DEFAULT_SEEKWINDOW_MS, DEFAULT_OVERLAP_MS);
-  }
-  clear() {
-    super.clear();
-    this.clearMidBuffer();
-  }
-  clearMidBuffer() {
-    if (this.midBufferDirty) {
-      this.midBufferDirty = false;
-      this.midBuffer = null;
-    }
-  }
-  setParameters(sampleRate, sequenceMs, seekWindowMs, overlapMs) {
-    if (sampleRate > 0) {
-      this.sampleRate = sampleRate;
-    }
-    if (overlapMs > 0) {
-      this.overlapMs = overlapMs;
-    }
-    if (sequenceMs > 0) {
-      this.sequenceMs = sequenceMs;
-      this.autoSeqSetting = false;
-    } else {
-      this.autoSeqSetting = true;
-    }
-    if (seekWindowMs > 0) {
-      this.seekWindowMs = seekWindowMs;
-      this.autoSeekSetting = false;
-    } else {
-      this.autoSeekSetting = true;
-    }
-    this.calculateSequenceParameters();
-    this.calculateOverlapLength(this.overlapMs);
-    this.tempo = this._tempo;
-  }
-  set tempo(newTempo) {
-    let intskip;
-    this._tempo = newTempo;
-    this.calculateSequenceParameters();
-    this.nominalSkip = this._tempo * (this.seekWindowLength - this.overlapLength);
-    this.skipFract = 0;
-    intskip = Math.floor(this.nominalSkip + 0.5);
-    this.sampleReq = Math.max(intskip + this.overlapLength, this.seekWindowLength) + this.seekLength;
-  }
-  get tempo() {
-    return this._tempo;
-  }
-  get inputChunkSize() {
-    return this.sampleReq;
-  }
-  get outputChunkSize() {
-    return this.overlapLength + Math.max(0, this.seekWindowLength - 2 * this.overlapLength);
-  }
-  calculateOverlapLength(overlapInMsec = 0) {
-    let newOvl;
-    newOvl = this.sampleRate * overlapInMsec / 1000;
-    newOvl = newOvl < 16 ? 16 : newOvl;
-    newOvl -= newOvl % 8;
-    this.overlapLength = newOvl;
-    this.refMidBuffer = new Float32Array(this.overlapLength * 2);
-    this.midBuffer = new Float32Array(this.overlapLength * 2);
-  }
-  checkLimits(x, mi, ma) {
-    return x < mi ? mi : x > ma ? ma : x;
-  }
-  calculateSequenceParameters() {
-    let seq;
-    let seek;
-    if (this.autoSeqSetting) {
-      seq = AUTOSEQ_C + AUTOSEQ_K * this._tempo;
-      seq = this.checkLimits(seq, AUTOSEQ_AT_MAX, AUTOSEQ_AT_MIN);
-      this.sequenceMs = Math.floor(seq + 0.5);
-    }
-    if (this.autoSeekSetting) {
-      seek = AUTOSEEK_C + AUTOSEEK_K * this._tempo;
-      seek = this.checkLimits(seek, AUTOSEEK_AT_MAX, AUTOSEEK_AT_MIN);
-      this.seekWindowMs = Math.floor(seek + 0.5);
-    }
-    this.seekWindowLength = Math.floor(this.sampleRate * this.sequenceMs / 1000);
-    this.seekLength = Math.floor(this.sampleRate * this.seekWindowMs / 1000);
-  }
-  set quickSeek(enable) {
-    this._quickSeek = enable;
-  }
-  clone() {
-    const result = new Stretch();
-    result.tempo = this._tempo;
-    result.setParameters(this.sampleRate, this.sequenceMs, this.seekWindowMs, this.overlapMs);
-    return result;
-  }
-  seekBestOverlapPosition() {
-    return this._quickSeek ? this.seekBestOverlapPositionStereoQuick() : this.seekBestOverlapPositionStereo();
-  }
-  seekBestOverlapPositionStereo() {
-    let bestOffset;
-    let bestCorrelation;
-    let correlation;
-    let i = 0;
-    this.preCalculateCorrelationReferenceStereo();
-    bestOffset = 0;
-    bestCorrelation = Number.MIN_VALUE;
-    for (; i < this.seekLength; i = i + 1) {
-      correlation = this.calculateCrossCorrelationStereo(2 * i, this.refMidBuffer);
-      if (correlation > bestCorrelation) {
-        bestCorrelation = correlation;
-        bestOffset = i;
-      }
-    }
-    return bestOffset;
-  }
-  seekBestOverlapPositionStereoQuick() {
-    let bestOffset;
-    let bestCorrelation;
-    let correlation;
-    let scanCount = 0;
-    let correlationOffset;
-    let tempOffset;
-    this.preCalculateCorrelationReferenceStereo();
-    bestCorrelation = Number.MIN_VALUE;
-    bestOffset = 0;
-    correlationOffset = 0;
-    tempOffset = 0;
-    for (; scanCount < 4; scanCount = scanCount + 1) {
-      let j = 0;
-      while (_SCAN_OFFSETS[scanCount][j]) {
-        tempOffset = correlationOffset + _SCAN_OFFSETS[scanCount][j];
-        if (tempOffset >= this.seekLength) {
-          break;
-        }
-        correlation = this.calculateCrossCorrelationStereo(2 * tempOffset, this.refMidBuffer);
-        if (correlation > bestCorrelation) {
-          bestCorrelation = correlation;
-          bestOffset = tempOffset;
-        }
-        j = j + 1;
-      }
-      correlationOffset = bestOffset;
-    }
-    return bestOffset;
-  }
-  preCalculateCorrelationReferenceStereo() {
-    let i = 0;
-    let context;
-    let temp;
-    for (; i < this.overlapLength; i = i + 1) {
-      temp = i * (this.overlapLength - i);
-      context = i * 2;
-      this.refMidBuffer[context] = this.midBuffer[context] * temp;
-      this.refMidBuffer[context + 1] = this.midBuffer[context + 1] * temp;
-    }
-  }
-  calculateCrossCorrelationStereo(mixingPosition, compare) {
-    const mixing = this._inputBuffer.vector;
-    mixingPosition += this._inputBuffer.startIndex;
-    let correlation = 0;
-    let i = 2;
-    const calcLength = 2 * this.overlapLength;
-    let mixingOffset;
-    for (; i < calcLength; i = i + 2) {
-      mixingOffset = i + mixingPosition;
-      correlation += mixing[mixingOffset] * compare[i] + mixing[mixingOffset + 1] * compare[i + 1];
-    }
-    return correlation;
-  }
-  overlap(overlapPosition) {
-    this.overlapStereo(2 * overlapPosition);
-  }
-  overlapStereo(inputPosition) {
-    const input = this._inputBuffer.vector;
-    inputPosition += this._inputBuffer.startIndex;
-    const output = this._outputBuffer.vector;
-    const outputPosition = this._outputBuffer.endIndex;
-    let i = 0;
-    let context;
-    let tempFrame;
-    const frameScale = 1 / this.overlapLength;
-    let fi;
-    let inputOffset;
-    let outputOffset;
-    for (; i < this.overlapLength; i = i + 1) {
-      tempFrame = (this.overlapLength - i) * frameScale;
-      fi = i * frameScale;
-      context = 2 * i;
-      inputOffset = context + inputPosition;
-      outputOffset = context + outputPosition;
-      output[outputOffset + 0] = input[inputOffset + 0] * fi + this.midBuffer[context + 0] * tempFrame;
-      output[outputOffset + 1] = input[inputOffset + 1] * fi + this.midBuffer[context + 1] * tempFrame;
-    }
-  }
-  process() {
-    let offset;
-    let temp;
-    let overlapSkip;
-    if (this.midBuffer === null) {
-      if (this._inputBuffer.frameCount < this.overlapLength) {
-        return;
-      }
-      this.midBuffer = new Float32Array(this.overlapLength * 2);
-      this._inputBuffer.receiveSamples(this.midBuffer, this.overlapLength);
-    }
-    while (this._inputBuffer.frameCount >= this.sampleReq) {
-      offset = this.seekBestOverlapPosition();
-      this._outputBuffer.ensureAdditionalCapacity(this.overlapLength);
-      this.overlap(Math.floor(offset));
-      this._outputBuffer.put(this.overlapLength);
-      temp = this.seekWindowLength - 2 * this.overlapLength;
-      if (temp > 0) {
-        this._outputBuffer.putBuffer(this._inputBuffer, offset + this.overlapLength, temp);
-      }
-      const start = this._inputBuffer.startIndex + 2 * (offset + this.seekWindowLength - this.overlapLength);
-      this.midBuffer.set(this._inputBuffer.vector.subarray(start, start + 2 * this.overlapLength));
-      this.skipFract += this.nominalSkip;
-      overlapSkip = Math.floor(this.skipFract);
-      this.skipFract -= overlapSkip;
-      this._inputBuffer.receive(overlapSkip);
-    }
-  }
-}
-
-const testFloatEqual = function (a, b) {
-  return (a > b ? a - b : b - a) > 1e-10;
-};
-
-class SoundTouch {
-  constructor() {
-    this.transposer = new RateTransposer(false);
-    this.stretch = new Stretch(false);
-    this._inputBuffer = new FifoSampleBuffer();
-    this._intermediateBuffer = new FifoSampleBuffer();
-    this._outputBuffer = new FifoSampleBuffer();
-    this._rate = 0;
-    this._tempo = 0;
-    this.virtualPitch = 1.0;
-    this.virtualRate = 1.0;
-    this.virtualTempo = 1.0;
-    this.calculateEffectiveRateAndTempo();
-  }
-  clear() {
-    this.transposer.clear();
-    this.stretch.clear();
-  }
-  clone() {
-    const result = new SoundTouch();
-    result.rate = this.rate;
-    result.tempo = this.tempo;
-    return result;
-  }
-  get rate() {
-    return this._rate;
-  }
-  set rate(rate) {
-    this.virtualRate = rate;
-    this.calculateEffectiveRateAndTempo();
-  }
-  set rateChange(rateChange) {
-    this._rate = 1.0 + 0.01 * rateChange;
-  }
-  get tempo() {
-    return this._tempo;
-  }
-  set tempo(tempo) {
-    this.virtualTempo = tempo;
-    this.calculateEffectiveRateAndTempo();
-  }
-  set tempoChange(tempoChange) {
-    this.tempo = 1.0 + 0.01 * tempoChange;
-  }
-  set pitch(pitch) {
-    this.virtualPitch = pitch;
-    this.calculateEffectiveRateAndTempo();
-  }
-  set pitchOctaves(pitchOctaves) {
-    this.pitch = Math.exp(0.69314718056 * pitchOctaves);
-    this.calculateEffectiveRateAndTempo();
-  }
-  set pitchSemitones(pitchSemitones) {
-    this.pitchOctaves = pitchSemitones / 12.0;
-  }
-  get inputBuffer() {
-    return this._inputBuffer;
-  }
-  get outputBuffer() {
-    return this._outputBuffer;
-  }
-  calculateEffectiveRateAndTempo() {
-    const previousTempo = this._tempo;
-    const previousRate = this._rate;
-    this._tempo = this.virtualTempo / this.virtualPitch;
-    this._rate = this.virtualRate * this.virtualPitch;
-    if (testFloatEqual(this._tempo, previousTempo)) {
-      this.stretch.tempo = this._tempo;
-    }
-    if (testFloatEqual(this._rate, previousRate)) {
-      this.transposer.rate = this._rate;
-    }
-    if (this._rate > 1.0) {
-      if (this._outputBuffer != this.transposer.outputBuffer) {
-        this.stretch.inputBuffer = this._inputBuffer;
-        this.stretch.outputBuffer = this._intermediateBuffer;
-        this.transposer.inputBuffer = this._intermediateBuffer;
-        this.transposer.outputBuffer = this._outputBuffer;
-      }
-    } else {
-      if (this._outputBuffer != this.stretch.outputBuffer) {
-        this.transposer.inputBuffer = this._inputBuffer;
-        this.transposer.outputBuffer = this._intermediateBuffer;
-        this.stretch.inputBuffer = this._intermediateBuffer;
-        this.stretch.outputBuffer = this._outputBuffer;
-      }
-    }
-  }
-  process() {
-    if (this._rate > 1.0) {
-      this.stretch.process();
-      this.transposer.process();
-    } else {
-      this.transposer.process();
-      this.stretch.process();
-    }
-  }
-}
-
-class WebAudioBufferSource {
-  constructor(buffer) {
-    this.buffer = buffer;
-    this._position = 0;
-  }
-  get dualChannel() {
-    return this.buffer.numberOfChannels > 1;
-  }
-  get position() {
-    return this._position;
-  }
-  set position(value) {
-    this._position = value;
-  }
-  extract(target, numFrames = 0, position = 0) {
-    this.position = position;
-    let left = this.buffer.getChannelData(0);
-    let right = this.dualChannel ? this.buffer.getChannelData(1) : this.buffer.getChannelData(0);
-    let i = 0;
-    for (; i < numFrames; i++) {
-      target[i * 2] = left[i + position];
-      target[i * 2 + 1] = right[i + position];
-    }
-    return Math.min(numFrames, left.length - position);
-  }
-}
-
-const getWebAudioNode = function (context, filter, sourcePositionCallback = noop, bufferSize = 4096) {
-  const node = context.createScriptProcessor(bufferSize, 2, 2);
-  const samples = new Float32Array(bufferSize * 2);
-  node.onaudioprocess = event => {
-    let left = event.outputBuffer.getChannelData(0);
-    let right = event.outputBuffer.getChannelData(1);
-    let framesExtracted = filter.extract(samples, bufferSize);
-    sourcePositionCallback(filter.sourcePosition);
-    if (framesExtracted === 0) {
-      filter.onEnd();
-    }
-    let i = 0;
-    for (; i < framesExtracted; i++) {
-      left[i] = samples[i * 2];
-      right[i] = samples[i * 2 + 1];
-    }
-  };
-  return node;
-};
-
-const pad = function (n, width, z) {
-  z = z || '0';
-  n = n + '';
-  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
-};
-const minsSecs = function (secs) {
-  const mins = Math.floor(secs / 60);
-  const seconds = secs - mins * 60;
-  return `${mins}:${pad(parseInt(seconds), 2)}`;
-};
-
-const onUpdate = function (sourcePosition) {
-  const currentTimePlayed = this.timePlayed;
-  const sampleRate = this.sampleRate;
-  this.sourcePosition = sourcePosition;
-  this.timePlayed = sourcePosition / sampleRate;
-  if (currentTimePlayed !== this.timePlayed) {
-    const timePlayed = new CustomEvent('play', {
-      detail: {
-        timePlayed: this.timePlayed,
-        formattedTimePlayed: this.formattedTimePlayed,
-        percentagePlayed: this.percentagePlayed
-      }
-    });
-    this._node.dispatchEvent(timePlayed);
-  }
-};
-class PitchShifter {
-  constructor(context, buffer, bufferSize, onEnd = noop) {
-    this._soundtouch = new SoundTouch();
-    const source = new WebAudioBufferSource(buffer);
-    this.timePlayed = 0;
-    this.sourcePosition = 0;
-    this._filter = new SimpleFilter(source, this._soundtouch, onEnd);
-    this._node = getWebAudioNode(context, this._filter, sourcePostion => onUpdate.call(this, sourcePostion), bufferSize);
-    this.tempo = 1;
-    this.rate = 1;
-    this.duration = buffer.duration;
-    this.sampleRate = context.sampleRate;
-    this.listeners = [];
-  }
-  get formattedDuration() {
-    return minsSecs(this.duration);
-  }
-  get formattedTimePlayed() {
-    return minsSecs(this.timePlayed);
-  }
-  get percentagePlayed() {
-    return 100 * this._filter.sourcePosition / (this.duration * this.sampleRate);
-  }
-  set percentagePlayed(perc) {
-    this._filter.sourcePosition = parseInt(perc * this.duration * this.sampleRate);
-    this.sourcePosition = this._filter.sourcePosition;
-    this.timePlayed = this.sourcePosition / this.sampleRate;
-  }
-  get node() {
-    return this._node;
-  }
-  set pitch(pitch) {
-    this._soundtouch.pitch = pitch;
-  }
-  set pitchSemitones(semitone) {
-    this._soundtouch.pitchSemitones = semitone;
-  }
-  set rate(rate) {
-    this._soundtouch.rate = rate;
-  }
-  set tempo(tempo) {
-    this._soundtouch.tempo = tempo;
-  }
-  connect(toNode) {
-    this._node.connect(toNode);
-  }
-  disconnect() {
-    this._node.disconnect();
-  }
-  on(eventName, cb) {
-    this.listeners.push({
-      name: eventName,
-      cb: cb
-    });
-    this._node.addEventListener(eventName, event => cb(event.detail));
-  }
-  off(eventName = null) {
-    let listeners = this.listeners;
-    if (eventName) {
-      listeners = listeners.filter(e => e.name === eventName);
-    }
-    listeners.forEach(e => {
-      this._node.removeEventListener(e.name, event => e.cb(event.detail));
-    });
-  }
-}
-
-
-//# sourceMappingURL=soundtouch.js.map
-
-;// ./node_modules/chaimu/dist/debug.js
-
-/* harmony default export */ const dist_debug = ({
-    log: (...text) => {
-        if (!dist_config.debug) {
-            return;
-        }
-        return console.log(`%c✦ chaimu.js v${dist_config.version} ✦`, "background: #000; color: #fff; padding: 0 8px", ...text);
-    },
-});
-
-;// ./node_modules/chaimu/dist/player.js
-
-
-
-const videoLipSyncEvents = [
-    "playing",
-    "ratechange",
-    "play",
-    "waiting",
-    "pause",
-    "seeked",
-];
-function initAudioContext() {
-    const audioContext = window.AudioContext || window.webkitAudioContext;
-    return audioContext ? new audioContext() : undefined;
-}
-class BasePlayer {
-    static name = "BasePlayer";
-    chaimu;
-    _src;
-    fetch;
-    constructor(chaimu, src) {
-        this.chaimu = chaimu;
-        this._src = src;
-        this.fetch = dist_config.fetchFn;
-    }
-    async init() {
-        return new Promise((resolve) => {
-            return resolve(this);
-        });
-    }
-    clear() {
-        return new Promise((resolve) => {
-            return resolve(this);
-        });
-    }
-    lipSync(mode = false) {
-        return this;
-    }
-    handleVideoEvent = (event) => {
-        dist_debug.log(`handle video ${event.type}`);
-        this.lipSync(event.type);
-        return this;
-    };
-    removeVideoEvents() {
-        for (const e of videoLipSyncEvents) {
-            this.chaimu.video.removeEventListener(e, this.handleVideoEvent);
-        }
-        return this;
-    }
-    addVideoEvents() {
-        for (const e of videoLipSyncEvents) {
-            this.chaimu.video.addEventListener(e, this.handleVideoEvent);
-        }
-        return this;
-    }
-    async play() {
-        return new Promise((resolve) => {
-            return resolve(this);
-        });
-    }
-    async pause() {
-        return new Promise((resolve) => {
-            return resolve(this);
-        });
-    }
-    get name() {
-        return this.constructor.name;
-    }
-    set src(url) {
-        this._src = url;
-    }
-    get src() {
-        return this._src;
-    }
-    get currentSrc() {
-        return this._src;
-    }
-    set volume(value) {
-        return;
-    }
-    get volume() {
-        return 0;
-    }
-    get playbackRate() {
-        return 0;
-    }
-    set playbackRate(value) {
-        return;
-    }
-    get currentTime() {
-        return 0;
-    }
-}
-class AudioPlayer extends BasePlayer {
-    static name = "AudioPlayer";
-    audio;
-    gainNode;
-    audioSource;
-    constructor(chaimu, src) {
-        super(chaimu, src);
-        this.updateAudio();
-    }
-    initAudioBooster() {
-        if (!this.chaimu.audioContext) {
-            return this;
-        }
-        if (this.gainNode && this.audioSource) {
-            this.audioSource.disconnect(this.gainNode);
-            this.gainNode.disconnect();
-        }
-        this.gainNode = this.chaimu.audioContext.createGain();
-        this.gainNode.connect(this.chaimu.audioContext.destination);
-        this.audioSource = this.chaimu.audioContext.createMediaElementSource(this.audio);
-        this.audioSource.connect(this.gainNode);
-        return this;
-    }
-    updateAudio() {
-        this.audio = new Audio(this.src);
-        this.audio.crossOrigin = "anonymous";
-        return this;
-    }
-    async init() {
-        return new Promise((resolve) => {
-            this.updateAudio();
-            this.initAudioBooster();
-            return resolve(this);
-        });
-    }
-    audioErrorHandle = (e) => {
-        console.error("[AudioPlayer]", e);
-    };
-    lipSync(mode = false) {
-        dist_debug.log("[AudioPlayer] lipsync video", this.chaimu.video);
-        if (!this.chaimu.video) {
-            return this;
-        }
-        this.audio.currentTime = this.chaimu.video.currentTime;
-        this.audio.playbackRate = this.chaimu.video.playbackRate;
-        if (!mode) {
-            dist_debug.log("[AudioPlayer] lipsync mode isn't set");
-            return this;
-        }
-        dist_debug.log(`[AudioPlayer] lipsync mode is ${mode}`);
-        switch (mode) {
-            case "play":
-            case "playing":
-            case "seeked": {
-                if (!this.chaimu.video.paused) {
-                    this.syncPlay();
-                }
-                return this;
-            }
-            case "pause":
-            case "waiting": {
-                void this.pause();
-                return this;
-            }
-            default: {
-                return this;
-            }
-        }
-    }
-    async clear() {
-        return new Promise((resolve) => {
-            this.audio.pause();
-            this.audio.src = "";
-            this.audio.removeAttribute("src");
-            return resolve(this);
-        });
-    }
-    syncPlay() {
-        dist_debug.log("[AudioPlayer] sync play called");
-        this.audio.play().catch(this.audioErrorHandle);
-        return this;
-    }
-    async play() {
-        dist_debug.log("[AudioPlayer] play called");
-        await this.audio.play().catch(this.audioErrorHandle);
-        return this;
-    }
-    async pause() {
-        return new Promise((resolve) => {
-            dist_debug.log("[AudioPlayer] pause called");
-            this.audio.pause();
-            return resolve(this);
-        });
-    }
-    set src(url) {
-        this._src = url;
-        if (!url) {
-            void this.clear();
-            return;
-        }
-        this.audio.src = url;
-    }
-    get src() {
-        return this._src;
-    }
-    get currentSrc() {
-        return this.audio.currentSrc;
-    }
-    set volume(value) {
-        if (this.gainNode) {
-            this.gainNode.gain.value = value;
-            return;
-        }
-        this.audio.volume = value;
-    }
-    get volume() {
-        return this.gainNode ? this.gainNode.gain.value : this.audio.volume;
-    }
-    get playbackRate() {
-        return this.audio.playbackRate;
-    }
-    set playbackRate(value) {
-        this.audio.playbackRate = value;
-    }
-    get currentTime() {
-        return this.audio.currentTime;
-    }
-}
-class ChaimuPlayer extends BasePlayer {
-    static name = "ChaimuPlayer";
-    audioBuffer;
-    sourceNode;
-    gainNode;
-    audioShifter;
-    cleanerRunned = false;
-    async fetchAudio() {
-        if (!this._src) {
-            throw new Error("No audio source provided");
-        }
-        if (!this.chaimu.audioContext) {
-            throw new Error("No audio context available");
-        }
-        dist_debug.log(`[ChaimuPlayer] Fetching audio from ${this._src}...`);
-        try {
-            const res = await this.fetch(this._src);
-            dist_debug.log(`[ChaimuPlayer] Decoding fetched audio...`);
-            const data = await res.arrayBuffer();
-            this.audioBuffer = await this.chaimu.audioContext.decodeAudioData(data);
-        }
-        catch (err) {
-            throw new Error(`Failed to fetch audio file, because ${err.message}`);
-        }
-        return this;
-    }
-    initAudioBooster() {
-        if (!this.chaimu.audioContext) {
-            return this;
-        }
-        if (this.gainNode) {
-            this.gainNode.disconnect();
-        }
-        this.gainNode = this.chaimu.audioContext.createGain();
-        return this;
-    }
-    async init() {
-        await this.fetchAudio();
-        this.initAudioBooster();
-        return this;
-    }
-    lipSync(mode = false) {
-        dist_debug.log("[ChaimuPlayer] lipsync video", this.chaimu.video, this);
-        if (!this.chaimu.video) {
-            return this;
-        }
-        if (!mode) {
-            dist_debug.log("[ChaimuPlayer] lipsync mode isn't set");
-            return this;
-        }
-        dist_debug.log(`[ChaimuPlayer] lipsync mode is ${mode}`);
-        switch (mode) {
-            case "play":
-            case "playing":
-            case "ratechange":
-            case "seeked": {
-                if (!this.chaimu.video.paused) {
-                    void this.start();
-                }
-                return this;
-            }
-            case "pause":
-            case "waiting": {
-                void this.pause();
-                return this;
-            }
-            default: {
-                return this;
-            }
-        }
-    }
-    async reopenCtx() {
-        if (!this.chaimu.audioContext) {
-            throw new Error("No audio context available");
-        }
-        try {
-            await this.chaimu.audioContext.close();
-        }
-        catch {
-        }
-        return this;
-    }
-    async clear() {
-        if (!this.chaimu.audioContext) {
-            throw new Error("No audio context available");
-        }
-        dist_debug.log("clear audio context");
-        this.cleanerRunned = true;
-        await this.pause();
-        if (!this.gainNode) {
-            this.cleanerRunned = false;
-            return this;
-        }
-        if (this.sourceNode) {
-            this.sourceNode.stop();
-            this.sourceNode.disconnect(this.gainNode);
-            this.sourceNode = undefined;
-        }
-        if (this.audioShifter) {
-            this.audioShifter._node.disconnect(this.gainNode);
-            this.audioShifter = undefined;
-        }
-        this.gainNode.disconnect();
-        const oldVolume = this.volume;
-        this.gainNode = undefined;
-        await this.reopenCtx();
-        this.chaimu.audioContext = initAudioContext();
-        this.initAudioBooster();
-        this.volume = oldVolume;
-        this.cleanerRunned = false;
-        return this;
-    }
-    async start() {
-        if (!this.chaimu.audioContext) {
-            throw new Error("No audio context available");
-        }
-        if (!this.audioBuffer) {
-            throw new Error("The player isn't initialized");
-        }
-        if (!this.gainNode ||
-            (this.audioShifter && this.audioShifter.duration < this.chaimu.video.currentTime)) {
-            dist_debug.log("Skip starting player");
-            return this;
-        }
-        if (this.cleanerRunned) {
-            dist_debug.log("The other cleaner is still running, waiting...");
-            return this;
-        }
-        dist_debug.log("starting audio");
-        await this.clear();
-        await this.play();
-        this.audioShifter = new PitchShifter(this.chaimu.audioContext, this.audioBuffer, 1024);
-        this.audioShifter.tempo = this.chaimu.video.playbackRate;
-        this.audioShifter.percentagePlayed = this.chaimu.video.currentTime / this.audioShifter.duration;
-        this.sourceNode = this.chaimu.audioContext.createBufferSource();
-        this.sourceNode.buffer = null;
-        this.sourceNode.connect(this.gainNode);
-        this.audioShifter.connect(this.gainNode);
-        this.gainNode.connect(this.chaimu.audioContext.destination);
-        this.sourceNode.start(undefined, this.chaimu.video.currentTime);
-        return this;
-    }
-    async pause() {
-        if (!this.chaimu.audioContext) {
-            throw new Error("No audio context available");
-        }
-        if (this.chaimu.audioContext.state !== "running") {
-            return this;
-        }
-        await this.chaimu.audioContext.suspend();
-        return this;
-    }
-    async play() {
-        if (!this.chaimu.audioContext) {
-            throw new Error("No audio context available");
-        }
-        await this.chaimu.audioContext.resume();
-        return this;
-    }
-    set src(url) {
-        this._src = url;
-    }
-    get src() {
-        return this._src;
-    }
-    get currentSrc() {
-        return this._src;
-    }
-    set volume(value) {
-        if (this.gainNode) {
-            this.gainNode.gain.value = value;
-        }
-    }
-    get volume() {
-        return this.gainNode ? this.gainNode.gain.value : 0;
-    }
-    set playbackRate(value) {
-        if (!this.audioShifter) {
-            throw new Error("No audio source available");
-        }
-        this.audioShifter.pitch = value;
-    }
-    get playbackRate() {
-        return this.audioShifter?._soundtouch?.tempo ?? 0;
-    }
-    get currentTime() {
-        return this.chaimu.video.currentTime;
-    }
-}
-
-;// ./node_modules/chaimu/dist/client.js
-
-
-class Chaimu {
-    _debug = false;
-    audioContext;
-    player;
-    video;
-    constructor({ url, video, debug = false, fetchFn = dist_config.fetchFn, preferAudio = false, }) {
-        this._debug = dist_config.debug = debug;
-        dist_config.fetchFn = fetchFn;
-        this.audioContext = initAudioContext();
-        this.player =
-            this.audioContext && !preferAudio ? new ChaimuPlayer(this, url) : new AudioPlayer(this, url);
-        this.video = video;
-    }
-    async init() {
-        await this.player.init();
-        if (this.video && !this.video.paused) {
-            this.player.lipSync("play");
-        }
-        this.player.addVideoEvents();
-    }
-    set debug(value) {
-        this._debug = dist_config.debug = value;
-    }
-    get debug() {
-        return this._debug;
-    }
-}
-
-;// ./node_modules/chaimu/dist/index.js
-
-
-
-
-;// ./src/utils/translateApis.ts
-
-
-
-/**
- * Limit: 10k symbols for yandex, 50k for msedge
- */
-const FOSWLYTranslateAPI = new (class {
-    isFOSWLYError(data) {
-        return Object.hasOwn(data, "error");
-    }
-    async request(path, opts = {}) {
-        try {
-            const res = await GM_fetch(`${foswlyTranslateUrl}${path}`, {
-                timeout: 3000,
-                ...opts,
-            });
-            const data = (await res.json());
-            if (this.isFOSWLYError(data)) {
-                throw data.error;
-            }
-            return data;
-        }
-        catch (err) {
-            console.error(`[VOT] Failed to get data from FOSWLY Translate API, because ${err.message}`);
-            return undefined;
-        }
-    }
-    async translate(text, lang, service) {
-        const result = await this.request(`/translate?${new URLSearchParams({
-            text,
-            lang,
-            service,
-        })}`);
-        return result ? result.translations[0] : text;
-    }
-    async detect(text, service) {
-        const result = await this.request(`/detect?${new URLSearchParams({
-            text,
-            service,
-        })}`);
-        return result ? result.lang : "en";
-    }
-})();
-const RustServerAPI = {
-    async detect(text) {
-        try {
-            const response = await GM_fetch(detectRustServerUrl, {
-                method: "POST",
-                body: text,
-                timeout: 3000,
-            });
-            return await response.text();
-        }
-        catch (error) {
-            console.error(`[VOT] Error getting lang from text, because ${error.message}`);
-            return "en";
-        }
-    },
-};
-async function translate(text, fromLang = "", toLang = "ru") {
-    const service = await votStorage.get("translationService", defaultTranslationService);
-    switch (service) {
-        case "yandexbrowser":
-        case "msedge": {
-            const langPair = fromLang && toLang ? `${fromLang}-${toLang}` : toLang;
-            return await FOSWLYTranslateAPI.translate(text, langPair, service);
-        }
-        default:
-            return text;
-    }
-}
-async function detect(text) {
-    const service = await votStorage.get("detectService", defaultDetectService);
-    switch (service) {
-        case "yandexbrowser":
-        case "msedge":
-            return await FOSWLYTranslateAPI.detect(text, service);
-        case "rust-server":
-            return await RustServerAPI.detect(text);
-        default:
-            return "en";
-    }
-}
-const foswlyServices = ["yandexbrowser", "msedge"];
-const detectServices = [...foswlyServices, "rust-server"];
-
-
-;// ./src/utils/youtubeUtils.js
-
-
-
-
-
-
-
-
-// Get the language code from the response or the text
-async function getLanguage(player, response, title, description) {
-  if (
-    !window.location.hostname.includes("m.youtube.com") &&
-    player?.getAudioTrack
-  ) {
-    // Experimental: Get language from selected audio track if available
-    const trackInfo = player.getAudioTrack()?.getLanguageInfo(); // Get selected track info
-    if (trackInfo?.id !== "und") {
-      return normalizeLang(trackInfo.id.split(".")[0]);
-    }
-
-    // Get available audio tracks
-    const audioTracks = player.getAvailableAudioTracks();
-    // Find automatic caption track in audio tracks
-    const autoCaption = audioTracks?.find(
-      (track) => track.kind === "asr" && track.languageCode,
-    );
-    if (autoCaption) {
-      return normalizeLang(autoCaption.languageCode);
-    }
-  }
-
-  // If there is no caption track, use detect to get the language code from the description
-  const autoCaption =
-    response?.captions?.playerCaptionsTracklistRenderer?.captionTracks?.find(
-      (caption) => caption.kind === "asr" && caption.languageCode,
-    );
-  if (autoCaption) {
-    return normalizeLang(autoCaption.languageCode);
-  }
-
-  // Use the description text to detect the language if no captions are available
-  const text = cleanText(title, description);
-
-  debug.log(`Detecting language text: ${text}`);
-
-  return detect(text);
-}
-
-function isMobile() {
-  return /^m\.youtube\.com$/.test(window.location.hostname);
-}
-
-function getPlayer() {
-  if (window.location.pathname.startsWith("/shorts/") && !isMobile()) {
-    return document.querySelector("#shorts-player");
-  }
-
-  return document.querySelector("#movie_player");
-}
-
-function getPlayerResponse() {
-  const player = getPlayer();
-  if (player?.getPlayerResponse)
-    return player?.getPlayerResponse?.call() ?? null;
-  return player?.data?.playerResponse ?? null;
-}
-
-function getPlayerData() {
-  const player = getPlayer();
-  if (player?.getVideoData) return player?.getVideoData?.call() ?? null;
-  return player?.data?.playerResponse?.videoDetails ?? null;
-}
-
-function getVideoVolume() {
-  const player = getPlayer();
-  if (player?.getVolume) {
-    return player.getVolume.call() / 100;
-  }
-
-  return 1;
-}
-
-function setVideoVolume(volume) {
-  const player = getPlayer();
-  if (player?.setVolume) {
-    player.setVolume(Math.round(volume * 100));
-    return true;
-  }
-}
-
-function isMuted() {
-  const player = getPlayer();
-  if (player?.isMuted) {
-    return player.isMuted.call();
-  }
-
-  return false;
-}
-
-function videoSeek(video, time) {
-  // * TIME IN MS
-  debug.log("videoSeek", time);
-  const preTime =
-    getPlayer()?.getProgressState()?.seekableEnd || video.currentTime;
-  const finalTime = preTime - time; // we always throw it to the end of the stream - time
-  video.currentTime = finalTime;
-}
-
-function getSubtitles(responseLang = localizationProvider.lang) {
-  const response = getPlayerResponse();
-  const playerCaptions = response?.captions?.playerCaptionsTracklistRenderer;
-  if (!playerCaptions) {
-    return [];
-  }
-
-  let captionTracks = playerCaptions.captionTracks ?? [];
-  const translationLanguages = playerCaptions.translationLanguages ?? [];
-  const userLangSupported = translationLanguages.find(
-    (language) => language.languageCode === responseLang,
-  );
-  const asrLang =
-    captionTracks.find((captionTrack) => captionTrack?.kind === "asr")
-      ?.languageCode ?? "en";
-  captionTracks = captionTracks.reduce((result, captionTrack) => {
-    if (!("languageCode" in captionTrack)) {
-      return result;
-    }
-
-    const language = captionTrack.languageCode
-      ? normalizeLang(captionTrack.languageCode)
-      : undefined;
-    const url = captionTrack?.url || captionTrack?.baseUrl;
-    if (!language || !url) {
-      return result;
-    }
-
-    const captionUrl = `${
-      url.startsWith("http") ? url : `${window.location.origin}/${url}`
-    }&fmt=json3`;
-    result.push({
-      source: "youtube",
-      format: "json",
-      language,
-      isAutoGenerated: captionTrack?.kind === "asr",
-      url: captionUrl,
-    });
-
-    if (
-      userLangSupported &&
-      captionTrack.isTranslatable &&
-      captionTrack.languageCode === asrLang &&
-      responseLang !== language
-    ) {
-      // add translated youtube subtitles (if it possible)
-      result.push({
-        source: "youtube",
-        format: "json",
-        language: responseLang,
-        isAutoGenerated: captionTrack?.kind === "asr",
-        translatedFromLanguage: language,
-        url: `${captionUrl}&tlang=${responseLang}`,
-      });
-    }
-
-    return result;
-  }, []);
-  debug.log("youtube subtitles:", captionTracks);
-  return captionTracks;
-}
-
-// Get the video data from the player
-async function youtubeUtils_getVideoData() {
-  const player = getPlayer();
-  const response = getPlayerResponse();
-  const data = getPlayerData();
-  const { title: localizedTitle } = data ?? {};
-  const {
-    shortDescription: description,
-    isLive,
-    title,
-  } = response?.videoDetails ?? {};
-  let detectedLanguage = title
-    ? await getLanguage(player, response, title, description)
-    : "en";
-  detectedLanguage = availableLangs.includes(detectedLanguage)
-    ? detectedLanguage
-    : "en";
-  const videoData = {
-    isLive: !!isLive,
-    title,
-    localizedTitle,
-    description,
-    detectedLanguage,
-  };
-  debug.log("youtube video data:", videoData);
-  console.log("[VOT] Detected language: ", videoData.detectedLanguage);
-  return videoData;
-}
-
-/* harmony default export */ const youtubeUtils = ({
-  isMobile,
-  getPlayer,
-  getPlayerResponse,
-  getPlayerData,
-  getVideoVolume,
-  getSubtitles,
-  getVideoData: youtubeUtils_getVideoData,
-  setVideoVolume,
-  videoSeek,
-  isMuted,
-});
-
 ;// ./src/subtitles.js
-
 
 
 
@@ -8062,7 +8106,7 @@ class SubtitlesProcessor {
 
       if (["vtt", "srt"].includes(format)) {
         const text = await response.text();
-        subtitles = await convertSubs(text, "json");
+        subtitles = convertSubs(text, "json");
       } else {
         subtitles = await response.json();
       }
@@ -8092,16 +8136,10 @@ class SubtitlesProcessor {
       host,
       url,
       detectedLanguage: requestLang,
-      responseLanguage,
       videoId,
       duration,
-      subtitles,
+      subtitles: extraSubtitles = [],
     } = videoData;
-
-    const extraSubtitles =
-      host === "youtube"
-        ? youtubeUtils.getSubtitles(responseLanguage)
-        : (subtitles ?? []);
 
     try {
       const res = await Promise.race([
@@ -9106,7 +9144,7 @@ function createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
             i.selected = i.value === value;
           }
           updateTitle();
-          await onSelectCb(e);
+          await onSelectCb(e, value);
         }
       };
       contentList.appendChild(contentItem);
@@ -9433,35 +9471,24 @@ class EventImpl {
     this.listeners = new Set();
   }
 
-  hasListener(e) {
-    return this.listeners.has(e);
-  }
-
-  dispatchToListener(handler, ...args) {
-    try {
-      handler(...args);
-    } catch (exception) {
-      console.error("[VOT]", exception);
-    }
-  }
-
   addListener(handler) {
-    if (this.hasListener(handler)) {
+    if (this.listeners.has(handler)) {
       throw new Error("[VOT] The listener has already been added.");
     }
     this.listeners.add(handler);
   }
 
   removeListener(handler) {
-    if (!this.hasListener(handler)) {
-      throw new Error("[VOT] The listener has not been added yet.");
-    }
     this.listeners.delete(handler);
   }
 
   dispatch(...args) {
-    for (const handler of Array.from(this.listeners)) {
-      this.dispatchToListener(handler, ...args);
+    for (const handler of this.listeners) {
+      try {
+        handler(...args);
+      } catch (exception) {
+        console.error("[VOT]", exception);
+      }
     }
   }
 }
@@ -9471,175 +9498,229 @@ class EventImpl {
 
 
 
-const adKeywords = new Set([
-  "advertise",
-  "promo",
-  "sponsor",
-  "banner",
-  "commercial",
-  "preroll",
-  "midroll",
-  "postroll",
-  "ad-container",
-  "sponsored",
-]);
+class VideoObserver {
+  static adKeywords = new Set([
+    "advertise",
+    "promo",
+    "sponsor",
+    "banner",
+    "commercial",
+    "preroll",
+    "midroll",
+    "postroll",
+    "ad-container",
+    "sponsored",
+  ]);
 
-const adKeywordsRegex = (() => {
-  const pattern = Array.from(adKeywords).join("|");
-  return new RegExp(pattern, "i");
-})();
+  constructor() {
+    this.videoCache = new WeakSet();
+    this.observedAddedNodes = new Set();
+    this.observedRemovedNodes = new Set();
+    this.onVideoAdded = new EventImpl();
+    this.onVideoRemoved = new EventImpl();
+    this.observer = new MutationObserver(this.handleMutations);
+  }
 
-const filterVideoNodes = (nodes) => {
-  const result = [];
-  for (let i = 0; i < nodes.length; i++) {
-    const node = nodes[i];
-    if (node instanceof HTMLVideoElement) {
-      result.push(node);
-    } else if (node instanceof HTMLElement) {
-      const videos = node.querySelectorAll("video");
-      for (let j = 0; j < videos.length; j++) {
-        result.push(videos[j]);
+  isAdRelated(element) {
+    if (!element) return false;
+    const { classList, id, title } = element;
+    for (const cls of classList) {
+      if (VideoObserver.adKeywords.has(cls)) return true;
+    }
+    return (
+      VideoObserver.adKeywords.has(id) || VideoObserver.adKeywords.has(title)
+    );
+  }
+
+  isValidVideo(video) {
+    if (this.isAdRelated(video)) return false;
+    let parent = video.parentElement;
+    while (parent) {
+      if (this.isAdRelated(parent)) return false;
+      parent = parent.parentElement;
+    }
+    if (
+      (video.hasAttribute("muted") &&
+        !video.classList.contains("vjs-tech") &&
+        !video.preload) ||
+      video.src.includes("v.redd.it") // temp fix for reddit
+    ) {
+      utils_debug.log("Ignore muted video:", video);
+      return false;
+    }
+    return true;
+  }
+
+  findVideosAndProcess(root) {
+    if (!root) return;
+    const elements = [root];
+
+    if (root.querySelectorAll) {
+      elements.push(...root.querySelectorAll("*"));
+    }
+
+    for (const element of elements) {
+      if (element instanceof HTMLVideoElement) {
+        this.checkVideoState(element);
+      }
+
+      if (element.shadowRoot) {
+        this.findVideosAndProcess(element.shadowRoot);
       }
     }
   }
-  return result;
-};
 
-const isAdVideo = (video) => {
-  if (
-    adKeywordsRegex.test(video.className) ||
-    adKeywordsRegex.test(video.title)
-  )
-    return true;
-
-  let parent = video.parentElement;
-  while (parent) {
-    if (
-      adKeywordsRegex.test(parent.className) ||
-      adKeywordsRegex.test(parent.id)
-    )
-      return true;
-    parent = parent.parentElement;
+  checkVideoState(video) {
+    if (this.videoCache.has(video) || !this.isValidVideo(video)) return;
+    this.videoCache.add(video);
+    video.addEventListener(
+      "timeupdate",
+      () => this.onVideoAdded.dispatch(video),
+      { once: true },
+    );
   }
 
-  return false;
-};
+  handleMutations = (mutations) => {
+    for (const mutation of mutations) {
+      if (mutation.type !== "childList") continue;
 
-const isMutedVideo = (video) => {
-  return (
-    video.hasAttribute("muted") &&
-    !video.classList.contains("vjs-tech") &&
-    !video.preload
-  );
-};
-
-const isVideoReady = (video) =>
-  video.getVideoPlaybackQuality().totalVideoFrames;
-
-const waitForVideoReady = (video, callback) => {
-  const checkVideoState = () => {
-    if (isVideoReady(video)) {
-      callback(video);
-    } else {
-      requestAnimationFrame(checkVideoState);
+      for (const node of mutation.addedNodes) {
+        if (node instanceof HTMLElement) {
+          this.observedAddedNodes.add(node);
+        }
+      }
+      for (const node of mutation.removedNodes) {
+        if (node instanceof HTMLElement) {
+          this.observedRemovedNodes.add(node);
+        }
+      }
     }
-  };
 
-  checkVideoState();
-};
-
-class VideoObserver {
-  constructor() {
-    this.videoCache = new Set();
-    this.onVideoAdded = new EventImpl();
-    this.onVideoRemoved = new EventImpl();
-
-    this.observer = new MutationObserver(this.handleMutations);
-    this.patchAttachShadow();
-  }
-
-  patchAttachShadow() {
-    const originalAttachShadow = Element.prototype.attachShadow;
-    const self = this;
-    Element.prototype.attachShadow = function (...args) {
-      const shadowRoot = originalAttachShadow.apply(this, args);
-      self.searchInRoot(shadowRoot);
-      self.observeShadowRoot(shadowRoot);
-      return shadowRoot;
-    };
-  }
-
-  observeShadowRoot(shadowRoot) {
-    const shadowObserver = new MutationObserver(this.handleMutations);
-    shadowObserver.observe(shadowRoot, { childList: true, subtree: true });
-  }
-
-  handleMutations = (mutationsList) => {
     window.requestIdleCallback(
       () => {
-        for (let i = 0; i < mutationsList.length; i++) {
-          const mutation = mutationsList[i];
-          if (mutation.type !== "childList") continue;
-
-          const addedVideos = filterVideoNodes(mutation.addedNodes);
-          for (let j = 0; j < addedVideos.length; j++) {
-            this.checkAndHandleVideo(addedVideos[j]);
-          }
-
-          const removedVideos = filterVideoNodes(mutation.removedNodes);
-          for (let k = 0; k < removedVideos.length; k++) {
-            this.handleVideoRemoved(removedVideos[k]);
+        for (const node of this.observedAddedNodes) {
+          this.findVideosAndProcess(node);
+        }
+        for (const node of this.observedRemovedNodes) {
+          if (node.querySelectorAll) {
+            for (const video of node.querySelectorAll("video")) {
+              if (!video.isConnected) {
+                this.onVideoRemoved.dispatch(video);
+                this.videoCache.delete(video);
+              }
+            }
           }
         }
+        this.observedAddedNodes.clear();
+        this.observedRemovedNodes.clear();
       },
       { timeout: 1000 },
     );
   };
 
-  searchInRoot(root) {
-    const videos = root.querySelectorAll("video");
-    for (let i = 0; i < videos.length; i++) {
-      this.checkAndHandleVideo(videos[i]);
-    }
-  }
-
   enable() {
-    this.observer.observe(document, { childList: true, subtree: true });
-
-    const regularVideos = document.querySelectorAll("video");
-    for (let i = 0; i < regularVideos.length; i++) {
-      this.checkAndHandleVideo(regularVideos[i]);
-    }
+    this.observer.observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+    });
+    this.findVideosAndProcess(document.documentElement);
   }
 
   disable() {
     this.observer.disconnect();
   }
-
-  checkAndHandleVideo = (video) => {
-    if (this.videoCache.has(video)) return;
-    this.videoCache.add(video);
-
-    if (isAdVideo(video) || isMutedVideo(video)) {
-      debug.log("The promotional/muted video was ignored", video);
-      return;
-    }
-    waitForVideoReady(video, this.handleVideoAdded);
-  };
-
-  handleVideoAdded = (video) => {
-    this.onVideoAdded.dispatch(video);
-  };
-
-  handleVideoRemoved = (video) => {
-    if (!document.contains(video)) {
-      this.videoCache.delete(video);
-      this.onVideoRemoved.dispatch(video);
-    }
-  };
 }
 
+;// ./src/utils/translateApis.ts
+
+
+
+/**
+ * Limit: 10k symbols for yandex, 50k for msedge
+ */
+const FOSWLYTranslateAPI = new (class {
+    isFOSWLYError(data) {
+        return Object.hasOwn(data, "error");
+    }
+    async request(path, opts = {}) {
+        try {
+            const res = await GM_fetch(`${foswlyTranslateUrl}${path}`, {
+                timeout: 3000,
+                ...opts,
+            });
+            const data = (await res.json());
+            if (this.isFOSWLYError(data)) {
+                throw data.error;
+            }
+            return data;
+        }
+        catch (err) {
+            console.error(`[VOT] Failed to get data from FOSWLY Translate API, because ${err.message}`);
+            return undefined;
+        }
+    }
+    async translate(text, lang, service) {
+        const result = await this.request(`/translate?${new URLSearchParams({
+            text,
+            lang,
+            service,
+        })}`);
+        return result ? result.translations[0] : text;
+    }
+    async detect(text, service) {
+        const result = await this.request(`/detect?${new URLSearchParams({
+            text,
+            service,
+        })}`);
+        return result ? result.lang : "en";
+    }
+})();
+const RustServerAPI = {
+    async detect(text) {
+        try {
+            const response = await GM_fetch(detectRustServerUrl, {
+                method: "POST",
+                body: text,
+                timeout: 3000,
+            });
+            return await response.text();
+        }
+        catch (error) {
+            console.error(`[VOT] Error getting lang from text, because ${error.message}`);
+            return "en";
+        }
+    },
+};
+async function translate(text, fromLang = "", toLang = "ru") {
+    const service = await votStorage.get("translationService", defaultTranslationService);
+    switch (service) {
+        case "yandexbrowser":
+        case "msedge": {
+            const langPair = fromLang && toLang ? `${fromLang}-${toLang}` : toLang;
+            return await FOSWLYTranslateAPI.translate(text, langPair, service);
+        }
+        default:
+            return text;
+    }
+}
+async function detect(text) {
+    const service = await votStorage.get("detectService", defaultDetectService);
+    switch (service) {
+        case "yandexbrowser":
+        case "msedge":
+            return await FOSWLYTranslateAPI.detect(text, service);
+        case "rust-server":
+            return await RustServerAPI.detect(text);
+        default:
+            return "en";
+    }
+}
+const foswlyServices = ["yandexbrowser", "msedge"];
+const detectServices = [...foswlyServices, "rust-server"];
+
+
 ;// ./src/index.js
+
 
 
 
@@ -9732,7 +9813,6 @@ class VideoHandler {
 
   videoTranslations = []; // list of video translations
   videoTranslationTTL = 7200; // 2 hours
-  translateProxyEnabled = 0; // 0 - disabled, 1 - enabled, 2 - proxy everything
   cachedTranslation; // cached video translation
 
   downloadTranslationUrl = null;
@@ -9764,7 +9844,7 @@ class VideoHandler {
    * @param {Object} site - The site object associated with the video.
    */
   constructor(video, container, site) {
-    debug.log(
+    utils_debug.log(
       "[VideoHandler] add video:",
       video,
       "container:",
@@ -9795,7 +9875,7 @@ class VideoHandler {
     translationHelp = null,
   ) {
     clearTimeout(this.autoRetry);
-    debug.log(
+    utils_debug.log(
       videoData,
       `Translate video (requestLang: ${requestLang}, responseLang: ${responseLang})`,
     );
@@ -9819,9 +9899,9 @@ class VideoHandler {
           useNewModel: this.data?.useNewModel,
         },
       });
-      debug.log("Translate video result", res);
+      utils_debug.log("Translate video result", res);
       if (res.translated && res.remainingTime < 1) {
-        debug.log("Video translation finished with this data: ", res);
+        utils_debug.log("Video translation finished with this data: ", res);
         return res;
       }
 
@@ -9866,7 +9946,7 @@ class VideoHandler {
    */
   async translateStreamImpl(videoData, requestLang, responseLang) {
     clearTimeout(this.autoRetry);
-    debug.log(
+    utils_debug.log(
       videoData,
       `Translate stream (requestLang: ${requestLang}, responseLang: ${responseLang})`,
     );
@@ -9886,7 +9966,7 @@ class VideoHandler {
         requestLang,
         responseLang,
       });
-      debug.log("Translate stream result", res);
+      utils_debug.log("Translate stream result", res);
       if (!res.translated && res.interval === 10) {
         await this.updateTranslationErrorMsg(
           localizationProvider.get("translationTakeFewMinutes"),
@@ -9906,19 +9986,19 @@ class VideoHandler {
       }
 
       if (res.message) {
-        debug.log(`Stream translation aborted! Message: ${res.message}`);
+        utils_debug.log(`Stream translation aborted! Message: ${res.message}`);
         throw new VOTLocalizedError("streamNoConnectionToServer");
       }
 
       if (!res.result) {
-        debug.log("Failed to find translation result! Data:", res);
+        utils_debug.log("Failed to find translation result! Data:", res);
         throw new VOTLocalizedError("audioNotReceived");
       }
 
-      debug.log("Stream translated successfully. Running...", res);
+      utils_debug.log("Stream translated successfully. Running...", res);
 
       this.streamPing = setInterval(async () => {
-        debug.log("Ping stream translation", res.pingId);
+        utils_debug.log("Ping stream translation", res.pingId);
         this.votClient.pingStream({
           pingId: res.pingId,
         });
@@ -9976,7 +10056,7 @@ class VideoHandler {
 
   createPlayer() {
     const preferAudio = this.getPreferAudio();
-    debug.log("preferAudio:", preferAudio);
+    utils_debug.log("preferAudio:", preferAudio);
     this.audioPlayer = new Chaimu({
       video: this.video,
       debug: false,
@@ -10028,6 +10108,8 @@ class VideoHandler {
       hotkeyButton: votStorage.get("hotkeyButton", null),
       m3u8ProxyHost: votStorage.get("m3u8ProxyHost", m3u8ProxyHost),
       proxyWorkerHost: votStorage.get("proxyWorkerHost", proxyWorkerHost),
+      // 0 - disabled, 1 - enabled, 2 - proxy everything
+      translateProxyEnabled: votStorage.get("translateProxyEnabled", 0),
       audioBooster: votStorage.get("audioBooster", 0),
       useNewModel: votStorage.get("useNewModel", 1),
       localeHash: votStorage.get("locale-hash", ""),
@@ -10080,11 +10162,11 @@ class VideoHandler {
     );
 
     if (
-      !this.translateProxyEnabled &&
+      !this.data.translateProxyEnabled &&
       GM_info?.scriptHandler &&
       proxyOnlyExtensions.includes(GM_info.scriptHandler)
     ) {
-      this.translateProxyEnabled = 1;
+      this.data.translateProxyEnabled = 1;
     }
 
     if (!countryCode) {
@@ -10092,36 +10174,21 @@ class VideoHandler {
         const response = await GM_fetch("https://speed.cloudflare.com/meta", {
           timeout: 7000,
         });
-        const { country } = await response.json();
-        countryCode = country;
-        this.translateProxyEnabled =
-          country === "UA" ? 2 : this.translateProxyEnabled;
+        ({ country: countryCode } = await response.json());
+        if (countryCode === "UA") {
+          this.data.translateProxyEnabled = 2;
+        }
       } catch (err) {
         console.error("[VOT] Error getting country:", err);
       }
     } else if (countryCode === "UA") {
-      this.translateProxyEnabled = 2;
+      this.data.translateProxyEnabled = 2;
     }
 
-    debug.log("translateProxyEnabled", this.translateProxyEnabled);
-    debug.log("Extension compatibility passed...");
+    utils_debug.log("translateProxyEnabled", this.data.translateProxyEnabled);
+    utils_debug.log("Extension compatibility passed...");
 
-    this.votOpts = {
-      headers: this.translateProxyEnabled
-        ? {}
-        : {
-            "sec-ch-ua": null,
-            "sec-ch-ua-mobile": null,
-            "sec-ch-ua-platform": null,
-          },
-      fetchFn: GM_fetch,
-      hostVOT: votBackendUrl,
-      host: this.translateProxyEnabled ? this.data.proxyWorkerHost : workerHost,
-    };
-
-    this.votClient = new (
-      this.translateProxyEnabled ? VOTWorkerClient : VOTClient
-    )(this.votOpts);
+    this.initVOTClient();
 
     this.subtitlesWidget = new SubtitlesWidget(
       this.video,
@@ -10149,6 +10216,21 @@ class VideoHandler {
     await Promise.all([this.updateSubtitles(), this.autoTranslate()]);
 
     this.initialized = true;
+  }
+
+  initVOTClient() {
+    this.votOpts = {
+      fetchFn: GM_fetch,
+      hostVOT: votBackendUrl,
+      host: this.data.translateProxyEnabled
+        ? this.data.proxyWorkerHost
+        : workerHost,
+    };
+
+    this.votClient = new (
+      this.data.translateProxyEnabled ? VOTWorkerClient : VOTClient
+    )(this.votOpts);
+    return this;
   }
 
   isLoadingText(text) {
@@ -10282,7 +10364,7 @@ class VideoHandler {
           this.videoData.detectedLanguage,
         ),
         fromOnSelectCB: async (e) => {
-          debug.log(
+          utils_debug.log(
             "[fromOnSelectCB] select from language",
             e.target.dataset.votValue,
           );
@@ -10297,10 +10379,10 @@ class VideoHandler {
         toItems: genOptionsByOBJ(availableTTS, this.videoData.responseLanguage),
         toOnSelectCB: async (e) => {
           const newLang = e.target.dataset.votValue;
-          debug.log("[toOnSelectCB] select to language", newLang);
+          utils_debug.log("[toOnSelectCB] select to language", newLang);
           this.data.responseLanguage = this.translateToLang = newLang;
           await votStorage.set("responseLanguage", this.data.responseLanguage);
-          debug.log(
+          utils_debug.log(
             "Response Language value changed. New value: ",
             this.data.responseLanguage,
           );
@@ -10588,6 +10670,40 @@ class VideoHandler {
         this.votProxyWorkerHostTextfield.container,
       );
 
+      const proxyEnabledLabels = [
+        localizationProvider.get("VOTTranslateProxyDisabled"),
+        localizationProvider.get("VOTTranslateProxyEnabled"),
+        localizationProvider.get("VOTTranslateProxyEverything"),
+      ];
+
+      this.votTranslateProxyEnabledSelect = ui.createVOTSelect(
+        proxyEnabledLabels[this.data.translateProxyEnabled],
+        localizationProvider.get("VOTTranslateProxyStatus"),
+        genOptionsByOBJ(
+          proxyEnabledLabels,
+          proxyEnabledLabels[this.data.translateProxyEnabled],
+        ),
+        {
+          onSelectCb: async (_, selectedValue) => {
+            this.data.translateProxyEnabled =
+              proxyEnabledLabels.findIndex((val) => val === selectedValue) ?? 0;
+            await votStorage.set(
+              "translateProxyEnabled",
+              this.data.translateProxyEnabled,
+            );
+            this.initVOTClient();
+            this.videoTranslations = [];
+          },
+          labelElement: ui.createVOTSelectLabel(
+            localizationProvider.get("VOTTranslateProxyStatus"),
+          ),
+        },
+      );
+
+      this.votSettingsDialog.bodyContainer.appendChild(
+        this.votTranslateProxyEnabledSelect.container,
+      );
+
       this.votNewAudioPlayerCheckbox = ui.createCheckbox(
         localizationProvider.get("VOTNewAudioPlayer"),
         this.data?.newAudioPlayer ?? false,
@@ -10729,13 +10845,13 @@ class VideoHandler {
   }
 
   async handleTranslationBtnClick() {
-    debug.log(
+    utils_debug.log(
       "[click translationBtn]",
       this.audioPlayer,
       this.audioPlayer.player,
     );
     if (this.audioPlayer.player.src) {
-      debug.log(
+      utils_debug.log(
         "[click translationBtn] audio.src is not empty",
         this.audioPlayer.player.src,
       );
@@ -10744,13 +10860,13 @@ class VideoHandler {
     }
 
     if (this.hls.url) {
-      debug.log("[click translationBtn] hls is not empty", this.hls.url);
+      utils_debug.log("[click translationBtn] hls is not empty", this.hls.url);
       this.stopTranslate();
       return;
     }
 
     try {
-      debug.log("[click translationBtn] trying execute translation");
+      utils_debug.log("[click translationBtn] trying execute translation");
 
       if (!this.videoData.videoId) {
         throw new VOTLocalizedError("VOTNoVideoIDFound");
@@ -10916,9 +11032,7 @@ class VideoHandler {
 
         ui.afterAnimateLoader(votLoader, primaryColor);
         const blob = new Blob(chunks);
-        const filename = clearFileName(
-          this.videoData.title ?? this.videoData.videoId,
-        );
+        const filename = clearFileName(this.videoData.downloadTitle);
         const arrayBuffer = await blob.arrayBuffer();
         const writer = new o(arrayBuffer);
         writer.setFrame("TIT2", filename);
@@ -10937,7 +11051,7 @@ class VideoHandler {
         );
 
         const filename = this.data.downloadWithName
-          ? clearFileName(this.videoData.title ?? this.videoData.videoId)
+          ? clearFileName(this.videoData.downloadTitle)
           : `subtitles_${this.videoData.videoId}`;
         downloadBlob(blob, `${filename}.${format}`);
       });
@@ -10997,7 +11111,7 @@ class VideoHandler {
             votStorage.set("autoTranslate", this.data.autoTranslate),
             this.autoTranslate(),
           ]);
-          debug.log(
+          utils_debug.log(
             "autoTranslate value changed. New value: ",
             this.data.autoTranslate,
           );
@@ -11013,7 +11127,7 @@ class VideoHandler {
               "dontTranslateYourLang",
               this.data.dontTranslateYourLang,
             );
-            debug.log(
+            utils_debug.log(
               "dontTranslateYourLang value changed. New value: ",
               this.data.dontTranslateYourLang,
             );
@@ -11046,7 +11160,7 @@ class VideoHandler {
             "autoSetVolumeYandexStyle",
             this.data.autoSetVolumeYandexStyle,
           );
-          debug.log(
+          utils_debug.log(
             "autoSetVolumeYandexStyle value changed. New value: ",
             this.data.autoSetVolumeYandexStyle,
           );
@@ -11068,7 +11182,7 @@ class VideoHandler {
         (async () => {
           this.data.showVideoSlider = Number(e.target.checked);
           await votStorage.set("showVideoSlider", this.data.showVideoSlider);
-          debug.log(
+          utils_debug.log(
             "showVideoSlider value changed. New value: ",
             this.data.showVideoSlider,
           );
@@ -11082,7 +11196,7 @@ class VideoHandler {
         (async () => {
           this.data.audioBooster = Number(e.target.checked);
           await votStorage.set("audioBooster", this.data.audioBooster);
-          debug.log(
+          utils_debug.log(
             "audioBooster value changed. New value: ",
             this.data.audioBooster,
           );
@@ -11107,7 +11221,7 @@ class VideoHandler {
         (async () => {
           this.data.syncVolume = Number(e.target.checked);
           await votStorage.set("syncVolume", this.data.syncVolume);
-          debug.log(
+          utils_debug.log(
             "syncVolume value changed. New value: ",
             this.data.syncVolume,
           );
@@ -11118,7 +11232,7 @@ class VideoHandler {
         (async () => {
           this.data.downloadWithName = Number(e.target.checked);
           await votStorage.set("downloadWithName", this.data.downloadWithName);
-          debug.log(
+          utils_debug.log(
             "downloadWithName value changed. New value: ",
             this.data.downloadWithName,
           );
@@ -11134,7 +11248,7 @@ class VideoHandler {
               "sendNotifyOnComplete",
               this.data.sendNotifyOnComplete,
             );
-            debug.log(
+            utils_debug.log(
               "sendNotifyOnComplete value changed. New value: ",
               this.data.sendNotifyOnComplete,
             );
@@ -11146,7 +11260,7 @@ class VideoHandler {
         (async () => {
           this.data.useNewModel = Number(e.target.checked);
           await votStorage.set("useNewModel", this.data.useNewModel);
-          debug.log(
+          utils_debug.log(
             "useNewModel value changed. New value: ",
             this.data.useNewModel,
           );
@@ -11163,7 +11277,7 @@ class VideoHandler {
               "translateAPIErrors",
               this.data.translateAPIErrors,
             );
-            debug.log(
+            utils_debug.log(
               "translateAPIErrors value changed. New value: ",
               this.data.translateAPIErrors,
             );
@@ -11255,7 +11369,7 @@ class VideoHandler {
             (async () => {
               this.data.highlightWords = Number(e.target.checked);
               await votStorage.set("highlightWords", this.data.highlightWords);
-              debug.log(
+              utils_debug.log(
                 "highlightWords value changed. New value: ",
                 this.data.highlightWords,
               );
@@ -11318,7 +11432,7 @@ class VideoHandler {
         (async () => {
           this.data.showPiPButton = Number(e.target.checked);
           await votStorage.set("showPiPButton", this.data.showPiPButton);
-          debug.log(
+          utils_debug.log(
             "showPiPButton value changed. New value: ",
             this.data.showPiPButton,
           );
@@ -11333,7 +11447,7 @@ class VideoHandler {
         (async () => {
           this.data.m3u8ProxyHost = e.target.value || m3u8ProxyHost;
           await votStorage.set("m3u8ProxyHost", this.data.m3u8ProxyHost);
-          debug.log(
+          utils_debug.log(
             "m3u8ProxyHost value changed. New value: ",
             this.data.m3u8ProxyHost,
           );
@@ -11344,11 +11458,11 @@ class VideoHandler {
         (async () => {
           this.data.proxyWorkerHost = e.target.value || proxyWorkerHost;
           await votStorage.set("proxyWorkerHost", this.data.proxyWorkerHost);
-          debug.log(
+          utils_debug.log(
             "proxyWorkerHost value changed. New value: ",
             this.data.proxyWorkerHost,
           );
-          if (this.translateProxyEnabled) {
+          if (this.data.translateProxyEnabled) {
             this.votClient.host = this.data.proxyWorkerHost;
           }
         })();
@@ -11363,7 +11477,7 @@ class VideoHandler {
               "onlyBypassMediaCSP",
               this.data.onlyBypassMediaCSP,
             );
-            debug.log(
+            utils_debug.log(
               "onlyBypassMediaCSP value changed. New value: ",
               this.data.onlyBypassMediaCSP,
             );
@@ -11378,7 +11492,7 @@ class VideoHandler {
           const checked = e.target.checked;
           this.data.newAudioPlayer = Number(checked);
           await votStorage.set("newAudioPlayer", this.data.newAudioPlayer);
-          debug.log(
+          utils_debug.log(
             "newAudioPlayer value changed. New value: ",
             this.data.newAudioPlayer,
           );
@@ -11567,7 +11681,7 @@ class VideoHandler {
         const isSettings = settings.contains(e);
         const isTempDialog = tempDialog?.contains(e) ?? false;
 
-        debug.log(
+        utils_debug.log(
           `[document click] ${isButton} ${isMenu} ${isVideo} ${isSettings} ${isTempDialog}`,
         );
         if (!(!isButton && !isMenu && !isSettings && !isTempDialog)) return;
@@ -11656,7 +11770,7 @@ class VideoHandler {
         })) === this.videoData.videoId
       )
         return;
-      debug.log("lipsync mode is emptied");
+      utils_debug.log("lipsync mode is emptied");
       this.videoData = "";
       this.stopTranslation();
     });
@@ -11669,7 +11783,7 @@ class VideoHandler {
 
     if (this.site.host === "youtube" && !this.site.additionalData) {
       addExtraEventListener(document, "yt-page-data-updated", async () => {
-        debug.log("yt-page-data-updated");
+        utils_debug.log("yt-page-data-updated");
         // fix #802
         if (!window.location.pathname.includes("/shorts/")) {
           return;
@@ -11689,7 +11803,7 @@ class VideoHandler {
       return;
     await this.handleSrcChanged();
     await this.autoTranslate();
-    debug.log("lipsync mode is canplay");
+    utils_debug.log("lipsync mode is canplay");
   }
 
   logout(n) {
@@ -11712,7 +11826,7 @@ class VideoHandler {
   };
 
   async changeSubtitlesLang(subs) {
-    debug.log("[onchange] subtitles", subs);
+    utils_debug.log("[onchange] subtitles", subs);
     this.votSubtitlesSelect.setSelected(subs);
     if (subs === "disabled") {
       this.votSubtitlesSelect.setTitle(
@@ -11724,7 +11838,7 @@ class VideoHandler {
     } else {
       const subtitlesObj = this.subtitlesList.at(parseInt(subs));
       if (
-        this.translateProxyEnabled === 2 &&
+        this.data.translateProxyEnabled === 2 &&
         subtitlesObj.url.startsWith(
           "https://brosubs.s3-private.mds.yandex.net/vtrans/",
         )
@@ -11818,7 +11932,7 @@ class VideoHandler {
   getVideoVolume() {
     let videoVolume = this.video?.volume;
     if (["youtube", "googledrive"].includes(this.site.host)) {
-      videoVolume = youtubeUtils.getVideoVolume() ?? videoVolume;
+      videoVolume = YoutubeHelper.getVolume() ?? videoVolume;
     }
 
     return videoVolume;
@@ -11831,7 +11945,7 @@ class VideoHandler {
    */
   setVideoVolume(volume) {
     if (["youtube", "googledrive"].includes(this.site.host)) {
-      const videoVolume = youtubeUtils.setVideoVolume(volume);
+      const videoVolume = YoutubeHelper.setVolume(volume);
       if (videoVolume) {
         return this;
       }
@@ -11846,7 +11960,7 @@ class VideoHandler {
    */
   isMuted() {
     return ["youtube", "googledrive"].includes(this.site.host)
-      ? youtubeUtils.isMuted()
+      ? YoutubeHelper.isMuted()
       : this.video?.muted;
   }
 
@@ -11925,19 +12039,33 @@ class VideoHandler {
       host,
       title,
       translationHelp = null,
-      detectedLanguage = this.translateFromLang,
+      localizedTitle,
+      description,
+      detectedLanguage: possibleLanguage,
       subtitles,
       isStream = false,
     } = await getVideoData(this.site, {
       fetchFn: GM_fetch,
       video: this.video,
+      language: localizationProvider.lang,
     });
+
+    let detectedLanguage = possibleLanguage ?? this.translateFromLang;
+    if (!possibleLanguage && title) {
+      const text = cleanText(title, description);
+      utils_debug.log(`Detecting language text: ${text}`);
+
+      const language = await detect(text);
+      if (availableLangs.includes(language)) {
+        detectedLanguage = language;
+      }
+    }
+
     const videoData = {
       translationHelp,
-      // by default, we request the translation of the video
       isStream,
       // ! if 0 - we get 400 error
-      duration: duration || this.video?.duration || config.defaultDuration,
+      duration: duration || this.video?.duration || data_config.defaultDuration,
       videoId,
       url,
       host,
@@ -11945,16 +12073,12 @@ class VideoHandler {
       responseLanguage: this.translateToLang,
       subtitles,
       title,
+      localizedTitle,
+      downloadTitle: localizedTitle ?? title ?? videoId,
     };
 
-    if (this.site.host === "youtube") {
-      const youtubeData = await youtubeUtils.getVideoData();
-      videoData.isStream = youtubeData.isLive;
-      if (youtubeData.title) {
-        videoData.detectedLanguage = youtubeData.detectedLanguage;
-        videoData.title = youtubeData.localizedTitle;
-      }
-    } else if (["rutube", "ok.ru", "mail_ru"].includes(this.site.host)) {
+    console.log("[VOT] Detected language:", detectedLanguage);
+    if (["rutube", "ok.ru", "mail_ru"].includes(this.site.host)) {
       videoData.detectedLanguage = "ru";
     } else if (this.site.host === "youku") {
       videoData.detectedLanguage = "zh";
@@ -11969,7 +12093,7 @@ class VideoHandler {
   }
 
   videoValidator() {
-    debug.log("VideoValidator videoData: ", this.videoData);
+    utils_debug.log("VideoValidator videoData: ", this.videoData);
     if (
       this.data.dontTranslateYourLang === 1 &&
       this.data.dontTranslateLanguage?.includes(this.videoData.detectedLanguage)
@@ -11989,7 +12113,7 @@ class VideoHandler {
     this.audioPlayer.player.removeVideoEvents();
     this.audioPlayer.player.clear();
     this.audioPlayer.player.src = undefined;
-    debug.log("audioPlayer after stopTranslate", this.audioPlayer);
+    utils_debug.log("audioPlayer after stopTranslate", this.audioPlayer);
 
     this.votVideoVolumeSlider.container.hidden = true;
     this.votVideoTranslationVolumeSlider.container.hidden = true;
@@ -11997,7 +12121,7 @@ class VideoHandler {
     this.downloadTranslationUrl = null;
     this.longWaitingResCount = 0;
     this.transformBtn("none", localizationProvider.get("translateVideo"));
-    debug.log(`Volume on start: ${this.volumeOnStart}`);
+    utils_debug.log(`Volume on start: ${this.volumeOnStart}`);
     if (this.volumeOnStart) {
       this.setVideoVolume(this.volumeOnStart);
     }
@@ -12009,7 +12133,7 @@ class VideoHandler {
   }
 
   async translateExecutor(VIDEO_ID) {
-    debug.log("Run translateFunc", VIDEO_ID);
+    utils_debug.log("Run translateFunc", VIDEO_ID);
     await this.translateFunc(
       VIDEO_ID,
       this.videoData.isStream,
@@ -12028,7 +12152,7 @@ class VideoHandler {
       errorMessage === localizationProvider.get("translationTakeAboutMinute")
         ? this.longWaitingResCount + 1
         : 0;
-    debug.log("longWaitingResCount", this.longWaitingResCount);
+    utils_debug.log("longWaitingResCount", this.longWaitingResCount);
     if (this.longWaitingResCount > minLongWaitingCount) {
       errorMessage = new VOTLocalizedError("TranslationDelayed");
     }
@@ -12083,7 +12207,7 @@ class VideoHandler {
       this.downloadTranslationUrl = audioUrl;
     }
 
-    debug.log(
+    utils_debug.log(
       "afterUpdateTranslation downloadTranslationUrl",
       this.downloadTranslationUrl,
     );
@@ -12115,13 +12239,13 @@ class VideoHandler {
       const response = await GM_fetch(audioUrl, {
         method: "HEAD",
       });
-      debug.log("Test audio response", response);
+      utils_debug.log("Test audio response", response);
       if (response.status !== 404) {
-        debug.log("Valid audioUrl", audioUrl);
+        utils_debug.log("Valid audioUrl", audioUrl);
         return audioUrl;
       }
 
-      debug.log("Yandex returned not valid audio, trying to fix...");
+      utils_debug.log("Yandex returned not valid audio, trying to fix...");
       let translateRes = await this.translateVideoImpl(
         this.videoData,
         (this.videoData.detectedLanguage = "auto"),
@@ -12133,9 +12257,9 @@ class VideoHandler {
         this.videoData.responseLanguage,
       );
       audioUrl = translateRes.url;
-      debug.log("Fixed audio audioUrl", audioUrl);
+      utils_debug.log("Fixed audio audioUrl", audioUrl);
     } catch (err) {
-      debug.log("Test audio error:", err);
+      utils_debug.log("Test audio error:", err);
     }
 
     return audioUrl;
@@ -12143,7 +12267,7 @@ class VideoHandler {
 
   proxifyAudio(audioUrl) {
     if (
-      this.translateProxyEnabled === 2 &&
+      this.data.translateProxyEnabled === 2 &&
       audioUrl.startsWith("https://vtrans.s3-private.mds.yandex.net/tts/prod/")
     ) {
       const audioPath = audioUrl.replace(
@@ -12171,7 +12295,7 @@ class VideoHandler {
     try {
       this.audioPlayer.init();
     } catch (err) {
-      debug.log("this.audioPlayer.init() error", err);
+      utils_debug.log("this.audioPlayer.init() error", err);
       this.videoHandler.transformBtn("error", err.message);
     }
 
@@ -12196,7 +12320,7 @@ class VideoHandler {
   ) {
     console.log("[VOT] Video Data: ", this.videoData);
     // fix enabling the old requested voiceover when changing the language to the native language (#414)
-    debug.log("Run videoValidator");
+    utils_debug.log("Run videoValidator");
     this.videoValidator();
     this.setLoadingBtn(true);
     this.volumeOnStart = this.getVideoVolume();
@@ -12209,7 +12333,7 @@ class VideoHandler {
       );
 
       if (!translateRes) {
-        debug.log("Skip translation");
+        utils_debug.log("Skip translation");
         return;
       }
 
@@ -12221,13 +12345,13 @@ class VideoHandler {
       try {
         this.audioPlayer.init();
       } catch (err) {
-        debug.log("this.audioPlayer.init() error", err);
+        utils_debug.log("this.audioPlayer.init() error", err);
         this.videoHandler.transformBtn("error", err.message);
       }
 
       const streamURL = this.setHLSSource(translateRes.result.url);
       if (this.site.host === "youtube") {
-        youtubeUtils.videoSeek(this.video, 10); // 10 is the most successful number for streaming. With it, the audio is not so far behind the original
+        YoutubeHelper.videoSeek(this.video, 10); // 10 is the most successful number for streaming. With it, the audio is not so far behind the original
       }
 
       this.setupAudioSettings();
@@ -12249,7 +12373,7 @@ class VideoHandler {
 
     if (this.cachedTranslation) {
       await this.updateTranslation(this.cachedTranslation.url);
-      debug.log("[translateFunc] Cached translation was received");
+      utils_debug.log("[translateFunc] Cached translation was received");
       return;
     }
 
@@ -12260,9 +12384,9 @@ class VideoHandler {
       translationHelp,
     );
 
-    debug.log("[translateRes]", translateRes);
+    utils_debug.log("[translateRes]", translateRes);
     if (!translateRes) {
-      debug.log("Skip translation");
+      utils_debug.log("Skip translation");
       return;
     }
 
@@ -12296,10 +12420,10 @@ class VideoHandler {
   // Вспомогательные методы
   setupHLS(streamURL) {
     this.hls.on(Hls.Events.MEDIA_ATTACHED, function () {
-      debug.log("audio and hls.js are now bound together !");
+      utils_debug.log("audio and hls.js are now bound together !");
     });
     this.hls.on(Hls.Events.MANIFEST_PARSED, function (data) {
-      debug.log(
+      utils_debug.log(
         "manifest loaded, found " + data?.levels?.length + " quality level",
       );
     });
@@ -12327,7 +12451,7 @@ class VideoHandler {
         }
       }
     });
-    debug.log(this.hls);
+    utils_debug.log(this.hls);
   }
 
   setHLSSource(url) {
@@ -12373,7 +12497,7 @@ class VideoHandler {
   };
 
   async handleSrcChanged() {
-    debug.log("[VideoHandler] src changed", this);
+    utils_debug.log("[VideoHandler] src changed", this);
     this.firstPlay = true;
     this.stopTranslation();
 
@@ -12402,7 +12526,7 @@ class VideoHandler {
   }
 
   async release() {
-    debug.log("[VideoHandler] release");
+    utils_debug.log("[VideoHandler] release");
 
     this.initialized = false;
     this.releaseExtraEvents();
@@ -12448,15 +12572,15 @@ function climb(el, selector) {
  * @return {Object|null} The container element or null if not found.
  */
 function findContainer(site, video) {
-  debug.log("findContainer", site, video);
+  utils_debug.log("findContainer", site, video);
   if (site.shadowRoot) {
     let container = climb(video, site.selector);
 
-    debug.log("findContainer with site.shadowRoot", container);
+    utils_debug.log("findContainer with site.shadowRoot", container);
     return container ?? video.parentElement;
   }
 
-  debug.log("findContainer without shadowRoot");
+  utils_debug.log("findContainer without shadowRoot");
 
   const browserVersion = browserInfo.browser.version?.split(".")?.[0];
   if (
@@ -12511,17 +12635,19 @@ function initIframeInteractor() {
         return;
       }
 
-      if (e.data !== "getVideoId") {
+      if (!(typeof e.data === "string" && e.data.startsWith("getVideoId:"))) {
         return;
       }
 
+      const reqId = e.data.replace("getVideoId:", "");
+      const iframeLink = atob(reqId);
       const videoId = /\/(\w{3,5})\/[^/]+$/.exec(window.location.pathname)?.[1];
       const iframeWin = document.querySelector(
-        "electra-player > iframe",
+        `electra-player > iframe[src="${iframeLink}"]`,
       )?.contentWindow;
 
       iframeWin.postMessage(
-        `getVideoId:${videoId}`,
+        `${e.data}:${videoId}`,
         "https://dev.epicgames.com",
       );
     });
@@ -12531,11 +12657,11 @@ function initIframeInteractor() {
 }
 
 async function src_main() {
-  debug.log("Loading extension...");
+  utils_debug.log("Loading extension...");
 
   await localizationProvider.update();
 
-  debug.log(`Selected menu language: ${localizationProvider.lang}`);
+  utils_debug.log(`Selected menu language: ${localizationProvider.lang}`);
 
   initIframeInteractor();
 

@@ -199,5 +199,9 @@
   "TranslationDelayed": "번역이 약간 지연되었습니다.",
   "VOTTranslationCompletedNotify": "{0}에 대한 번역이 완료되었습니다!",
   "VOTSendNotifyOnComplete": "동영상이 번역되었다는 알림 보내기",
-  "VOTBugReport": "버그 신고"
+  "VOTBugReport": "버그 신고",
+  "VOTTranslateProxyDisabled": "사용 안 함",
+  "VOTTranslateProxyEnabled": "사용",
+  "VOTTranslateProxyEverything": "프록시 모든 것",
+  "VOTTranslateProxyStatus": "프록시 모드"
 }

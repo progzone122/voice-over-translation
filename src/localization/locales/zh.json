@@ -199,5 +199,9 @@
   "TranslationDelayed": "翻译稍有延迟",
   "VOTTranslationCompletedNotify": "{0}上的翻译已经完成！",
   "VOTSendNotifyOnComplete": "发送视频已翻译的通知",
-  "VOTBugReport": "报告错误"
+  "VOTBugReport": "报告错误",
+  "VOTTranslateProxyDisabled": "残疾人士",
+  "VOTTranslateProxyEnabled": "已启用",
+  "VOTTranslateProxyEverything": "代理一切",
+  "VOTTranslateProxyStatus": "代理模式"
 }

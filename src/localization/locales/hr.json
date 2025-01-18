@@ -199,5 +199,9 @@
   "TranslationDelayed": "Prijevod je malo odgođen",
   "VOTTranslationCompletedNotify": "Prijevod na {0} dovršen!",
   "VOTSendNotifyOnComplete": "Pošaljite obavijest da je videozapis preveden",
-  "VOTBugReport": "Prijavi pogrešku"
+  "VOTBugReport": "Prijavi pogrešku",
+  "VOTTranslateProxyDisabled": "Nesposoban za rad",
+  "VOTTranslateProxyEnabled": "Omogućeno",
+  "VOTTranslateProxyEverything": "Punomoćnik za sve",
+  "VOTTranslateProxyStatus": "Način proksiranja"
 }

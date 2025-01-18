@@ -199,5 +199,9 @@
   "TranslationDelayed": "പരിഭാഷ അല്പം വൈകി",
   "VOTTranslationCompletedNotify": "വിവർത്തനം {0} പൂർത്തിയായി!",
   "VOTSendNotifyOnComplete": "വീഡിയോ പരിഭാഷപ്പെടുത്തിയതായി അറിയിപ്പ് അയയ്ക്കുക",
-  "VOTBugReport": "ഒരു ബഗ് റിപ്പോർട്ട് ചെയ്യുക"
+  "VOTBugReport": "ഒരു ബഗ് റിപ്പോർട്ട് ചെയ്യുക",
+  "VOTTranslateProxyDisabled": "Disabled",
+  "VOTTranslateProxyEnabled": "പ്രാപ്തമാക്കി",
+  "VOTTranslateProxyEverything": "പ്രോക്സി എല്ലാം",
+  "VOTTranslateProxyStatus": "പ്രോക്സി മോഡ്"
 }

@@ -199,5 +199,9 @@
   "TranslationDelayed": "Аударма сәл кешіктірілді",
   "VOTTranslationCompletedNotify": "{0} бойынша аударма аяқталды!",
   "VOTSendNotifyOnComplete": "Бейне аударылғаны туралы хабарлама жіберіңіз",
-  "VOTBugReport": "Қате туралы хабарлау"
+  "VOTBugReport": "Қате туралы хабарлау",
+  "VOTTranslateProxyDisabled": "Мүгедек",
+  "VOTTranslateProxyEnabled": "Қосылған",
+  "VOTTranslateProxyEverything": "Барлығын прокси арқылы жіберіңіз",
+  "VOTTranslateProxyStatus": "Прокси режимі"
 }

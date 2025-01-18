@@ -199,5 +199,9 @@
   "TranslationDelayed": "Tõlge on veidi hilinenud",
   "VOTTranslationCompletedNotify": "{0} tõlge on lõpetatud!",
   "VOTSendNotifyOnComplete": "Saada teade, et video on tõlgitud",
-  "VOTBugReport": "Teata veast"
+  "VOTBugReport": "Teata veast",
+  "VOTTranslateProxyDisabled": "Puudega",
+  "VOTTranslateProxyEnabled": "Võimaldama",
+  "VOTTranslateProxyEverything": "Puhverserver kõik",
+  "VOTTranslateProxyStatus": "Puhverserveri režiim"
 }

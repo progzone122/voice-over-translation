@@ -135,15 +135,15 @@ Do not use patches from the `bun patch` or from any npm packages. They will be i
 
 ### How to update localization files
 
-For all interaction with localization files, the l10n-tui utility is made.
+For all interaction with localization files, the localize-tui utility is made.
 
 To call the utility, use the command:
 
 ```bash
-bun l10n
+npx @toil/localize-tui
 ```
 
-You can read more about the utility [here](scripts/l10n-tui/README.md)
+You can read more about the utility [here](https://github.com/ilyhalight/localize)
 
 ## Customization of appearance:
 

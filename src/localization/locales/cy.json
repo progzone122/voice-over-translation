@@ -199,5 +199,9 @@
   "TranslationDelayed": "Mae'r cyfieithiad ychydig yn oedi",
   "VOTTranslationCompletedNotify": "Mae'r cyfieithiad ar y {0} wedi ei gwblhau!",
   "VOTSendNotifyOnComplete": "Anfon hysbysiad bod y fideo wedi'i gyfieithu",
-  "VOTBugReport": "Rhoi gwybod am nam"
+  "VOTBugReport": "Rhoi gwybod am nam",
+  "VOTTranslateProxyDisabled": "Analluogwyd",
+  "VOTTranslateProxyEnabled": "Galluogwyd",
+  "VOTTranslateProxyEverything": "Dirprwy popeth",
+  "VOTTranslateProxyStatus": "Modd dirprwyo"
 }

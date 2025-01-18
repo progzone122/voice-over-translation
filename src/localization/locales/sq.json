@@ -199,5 +199,9 @@
   "TranslationDelayed": "Përkthimi është vonuar pak",
   "VOTTranslationCompletedNotify": "Përkthimi në {0} ka përfunduar!",
   "VOTSendNotifyOnComplete": "Dërgoni një njoftim se videoja është përkthyer",
-  "VOTBugReport": "Raportoni një gabim"
+  "VOTBugReport": "Raportoni një gabim",
+  "VOTTranslateProxyDisabled": "Me aftësi të kufizuara",
+  "VOTTranslateProxyEnabled": "Aktivizuar",
+  "VOTTranslateProxyEverything": "Proxy gjithçka",
+  "VOTTranslateProxyStatus": "Modaliteti i Proxying"
 }

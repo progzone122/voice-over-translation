@@ -199,5 +199,9 @@
   "TranslationDelayed": "ಅನುವಾದ ಸ್ವಲ್ಪ ವಿಳಂಬ",
   "VOTTranslationCompletedNotify": "{0} ನಲ್ಲಿನ ಅನುವಾದ ಪೂರ್ಣಗೊಂಡಿದೆ!",
   "VOTSendNotifyOnComplete": "ವೀಡಿಯೊ ಅನುವಾದಿಸಲಾಗಿದೆ ಎಂದು ಅಧಿಸೂಚನೆಯನ್ನು ಕಳುಹಿಸಿ",
-  "VOTBugReport": "ದೋಷವನ್ನು ವರದಿ ಮಾಡಿ"
+  "VOTBugReport": "ದೋಷವನ್ನು ವರದಿ ಮಾಡಿ",
+  "VOTTranslateProxyDisabled": "ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ",
+  "VOTTranslateProxyEnabled": "ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ",
+  "VOTTranslateProxyEverything": "ಪ್ರಾಕ್ಸಿ ಎಲ್ಲವೂ",
+  "VOTTranslateProxyStatus": "ಪ್ರಾಕ್ಸಿ ಮೋಡ್"
 }

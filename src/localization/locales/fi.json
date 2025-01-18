@@ -199,5 +199,9 @@
   "TranslationDelayed": "Käännös viivästyy hieman",
   "VOTTranslationCompletedNotify": "Kohteen {0} käännös on valmis!",
   "VOTSendNotifyOnComplete": "Lähetä ilmoitus siitä, että video on käännetty",
-  "VOTBugReport": "Ilmoita virheestä"
+  "VOTBugReport": "Ilmoita virheestä",
+  "VOTTranslateProxyDisabled": "Käytöstä",
+  "VOTTranslateProxyEnabled": "Käyttöön",
+  "VOTTranslateProxyEverything": "Proxy kaikki",
+  "VOTTranslateProxyStatus": "Välityspalvelin"
 }

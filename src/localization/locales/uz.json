@@ -199,5 +199,9 @@
   "TranslationDelayed": "Tarjima biroz kechiktirildi",
   "VOTTranslationCompletedNotify": "{0} dagi tarjima tugallandi!",
   "VOTSendNotifyOnComplete": "Video tarjima qilinganligi to'g'risida xabar yuboring",
-  "VOTBugReport": "Xato haqida xabar bering"
+  "VOTBugReport": "Xato haqida xabar bering",
+  "VOTTranslateProxyDisabled": "Nogiron",
+  "VOTTranslateProxyEnabled": "Yoqilgan",
+  "VOTTranslateProxyEverything": "Proksi hamma narsa",
+  "VOTTranslateProxyStatus": "Proksi rejimi"
 }
