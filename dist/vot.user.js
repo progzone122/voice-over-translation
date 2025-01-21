@@ -1570,12 +1570,12 @@ class Chaimu {
     hostWorker: "vot-worker.toil.cc",
     mediaProxy: "media-proxy.toil.cc",
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 YaBrowser/24.12.0.0 Safari/537.36",
-    componentVersion: "24.12.2.856",
+    componentVersion: "24.12.3.780",
     hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.1.10",
+    version: "2.1.12",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -5086,6 +5086,7 @@ var ExtVideoService;
         host: VideoService.bitview,
         url: "https://www.bitview.net/watch?v=",
         match: /^(www.)?bitview.net$/,
+        selector: ".vlScreen",
         needExtraData: true,
     },
     {
@@ -6928,21 +6929,21 @@ class YoutubeHelper extends BaseHelper {
         return document.querySelector("#movie_player");
     }
     static getPlayerResponse() {
-        return YoutubeHelper.getPlayer()?.getPlayerResponse();
+        return YoutubeHelper.getPlayer()?.getPlayerResponse?.call(undefined);
     }
     static getPlayerData() {
-        return YoutubeHelper.getPlayer()?.getVideoData();
+        return YoutubeHelper.getPlayer()?.getVideoData?.call(undefined);
     }
     static getVolume() {
         const player = YoutubeHelper.getPlayer();
-        if (player) {
+        if (player?.getVolume) {
             return player.getVolume() / 100;
         }
         return 1;
     }
     static setVolume(volume) {
         const player = YoutubeHelper.getPlayer();
-        if (player) {
+        if (player?.setVolume) {
             player.setVolume(Math.round(volume * 100));
             return true;
         }
@@ -6950,7 +6951,7 @@ class YoutubeHelper extends BaseHelper {
     }
     static isMuted() {
         const player = YoutubeHelper.getPlayer();
-        if (player) {
+        if (player?.isMuted) {
             return player.isMuted();
         }
         return false;
@@ -7032,7 +7033,7 @@ class YoutubeHelper extends BaseHelper {
         if (detectedLanguage && !availableLangs.includes(detectedLanguage)) {
             detectedLanguage = undefined;
         }
-        const duration = YoutubeHelper.getPlayer()?.getDuration() ?? undefined;
+        const duration = YoutubeHelper.getPlayer()?.getDuration?.call(undefined) ?? undefined;
         return {
             url: this.service.url + videoId,
             isStream,
