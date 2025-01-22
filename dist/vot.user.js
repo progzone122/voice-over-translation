@@ -1575,7 +1575,7 @@ class Chaimu {
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.1.12",
+    version: "2.1.13",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -1739,11 +1739,13 @@ function createBaseVideoTranslationRequest() {
         forceSourceLang: false,
         unknown1: 0,
         translationHelp: [],
+        wasStream: false,
         responseLanguage: "",
         unknown2: 0,
         unknown3: 0,
         bypassCache: false,
         useNewModel: false,
+        videoTitle: "",
     };
 }
 const VideoTranslationRequest = {
@@ -1775,6 +1777,9 @@ const VideoTranslationRequest = {
         for (const v of message.translationHelp) {
             VideoTranslationHelpObject.encode(v, writer.uint32(90).fork()).ldelim();
         }
+        if (message.wasStream !== false) {
+            writer.uint32(104).bool(message.wasStream);
+        }
         if (message.responseLanguage !== "") {
             writer.uint32(114).string(message.responseLanguage);
         }
@@ -1789,6 +1794,9 @@ const VideoTranslationRequest = {
         }
         if (message.useNewModel !== false) {
             writer.uint32(144).bool(message.useNewModel);
+        }
+        if (message.videoTitle !== "") {
+            writer.uint32(154).string(message.videoTitle);
         }
         return writer;
     },
@@ -1853,6 +1861,12 @@ const VideoTranslationRequest = {
                     }
                     message.translationHelp.push(VideoTranslationHelpObject.decode(reader, reader.uint32()));
                     continue;
+                case 13:
+                    if (tag !== 104) {
+                        break;
+                    }
+                    message.wasStream = reader.bool();
+                    continue;
                 case 14:
                     if (tag !== 114) {
                         break;
@@ -1883,6 +1897,12 @@ const VideoTranslationRequest = {
                     }
                     message.useNewModel = reader.bool();
                     continue;
+                case 19:
+                    if (tag !== 154) {
+                        break;
+                    }
+                    message.videoTitle = reader.string();
+                    continue;
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -1904,11 +1924,13 @@ const VideoTranslationRequest = {
             translationHelp: globalThis.Array.isArray(object?.translationHelp)
                 ? object.translationHelp.map((e) => VideoTranslationHelpObject.fromJSON(e))
                 : [],
+            wasStream: isSet(object.wasStream) ? globalThis.Boolean(object.wasStream) : false,
             responseLanguage: isSet(object.responseLanguage) ? globalThis.String(object.responseLanguage) : "",
             unknown2: isSet(object.unknown2) ? globalThis.Number(object.unknown2) : 0,
             unknown3: isSet(object.unknown3) ? globalThis.Number(object.unknown3) : 0,
             bypassCache: isSet(object.bypassCache) ? globalThis.Boolean(object.bypassCache) : false,
             useNewModel: isSet(object.useNewModel) ? globalThis.Boolean(object.useNewModel) : false,
+            videoTitle: isSet(object.videoTitle) ? globalThis.String(object.videoTitle) : "",
         };
     },
     toJSON(message) {
@@ -1940,6 +1962,9 @@ const VideoTranslationRequest = {
         if (message.translationHelp?.length) {
             obj.translationHelp = message.translationHelp.map((e) => VideoTranslationHelpObject.toJSON(e));
         }
+        if (message.wasStream !== false) {
+            obj.wasStream = message.wasStream;
+        }
         if (message.responseLanguage !== "") {
             obj.responseLanguage = message.responseLanguage;
         }
@@ -1954,6 +1979,9 @@ const VideoTranslationRequest = {
         }
         if (message.useNewModel !== false) {
             obj.useNewModel = message.useNewModel;
+        }
+        if (message.videoTitle !== "") {
+            obj.videoTitle = message.videoTitle;
         }
         return obj;
     },
@@ -1971,11 +1999,13 @@ const VideoTranslationRequest = {
         message.forceSourceLang = object.forceSourceLang ?? false;
         message.unknown1 = object.unknown1 ?? 0;
         message.translationHelp = object.translationHelp?.map((e) => VideoTranslationHelpObject.fromPartial(e)) || [];
+        message.wasStream = object.wasStream ?? false;
         message.responseLanguage = object.responseLanguage ?? "";
         message.unknown2 = object.unknown2 ?? 0;
         message.unknown3 = object.unknown3 ?? 0;
         message.bypassCache = object.bypassCache ?? false;
         message.useNewModel = object.useNewModel ?? false;
+        message.videoTitle = object.videoTitle ?? "";
         return message;
     },
 };
@@ -3384,7 +3414,7 @@ function proxyMedia(url, format = "mp4") {
 ;// ./node_modules/@vot.js/core/dist/protobuf.js
 
 const yandexProtobuf = {
-    encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp, { forceSourceLang = false, bypassCache = false, useNewModel = true, } = {}) {
+    encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp, { forceSourceLang = false, wasStream = false, videoTitle = "", bypassCache = false, useNewModel = true, } = {}) {
         return VideoTranslationRequest.encode({
             url,
             firstRequest: true,
@@ -3395,10 +3425,12 @@ const yandexProtobuf = {
             unknown1: 0,
             translationHelp: translationHelp ? translationHelp : [],
             responseLanguage: responseLang,
+            wasStream,
             unknown2: 1,
             unknown3: 1,
             bypassCache,
             useNewModel,
+            videoTitle,
         }).finish();
     },
     decodeTranslationResponse(response) {
@@ -9898,6 +9930,7 @@ class VideoHandler {
         translationHelp,
         extraOpts: {
           useNewModel: this.data?.useNewModel,
+          videoTitle: this.videoData.title,
         },
       });
       utils_debug.log("Translate video result", res);
