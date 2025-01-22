@@ -213,6 +213,7 @@ class VideoHandler {
         translationHelp,
         extraOpts: {
           useNewModel: this.data?.useNewModel,
+          videoTitle: this.videoData.title,
         },
       });
       debug.log("Translate video result", res);
