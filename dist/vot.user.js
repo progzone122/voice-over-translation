@@ -10350,12 +10350,15 @@ class VideoHandler {
             localizationProvider.get("VOTSubtitles"),
           ),
           onBeforeOpen: async () => {
-            if (this.videoData.videoId && this.videoData.videoId !== this.subtitlesListVideoId) {
+            if (
+              this.videoData.videoId &&
+              this.videoData.videoId !== this.subtitlesListVideoId
+            ) {
               this.setLoadingBtn(true);
               await this.loadSubtitles();
               this.setLoadingBtn(false);
             }
-          }
+          },
         },
       );
 
@@ -10853,7 +10856,7 @@ class VideoHandler {
           this.votMenu.container.hidden = true;
           return;
         }
-        
+
         this.votMenu.container.hidden = false;
       });
 
@@ -11803,12 +11806,14 @@ class VideoHandler {
 
   async updateSubtitlesLangSelect() {
     if (!this.subtitlesList || this.subtitlesList.length === 0) {
-      const updatedOptions = [{
-        label: localizationProvider.get("VOTSubtitlesDisabled"),
-        value: "disabled",
-        selected: true,
-        disabled: false,
-      }];
+      const updatedOptions = [
+        {
+          label: localizationProvider.get("VOTSubtitlesDisabled"),
+          value: "disabled",
+          selected: true,
+          disabled: false,
+        },
+      ];
 
       this.votSubtitlesSelect.updateItems(updatedOptions);
       await this.changeSubtitlesLang(updatedOptions[0].value);
@@ -12466,7 +12471,7 @@ class VideoHandler {
     }
 
     this.videoData = await this.getVideoData();
-    
+
     if (this.subtitlesListVideoId !== this.videoData.videoId) {
       this.subtitlesList = [];
       this.subtitlesListVideoId = null;
