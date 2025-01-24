@@ -1,4 +1,35 @@
 .vot-subtitles {
+  --vot-subtitles-background: rgba(
+    var(--vot-surface-rgb, 46, 47, 52),
+    var(--vot-subtitles-opacity, 0.8)
+  );
+  position: relative;
+  max-width: 100%;
+  max-height: 100%;
+  width: max-content;
+  background: var(--vot-subtitles-background, rgba(46, 47, 52, 0.8));
+  color: var(--vot-subtitles-color, rgb(227, 227, 227));
+  border-radius: 0.5em;
+  pointer-events: all;
+  padding: 0.5em;
+  font-size: 20px;
+  font-family: var(
+    --vot-font-family,
+    "Roboto",
+    "Segoe UI",
+    BlinkMacSystemFont,
+    system-ui,
+    -apple-system
+  );
+  line-height: normal;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
   &-widget {
     display: flex;
     justify-content: center;
@@ -13,37 +44,13 @@
     pointer-events: none;
   }
 
-  & {
-    --vot-subtitles-background: rgba(
-      var(--vot-surface-rgb, 46, 47, 52),
-      var(--vot-subtitles-opacity, 0.8)
-    );
-    position: relative;
-    max-width: 100%;
-    max-height: 100%;
-    width: max-content;
-    background: var(--vot-subtitles-background, rgba(46, 47, 52, 0.8));
-    color: var(--vot-subtitles-color, rgb(227, 227, 227));
-    border-radius: 0.5em;
-    pointer-events: all;
-    padding: 0.5em;
-    font-size: 20px;
-    line-height: normal;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-
   & span {
     -webkit-user-select: text;
     -moz-user-select: text;
     -ms-user-select: text;
     user-select: text;
     font-size: inherit !important;
+    font-family: inherit !important;
     line-height: normal !important;
   }
 
