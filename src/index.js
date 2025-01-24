@@ -1524,13 +1524,11 @@ class VideoHandler {
             .audioBooster
             ? maxAudioVolume
             : 100;
-          if (!this.data.audioBooster) {
-            this.votVideoTranslationVolumeSlider.input.value =
-              currentAudioVolume > 100 ? 100 : currentAudioVolume;
-            this.votVideoTranslationVolumeSlider.input.dispatchEvent(
-              new Event("input"),
-            );
-          }
+          this.votVideoTranslationVolumeSlider.input.value =
+            currentAudioVolume > 100 ? 100 : currentAudioVolume;
+          this.votVideoTranslationVolumeSlider.input.dispatchEvent(
+            new Event("input"),
+          );
         })();
       });
 
