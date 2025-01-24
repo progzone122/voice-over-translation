@@ -9076,76 +9076,93 @@ class UI {
     };
 
     outer.append(title, arrowIcon);
+
+    let isLoading = false;
+    let dialogOpened = false;
+
     outer.onclick = async () => {
-      if (options.onBeforeOpen) await options.onBeforeOpen();
-
-      const votSelectDialog = this.createDialog(dialogTitle);
-      votSelectDialog.container.classList.add("vot-dialog-temp");
-      votSelectDialog.container.hidden = false;
-      document.documentElement.appendChild(votSelectDialog.container);
-
-      const contentList = document.createElement("vot-block");
-      contentList.classList.add("vot-select-content-list");
-
-      for (const item of items) {
-        const contentItem = document.createElement("vot-block");
-        contentItem.classList.add("vot-select-content-item");
-        contentItem.textContent = item.label;
-        contentItem.dataset.votSelected = item.selected;
-        contentItem.dataset.votValue = item.value;
-        if (item.disabled) contentItem.inert = true;
-
-        contentItem.onclick = async (e) => {
-          if (e.target.inert) return;
-          if (multiSelect) {
-            const value = item.value;
-            if (selectedValues.has(value) && selectedValues.size > 1) {
-              selectedValues.delete(value);
-              item.selected = false;
-            } else {
-              selectedValues.add(value);
-              item.selected = true;
-            }
-            contentItem.dataset.votSelected = selectedValues.has(value);
-            updateSelectedState();
-            await onSelectCb(e, Array.from(selectedValues));
-          } else {
-            const value = e.target.dataset.votValue;
-            selectedValues = new Set([value]);
-            for (const ci of contentList.childNodes) {
-              ci.dataset.votSelected = ci.dataset.votValue === value;
-            }
-            for (const i of items) {
-              i.selected = i.value === value;
-            }
-            updateTitle();
-            await onSelectCb(e, value);
-          }
-        };
-        contentList.appendChild(contentItem);
+      if (isLoading || dialogOpened) {
+        return;
       }
 
-      const votSearchLangTextfield = this.createTextfield(
-        localizationProvider.get("searchField"),
-      );
-      votSearchLangTextfield.input.oninput = (e) => {
-        const searchText = e.target.value.toLowerCase();
-        for (const ci of selectedItems) {
-          ci.hidden = !ci.textContent.toLowerCase().includes(searchText);
+      try {
+        isLoading = true;
+        if (options.onBeforeOpen) {
+          await options.onBeforeOpen();
         }
-      };
 
-      votSelectDialog.bodyContainer.append(
-        votSearchLangTextfield.container,
-        contentList,
-      );
-      selectedItems = contentList.childNodes;
+        const votSelectDialog = this.createDialog(dialogTitle);
+        votSelectDialog.container.classList.add("vot-dialog-temp");
+        votSelectDialog.container.hidden = false;
+        document.documentElement.appendChild(votSelectDialog.container);
+        dialogOpened = true;
 
-      votSelectDialog.backdrop.onclick = votSelectDialog.closeButton.onclick =
-        () => {
-          votSelectDialog.container.remove();
-          selectedItems = [];
+        const contentList = document.createElement("vot-block");
+        contentList.classList.add("vot-select-content-list");
+
+        for (const item of items) {
+          const contentItem = document.createElement("vot-block");
+          contentItem.classList.add("vot-select-content-item");
+          contentItem.textContent = item.label;
+          contentItem.dataset.votSelected = item.selected;
+          contentItem.dataset.votValue = item.value;
+          if (item.disabled) contentItem.inert = true;
+
+          contentItem.onclick = async (e) => {
+            if (e.target.inert) return;
+            if (multiSelect) {
+              const value = item.value;
+              if (selectedValues.has(value) && selectedValues.size > 1) {
+                selectedValues.delete(value);
+                item.selected = false;
+              } else {
+                selectedValues.add(value);
+                item.selected = true;
+              }
+              contentItem.dataset.votSelected = selectedValues.has(value);
+              updateSelectedState();
+              await onSelectCb(e, Array.from(selectedValues));
+            } else {
+              const value = e.target.dataset.votValue;
+              selectedValues = new Set([value]);
+              for (const ci of contentList.childNodes) {
+                ci.dataset.votSelected = ci.dataset.votValue === value;
+              }
+              for (const i of items) {
+                i.selected = i.value === value;
+              }
+              updateTitle();
+              await onSelectCb(e, value);
+            }
+          };
+          contentList.appendChild(contentItem);
+        }
+
+        const votSearchLangTextfield = this.createTextfield(
+          localizationProvider.get("searchField"),
+        );
+        votSearchLangTextfield.input.oninput = (e) => {
+          const searchText = e.target.value.toLowerCase();
+          for (const ci of selectedItems) {
+            ci.hidden = !ci.textContent.toLowerCase().includes(searchText);
+          }
         };
+
+        votSelectDialog.bodyContainer.append(
+          votSearchLangTextfield.container,
+          contentList,
+        );
+        selectedItems = contentList.childNodes;
+
+        votSelectDialog.backdrop.onclick = votSelectDialog.closeButton.onclick =
+          () => {
+            votSelectDialog.container.remove();
+            dialogOpened = false;
+            selectedItems = [];
+          };
+      } finally {
+        isLoading = false;
+      }
     };
 
     container.append(outer);
