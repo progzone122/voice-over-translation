@@ -1325,7 +1325,9 @@ class VideoHandler {
     // VOT Menu
     {
       this.votDownloadButton.addEventListener("click", async () => {
-        if (!this.downloadTranslationUrl) return;
+        if (!this.downloadTranslationUrl) {
+          return;
+        }
 
         try {
           if (!this.data.downloadWithName) {
@@ -1333,7 +1335,9 @@ class VideoHandler {
             return;
           }
 
-          this.votLoader = document.querySelector("#vot-loader-download");
+          this.votLoader = this.votDownloadButton.querySelector(
+            "#vot-loader-download",
+          );
           const primaryColor = getComputedStyle(
             this.votMenu.container,
           ).getPropertyValue("--vot-primary-rgb");
@@ -1343,8 +1347,9 @@ class VideoHandler {
           );
 
           const res = await GM_fetch(this.downloadTranslationUrl);
-
-          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          if (!res.ok) {
+            throw new Error(`HTTP ${res.status}`);
+          }
 
           const contentLength = +res.headers.get("Content-Length");
           const reader = res.body.getReader();
@@ -1353,7 +1358,9 @@ class VideoHandler {
 
           while (true) {
             const { done, value } = await reader.read();
-            if (done) break;
+            if (done) {
+              break;
+            }
 
             chunksBuffer.set(value, offset);
             offset += value.length;
@@ -2585,21 +2592,21 @@ class VideoHandler {
       if (response.ok) {
         debug.log("Valid audioUrl", audioUrl);
         return audioUrl;
-      } else {
-        debug.log("Yandex returned not valid audio, trying to fix...");
-        let translateRes = await this.translateVideoImpl(
-          this.videoData,
-          (this.videoData.detectedLanguage = "auto"),
-          this.videoData.responseLanguage,
-          this.videoData.translationHelp,
-        );
-        this.setSelectMenuValues(
-          this.videoData.detectedLanguage,
-          this.videoData.responseLanguage,
-        );
-        audioUrl = translateRes.url;
-        debug.log("Fixed audio audioUrl", audioUrl);
       }
+
+      debug.log("Yandex returned not valid audio, trying to fix...");
+      let translateRes = await this.translateVideoImpl(
+        this.videoData,
+        (this.videoData.detectedLanguage = "auto"),
+        this.videoData.responseLanguage,
+        this.videoData.translationHelp,
+      );
+      this.setSelectMenuValues(
+        this.videoData.detectedLanguage,
+        this.videoData.responseLanguage,
+      );
+      audioUrl = translateRes.url;
+      debug.log("Fixed audio audioUrl", audioUrl);
     } catch (err) {
       debug.log("Test audio error:", err);
     }
