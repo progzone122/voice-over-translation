@@ -127,7 +127,7 @@ class VideoHandler {
    */
   audioPlayer;
 
-  videoTranslations = []; // list of video translations
+  videoTranslations = new Map(); // map of video translations
   videoTranslationTTL = 7200; // 2 hours
   cachedTranslation; // cached video translation
 
@@ -234,11 +234,6 @@ class VideoHandler {
     }
 
     return new Promise((resolve) => {
-      const timeoutDuration = this.subtitlesList.some(
-        (item) => item.source === "yandex",
-      )
-        ? 20_000
-        : 30_000;
       this.autoRetry = setTimeout(async () => {
         const res = await this.translateVideoImpl(
           videoData,
@@ -249,7 +244,7 @@ class VideoHandler {
         if (!res || (res.translated && res.remainingTime < 1)) {
           resolve(res);
         }
-      }, timeoutDuration);
+      }, 20_000);
     });
   }
 
@@ -1019,7 +1014,7 @@ class VideoHandler {
               this.data.translateProxyEnabled,
             );
             this.initVOTClient();
-            this.videoTranslations = [];
+            this.videoTranslations.clear();
           },
           labelElement: ui.createVOTSelectLabel(
             localizationProvider.get("VOTTranslateProxyStatus"),
@@ -1330,46 +1325,55 @@ class VideoHandler {
     // VOT Menu
     {
       this.votDownloadButton.addEventListener("click", async () => {
-        if (!this.downloadTranslationUrl) {
-          return;
-        }
+        if (!this.downloadTranslationUrl) return;
 
-        if (!this.data.downloadWithName) {
-          return window.open(this.downloadTranslationUrl, "_blank").focus();
-        }
-
-        const votLoader = document.querySelector("#vot-loader-download");
-        const primaryColor = getComputedStyle(
-          this.votMenu.container,
-        ).getPropertyValue("--vot-primary-rgb");
-        const updateAnimation = ui.animateLoader(votLoader, primaryColor);
-
-        const res = await GM_fetch(this.downloadTranslationUrl);
-        const reader = res.body.getReader();
-        const contentLength = +res.headers.get("Content-Length");
-
-        let receivedLength = 0;
-        const chunks = [];
-        while (true) {
-          const { done, value } = await reader.read();
-
-          if (done) {
-            break;
+        try {
+          if (!this.data.downloadWithName) {
+            window.open(this.downloadTranslationUrl, "_blank").focus();
+            return;
           }
 
-          chunks.push(value);
-          receivedLength += value.length;
-          updateAnimation(Math.round((receivedLength / contentLength) * 100));
-        }
+          this.votLoader = document.querySelector("#vot-loader-download");
+          const primaryColor = getComputedStyle(
+            this.votMenu.container,
+          ).getPropertyValue("--vot-primary-rgb");
+          const updateAnimation = ui.animateLoader(
+            this.votLoader,
+            primaryColor,
+          );
 
-        ui.afterAnimateLoader(votLoader, primaryColor);
-        const blob = new Blob(chunks);
-        const filename = clearFileName(this.videoData.downloadTitle);
-        const arrayBuffer = await blob.arrayBuffer();
-        const writer = new ID3Writer(arrayBuffer);
-        writer.setFrame("TIT2", filename);
-        writer.addTag();
-        downloadBlob(writer.getBlob(), `${filename}.mp3`);
+          const res = await GM_fetch(this.downloadTranslationUrl);
+
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+          const contentLength = +res.headers.get("Content-Length");
+          const reader = res.body.getReader();
+          const chunksBuffer = new Uint8Array(contentLength);
+          let offset = 0;
+
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            chunksBuffer.set(value, offset);
+            offset += value.length;
+
+            updateAnimation(Math.round((offset / contentLength) * 100));
+          }
+          ui.afterAnimateLoader(this.votLoader, primaryColor);
+          const filename = clearFileName(this.videoData.downloadTitle);
+          const writer = new ID3Writer(chunksBuffer.buffer);
+          writer.setFrame("TIT2", filename);
+          writer.addTag();
+
+          downloadBlob(writer.getBlob(), `${filename}.mp3`);
+        } catch (err) {
+          console.error("Download failed:", err);
+          this.transformBtn(
+            "error",
+            localizationProvider.get("downloadFailed"),
+          );
+        }
       });
 
       this.votDownloadSubtitlesButton.addEventListener("click", async () => {
@@ -2578,24 +2582,24 @@ class VideoHandler {
         method: "HEAD",
       });
       debug.log("Test audio response", response);
-      if (response.status !== 404) {
+      if (response.ok) {
         debug.log("Valid audioUrl", audioUrl);
         return audioUrl;
+      } else {
+        debug.log("Yandex returned not valid audio, trying to fix...");
+        let translateRes = await this.translateVideoImpl(
+          this.videoData,
+          (this.videoData.detectedLanguage = "auto"),
+          this.videoData.responseLanguage,
+          this.videoData.translationHelp,
+        );
+        this.setSelectMenuValues(
+          this.videoData.detectedLanguage,
+          this.videoData.responseLanguage,
+        );
+        audioUrl = translateRes.url;
+        debug.log("Fixed audio audioUrl", audioUrl);
       }
-
-      debug.log("Yandex returned not valid audio, trying to fix...");
-      let translateRes = await this.translateVideoImpl(
-        this.videoData,
-        (this.videoData.detectedLanguage = "auto"),
-        this.videoData.responseLanguage,
-        this.videoData.translationHelp,
-      );
-      this.setSelectMenuValues(
-        this.videoData.detectedLanguage,
-        this.videoData.responseLanguage,
-      );
-      audioUrl = translateRes.url;
-      debug.log("Fixed audio audioUrl", audioUrl);
     } catch (err) {
       debug.log("Test audio error:", err);
     }
@@ -2700,16 +2704,14 @@ class VideoHandler {
       return this.afterUpdateTranslation(streamURL);
     }
 
-    this.cachedTranslation = this.videoTranslations.find(
-      (t) =>
-        t.videoId === VIDEO_ID &&
-        t.expires > getTimestamp() &&
-        t.from === requestLang &&
-        t.to === responseLang &&
-        t.useNewModel === this.data.useNewModel,
-    );
+    const cacheKey = `${VIDEO_ID}_${requestLang}_${responseLang}_${this.data.useNewModel}`;
+    this.cachedTranslation = this.videoTranslations.get(cacheKey);
 
-    if (this.cachedTranslation) {
+    const currentTimestamp = getTimestamp();
+    if (
+      this.cachedTranslation &&
+      this.cachedTranslation.expires > currentTimestamp
+    ) {
       await this.updateTranslation(this.cachedTranslation.url);
       debug.log("[translateFunc] Cached translation was received");
       return;
@@ -2738,19 +2740,16 @@ class VideoHandler {
           item.language === this.videoData.responseLanguage,
       )
     ) {
-      this.subtitlesList = await SubtitlesProcessor.getSubtitles(
-        this.votClient,
-        this.videoData,
-      );
+      await this.loadSubtitles();
       await this.updateSubtitlesLangSelect();
     }
 
-    this.videoTranslations.push({
+    this.videoTranslations.set(cacheKey, {
       videoId: VIDEO_ID,
       from: requestLang,
       to: responseLang,
       url: this.downloadTranslationUrl,
-      expires: getTimestamp() + this.videoTranslationTTL,
+      expires: currentTimestamp + this.videoTranslationTTL,
       useNewModel: this.data?.useNewModel,
     });
   }
