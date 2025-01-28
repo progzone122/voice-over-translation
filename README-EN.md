@@ -6,6 +6,9 @@
 > [!CAUTION]
 > Before creating Issues, we strongly recommend that you read the [FAQ](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) section, as well as with existing [Issues](https://github.com/ilyhalight/voice-over-translation/issues)
 
+> [!WARNING]
+> The extension was created exclusively for research purposes and isn't intended for commercial use. All rights to the original software belong to their respective right holders. The extension isn't affiliated with the original rights holders
+
 The voice-over translation of the video is now available not only in YandexBrowser. Very grateful, **[Yandex.Translate](https://translate.yandex.ru/)**, **[sodapng](https://github.com/sodapng)**, **[mynovelhost](https://github.com/mynovelhost)**, **[SashaXser](https://github.com/SashaXser)** and to all other contributors. Thanks <3
 
 ## Installing the extension:

@@ -6,6 +6,9 @@
 > [!CAUTION]
 > Перед созданием Issues настоятельно рекомендуем ознакомиться с разделом [FAQ](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ), а так же с уже существующими [Issues](https://github.com/ilyhalight/voice-over-translation/issues)
 
+> [!WARNING]
+> Расширение создано исключительно в исследовательских целях и не предназначена для коммерческого использования. Все права на оригинальное программное обеспечение принадлежат их правообладателям. Расширение не связана с оригинальными правообладателями
+
 Закадровый перевод видео, теперь, доступен не только в YandexBrowser.
 Очень признателен, **[Yandex.Translate](https://translate.yandex.ru/)**, **[sodapng](https://github.com/sodapng)**, **[mynovelhost](https://github.com/mynovelhost)**, **[SashaXser](https://github.com/SashaXser)** и всем остальным контрибьюторам. Спасиб <3
 
