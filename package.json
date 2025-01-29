@@ -16,18 +16,17 @@
     "voice-over-translation"
   ],
   "devDependencies": {
-    "@toil/translate": "^1.0.3",
-    "@types/bun": "^1.1.14",
-    "browser-id3-writer": "^6.1.0",
-    "browserslist": "^4.24.2",
+    "@toil/translate": "^1.0.4",
+    "@types/bun": "^1.2.1",
+    "browser-id3-writer": "^6.2.0",
+    "browserslist": "^4.24.4",
     "enquirer": "^2.4.1",
-    "eslint": "^9.15.0",
-    "eslint-plugin-oxlint": "^0.11.1",
+    "eslint": "^9.19.0",
+    "eslint-plugin-oxlint": "^0.15.8",
     "eslint-webpack-plugin": "^4.2.0",
-    "globals": "^15.12.0",
+    "globals": "^15.14.0",
     "husky": "^9.1.7",
-    "lightningcss": "^1.28.2",
-    "lint-staged": "^15.2.10",
+    "lightningcss": "^1.29.1",
     "npm-run-all2": "^7.0.1",
     "oxlint": "^0.11.1",
     "patch-package": "^8.0.0",
@@ -55,10 +54,10 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
-    "@vot.js/ext": "^2.2.0",
-    "@vot.js/shared": "^2.2.0",
+    "@vot.js/ext": "^2.2.1",
+    "@vot.js/shared": "^2.2.1",
     "bowser": "^2.11.0",
-    "chaimu": "^1.0.3",
+    "chaimu": "^1.0.4",
     "lit": "^3.2.1",
     "requestidlecallback-polyfill": "^1.0.2"
   }
