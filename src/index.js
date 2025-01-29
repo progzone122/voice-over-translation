@@ -373,6 +373,9 @@ class VideoHandler {
       video: this.video,
       debug: DEBUG_MODE,
       fetchFn: GM_fetch,
+      fetchOpts: {
+        timeout: 0,
+      },
       preferAudio,
     });
     return this;
@@ -1346,7 +1349,9 @@ class VideoHandler {
             primaryColor,
           );
 
-          const res = await GM_fetch(this.downloadTranslationUrl);
+          const res = await GM_fetch(this.downloadTranslationUrl, {
+            timeout: 0,
+          });
           if (!res.ok) {
             throw new Error(`HTTP ${res.status}`);
           }
@@ -1375,7 +1380,7 @@ class VideoHandler {
 
           downloadBlob(writer.getBlob(), `${filename}.mp3`);
         } catch (err) {
-          console.error("Download failed:", err);
+          console.error("[VOT] Download failed:", err);
           this.transformBtn(
             "error",
             localizationProvider.get("downloadFailed"),
