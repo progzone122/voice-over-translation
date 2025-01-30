@@ -1,9 +1,35 @@
+import { availableTTS } from "@vot.js/shared/consts";
+
 import { localizationProvider } from "../localization/localizationProvider.js";
 import debug from "./debug.ts";
 
 const userlang = navigator.language || navigator.userLanguage;
 const MAX_SECS_FRACTION = 0.66;
+const slavicLangs = [
+  "uk",
+  "be",
+  "bg",
+  "mk",
+  "sr",
+  "bs",
+  "hr",
+  "sl",
+  "pl",
+  "sk",
+  "cs",
+];
 export const lang = userlang?.substring(0, 2).toLowerCase() || "en";
+export const calculatedResLang = (() => {
+  if (availableTTS.includes(lang)) {
+    return lang;
+  }
+
+  if (slavicLangs.includes(lang)) {
+    return "ru";
+  }
+
+  return "en";
+})();
 
 function secsToStrTime(secs) {
   let minutes = Math.floor(secs / 60);

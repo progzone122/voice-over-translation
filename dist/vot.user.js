@@ -4816,13 +4816,59 @@ const votStorage = new (class {
     }
 })();
 
+;// ./node_modules/@vot.js/shared/dist/data/consts.js
+const availableLangs = [
+    "auto",
+    "ru",
+    "en",
+    "zh",
+    "ko",
+    "lt",
+    "lv",
+    "ar",
+    "fr",
+    "it",
+    "es",
+    "de",
+    "ja",
+];
+const availableTTS = ["ru", "en", "kk"];
+const subtitlesFormats = ["srt", "vtt", "json"];
+
+
 ;// ./src/utils/utils.js
+
+
 
 
 
 const userlang = navigator.language || navigator.userLanguage;
 const MAX_SECS_FRACTION = 0.66;
+const slavicLangs = [
+  "uk",
+  "be",
+  "bg",
+  "mk",
+  "sr",
+  "bs",
+  "hr",
+  "sl",
+  "pl",
+  "sk",
+  "cs",
+];
 const lang = userlang?.substring(0, 2).toLowerCase() || "en";
+const calculatedResLang = (() => {
+  if (availableTTS.includes(lang)) {
+    return lang;
+  }
+
+  if (slavicLangs.includes(lang)) {
+    return "ru";
+  }
+
+  return "en";
+})();
 
 function secsToStrTime(secs) {
   let minutes = Math.floor(secs / 60);
@@ -7996,26 +8042,6 @@ class NineGAGHelper extends BaseHelper {
     }
 }
 
-;// ./node_modules/@vot.js/shared/dist/data/consts.js
-const availableLangs = [
-    "auto",
-    "ru",
-    "en",
-    "zh",
-    "ko",
-    "lt",
-    "lv",
-    "ar",
-    "fr",
-    "it",
-    "es",
-    "de",
-    "ja",
-];
-const availableTTS = ["ru", "en", "kk"];
-const subtitlesFormats = ["srt", "vtt", "json"];
-
-
 ;// ./node_modules/@vot.js/ext/dist/helpers/youtube.js
 
 
@@ -10789,7 +10815,7 @@ class VideoHandler {
    *
    * @type {import("./index").VideoHandler['translateToLang']}
    */
-  translateToLang = lang;
+  translateToLang = calculatedResLang;
 
   /**
    * @type {import("./index").VideoHandler['timer']}
@@ -11084,7 +11110,9 @@ class VideoHandler {
 
     const dataPromises = {
       autoTranslate: votStorage.get("autoTranslate", 0),
-      dontTranslateLanguage: votStorage.get("dontTranslateLanguage", [lang]),
+      dontTranslateLanguage: votStorage.get("dontTranslateLanguage", [
+        calculatedResLang,
+      ]),
       dontTranslateYourLang: votStorage.get("dontTranslateYourLang", 1),
       autoSetVolumeYandexStyle: votStorage.get("autoSetVolumeYandexStyle", 1),
       autoVolume: votStorage.get("autoVolume", defaultAutoVolume),
@@ -11098,7 +11126,7 @@ class VideoHandler {
       subtitlesFontSize: votStorage.get("subtitlesFontSize", 20),
       subtitlesOpacity: votStorage.get("subtitlesOpacity", 20),
       subtitlesDownloadFormat: votStorage.get("subtitlesDownloadFormat", "srt"),
-      responseLanguage: votStorage.get("responseLanguage", lang),
+      responseLanguage: votStorage.get("responseLanguage", calculatedResLang),
       defaultVolume: votStorage.get("defaultVolume", 100),
       onlyBypassMediaCSP: votStorage.get(
         "onlyBypassMediaCSP",

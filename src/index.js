@@ -46,6 +46,7 @@ import {
   initHls,
   isPiPAvailable,
   lang,
+  calculatedResLang,
   secsToStrTime,
   downloadBlob,
   clearFileName,
@@ -94,7 +95,7 @@ class VideoHandler {
    *
    * @type {import("./index").VideoHandler['translateToLang']}
    */
-  translateToLang = lang;
+  translateToLang = calculatedResLang;
 
   /**
    * @type {import("./index").VideoHandler['timer']}
@@ -389,7 +390,9 @@ class VideoHandler {
 
     const dataPromises = {
       autoTranslate: votStorage.get("autoTranslate", 0),
-      dontTranslateLanguage: votStorage.get("dontTranslateLanguage", [lang]),
+      dontTranslateLanguage: votStorage.get("dontTranslateLanguage", [
+        calculatedResLang,
+      ]),
       dontTranslateYourLang: votStorage.get("dontTranslateYourLang", 1),
       autoSetVolumeYandexStyle: votStorage.get("autoSetVolumeYandexStyle", 1),
       autoVolume: votStorage.get("autoVolume", defaultAutoVolume),
@@ -403,7 +406,7 @@ class VideoHandler {
       subtitlesFontSize: votStorage.get("subtitlesFontSize", 20),
       subtitlesOpacity: votStorage.get("subtitlesOpacity", 20),
       subtitlesDownloadFormat: votStorage.get("subtitlesDownloadFormat", "srt"),
-      responseLanguage: votStorage.get("responseLanguage", lang),
+      responseLanguage: votStorage.get("responseLanguage", calculatedResLang),
       defaultVolume: votStorage.get("defaultVolume", 100),
       onlyBypassMediaCSP: votStorage.get(
         "onlyBypassMediaCSP",
