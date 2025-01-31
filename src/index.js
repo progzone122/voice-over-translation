@@ -50,7 +50,6 @@ import {
   secsToStrTime,
   downloadBlob,
   clearFileName,
-  getTimestamp,
   cleanText,
 } from "./utils/utils.js";
 import { syncVolume } from "./utils/volume.js";
@@ -117,7 +116,7 @@ class VideoHandler {
    */
   audioContext = initAudioContext();
 
-  hls = initHls(); // debug enabled only in dev mode
+  hls; // debug enabled only in dev mode
   /**
    * @type {import("@vot.js/ext").default}
    */
@@ -129,7 +128,6 @@ class VideoHandler {
   audioPlayer;
 
   videoTranslations = new Map(); // map of video translations
-  videoTranslationTTL = 7200; // 2 hours
   cachedTranslation; // cached video translation
 
   downloadTranslationUrl = null;
@@ -197,15 +195,6 @@ class VideoHandler {
       `Translate video (requestLang: ${requestLang}, responseLang: ${responseLang})`,
     );
 
-    if (
-      (await getVideoID(this.site, {
-        fetchFn: GM_fetch,
-        video: this.video,
-      })) !== videoData.videoId
-    ) {
-      return null;
-    }
-
     try {
       const res = await this.votClient.translateVideo({
         videoData,
@@ -229,22 +218,25 @@ class VideoHandler {
         res.remainingTime > 0 ? secsToStrTime(res.remainingTime) : message,
       );
     } catch (err) {
-      console.error("[VOT] Failed to translate video", err);
       await this.updateTranslationErrorMsg(err.data?.message ?? err);
+      console.error("[VOT]", err);
+      const cacheKey = `${videoData.videoId}_${requestLang}_${responseLang}_${this.data.useNewModel}`;
+      this.videoTranslations.set(cacheKey, {
+        error: err,
+      });
       return null;
     }
 
     return new Promise((resolve) => {
       this.autoRetry = setTimeout(async () => {
-        const res = await this.translateVideoImpl(
-          videoData,
-          requestLang,
-          responseLang,
-          translationHelp,
+        resolve(
+          await this.translateVideoImpl(
+            videoData,
+            requestLang,
+            responseLang,
+            translationHelp,
+          ),
         );
-        if (!res || (res.translated && res.remainingTime < 1)) {
-          resolve(res);
-        }
       }, 20_000);
     });
   }
@@ -264,15 +256,6 @@ class VideoHandler {
       `Translate stream (requestLang: ${requestLang}, responseLang: ${responseLang})`,
     );
 
-    if (
-      (await getVideoID(this.site, {
-        fetchFn: GM_fetch,
-        video: this.video,
-      })) !== videoData.videoId
-    ) {
-      return null;
-    }
-
     try {
       const res = await this.votClient.translateStream({
         videoData,
@@ -286,14 +269,13 @@ class VideoHandler {
         );
         return new Promise((resolve) => {
           this.autoRetry = setTimeout(async () => {
-            const res = await this.translateStreamImpl(
-              videoData,
-              requestLang,
-              responseLang,
+            resolve(
+              await this.translateStreamImpl(
+                videoData,
+                requestLang,
+                responseLang,
+              ),
             );
-            if (!res || !(!res.translated && res.interval === 10)) {
-              resolve(res);
-            }
           }, res.interval * 1000);
         });
       }
@@ -336,13 +318,11 @@ class VideoHandler {
       return;
     this.firstPlay = false;
     try {
-      await this.translateExecutor(this.videoData.videoId);
+      this.videoValidator();
+      await this.handleTranslationBtnClick();
     } catch (err) {
       console.error("[VOT]", err);
-      this.transformBtn(
-        "error",
-        err?.name === "VOTLocalizedError" ? err.localizedMessage : err,
-      );
+      return;
     }
   }
 
@@ -686,7 +666,6 @@ class VideoHandler {
             "[fromOnSelectCB] select from language",
             e.target.dataset.votValue,
           );
-          this.videoData = await this.getVideoData();
           this.setSelectMenuValues(
             e.target.dataset.votValue,
             this.videoData.responseLanguage,
@@ -704,7 +683,6 @@ class VideoHandler {
             "Response Language value changed. New value: ",
             this.data.responseLanguage,
           );
-          this.videoData = await this.getVideoData();
           this.setSelectMenuValues(
             this.videoData.detectedLanguage,
             this.data.responseLanguage,
@@ -735,10 +713,7 @@ class VideoHandler {
             localizationProvider.get("VOTSubtitles"),
           ),
           onBeforeOpen: async () => {
-            if (
-              this.videoData.videoId &&
-              this.videoData.videoId !== this.subtitlesListVideoId
-            ) {
+            if (this.videoData.videoId !== this.subtitlesListVideoId) {
               this.setLoadingBtn(true);
               await this.loadSubtitles();
               this.setLoadingBtn(false);
@@ -1187,7 +1162,7 @@ class VideoHandler {
       return;
     }
 
-    if (this.hls.url) {
+    if (this.hls?.url) {
       debug.log("[click translationBtn] hls is not empty", this.hls.url);
       this.stopTranslate();
       return;
@@ -1209,7 +1184,15 @@ class VideoHandler {
       ) {
         this.videoData = await this.getVideoData();
       }
-      await this.translateExecutor(this.videoData.videoId);
+      debug.log("Run translateFunc", this.videoData.videoId);
+      this.isTranslating = true;
+      await this.translateFunc(
+        this.videoData.videoId,
+        this.videoData.isStream,
+        this.videoData.detectedLanguage,
+        this.videoData.responseLanguage,
+        this.videoData.translationHelp,
+      );
     } catch (err) {
       console.error("[VOT]", err);
       if (err?.name === "VOTLocalizedError") {
@@ -1458,10 +1441,11 @@ class VideoHandler {
       this.votAutoTranslateCheckbox.input.addEventListener("change", (e) => {
         (async () => {
           this.data.autoTranslate = Number(e.target.checked);
-          await Promise.all([
-            votStorage.set("autoTranslate", this.data.autoTranslate),
-            this.autoTranslate(),
-          ]);
+          await votStorage.set("autoTranslate", this.data.autoTranslate);
+          if (!this.audioPlayer.player.src && this.data.autoTranslate === 1) {
+            await this.handleTranslationBtnClick();
+          }
+
           debug.log(
             "autoTranslate value changed. New value: ",
             this.data.autoTranslate,
@@ -2485,19 +2469,7 @@ class VideoHandler {
     clearInterval(this.streamPing);
     clearTimeout(this.autoRetry);
     this.hls?.destroy();
-    this.hls = initHls();
     this.firstSyncVolume = true;
-  }
-
-  async translateExecutor(VIDEO_ID) {
-    debug.log("Run translateFunc", VIDEO_ID);
-    await this.translateFunc(
-      VIDEO_ID,
-      this.videoData.isStream,
-      this.videoData.detectedLanguage,
-      this.videoData.responseLanguage,
-      this.videoData.translationHelp,
-    );
   }
 
   async updateTranslationErrorMsg(errorMessage) {
@@ -2583,8 +2555,7 @@ class VideoHandler {
         silent: true,
         tag: "VOTTranslationCompleted", // TM 5.0
         url: window.location.href, // TM 5.0
-        onclick: (e) => {
-          e.preventDefault();
+        onclick: () => {
           window.focus();
         },
       });
@@ -2682,8 +2653,25 @@ class VideoHandler {
     this.setLoadingBtn(true);
     this.volumeOnStart = this.getVideoVolume();
 
+    const cacheKey = `${VIDEO_ID}_${requestLang}_${responseLang}_${this.data.useNewModel}`;
+    this.cachedTranslation = this.videoTranslations.get(cacheKey);
+
+    if (this.cachedTranslation?.error) {
+      debug.log("Skip translation - previous attempt failed");
+      await this.updateTranslationErrorMsg(
+        this.cachedTranslation.error.data?.message,
+      );
+      return;
+    }
+
+    if (this.cachedTranslation?.url) {
+      await this.updateTranslation(this.cachedTranslation.url);
+      debug.log("[translateFunc] Cached translation was received");
+      return;
+    }
+
     if (isStream) {
-      let translateRes = await this.translateStreamImpl(
+      const translateRes = await this.translateStreamImpl(
         this.videoData,
         requestLang,
         responseLang,
@@ -2700,6 +2688,7 @@ class VideoHandler {
       );
 
       try {
+        this.hls = initHls();
         this.audioPlayer.init();
       } catch (err) {
         debug.log("this.audioPlayer.init() error", err);
@@ -2719,20 +2708,7 @@ class VideoHandler {
       return this.afterUpdateTranslation(streamURL);
     }
 
-    const cacheKey = `${VIDEO_ID}_${requestLang}_${responseLang}_${this.data.useNewModel}`;
-    this.cachedTranslation = this.videoTranslations.get(cacheKey);
-
-    const currentTimestamp = getTimestamp();
-    if (
-      this.cachedTranslation &&
-      this.cachedTranslation.expires > currentTimestamp
-    ) {
-      await this.updateTranslation(this.cachedTranslation.url);
-      debug.log("[translateFunc] Cached translation was received");
-      return;
-    }
-
-    let translateRes = await this.translateVideoImpl(
+    const translateRes = await this.translateVideoImpl(
       this.videoData,
       requestLang,
       responseLang,
@@ -2755,8 +2731,7 @@ class VideoHandler {
           item.language === this.videoData.responseLanguage,
       )
     ) {
-      await this.loadSubtitles();
-      await this.updateSubtitlesLangSelect();
+      this.subtitlesListVideoId = null;
     }
 
     this.videoTranslations.set(cacheKey, {
@@ -2764,7 +2739,6 @@ class VideoHandler {
       from: requestLang,
       to: responseLang,
       url: this.downloadTranslationUrl,
-      expires: currentTimestamp + this.videoTranslationTTL,
       useNewModel: this.data?.useNewModel,
     });
   }
@@ -2919,7 +2893,7 @@ function climb(el, selector) {
   }
 
   const root = el.getRootNode();
-  return climb(root instanceof Document ? root : root.host, selector);
+  return climb(root instanceof ShadowRoot ? root.host : root, selector);
 }
 
 /**
@@ -2931,87 +2905,78 @@ function climb(el, selector) {
  */
 function findContainer(site, video) {
   debug.log("findContainer", site, video);
-  if (site.shadowRoot) {
-    let container = climb(video, site.selector);
 
+  if (site.shadowRoot) {
+    const container = climb(video, site.selector);
     debug.log("findContainer with site.shadowRoot", container);
     return container ?? video.parentElement;
   }
-
   debug.log("findContainer without shadowRoot");
+  if (!site.selector) return video.parentElement;
 
-  const browserVersion = browserInfo.browser.version?.split(".")?.[0];
-  if (
-    site.selector?.includes(":not") &&
-    site.selector?.includes("*") &&
-    browserVersion &&
-    ((browserInfo.browser.name === "Chrome" && Number(browserVersion) < 88) ||
-      (browserInfo.browser.name === "Firefox" && Number(browserVersion) < 84))
-  ) {
-    const selector = site.selector.split(" *")[0];
-    return selector
-      ? Array.from(document.querySelectorAll(selector)).find((e) =>
-          e.contains(video),
-        )
-      : video.parentElement;
-  }
-
-  return site.selector
-    ? Array.from(document.querySelectorAll(site.selector)).find((e) =>
-        e.contains(video),
-      )
-    : video.parentElement;
+  const elements = document.querySelectorAll(site.selector);
+  return (
+    Array.from(elements).find((e) => e.contains(video)) ?? video.parentElement
+  );
 }
 
 function initIframeInteractor() {
   // I haven't figured out how to do it any other way
-  if (window.location.origin === "https://9animetv.to") {
-    window.addEventListener("message", (e) => {
-      if (e.origin !== "https://rapid-cloud.co") {
-        return;
-      }
+  const configs = {
+    "https://9animetv.to": {
+      targetOrigin: "https://rapid-cloud.co",
+      dataFilter: (data) => data === "getVideoId",
+      extractVideoId: (url) => url.pathname.split("/").pop(),
+      iframeSelector: "#iframe-embed",
+      responseFormatter: (videoId) => `getVideoId:${videoId}`,
+    },
+    "https://dev.epicgames.com": {
+      targetOrigin: "https://dev.epicgames.com",
+      dataFilter: (data) =>
+        typeof data === "string" && data.startsWith("getVideoId:"),
+      extractVideoId: (url) => url.pathname.split("/").slice(-2, -1)[0],
+      iframeSelector: (src) => `electra-player > iframe[src="${src}"]`,
+      responseFormatter: (videoId, data) => `${data}:${videoId}`,
+      processRequest: (data) => {
+        const reqId = data.replace("getVideoId:", "");
+        return atob(reqId);
+      },
+    },
+  };
 
-      if (e.data !== "getVideoId") {
-        return;
-      }
+  const currentConfig = Object.entries(configs).find(
+    ([origin]) =>
+      window.location.origin === origin &&
+      (origin !== "https://dev.epicgames.com" ||
+        window.location.pathname.includes("/community/learning/")),
+  )?.[1];
 
-      const videoId = /[^/]+$/.exec(window.location.href)?.[0];
-      const iframeWin = document.querySelector("#iframe-embed")?.contentWindow;
+  if (!currentConfig) return;
 
-      iframeWin.postMessage(`getVideoId:${videoId}`, "https://rapid-cloud.co");
-    });
+  window.addEventListener("message", (event) => {
+    try {
+      if (event.origin !== currentConfig.targetOrigin) return;
+      if (!currentConfig.dataFilter(event.data)) return;
 
-    return;
-  }
+      const url = new URL(window.location.href);
+      const videoId = currentConfig.extractVideoId(url);
+      if (!videoId) return;
 
-  if (
-    window.location.origin === "https://dev.epicgames.com" &&
-    window.location.pathname.includes("/community/learning/")
-  ) {
-    window.addEventListener("message", (e) => {
-      if (e.origin !== "https://dev.epicgames.com") {
-        return;
-      }
+      const iframeSrc = currentConfig.processRequest?.(event.data) || url.href;
+      const selector =
+        typeof currentConfig.iframeSelector === "function"
+          ? currentConfig.iframeSelector(iframeSrc)
+          : currentConfig.iframeSelector;
 
-      if (!(typeof e.data === "string" && e.data.startsWith("getVideoId:"))) {
-        return;
-      }
+      const iframe = document.querySelector(selector);
+      if (!iframe?.contentWindow) return;
 
-      const reqId = e.data.replace("getVideoId:", "");
-      const iframeLink = atob(reqId);
-      const videoId = /\/(\w{3,5})\/[^/]+$/.exec(window.location.pathname)?.[1];
-      const iframeWin = document.querySelector(
-        `electra-player > iframe[src="${iframeLink}"]`,
-      )?.contentWindow;
-
-      iframeWin.postMessage(
-        `${e.data}:${videoId}`,
-        "https://dev.epicgames.com",
-      );
-    });
-
-    return;
-  }
+      const response = currentConfig.responseFormatter(videoId, event.data);
+      iframe.contentWindow.postMessage(response, currentConfig.targetOrigin);
+    } catch (error) {
+      console.error("Iframe communication error:", error);
+    }
+  });
 }
 
 async function main() {

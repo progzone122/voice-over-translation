@@ -28,15 +28,11 @@ export class VideoObserver {
   }
 
   isAdRelated(element) {
-    if (!element) return false;
-
-    const checks = [Array.from(element.classList), [element.id, element.title]];
-
-    for (const items of checks) {
-      for (const value of items) {
-        if (VideoObserver.adKeywords.has(value.toLowerCase())) {
-          return true;
-        }
+    const attributes = ["class", "id", "title"];
+    for (const attr of attributes) {
+      const value = element.getAttribute(attr);
+      if (value && VideoObserver.adKeywords.has(value.toLowerCase())) {
+        return true;
       }
     }
     return false;
