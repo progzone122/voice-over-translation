@@ -2730,13 +2730,10 @@ class VideoHandler {
           .get("VOTTranslationCompletedNotify")
           .replace("{0}", window.location.hostname),
         title: GM_info.script.name,
-        highlight: true,
         timeout: 5000,
         silent: true,
         tag: "VOTTranslationCompleted", // TM 5.0
-        url: window.location.href, // TM 5.0
-        onclick: (e) => {
-          e.preventDefault();
+        onclick: () => {
           window.focus();
         },
       });
