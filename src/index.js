@@ -2735,7 +2735,8 @@ class VideoHandler {
         silent: true,
         tag: "VOTTranslationCompleted", // TM 5.0
         url: window.location.href, // TM 5.0
-        onclick: () => {
+        onclick: (e) => {
+          e.preventDefault();
           window.focus();
         },
       });
