@@ -16,10 +16,23 @@ export default class UI {
   </svg>`;
   static animeOpts = {
     easing: "linear",
-    delay: function (el, i) {
-      return i * 200;
-    },
+    delay: (el, i) => i * 200,
   };
+
+  /**
+   * Auxiliary method for creating HTML elements
+   *
+   * @param {string} tag - Element tag
+   * @param {string[]} classes - List of classes for element
+   * @param {HTMLElement|string|null} content - Internal content (optional)
+   * @return {HTMLElement} Created element
+   */
+  static createEl(tag, classes = [], content = null) {
+    const el = document.createElement(tag);
+    if (classes.length) el.classList.add(...classes);
+    if (content !== null) el.append(content);
+    return el;
+  }
 
   /**
    * Create header element
@@ -29,8 +42,10 @@ export default class UI {
    * @return {HTMLElement} HTML header element
    */
   static createHeader(html, level = 4) {
-    const header = document.createElement("vot-block");
-    header.classList.add("vot-header", `vot-header-level-${level}`);
+    const header = this.createEl("vot-block", [
+      "vot-header",
+      `vot-header-level-${level}`,
+    ]);
     header.append(html);
     return header;
   }
@@ -47,15 +62,11 @@ export default class UI {
    * }} information elements
    */
   static createInformation(labelHtml, valueHtml) {
-    const container = document.createElement("vot-block");
-    container.classList.add("vot-info");
-
-    const header = document.createElement("vot-block");
+    const container = this.createEl("vot-block", ["vot-info"]);
+    const header = this.createEl("vot-block");
     render(labelHtml, header);
-
-    const value = document.createElement("vot-block");
+    const value = this.createEl("vot-block");
     render(valueHtml, value);
-
     container.append(header, value);
     return { container, header, value };
   }
@@ -67,8 +78,7 @@ export default class UI {
    * @return {HTMLElement} HTML button element
    */
   static createButton(html) {
-    const button = document.createElement("vot-block");
-    button.classList.add("vot-button");
+    const button = this.createEl("vot-block", ["vot-button"]);
     button.append(html);
     return button;
   }
@@ -80,8 +90,7 @@ export default class UI {
    * @return {HTMLElement} HTML text button element
    */
   static createTextButton(html) {
-    const button = document.createElement("vot-block");
-    button.classList.add("vot-text-button");
+    const button = this.createEl("vot-block", ["vot-text-button"]);
     button.append(html);
     return button;
   }
@@ -93,8 +102,7 @@ export default class UI {
    * @return {HTMLElement} HTML outlined button element
    */
   static createOutlinedButton(html) {
-    const button = document.createElement("vot-block");
-    button.classList.add("vot-outlined-button");
+    const button = this.createEl("vot-block", ["vot-outlined-button"]);
     button.append(html);
     return button;
   }
@@ -106,8 +114,7 @@ export default class UI {
    * @return {HTMLElement} HTML icon button element
    */
   static createIconButton(templateHtml) {
-    const button = document.createElement("vot-block");
-    button.classList.add("vot-icon-button");
+    const button = this.createEl("vot-block", ["vot-icon-button"]);
     render(templateHtml, button);
     return button;
   }
@@ -124,16 +131,12 @@ export default class UI {
    * }} checkbox elements
    */
   static createCheckbox(html, value = false) {
-    const container = document.createElement("label");
-    container.classList.add("vot-checkbox");
-
+    const container = this.createEl("label", ["vot-checkbox"]);
     const input = document.createElement("input");
     input.type = "checkbox";
     input.checked = Boolean(value);
-
-    const label = document.createElement("span");
+    const label = this.createEl("span");
     label.append(html);
-
     container.append(input, label);
     return { container, input, label };
   }
@@ -165,22 +168,17 @@ export default class UI {
    * }} slider elements
    */
   static createSlider(labelHtml, value = 50, min = 0, max = 100) {
-    const container = document.createElement("vot-block");
-    container.classList.add("vot-slider");
-
+    const container = this.createEl("vot-block", ["vot-slider"]);
     const input = document.createElement("input");
     input.type = "range";
     input.min = min;
     input.max = max;
     input.value = value;
-
-    const label = document.createElement("span");
+    const label = this.createEl("span");
     render(labelHtml, label);
-
     container.append(input, label);
     input.addEventListener("input", (e) => this.updateSlider(e.target));
     this.updateSlider(input);
-
     return { container, input, label };
   }
 
@@ -203,17 +201,13 @@ export default class UI {
     placeholder = " ",
     multiline = false,
   ) {
-    const container = document.createElement("vot-block");
-    container.classList.add("vot-textfield");
-
+    const container = this.createEl("vot-block", ["vot-textfield"]);
     const input = document.createElement(multiline ? "textarea" : "input");
     input.placeholder = placeholder;
     input.value = value;
     if (!html) input.classList.add("vot-show-placeholer");
-
-    const label = document.createElement("span");
+    const label = this.createEl("span");
     label.append(html);
-
     container.append(input, label);
     return { container, input, label };
   }
@@ -236,31 +230,26 @@ export default class UI {
    * }} dialog elements
    */
   static createDialog(html) {
-    const container = document.createElement("vot-block");
-    container.classList.add("vot-dialog-container");
+    const container = this.createEl("vot-block", ["vot-dialog-container"]);
     container.hidden = true;
 
-    const backdrop = document.createElement("vot-block");
-    backdrop.classList.add("vot-dialog-backdrop");
-
-    const dialog = document.createElement("vot-block");
-    dialog.classList.add("vot-dialog");
-
-    const contentWrapper = document.createElement("vot-block");
-    contentWrapper.classList.add("vot-dialog-content-wrapper");
-
-    const headerContainer = document.createElement("vot-block");
-    headerContainer.classList.add("vot-dialog-header-container");
-
-    const bodyContainer = document.createElement("vot-block");
-    bodyContainer.classList.add("vot-dialog-body-container");
-
-    const footerContainer = document.createElement("vot-block");
-    footerContainer.classList.add("vot-dialog-footer-container");
-
-    const titleContainer = document.createElement("vot-block");
-    titleContainer.classList.add("vot-dialog-title-container");
-
+    const backdrop = this.createEl("vot-block", ["vot-dialog-backdrop"]);
+    const dialog = this.createEl("vot-block", ["vot-dialog"]);
+    const contentWrapper = this.createEl("vot-block", [
+      "vot-dialog-content-wrapper",
+    ]);
+    const headerContainer = this.createEl("vot-block", [
+      "vot-dialog-header-container",
+    ]);
+    const bodyContainer = this.createEl("vot-block", [
+      "vot-dialog-body-container",
+    ]);
+    const footerContainer = this.createEl("vot-block", [
+      "vot-dialog-footer-container",
+    ]);
+    const titleContainer = this.createEl("vot-block", [
+      "vot-dialog-title-container",
+    ]);
     const closeButton = this.createIconButton(
       svg`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="100%" viewBox="0 -960 960 960">
         <path d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z"/>
@@ -268,12 +257,12 @@ export default class UI {
     );
     closeButton.classList.add("vot-dialog-close-button");
 
+    // Закрытие диалога по нажатию на фон или кнопку
     backdrop.onclick = closeButton.onclick = () => {
       container.hidden = true;
     };
 
-    const title = document.createElement("vot-block");
-    title.classList.add("vot-dialog-title");
+    const title = this.createEl("vot-block", ["vot-dialog-title"]);
     title.append(html);
 
     container.append(backdrop, dialog);
@@ -311,11 +300,11 @@ export default class UI {
    * }} VOTButton elements
    */
   static createVOTButton(labelHtml) {
-    const container = document.createElement("vot-block");
-    container.classList.add("vot-segmented-button");
-
-    const translateButton = document.createElement("vot-block");
-    translateButton.classList.add("vot-segment", "vot-translate-button");
+    const container = this.createEl("vot-block", ["vot-segmented-button"]);
+    const translateButton = this.createEl("vot-block", [
+      "vot-segment",
+      "vot-translate-button",
+    ]);
     render(
       svg`<svg
         xmlns="http://www.w3.org/2000/svg"
@@ -340,11 +329,8 @@ export default class UI {
       translateButton,
     );
 
-    const separator = document.createElement("vot-block");
-    separator.classList.add("vot-separator");
-
-    const pipButton = document.createElement("vot-block");
-    pipButton.classList.add("vot-segment-only-icon");
+    const separator = this.createEl("vot-block", ["vot-separator"]);
+    const pipButton = this.createEl("vot-block", ["vot-segment-only-icon"]);
     render(
       svg`<svg
         xmlns="http://www.w3.org/2000/svg"
@@ -359,11 +345,8 @@ export default class UI {
       pipButton,
     );
 
-    const separator2 = document.createElement("vot-block");
-    separator2.classList.add("vot-separator");
-
-    const menuButton = document.createElement("vot-block");
-    menuButton.classList.add("vot-segment-only-icon");
+    const separator2 = this.createEl("vot-block", ["vot-separator"]);
+    const menuButton = this.createEl("vot-block", ["vot-segment-only-icon"]);
     render(
       svg`<svg
         xmlns="http://www.w3.org/2000/svg"
@@ -378,10 +361,8 @@ export default class UI {
       menuButton,
     );
 
-    const label = document.createElement("span");
-    label.classList.add("vot-segment-label");
+    const label = this.createEl("span", ["vot-segment-label"]);
     label.append(labelHtml);
-
     container.append(
       translateButton,
       separator,
@@ -390,7 +371,6 @@ export default class UI {
       menuButton,
     );
     translateButton.append(label);
-
     return {
       container,
       translateButton,
@@ -417,34 +397,29 @@ export default class UI {
    * }} VOTMenu elements
    */
   static createVOTMenu(html) {
-    const container = document.createElement("vot-block");
-    container.classList.add("vot-menu");
+    const container = this.createEl("vot-block", ["vot-menu"]);
     container.hidden = true;
-
-    const contentWrapper = document.createElement("vot-block");
-    contentWrapper.classList.add("vot-menu-content-wrapper");
-
-    const headerContainer = document.createElement("vot-block");
-    headerContainer.classList.add("vot-menu-header-container");
-
-    const bodyContainer = document.createElement("vot-block");
-    bodyContainer.classList.add("vot-menu-body-container");
-
-    const footerContainer = document.createElement("vot-block");
-    footerContainer.classList.add("vot-menu-footer-container");
-
-    const titleContainer = document.createElement("vot-block");
-    titleContainer.classList.add("vot-menu-title-container");
-
-    const title = document.createElement("vot-block");
-    title.classList.add("vot-menu-title");
+    const contentWrapper = this.createEl("vot-block", [
+      "vot-menu-content-wrapper",
+    ]);
+    const headerContainer = this.createEl("vot-block", [
+      "vot-menu-header-container",
+    ]);
+    const bodyContainer = this.createEl("vot-block", [
+      "vot-menu-body-container",
+    ]);
+    const footerContainer = this.createEl("vot-block", [
+      "vot-menu-footer-container",
+    ]);
+    const titleContainer = this.createEl("vot-block", [
+      "vot-menu-title-container",
+    ]);
+    const title = this.createEl("vot-block", ["vot-menu-title"]);
     title.append(html);
-
     container.append(contentWrapper);
     contentWrapper.append(headerContainer, bodyContainer, footerContainer);
     headerContainer.append(titleContainer);
     titleContainer.append(title);
-
     return {
       container,
       contentWrapper,
@@ -463,8 +438,7 @@ export default class UI {
    * @return {HTMLSpanElement} VOTSelectLabel element
    */
   static createVOTSelectLabel(text) {
-    const label = document.createElement("span");
-    label.classList.add("vot-select-label");
+    const label = this.createEl("span", ["vot-select-label"]);
     label.textContent = text;
     return label;
   }
@@ -503,16 +477,11 @@ export default class UI {
       items.filter((i) => i.selected).map((i) => i.value),
     );
 
-    const container = document.createElement("vot-block");
-    container.classList.add("vot-select");
+    const container = this.createEl("vot-block", ["vot-select"]);
     if (labelElement) container.append(labelElement);
 
-    const outer = document.createElement("vot-block");
-    outer.classList.add("vot-select-outer");
-
-    const title = document.createElement("span");
-    title.classList.add("vot-select-title");
-
+    const outer = this.createEl("vot-block", ["vot-select-outer"]);
+    const title = this.createEl("span", ["vot-select-title"]);
     const updateTitle = () => {
       if (multiSelect) {
         const selectedLabels = items
@@ -527,8 +496,7 @@ export default class UI {
     };
     updateTitle();
 
-    const arrowIcon = document.createElement("vot-block");
-    arrowIcon.classList.add("vot-select-arrow-icon");
+    const arrowIcon = this.createEl("vot-block", ["vot-select-arrow-icon"]);
     render(this.arrowIconRaw, arrowIcon);
 
     const updateSelectedState = () => {
@@ -546,15 +514,10 @@ export default class UI {
     let dialogOpened = false;
 
     outer.onclick = async () => {
-      if (isLoading || dialogOpened) {
-        return;
-      }
-
+      if (isLoading || dialogOpened) return;
       try {
         isLoading = true;
-        if (options.onBeforeOpen) {
-          await options.onBeforeOpen();
-        }
+        if (options.onBeforeOpen) await options.onBeforeOpen();
 
         const votSelectDialog = this.createDialog(dialogTitle);
         votSelectDialog.container.classList.add("vot-dialog-temp");
@@ -562,12 +525,14 @@ export default class UI {
         document.documentElement.appendChild(votSelectDialog.container);
         dialogOpened = true;
 
-        const contentList = document.createElement("vot-block");
-        contentList.classList.add("vot-select-content-list");
+        const contentList = this.createEl("vot-block", [
+          "vot-select-content-list",
+        ]);
 
         for (const item of items) {
-          const contentItem = document.createElement("vot-block");
-          contentItem.classList.add("vot-select-content-item");
+          const contentItem = this.createEl("vot-block", [
+            "vot-select-content-item",
+          ]);
           contentItem.textContent = item.label;
           contentItem.dataset.votSelected = item.selected;
           contentItem.dataset.votValue = item.value;
@@ -666,6 +631,12 @@ export default class UI {
     };
   }
 
+  /**
+   * Create VOTLanguageSelect
+   *
+   * @param {object} options - language select options
+   * @return {{ container: HTMLElement, fromSelect: object, icon: HTMLElement, toSelect: object }}
+   */
   static createVOTLanguageSelect(options) {
     const {
       fromTitle = this.undefinedPhrase,
@@ -678,18 +649,16 @@ export default class UI {
       toOnSelectCB = null,
     } = options;
 
-    const container = document.createElement("vot-block");
-    container.classList.add("vot-lang-select");
-
+    const container = this.createEl("vot-block", ["vot-lang-select"]);
     const fromSelect = this.createVOTSelect(
       fromTitle,
       fromDialogTitle,
       fromItems,
-      { onSelectCb: fromOnSelectCB },
+      {
+        onSelectCb: fromOnSelectCB,
+      },
     );
-
-    const icon = document.createElement("vot-block");
-    icon.classList.add("vot-lang-select-icon");
+    const icon = this.createEl("vot-block", ["vot-lang-select-icon"]);
     render(
       svg`<svg
         xmlns="http://www.w3.org/2000/svg"
@@ -703,26 +672,29 @@ export default class UI {
       </svg>`,
       icon,
     );
-
     const toSelect = this.createVOTSelect(toTitle, toDialogTitle, toItems, {
       onSelectCb: toOnSelectCB,
     });
-
     container.append(fromSelect.container, icon, toSelect.container);
     return { container, fromSelect, icon, toSelect };
   }
 
+  /**
+   * Create details element
+   *
+   * @param {HTMLElement|string} titleHtml - details title
+   * @return {{
+   *  container: HTMLElement,
+   *  header: HTMLElement,
+   *  arrowIcon: HTMLElement
+   * }} details elements
+   */
   static createDetails(titleHtml) {
-    const container = document.createElement("vot-block");
-    container.classList.add("vot-details");
-
-    const header = document.createElement("vot-block");
+    const container = this.createEl("vot-block", ["vot-details"]);
+    const header = this.createEl("vot-block");
     header.append(titleHtml);
-
-    const arrowIcon = document.createElement("vot-block");
-    arrowIcon.classList.add("vot-details-arrow-icon");
+    const arrowIcon = this.createEl("vot-block", ["vot-details-arrow-icon"]);
     render(this.arrowIconRaw, arrowIcon);
-
     container.append(header, arrowIcon);
     return { container, header, arrowIcon };
   }
@@ -781,6 +753,12 @@ export default class UI {
       animation.seek(animation.duration * (percentage / 100));
   }
 
+  /**
+   * After the bootloader animation
+   *
+   * @param {SVGElement} votLoader
+   * @param {string} [primaryColor="139, 180, 245"]
+   */
   static afterAnimateLoader(votLoader, primaryColor = "139, 180, 245") {
     const votLoaderHelper = votLoader.querySelector(".vot-loader-helper");
     const votLoaderMain = votLoader.querySelector(".vot-loader-main");
