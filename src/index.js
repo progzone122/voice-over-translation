@@ -711,8 +711,9 @@ class VOTUIManager {
 
     this.videoHandler.votLocaleInfo = ui.createInformation(
       `${localizationProvider.get("VOTLocaleHash")}:`,
-      html`${this.videoHandler.data
-          .localeHash}<br />(${localizationProvider.get("VOTUpdatedAt")}
+      html`${this.videoHandler.data.localeHash}<br />(${localizationProvider.get(
+          "VOTUpdatedAt",
+        )}
         ${new Date(
           this.videoHandler.data.localeUpdatedAt * 1000,
         ).toLocaleString()})`,
@@ -2341,6 +2342,7 @@ class VideoHandler {
       "pointermove",
       this.changeOpacityOnEvent,
     );
+    // fix #866
     if (this.site.host !== "xvideos")
       addExtraEventListener(document, "touchmove", this.resetTimer);
 
@@ -2348,6 +2350,7 @@ class VideoHandler {
     addExtraEventListener(this.votButton.container, "pointerdown", (e) => {
       e.stopImmediatePropagation();
     });
+    // don't change mousedown, otherwise it may break on youtube
     addExtraEventListeners(
       this.votMenu.container,
       ["pointerdown", "mousedown"],
@@ -2356,6 +2359,7 @@ class VideoHandler {
       },
     );
 
+    // fix draggable menu in youtube (#394, #417)
     if (this.site.host === "youtube") this.container.draggable = false;
     if (this.site.host === "googledrive") this.container.style.height = "100%";
 
@@ -2384,6 +2388,7 @@ class VideoHandler {
     if (this.site.host === "youtube" && !this.site.additionalData) {
       addExtraEventListener(document, "yt-page-data-updated", async () => {
         debug.log("yt-page-data-updated");
+        // fix #802
         if (!window.location.pathname.includes("/shorts/")) return;
         await this.setCanPlay();
       });
