@@ -11406,8 +11406,9 @@ class VOTUIManager {
 
     this.videoHandler.votLocaleInfo = UI.createInformation(
       `${localizationProvider.get("VOTLocaleHash")}:`,
-      ke`${this.videoHandler.data
-          .localeHash}<br />(${localizationProvider.get("VOTUpdatedAt")}
+      ke`${this.videoHandler.data.localeHash}<br />(${localizationProvider.get(
+          "VOTUpdatedAt",
+        )}
         ${new Date(
           this.videoHandler.data.localeUpdatedAt * 1000,
         ).toLocaleString()})`,
@@ -13036,6 +13037,7 @@ class VideoHandler {
       "pointermove",
       this.changeOpacityOnEvent,
     );
+    // fix #866
     if (this.site.host !== "xvideos")
       addExtraEventListener(document, "touchmove", this.resetTimer);
 
@@ -13043,6 +13045,7 @@ class VideoHandler {
     addExtraEventListener(this.votButton.container, "pointerdown", (e) => {
       e.stopImmediatePropagation();
     });
+    // don't change mousedown, otherwise it may break on youtube
     addExtraEventListeners(
       this.votMenu.container,
       ["pointerdown", "mousedown"],
@@ -13051,6 +13054,7 @@ class VideoHandler {
       },
     );
 
+    // fix draggable menu in youtube (#394, #417)
     if (this.site.host === "youtube") this.container.draggable = false;
     if (this.site.host === "googledrive") this.container.style.height = "100%";
 
@@ -13079,6 +13083,7 @@ class VideoHandler {
     if (this.site.host === "youtube" && !this.site.additionalData) {
       addExtraEventListener(document, "yt-page-data-updated", async () => {
         utils_debug.log("yt-page-data-updated");
+        // fix #802
         if (!window.location.pathname.includes("/shorts/")) return;
         await this.setCanPlay();
       });
@@ -13420,11 +13425,9 @@ class VideoHandler {
           .get("VOTTranslationCompletedNotify")
           .replace("{0}", window.location.hostname),
         title: GM_info.script.name,
-        highlight: true,
         timeout: 5000,
         silent: true,
         tag: "VOTTranslationCompleted", // TM 5.0
-        url: window.location.href, // TM 5.0
         onclick: () => {
           window.focus();
         },

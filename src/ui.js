@@ -808,4 +808,8 @@ export default class UI {
         });
     }, 2000);
   }
+
+  static createPortal() {
+    return this.createEl("vot-block", ["vot-portal"]);
+  }
 }
