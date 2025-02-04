@@ -82,6 +82,7 @@ export default class Tooltip {
   };
 
   init() {
+    this.onResizeObserver = new ResizeObserver(this.onResize);
     if (this.trigger === "click") {
       this.target.addEventListener("pointerdown", this.onClick);
       return this;
@@ -92,15 +93,13 @@ export default class Tooltip {
     this.target.addEventListener("pointerdown", this.onHoverPointerDown);
     this.target.addEventListener("pointerup", this.onHoverPointerUp);
 
-    this.onResizeObserver = new ResizeObserver(this.onResize);
-
     return this;
   }
 
   release() {
     this.destroy();
     if (this.trigger === "click") {
-      this.target.addEventListener("pointerdown", this.onClick);
+      this.target.removeEventListener("pointerdown", this.onClick);
       return this;
     }
 
