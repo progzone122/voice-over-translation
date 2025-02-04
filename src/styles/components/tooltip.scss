@@ -38,29 +38,9 @@
     user-select: text;
   }
 
-  // temp
-  &-arrow {
-    position: absolute;
-    background: #222;
-    width: 8px;
-    height: 8px;
-    transform: rotate(45deg);
-  }
-
   & * {
     -webkit-box-sizing: border-box !important;
     -moz-box-sizing: border-box !important;
     box-sizing: border-box !important;
-  }
-
-  &[data-position="left"] {
-    left: 50px;
-    top: calc(25vh / 2);
-  }
-
-  &[data-position="right"] {
-    left: auto;
-    right: 0;
-    top: calc(25vh / 2);
   }
 }
