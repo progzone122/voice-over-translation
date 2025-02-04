@@ -120,7 +120,7 @@ export default class Tooltip {
 
     this.updatePos();
     this.container.style.opacity = "1";
-    this.onResizeObserver?.observe(this.parentElement);
+    this.onResizeObserver?.observe(document.documentElement);
     return this;
   }
 
