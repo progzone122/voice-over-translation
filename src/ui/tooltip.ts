@@ -227,7 +227,7 @@ export default class Tooltip {
     }
 
     this.showed = false;
-    let container = this.container;
+    const container = this.container;
     container.style.opacity = "0";
     this.onResizeObserver?.disconnect();
 
