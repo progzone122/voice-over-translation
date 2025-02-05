@@ -188,6 +188,10 @@ function getTimestamp() {
   return Math.floor(Date.now() / 1000);
 }
 
+function clamp(value, min = 0, max = 100) {
+  return Math.min(Math.max(value, min), max);
+}
+
 export {
   secsToStrTime,
   isPiPAvailable,
@@ -197,4 +201,5 @@ export {
   clearFileName,
   GM_fetch,
   getTimestamp,
+  clamp,
 };

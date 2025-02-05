@@ -6,6 +6,7 @@ import {
   triggers,
 } from "../types/tooltip";
 import UI from "../ui";
+import { clamp } from "../utils/utils";
 
 export default class Tooltip {
   showed = false;
@@ -15,6 +16,12 @@ export default class Tooltip {
   trigger: Trigger;
   parentElement: HTMLElement;
   offset: number;
+  hidden: boolean;
+
+  pageWidth!: number;
+  pageHeight!: number;
+  maxWidth?: number;
+  backgroundColor?: string;
 
   container?: HTMLElement;
   onResizeObserver?: ResizeObserver;
@@ -26,6 +33,9 @@ export default class Tooltip {
     position = "top",
     trigger = "hover",
     offset = 4,
+    maxWidth = undefined,
+    hidden = false,
+    backgroundColor = undefined,
     parentElement = document.body,
   }: TooltipOpts) {
     if (!(target instanceof HTMLElement)) {
@@ -35,9 +45,13 @@ export default class Tooltip {
     this.target = target;
     this.content = content;
     this.offset = offset;
+    this.hidden = hidden;
     this.trigger = Tooltip.validateTrigger(trigger) ? trigger : "hover";
     this.position = Tooltip.validatePos(position) ? position : "top";
     this.parentElement = parentElement;
+    this.maxWidth = maxWidth;
+    this.backgroundColor = backgroundColor;
+    this.updatePageSize();
     this.init();
   }
 
@@ -49,7 +63,20 @@ export default class Tooltip {
     return triggers.includes(trigger);
   }
 
+  setPosition(position: Position) {
+    this.position = Tooltip.validatePos(position) ? position : "top";
+    this.updatePos();
+    return this;
+  }
+
+  setContent(content: string | HTMLElement) {
+    this.content = content;
+    this.destroy();
+    return this;
+  }
+
   onResize = () => {
+    this.updatePageSize();
     this.updatePos();
   };
 
@@ -80,6 +107,12 @@ export default class Tooltip {
   onMouseLeave = () => {
     this.destroy();
   };
+
+  updatePageSize() {
+    this.pageWidth = document.documentElement.clientWidth;
+    this.pageHeight = document.documentElement.clientHeight;
+    return this;
+  }
 
   init() {
     this.onResizeObserver = new ResizeObserver(this.onResize);
@@ -119,6 +152,14 @@ export default class Tooltip {
     this.parentElement.appendChild(this.container);
 
     this.updatePos();
+    if (this.backgroundColor !== undefined) {
+      this.container.style.backgroundColor = this.backgroundColor;
+    }
+
+    if (this.hidden) {
+      this.container.hidden = true;
+    }
+
     this.container.style.opacity = "1";
     this.onResizeObserver?.observe(document.documentElement);
     return this;
@@ -130,8 +171,12 @@ export default class Tooltip {
     }
 
     const { top, left } = this.calcPos();
+    const maxWidth =
+      this.maxWidth ??
+      clamp(this.pageWidth - left - this.offset, 0, this.pageWidth);
     this.container.style.top = `${top}px`;
     this.container.style.left = `${left}px`;
+    this.container.style.maxWidth = `${maxWidth}px`;
     return this;
   }
 
@@ -153,23 +198,23 @@ export default class Tooltip {
     switch (this.position) {
       case "top":
         return {
-          top: top - height - this.offset,
-          left: left - width / 2 + widthTarget / 2,
+          top: clamp(top - height - this.offset, 0, this.pageHeight),
+          left: clamp(left - width / 2 + widthTarget / 2, 0, this.pageWidth),
         };
       case "right":
         return {
-          top: top + (heightTarget - height) / 2,
-          left: right + this.offset,
+          top: clamp(top + (heightTarget - height) / 2, 0, this.pageHeight),
+          left: clamp(right + this.offset, 0, this.pageWidth),
         };
       case "bottom":
         return {
-          top: bottom + this.offset,
-          left: left - width / 2 + widthTarget / 2,
+          top: clamp(bottom + this.offset, 0, this.pageHeight),
+          left: clamp(left - width / 2 + widthTarget / 2, 0, this.pageWidth),
         };
       case "left":
         return {
-          top: top + (heightTarget - height) / 2,
-          left: left - width - this.offset,
+          top: clamp(top + (heightTarget - height) / 2, 0, this.pageHeight),
+          left: clamp(left - width - this.offset, 0, this.pageWidth),
         };
       default:
         return { top: 0, left: 0 };
@@ -182,17 +227,17 @@ export default class Tooltip {
     }
 
     this.showed = false;
-    this.container.style.opacity = "0";
+    let container = this.container;
+    container.style.opacity = "0";
     this.onResizeObserver?.disconnect();
 
     setTimeout(
       () => {
-        if (!this.container || this.showed) {
+        if (!container) {
           return this;
         }
 
-        this.container.remove();
-        this.container = undefined;
+        container.remove();
       },
       instant ? 0 : 500,
     );

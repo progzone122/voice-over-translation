@@ -10,5 +10,8 @@ export type TooltipOpts = {
   position?: Position;
   trigger?: Trigger;
   offset?: number;
+  hidden?: boolean;
+  maxWidth?: number;
+  backgroundColor?: string;
   parentElement?: HTMLElement;
 };
