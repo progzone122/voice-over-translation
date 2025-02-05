@@ -37,6 +37,7 @@ import {
 } from "./localization/localizationProvider.js";
 import { SubtitlesWidget, SubtitlesProcessor } from "./subtitles.js";
 
+import Tooltip from "./ui/tooltip.ts";
 import ui from "./ui.js";
 import debug from "./utils/debug.ts";
 
@@ -105,33 +106,63 @@ class VOTUIManager {
     this.videoHandler = videoHandler;
   }
 
-  /**
-   * Creates and initializes all UI elements.
-   */
-  initUI() {
-    // ----- VOT Button creation -----
-    // Create the translation button using ui helper and set initial opacity.
-    this.videoHandler.votButton = ui.createVOTButton(
-      localizationProvider.get("translateVideo"),
-    );
-    this.videoHandler.votButton.container.style.opacity = 0;
-
+  getButtonPos() {
     // If a custom button position is set and container width > 550, arrange in column; otherwise row.
     if (
       this.videoHandler.data?.buttonPos &&
       this.videoHandler.data?.buttonPos !== "default" &&
       this.videoHandler.container.clientWidth > 550
     ) {
-      this.videoHandler.votButton.container.dataset.direction = "column";
-      this.videoHandler.votButton.container.dataset.position =
-        this.videoHandler.data?.buttonPos;
-    } else {
-      this.videoHandler.votButton.container.dataset.direction = "row";
-      this.videoHandler.votButton.container.dataset.position = "default";
+      return {
+        direction: "column",
+        position: this.videoHandler.data?.buttonPos,
+      };
     }
+
+    return {
+      direction: "row",
+      position: "default",
+    };
+  }
+
+  getButtonTooltipPos(position) {
+    switch (position) {
+      case "left":
+        return "right";
+      case "right":
+        return "left";
+      default:
+        return "bottom";
+    }
+  }
+
+  /**
+   * Creates and initializes all UI elements.
+   */
+  initUI() {
+    // ----- VOT Button creation -----
+    // Create the translation button using ui helper and set initial opacity.
+    this.videoHandler.votPortal = ui.createPortal();
+    document.documentElement.appendChild(this.videoHandler.votPortal);
+
+    this.videoHandler.votButton = ui.createVOTButton(
+      localizationProvider.get("translateVideo"),
+    );
+    this.videoHandler.votButton.container.style.opacity = 0;
+
+    const { position: votPosition, direction: votDirection } =
+      this.getButtonPos();
+    this.videoHandler.votButton.container.dataset.direction = votDirection;
+    this.videoHandler.votButton.container.dataset.position = votPosition;
     this.videoHandler.container.appendChild(
       this.videoHandler.votButton.container,
     );
+    this.videoHandler.votButtonTooltip = new Tooltip({
+      target: this.videoHandler.votButton.translateButton,
+      content: localizationProvider.get("translateVideo"),
+      position: this.getButtonTooltipPos(votPosition),
+      parentElement: this.videoHandler.votPortal,
+    });
 
     // Hide Picture-in-Picture (PiP) button if not available or not enabled.
     this.videoHandler.votButton.pipButton.hidden =
@@ -324,7 +355,7 @@ class VOTUIManager {
     this.videoHandler.votSettingsDialog = ui.createDialog(
       localizationProvider.get("VOTSettings"),
     );
-    document.documentElement.appendChild(
+    this.videoHandler.votPortal.appendChild(
       this.videoHandler.votSettingsDialog.container,
     );
 
@@ -432,8 +463,13 @@ class VOTUIManager {
     );
     if (!this.videoHandler.audioContext) {
       this.videoHandler.votAudioBoosterCheckbox.input.disabled = true;
-      this.videoHandler.votAudioBoosterCheckbox.container.title =
-        localizationProvider.get("VOTNeedWebAudioAPI");
+      this.videoHandler.votAudioBoosterTooltip = new Tooltip({
+        target: this.videoHandler.votAudioBoosterCheckbox.container,
+        content: localizationProvider.get("VOTNeedWebAudioAPI"),
+        position: "bottom",
+        backgroundColor: "var(--vot-helper-ondialog)",
+        parentElement: this.videoHandler.votPortal,
+      });
     }
     this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
       this.videoHandler.votAudioBoosterCheckbox.container,
@@ -604,8 +640,13 @@ class VOTUIManager {
     );
     if (!this.videoHandler.audioContext) {
       this.videoHandler.votNewAudioPlayerCheckbox.input.disabled = true;
-      this.videoHandler.votNewAudioPlayerCheckbox.container.title =
-        localizationProvider.get("VOTNeedWebAudioAPI");
+      this.videoHandler.votNewAudioPlayerTooltip = new Tooltip({
+        target: this.videoHandler.votNewAudioPlayerCheckbox.container,
+        content: localizationProvider.get("VOTNeedWebAudioAPI"),
+        position: "bottom",
+        backgroundColor: "var(--vot-helper-ondialog)",
+        parentElement: this.videoHandler.votPortal,
+      });
     }
     this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
       this.videoHandler.votNewAudioPlayerCheckbox.container,
@@ -622,8 +663,13 @@ class VOTUIManager {
       "vot-checkbox-sub",
     );
     if (!this.videoHandler.audioContext) {
-      this.videoHandler.votOnlyBypassMediaCSPCheckbox.container.title =
-        localizationProvider.get("VOTNeedWebAudioAPI");
+      this.videoHandler.votOnlyBypassMediaCSPTooltip = new Tooltip({
+        target: this.videoHandler.votOnlyBypassMediaCSPCheckbox.container,
+        content: localizationProvider.get("VOTNeedWebAudioAPI"),
+        position: "bottom",
+        backgroundColor: "var(--vot-helper-ondialog)",
+        parentElement: this.videoHandler.votPortal,
+      });
     }
     this.videoHandler.votOnlyBypassMediaCSPCheckbox.input.disabled =
       !this.videoHandler.data.newAudioPlayer && this.videoHandler.audioContext;
@@ -744,6 +790,16 @@ class VOTUIManager {
     );
   }
 
+  updateButtonPos(position, direction) {
+    this.videoHandler.votButton.container.dataset.direction = direction;
+    this.videoHandler.votButton.container.dataset.position = position;
+    this.videoHandler.votButtonTooltip.hidden = direction === "row";
+    this.videoHandler.votButtonTooltip.setPosition(
+      this.getButtonTooltipPos(position),
+    );
+    return this;
+  }
+
   /**
    * Registers UI event listeners.
    */
@@ -776,7 +832,7 @@ class VOTUIManager {
     );
 
     // ----- Position Update (Drag and Touch) -----
-    const updateButtonPosition = async (percentX) => {
+    const moveButton = async (percentX) => {
       const isBigContainer = this.videoHandler.container.clientWidth > 550;
       const position = isBigContainer
         ? percentX <= 44
@@ -785,11 +841,10 @@ class VOTUIManager {
             ? "right"
             : "default"
         : "default";
+      const direction = position === "default" ? "row" : "column";
       this.videoHandler.data.buttonPos = position;
-      this.videoHandler.votButton.container.dataset.direction =
-        position === "default" ? "row" : "column";
-      this.videoHandler.votButton.container.dataset.position = position;
       this.videoHandler.votMenu.container.dataset.position = position;
+      this.updateButtonPos(position, direction);
       if (isBigContainer) await votStorage.set("buttonPos", position);
     };
 
@@ -802,7 +857,7 @@ class VOTUIManager {
       event.preventDefault();
       const x = clientX - rect.left;
       const percentX = (x / rect.width) * 100;
-      await updateButtonPosition(percentX);
+      await moveButton(percentX);
     };
 
     // Mouse/pointer events for dragging.
@@ -1374,7 +1429,7 @@ class VOTUIManager {
           },
         );
 
-        document.documentElement.appendChild(
+        this.videoHandler.votPortal.appendChild(
           this.videoHandler.votSubtitlesDialog.container,
         );
       },
@@ -2198,7 +2253,7 @@ class VideoHandler {
     const isLoading = status === "error" && this.isLoadingText(text);
     this.setLoadingBtn(isLoading);
     this.votButton.label.textContent = text;
-    this.votButton.container.title = status === "error" ? text : "";
+    this.votButtonTooltip.setContent(text);
     return this;
   }
 
@@ -2233,15 +2288,9 @@ class VideoHandler {
           `${e.contentRect.height}px`,
         );
       });
-      const isBigWidth = this.container.clientWidth > 550;
-      this.votButton.container.dataset.position =
-        this.votMenu.container.dataset.position = isBigWidth
-          ? this.data?.buttonPos
-          : "default";
-      this.votButton.container.dataset.direction =
-        this.data?.buttonPos && this.data?.buttonPos !== "default" && isBigWidth
-          ? "column"
-          : "row";
+
+      const { position, direction } = this.uiManager.getButtonPos();
+      this.uiManager.updateButtonPos(position, direction);
     });
     this.resizeObserver.observe(this.video);
     this.votMenu.container.style.setProperty(
