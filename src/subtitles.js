@@ -1,7 +1,12 @@
 import { html, render, nothing } from "lit-html";
+import { convertSubs } from "@vot.js/shared/utils/subs";
 
 import { lang, GM_fetch } from "./utils/utils.js";
-import { convertSubs } from "@vot.js/shared/utils/subs";
+import { translate } from "./utils/translateApis.ts";
+import { localizationProvider } from "./localization/localizationProvider.js";
+import { votStorage } from "./utils/storage.ts";
+import Tooltip from "./ui/tooltip.ts";
+import UI from "./ui.js";
 
 export class SubtitlesProcessor {
   static formatYandexTokens(line) {
@@ -308,7 +313,7 @@ export class SubtitlesProcessor {
 }
 
 export class SubtitlesWidget {
-  constructor(video, container, site) {
+  constructor(video, container, site, portal) {
     this.video = video;
     this.container =
       site.host === "youtube" && site.additionalData !== "mobile"
@@ -316,11 +321,13 @@ export class SubtitlesWidget {
         : container;
     this.site = site;
 
+    this.portal = portal;
     this.subtitlesContainer = this.createSubtitlesContainer();
     this.position = { left: 25, top: 75 };
     this.dragging = { active: false, offset: { x: 0, y: 0 } };
 
     this.subtitles = null;
+    this.subtitleLang = undefined;
     this.lastContent = null;
     this.highlightWords = false;
     this.fontSize = 20;
@@ -419,6 +426,7 @@ export class SubtitlesWidget {
 
     this.subtitlesContainer.style.left = `${this.position.left}%`;
     this.subtitlesContainer.style.top = `${this.position.top}%`;
+    this.tokenTooltip?.updatePos();
   }
 
   processTokens(tokens) {
@@ -457,6 +465,77 @@ export class SubtitlesWidget {
     return tokens;
   }
 
+  async translateStrTokens(text) {
+    const fromLang = this.subtitleLang;
+    const toLang = localizationProvider.lang;
+    if (this.strTranslatedTokens) {
+      const translated = await translate(text, fromLang, toLang);
+      return [this.strTranslatedTokens, translated];
+    }
+
+    const translated = await translate(
+      [this.strTokens, text],
+      fromLang,
+      toLang,
+    );
+    this.strTranslatedTokens = translated[0];
+    return translated;
+  }
+
+  releaseTooltip() {
+    if (this.tokenTooltip) {
+      this.tokenTooltip.target.classList.remove("selected");
+      this.tokenTooltip.release();
+      this.tokenTooltip = undefined;
+    }
+
+    return this;
+  }
+
+  onClick = async (e) => {
+    if (
+      this.tokenTooltip?.target === e.target &&
+      this.tokenTooltip?.container
+    ) {
+      this.tokenTooltip.showed
+        ? e.target.classList.add("selected")
+        : e.target.classList.remove("selected");
+      return;
+    }
+
+    this.releaseTooltip();
+    e.target.classList.add("selected");
+    const text = e.target.textContent.trim().replace(/[\.|,]/, "");
+    const service = await votStorage.get("translationService");
+    const subtitlesInfo = UI.createSubtitleInfo(
+      text,
+      this.strTranslatedTokens || this.strTokens,
+      service,
+    );
+    this.tokenTooltip = new Tooltip({
+      target: e.target,
+      anchor: this.subtitlesBlock,
+      content: subtitlesInfo.container,
+      parentElement: this.portal,
+      maxWidth: this.subtitlesContainer.offsetWidth,
+      borderRadius: 12,
+      position: "top",
+      trigger: "click",
+    });
+    this.tokenTooltip.create();
+
+    const strTokens = this.strTokens;
+    const translated = await this.translateStrTokens(text);
+    if (strTokens !== this.strTokens || !this.tokenTooltip?.showed) {
+      return;
+    }
+
+    subtitlesInfo.header.textContent = translated[1];
+    subtitlesInfo.context.textContent = translated[0];
+    this.tokenTooltip.setContent(subtitlesInfo.container);
+    this.tokenTooltip.create();
+  };
+
   renderTokens(tokens, time) {
     return tokens.map((token) => {
       const passed =
@@ -465,7 +544,10 @@ export class SubtitlesWidget {
           (time > token.startMs - 100 &&
             token.startMs + token.durationMs / 2 - time < 275));
 
-      return html`<span class="${passed ? "passed" : nothing}">
+      return html`<span
+        @click="${this.onClick}"
+        class="${passed ? "passed" : nothing}"
+      >
         ${token.text.replace("\\n", "<br>")}
       </span>`;
     });
@@ -479,7 +561,9 @@ export class SubtitlesWidget {
     };
   }
 
-  setContent(subtitles) {
+  setContent(subtitles, lang = undefined) {
+    this.releaseTooltip();
+    this.subtitleLang = lang;
     if (!subtitles || !this.video) {
       this.subtitles = null;
       render(null, this.subtitlesContainer);
@@ -504,10 +588,8 @@ export class SubtitlesWidget {
 
   setFontSize(size) {
     this.fontSize = size;
-    const subtitlesEl =
-      this.subtitlesContainer?.querySelector(".vot-subtitles");
-    if (subtitlesEl) {
-      subtitlesEl.style.fontSize = `${size}px`;
+    if (this.subtitlesBlock) {
+      this.subtitlesBlock.style.fontSize = `${size}px`;
     }
   }
 
@@ -518,11 +600,16 @@ export class SubtitlesWidget {
    */
   setOpacity(rate) {
     this.opacity = ((100 - +rate) / 100).toFixed(2);
-    const subtitlesEl =
-      this.subtitlesContainer?.querySelector(".vot-subtitles");
-    if (subtitlesEl) {
-      subtitlesEl.style.setProperty("--vot-subtitles-opacity", this.opacity);
+    if (this.subtitlesBlock) {
+      this.subtitlesBlock.style.setProperty(
+        "--vot-subtitles-opacity",
+        this.opacity,
+      );
     }
+  }
+
+  stringifyTokens(tokens) {
+    return tokens.map((token) => token.text).join("");
   }
 
   update() {
@@ -535,6 +622,8 @@ export class SubtitlesWidget {
 
     if (!line) {
       render(null, this.subtitlesContainer);
+      this.subtitlesBlock = null;
+      this.releaseTooltip();
       return;
     }
 
@@ -544,6 +633,13 @@ export class SubtitlesWidget {
 
     if (stringContent !== this.lastContent) {
       this.lastContent = stringContent;
+      const strTokens = this.stringifyTokens(tokens);
+      if (strTokens !== this.strTokens) {
+        this.releaseTooltip();
+        this.strTokens = strTokens;
+        this.strTranslatedTokens = "";
+      }
+
       render(
         html`<vot-block
           class="vot-subtitles"
@@ -553,12 +649,15 @@ export class SubtitlesWidget {
         >`,
         this.subtitlesContainer,
       );
+      this.subtitlesBlock =
+        this.subtitlesContainer.querySelector(".vot-subtitles");
     }
   }
 
   release() {
     this.abortController.abort();
     this.resizeObserver.disconnect();
+    this.releaseTooltip();
     this.subtitlesContainer.remove();
   }
 }

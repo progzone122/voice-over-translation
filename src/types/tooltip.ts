@@ -9,6 +9,11 @@ export type Offset = {
   y: number;
 };
 
+export type PagePosition = {
+  top: number;
+  left: number;
+};
+
 export type TooltipOpts = {
   /**
    * target for connect all events
@@ -24,7 +29,9 @@ export type TooltipOpts = {
   trigger?: Trigger;
   offset?: number | Offset;
   hidden?: boolean;
+  autoLayout?: boolean;
   maxWidth?: number;
   backgroundColor?: string;
+  borderRadius?: number;
   parentElement?: HTMLElement;
 };
