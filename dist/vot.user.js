@@ -1575,12 +1575,12 @@ class Chaimu {
     hostWorker: "vot-worker.toil.cc",
     mediaProxy: "media-proxy.toil.cc",
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 YaBrowser/24.12.0.0 Safari/537.36",
-    componentVersion: "24.12.4.1049",
+    componentVersion: "24.12.3.780",
     hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.2.2",
+    version: "2.2.1",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -3893,7 +3893,7 @@ const StreamTranslationObject = {
     },
 };
 function createBaseStreamTranslationRequest() {
-    return { url: "", language: "", responseLanguage: "", unknown0: 0, unknown1: 0 };
+    return { url: "", language: "", responseLanguage: "" };
 }
 const StreamTranslationRequest = {
     encode(message, writer = new BinaryWriter()) {
@@ -3905,12 +3905,6 @@ const StreamTranslationRequest = {
         }
         if (message.responseLanguage !== "") {
             writer.uint32(26).string(message.responseLanguage);
-        }
-        if (message.unknown0 !== 0) {
-            writer.uint32(40).int32(message.unknown0);
-        }
-        if (message.unknown1 !== 0) {
-            writer.uint32(48).int32(message.unknown1);
         }
         return writer;
     },
@@ -3942,20 +3936,6 @@ const StreamTranslationRequest = {
                     message.responseLanguage = reader.string();
                     continue;
                 }
-                case 5: {
-                    if (tag !== 40) {
-                        break;
-                    }
-                    message.unknown0 = reader.int32();
-                    continue;
-                }
-                case 6: {
-                    if (tag !== 48) {
-                        break;
-                    }
-                    message.unknown1 = reader.int32();
-                    continue;
-                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -3969,8 +3949,6 @@ const StreamTranslationRequest = {
             url: isSet(object.url) ? globalThis.String(object.url) : "",
             language: isSet(object.language) ? globalThis.String(object.language) : "",
             responseLanguage: isSet(object.responseLanguage) ? globalThis.String(object.responseLanguage) : "",
-            unknown0: isSet(object.unknown0) ? globalThis.Number(object.unknown0) : 0,
-            unknown1: isSet(object.unknown1) ? globalThis.Number(object.unknown1) : 0,
         };
     },
     toJSON(message) {
@@ -3984,12 +3962,6 @@ const StreamTranslationRequest = {
         if (message.responseLanguage !== "") {
             obj.responseLanguage = message.responseLanguage;
         }
-        if (message.unknown0 !== 0) {
-            obj.unknown0 = Math.round(message.unknown0);
-        }
-        if (message.unknown1 !== 0) {
-            obj.unknown1 = Math.round(message.unknown1);
-        }
         return obj;
     },
     create(base) {
@@ -4000,8 +3972,6 @@ const StreamTranslationRequest = {
         message.url = object.url ?? "";
         message.language = object.language ?? "";
         message.responseLanguage = object.responseLanguage ?? "";
-        message.unknown0 = object.unknown0 ?? 0;
-        message.unknown1 = object.unknown1 ?? 0;
         return message;
     },
 };
@@ -4581,8 +4551,6 @@ class YandexVOTProtobuf {
             url,
             language: requestLang,
             responseLanguage: responseLang,
-            unknown0: 1,
-            unknown1: 0,
         }).finish();
     }
     static decodeStreamResponse(response) {
@@ -9217,7 +9185,7 @@ class UI {
   </svg>`;
   static animeOpts = {
     easing: "linear",
-    delay: (el, i) => i * 200,
+    delay: (i) => i * 200,
   };
 
   /**
@@ -10280,23 +10248,6 @@ class Tooltip {
 
 
 
-class UI {
-  static undefinedPhrase = "#UNDEFINED";
-  static arrowIconRaw = Oe`<svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-  >
-    <path
-      d="M12 14.975q-.2 0-.375-.062T11.3 14.7l-4.6-4.6q-.275-.275-.275-.7t.275-.7q.275-.275.7-.275t.7.275l3.9 3.9l3.9-3.9q.275-.275.7-.275t.7.275q.275.275.275.7t-.275.7l-4.6 4.6q-.15.15-.325.213t-.375.062Z"
-    />
-  </svg>`;
-  static animeOpts = {
-    easing: "linear",
-    delay: (i) => i * 200,
-  };
-
 
 
 
@@ -10944,7 +10895,6 @@ class SubtitlesWidget {
       );
       this.subtitlesBlock =
         this.subtitlesContainer.querySelector(".vot-subtitles");
-
     }
   }
 
@@ -11164,109 +11114,6 @@ class VideoObserver {
     this.videoCache = new WeakSet();
   }
 }
-
-;// ./src/utils/translateApis.ts
-
-
-
-/**
- * Limit: 10k symbols for yandex, 50k for msedge
- */
-const FOSWLYTranslateAPI = new (class {
-    isFOSWLYError(data) {
-        return Object.hasOwn(data, "error");
-    }
-    async request(path, opts = {}) {
-        try {
-            const res = await GM_fetch(`${foswlyTranslateUrl}${path}`, {
-                timeout: 3000,
-                ...opts,
-            });
-            const data = (await res.json());
-            if (this.isFOSWLYError(data)) {
-                throw data.error;
-            }
-            return data;
-        }
-        catch (err) {
-            console.error(`[VOT] Failed to get data from FOSWLY Translate API, because ${err.message}`);
-            return undefined;
-        }
-    }
-    async translateMultiple(text, lang, service) {
-        const result = await this.request("/translate", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                text,
-                lang,
-                service,
-            }),
-        });
-        return result ? result.translations : text;
-    }
-    async translate(text, lang, service) {
-        const result = await this.request(`/translate?${new URLSearchParams({
-            text,
-            lang,
-            service,
-        })}`);
-        return result ? result.translations[0] : text;
-    }
-    async detect(text, service) {
-        const result = await this.request(`/detect?${new URLSearchParams({
-            text,
-            service,
-        })}`);
-        return result ? result.lang : "en";
-    }
-})();
-const RustServerAPI = {
-    async detect(text) {
-        try {
-            const response = await GM_fetch(detectRustServerUrl, {
-                method: "POST",
-                body: text,
-                timeout: 3000,
-            });
-            return await response.text();
-        }
-        catch (error) {
-            console.error(`[VOT] Error getting lang from text, because ${error.message}`);
-            return "en";
-        }
-    },
-};
-async function translate(text, fromLang = "", toLang = "ru") {
-    const service = await votStorage.get("translationService", defaultTranslationService);
-    switch (service) {
-        case "yandexbrowser":
-        case "msedge": {
-            const langPair = fromLang && toLang ? `${fromLang}-${toLang}` : toLang;
-            return Array.isArray(text)
-                ? await FOSWLYTranslateAPI.translateMultiple(text, langPair, service)
-                : await FOSWLYTranslateAPI.translate(text, langPair, service);
-        }
-        default:
-            return text;
-    }
-}
-async function detect(text) {
-    const service = await votStorage.get("detectService", defaultDetectService);
-    switch (service) {
-        case "yandexbrowser":
-        case "msedge":
-            return await FOSWLYTranslateAPI.detect(text, service);
-        case "rust-server":
-            return await RustServerAPI.detect(text);
-        default:
-            return "en";
-    }
-}
-const foswlyServices = ["yandexbrowser", "msedge"];
-const detectServices = [...foswlyServices, "rust-server"];
 
 ;// ./src/index.js
 
@@ -12086,9 +11933,8 @@ class VOTUIManager {
 
     this.videoHandler.votLocaleInfo = UI.createInformation(
       `${localizationProvider.get("VOTLocaleHash")}:`,
-      ke`${this.videoHandler.data.localeHash}<br />(${localizationProvider.get(
-          "VOTUpdatedAt",
-        )}
+      ke`${this.videoHandler.data
+          .localeHash}<br />(${localizationProvider.get("VOTUpdatedAt")}
         ${new Date(
           this.videoHandler.data.localeUpdatedAt * 1000,
         ).toLocaleString()})`,
