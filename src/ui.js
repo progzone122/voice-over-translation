@@ -471,6 +471,7 @@ export default class UI {
       onSelectCb = () => {},
       labelElement = "",
       multiSelect = false,
+      dialogParent = document.documentElement,
     } = options;
     let selectedItems = [];
     let selectedValues = new Set(
@@ -522,7 +523,7 @@ export default class UI {
         const votSelectDialog = this.createDialog(dialogTitle);
         votSelectDialog.container.classList.add("vot-dialog-temp");
         votSelectDialog.container.hidden = false;
-        document.documentElement.appendChild(votSelectDialog.container);
+        dialogParent.appendChild(votSelectDialog.container);
         dialogOpened = true;
 
         const contentList = this.createEl("vot-block", [
@@ -809,7 +810,38 @@ export default class UI {
     }, 2000);
   }
 
-  static createPortal() {
-    return this.createEl("vot-block", ["vot-portal"]);
+  static createPortal(local = false) {
+    return this.createEl("vot-block", [`vot-portal${local ? "-local" : ""}`]);
+  }
+
+  static createSubtitleInfo(word, desc, translationService) {
+    const container = this.createEl("vot-block", ["vot-subtitles-info"]);
+    container.id = "vot-subtitles-info";
+    const translatedWith = this.createEl(
+      "vot-block",
+      ["vot-subtitles-info-service"],
+      localizationProvider
+        .get("VOTTranslatedBy")
+        .replace("{0}", translationService),
+    );
+    const header = this.createEl(
+      "vot-block",
+      ["vot-subtitles-info-header"],
+      word,
+    );
+    const context = this.createEl(
+      "vot-block",
+      ["vot-subtitles-info-context"],
+      desc,
+    );
+
+    container.append(translatedWith, header, context);
+
+    return {
+      container,
+      translatedWith,
+      header,
+      context,
+    };
   }
 }
