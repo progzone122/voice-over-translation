@@ -12984,7 +12984,6 @@ class VideoHandler {
   /** @type {Chaimu} */
   audioPlayer;
   cacheManager; // cache for translation and subtitles
-  cachedTranslation; // cached video translation
   downloadTranslationUrl = null;
   autoRetry; // auto retry timeout
   streamPing; // stream ping interval
@@ -13877,7 +13876,7 @@ class VideoHandler {
    * @param {string} audioUrl The audio URL.
    */
   async updateTranslation(audioUrl) {
-    if (this.cachedTranslation?.url !== this.audioPlayer.player.currentSrc) {
+    if (audioUrl?.url !== this.audioPlayer.player.currentSrc) {
       audioUrl = await this.validateAudioUrl(this.proxifyAudio(audioUrl));
     }
     if (this.audioPlayer.player.src !== audioUrl) {
@@ -13920,17 +13919,14 @@ class VideoHandler {
     this.setLoadingBtn(true);
     this.volumeOnStart = this.getVideoVolume();
     const cacheKey = `${VIDEO_ID}_${requestLang}_${responseLang}_${this.data.useNewModel}`;
-    const cachedEntry = this.cacheManager.get(cacheKey);
-    this.cachedTranslation = cachedEntry ? cachedEntry.translation : undefined;
-    if (this.cachedTranslation?.url) {
-      await this.updateTranslation(this.cachedTranslation.url);
+    const cachedEntry = this.cacheManager.getTranslation(cacheKey);
+    if (cachedEntry?.url) {
+      await this.updateTranslation(cachedEntry.url);
       utils_debug.log("[translateFunc] Cached translation was received");
       return;
-    } else if (this.cachedTranslation?.error) {
+    } else if (cachedEntry?.error) {
       utils_debug.log("Skip translation - previous attempt failed");
-      await this.updateTranslationErrorMsg(
-        this.cachedTranslation.error.data?.message,
-      );
+      await this.updateTranslationErrorMsg(cachedEntry.error.data?.message);
       return;
     }
     if (isStream) {
