@@ -2925,7 +2925,7 @@ class VideoHandler {
    * @param {string} audioUrl The audio URL.
    */
   async updateTranslation(audioUrl) {
-    if (audioUrl?.url !== this.audioPlayer.player.currentSrc) {
+    if (audioUrl !== this.audioPlayer.player.currentSrc) {
       audioUrl = await this.validateAudioUrl(this.proxifyAudio(audioUrl));
     }
     if (this.audioPlayer.player.src !== audioUrl) {
