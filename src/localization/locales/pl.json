@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Niepełnosprawni",
   "VOTTranslateProxyEnabled": "Włączone",
   "VOTTranslateProxyEverything": "Proxy wszystko",
-  "VOTTranslateProxyStatus": "Tryb proxy"
+  "VOTTranslateProxyStatus": "Tryb proxy",
+  "VOTTranslatedBy": "Tłumaczenie {0}"
 }

@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Engelli",
   "VOTTranslateProxyEnabled": "Etkin",
   "VOTTranslateProxyEverything": "Proxy her şey",
-  "VOTTranslateProxyStatus": "Proxy modu"
+  "VOTTranslateProxyStatus": "Proxy modu",
+  "VOTTranslatedBy": "Çeviren: {0}"
 }

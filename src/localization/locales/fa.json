@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "معلول",
   "VOTTranslateProxyEnabled": "فعال شده",
   "VOTTranslateProxyEverything": "پروکسی همه چیز",
-  "VOTTranslateProxyStatus": "حالت پروکسی"
+  "VOTTranslateProxyStatus": "حالت پروکسی",
+  "VOTTranslatedBy": "ترجمه شده توسط {0}"
 }

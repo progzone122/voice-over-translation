@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Puudega",
   "VOTTranslateProxyEnabled": "Võimaldama",
   "VOTTranslateProxyEverything": "Puhverserver kõik",
-  "VOTTranslateProxyStatus": "Puhverserveri režiim"
+  "VOTTranslateProxyStatus": "Puhverserveri režiim",
+  "VOTTranslatedBy": "Tõlkinud {0}"
 }

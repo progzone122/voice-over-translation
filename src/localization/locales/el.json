@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Απενεργοποιημένη",
   "VOTTranslateProxyEnabled": "Ενεργοποιήσετε",
   "VOTTranslateProxyEverything": "Πληρεξούσιο τα πάντα",
-  "VOTTranslateProxyStatus": "Λειτουργία μεσολάβησης"
+  "VOTTranslateProxyStatus": "Λειτουργία μεσολάβησης",
+  "VOTTranslatedBy": "Μετάφραση {0}"
 }

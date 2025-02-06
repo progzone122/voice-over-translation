@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Gehandicapten",
   "VOTTranslateProxyEnabled": "Ingeschakeld",
   "VOTTranslateProxyEverything": "Proxy alles",
-  "VOTTranslateProxyStatus": "Proxy-modus"
+  "VOTTranslateProxyStatus": "Proxy-modus",
+  "VOTTranslatedBy": "Vertaald door {0}"
 }

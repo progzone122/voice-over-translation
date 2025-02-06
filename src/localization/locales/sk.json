@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Vypnutý",
   "VOTTranslateProxyEnabled": "Povoliť",
   "VOTTranslateProxyEverything": "Proxy všetko",
-  "VOTTranslateProxyStatus": "Režim proxy"
+  "VOTTranslateProxyStatus": "Režim proxy",
+  "VOTTranslatedBy": "Preklad: {0}"
 }

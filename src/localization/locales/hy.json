@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Անաշխատունակ",
   "VOTTranslateProxyEnabled": "Ներառված է",
   "VOTTranslateProxyEverything": "Վստահված սերվեր ամեն ինչի համար",
-  "VOTTranslateProxyStatus": "Պրոքսի ռեժիմ"
+  "VOTTranslateProxyStatus": "Պրոքսի ռեժիմ",
+  "VOTTranslatedBy": "Թարգմանված {0}"
 }

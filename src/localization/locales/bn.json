@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "নিষ্ক্রিয়",
   "VOTTranslateProxyEnabled": "সক্রিয়",
   "VOTTranslateProxyEverything": "প্রক্সি সবকিছু",
-  "VOTTranslateProxyStatus": "প্রক্সি মোড"
+  "VOTTranslateProxyStatus": "প্রক্সি মোড",
+  "VOTTranslatedBy": "অনুবাদ করেছেন {0}"
 }

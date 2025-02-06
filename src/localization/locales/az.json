@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Əlil",
   "VOTTranslateProxyEnabled": "Daxildir",
   "VOTTranslateProxyEverything": "Hər şey üçün proxy server",
-  "VOTTranslateProxyStatus": "Proksasiya rejimi"
+  "VOTTranslateProxyStatus": "Proksasiya rejimi",
+  "VOTTranslatedBy": "Tərcümə {0}"
 }

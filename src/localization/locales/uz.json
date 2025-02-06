@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Nogiron",
   "VOTTranslateProxyEnabled": "Yoqilgan",
   "VOTTranslateProxyEverything": "Proksi hamma narsa",
-  "VOTTranslateProxyStatus": "Proksi rejimi"
+  "VOTTranslateProxyStatus": "Proksi rejimi",
+  "VOTTranslatedBy": "{0}tomonidan tarjima qilingan"
 }

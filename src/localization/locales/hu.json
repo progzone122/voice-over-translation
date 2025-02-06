@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Mozgáskorlátozottak",
   "VOTTranslateProxyEnabled": "Engedélyezett",
   "VOTTranslateProxyEverything": "Proxy mindent",
-  "VOTTranslateProxyStatus": "Proxy mód"
+  "VOTTranslateProxyStatus": "Proxy mód",
+  "VOTTranslatedBy": "Fordította: {0}"
 }

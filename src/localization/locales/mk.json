@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Оневозможено",
   "VOTTranslateProxyEnabled": "Овозможено",
   "VOTTranslateProxyEverything": "Прокси се",
-  "VOTTranslateProxyStatus": "Режим на прокси"
+  "VOTTranslateProxyStatus": "Режим на прокси",
+  "VOTTranslatedBy": "Превод од {0}"
 }

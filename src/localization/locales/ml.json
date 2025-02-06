@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Disabled",
   "VOTTranslateProxyEnabled": "പ്രാപ്തമാക്കി",
   "VOTTranslateProxyEverything": "പ്രോക്സി എല്ലാം",
-  "VOTTranslateProxyStatus": "പ്രോക്സി മോഡ്"
+  "VOTTranslateProxyStatus": "പ്രോക്സി മോഡ്",
+  "VOTTranslatedBy": "വിവർത്തനം {0}"
 }

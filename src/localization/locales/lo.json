@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "ພິການ",
   "VOTTranslateProxyEnabled": "ເປີດໃຊ້ງານ",
   "VOTTranslateProxyEverything": "ຕົວແທນທຸກສິ່ງທຸກຢ່າງ",
-  "VOTTranslateProxyStatus": "ຮູບແບບຕົວແທນ"
+  "VOTTranslateProxyStatus": "ຮູບແບບຕົວແທນ",
+  "VOTTranslatedBy": "ແປໂດຍ{0}"
 }

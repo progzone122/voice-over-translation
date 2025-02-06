@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Onemogočeno",
   "VOTTranslateProxyEnabled": "Omogočeno",
   "VOTTranslateProxyEverything": "Pooblaščenec vse",
-  "VOTTranslateProxyStatus": "Način posredovanja"
+  "VOTTranslateProxyStatus": "Način posredovanja",
+  "VOTTranslatedBy": "Prevedel {0}"
 }

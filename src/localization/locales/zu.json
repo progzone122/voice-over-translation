@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Abakhubazekile",
   "VOTTranslateProxyEnabled": "Inikwe amandla",
   "VOTTranslateProxyEverything": "Ummeleli konke",
-  "VOTTranslateProxyStatus": "Imodi yokumisa"
+  "VOTTranslateProxyStatus": "Imodi yokumisa",
+  "VOTTranslatedBy": "Kuhunyushwe ngokuthi {0}"
 }

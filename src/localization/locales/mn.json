@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Хөгжлийн бэрхшээлтэй",
   "VOTTranslateProxyEnabled": "Идэвхжсэн",
   "VOTTranslateProxyEverything": "Прокси бүх зүйл",
-  "VOTTranslateProxyStatus": "Proxying горим"
+  "VOTTranslateProxyStatus": "Proxying горим",
+  "VOTTranslatedBy": "Орчуулагдсан: {0}"
 }

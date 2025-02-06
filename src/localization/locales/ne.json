@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "अक्षम पारिएको",
   "VOTTranslateProxyEnabled": "सक्षम पारिएको",
   "VOTTranslateProxyEverything": "प्रोक्सी सबै कुरा",
-  "VOTTranslateProxyStatus": "प्रोक्सी मोड"
+  "VOTTranslateProxyStatus": "प्रोक्सी मोड",
+  "VOTTranslatedBy": "{0}द्वारा अनुवाद गरिएको"
 }

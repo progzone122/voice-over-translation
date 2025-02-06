@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Deshabilitat",
   "VOTTranslateProxyEnabled": "Habilitat",
   "VOTTranslateProxyEverything": "Proxy tot",
-  "VOTTranslateProxyStatus": "Mode de Proxying"
+  "VOTTranslateProxyStatus": "Mode de Proxying",
+  "VOTTranslatedBy": "Traduït per {0}"
 }

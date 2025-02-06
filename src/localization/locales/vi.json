@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Vô hiệu hóa",
   "VOTTranslateProxyEnabled": "Đã bật",
   "VOTTranslateProxyEverything": "Proxy mọi thứ",
-  "VOTTranslateProxyStatus": "Chế độ proxy"
+  "VOTTranslateProxyStatus": "Chế độ proxy",
+  "VOTTranslatedBy": "Dịch bởi {0}"
 }

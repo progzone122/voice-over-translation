@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Gedeaktiveer",
   "VOTTranslateProxyEnabled": "Geaktiveer",
   "VOTTranslateProxyEverything": "Volmag alles",
-  "VOTTranslateProxyStatus": "Volmagmodus"
+  "VOTTranslateProxyStatus": "Volmagmodus",
+  "VOTTranslatedBy": "Vertaal deur {0}"
 }

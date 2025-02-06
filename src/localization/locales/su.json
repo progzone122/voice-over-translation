@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Cacat",
   "VOTTranslateProxyEnabled": "Diaktipkeun",
   "VOTTranslateProxyEverything": "Proxy sagalana",
-  "VOTTranslateProxyStatus": "Modeu proxy"
+  "VOTTranslateProxyStatus": "Modeu proxy",
+  "VOTTranslatedBy": "Ditarjamahkeun ku {0}"
 }

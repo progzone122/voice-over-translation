@@ -202,5 +202,6 @@
   "VOTTranslateProxyDisabled": "Deficientes",
   "VOTTranslateProxyEnabled": "Activado",
   "VOTTranslateProxyEverything": "Proxy tudo",
-  "VOTTranslateProxyStatus": "Modo Proxy"
+  "VOTTranslateProxyStatus": "Modo Proxy",
+  "VOTTranslatedBy": "Traduzido por {0}"
 }

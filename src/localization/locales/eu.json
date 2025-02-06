@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Desgaituta",
   "VOTTranslateProxyEnabled": "Gaituta",
   "VOTTranslateProxyEverything": "Ordezko dena",
-  "VOTTranslateProxyStatus": "Ordezko modua"
+  "VOTTranslateProxyStatus": "Ordezko modua",
+  "VOTTranslatedBy": "Itzulpena: {0}"
 }

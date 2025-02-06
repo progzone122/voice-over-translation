@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "معذور",
   "VOTTranslateProxyEnabled": "فعال",
   "VOTTranslateProxyEverything": "پراکسی سب کچھ",
-  "VOTTranslateProxyStatus": "پراکسی موڈ"
+  "VOTTranslateProxyStatus": "پراکسی موڈ",
+  "VOTTranslatedBy": "ترجمہ: {0}"
 }

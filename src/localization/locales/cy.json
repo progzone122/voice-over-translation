@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Analluogwyd",
   "VOTTranslateProxyEnabled": "Galluogwyd",
   "VOTTranslateProxyEverything": "Dirprwy popeth",
-  "VOTTranslateProxyStatus": "Modd dirprwyo"
+  "VOTTranslateProxyStatus": "Modd dirprwyo",
+  "VOTTranslatedBy": "Wedi ei gyfieithu gan {0}"
 }

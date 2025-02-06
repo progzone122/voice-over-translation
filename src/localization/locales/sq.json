@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Me aftësi të kufizuara",
   "VOTTranslateProxyEnabled": "Aktivizuar",
   "VOTTranslateProxyEverything": "Proxy gjithçka",
-  "VOTTranslateProxyStatus": "Modaliteti i Proxying"
+  "VOTTranslateProxyStatus": "Modaliteti i Proxying",
+  "VOTTranslatedBy": "Përkthyer nga {0}"
 }

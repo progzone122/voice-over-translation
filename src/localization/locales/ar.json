@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "معاق",
   "VOTTranslateProxyEnabled": "ممكن",
   "VOTTranslateProxyEverything": "وكيل كل شيء",
-  "VOTTranslateProxyStatus": "وضع الوكيل"
+  "VOTTranslateProxyStatus": "وضع الوكيل",
+  "VOTTranslatedBy": "ترجمه {0}"
 }

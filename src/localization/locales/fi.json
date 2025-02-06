@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Käytöstä",
   "VOTTranslateProxyEnabled": "Käyttöön",
   "VOTTranslateProxyEverything": "Proxy kaikki",
-  "VOTTranslateProxyStatus": "Välityspalvelin"
+  "VOTTranslateProxyStatus": "Välityspalvelin",
+  "VOTTranslatedBy": "Kääntäjä {0}"
 }

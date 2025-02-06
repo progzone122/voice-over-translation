@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ",
   "VOTTranslateProxyEnabled": "ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ",
   "VOTTranslateProxyEverything": "ಪ್ರಾಕ್ಸಿ ಎಲ್ಲವೂ",
-  "VOTTranslateProxyStatus": "ಪ್ರಾಕ್ಸಿ ಮೋಡ್"
+  "VOTTranslateProxyStatus": "ಪ್ರಾಕ್ಸಿ ಮೋಡ್",
+  "VOTTranslatedBy": "ಅನುವಾದ {0}"
 }

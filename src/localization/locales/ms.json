@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Dimatikan",
   "VOTTranslateProxyEnabled": "Diaktifkan",
   "VOTTranslateProxyEverything": "Proksi semuanya",
-  "VOTTranslateProxyStatus": "Mod proksi"
+  "VOTTranslateProxyStatus": "Mod proksi",
+  "VOTTranslatedBy": "Diterjemahkan oleh {0}"
 }

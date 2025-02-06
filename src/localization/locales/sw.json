@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Walemavu",
   "VOTTranslateProxyEnabled": "Imewezeshwa",
   "VOTTranslateProxyEverything": "Wakala kila kitu",
-  "VOTTranslateProxyStatus": "Hali ya wakala"
+  "VOTTranslateProxyStatus": "Hali ya wakala",
+  "VOTTranslatedBy": "Ilitafsiriwa na {0}"
 }

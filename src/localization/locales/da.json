@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Deaktiveret",
   "VOTTranslateProxyEnabled": "Aktiveret",
   "VOTTranslateProxyEverything": "Fuldmagt alt",
-  "VOTTranslateProxyStatus": "Fuldførelsestilstand"
+  "VOTTranslateProxyStatus": "Fuldførelsestilstand",
+  "VOTTranslatedBy": "Oversat af {0}"
 }

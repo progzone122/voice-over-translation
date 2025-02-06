@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Изключено",
   "VOTTranslateProxyEnabled": "Включено",
   "VOTTranslateProxyEverything": "Прокси всичко",
-  "VOTTranslateProxyStatus": "Прокси режим"
+  "VOTTranslateProxyStatus": "Прокси режим",
+  "VOTTranslatedBy": "Преведено от {0}"
 }

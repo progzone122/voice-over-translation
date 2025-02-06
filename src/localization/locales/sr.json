@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Неспособан за рад",
   "VOTTranslateProxyEnabled": "Укључено",
   "VOTTranslateProxyEverything": "Проки сервер за све",
-  "VOTTranslateProxyStatus": "Режим проксирања"
+  "VOTTranslateProxyStatus": "Режим проксирања",
+  "VOTTranslatedBy": "Преведено {0}"
 }

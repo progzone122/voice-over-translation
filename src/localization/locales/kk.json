@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "Мүгедек",
   "VOTTranslateProxyEnabled": "Қосылған",
   "VOTTranslateProxyEverything": "Барлығын прокси арқылы жіберіңіз",
-  "VOTTranslateProxyStatus": "Прокси режимі"
+  "VOTTranslateProxyStatus": "Прокси режимі",
+  "VOTTranslatedBy": "Аударған {0}"
 }

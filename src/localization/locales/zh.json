@@ -203,5 +203,6 @@
   "VOTTranslateProxyDisabled": "残疾人士",
   "VOTTranslateProxyEnabled": "已启用",
   "VOTTranslateProxyEverything": "代理一切",
-  "VOTTranslateProxyStatus": "代理模式"
+  "VOTTranslateProxyStatus": "代理模式",
+  "VOTTranslatedBy": "翻译{0}"
 }
