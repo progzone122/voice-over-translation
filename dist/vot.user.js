@@ -1575,12 +1575,12 @@ class Chaimu {
     hostWorker: "vot-worker.toil.cc",
     mediaProxy: "media-proxy.toil.cc",
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 YaBrowser/24.12.0.0 Safari/537.36",
-    componentVersion: "24.12.3.780",
+    componentVersion: "24.12.4.1049",
     hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.2.1",
+    version: "2.2.2",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -3893,7 +3893,7 @@ const StreamTranslationObject = {
     },
 };
 function createBaseStreamTranslationRequest() {
-    return { url: "", language: "", responseLanguage: "" };
+    return { url: "", language: "", responseLanguage: "", unknown0: 0, unknown1: 0 };
 }
 const StreamTranslationRequest = {
     encode(message, writer = new BinaryWriter()) {
@@ -3905,6 +3905,12 @@ const StreamTranslationRequest = {
         }
         if (message.responseLanguage !== "") {
             writer.uint32(26).string(message.responseLanguage);
+        }
+        if (message.unknown0 !== 0) {
+            writer.uint32(40).int32(message.unknown0);
+        }
+        if (message.unknown1 !== 0) {
+            writer.uint32(48).int32(message.unknown1);
         }
         return writer;
     },
@@ -3936,6 +3942,20 @@ const StreamTranslationRequest = {
                     message.responseLanguage = reader.string();
                     continue;
                 }
+                case 5: {
+                    if (tag !== 40) {
+                        break;
+                    }
+                    message.unknown0 = reader.int32();
+                    continue;
+                }
+                case 6: {
+                    if (tag !== 48) {
+                        break;
+                    }
+                    message.unknown1 = reader.int32();
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -3949,6 +3969,8 @@ const StreamTranslationRequest = {
             url: isSet(object.url) ? globalThis.String(object.url) : "",
             language: isSet(object.language) ? globalThis.String(object.language) : "",
             responseLanguage: isSet(object.responseLanguage) ? globalThis.String(object.responseLanguage) : "",
+            unknown0: isSet(object.unknown0) ? globalThis.Number(object.unknown0) : 0,
+            unknown1: isSet(object.unknown1) ? globalThis.Number(object.unknown1) : 0,
         };
     },
     toJSON(message) {
@@ -3962,6 +3984,12 @@ const StreamTranslationRequest = {
         if (message.responseLanguage !== "") {
             obj.responseLanguage = message.responseLanguage;
         }
+        if (message.unknown0 !== 0) {
+            obj.unknown0 = Math.round(message.unknown0);
+        }
+        if (message.unknown1 !== 0) {
+            obj.unknown1 = Math.round(message.unknown1);
+        }
         return obj;
     },
     create(base) {
@@ -3972,6 +4000,8 @@ const StreamTranslationRequest = {
         message.url = object.url ?? "";
         message.language = object.language ?? "";
         message.responseLanguage = object.responseLanguage ?? "";
+        message.unknown0 = object.unknown0 ?? 0;
+        message.unknown1 = object.unknown1 ?? 0;
         return message;
     },
 };
@@ -4551,6 +4581,8 @@ class YandexVOTProtobuf {
             url,
             language: requestLang,
             responseLanguage: responseLang,
+            unknown0: 1,
+            unknown1: 0,
         }).finish();
     }
     static decodeStreamResponse(response) {
@@ -10248,6 +10280,23 @@ class Tooltip {
 
 
 
+class UI {
+  static undefinedPhrase = "#UNDEFINED";
+  static arrowIconRaw = Oe`<svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M12 14.975q-.2 0-.375-.062T11.3 14.7l-4.6-4.6q-.275-.275-.275-.7t.275-.7q.275-.275.7-.275t.7.275l3.9 3.9l3.9-3.9q.275-.275.7-.275t.7.275q.275.275.275.7t-.275.7l-4.6 4.6q-.15.15-.325.213t-.375.062Z"
+    />
+  </svg>`;
+  static animeOpts = {
+    easing: "linear",
+    delay: (i) => i * 200,
+  };
+
 
 
 
@@ -10895,6 +10944,7 @@ class SubtitlesWidget {
       );
       this.subtitlesBlock =
         this.subtitlesContainer.querySelector(".vot-subtitles");
+
     }
   }
 
@@ -11115,6 +11165,109 @@ class VideoObserver {
   }
 }
 
+;// ./src/utils/translateApis.ts
+
+
+
+/**
+ * Limit: 10k symbols for yandex, 50k for msedge
+ */
+const FOSWLYTranslateAPI = new (class {
+    isFOSWLYError(data) {
+        return Object.hasOwn(data, "error");
+    }
+    async request(path, opts = {}) {
+        try {
+            const res = await GM_fetch(`${foswlyTranslateUrl}${path}`, {
+                timeout: 3000,
+                ...opts,
+            });
+            const data = (await res.json());
+            if (this.isFOSWLYError(data)) {
+                throw data.error;
+            }
+            return data;
+        }
+        catch (err) {
+            console.error(`[VOT] Failed to get data from FOSWLY Translate API, because ${err.message}`);
+            return undefined;
+        }
+    }
+    async translateMultiple(text, lang, service) {
+        const result = await this.request("/translate", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                text,
+                lang,
+                service,
+            }),
+        });
+        return result ? result.translations : text;
+    }
+    async translate(text, lang, service) {
+        const result = await this.request(`/translate?${new URLSearchParams({
+            text,
+            lang,
+            service,
+        })}`);
+        return result ? result.translations[0] : text;
+    }
+    async detect(text, service) {
+        const result = await this.request(`/detect?${new URLSearchParams({
+            text,
+            service,
+        })}`);
+        return result ? result.lang : "en";
+    }
+})();
+const RustServerAPI = {
+    async detect(text) {
+        try {
+            const response = await GM_fetch(detectRustServerUrl, {
+                method: "POST",
+                body: text,
+                timeout: 3000,
+            });
+            return await response.text();
+        }
+        catch (error) {
+            console.error(`[VOT] Error getting lang from text, because ${error.message}`);
+            return "en";
+        }
+    },
+};
+async function translate(text, fromLang = "", toLang = "ru") {
+    const service = await votStorage.get("translationService", defaultTranslationService);
+    switch (service) {
+        case "yandexbrowser":
+        case "msedge": {
+            const langPair = fromLang && toLang ? `${fromLang}-${toLang}` : toLang;
+            return Array.isArray(text)
+                ? await FOSWLYTranslateAPI.translateMultiple(text, langPair, service)
+                : await FOSWLYTranslateAPI.translate(text, langPair, service);
+        }
+        default:
+            return text;
+    }
+}
+async function detect(text) {
+    const service = await votStorage.get("detectService", defaultDetectService);
+    switch (service) {
+        case "yandexbrowser":
+        case "msedge":
+            return await FOSWLYTranslateAPI.detect(text, service);
+        case "rust-server":
+            return await RustServerAPI.detect(text);
+        default:
+            return "en";
+    }
+}
+const foswlyServices = ["yandexbrowser", "msedge"];
+const detectServices = [...foswlyServices, "rust-server"];
+
 ;// ./src/index.js
 
 
@@ -11173,6 +11326,88 @@ const createHotkeyText = (hotkey) =>
     : localizationProvider.get("VOTCreateTranslationHotkey");
 
 let countryCode; // Used later for proxy settings
+
+/*─────────────────────────────────────────────────────────────*/
+/*           Helper class: CacheManager                        */
+/* Merges video translation and subtitles caching by a composite key  */
+/*─────────────────────────────────────────────────────────────*/
+class CacheManager {
+  constructor() {
+    this.cache = new Map();
+  }
+  /**
+   * Returns the full cache entry for the given key.
+   * @param {string} key The composite key.
+   * @returns {Object|undefined}
+   */
+  get(key) {
+    return this.cache.get(key);
+  }
+  /**
+   * Sets the full cache entry for the given key.
+   * @param {string} key The composite key.
+   * @param {Object} value The cache entry.
+   */
+  set(key, value) {
+    this.cache.set(key, value);
+  }
+  /**
+   * Deletes the entire cache entry for the given key.
+   * @param {string} key The composite key.
+   */
+  delete(key) {
+    this.cache.delete(key);
+  }
+  /**
+   * Gets the translation object for the given key.
+   * @param {string} key The composite key.
+   * @returns {Object|undefined}
+   */
+  getTranslation(key) {
+    const entry = this.get(key);
+    return entry ? entry.translation : undefined;
+  }
+  /**
+   * Sets the translation object for the given key.
+   * @param {string} key The composite key.
+   * @param {Object} translation The translation data.
+   */
+  setTranslation(key, translation) {
+    let entry = this.get(key) || {};
+    entry.translation = translation;
+    this.set(key, entry);
+  }
+  /**
+   * Gets the subtitles array for the given key.
+   * @param {string} key The composite key.
+   * @returns {Array|undefined}
+   */
+  getSubtitles(key) {
+    const entry = this.get(key);
+    return entry ? entry.subtitles : undefined;
+  }
+  /**
+   * Sets the subtitles array for the given key.
+   * @param {string} key The composite key.
+   * @param {Array} subtitles The subtitles data.
+   */
+  setSubtitles(key, subtitles) {
+    let entry = this.get(key) || {};
+    entry.subtitles = subtitles;
+    this.set(key, entry);
+  }
+  /**
+   * Deletes the subtitles data for the given key.
+   * @param {string} key The composite key.
+   */
+  deleteSubtitles(key) {
+    let entry = this.get(key);
+    if (entry) {
+      delete entry.subtitles;
+      this.set(key, entry);
+    }
+  }
+}
 
 /*─────────────────────────────────────────────────────────────*/
 /*           Helper class: VOTUIManager                        */
@@ -11390,10 +11625,9 @@ class VOTUIManager {
           localizationProvider.get("VOTSubtitles"),
         ),
         onBeforeOpen: async () => {
-          if (
-            this.videoHandler.videoData.videoId !==
-            this.videoHandler.subtitlesListVideoId
-          ) {
+          // If subtitles cache for the current parameters is missing, load subtitles.
+          const cacheKey = `${this.videoHandler.videoData.videoId}_${this.videoHandler.videoData.detectedLanguage}_${this.videoHandler.videoData.responseLanguage}_${this.videoHandler.data.useNewModel}`;
+          if (!this.videoHandler.cacheManager.getSubtitles(cacheKey)) {
             this.videoHandler.setLoadingBtn(true);
             await this.videoHandler.loadSubtitles();
             this.videoHandler.setLoadingBtn(false);
@@ -11717,7 +11951,6 @@ class VOTUIManager {
             this.videoHandler.data.translateProxyEnabled,
           );
           this.videoHandler.initVOTClient();
-          this.videoHandler.videoTranslations.clear();
         },
         labelElement: UI.createVOTSelectLabel(
           localizationProvider.get("VOTTranslateProxyStatus"),
@@ -12721,7 +12954,7 @@ class VOTTranslationHandler {
       );
       console.error("[VOT]", err);
       const cacheKey = `${videoData.videoId}_${requestLang}_${responseLang}_${this.videoHandler.data.useNewModel}`;
-      this.videoHandler.videoTranslations.set(cacheKey, { error: err });
+      this.videoHandler.cacheManager.setTranslation(cacheKey, { error: err });
       return null;
     }
     return new Promise((resolve) => {
@@ -13051,9 +13284,7 @@ class VideoHandler {
   votClient;
   /** @type {Chaimu} */
   audioPlayer;
-  /** @type {Map<string, any>} */
-  videoTranslations = new Map(); // map of video translations
-  cachedTranslation; // cached video translation
+  cacheManager; // cache for translation and subtitles
   downloadTranslationUrl = null;
   autoRetry; // auto retry timeout
   streamPing; // stream ping interval
@@ -13063,8 +13294,7 @@ class VideoHandler {
   tempVolume; // temp translation volume for syncing
   firstSyncVolume = true; // used for skip 1st syncing with observer
   longWaitingResCount = 0;
-  subtitlesList = [];
-  subtitlesListVideoId = null;
+  subtitles = []; // current subtitle list
   /** @type {any} */
   dragging;
 
@@ -13091,6 +13321,7 @@ class VideoHandler {
     this.uiManager = new VOTUIManager(this);
     this.translationHandler = new VOTTranslationHandler(this);
     this.videoManager = new VOTVideoManager(this);
+    this.cacheManager = new CacheManager();
     this.init();
   }
 
@@ -13604,7 +13835,7 @@ class VideoHandler {
       this.votDownloadSubtitlesButton.hidden = true;
       this.yandexSubtitles = null;
     } else {
-      const subtitlesObj = this.subtitlesList.at(parseInt(subs));
+      const subtitlesObj = this.subtitles.at(parseInt(subs));
       if (
         this.data.translateProxyEnabled === 2 &&
         subtitlesObj.url.startsWith(
@@ -13632,7 +13863,7 @@ class VideoHandler {
    * Updates the subtitles selection options.
    */
   async updateSubtitlesLangSelect() {
-    if (!this.subtitlesList || this.subtitlesList.length === 0) {
+    if (!this.subtitles || this.subtitles.length === 0) {
       const updatedOptions = [
         {
           label: localizationProvider.get("VOTSubtitlesDisabled"),
@@ -13652,7 +13883,7 @@ class VideoHandler {
         selected: true,
         disabled: false,
       },
-      ...this.subtitlesList.map((s, idx) => ({
+      ...this.subtitles.map((s, idx) => ({
         label:
           (localizationProvider.get("langs")[s.language] ??
             s.language.toUpperCase()) +
@@ -13683,21 +13914,23 @@ class VideoHandler {
       console.error(
         `[VOT] ${localizationProvider.getDefault("VOTNoVideoIDFound")}`,
       );
-      this.subtitlesList = [];
-      this.subtitlesListVideoId = null;
+      this.subtitles = [];
       return;
     }
+    const cacheKey = `${this.videoData.videoId}_${this.videoData.detectedLanguage}_${this.videoData.responseLanguage}_${this.data.useNewModel}`;
     try {
-      this.subtitlesList = await SubtitlesProcessor.getSubtitles(
-        this.votClient,
-        this.videoData,
-      );
-      if (this.subtitlesList)
-        this.subtitlesListVideoId = this.videoData.videoId;
+      let cachedSubs = this.cacheManager.getSubtitles(cacheKey);
+      if (!cachedSubs) {
+        cachedSubs = await SubtitlesProcessor.getSubtitles(
+          this.votClient,
+          this.videoData,
+        );
+        this.cacheManager.setSubtitles(cacheKey, cachedSubs);
+      }
+      this.subtitles = cachedSubs;
     } catch (error) {
       console.error("[VOT] Failed to load subtitles:", error);
-      this.subtitlesList = [];
-      this.subtitlesListVideoId = null;
+      this.subtitles = [];
     }
     await this.updateSubtitlesLangSelect();
   }
@@ -13948,7 +14181,7 @@ class VideoHandler {
    * @param {string} audioUrl The audio URL.
    */
   async updateTranslation(audioUrl) {
-    if (this.cachedTranslation?.url !== this.audioPlayer.player.currentSrc) {
+    if (audioUrl !== this.audioPlayer.player.currentSrc) {
       audioUrl = await this.validateAudioUrl(this.proxifyAudio(audioUrl));
     }
     if (this.audioPlayer.player.src !== audioUrl) {
@@ -13991,16 +14224,14 @@ class VideoHandler {
     this.setLoadingBtn(true);
     this.volumeOnStart = this.getVideoVolume();
     const cacheKey = `${VIDEO_ID}_${requestLang}_${responseLang}_${this.data.useNewModel}`;
-    this.cachedTranslation = this.videoTranslations.get(cacheKey);
-    if (this.cachedTranslation?.url) {
-      await this.updateTranslation(this.cachedTranslation.url);
+    const cachedEntry = this.cacheManager.getTranslation(cacheKey);
+    if (cachedEntry?.url) {
+      await this.updateTranslation(cachedEntry.url);
       utils_debug.log("[translateFunc] Cached translation was received");
       return;
-    } else if (this.cachedTranslation?.error) {
+    } else if (cachedEntry?.error) {
       utils_debug.log("Skip translation - previous attempt failed");
-      await this.updateTranslationErrorMsg(
-        this.cachedTranslation.error.data?.message,
-      );
+      await this.updateTranslationErrorMsg(cachedEntry.error.data?.message);
       return;
     }
     if (isStream) {
@@ -14046,17 +14277,20 @@ class VideoHandler {
       return;
     }
     await this.updateTranslation(translateRes.url);
+    // Invalidate subtitles cache if there is no matching subtitle.
+    const cachedSubs = this.cacheManager.getSubtitles(cacheKey);
     if (
-      !this.subtitlesList.some(
+      !cachedSubs?.some(
         (item) =>
           item.source === "yandex" &&
           item.translatedFromLanguage === this.videoData.detectedLanguage &&
           item.language === this.videoData.responseLanguage,
       )
     ) {
-      this.subtitlesListVideoId = null;
+      this.cacheManager.deleteSubtitles(cacheKey);
+      this.subtitles = [];
     }
-    this.videoTranslations.set(cacheKey, {
+    this.cacheManager.setTranslation(cacheKey, {
       videoId: VIDEO_ID,
       from: requestLang,
       to: responseLang,
@@ -14157,11 +14391,9 @@ class VideoHandler {
       this.container.append(this.votButton.container, this.votMenu.container);
     }
     this.videoData = await this.getVideoData();
-    if (this.subtitlesListVideoId !== this.videoData.videoId) {
-      this.subtitlesList = [];
-      this.subtitlesListVideoId = null;
-      await this.updateSubtitlesLangSelect();
-    }
+    const cacheKey = `${this.videoData.videoId}_${this.videoData.detectedLanguage}_${this.videoData.responseLanguage}_${this.data.useNewModel}`;
+    this.subtitles = this.cacheManager.getSubtitles(cacheKey);
+    await this.updateSubtitlesLangSelect();
     this.translateToLang = this.data.responseLanguage ?? "ru";
     this.setSelectMenuValues(
       this.videoData.detectedLanguage,
