@@ -11,11 +11,14 @@ import { clamp } from "../utils/utils";
 export default class Tooltip {
   showed = false;
 
+  target: HTMLElement;
+  anchor: HTMLElement;
   content: string | HTMLElement;
   position: Position;
   trigger: Trigger;
   parentElement: HTMLElement;
-  offset: number;
+  offsetX: number;
+  offsetY: number;
   hidden: boolean;
 
   pageWidth!: number;
@@ -25,10 +28,10 @@ export default class Tooltip {
 
   container?: HTMLElement;
   onResizeObserver?: ResizeObserver;
-  target: HTMLElement;
 
   constructor({
     target,
+    anchor = undefined,
     content = "",
     position = "top",
     trigger = "hover",
@@ -43,8 +46,14 @@ export default class Tooltip {
     }
 
     this.target = target;
+    this.anchor = anchor instanceof HTMLElement ? anchor : target;
     this.content = content;
-    this.offset = offset;
+    if (typeof offset === "number") {
+      this.offsetY = this.offsetX = offset;
+    } else {
+      this.offsetX = offset.x;
+      this.offsetY = offset.y;
+    }
     this.hidden = hidden;
     this.trigger = Tooltip.validateTrigger(trigger) ? trigger : "hover";
     this.position = Tooltip.validatePos(position) ? position : "top";
@@ -173,9 +182,8 @@ export default class Tooltip {
     const { top, left } = this.calcPos();
     const maxWidth =
       this.maxWidth ??
-      clamp(this.pageWidth - left - this.offset, 0, this.pageWidth);
-    this.container.style.top = `${top}px`;
-    this.container.style.left = `${left}px`;
+      clamp(this.pageWidth - left - this.offsetX, 0, this.pageWidth);
+    this.container.style.transform = `translate(${left}px, ${top}px)`;
     this.container.style.maxWidth = `${maxWidth}px`;
     return this;
   }
@@ -192,29 +200,29 @@ export default class Tooltip {
       bottom,
       width: widthTarget,
       height: heightTarget,
-    } = this.target.getBoundingClientRect();
+    } = this.anchor.getBoundingClientRect();
     const { width, height } = this.container.getBoundingClientRect();
 
     switch (this.position) {
       case "top":
         return {
-          top: clamp(top - height - this.offset, 0, this.pageHeight),
+          top: clamp(top - height - this.offsetY, 0, this.pageHeight),
           left: clamp(left - width / 2 + widthTarget / 2, 0, this.pageWidth),
         };
       case "right":
         return {
           top: clamp(top + (heightTarget - height) / 2, 0, this.pageHeight),
-          left: clamp(right + this.offset, 0, this.pageWidth),
+          left: clamp(right + this.offsetX, 0, this.pageWidth),
         };
       case "bottom":
         return {
-          top: clamp(bottom + this.offset, 0, this.pageHeight),
+          top: clamp(bottom + this.offsetY, 0, this.pageHeight),
           left: clamp(left - width / 2 + widthTarget / 2, 0, this.pageWidth),
         };
       case "left":
         return {
           top: clamp(top + (heightTarget - height) / 2, 0, this.pageHeight),
-          left: clamp(left - width - this.offset, 0, this.pageWidth),
+          left: clamp(left - width - this.offsetX, 0, this.pageWidth),
         };
       default:
         return { top: 0, left: 0 };
@@ -227,19 +235,22 @@ export default class Tooltip {
     }
 
     this.showed = false;
+    this.onResizeObserver?.disconnect();
+    if (instant) {
+      this.container.remove();
+      return this;
+    }
+
     const container = this.container;
     container.style.opacity = "0";
-    this.onResizeObserver?.disconnect();
-
-    setTimeout(
+    container.addEventListener(
+      "transitionend",
       () => {
-        if (!container) {
-          return this;
-        }
-
-        container.remove();
+        container?.remove();
       },
-      instant ? 0 : 500,
+      {
+        once: true,
+      },
     );
 
     return this;
