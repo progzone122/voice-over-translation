@@ -49,6 +49,29 @@ const FOSWLYTranslateAPI = new (class {
     }
   }
 
+  async translateMultiple(
+    text: string[],
+    lang: string,
+    service: keyof typeof ClientType.TranslationService,
+  ) {
+    const result = await this.request<BaseProviderType.TranslationResponse>(
+      "/translate",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text,
+          lang,
+          service,
+        }),
+      },
+    );
+
+    return result ? result.translations : text;
+  }
+
   async translate(
     text: string,
     lang: string,
@@ -101,7 +124,11 @@ const RustServerAPI = {
   },
 };
 
-async function translate(text: string, fromLang = "", toLang = "ru") {
+async function translate(
+  text: string | string[],
+  fromLang = "",
+  toLang = "ru",
+) {
   const service = await votStorage.get(
     "translationService",
     defaultTranslationService,
@@ -110,7 +137,9 @@ async function translate(text: string, fromLang = "", toLang = "ru") {
     case "yandexbrowser":
     case "msedge": {
       const langPair = fromLang && toLang ? `${fromLang}-${toLang}` : toLang;
-      return await FOSWLYTranslateAPI.translate(text, langPair, service);
+      return Array.isArray(text)
+        ? await FOSWLYTranslateAPI.translateMultiple(text, langPair, service)
+        : await FOSWLYTranslateAPI.translate(text, langPair, service);
     }
     default:
       return text;
