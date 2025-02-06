@@ -29,6 +29,9 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 3px;
 
   &-widget {
     display: flex;
@@ -44,17 +47,68 @@
     pointer-events: none;
   }
 
+  // max specificity for styles
+  &-info {
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+    gap: 2px;
+
+    &-service {
+      line-height: 1 !important;
+      font-size: 10px !important;
+      margin-bottom: 8px;
+      // TODO: to variable
+      color: #86919b;
+    }
+
+    &-header {
+      line-height: 1 !important;
+      font-size: 20px !important;
+      font-weight: 500 !important;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+
+    &-context {
+      line-height: 1.2 !important;
+      font-size: 12px !important;
+      color: #86919b;
+    }
+  }
+
   & span {
-    -webkit-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
-    user-select: text;
+    position: relative;
+    cursor: pointer;
     font-size: inherit !important;
     font-family: inherit !important;
     line-height: normal !important;
-  }
 
-  & .passed {
-    color: var(--vot-subtitles-passed-color, rgb(33, 150, 243));
+    &.passed {
+      color: var(--vot-subtitles-passed-color, rgb(33, 150, 243));
+    }
+
+    &:before {
+      content: "";
+      position: absolute;
+      border-radius: 4px;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      inset: 2px -2px;
+      padding: 0 2px;
+    }
+
+    &:hover:before {
+      background: var(--vot-subtitles-hover-color, rgba(255, 255, 255, 0.55));
+    }
+
+    &.selected:before {
+      background: var(--vot-subtitles-passed-color, rgb(33, 150, 243));
+    }
   }
+}
+
+#vot-subtitles-info.vot-subtitles-info * {
+  user-select: text !important;
 }
