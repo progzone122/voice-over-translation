@@ -141,10 +141,18 @@ class VOTUIManager {
    */
   initUI() {
     // ----- VOT Button creation -----
-    // Create the translation button using ui helper and set initial opacity.
-    this.videoHandler.votPortal = ui.createPortal();
-    document.documentElement.appendChild(this.videoHandler.votPortal);
+    // Create local Portal for button and subtitles tooltips and global for dialogs
+    this.videoHandler.votPortal = ui.createPortal(true);
+    const portalContainer =
+      this.videoHandler.site.host === "youtube" &&
+      this.videoHandler.site.additionalData !== "mobile"
+        ? this.videoHandler.container.parentElement
+        : this.videoHandler.container;
+    portalContainer.appendChild(this.videoHandler.votPortal);
+    this.videoHandler.votGlobalPortal = ui.createPortal();
+    document.documentElement.appendChild(this.videoHandler.votGlobalPortal);
 
+    // Create the translation button using ui helper and set initial opacity.
     this.videoHandler.votButton = ui.createVOTButton(
       localizationProvider.get("translateVideo"),
     );
@@ -311,6 +319,7 @@ class VOTUIManager {
             this.videoHandler.setLoadingBtn(false);
           }
         },
+        dialogParent: this.videoHandler.votGlobalPortal,
       },
     );
     this.videoHandler.votMenu.bodyContainer.appendChild(
@@ -355,7 +364,7 @@ class VOTUIManager {
     this.videoHandler.votSettingsDialog = ui.createDialog(
       localizationProvider.get("VOTSettings"),
     );
-    this.videoHandler.votPortal.appendChild(
+    this.videoHandler.votGlobalPortal.appendChild(
       this.videoHandler.votSettingsDialog.container,
     );
 
@@ -407,6 +416,7 @@ class VOTUIManager {
           localizationProvider.get("VOTDontTranslateYourLang"),
           this.videoHandler.data?.dontTranslateYourLang ?? true,
         ).container,
+        dialogParent: this.videoHandler.votGlobalPortal,
       },
     );
     this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
@@ -468,7 +478,7 @@ class VOTUIManager {
         content: localizationProvider.get("VOTNeedWebAudioAPI"),
         position: "bottom",
         backgroundColor: "var(--vot-helper-ondialog)",
-        parentElement: this.videoHandler.votPortal,
+        parentElement: this.videoHandler.votGlobalPortal,
       });
     }
     this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
@@ -511,7 +521,6 @@ class VOTUIManager {
       this.videoHandler.votUseNewModelCheckbox.container,
     );
 
-    // Translation errors service select.
     this.videoHandler.votTranslationErrorsServiceSelect = ui.createVOTSelect(
       this.videoHandler.data.translationService.toUpperCase(),
       localizationProvider.get("VOTTranslationErrorsService"),
@@ -526,15 +535,19 @@ class VOTUIManager {
             "translationService",
             this.videoHandler.data.translationService,
           );
+          this.videoHandler.subtitlesWidget.strTranslatedTokens = "";
+          this.videoHandler.subtitlesWidget.releaseTooltip();
         },
         labelElement: ui.createCheckbox(
           localizationProvider.get("VOTTranslateAPIErrors"),
           this.videoHandler.data.translateAPIErrors ?? true,
         ).container,
+        dialogParent: this.videoHandler.votGlobalPortal,
       },
     );
-    this.videoHandler.votTranslationErrorsServiceSelect.container.hidden =
-      localizationProvider.lang === "ru";
+    // TODO: derive checkbox and select. Rename select to text translation service
+    // this.videoHandler.votTranslationErrorsServiceSelect.container.hidden =
+    //   localizationProvider.lang === "ru";
     this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
       this.videoHandler.votTranslationErrorsServiceSelect.container,
     );
@@ -555,6 +568,7 @@ class VOTUIManager {
         labelElement: ui.createVOTSelectLabel(
           localizationProvider.get("VOTDetectService"),
         ),
+        dialogParent: this.videoHandler.votGlobalPortal,
       },
     );
     this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
@@ -628,6 +642,7 @@ class VOTUIManager {
         labelElement: ui.createVOTSelectLabel(
           localizationProvider.get("VOTTranslateProxyStatus"),
         ),
+        dialogParent: this.videoHandler.votGlobalPortal,
       },
     );
     this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
@@ -645,7 +660,7 @@ class VOTUIManager {
         content: localizationProvider.get("VOTNeedWebAudioAPI"),
         position: "bottom",
         backgroundColor: "var(--vot-helper-ondialog)",
-        parentElement: this.videoHandler.votPortal,
+        parentElement: this.videoHandler.votGlobalPortal,
       });
     }
     this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
@@ -668,7 +683,7 @@ class VOTUIManager {
         content: localizationProvider.get("VOTNeedWebAudioAPI"),
         position: "bottom",
         backgroundColor: "var(--vot-helper-ondialog)",
-        parentElement: this.videoHandler.votPortal,
+        parentElement: this.videoHandler.votGlobalPortal,
       });
     }
     this.videoHandler.votOnlyBypassMediaCSPCheckbox.input.disabled =
@@ -707,6 +722,7 @@ class VOTUIManager {
         labelElement: ui.createVOTSelectLabel(
           localizationProvider.get("VOTMenuLanguage"),
         ),
+        dialogParent: this.videoHandler.votGlobalPortal,
       },
     );
     this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
@@ -988,6 +1004,7 @@ class VOTUIManager {
         document.webkitExitFullscreen && document.webkitExitFullscreen();
         document.exitFullscreen && document.exitFullscreen();
       }
+      this.videoHandler.subtitlesWidget.releaseTooltip();
     });
 
     this.videoHandler.votVideoVolumeSlider.input.addEventListener(
@@ -1309,6 +1326,7 @@ class VOTUIManager {
             labelElement: ui.createVOTSelectLabel(
               localizationProvider.get("VOTSubtitlesDownloadFormat"),
             ),
+            dialogParent: this.videoHandler.votGlobalPortal,
           },
         );
         this.videoHandler.votSubtitlesDialog.bodyContainer.appendChild(
@@ -1429,7 +1447,7 @@ class VOTUIManager {
           },
         );
 
-        this.videoHandler.votPortal.appendChild(
+        this.videoHandler.votGlobalPortal.appendChild(
           this.videoHandler.votSubtitlesDialog.container,
         );
       },
@@ -2181,20 +2199,21 @@ class VideoHandler {
 
     this.initVOTClient();
 
+    // Initialize UI elements and events.
+    this.uiManager.initUI();
+    this.uiManager.initUIEvents();
+
     // Initialize subtitles widget.
     this.subtitlesWidget = new SubtitlesWidget(
       this.video,
       this.container,
       this.site,
+      this.votPortal,
     );
     this.subtitlesWidget.setMaxLength(this.data.subtitlesMaxLength);
     this.subtitlesWidget.setHighlightWords(this.data.highlightWords);
     this.subtitlesWidget.setFontSize(this.data.subtitlesFontSize);
     this.subtitlesWidget.setOpacity(this.data.subtitlesOpacity);
-
-    // Initialize UI elements and events.
-    this.uiManager.initUI();
-    this.uiManager.initUIEvents();
 
     // Get video data and create player.
     this.videoData = await this.getVideoData();
@@ -2521,7 +2540,10 @@ class VideoHandler {
       }
       this.yandexSubtitles =
         await SubtitlesProcessor.fetchSubtitles(subtitlesObj);
-      this.subtitlesWidget.setContent(this.yandexSubtitles);
+      this.subtitlesWidget.setContent(
+        this.yandexSubtitles,
+        subtitlesObj.language,
+      );
       this.votDownloadSubtitlesButton.hidden = false;
     }
   }
