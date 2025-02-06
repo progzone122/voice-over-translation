@@ -4,6 +4,7 @@ import {
   positions,
   Trigger,
   triggers,
+  PagePosition,
 } from "../types/tooltip";
 import UI from "../ui";
 import { clamp } from "../utils/utils";
@@ -20,11 +21,13 @@ export default class Tooltip {
   offsetX: number;
   offsetY: number;
   hidden: boolean;
+  autoLayout: boolean;
 
   pageWidth!: number;
   pageHeight!: number;
   maxWidth?: number;
   backgroundColor?: string;
+  borderRadius?: number;
 
   container?: HTMLElement;
   onResizeObserver?: ResizeObserver;
@@ -38,7 +41,9 @@ export default class Tooltip {
     offset = 4,
     maxWidth = undefined,
     hidden = false,
+    autoLayout = true,
     backgroundColor = undefined,
+    borderRadius = undefined,
     parentElement = document.body,
   }: TooltipOpts) {
     if (!(target instanceof HTMLElement)) {
@@ -55,9 +60,11 @@ export default class Tooltip {
       this.offsetY = offset.y;
     }
     this.hidden = hidden;
+    this.autoLayout = autoLayout;
     this.trigger = Tooltip.validateTrigger(trigger) ? trigger : "hover";
     this.position = Tooltip.validatePos(position) ? position : "top";
     this.parentElement = parentElement;
+    this.borderRadius = borderRadius;
     this.maxWidth = maxWidth;
     this.backgroundColor = backgroundColor;
     this.updatePageSize();
@@ -165,6 +172,10 @@ export default class Tooltip {
       this.container.style.backgroundColor = this.backgroundColor;
     }
 
+    if (this.borderRadius !== undefined) {
+      this.container.style.borderRadius = `${this.borderRadius}px`;
+    }
+
     if (this.hidden) {
       this.container.hidden = true;
     }
@@ -179,7 +190,7 @@ export default class Tooltip {
       return this;
     }
 
-    const { top, left } = this.calcPos();
+    let { top, left } = this.calcPos(this.autoLayout);
     const maxWidth =
       this.maxWidth ??
       clamp(this.pageWidth - left - this.offsetX, 0, this.pageWidth);
@@ -188,7 +199,7 @@ export default class Tooltip {
     return this;
   }
 
-  calcPos() {
+  calcPos(autoLayout = true): PagePosition {
     if (!this.container) {
       return { top: 0, left: 0 };
     }
@@ -202,28 +213,55 @@ export default class Tooltip {
       height: heightTarget,
     } = this.anchor.getBoundingClientRect();
     const { width, height } = this.container.getBoundingClientRect();
-
     switch (this.position) {
-      case "top":
+      case "top": {
+        const pTop = clamp(top - height - this.offsetY, 0, this.pageHeight);
+        if (autoLayout && pTop + height > top) {
+          this.position = "bottom";
+          return this.calcPos(false);
+        }
+
         return {
-          top: clamp(top - height - this.offsetY, 0, this.pageHeight),
+          top: pTop,
           left: clamp(left - width / 2 + widthTarget / 2, 0, this.pageWidth),
         };
-      case "right":
+      }
+      case "right": {
+        const pLeft = clamp(right + this.offsetX, 0, this.pageWidth);
+        if (autoLayout && pLeft + width > this.pageWidth) {
+          this.position = "left";
+          return this.calcPos(false);
+        }
+
         return {
           top: clamp(top + (heightTarget - height) / 2, 0, this.pageHeight),
-          left: clamp(right + this.offsetX, 0, this.pageWidth),
+          left: pLeft,
         };
-      case "bottom":
+      }
+      case "bottom": {
+        const pTop = clamp(bottom + this.offsetY, 0, this.pageHeight);
+        if (autoLayout && pTop + height > this.pageHeight) {
+          this.position = "top";
+          return this.calcPos(false);
+        }
+
         return {
-          top: clamp(bottom + this.offsetY, 0, this.pageHeight),
+          top: pTop,
           left: clamp(left - width / 2 + widthTarget / 2, 0, this.pageWidth),
         };
-      case "left":
+      }
+      case "left": {
+        const pLeft = clamp(left - width - this.offsetX, 0, this.pageWidth);
+        if (autoLayout && pLeft + width > left) {
+          this.position = "right";
+          return this.calcPos(false);
+        }
+
         return {
           top: clamp(top + (heightTarget - height) / 2, 0, this.pageHeight),
-          left: clamp(left - width - this.offsetX, 0, this.pageWidth),
+          left: pLeft,
         };
+      }
       default:
         return { top: 0, left: 0 };
     }
