@@ -47,7 +47,6 @@
     pointer-events: none;
   }
 
-  // max specificity for styles
   &-info {
     display: flex;
     flex-direction: column;
@@ -58,8 +57,7 @@
       line-height: 1 !important;
       font-size: 10px !important;
       margin-bottom: 8px;
-      // TODO: to variable
-      color: #86919b;
+      color: var(--vot-subtitles-context-color, rgb(134, 145, 155));
     }
 
     &-header {
@@ -67,13 +65,13 @@
       font-size: 20px !important;
       font-weight: 500 !important;
       margin-bottom: 6px;
-      color: #fff;
+      color: var(--vot-subtitles-header-color, rgb(255, 255, 255));
     }
 
     &-context {
       line-height: 1.2 !important;
       font-size: 12px !important;
-      color: #86919b;
+      color: var(--vot-subtitles-context-color, rgb(134, 145, 155));
     }
   }
 
@@ -109,6 +107,7 @@
   }
 }
 
+// max specificity for styles
 #vot-subtitles-info.vot-subtitles-info * {
   user-select: text !important;
 }
