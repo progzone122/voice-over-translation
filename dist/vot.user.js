@@ -10027,6 +10027,7 @@ class Tooltip {
     position;
     trigger;
     parentElement;
+    layoutRoot;
     offsetX;
     offsetY;
     hidden;
@@ -10038,7 +10039,7 @@ class Tooltip {
     borderRadius;
     container;
     onResizeObserver;
-    constructor({ target, anchor = undefined, content = "", position = "top", trigger = "hover", offset = 4, maxWidth = undefined, hidden = false, autoLayout = true, backgroundColor = undefined, borderRadius = undefined, parentElement = document.body, }) {
+    constructor({ target, anchor = undefined, content = "", position = "top", trigger = "hover", offset = 4, maxWidth = undefined, hidden = false, autoLayout = true, backgroundColor = undefined, borderRadius = undefined, parentElement = document.body, layoutRoot = document.documentElement, }) {
         if (!(target instanceof HTMLElement)) {
             throw new Error("target must be a valid HTMLElement");
         }
@@ -10057,6 +10058,7 @@ class Tooltip {
         this.trigger = Tooltip.validateTrigger(trigger) ? trigger : "hover";
         this.position = Tooltip.validatePos(position) ? position : "top";
         this.parentElement = parentElement;
+        this.layoutRoot = layoutRoot;
         this.borderRadius = borderRadius;
         this.maxWidth = maxWidth;
         this.backgroundColor = backgroundColor;
@@ -10105,8 +10107,8 @@ class Tooltip {
         this.destroy();
     };
     updatePageSize() {
-        this.pageWidth = document.documentElement.clientWidth;
-        this.pageHeight = document.documentElement.clientHeight;
+        this.pageWidth = this.layoutRoot.clientWidth;
+        this.pageHeight = this.layoutRoot.clientHeight;
         return this;
     }
     init() {
@@ -10151,7 +10153,7 @@ class Tooltip {
             this.container.hidden = true;
         }
         this.container.style.opacity = "1";
-        this.onResizeObserver?.observe(document.documentElement);
+        this.onResizeObserver?.observe(this.layoutRoot);
         return this;
     }
     updatePos() {
@@ -10174,7 +10176,7 @@ class Tooltip {
         switch (this.position) {
             case "top": {
                 const pTop = clamp(top - height - this.offsetY, 0, this.pageHeight);
-                if (autoLayout && pTop + height > top) {
+                if (autoLayout && pTop + this.offsetY < height) {
                     this.position = "bottom";
                     return this.calcPos(false);
                 }
@@ -10759,6 +10761,7 @@ class SubtitlesWidget {
     this.tokenTooltip = new Tooltip({
       target: e.target,
       anchor: this.subtitlesBlock,
+      layoutRoot: this.site.host === "custom" ? undefined : this.container,
       content: subtitlesInfo.container,
       parentElement: this.portal,
       maxWidth: this.subtitlesContainer.offsetWidth,
