@@ -515,6 +515,7 @@ export class SubtitlesWidget {
     this.tokenTooltip = new Tooltip({
       target: e.target,
       anchor: this.subtitlesBlock,
+      layoutRoot: this.site.host === "custom" ? undefined : this.container,
       content: subtitlesInfo.container,
       parentElement: this.portal,
       maxWidth: this.subtitlesContainer.offsetWidth,

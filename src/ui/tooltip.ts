@@ -18,6 +18,7 @@ export default class Tooltip {
   position: Position;
   trigger: Trigger;
   parentElement: HTMLElement;
+  layoutRoot: HTMLElement;
   offsetX: number;
   offsetY: number;
   hidden: boolean;
@@ -45,6 +46,7 @@ export default class Tooltip {
     backgroundColor = undefined,
     borderRadius = undefined,
     parentElement = document.body,
+    layoutRoot = document.documentElement,
   }: TooltipOpts) {
     if (!(target instanceof HTMLElement)) {
       throw new Error("target must be a valid HTMLElement");
@@ -64,6 +66,7 @@ export default class Tooltip {
     this.trigger = Tooltip.validateTrigger(trigger) ? trigger : "hover";
     this.position = Tooltip.validatePos(position) ? position : "top";
     this.parentElement = parentElement;
+    this.layoutRoot = layoutRoot;
     this.borderRadius = borderRadius;
     this.maxWidth = maxWidth;
     this.backgroundColor = backgroundColor;
@@ -125,8 +128,8 @@ export default class Tooltip {
   };
 
   updatePageSize() {
-    this.pageWidth = document.documentElement.clientWidth;
-    this.pageHeight = document.documentElement.clientHeight;
+    this.pageWidth = this.layoutRoot.clientWidth;
+    this.pageHeight = this.layoutRoot.clientHeight;
     return this;
   }
 
@@ -181,7 +184,7 @@ export default class Tooltip {
     }
 
     this.container.style.opacity = "1";
-    this.onResizeObserver?.observe(document.documentElement);
+    this.onResizeObserver?.observe(this.layoutRoot);
     return this;
   }
 
@@ -216,7 +219,7 @@ export default class Tooltip {
     switch (this.position) {
       case "top": {
         const pTop = clamp(top - height - this.offsetY, 0, this.pageHeight);
-        if (autoLayout && pTop + height > top) {
+        if (autoLayout && pTop + this.offsetY < height) {
           this.position = "bottom";
           return this.calcPos(false);
         }

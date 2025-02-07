@@ -34,4 +34,5 @@ export type TooltipOpts = {
   backgroundColor?: string;
   borderRadius?: number;
   parentElement?: HTMLElement;
+  layoutRoot?: HTMLElement;
 };
