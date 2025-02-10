@@ -2292,7 +2292,6 @@ class VideoHandler {
     this.subtitlesWidget.setOpacity(this.data.subtitlesOpacity);
 
     // Get video data and create player.
-    this.videoData = await this.getVideoData();
     this.createPlayer();
     this.setSelectMenuValues(
       this.videoData.detectedLanguage,

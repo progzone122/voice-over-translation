@@ -11978,9 +11978,8 @@ class VOTUIManager {
 
     this.videoHandler.votLocaleInfo = UI.createInformation(
       `${localizationProvider.get("VOTLocaleHash")}:`,
-      ke`${this.videoHandler.data.localeHash}<br />(${localizationProvider.get(
-          "VOTUpdatedAt",
-        )}
+      ke`${this.videoHandler.data
+          .localeHash}<br />(${localizationProvider.get("VOTUpdatedAt")}
         ${new Date(
           this.videoHandler.data.localeUpdatedAt * 1000,
         ).toLocaleString()})`,
@@ -13418,7 +13417,6 @@ class VideoHandler {
     this.subtitlesWidget.setOpacity(this.data.subtitlesOpacity);
 
     // Get video data and create player.
-    this.videoData = await this.getVideoData();
     this.createPlayer();
     this.setSelectMenuValues(
       this.videoData.detectedLanguage,
