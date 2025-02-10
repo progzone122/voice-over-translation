@@ -853,9 +853,8 @@ class VOTUIManager {
 
     this.videoHandler.votLocaleInfo = ui.createInformation(
       `${localizationProvider.get("VOTLocaleHash")}:`,
-      html`${this.videoHandler.data.localeHash}<br />(${localizationProvider.get(
-          "VOTUpdatedAt",
-        )}
+      html`${this.videoHandler.data
+          .localeHash}<br />(${localizationProvider.get("VOTUpdatedAt")}
         ${new Date(
           this.videoHandler.data.localeUpdatedAt * 1000,
         ).toLocaleString()})`,
@@ -2089,7 +2088,6 @@ class VideoHandler {
     this.translationHandler = new VOTTranslationHandler(this);
     this.videoManager = new VOTVideoManager(this);
     this.cacheManager = new CacheManager();
-    this.init();
   }
 
   /**
@@ -3325,18 +3323,24 @@ async function main() {
   await localizationProvider.update();
   debug.log(`Selected menu language: ${localizationProvider.lang}`);
   initIframeInteractor();
-  videoObserver.onVideoAdded.addListener((video) => {
+  videoObserver.onVideoAdded.addListener(async (video) => {
     for (const site of getService()) {
       if (!site) continue;
       let container = findContainer(site, video);
       if (!container) continue;
-      if (site.host === "rumble" && !video.style.display) continue; // fix multiply translation buttons in rumble.com
       if (["peertube", "directlink"].includes(site.host)) {
         site.url = window.location.origin; // set the url of the current site for peertube and directlink
       }
       if (!videosWrappers.has(video)) {
-        videosWrappers.set(video, new VideoHandler(video, container, site));
-        break;
+        const videoHandler = new VideoHandler(video, container, site);
+        try {
+          videoHandler.videoData = await videoHandler.getVideoData();
+          await videoHandler.init();
+          videosWrappers.set(video, videoHandler);
+        } catch (err) {
+          console.error("[VOT] Failed to initialize videoHandler", err);
+          return;
+        }
       }
     }
   });

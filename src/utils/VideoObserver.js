@@ -38,6 +38,19 @@ export class VideoObserver {
     return false;
   }
 
+  hasAudio(video) {
+    if (typeof video.mozHasAudio !== "undefined") {
+      return video.mozHasAudio;
+    }
+    if (typeof video.webkitAudioDecodedByteCount !== "undefined") {
+      return video.webkitAudioDecodedByteCount > 0;
+    }
+    if ("audioTracks" in video) {
+      return video.audioTracks.length > 0 || !video.muted;
+    }
+    return !video.muted;
+  }
+
   isValidVideo(video) {
     if (this.isAdRelated(video)) return false;
 
@@ -47,14 +60,8 @@ export class VideoObserver {
     }
     if (parent) return false;
 
-    const mutedVideo =
-      (video.hasAttribute("muted") &&
-        !video.classList.contains("vjs-tech") &&
-        !video.preload) ||
-      video.src.includes("v.redd.it"); // temp fix for reddit
-
-    if (mutedVideo) {
-      debug.log("Ignoring video element:", video);
+    if (!this.hasAudio(video)) {
+      debug.log("Ignoring video without audio:", video);
       return false;
     }
 
@@ -85,13 +92,18 @@ export class VideoObserver {
   }
 
   checkVideoState(video) {
-    if (this.videoCache.has(video) || !this.isValidVideo(video)) return;
+    if (this.videoCache.has(video)) return;
+
     this.videoCache.add(video);
-    video.addEventListener(
-      "timeupdate",
-      () => this.onVideoAdded.dispatch(video),
-      { once: true },
-    );
+
+    const onTimeUpdate = () => {
+      if (this.isValidVideo(video)) {
+        this.onVideoAdded.dispatch(video);
+        video.removeEventListener("timeupdate", onTimeUpdate);
+      }
+    };
+
+    video.addEventListener("timeupdate", onTimeUpdate);
   }
 
   handleMutations = (mutations) => {

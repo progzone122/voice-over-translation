@@ -1575,12 +1575,12 @@ class Chaimu {
     hostWorker: "vot-worker.toil.cc",
     mediaProxy: "media-proxy.toil.cc",
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 YaBrowser/24.12.0.0 Safari/537.36",
-    componentVersion: "24.12.3.780",
+    componentVersion: "24.12.4.1049",
     hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.2.1",
+    version: "2.2.4",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -3893,7 +3893,7 @@ const StreamTranslationObject = {
     },
 };
 function createBaseStreamTranslationRequest() {
-    return { url: "", language: "", responseLanguage: "" };
+    return { url: "", language: "", responseLanguage: "", unknown0: 0, unknown1: 0 };
 }
 const StreamTranslationRequest = {
     encode(message, writer = new BinaryWriter()) {
@@ -3905,6 +3905,12 @@ const StreamTranslationRequest = {
         }
         if (message.responseLanguage !== "") {
             writer.uint32(26).string(message.responseLanguage);
+        }
+        if (message.unknown0 !== 0) {
+            writer.uint32(40).int32(message.unknown0);
+        }
+        if (message.unknown1 !== 0) {
+            writer.uint32(48).int32(message.unknown1);
         }
         return writer;
     },
@@ -3936,6 +3942,20 @@ const StreamTranslationRequest = {
                     message.responseLanguage = reader.string();
                     continue;
                 }
+                case 5: {
+                    if (tag !== 40) {
+                        break;
+                    }
+                    message.unknown0 = reader.int32();
+                    continue;
+                }
+                case 6: {
+                    if (tag !== 48) {
+                        break;
+                    }
+                    message.unknown1 = reader.int32();
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -3949,6 +3969,8 @@ const StreamTranslationRequest = {
             url: isSet(object.url) ? globalThis.String(object.url) : "",
             language: isSet(object.language) ? globalThis.String(object.language) : "",
             responseLanguage: isSet(object.responseLanguage) ? globalThis.String(object.responseLanguage) : "",
+            unknown0: isSet(object.unknown0) ? globalThis.Number(object.unknown0) : 0,
+            unknown1: isSet(object.unknown1) ? globalThis.Number(object.unknown1) : 0,
         };
     },
     toJSON(message) {
@@ -3962,6 +3984,12 @@ const StreamTranslationRequest = {
         if (message.responseLanguage !== "") {
             obj.responseLanguage = message.responseLanguage;
         }
+        if (message.unknown0 !== 0) {
+            obj.unknown0 = Math.round(message.unknown0);
+        }
+        if (message.unknown1 !== 0) {
+            obj.unknown1 = Math.round(message.unknown1);
+        }
         return obj;
     },
     create(base) {
@@ -3972,6 +4000,8 @@ const StreamTranslationRequest = {
         message.url = object.url ?? "";
         message.language = object.language ?? "";
         message.responseLanguage = object.responseLanguage ?? "";
+        message.unknown0 = object.unknown0 ?? 0;
+        message.unknown1 = object.unknown1 ?? 0;
         return message;
     },
 };
@@ -4300,10 +4330,16 @@ async function getSignature(body) {
 }
 async function getSecYaHeaders(secType, session, body, path) {
     const { secretKey, uuid } = session;
-    const sign = await getSignature(body);
     const token = `${uuid}:${path}:${data_config.componentVersion}`;
     const tokenBody = utf8Encoder.encode(token);
     const tokenSign = await getSignature(tokenBody);
+    if (secType === "Ya-Summary") {
+        return {
+            [`X-${secType}-Sk`]: secretKey,
+            [`X-${secType}-Token`]: `${tokenSign}:${token}`,
+        };
+    }
+    const sign = await getSignature(body);
     return {
         [`${secType}-Signature`]: sign,
         [`Sec-${secType}-Sk`]: secretKey,
@@ -4551,6 +4587,8 @@ class YandexVOTProtobuf {
             url,
             language: requestLang,
             responseLanguage: responseLang,
+            unknown0: 1,
+            unknown1: 0,
         }).finish();
     }
     static decodeStreamResponse(response) {
@@ -10597,7 +10635,7 @@ class SubtitlesWidget {
     this.onPointerDownBound = (e) => this.onPointerDown(e);
     this.onPointerUpBound = () => this.onPointerUp();
     this.onPointerMoveBound = (e) => this.onPointerMove(e);
-    this.onTimeUpdateBound = this.debounce(() => this.update(), 100);
+    this.onTimeUpdateBound = () => this.update();
 
     document.addEventListener("pointerdown", this.onPointerDownBound, {
       signal,
@@ -10751,7 +10789,7 @@ class SubtitlesWidget {
 
     this.releaseTooltip();
     e.target.classList.add("selected");
-    const text = e.target.textContent.trim().replace(/[\.|,]/, "");
+    const text = e.target.textContent.trim().replace(/[.|,]/, "");
     const service = await votStorage.get("translationService");
     const subtitlesInfo = UI.createSubtitleInfo(
       text,
@@ -10798,14 +10836,6 @@ class SubtitlesWidget {
         ${token.text.replace("\\n", "<br>")}
       </span>`;
     });
-  }
-
-  debounce(func, wait) {
-    let timeout;
-    return (...args) => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => func.apply(this, args), wait);
-    };
   }
 
   setContent(subtitles, lang = undefined) {
@@ -11011,6 +11041,19 @@ class VideoObserver {
     return false;
   }
 
+  hasAudio(video) {
+    if (typeof video.mozHasAudio !== "undefined") {
+      return video.mozHasAudio;
+    }
+    if (typeof video.webkitAudioDecodedByteCount !== "undefined") {
+      return video.webkitAudioDecodedByteCount > 0;
+    }
+    if ("audioTracks" in video) {
+      return video.audioTracks.length > 0 || !video.muted;
+    }
+    return !video.muted;
+  }
+
   isValidVideo(video) {
     if (this.isAdRelated(video)) return false;
 
@@ -11020,14 +11063,8 @@ class VideoObserver {
     }
     if (parent) return false;
 
-    const mutedVideo =
-      (video.hasAttribute("muted") &&
-        !video.classList.contains("vjs-tech") &&
-        !video.preload) ||
-      video.src.includes("v.redd.it"); // temp fix for reddit
-
-    if (mutedVideo) {
-      utils_debug.log("Ignoring video element:", video);
+    if (!this.hasAudio(video)) {
+      utils_debug.log("Ignoring video without audio:", video);
       return false;
     }
 
@@ -11058,13 +11095,18 @@ class VideoObserver {
   }
 
   checkVideoState(video) {
-    if (this.videoCache.has(video) || !this.isValidVideo(video)) return;
+    if (this.videoCache.has(video)) return;
+
     this.videoCache.add(video);
-    video.addEventListener(
-      "timeupdate",
-      () => this.onVideoAdded.dispatch(video),
-      { once: true },
-    );
+
+    const onTimeUpdate = () => {
+      if (this.isValidVideo(video)) {
+        this.onVideoAdded.dispatch(video);
+        video.removeEventListener("timeupdate", onTimeUpdate);
+      }
+    };
+
+    video.addEventListener("timeupdate", onTimeUpdate);
   }
 
   handleMutations = (mutations) => {
@@ -13172,7 +13214,6 @@ class VideoHandler {
     this.translationHandler = new VOTTranslationHandler(this);
     this.videoManager = new VOTVideoManager(this);
     this.cacheManager = new CacheManager();
-    this.init();
   }
 
   /**
@@ -14408,18 +14449,24 @@ async function src_main() {
   await localizationProvider.update();
   utils_debug.log(`Selected menu language: ${localizationProvider.lang}`);
   initIframeInteractor();
-  videoObserver.onVideoAdded.addListener((video) => {
+  videoObserver.onVideoAdded.addListener(async (video) => {
     for (const site of getService()) {
       if (!site) continue;
       let container = findContainer(site, video);
       if (!container) continue;
-      if (site.host === "rumble" && !video.style.display) continue; // fix multiply translation buttons in rumble.com
       if (["peertube", "directlink"].includes(site.host)) {
         site.url = window.location.origin; // set the url of the current site for peertube and directlink
       }
       if (!videosWrappers.has(video)) {
-        videosWrappers.set(video, new VideoHandler(video, container, site));
-        break;
+        const videoHandler = new VideoHandler(video, container, site);
+        try {
+          videoHandler.videoData = await videoHandler.getVideoData();
+          await videoHandler.init();
+          videosWrappers.set(video, videoHandler);
+        } catch (err) {
+          console.error("[VOT] Failed to initialize videoHandler", err);
+          return;
+        }
       }
     }
   });
