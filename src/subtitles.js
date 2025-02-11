@@ -351,7 +351,7 @@ export class SubtitlesWidget {
     this.onPointerDownBound = (e) => this.onPointerDown(e);
     this.onPointerUpBound = () => this.onPointerUp();
     this.onPointerMoveBound = (e) => this.onPointerMove(e);
-    this.onTimeUpdateBound = this.debounce(() => this.update(), 100);
+    this.onTimeUpdateBound = () => this.update();
 
     document.addEventListener("pointerdown", this.onPointerDownBound, {
       signal,
@@ -505,7 +505,7 @@ export class SubtitlesWidget {
 
     this.releaseTooltip();
     e.target.classList.add("selected");
-    const text = e.target.textContent.trim().replace(/[\.|,]/, "");
+    const text = e.target.textContent.trim().replace(/[.|,]/, "");
     const service = await votStorage.get("translationService");
     const subtitlesInfo = UI.createSubtitleInfo(
       text,
@@ -552,14 +552,6 @@ export class SubtitlesWidget {
         ${token.text.replace("\\n", "<br>")}
       </span>`;
     });
-  }
-
-  debounce(func, wait) {
-    let timeout;
-    return (...args) => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => func.apply(this, args), wait);
-    };
   }
 
   setContent(subtitles, lang = undefined) {
