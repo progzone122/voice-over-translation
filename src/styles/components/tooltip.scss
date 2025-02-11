@@ -9,7 +9,7 @@
   background: rgb(var(--vot-surface-rgb, 255, 255, 255));
   color: var(--vot-helper-theme);
   fill: var(--vot-helper-theme);
-  border-radius: 4px;
+  border-radius: 4px !important;
   font-family: var(
     --vot-font-family,
     "Roboto",
@@ -29,7 +29,7 @@
   width: max-content;
   max-width: calc(100vw - 10px);
   height: max-content;
-  padding: 4px 8px;
+  padding: 4px 8px !important;
   opacity: 0;
 
   &[hidden] {
