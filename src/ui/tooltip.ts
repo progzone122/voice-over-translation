@@ -26,6 +26,8 @@ export default class Tooltip {
 
   pageWidth!: number;
   pageHeight!: number;
+  globalOffsetX!: number;
+  globalOffsetY!: number;
   maxWidth?: number;
   backgroundColor?: string;
   borderRadius?: number;
@@ -128,8 +130,19 @@ export default class Tooltip {
   };
 
   updatePageSize() {
-    this.pageWidth = this.layoutRoot.clientWidth;
-    this.pageHeight = this.layoutRoot.clientHeight;
+    if (this.layoutRoot !== document.documentElement) {
+      const { left, top } = this.parentElement.getBoundingClientRect();
+      this.globalOffsetX = left;
+      this.globalOffsetY = top;
+    } else {
+      this.globalOffsetX = 0;
+      this.globalOffsetY = 0;
+    }
+
+    this.pageWidth =
+      this.layoutRoot.clientWidth || document.documentElement.clientWidth;
+    this.pageHeight =
+      this.layoutRoot.clientHeight || document.documentElement.clientHeight;
     return this;
   }
 
@@ -208,14 +221,18 @@ export default class Tooltip {
     }
 
     const {
-      left,
-      right,
-      top,
-      bottom,
-      width: widthTarget,
-      height: heightTarget,
+      left: anchorLeft,
+      right: anchorRight,
+      top: anchorTop,
+      bottom: anchorBottom,
+      width: anchorWidth,
+      height: anchorHeight,
     } = this.anchor.getBoundingClientRect();
     const { width, height } = this.container.getBoundingClientRect();
+    const left = anchorLeft - this.globalOffsetX;
+    const right = anchorRight - this.globalOffsetX;
+    const top = anchorTop - this.globalOffsetY;
+    const bottom = anchorBottom - this.globalOffsetY;
     switch (this.position) {
       case "top": {
         const pTop = clamp(top - height - this.offsetY, 0, this.pageHeight);
@@ -226,7 +243,7 @@ export default class Tooltip {
 
         return {
           top: pTop,
-          left: clamp(left - width / 2 + widthTarget / 2, 0, this.pageWidth),
+          left: clamp(left - width / 2 + anchorWidth / 2, 0, this.pageWidth),
         };
       }
       case "right": {
@@ -237,7 +254,7 @@ export default class Tooltip {
         }
 
         return {
-          top: clamp(top + (heightTarget - height) / 2, 0, this.pageHeight),
+          top: clamp(top + (anchorHeight - height) / 2, 0, this.pageHeight),
           left: pLeft,
         };
       }
@@ -250,7 +267,7 @@ export default class Tooltip {
 
         return {
           top: pTop,
-          left: clamp(left - width / 2 + widthTarget / 2, 0, this.pageWidth),
+          left: clamp(left - width / 2 + anchorWidth / 2, 0, this.pageWidth),
         };
       }
       case "left": {
@@ -261,7 +278,7 @@ export default class Tooltip {
         }
 
         return {
-          top: clamp(top + (heightTarget - height) / 2, 0, this.pageHeight),
+          top: clamp(top + (anchorHeight - height) / 2, 0, this.pageHeight),
           left: pLeft,
         };
       }

@@ -252,6 +252,7 @@ class VOTUIManager {
       content: localizationProvider.get("translateVideo"),
       position: this.getButtonTooltipPos(votPosition),
       parentElement: this.videoHandler.votPortal,
+      layoutRoot: this.videoHandler.container,
     });
 
     // Hide Picture-in-Picture (PiP) button if not available or not enabled.
@@ -853,8 +854,9 @@ class VOTUIManager {
 
     this.videoHandler.votLocaleInfo = ui.createInformation(
       `${localizationProvider.get("VOTLocaleHash")}:`,
-      html`${this.videoHandler.data
-          .localeHash}<br />(${localizationProvider.get("VOTUpdatedAt")}
+      html`${this.videoHandler.data.localeHash}<br />(${localizationProvider.get(
+          "VOTUpdatedAt",
+        )}
         ${new Date(
           this.videoHandler.data.localeUpdatedAt * 1000,
         ).toLocaleString()})`,

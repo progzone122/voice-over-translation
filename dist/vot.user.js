@@ -10055,6 +10055,8 @@ class Tooltip {
     autoLayout;
     pageWidth;
     pageHeight;
+    globalOffsetX;
+    globalOffsetY;
     maxWidth;
     backgroundColor;
     borderRadius;
@@ -10128,8 +10130,19 @@ class Tooltip {
         this.destroy();
     };
     updatePageSize() {
-        this.pageWidth = this.layoutRoot.clientWidth;
-        this.pageHeight = this.layoutRoot.clientHeight;
+        if (this.layoutRoot !== document.documentElement) {
+            const { left, top } = this.parentElement.getBoundingClientRect();
+            this.globalOffsetX = left;
+            this.globalOffsetY = top;
+        }
+        else {
+            this.globalOffsetX = 0;
+            this.globalOffsetY = 0;
+        }
+        this.pageWidth =
+            this.layoutRoot.clientWidth || document.documentElement.clientWidth;
+        this.pageHeight =
+            this.layoutRoot.clientHeight || document.documentElement.clientHeight;
         return this;
     }
     init() {
@@ -10192,8 +10205,12 @@ class Tooltip {
         if (!this.container) {
             return { top: 0, left: 0 };
         }
-        const { left, right, top, bottom, width: widthTarget, height: heightTarget, } = this.anchor.getBoundingClientRect();
+        const { left: anchorLeft, right: anchorRight, top: anchorTop, bottom: anchorBottom, width: anchorWidth, height: anchorHeight, } = this.anchor.getBoundingClientRect();
         const { width, height } = this.container.getBoundingClientRect();
+        const left = anchorLeft - this.globalOffsetX;
+        const right = anchorRight - this.globalOffsetX;
+        const top = anchorTop - this.globalOffsetY;
+        const bottom = anchorBottom - this.globalOffsetY;
         switch (this.position) {
             case "top": {
                 const pTop = clamp(top - height - this.offsetY, 0, this.pageHeight);
@@ -10203,7 +10220,7 @@ class Tooltip {
                 }
                 return {
                     top: pTop,
-                    left: clamp(left - width / 2 + widthTarget / 2, 0, this.pageWidth),
+                    left: clamp(left - width / 2 + anchorWidth / 2, 0, this.pageWidth),
                 };
             }
             case "right": {
@@ -10213,7 +10230,7 @@ class Tooltip {
                     return this.calcPos(false);
                 }
                 return {
-                    top: clamp(top + (heightTarget - height) / 2, 0, this.pageHeight),
+                    top: clamp(top + (anchorHeight - height) / 2, 0, this.pageHeight),
                     left: pLeft,
                 };
             }
@@ -10225,7 +10242,7 @@ class Tooltip {
                 }
                 return {
                     top: pTop,
-                    left: clamp(left - width / 2 + widthTarget / 2, 0, this.pageWidth),
+                    left: clamp(left - width / 2 + anchorWidth / 2, 0, this.pageWidth),
                 };
             }
             case "left": {
@@ -10235,7 +10252,7 @@ class Tooltip {
                     return this.calcPos(false);
                 }
                 return {
-                    top: clamp(top + (heightTarget - height) / 2, 0, this.pageHeight),
+                    top: clamp(top + (anchorHeight - height) / 2, 0, this.pageHeight),
                     left: pLeft,
                 };
             }
@@ -11372,6 +11389,7 @@ class VOTUIManager {
       content: localizationProvider.get("translateVideo"),
       position: this.getButtonTooltipPos(votPosition),
       parentElement: this.videoHandler.votPortal,
+      layoutRoot: this.videoHandler.container,
     });
 
     // Hide Picture-in-Picture (PiP) button if not available or not enabled.
@@ -11973,8 +11991,9 @@ class VOTUIManager {
 
     this.videoHandler.votLocaleInfo = UI.createInformation(
       `${localizationProvider.get("VOTLocaleHash")}:`,
-      ke`${this.videoHandler.data
-          .localeHash}<br />(${localizationProvider.get("VOTUpdatedAt")}
+      ke`${this.videoHandler.data.localeHash}<br />(${localizationProvider.get(
+          "VOTUpdatedAt",
+        )}
         ${new Date(
           this.videoHandler.data.localeUpdatedAt * 1000,
         ).toLocaleString()})`,
