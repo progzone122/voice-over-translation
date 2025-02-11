@@ -3323,24 +3323,27 @@ async function main() {
   debug.log(`Selected menu language: ${localizationProvider.lang}`);
   initIframeInteractor();
   videoObserver.onVideoAdded.addListener(async (video) => {
-    for (const site of getService()) {
-      if (!site) continue;
-      let container = findContainer(site, video);
-      if (!container) continue;
-      if (["peertube", "directlink"].includes(site.host)) {
-        site.url = window.location.origin; // set the url of the current site for peertube and directlink
-      }
-      if (!videosWrappers.has(video)) {
-        const videoHandler = new VideoHandler(video, container, site);
-        try {
-          videoHandler.videoData = await videoHandler.getVideoData();
-          await videoHandler.init();
-          videosWrappers.set(video, videoHandler);
-        } catch (err) {
-          console.error("[VOT] Failed to initialize videoHandler", err);
-          return;
-        }
-      }
+    if (videosWrappers.has(video)) return;
+
+    let container;
+    const site = getService().find((site) => {
+      container = findContainer(site, video);
+      return Boolean(container);
+    });
+
+    if (!site) return;
+
+    if (["peertube", "directlink"].includes(site.host)) {
+      site.url = window.location.origin; // set the url of the current site for peertube and directlink
+    }
+
+    try {
+      const videoHandler = new VideoHandler(video, container, site);
+      videoHandler.videoData = await videoHandler.getVideoData();
+      await videoHandler.init();
+      videosWrappers.set(video, videoHandler);
+    } catch (err) {
+      console.error("[VOT] Failed to initialize videoHandler", err);
     }
   });
   videoObserver.onVideoRemoved.addListener(async (video) => {
