@@ -94,7 +94,7 @@ function cleanText(title, description) {
   return (title + " " + (description || ""))
     .replace(textFilters, "")
     .replace(/(?:[\s\u200B]+|\.{2,})/g, " ")
-    .replace(/[^\p{L}\s]/gu, "")
+    .replace(/[^\p{L}\s]/gu, " ")
     .replace(/\s+/g, " ")
     .substring(0, 450)
     .trim();
