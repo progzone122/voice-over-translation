@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "Aktiviert",
   "VOTTranslateProxyEverything": "Proxy alles",
   "VOTTranslateProxyStatus": "Proxy-Modus",
-  "VOTTranslatedBy": "Übersetzt von {0}"
+  "VOTTranslatedBy": "Übersetzt von {0}",
+  "VOTStreamNotAvailable": "Übersetzungs-Stream ist nicht verfügbar"
 }

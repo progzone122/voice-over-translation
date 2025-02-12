@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "Diaktifkan",
   "VOTTranslateProxyEverything": "Proksi semuanya",
   "VOTTranslateProxyStatus": "Mode proxy",
-  "VOTTranslatedBy": "Diterjemahkan oleh {0}"
+  "VOTTranslatedBy": "Diterjemahkan oleh {0}",
+  "VOTStreamNotAvailable": "Aliran terjemahan tidak tersedia"
 }

@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "Diaktifake",
   "VOTTranslateProxyEverything": "Proxy kabèh",
   "VOTTranslateProxyStatus": "Mode proxy",
-  "VOTTranslatedBy": "Dijarwakake dening {0}"
+  "VOTTranslatedBy": "Dijarwakake dening {0}",
+  "VOTStreamNotAvailable": "Translate stream ora kasedhiya"
 }

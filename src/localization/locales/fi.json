@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "Käyttöön",
   "VOTTranslateProxyEverything": "Proxy kaikki",
   "VOTTranslateProxyStatus": "Välityspalvelin",
-  "VOTTranslatedBy": "Kääntäjä {0}"
+  "VOTTranslatedBy": "Kääntäjä {0}",
+  "VOTStreamNotAvailable": "Translate stream ei ole käytettävissä"
 }

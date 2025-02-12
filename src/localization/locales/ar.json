@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "ممكن",
   "VOTTranslateProxyEverything": "وكيل كل شيء",
   "VOTTranslateProxyStatus": "وضع الوكيل",
-  "VOTTranslatedBy": "ترجمه {0}"
+  "VOTTranslatedBy": "ترجمه {0}",
+  "VOTStreamNotAvailable": "ترجمة تيار غير متوفر"
 }

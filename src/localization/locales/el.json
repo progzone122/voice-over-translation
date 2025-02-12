@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "Ενεργοποιήσετε",
   "VOTTranslateProxyEverything": "Πληρεξούσιο τα πάντα",
   "VOTTranslateProxyStatus": "Λειτουργία μεσολάβησης",
-  "VOTTranslatedBy": "Μετάφραση {0}"
+  "VOTTranslatedBy": "Μετάφραση {0}",
+  "VOTStreamNotAvailable": "Η ροή μετάφρασης δεν είναι διαθέσιμη"
 }

@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "ਯੋਗ",
   "VOTTranslateProxyEverything": "ਪਰਾਕਸੀ ਸਭ ਕੁਝ",
   "VOTTranslateProxyStatus": "ਪ੍ਰੌਕਸੀ ਮੋਡ",
-  "VOTTranslatedBy": "{0}ਦੁਆਰਾ ਅਨੁਵਾਦ ਕੀਤਾ"
+  "VOTTranslatedBy": "{0}ਦੁਆਰਾ ਅਨੁਵਾਦ ਕੀਤਾ",
+  "VOTStreamNotAvailable": "ਅਨੁਵਾਦ ਸਟਰੀਮ ਉਪਲੱਬਧ ਨਹੀਂ ਹੈ"
 }

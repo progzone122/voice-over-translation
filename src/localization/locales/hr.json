@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "Omogućeno",
   "VOTTranslateProxyEverything": "Punomoćnik za sve",
   "VOTTranslateProxyStatus": "Način proksiranja",
-  "VOTTranslatedBy": "Prevedeno {0}"
+  "VOTTranslatedBy": "Prevedeno {0}",
+  "VOTStreamNotAvailable": "Prijenos prijevoda nije dostupan"
 }

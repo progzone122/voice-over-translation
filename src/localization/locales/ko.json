@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "사용",
   "VOTTranslateProxyEverything": "프록시 모든 것",
   "VOTTranslateProxyStatus": "프록시 모드",
-  "VOTTranslatedBy": "번역:{0}"
+  "VOTTranslatedBy": "번역:{0}",
+  "VOTStreamNotAvailable": "번역 스트림을 사용할 수 없습니다"
 }

@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "Attivat",
   "VOTTranslateProxyEverything": "Prokura kollox",
   "VOTTranslateProxyStatus": "Mod ta'prokura",
-  "VOTTranslatedBy": "Tradott minn {0}"
+  "VOTTranslatedBy": "Tradott minn {0}",
+  "VOTStreamNotAvailable": "Ittraduċi nixxiegħa mhix disponibbli"
 }

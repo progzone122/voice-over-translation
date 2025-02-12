@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "已启用",
   "VOTTranslateProxyEverything": "代理一切",
   "VOTTranslateProxyStatus": "代理模式",
-  "VOTTranslatedBy": "翻译{0}"
+  "VOTTranslatedBy": "翻译{0}",
+  "VOTStreamNotAvailable": "翻译流不可用"
 }

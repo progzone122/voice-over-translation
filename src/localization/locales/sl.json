@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "Omogočeno",
   "VOTTranslateProxyEverything": "Pooblaščenec vse",
   "VOTTranslateProxyStatus": "Način posredovanja",
-  "VOTTranslatedBy": "Prevedel {0}"
+  "VOTTranslatedBy": "Prevedel {0}",
+  "VOTStreamNotAvailable": "Prevedi tok ni na voljo"
 }

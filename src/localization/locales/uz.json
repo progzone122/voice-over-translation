@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "Yoqilgan",
   "VOTTranslateProxyEverything": "Proksi hamma narsa",
   "VOTTranslateProxyStatus": "Proksi rejimi",
-  "VOTTranslatedBy": "{0}tomonidan tarjima qilingan"
+  "VOTTranslatedBy": "{0}tomonidan tarjima qilingan",
+  "VOTStreamNotAvailable": "Translate stream mavjud emas"
 }

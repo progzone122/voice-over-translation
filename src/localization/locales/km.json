@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "បានអនុញ្ញាត",
   "VOTTranslateProxyEverything": "អ្វីគ្រប់យ៉ាងប្រូកស៊ី",
   "VOTTranslateProxyStatus": "របៀបប្រូកស៊ី",
-  "VOTTranslatedBy": "ប្រែសម្រួលដោយ{0}"
+  "VOTTranslatedBy": "ប្រែសម្រួលដោយ{0}",
+  "VOTStreamNotAvailable": "បកប្រែស្ទ្រីមគឺមិនអាចប្រើបាន"
 }

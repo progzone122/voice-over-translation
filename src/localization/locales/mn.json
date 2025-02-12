@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "Идэвхжсэн",
   "VOTTranslateProxyEverything": "Прокси бүх зүйл",
   "VOTTranslateProxyStatus": "Proxying горим",
-  "VOTTranslatedBy": "Орчуулагдсан: {0}"
+  "VOTTranslatedBy": "Орчуулагдсан: {0}",
+  "VOTStreamNotAvailable": "Translate stream байхгүй байна"
 }

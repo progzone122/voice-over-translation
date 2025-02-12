@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "فعال شده",
   "VOTTranslateProxyEverything": "پروکسی همه چیز",
   "VOTTranslateProxyStatus": "حالت پروکسی",
-  "VOTTranslatedBy": "ترجمه شده توسط {0}"
+  "VOTTranslatedBy": "ترجمه شده توسط {0}",
+  "VOTStreamNotAvailable": "Translate stream در دسترس نیست"
 }

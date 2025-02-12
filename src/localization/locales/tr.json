@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "Etkin",
   "VOTTranslateProxyEverything": "Proxy her şey",
   "VOTTranslateProxyStatus": "Proxy modu",
-  "VOTTranslatedBy": "Çeviren: {0}"
+  "VOTTranslatedBy": "Çeviren: {0}",
+  "VOTStreamNotAvailable": "Çeviri akışı kullanılamıyor"
 }

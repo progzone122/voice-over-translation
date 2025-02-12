@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "Укључено",
   "VOTTranslateProxyEverything": "Проки сервер за све",
   "VOTTranslateProxyStatus": "Режим проксирања",
-  "VOTTranslatedBy": "Преведено {0}"
+  "VOTTranslatedBy": "Преведено {0}",
+  "VOTStreamNotAvailable": "Превод није доступан"
 }

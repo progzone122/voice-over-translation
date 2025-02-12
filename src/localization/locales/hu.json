@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "Engedélyezett",
   "VOTTranslateProxyEverything": "Proxy mindent",
   "VOTTranslateProxyStatus": "Proxy mód",
-  "VOTTranslatedBy": "Fordította: {0}"
+  "VOTTranslatedBy": "Fordította: {0}",
+  "VOTStreamNotAvailable": "A stream fordítása nem érhető el"
 }

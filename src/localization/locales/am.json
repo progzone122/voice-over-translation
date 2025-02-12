@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "ነቅቷል",
   "VOTTranslateProxyEverything": "ሁሉንም ነገር ተኪ",
   "VOTTranslateProxyStatus": "ፕሮክሲ ሁነታ",
-  "VOTTranslatedBy": "በ {0}የተተረጎመ"
+  "VOTTranslatedBy": "በ {0}የተተረጎመ",
+  "VOTStreamNotAvailable": "ትራንስፎርሜሽን አይገኝም ። "
 }

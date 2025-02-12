@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "Uključeno",
   "VOTTranslateProxyEverything": "Proxy sve",
   "VOTTranslateProxyStatus": "Proxying mode",
-  "VOTTranslatedBy": "Translated by {0}"
+  "VOTTranslatedBy": "Translated by {0}",
+  "VOTStreamNotAvailable": "Translate stream nije dostupan"
 }

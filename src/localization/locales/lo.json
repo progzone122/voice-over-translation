@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "ເປີດໃຊ້ງານ",
   "VOTTranslateProxyEverything": "ຕົວແທນທຸກສິ່ງທຸກຢ່າງ",
   "VOTTranslateProxyStatus": "ຮູບແບບຕົວແທນ",
-  "VOTTranslatedBy": "ແປໂດຍ{0}"
+  "VOTTranslatedBy": "ແປໂດຍ{0}",
+  "VOTStreamNotAvailable": "ການແປພາສານ້ໍາແມ່ນບໍ່ມີ"
 }

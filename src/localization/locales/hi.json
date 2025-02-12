@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "सक्षम किया गया",
   "VOTTranslateProxyEverything": "प्रॉक्सी सब कुछ",
   "VOTTranslateProxyStatus": "प्रॉक्सी मोड",
-  "VOTTranslatedBy": "{0}द्वारा अनुवादित"
+  "VOTTranslatedBy": "{0}द्वारा अनुवादित",
+  "VOTStreamNotAvailable": "अनुवाद स्ट्रीम उपलब्ध नहीं है"
 }

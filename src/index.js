@@ -1950,6 +1950,14 @@ class VOTVideoManager {
       throw new VOTLocalizedError("VOTDisableFromYourLang");
     }
     if (
+      this.videoHandler.site.host === "twitch" &&
+      this.videoHandler.videoData.isStream
+    ) {
+      // to translate streams on twitch, need to somehow go back 30(?) seconds to the player
+      throw new VOTLocalizedError("VOTStreamNotAvailable");
+    }
+
+    if (
       !this.videoHandler.videoData.isStream &&
       this.videoHandler.videoData.duration > 14400
     ) {

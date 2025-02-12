@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "සක් රීය කර ඇත",
   "VOTTranslateProxyEverything": "ප්රොක්සි සියල්ල",
   "VOTTranslateProxyStatus": "ප් රොක්සි මාදිලිය",
-  "VOTTranslatedBy": "පරිවර්තනය {0}"
+  "VOTTranslatedBy": "පරිවර්තනය {0}",
+  "VOTStreamNotAvailable": "පරිවර්තන ධාරාව ලබා ගත නොහැක"
 }

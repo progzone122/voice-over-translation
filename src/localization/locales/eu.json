@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "Gaituta",
   "VOTTranslateProxyEverything": "Ordezko dena",
   "VOTTranslateProxyStatus": "Ordezko modua",
-  "VOTTranslatedBy": "Itzulpena: {0}"
+  "VOTTranslatedBy": "Itzulpena: {0}",
+  "VOTStreamNotAvailable": "Translate korrontea ez dago erabilgarri"
 }

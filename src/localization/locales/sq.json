@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "Aktivizuar",
   "VOTTranslateProxyEverything": "Proxy gjithçka",
   "VOTTranslateProxyStatus": "Modaliteti i Proxying",
-  "VOTTranslatedBy": "Përkthyer nga {0}"
+  "VOTTranslatedBy": "Përkthyer nga {0}",
+  "VOTStreamNotAvailable": "Translate stream nuk është në dispozicion"
 }

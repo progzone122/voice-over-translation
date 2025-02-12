@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "ခွင့်ပြုထားသည်",
   "VOTTranslateProxyEverything": "Proxy အရာရာတိုင်း",
   "VOTTranslateProxyStatus": "Proxying mode ကို",
-  "VOTTranslatedBy": "{0}မှဘာသာပြန်ထားသည်"
+  "VOTTranslatedBy": "{0}မှဘာသာပြန်ထားသည်",
+  "VOTStreamNotAvailable": "Translate stream ကိုမသုံးနိုင်ပါ။"
 }

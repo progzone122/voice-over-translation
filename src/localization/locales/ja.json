@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "有効になっている",
   "VOTTranslateProxyEverything": "すべてをプロキシ",
   "VOTTranslateProxyStatus": "プロキシモード",
-  "VOTTranslatedBy": "{0}によって翻訳されました"
+  "VOTTranslatedBy": "{0}によって翻訳されました",
+  "VOTStreamNotAvailable": "翻訳ストリームは利用できません"
 }

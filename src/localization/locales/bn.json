@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "সক্রিয়",
   "VOTTranslateProxyEverything": "প্রক্সি সবকিছু",
   "VOTTranslateProxyStatus": "প্রক্সি মোড",
-  "VOTTranslatedBy": "অনুবাদ করেছেন {0}"
+  "VOTTranslatedBy": "অনুবাদ করেছেন {0}",
+  "VOTStreamNotAvailable": "অনুবাদ স্ট্রিম উপলব্ধ নয়"
 }

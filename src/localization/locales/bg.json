@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "Включено",
   "VOTTranslateProxyEverything": "Прокси всичко",
   "VOTTranslateProxyStatus": "Прокси режим",
-  "VOTTranslatedBy": "Преведено от {0}"
+  "VOTTranslatedBy": "Преведено от {0}",
+  "VOTStreamNotAvailable": "Превод поток не е наличен"
 }

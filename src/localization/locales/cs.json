@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "Povolit",
   "VOTTranslateProxyEverything": "Proxy vše",
   "VOTTranslateProxyStatus": "Režim proxy",
-  "VOTTranslatedBy": "Přeložil {0}"
+  "VOTTranslatedBy": "Přeložil {0}",
+  "VOTStreamNotAvailable": "Translate stream není k dispozici"
 }

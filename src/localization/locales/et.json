@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "Võimaldama",
   "VOTTranslateProxyEverything": "Puhverserver kõik",
   "VOTTranslateProxyStatus": "Puhverserveri režiim",
-  "VOTTranslatedBy": "Tõlkinud {0}"
+  "VOTTranslatedBy": "Tõlkinud {0}",
+  "VOTStreamNotAvailable": "Tõlgi voog pole saadaval"
 }

@@ -204,5 +204,6 @@
   "VOTTranslateProxyEnabled": "فعال",
   "VOTTranslateProxyEverything": "پراکسی سب کچھ",
   "VOTTranslateProxyStatus": "پراکسی موڈ",
-  "VOTTranslatedBy": "ترجمہ: {0}"
+  "VOTTranslatedBy": "ترجمہ: {0}",
+  "VOTStreamNotAvailable": "ترجمہ سٹریم دستیاب نہیں ہے"
 }
