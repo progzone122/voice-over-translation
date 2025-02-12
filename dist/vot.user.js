@@ -4712,7 +4712,9 @@ const en_namespaceObject = /*#__PURE__*/JSON.parse('{"recommended":"recommended"
 ;// ./src/utils/debug.ts
 /* harmony default export */ const utils_debug = ({
     log: (...text) => {
-        if (false) {}
+        if (true) {
+            return;
+        }
         return console.log("%c[VOT DEBUG]", "background: #F2452D; color: #fff; padding: 5px;", ...text);
     },
 });
@@ -4948,7 +4950,7 @@ function isPiPAvailable() {
 function initHls() {
   return typeof Hls != "undefined" && Hls?.isSupported()
     ? new Hls({
-        debug: true, // turn it on manually if necessary
+        debug: false, // turn it on manually if necessary
         lowLatencyMode: true,
         backBufferLength: 90,
       })
@@ -5079,7 +5081,7 @@ function clamp(value, min = 0, max = 100) {
 
 const localeCacheTTL = 7200;
 const localizationUrl = `${contentUrl}/${
-   true ? "dev" : 0
+   false ? 0 : "master"
 }/src/localization`;
 
 // TODO: add get from hashes.json or use DEFAULT_LOCALES
@@ -10229,8 +10231,9 @@ class Tooltip {
             return this;
         }
         let { top, left } = this.calcPos(this.autoLayout);
+        const availableWidth = this.pageWidth - this.offsetX * 2;
         const maxWidth = this.maxWidth ??
-            clamp(this.pageWidth - left - this.offsetX, 0, this.pageWidth);
+            Math.min(availableWidth, this.pageWidth - Math.min(left, this.pageWidth - availableWidth));
         this.container.style.transform = `translate(${left}px, ${top}px)`;
         this.container.style.maxWidth = `${maxWidth}px`;
         return this;
@@ -10254,39 +10257,39 @@ class Tooltip {
                 }
                 return {
                     top: pTop,
-                    left: clamp(left - width / 2 + anchorWidth / 2, 0, this.pageWidth),
+                    left: clamp(left - width / 2 + anchorWidth / 2, this.offsetX, this.pageWidth - width - this.offsetX),
                 };
             }
             case "right": {
-                const pLeft = clamp(right + this.offsetX, 0, this.pageWidth);
-                if (autoLayout && pLeft + width > this.pageWidth) {
+                const pLeft = clamp(right + this.offsetX, 0, this.pageWidth - width);
+                if (autoLayout && pLeft + width > this.pageWidth - this.offsetX) {
                     this.position = "left";
                     return this.calcPos(false);
                 }
                 return {
-                    top: clamp(top + (anchorHeight - height) / 2, 0, this.pageHeight),
+                    top: clamp(top + (anchorHeight - height) / 2, this.offsetY, this.pageHeight - height - this.offsetY),
                     left: pLeft,
                 };
             }
             case "bottom": {
-                const pTop = clamp(bottom + this.offsetY, 0, this.pageHeight);
-                if (autoLayout && pTop + height > this.pageHeight) {
+                const pTop = clamp(bottom + this.offsetY, 0, this.pageHeight - height);
+                if (autoLayout && pTop + height > this.pageHeight - this.offsetY) {
                     this.position = "top";
                     return this.calcPos(false);
                 }
                 return {
                     top: pTop,
-                    left: clamp(left - width / 2 + anchorWidth / 2, 0, this.pageWidth),
+                    left: clamp(left - width / 2 + anchorWidth / 2, this.offsetX, this.pageWidth - width - this.offsetX),
                 };
             }
             case "left": {
-                const pLeft = clamp(left - width - this.offsetX, 0, this.pageWidth);
-                if (autoLayout && pLeft + width > left) {
+                const pLeft = Math.max(0, left - width - this.offsetX);
+                if (autoLayout && pLeft + width > left - this.offsetX) {
                     this.position = "right";
                     return this.calcPos(false);
                 }
                 return {
-                    top: clamp(top + (anchorHeight - height) / 2, 0, this.pageHeight),
+                    top: clamp(top + (anchorHeight - height) / 2, this.offsetY, this.pageHeight - height - this.offsetY),
                     left: pLeft,
                 };
             }
@@ -13314,7 +13317,7 @@ class VideoHandler {
     utils_debug.log("preferAudio:", preferAudio);
     this.audioPlayer = new Chaimu({
       video: this.video,
-      debug: true,
+      debug: false,
       fetchFn: GM_fetch,
       fetchOpts: { timeout: 0 },
       preferAudio,

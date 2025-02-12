@@ -207,9 +207,15 @@ export default class Tooltip {
     }
 
     let { top, left } = this.calcPos(this.autoLayout);
+
+    const availableWidth = this.pageWidth - this.offsetX * 2;
     const maxWidth =
       this.maxWidth ??
-      clamp(this.pageWidth - left - this.offsetX, 0, this.pageWidth);
+      Math.min(
+        availableWidth,
+        this.pageWidth - Math.min(left, this.pageWidth - availableWidth),
+      );
+
     this.container.style.transform = `translate(${left}px, ${top}px)`;
     this.container.style.maxWidth = `${maxWidth}px`;
     return this;
@@ -229,10 +235,12 @@ export default class Tooltip {
       height: anchorHeight,
     } = this.anchor.getBoundingClientRect();
     const { width, height } = this.container.getBoundingClientRect();
+
     const left = anchorLeft - this.globalOffsetX;
     const right = anchorRight - this.globalOffsetX;
     const top = anchorTop - this.globalOffsetY;
     const bottom = anchorBottom - this.globalOffsetY;
+
     switch (this.position) {
       case "top": {
         const pTop = clamp(top - height - this.offsetY, 0, this.pageHeight);
@@ -243,42 +251,58 @@ export default class Tooltip {
 
         return {
           top: pTop,
-          left: clamp(left - width / 2 + anchorWidth / 2, 0, this.pageWidth),
+          left: clamp(
+            left - width / 2 + anchorWidth / 2,
+            this.offsetX,
+            this.pageWidth - width - this.offsetX,
+          ),
         };
       }
       case "right": {
-        const pLeft = clamp(right + this.offsetX, 0, this.pageWidth);
-        if (autoLayout && pLeft + width > this.pageWidth) {
+        const pLeft = clamp(right + this.offsetX, 0, this.pageWidth - width);
+        if (autoLayout && pLeft + width > this.pageWidth - this.offsetX) {
           this.position = "left";
           return this.calcPos(false);
         }
 
         return {
-          top: clamp(top + (anchorHeight - height) / 2, 0, this.pageHeight),
+          top: clamp(
+            top + (anchorHeight - height) / 2,
+            this.offsetY,
+            this.pageHeight - height - this.offsetY,
+          ),
           left: pLeft,
         };
       }
       case "bottom": {
-        const pTop = clamp(bottom + this.offsetY, 0, this.pageHeight);
-        if (autoLayout && pTop + height > this.pageHeight) {
+        const pTop = clamp(bottom + this.offsetY, 0, this.pageHeight - height);
+        if (autoLayout && pTop + height > this.pageHeight - this.offsetY) {
           this.position = "top";
           return this.calcPos(false);
         }
 
         return {
           top: pTop,
-          left: clamp(left - width / 2 + anchorWidth / 2, 0, this.pageWidth),
+          left: clamp(
+            left - width / 2 + anchorWidth / 2,
+            this.offsetX,
+            this.pageWidth - width - this.offsetX,
+          ),
         };
       }
       case "left": {
-        const pLeft = clamp(left - width - this.offsetX, 0, this.pageWidth);
-        if (autoLayout && pLeft + width > left) {
+        const pLeft = Math.max(0, left - width - this.offsetX);
+        if (autoLayout && pLeft + width > left - this.offsetX) {
           this.position = "right";
           return this.calcPos(false);
         }
 
         return {
-          top: clamp(top + (anchorHeight - height) / 2, 0, this.pageHeight),
+          top: clamp(
+            top + (anchorHeight - height) / 2,
+            this.offsetY,
+            this.pageHeight - height - this.offsetY,
+          ),
           left: pLeft,
         };
       }
