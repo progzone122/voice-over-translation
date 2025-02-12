@@ -5,6 +5,7 @@ import debug from "./debug.ts";
 export class VideoObserver {
   static adKeywords = new Set([
     "advertise",
+    "advertisement",
     "promo",
     "sponsor",
     "banner",

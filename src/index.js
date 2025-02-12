@@ -3334,8 +3334,6 @@ async function main() {
     });
 
     if (!site) return;
-    // fix multiply translation buttons in rumble.com
-    if (site.host === "rumble" && !video.style.display) return;
     if (["peertube", "directlink"].includes(site.host)) {
       // set the url of the current site for peertube and directlink
       site.url = window.location.origin;
