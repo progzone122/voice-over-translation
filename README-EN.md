@@ -117,33 +117,47 @@ bun install --yarn
    npm run build:default-min
    ```
 
-### How to patch vot.js
+### How to patch vot.js?
 
-1. Make the necessary changes to node_modules/vot.js/the required file
+1. Make the necessary changes to node_modules/vot.js/package_name/required file
 2. Save the changes using:
 
-NPM (not tested, but it should work):
+NPM:
 
 ```bash
-npx patch-package vot.js
+npx patch-package @vot.js/package_name
 ```
 
 Bun:
 
 ```bash
-bunx patch-package --use-yarn vot.js
+bunx patch-package --use-yarn @vot.js/package_name
 ```
 
 Do not use patches from the `bun patch` or from any npm packages. They will be incompatible with the patch-package, and may also break when updating the package.
 
-### How to update localization files
+### How to update localization files?
 
 For all interaction with localization files, the localize-tui utility is made.
 
 To call the utility, use the command:
 
+NPM:
+
 ```bash
 npx @toil/localize-tui
+```
+
+Bun:
+
+```bash
+bunx @toil/localize-tui
+```
+
+or
+
+```bash
+bun localize
 ```
 
 You can read more about the utility [here](https://github.com/ilyhalight/localize)
