@@ -50,7 +50,7 @@
     "lint": "npx oxlint --ignore-path=.oxlintignore && npx eslint",
     "prepare": "husky",
     "gen:wiki": "bun run ./scripts/wiki-gen/index.js",
-    "localize": "bun run l10n",
+    "localize": "bunx \"@toil/localize-tui\"",
     "postinstall": "patch-package"
   },
   "dependencies": {
