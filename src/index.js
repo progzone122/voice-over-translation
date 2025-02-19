@@ -603,9 +603,19 @@ class VOTUIManager {
       this.videoHandler.votUseNewModelCheckbox.container,
     );
 
-    this.videoHandler.votTranslationErrorsServiceSelect = ui.createVOTSelect(
+    this.videoHandler.votTranslateAPIErrorsCheckbox = ui.createCheckbox(
+      localizationProvider.get("VOTTranslateAPIErrors"),
+      this.videoHandler.data?.translateAPIErrors ?? true,
+    );
+    this.videoHandler.votTranslateAPIErrorsCheckbox.container.hidden =
+      localizationProvider.lang === "ru";
+    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
+      this.videoHandler.votTranslateAPIErrorsCheckbox.container,
+    );
+
+    this.videoHandler.votTranslationTextServiceSelect = ui.createVOTSelect(
       this.videoHandler.data.translationService.toUpperCase(),
-      localizationProvider.get("VOTTranslationErrorsService"),
+      localizationProvider.get("VOTTranslationTextService"),
       genOptionsByOBJ(
         translateServices,
         this.videoHandler.data.translationService,
@@ -620,18 +630,21 @@ class VOTUIManager {
           this.videoHandler.subtitlesWidget.strTranslatedTokens = "";
           this.videoHandler.subtitlesWidget.releaseTooltip();
         },
-        labelElement: ui.createCheckbox(
-          localizationProvider.get("VOTTranslateAPIErrors"),
-          this.videoHandler.data.translateAPIErrors ?? true,
-        ).container,
+        labelElement: ui.createVOTSelectLabel(
+          localizationProvider.get("VOTTranslationTextService"),
+        ),
         dialogParent: this.videoHandler.votGlobalPortal,
       },
     );
-    // TODO: derive checkbox and select. Rename select to text translation service
-    // this.videoHandler.votTranslationErrorsServiceSelect.container.hidden =
-    //   localizationProvider.lang === "ru";
+    this.videoHandler.votTranslationTextServiceTooltip = new Tooltip({
+      target: this.videoHandler.votTranslationTextServiceSelect.labelElement,
+      content: localizationProvider.get("VOTNotAffectToVoice"),
+      position: "bottom",
+      backgroundColor: "var(--vot-helper-ondialog)",
+      parentElement: this.videoHandler.votGlobalPortal,
+    });
     this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votTranslationErrorsServiceSelect.container,
+      this.videoHandler.votTranslationTextServiceSelect.container,
     );
 
     // Detect service select.
@@ -980,7 +993,9 @@ class VOTUIManager {
         this.videoHandler.dragging = true;
         e.preventDefault();
       },
-      { passive: false },
+      {
+        passive: false,
+      },
     );
     this.videoHandler.container.addEventListener(
       "touchend",
@@ -995,7 +1010,9 @@ class VOTUIManager {
           this.videoHandler.container.getBoundingClientRect(),
         );
       },
-      { passive: false },
+      {
+        passive: false,
+      },
     );
 
     // Cancel drag on pointer/touch cancel events.
@@ -1069,7 +1086,9 @@ class VOTUIManager {
         );
         const blob = new Blob(
           [format === "json" ? JSON.stringify(subsContent) : subsContent],
-          { type: "text/plain" },
+          {
+            type: "text/plain",
+          },
         );
         const filename = this.videoHandler.data.downloadWithName
           ? clearFileName(this.videoHandler.videoData.downloadTitle)
@@ -1344,7 +1363,7 @@ class VOTUIManager {
       },
     );
 
-    this.videoHandler.votTranslationErrorsServiceSelect.labelElement.addEventListener(
+    this.videoHandler.votTranslateAPIErrorsCheckbox.input.addEventListener(
       "change",
       (e) => {
         (async () => {
@@ -1722,7 +1741,9 @@ class VOTTranslationHandler {
       );
       console.error("[VOT]", err);
       const cacheKey = `${videoData.videoId}_${requestLang}_${responseLang}_${this.videoHandler.data.useNewModel}`;
-      this.videoHandler.cacheManager.setTranslation(cacheKey, { error: err });
+      this.videoHandler.cacheManager.setTranslation(cacheKey, {
+        error: err,
+      });
       return null;
     }
     return new Promise((resolve) => {
@@ -1786,7 +1807,9 @@ class VOTTranslationHandler {
       debug.log("Stream translated successfully. Running...", res);
       this.videoHandler.streamPing = setInterval(async () => {
         debug.log("Ping stream translation", res.pingId);
-        this.videoHandler.votClient.pingStream({ pingId: res.pingId });
+        this.videoHandler.votClient.pingStream({
+          pingId: res.pingId,
+        });
       }, res.interval * 1000);
       return res;
     } catch (err) {
@@ -2156,7 +2179,9 @@ class VideoHandler {
       video: this.video,
       debug: DEBUG_MODE,
       fetchFn: GM_fetch,
-      fetchOpts: { timeout: 0 },
+      fetchOpts: {
+        timeout: 0,
+      },
       preferAudio,
     });
     return this;
@@ -2377,8 +2402,14 @@ class VideoHandler {
   initExtraEvents() {
     const { signal } = this.abortController;
     const addExtraEventListener = (element, event, handler) => {
-      this.extraEvents.push({ element, event, handler });
-      element.addEventListener(event, handler, { signal });
+      this.extraEvents.push({
+        element,
+        event,
+        handler,
+      });
+      element.addEventListener(event, handler, {
+        signal,
+      });
     };
     const addExtraEventListeners = (element, events, handler) => {
       events.forEach((event) => addExtraEventListener(element, event, handler));
@@ -2459,7 +2490,9 @@ class VideoHandler {
         if (!isVideo) this.logout(0);
         this.votMenu.container.hidden = true;
       },
-      { signal },
+      {
+        signal,
+      },
     );
 
     // Global keydown: trigger translation hotkey if appropriate.
@@ -2474,7 +2507,9 @@ class VideoHandler {
         if (!isInputElement && code === this.data.hotkeyButton)
           await this.translationHandler.handleTranslationBtnClick();
       },
-      { signal },
+      {
+        signal,
+      },
     );
 
     let eventContainer = this.getEventContainer();
@@ -2905,7 +2940,9 @@ class VideoHandler {
    */
   async validateAudioUrl(audioUrl) {
     try {
-      const response = await GM_fetch(audioUrl, { method: "HEAD" });
+      const response = await GM_fetch(audioUrl, {
+        method: "HEAD",
+      });
       debug.log("Test audio response", response);
       if (response.ok) {
         debug.log("Valid audioUrl", audioUrl);
