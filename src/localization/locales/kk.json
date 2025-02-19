@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Оны Тек Csp Медиасын айналып өту үшін пайдаланыңыз",
   "VOTNewAudioPlayer": "Жаңа аудио ойнатқышты пайдаланыңыз",
   "VOTUseNewModel": "Кейбір бейнелер Үшін яндекс дауыстарының эксперименттік нұсқасын пайдаланыңыз",
-  "VOTTranslationErrorsService": "Қателерді аудару қызметі",
   "TranslationDelayed": "Аударма сәл кешіктірілді",
   "VOTTranslationCompletedNotify": "{0} бойынша аударма аяқталды!",
   "VOTSendNotifyOnComplete": "Бейне аударылғаны туралы хабарлама жіберіңіз",
@@ -205,5 +204,7 @@
   "VOTTranslateProxyEverything": "Барлығын прокси арқылы жіберіңіз",
   "VOTTranslateProxyStatus": "Прокси режимі",
   "VOTTranslatedBy": "Аударған {0}",
-  "VOTStreamNotAvailable": "Трансляция ағыны қолжетімді емес"
+  "VOTStreamNotAvailable": "Трансляция ағыны қолжетімді емес",
+  "VOTTranslationTextService": "Мәтінді аудару қызметі",
+  "VOTNotAffectToVoice": "Мәтіннің дауыспен аударылуына әсер етпейді"
 }

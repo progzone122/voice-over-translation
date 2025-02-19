@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "ប្រើវាសម្រាប់តែឆ្លងកាត់ប្រព័ន្ធផ្សព្វផ្សាយ CSP",
   "VOTNewAudioPlayer": "ប្រើកម្មវិធីចាក់អូឌីយ៉ូថ្មី",
   "VOTUseNewModel": "ប្រើបំរែបំរួលពិសោធន៍នៃសំឡេង Yandex សម្រាប់វីដេអូមួយចំនួន",
-  "VOTTranslationErrorsService": "កំហុសសេវាបកប្រែ",
   "TranslationDelayed": "ការបកប្រែនេះត្រូវបានពន្យារពេលបន្តិច",
   "VOTTranslationCompletedNotify": "ការបកប្រែនៅលើនេះ{0}ត្រូវបានបញ្ចប់!",
   "VOTSendNotifyOnComplete": "ផ្ញើការជូនដំណឹងថាវីដេអូនេះត្រូវបានបកប្រែ",
@@ -205,5 +204,7 @@
   "VOTTranslateProxyEverything": "អ្វីគ្រប់យ៉ាងប្រូកស៊ី",
   "VOTTranslateProxyStatus": "របៀបប្រូកស៊ី",
   "VOTTranslatedBy": "ប្រែសម្រួលដោយ{0}",
-  "VOTStreamNotAvailable": "បកប្រែស្ទ្រីមគឺមិនអាចប្រើបាន"
+  "VOTStreamNotAvailable": "បកប្រែស្ទ្រីមគឺមិនអាចប្រើបាន",
+  "VOTTranslationTextService": "សេវាបកប្រែអត្ថបទ",
+  "VOTNotAffectToVoice": "មិនប៉ះពាល់ដល់ការបកប្រែអត្ថបទជាសំឡេងជាង"
 }

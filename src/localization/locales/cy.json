@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Defnyddiwch ef yn unig ar gyfer osgoi Cyfryngau CSP",
   "VOTNewAudioPlayer": "Defnyddio'r chwaraewr sain newydd",
   "VOTUseNewModel": "Defnyddiwch amrywiad arbrofol o leisiau Yandex ar gyfer rhai fideos",
-  "VOTTranslationErrorsService": "Gwasanaeth cyfieithu gwall",
   "TranslationDelayed": "Mae'r cyfieithiad ychydig yn oedi",
   "VOTTranslationCompletedNotify": "Mae'r cyfieithiad ar y {0} wedi ei gwblhau!",
   "VOTSendNotifyOnComplete": "Anfon hysbysiad bod y fideo wedi'i gyfieithu",
@@ -205,5 +204,7 @@
   "VOTTranslateProxyEverything": "Dirprwy popeth",
   "VOTTranslateProxyStatus": "Modd dirprwyo",
   "VOTTranslatedBy": "Wedi ei gyfieithu gan {0}",
-  "VOTStreamNotAvailable": "Nid yw'r ffrwd cyfieithu ar gael"
+  "VOTStreamNotAvailable": "Nid yw'r ffrwd cyfieithu ar gael",
+  "VOTTranslationTextService": "Gwasanaeth cyfieithu testun",
+  "VOTNotAffectToVoice": "Nid yw'n effeithio ar y cyfieithiad o destun yn llais dros"
 }

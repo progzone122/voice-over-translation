@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "미디어 우회 용으로만 사용",
   "VOTNewAudioPlayer": "새 오디오 플레이어 사용",
   "VOTUseNewModel": "일부 동영상에는 얀덱스 목소리의 실험적 변형을 사용합니다",
-  "VOTTranslationErrorsService": "오류 번역 서비스",
   "TranslationDelayed": "번역이 약간 지연되었습니다.",
   "VOTTranslationCompletedNotify": "{0}에 대한 번역이 완료되었습니다!",
   "VOTSendNotifyOnComplete": "동영상이 번역되었다는 알림 보내기",
@@ -205,5 +204,7 @@
   "VOTTranslateProxyEverything": "프록시 모든 것",
   "VOTTranslateProxyStatus": "프록시 모드",
   "VOTTranslatedBy": "번역:{0}",
-  "VOTStreamNotAvailable": "번역 스트림을 사용할 수 없습니다"
+  "VOTStreamNotAvailable": "번역 스트림을 사용할 수 없습니다",
+  "VOTTranslationTextService": "텍스트 번역 서비스",
+  "VOTNotAffectToVoice": "음성 해설 텍스트의 번역에 영향을 미치지 않습니다"
 }

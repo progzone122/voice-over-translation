@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "የሚዲያ ሲ ኤስ ፒ ለማለፍ ብቻ ይጠቀሙ",
   "VOTNewAudioPlayer": "አዲሱን የድምፅ ማጫወቻ ይጠቀሙ",
   "VOTUseNewModel": "ለአንዳንድ ቪዲዮዎች የ Yandex ድምፆች የሙከራ ልዩነት ይጠቀሙ",
-  "VOTTranslationErrorsService": "የስህተት ትርጉም አገልግሎት",
   "TranslationDelayed": "ትርጉሙ ትንሽ ዘግይቷል",
   "VOTTranslationCompletedNotify": "በ {0} ላይ ያለው ትርጉም ተጠናቅቋል!",
   "VOTSendNotifyOnComplete": "ቪዲዮው የተተረጎመ መሆኑን ማሳወቂያ ይላኩ",
@@ -205,5 +204,7 @@
   "VOTTranslateProxyEverything": "ሁሉንም ነገር ተኪ",
   "VOTTranslateProxyStatus": "ፕሮክሲ ሁነታ",
   "VOTTranslatedBy": "በ {0}የተተረጎመ",
-  "VOTStreamNotAvailable": "ትራንስፎርሜሽን አይገኝም ። "
+  "VOTStreamNotAvailable": "ትራንስፎርሜሽን አይገኝም ። ",
+  "VOTTranslationTextService": "የጽሑፍ ትርጉም አገልግሎት",
+  "VOTNotAffectToVoice": "በድምጽ ትርጉም ላይ ተጽዕኖ አያሳድርም ። "
 }

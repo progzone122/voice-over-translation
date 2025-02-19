@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Utilizați-l numai pentru ocolirea CSP Media",
   "VOTNewAudioPlayer": "Utilizați noul player audio",
   "VOTUseNewModel": "Utilizați o variantă experimentală a vocilor Yandex pentru unele videoclipuri",
-  "VOTTranslationErrorsService": "Serviciul de traducere a erorilor",
   "TranslationDelayed": "Traducerea este ușor întârziată",
   "VOTTranslationCompletedNotify": "Traducerea pe {0} a fost finalizată!",
   "VOTSendNotifyOnComplete": "Trimiteți o notificare că videoclipul a fost tradus",
@@ -205,5 +204,7 @@
   "VOTTranslateProxyEverything": "Proxy totul",
   "VOTTranslateProxyStatus": "Modul proxy",
   "VOTTranslatedBy": "Tradus de {0}",
-  "VOTStreamNotAvailable": "Translate stream nu este disponibil"
+  "VOTStreamNotAvailable": "Translate stream nu este disponibil",
+  "VOTTranslationTextService": "Serviciul de traducere a textului",
+  "VOTNotAffectToVoice": "Nu afectează traducerea textului în voice over"
 }

@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Käytä sitä vain Media CSP: n ohittamiseen",
   "VOTNewAudioPlayer": "Käytä uutta soittinta",
   "VOTUseNewModel": "Käytä kokeellista muunnelmaa Yandex-äänistä joissakin videoissa",
-  "VOTTranslationErrorsService": "Virheen käännöspalvelu",
   "TranslationDelayed": "Käännös viivästyy hieman",
   "VOTTranslationCompletedNotify": "Kohteen {0} käännös on valmis!",
   "VOTSendNotifyOnComplete": "Lähetä ilmoitus siitä, että video on käännetty",
@@ -205,5 +204,7 @@
   "VOTTranslateProxyEverything": "Proxy kaikki",
   "VOTTranslateProxyStatus": "Välityspalvelin",
   "VOTTranslatedBy": "Kääntäjä {0}",
-  "VOTStreamNotAvailable": "Translate stream ei ole käytettävissä"
+  "VOTStreamNotAvailable": "Translate stream ei ole käytettävissä",
+  "VOTTranslationTextService": "Tekstin käännöspalvelu",
+  "VOTNotAffectToVoice": "Ei vaikuta tekstin kääntämiseen voice Overissa"
 }

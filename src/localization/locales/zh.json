@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "仅将其用于绕过媒体CSP",
   "VOTNewAudioPlayer": "使用新的音频播放器",
   "VOTUseNewModel": "在一些视频中使用Yandex声音的实验变体",
-  "VOTTranslationErrorsService": "错误翻译服务",
   "TranslationDelayed": "翻译稍有延迟",
   "VOTTranslationCompletedNotify": "{0}上的翻译已经完成！",
   "VOTSendNotifyOnComplete": "发送视频已翻译的通知",
@@ -205,5 +204,7 @@
   "VOTTranslateProxyEverything": "代理一切",
   "VOTTranslateProxyStatus": "代理模式",
   "VOTTranslatedBy": "翻译{0}",
-  "VOTStreamNotAvailable": "翻译流不可用"
+  "VOTStreamNotAvailable": "翻译流不可用",
+  "VOTTranslationTextService": "文本翻译服务",
+  "VOTNotAffectToVoice": "不影响语音翻译文本"
 }

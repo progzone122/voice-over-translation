@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "මාධ්ය CSP මඟ හැරීම සඳහා පමණක් එය භාවිතා කරන්න",
   "VOTNewAudioPlayer": "නව ශ්රව්ය වාදකය භාවිතා කරන්න",
   "VOTUseNewModel": "සමහර වීඩියෝ සඳහා Yandex voices හි පර්යේෂණාත්මක විචලනයක් භාවිතා කරන්න",
-  "VOTTranslationErrorsService": "දෝෂ පරිවර්තන සේවාව",
   "TranslationDelayed": "පරිවර්තනය ටිකක් ප්රමාදයි",
   "VOTTranslationCompletedNotify": "{0} හි පරිවර්තනය සම්පූර්ණ කර ඇත!",
   "VOTSendNotifyOnComplete": "වීඩියෝව පරිවර්තනය කර ඇති බවට දැනුම් දීමක් යවන්න",
@@ -205,5 +204,7 @@
   "VOTTranslateProxyEverything": "ප්රොක්සි සියල්ල",
   "VOTTranslateProxyStatus": "ප් රොක්සි මාදිලිය",
   "VOTTranslatedBy": "පරිවර්තනය {0}",
-  "VOTStreamNotAvailable": "පරිවර්තන ධාරාව ලබා ගත නොහැක"
+  "VOTStreamNotAvailable": "පරිවර්තන ධාරාව ලබා ගත නොහැක",
+  "VOTTranslationTextService": "පෙළ පරිවර්තන සේවාව",
+  "VOTNotAffectToVoice": "කටහඬින් පෙළ පරිවර්තනය කිරීම බලපාන්නේ නැහැ"
 }

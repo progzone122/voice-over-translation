@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Зөвхөн хэвлэл мэдээллийн ОНХХ алгасан үүнийг ашиглах",
   "VOTNewAudioPlayer": "Шинэ аудио тоглуулагч ашиглах",
   "VOTUseNewModel": "Зарим видеонуудад Yandex-ийн дуу хоолойны туршилтын хувилбарыг ашиглана уу",
-  "VOTTranslationErrorsService": "Алдааны орчуулгын үйлчилгээ",
   "TranslationDelayed": "Орчуулга нь бага зэрэг хойшлогдож байна",
   "VOTTranslationCompletedNotify": "Орчуулга дууссан байна!",
   "VOTSendNotifyOnComplete": "Видеог орчуулсан тухай мэдэгдэл илгээх",
@@ -205,5 +204,7 @@
   "VOTTranslateProxyEverything": "Прокси бүх зүйл",
   "VOTTranslateProxyStatus": "Proxying горим",
   "VOTTranslatedBy": "Орчуулагдсан: {0}",
-  "VOTStreamNotAvailable": "Translate stream байхгүй байна"
+  "VOTStreamNotAvailable": "Translate stream байхгүй байна",
+  "VOTTranslationTextService": "Текст Орчуулгын үйлчилгээ",
+  "VOTNotAffectToVoice": "Нүүр хуудас гадаад хэл дээр орчуулга хийхгүй байх"
 }

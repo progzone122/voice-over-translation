@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "اسے صرف میڈیا CSP کو نظرانداز کرنے کے لیے استعمال کریں ۔ ",
   "VOTNewAudioPlayer": "نیا آڈیو پلیئر استعمال کریں",
   "VOTUseNewModel": "کچھ ویڈیوز کے لئے یاندیکس آوازوں کی تجرباتی تغیر کا استعمال کریں ۔ ",
-  "VOTTranslationErrorsService": "غلطی ترجمہ سروس",
   "TranslationDelayed": "ترجمہ میں قدرے تاخیر ہوئی ہے ۔ ",
   "VOTTranslationCompletedNotify": "{0} پر ترجمہ مکمل ہو گیا ہے!",
   "VOTSendNotifyOnComplete": "ایک نوٹیفکیشن بھیجیں کہ ویڈیو کا ترجمہ ہوچکا ہے",
@@ -205,5 +204,7 @@
   "VOTTranslateProxyEverything": "پراکسی سب کچھ",
   "VOTTranslateProxyStatus": "پراکسی موڈ",
   "VOTTranslatedBy": "ترجمہ: {0}",
-  "VOTStreamNotAvailable": "ترجمہ سٹریم دستیاب نہیں ہے"
+  "VOTStreamNotAvailable": "ترجمہ سٹریم دستیاب نہیں ہے",
+  "VOTTranslationTextService": "ٹیکسٹ ٹرانسلیشن سروس",
+  "VOTNotAffectToVoice": "آواز میں متن کے ترجمہ کو متاثر نہیں کرتا"
 }

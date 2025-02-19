@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Користите га само за заобилажење Медиа ЦСП-а",
   "VOTNewAudioPlayer": "Користите нови аудио плејер",
   "VOTUseNewModel": "Користите експерименталну опцију Иандек Воицес за неке видео записе",
-  "VOTTranslationErrorsService": "Услуга превођења грешака",
   "TranslationDelayed": "Превод мало касни",
   "VOTTranslationCompletedNotify": "Превод на {0} је завршен!",
   "VOTSendNotifyOnComplete": "Пошаљите обавештење да је видео преведен",
@@ -205,5 +204,7 @@
   "VOTTranslateProxyEverything": "Проки сервер за све",
   "VOTTranslateProxyStatus": "Режим проксирања",
   "VOTTranslatedBy": "Преведено {0}",
-  "VOTStreamNotAvailable": "Превод није доступан"
+  "VOTStreamNotAvailable": "Превод није доступан",
+  "VOTTranslationTextService": "Услуге превођења текстова",
+  "VOTNotAffectToVoice": "Не утиче на превођење текста у гласу"
 }

@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Tumia Tu kwa kupitisha Vyombo VYA Habari CSP",
   "VOTNewAudioPlayer": "Tumia kicheza sauti kipya",
   "VOTUseNewModel": "Tumia tofauti ya majaribio Ya sauti Za Yandex kwa video zingine",
-  "VOTTranslationErrorsService": "Huduma ya tafsiri ya makosa",
   "TranslationDelayed": "Tafsiri imechelewa kidogo",
   "VOTTranslationCompletedNotify": "Tafsiri ya {0} imekamilika!",
   "VOTSendNotifyOnComplete": "Tuma arifa kwamba video imetafsiriwa",
@@ -205,5 +204,7 @@
   "VOTTranslateProxyEverything": "Wakala kila kitu",
   "VOTTranslateProxyStatus": "Hali ya wakala",
   "VOTTranslatedBy": "Ilitafsiriwa na {0}",
-  "VOTStreamNotAvailable": "Tafsiri ya mkondo haipatikani"
+  "VOTStreamNotAvailable": "Tafsiri ya mkondo haipatikani",
+  "VOTTranslationTextService": "Huduma ya tafsiri ya maandishi",
+  "VOTNotAffectToVoice": "Haiathiri tafsiri ya maandishi kwa sauti juu"
 }

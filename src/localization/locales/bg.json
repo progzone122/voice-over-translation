@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Използвайте го само за заобикаляне на медийния ДУУ",
   "VOTNewAudioPlayer": "Използвайте новия аудио плейър",
   "VOTUseNewModel": "Използвайте експериментална вариация на Яндекс гласове за някои видеоклипове",
-  "VOTTranslationErrorsService": "Услуга за превод на грешки",
   "TranslationDelayed": "Преводът леко закъснява.",
   "VOTTranslationCompletedNotify": "Преводът на {0} е завършен!",
   "VOTSendNotifyOnComplete": "Изпратете съобщение, че видеото е преведено",
@@ -205,5 +204,7 @@
   "VOTTranslateProxyEverything": "Прокси всичко",
   "VOTTranslateProxyStatus": "Прокси режим",
   "VOTTranslatedBy": "Преведено от {0}",
-  "VOTStreamNotAvailable": "Превод поток не е наличен"
+  "VOTStreamNotAvailable": "Превод поток не е наличен",
+  "VOTTranslationTextService": "Превод на текст",
+  "VOTNotAffectToVoice": "Не влияе на превода на текст в глас над"
 }

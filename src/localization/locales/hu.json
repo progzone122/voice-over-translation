@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Csak a Media CSP megkerülésére használja",
   "VOTNewAudioPlayer": "Az új audiolejátszó használata",
   "VOTUseNewModel": "Használja a Yandex voices kísérleti változatát néhány videóhoz",
-  "VOTTranslationErrorsService": "Hiba fordítási szolgáltatás",
   "TranslationDelayed": "A fordítás kissé késik",
   "VOTTranslationCompletedNotify": "A fordítás a {0} befejeződött!",
   "VOTSendNotifyOnComplete": "Küldjön értesítést arról, hogy a videót lefordították",
@@ -205,5 +204,7 @@
   "VOTTranslateProxyEverything": "Proxy mindent",
   "VOTTranslateProxyStatus": "Proxy mód",
   "VOTTranslatedBy": "Fordította: {0}",
-  "VOTStreamNotAvailable": "A stream fordítása nem érhető el"
+  "VOTStreamNotAvailable": "A stream fordítása nem érhető el",
+  "VOTTranslationTextService": "Szövegfordítási szolgáltatás",
+  "VOTNotAffectToVoice": "Nem befolyásolja a szöveg fordítását a voice over alkalmazásban"
 }

@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "মিডিয়া সিএসপি বাইপাস করার জন্য এটি ব্যবহার করুন",
   "VOTNewAudioPlayer": "নতুন অডিও প্লেয়ার ব্যবহার করুন",
   "VOTUseNewModel": "কিছু ভিডিওর জন্য ইয়ানডেক্স ভয়েসের একটি পরীক্ষামূলক বৈচিত্র ব্যবহার করুন",
-  "VOTTranslationErrorsService": "ত্রুটি অনুবাদ পরিষেবা",
   "TranslationDelayed": "অনুবাদ সামান্য বিলম্বিত হয়",
   "VOTTranslationCompletedNotify": "{0} এর অনুবাদ সম্পন্ন হয়েছে!",
   "VOTSendNotifyOnComplete": "একটি বিজ্ঞপ্তি পাঠান যে ভিডিওটি অনুবাদ করা হয়েছে",
@@ -205,5 +204,7 @@
   "VOTTranslateProxyEverything": "প্রক্সি সবকিছু",
   "VOTTranslateProxyStatus": "প্রক্সি মোড",
   "VOTTranslatedBy": "অনুবাদ করেছেন {0}",
-  "VOTStreamNotAvailable": "অনুবাদ স্ট্রিম উপলব্ধ নয়"
+  "VOTStreamNotAvailable": "অনুবাদ স্ট্রিম উপলব্ধ নয়",
+  "VOTTranslationTextService": "পাঠ্য অনুবাদ পরিষেবা",
+  "VOTNotAffectToVoice": "ভয়েস ওভার টেক্সট অনুবাদ প্রভাবিত করে না"
 }

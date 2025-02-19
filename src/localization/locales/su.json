@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Ngagunakeun eta ngan Pikeun Bypassing Media Csp",
   "VOTNewAudioPlayer": "Paké pamuter audio anyar",
   "VOTUseNewModel": "Paké variasi ékspérimén sora Yandex pikeun sababaraha video",
-  "VOTTranslationErrorsService": "Jasa tarjamahan kasalahan",
   "TranslationDelayed": "Tarjamahan rada ditunda",
   "VOTTranslationCompletedNotify": "Tarjamahan dina {0} geus réngsé!",
   "VOTSendNotifyOnComplete": "Kirimkeun bewara yén video geus ditarjamahkeun",
@@ -205,5 +204,7 @@
   "VOTTranslateProxyEverything": "Proxy sagalana",
   "VOTTranslateProxyStatus": "Modeu proxy",
   "VOTTranslatedBy": "Ditarjamahkeun ku {0}",
-  "VOTStreamNotAvailable": "Translate stream teu aya"
+  "VOTStreamNotAvailable": "Translate stream teu aya",
+  "VOTTranslationTextService": "Jasa tarjamahan téks",
+  "VOTNotAffectToVoice": "Teu mangaruhan tarjamahan téks dina sora leuwih"
 }

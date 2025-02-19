@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Používajte ho iba na obídenie médií CSP",
   "VOTNewAudioPlayer": "Použite nový audio prehrávač",
   "VOTUseNewModel": "Pre niektoré videá použite experimentálnu variáciu hlasov Yandex",
-  "VOTTranslationErrorsService": "Služba prekladu chýb",
   "TranslationDelayed": "Preklad je mierne oneskorený",
   "VOTTranslationCompletedNotify": "Preklad na {0} bol dokončený!",
   "VOTSendNotifyOnComplete": "Pošlite upozornenie, že video bolo preložené",
@@ -205,5 +204,7 @@
   "VOTTranslateProxyEverything": "Proxy všetko",
   "VOTTranslateProxyStatus": "Režim proxy",
   "VOTTranslatedBy": "Preklad: {0}",
-  "VOTStreamNotAvailable": "Preklad streamu nie je k dispozícii"
+  "VOTStreamNotAvailable": "Preklad streamu nie je k dispozícii",
+  "VOTTranslationTextService": "Prekladateľská služba",
+  "VOTNotAffectToVoice": "Nemá vplyv na preklad textu v aplikácii voice over"
 }

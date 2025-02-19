@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "ಮಾಧ್ಯಮ ಸಿಎಸ್ಪಿ ಬೈಪಾಸ್ ಮಾಡಲು ಮಾತ್ರ ಇದನ್ನು ಬಳಸಿ",
   "VOTNewAudioPlayer": "ಹೊಸ ಆಡಿಯೋ ಪ್ಲೇಯರ್ ಬಳಸಿ",
   "VOTUseNewModel": "ಕೆಲವು ವೀಡಿಯೊಗಳಿಗಾಗಿ ಯಾಂಡೆಕ್ಸ್ ಧ್ವನಿಗಳ ಪ್ರಾಯೋಗಿಕ ವ್ಯತ್ಯಾಸವನ್ನು ಬಳಸಿ",
-  "VOTTranslationErrorsService": "ಅನುವಾದ ಸೇವೆ ದೋಷ",
   "TranslationDelayed": "ಅನುವಾದ ಸ್ವಲ್ಪ ವಿಳಂಬ",
   "VOTTranslationCompletedNotify": "{0} ನಲ್ಲಿನ ಅನುವಾದ ಪೂರ್ಣಗೊಂಡಿದೆ!",
   "VOTSendNotifyOnComplete": "ವೀಡಿಯೊ ಅನುವಾದಿಸಲಾಗಿದೆ ಎಂದು ಅಧಿಸೂಚನೆಯನ್ನು ಕಳುಹಿಸಿ",
@@ -205,5 +204,7 @@
   "VOTTranslateProxyEverything": "ಪ್ರಾಕ್ಸಿ ಎಲ್ಲವೂ",
   "VOTTranslateProxyStatus": "ಪ್ರಾಕ್ಸಿ ಮೋಡ್",
   "VOTTranslatedBy": "ಅನುವಾದ {0}",
-  "VOTStreamNotAvailable": "ಅನುವಾದ ಸ್ಟ್ರೀಮ್ ಲಭ್ಯವಿಲ್ಲ"
+  "VOTStreamNotAvailable": "ಅನುವಾದ ಸ್ಟ್ರೀಮ್ ಲಭ್ಯವಿಲ್ಲ",
+  "VOTTranslationTextService": "ಪಠ್ಯ ಅನುವಾದ ಸೇವೆ",
+  "VOTNotAffectToVoice": "Voice over ನಲ್ಲಿ ಪಠ್ಯದ ಅನುವಾದದ ಮೇಲೆ ಪರಿಣಾಮ ಬೀರುವುದಿಲ್ಲ"
 }

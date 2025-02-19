@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Yalnız Media CSP-ni keçmək üçün istifadə edin",
   "VOTNewAudioPlayer": "Yeni audio pleyerdən istifadə edin",
   "VOTUseNewModel": "Bəzi videolar üçün Yandex voices-in eksperimental versiyasından istifadə edin",
-  "VOTTranslationErrorsService": "Səhv tərcümə xidməti",
   "TranslationDelayed": "Tərcümə bir az gecikir",
   "VOTTranslationCompletedNotify": "Tərcümə {0} tamamlandı!",
   "VOTSendNotifyOnComplete": "Videonun tərcümə olunduğunu bildirən bildiriş göndərin",
@@ -205,5 +204,7 @@
   "VOTTranslateProxyEverything": "Hər şey üçün proxy server",
   "VOTTranslateProxyStatus": "Proksasiya rejimi",
   "VOTTranslatedBy": "Tərcümə {0}",
-  "VOTStreamNotAvailable": "Tərcümə yayımı mövcud deyil"
+  "VOTStreamNotAvailable": "Tərcümə yayımı mövcud deyil",
+  "VOTTranslationTextService": "Mətn tərcümə xidmətləri",
+  "VOTNotAffectToVoice": "Səs verərkən mətnin tərcüməsinə təsir göstərmir"
 }

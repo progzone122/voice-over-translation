@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Koristi ga samo za zaobilaženje medija CSP",
   "VOTNewAudioPlayer": "Koristi novi audio player",
   "VOTUseNewModel": "Upotrijebite eksperimentalnu varijaciju Yandex glasova za neke videozapise",
-  "VOTTranslationErrorsService": "Usluga prevođenja grešaka",
   "TranslationDelayed": "Prevod je malo odložen",
   "VOTTranslationCompletedNotify": "Prevod na {0} je završen!",
   "VOTSendNotifyOnComplete": "Pošaljite obavještenje da je video preveden",
@@ -205,5 +204,7 @@
   "VOTTranslateProxyEverything": "Proxy sve",
   "VOTTranslateProxyStatus": "Proxying mode",
   "VOTTranslatedBy": "Translated by {0}",
-  "VOTStreamNotAvailable": "Translate stream nije dostupan"
+  "VOTStreamNotAvailable": "Translate stream nije dostupan",
+  "VOTTranslationTextService": "Usluga prevođenja teksta",
+  "VOTNotAffectToVoice": "Ne utiče na prevod teksta u glasu"
 }

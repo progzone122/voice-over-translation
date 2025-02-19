@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Brug den kun til at omgå Media CSP",
   "VOTNewAudioPlayer": "Brug den nye lydafspiller",
   "VOTUseNewModel": "Brug en eksperimentel variation af Yandeks stemmer til nogle videoer",
-  "VOTTranslationErrorsService": "Fejl oversættelsestjeneste",
   "TranslationDelayed": "Oversættelsen er lidt forsinket",
   "VOTTranslationCompletedNotify": "Oversættelsen på {0} er afsluttet!",
   "VOTSendNotifyOnComplete": "Send en meddelelse om, at videoen er blevet oversat",
@@ -205,5 +204,7 @@
   "VOTTranslateProxyEverything": "Fuldmagt alt",
   "VOTTranslateProxyStatus": "Fuldførelsestilstand",
   "VOTTranslatedBy": "Oversat af {0}",
-  "VOTStreamNotAvailable": "Translate stream er ikke tilgængelig"
+  "VOTStreamNotAvailable": "Translate stream er ikke tilgængelig",
+  "VOTTranslationTextService": "Tekstoversættelsestjeneste",
+  "VOTNotAffectToVoice": "Påvirker ikke oversættelsen af tekst i voice over"
 }
