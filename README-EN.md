@@ -120,7 +120,7 @@ bun install --yarn
 
 ### How to patch vot.js?
 
-1. Make the necessary changes to node_modules/vot.js/package_name/required file
+1. Make the necessary changes to node_modules/@vot.js/package_name/required file
 2. Save the changes using:
 
 NPM:
