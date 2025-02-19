@@ -34,6 +34,7 @@ The voice-over translation of the video is now available not only in YandexBrows
 11. Limiting the translation of videos from your native language (you can select the language in the menu)
 12. Translation with hotkey
 13. Setting up the design of subtitles
+14. Showing translation for separated words in subtitles
 
 ### Useful links:
 
