@@ -143,11 +143,13 @@
     // left: calc(14% + 32px + 16px);
     left: 240px;
     top: calc(25vh / 2);
+    transform-origin: left;
   }
 
   &[data-position="right"] {
     right: -80px;
     left: auto;
     top: calc(25vh / 2);
+    transform-origin: right;
   }
 }
