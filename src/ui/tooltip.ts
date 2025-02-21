@@ -34,6 +34,7 @@ export default class Tooltip {
 
   container?: HTMLElement;
   onResizeObserver?: ResizeObserver;
+  intersectionObserver?: IntersectionObserver;
 
   constructor({
     target,
@@ -105,6 +106,13 @@ export default class Tooltip {
     this.showed ? this.destroy() : this.create();
   };
 
+  onScroll = () => {
+    requestAnimationFrame(() => {
+      this.updatePageSize();
+      this.updatePos();
+    });
+  };
+
   onHoverPointerDown = (e: PointerEvent) => {
     if (e.pointerType === "mouse") {
       return;
@@ -140,14 +148,27 @@ export default class Tooltip {
     }
 
     this.pageWidth =
-      this.layoutRoot.clientWidth || document.documentElement.clientWidth;
+      (this.layoutRoot.clientWidth || document.documentElement.clientWidth) +
+      window.pageXOffset;
     this.pageHeight =
-      this.layoutRoot.clientHeight || document.documentElement.clientHeight;
+      (this.layoutRoot.clientHeight || document.documentElement.clientHeight) +
+      window.pageYOffset;
     return this;
   }
 
+  onIntersect = ([entry]: IntersectionObserverEntry[]) => {
+    if (!entry.isIntersecting) {
+      return this.destroy(true);
+    }
+  };
+
   init() {
     this.onResizeObserver = new ResizeObserver(this.onResize);
+    this.intersectionObserver = new IntersectionObserver(this.onIntersect);
+    document.addEventListener("scroll", this.onScroll, {
+      passive: true,
+      capture: true,
+    });
     if (this.trigger === "click") {
       this.target.addEventListener("pointerdown", this.onClick);
       return this;
@@ -163,6 +184,7 @@ export default class Tooltip {
 
   release() {
     this.destroy();
+    document.removeEventListener("scroll", this.onScroll);
     if (this.trigger === "click") {
       this.target.removeEventListener("pointerdown", this.onClick);
       return this;
@@ -176,6 +198,7 @@ export default class Tooltip {
   }
 
   private create() {
+    this.destroy(true);
     this.showed = true;
     this.container = UI.createEl("vot-block", ["vot-tooltip"], this.content);
     this.container.setAttribute("role", "tooltip");
@@ -198,6 +221,7 @@ export default class Tooltip {
 
     this.container.style.opacity = "1";
     this.onResizeObserver?.observe(this.layoutRoot);
+    this.intersectionObserver?.observe(this.target);
     return this;
   }
 
@@ -318,6 +342,7 @@ export default class Tooltip {
 
     this.showed = false;
     this.onResizeObserver?.disconnect();
+    this.intersectionObserver?.disconnect();
     if (instant) {
       this.container.remove();
       return this;
