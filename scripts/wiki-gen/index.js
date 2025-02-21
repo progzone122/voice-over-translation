@@ -82,7 +82,7 @@ function fixRegexStr(str) {
 
 function getDomains(match) {
   return Array.isArray(match)
-    ? match.map((s) => fixRegexStr(s).join("\n- "))
+    ? match.map((s) => fixRegexStr(s)).flat()
     : fixRegexStr(match);
 }
 
