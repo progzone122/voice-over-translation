@@ -30,6 +30,7 @@ import {
   votBackendUrl,
   workerHost,
   proxyOnlyExtensions,
+  proxyOnlyCountries,
 } from "./config/config.js";
 import {
   availableLocales,
@@ -2298,11 +2299,12 @@ class VideoHandler {
           timeout: 7000,
         });
         ({ country: countryCode } = await response.json());
-        if (countryCode === "UA") this.data.translateProxyEnabled = 2;
       } catch (err) {
         console.error("[VOT] Error getting country:", err);
       }
-    } else if (countryCode === "UA") {
+    }
+
+    if (proxyOnlyCountries.includes(countryCode)) {
       this.data.translateProxyEnabled = 2;
     }
     debug.log("translateProxyEnabled", this.data.translateProxyEnabled);
