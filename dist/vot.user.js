@@ -4884,6 +4884,8 @@ const subtitlesFormats = ["srt", "vtt", "json"];
 
 const userlang = navigator.language || navigator.userLanguage;
 const MAX_SECS_FRACTION = 0.66;
+const textFilters =
+  /(?:https?|www|\bhttp\s+)[^\s/]*?(?:\.\s*[a-z]{2,}|\/)\S*|#[^\s#]+|auto-generated\s+by\s+youtube|provided\s+to\s+youtube\s+by|released\s+on|paypal?|0x[\da-f]{40}|[13][1-9a-z]{25,34}|4[\dab][1-9a-z]{93}|t[1-9a-z]{33}/gi;
 const slavicLangs = [
   "uk",
   "be",
@@ -4959,22 +4961,10 @@ function initHls() {
     : undefined;
 }
 
-const textFilters = (() => {
-  const patterns = [
-    /(?:https?|www|\bhttp\s+)[^\s/]*?(?:\.\s*[a-z]{2,}|\/)[^\s]*/gi,
-    /#[^\s#]+|Auto-generated\s+by\s+YouTube|Provided\s+to\s+YouTube\s+by|Released\s+on|PayPal?/gi,
-    /0x[\da-f]{40}|[13][a-km-zA-HJ-NP-Z1-9]{25,34}|4[0-9AB][1-9A-HJ-NP-Za-km-z]{93}/g,
-  ];
-
-  return new RegExp(patterns.map((p) => p.source).join("|"), "gi");
-})();
-
 function cleanText(title, description) {
   return (title + " " + (description || ""))
     .replace(textFilters, "")
-    .replace(/(?:[\s\u200B]+|\.{2,})/g, " ")
-    .replace(/[^\p{L}\s]/gu, " ")
-    .replace(/\s+/g, " ")
+    .replace(/[^\p{L}]+/gu, " ")
     .substring(0, 450)
     .trim();
 }
