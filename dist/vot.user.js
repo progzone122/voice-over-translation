@@ -5626,7 +5626,7 @@ class client_VOTClient extends MinimalClient {
     async translateStream({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
         const { url } = videoData;
         if (this.isCustomLink(url)) {
-            throw new VOTJSError("Unsupported video URL for getting stream translation");
+            throw new VOTLocalizedError("VOTStreamNotSupportedUrl");
         }
         const session = await this.getSession("video-translation");
         const body = YandexVOTProtobuf.encodeStreamRequest(url, requestLang, responseLang);
