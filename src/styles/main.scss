@@ -13,6 +13,7 @@
 
 @use "components/lang-select.scss";
 @use "components/segmented-button.scss";
+@use "components/tooltip.scss";
 @use "components/menu.scss";
 @use "components/dialog.scss";
 @use "subtitles.scss";
@@ -32,6 +33,18 @@
 
 vot-block {
   display: block;
+  font-family: inherit;
   // for reddit
   visibility: visible !important;
+}
+
+.vot-portal {
+  display: inline;
+  &-local {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 2147483647;
+    // pointer-events: none;
+  }
 }

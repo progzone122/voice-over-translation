@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "इसका उपयोग केवल मीडिया सीएसपी को दरकिनार करने के लिए करें",
   "VOTNewAudioPlayer": "नए ऑडियो प्लेयर का उपयोग करें",
   "VOTUseNewModel": "कुछ वीडियो के लिए यांडेक्स आवाजों की प्रयोगात्मक भिन्नता का उपयोग करें",
-  "VOTTranslationErrorsService": "त्रुटि अनुवाद सेवा",
   "TranslationDelayed": "अनुवाद में थोड़ी देरी हो रही है",
   "VOTTranslationCompletedNotify": "पर अनुवाद {0} पूरा हो गया है!",
   "VOTSendNotifyOnComplete": "एक अधिसूचना भेजें कि वीडियो का अनुवाद किया गया है",
@@ -203,5 +202,9 @@
   "VOTTranslateProxyDisabled": "विकलांग",
   "VOTTranslateProxyEnabled": "सक्षम किया गया",
   "VOTTranslateProxyEverything": "प्रॉक्सी सब कुछ",
-  "VOTTranslateProxyStatus": "प्रॉक्सी मोड"
+  "VOTTranslateProxyStatus": "प्रॉक्सी मोड",
+  "VOTTranslatedBy": "{0}द्वारा अनुवादित",
+  "VOTStreamNotAvailable": "अनुवाद स्ट्रीम उपलब्ध नहीं है",
+  "VOTTranslationTextService": "पाठ अनुवाद सेवा",
+  "VOTNotAffectToVoice": "आवाज पर पाठ के अनुवाद को प्रभावित नहीं करता है"
 }

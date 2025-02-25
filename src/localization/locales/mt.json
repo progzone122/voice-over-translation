@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Użaha biss Biex tevita L-PSK Tal-Midja",
   "VOTNewAudioPlayer": "Uża l-plejer tal-awdjo l-ġdid",
   "VOTUseNewModel": "Uża varjazzjoni sperimentali ta'vuċijiet Yandex għal xi vidjows",
-  "VOTTranslationErrorsService": "Servizz ta'traduzzjoni ta'żbalji",
   "TranslationDelayed": "It traduzzjoni hija kemmxejn ittardjata",
   "VOTTranslationCompletedNotify": "It-traduzzjoni fuq il - {0} tlestiet!",
   "VOTSendNotifyOnComplete": "Ibgħat notifika li l-video ġie tradott",
@@ -203,5 +202,9 @@
   "VOTTranslateProxyDisabled": "Diżattivat",
   "VOTTranslateProxyEnabled": "Attivat",
   "VOTTranslateProxyEverything": "Prokura kollox",
-  "VOTTranslateProxyStatus": "Mod ta'prokura"
+  "VOTTranslateProxyStatus": "Mod ta'prokura",
+  "VOTTranslatedBy": "Tradott minn {0}",
+  "VOTStreamNotAvailable": "Ittraduċi nixxiegħa mhix disponibbli",
+  "VOTTranslationTextService": "Servizz ta'traduzzjoni ta'test",
+  "VOTNotAffectToVoice": "Ma jaffettwax it-traduzzjoni tat-test bil-vuċi fuq"
 }

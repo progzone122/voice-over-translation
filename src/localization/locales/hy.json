@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Օգտագործեք այն միայն Media CSP-ն շրջանցելու համար",
   "VOTNewAudioPlayer": "Օգտագործեք նոր աուդիո նվագարկիչ",
   "VOTUseNewModel": "Որոշ տեսանյութերի համար օգտագործեք Yandex voices-ի փորձնական տարբերակը",
-  "VOTTranslationErrorsService": "Սխալների թարգմանության ծառայություն",
   "TranslationDelayed": "Թարգմանությունը Մի փոքր ուշանում է",
   "VOTTranslationCompletedNotify": "Թարգմանությունը {0} ավարտված է:",
   "VOTSendNotifyOnComplete": "Ուղարկեք ծանուցում այն մասին, որ տեսանյութը թարգմանվել է",
@@ -203,5 +202,9 @@
   "VOTTranslateProxyDisabled": "Անաշխատունակ",
   "VOTTranslateProxyEnabled": "Ներառված է",
   "VOTTranslateProxyEverything": "Վստահված սերվեր ամեն ինչի համար",
-  "VOTTranslateProxyStatus": "Պրոքսի ռեժիմ"
+  "VOTTranslateProxyStatus": "Պրոքսի ռեժիմ",
+  "VOTTranslatedBy": "Թարգմանված {0}",
+  "VOTStreamNotAvailable": "Թարգմանության հեռարձակումը հասանելի չէ",
+  "VOTTranslationTextService": "Տեքստերի թարգմանության ծառայություններ",
+  "VOTNotAffectToVoice": "Հնչյունավորելիս չի ազդում տեքստի թարգմանության վրա"
 }

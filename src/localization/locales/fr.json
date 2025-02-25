@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Utilisez - le uniquement pour contourner le CSP multimédia",
   "VOTNewAudioPlayer": "Utilisez le nouveau lecteur audio",
   "VOTUseNewModel": "Utilisez une variante expérimentale des voix Yandex pour certaines vidéos",
-  "VOTTranslationErrorsService": "Service de traduction des erreurs",
   "TranslationDelayed": "La traduction est légèrement retardée",
   "VOTTranslationCompletedNotify": "La traduction sur le {0} est terminée!",
   "VOTSendNotifyOnComplete": "Envoyer une notification indiquant que la vidéo a été traduite",
@@ -203,5 +202,9 @@
   "VOTTranslateProxyDisabled": "Désactivé",
   "VOTTranslateProxyEnabled": "Activé",
   "VOTTranslateProxyEverything": "Proxy tout",
-  "VOTTranslateProxyStatus": "Mode de proxy"
+  "VOTTranslateProxyStatus": "Mode de proxy",
+  "VOTTranslatedBy": "Traduit par {0}",
+  "VOTStreamNotAvailable": "Le flux de traduction n'est pas disponible",
+  "VOTTranslationTextService": "Service de traduction de texte",
+  "VOTNotAffectToVoice": "N'affecte pas la traduction du texte en voix off"
 }

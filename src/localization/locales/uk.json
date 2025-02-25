@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Використовуйте його лише для обходу Media CSP",
   "VOTNewAudioPlayer": "Використовуйте новий аудіоплеєр",
   "VOTUseNewModel": "Використовуйте експериментальний варіант Yandex voices для деяких відео",
-  "VOTTranslationErrorsService": "Сервіс перекладу помилок",
   "TranslationDelayed": "Переклад трохи затримується",
   "VOTTranslationCompletedNotify": "Переклад на {0} завершено!",
   "VOTSendNotifyOnComplete": "Надішліть повідомлення про те, що відео було перекладено",
@@ -203,5 +202,9 @@
   "VOTTranslateProxyDisabled": "Непрацездатний",
   "VOTTranslateProxyEnabled": "Включений",
   "VOTTranslateProxyEverything": "Проксіровать всьо",
-  "VOTTranslateProxyStatus": "Режим проксирования"
+  "VOTTranslateProxyStatus": "Режим проксирования",
+  "VOTTranslatedBy": "Перекладено {0}",
+  "VOTStreamNotAvailable": "Трансляція перекладу недоступна",
+  "VOTTranslationTextService": "Сервіс перекладу текстів",
+  "VOTNotAffectToVoice": "Не впливає на переклад тексту при озвучуванні"
 }

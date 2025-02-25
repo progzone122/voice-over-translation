@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "ਇਸ ਨੂੰ ਸਿਰਫ ਮੀਡੀਆ ਸੀਐਸਪੀ ਨੂੰ ਬਾਈਪਾਸ ਕਰਨ ਲਈ ਵਰਤੋ",
   "VOTNewAudioPlayer": "ਨਵਾਂ ਆਡੀਓ ਪਲੇਅਰ ਵਰਤੋਂ",
   "VOTUseNewModel": "ਕੁਝ ਵੀਡੀਓਜ਼ ਲਈ ਯਾਂਡੇਕਸ ਆਵਾਜ਼ਾਂ ਦੀ ਪ੍ਰਯੋਗਾਤਮਕ ਪਰਿਵਰਤਨ ਦੀ ਵਰਤੋਂ ਕਰੋ",
-  "VOTTranslationErrorsService": "ਗਲਤੀ ਅਨੁਵਾਦ ਸੇਵਾ",
   "TranslationDelayed": "ਅਨੁਵਾਦ ਥੋੜ੍ਹਾ ਦੇਰੀ ਨਾਲ ਹੋਇਆ ਹੈ",
   "VOTTranslationCompletedNotify": "{0} ਉੱਤੇ ਅਨੁਵਾਦ ਪੂਰਾ ਹੋ ਗਿਆ ਹੈ!",
   "VOTSendNotifyOnComplete": "ਇੱਕ ਨੋਟੀਫਿਕੇਸ਼ਨ ਭੇਜੋ ਕਿ ਵੀਡੀਓ ਦਾ ਅਨੁਵਾਦ ਕੀਤਾ ਗਿਆ ਹੈ",
@@ -203,5 +202,9 @@
   "VOTTranslateProxyDisabled": "ਆਯੋਗ",
   "VOTTranslateProxyEnabled": "ਯੋਗ",
   "VOTTranslateProxyEverything": "ਪਰਾਕਸੀ ਸਭ ਕੁਝ",
-  "VOTTranslateProxyStatus": "ਪ੍ਰੌਕਸੀ ਮੋਡ"
+  "VOTTranslateProxyStatus": "ਪ੍ਰੌਕਸੀ ਮੋਡ",
+  "VOTTranslatedBy": "{0}ਦੁਆਰਾ ਅਨੁਵਾਦ ਕੀਤਾ",
+  "VOTStreamNotAvailable": "ਅਨੁਵਾਦ ਸਟਰੀਮ ਉਪਲੱਬਧ ਨਹੀਂ ਹੈ",
+  "VOTTranslationTextService": "ਪਾਠ ਅਨੁਵਾਦ ਸੇਵਾ",
+  "VOTNotAffectToVoice": "ਵੋਇਸ ਓਵਰ ਵਿੱਚ ਟੈਕਸਟ ਦੇ ਅਨੁਵਾਦ ਨੂੰ ਪ੍ਰਭਾਵਤ ਨਹੀਂ ਕਰਦਾ"
 }

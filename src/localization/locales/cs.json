@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Použijte jej pouze pro obcházení médií CSP",
   "VOTNewAudioPlayer": "Použijte nový audio přehrávač",
   "VOTUseNewModel": "U některých videí použijte experimentální variantu hlasů Yandex",
-  "VOTTranslationErrorsService": "Chybová překladatelská služba",
   "TranslationDelayed": "Překlad je mírně zpožděn",
   "VOTTranslationCompletedNotify": "Překlad na {0} byl dokončen!",
   "VOTSendNotifyOnComplete": "Pošlete oznámení, že video bylo přeloženo",
@@ -203,5 +202,9 @@
   "VOTTranslateProxyDisabled": "Zakázán",
   "VOTTranslateProxyEnabled": "Povolit",
   "VOTTranslateProxyEverything": "Proxy vše",
-  "VOTTranslateProxyStatus": "Režim proxy"
+  "VOTTranslateProxyStatus": "Režim proxy",
+  "VOTTranslatedBy": "Přeložil {0}",
+  "VOTStreamNotAvailable": "Translate stream není k dispozici",
+  "VOTTranslationTextService": "Překladatelská služba",
+  "VOTNotAffectToVoice": "Nemá vliv na překlad textu v voice over"
 }

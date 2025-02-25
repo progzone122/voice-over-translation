@@ -125,21 +125,15 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- `vk.com
-- vk.ru
-- www.vk.com
-- www.vk.ru
-- m.vk.com
-- m.vk.ru`
-- `vkvideo.ru
-- www.vkvideo.ru
-- m.vkvideo.ru`
 - `vk.com`
 - `vk.ru`
 - `www.vk.com`
 - `www.vk.ru`
 - `m.vk.com`
 - `m.vk.ru`
+- `vkvideo.ru`
+- `www.vkvideo.ru`
+- `m.vkvideo.ru`
 
 Available paths:
 
@@ -261,6 +255,8 @@ Status: [✅] Working
 Available (sub)domains:
 
 - `(www.)?xvideos.com`
+- `(www.)?xvideos-ar.com`
+- `(www.)?xvideos\d\d\d.com`
 - `(www.)?xv-ru.com`
 
 Available paths:
@@ -469,7 +465,9 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- `disk.yandex.ru`
+- `disk.yandex.(ru|kz|com(\.am)?|by|az|co\.il|ee|lt|lv|md|net|tj|tm|uz)`
+- `disk.yandex.(ru|kz|com(\.ge)?|by|az|co\.il|ee|lt|lv|md|net|tj|tm|uz)`
+- `disk.yandex.(ru|kz|com(\.tr)?|by|az|co\.il|ee|lt|lv|md|net|tj|tm|uz)`
 
 Available paths:
 
@@ -843,6 +841,22 @@ Status: [✅] Working
 Available (sub)domains:
 
 - `(www.)?artstation.com`
+
+## Rtnews
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `(www.)?rt.com`
+
+## Bitview
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `(www.)?bitview.net`
 
 ## Direct link to MP4/WEBM
 

@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "メディアCSPをバイパスするためにのみ使用します",
   "VOTNewAudioPlayer": "新しいオーディオプレーヤーを使用する",
   "VOTUseNewModel": "いくつかのビデオのためのYandexの声の実験的なバリエーションを使用してください",
-  "VOTTranslationErrorsService": "エラー翻訳サービス",
   "TranslationDelayed": "翻訳が少し遅れています",
   "VOTTranslationCompletedNotify": "{0}の翻訳が完了しました！",
   "VOTSendNotifyOnComplete": "動画が翻訳されたことを通知する",
@@ -203,5 +202,9 @@
   "VOTTranslateProxyDisabled": "無効",
   "VOTTranslateProxyEnabled": "有効になっている",
   "VOTTranslateProxyEverything": "すべてをプロキシ",
-  "VOTTranslateProxyStatus": "プロキシモード"
+  "VOTTranslateProxyStatus": "プロキシモード",
+  "VOTTranslatedBy": "{0}によって翻訳されました",
+  "VOTStreamNotAvailable": "翻訳ストリームは利用できません",
+  "VOTTranslationTextService": "テキスト翻訳サービス",
+  "VOTNotAffectToVoice": "ボイスオーバーのテキストの翻訳には影響しません"
 }

@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Sebenzisa kuphela Bypassing Media Csp",
   "VOTNewAudioPlayer": "Sebenzisa umdlali omusha audio",
   "VOTUseNewModel": "Sebenzisa ukuhlukahluka kokuhlola kwamazwi E Yandex kwamanye amavidiyo",
-  "VOTTranslationErrorsService": "Isevisi yokuhumusha amaphutha",
   "TranslationDelayed": "Ukuhumusha kubambezeleke kancane",
   "VOTTranslationCompletedNotify": "Ukuhunyushwa kwe - {0} sekuqediwe!",
   "VOTSendNotifyOnComplete": "Thumela isaziso sokuthi ividiyo ihunyushwe",
@@ -203,5 +202,9 @@
   "VOTTranslateProxyDisabled": "Abakhubazekile",
   "VOTTranslateProxyEnabled": "Inikwe amandla",
   "VOTTranslateProxyEverything": "Ummeleli konke",
-  "VOTTranslateProxyStatus": "Imodi yokumisa"
+  "VOTTranslateProxyStatus": "Imodi yokumisa",
+  "VOTTranslatedBy": "Kuhunyushwe ngokuthi {0}",
+  "VOTStreamNotAvailable": "Ukuhumusha stream ayitholakali",
+  "VOTTranslationTextService": "Isevisi yokuhumusha umbhalo",
+  "VOTNotAffectToVoice": "Akuthinti ukuhunyushwa kombhalo ngezwi"
 }

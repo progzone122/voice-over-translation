@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "यसलाई केवल मिडिया सीएसपीलाई बाइपास गर्नका लागि प्रयोग गर्नुहोस्",
   "VOTNewAudioPlayer": "नयाँ अडियो प्लेयर प्रयोग गर्नुहोस्",
   "VOTUseNewModel": "केही भिडियोहरूको लागि यान्डेक्स आवाजहरूको प्रयोगात्मक भिन्नता प्रयोग गर्नुहोस्",
-  "VOTTranslationErrorsService": "त्रुटि अनुवाद सेवा",
   "TranslationDelayed": "अनुवाद केही ढिलाइ भएको छ",
   "VOTTranslationCompletedNotify": "{0} मा अनुवाद पूरा भएको छ!",
   "VOTSendNotifyOnComplete": "भिडियो अनुवाद गरिएको सूचना पठाउनुहोस्",
@@ -203,5 +202,9 @@
   "VOTTranslateProxyDisabled": "अक्षम पारिएको",
   "VOTTranslateProxyEnabled": "सक्षम पारिएको",
   "VOTTranslateProxyEverything": "प्रोक्सी सबै कुरा",
-  "VOTTranslateProxyStatus": "प्रोक्सी मोड"
+  "VOTTranslateProxyStatus": "प्रोक्सी मोड",
+  "VOTTranslatedBy": "{0}द्वारा अनुवाद गरिएको",
+  "VOTStreamNotAvailable": "अनुवाद प्रवाह उपलब्ध छैन",
+  "VOTTranslationTextService": "पाठ अनुवाद सेवा",
+  "VOTNotAffectToVoice": "आवाज माथि पाठ को अनुवाद असर गर्दैन"
 }

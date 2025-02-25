@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Chỉ sử dụng Nó để bỏ QUA Media Csp",
   "VOTNewAudioPlayer": "Sử dụng trình phát âm thanh mới",
   "VOTUseNewModel": "Sử dụng một biến thể thử nghiệm Của Giọng Nói Yandex cho một số video",
-  "VOTTranslationErrorsService": "Dịch vụ dịch lỗi",
   "TranslationDelayed": "Bản dịch hơi bị trì hoãn",
   "VOTTranslationCompletedNotify": "Bản dịch trên {0} đã được hoàn thành!",
   "VOTSendNotifyOnComplete": "Gửi thông báo rằng video đã được dịch",
@@ -203,5 +202,9 @@
   "VOTTranslateProxyDisabled": "Vô hiệu hóa",
   "VOTTranslateProxyEnabled": "Đã bật",
   "VOTTranslateProxyEverything": "Proxy mọi thứ",
-  "VOTTranslateProxyStatus": "Chế độ proxy"
+  "VOTTranslateProxyStatus": "Chế độ proxy",
+  "VOTTranslatedBy": "Dịch bởi {0}",
+  "VOTStreamNotAvailable": "Dịch luồng không khả dụng",
+  "VOTTranslationTextService": "Dịch vụ dịch thuật văn bản",
+  "VOTNotAffectToVoice": "Không ảnh hưởng đến việc dịch văn bản bằng giọng nói"
 }

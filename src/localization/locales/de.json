@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Verwenden Sie es nur zum Umgehen von Medien-CSP",
   "VOTNewAudioPlayer": "Verwenden Sie den neuen Audioplayer",
   "VOTUseNewModel": "Verwenden Sie für einige Videos eine experimentelle Variante von Yandex-Stimmen",
-  "VOTTranslationErrorsService": "Fehlerübersetzungsdienst",
   "TranslationDelayed": "Die Übersetzung ist etwas verzögert",
   "VOTTranslationCompletedNotify": "Die Übersetzung auf der {0} ist abgeschlossen!",
   "VOTSendNotifyOnComplete": "Senden Sie eine Benachrichtigung, dass das Video übersetzt wurde",
@@ -203,5 +202,9 @@
   "VOTTranslateProxyDisabled": "Behinderte",
   "VOTTranslateProxyEnabled": "Aktiviert",
   "VOTTranslateProxyEverything": "Proxy alles",
-  "VOTTranslateProxyStatus": "Proxy-Modus"
+  "VOTTranslateProxyStatus": "Proxy-Modus",
+  "VOTTranslatedBy": "Übersetzt von {0}",
+  "VOTStreamNotAvailable": "Übersetzungs-Stream ist nicht verfügbar",
+  "VOTTranslationTextService": "Textübersetzungsdienst",
+  "VOTNotAffectToVoice": "Hat keinen Einfluss auf die Übersetzung von Text im Voice-Over"
 }

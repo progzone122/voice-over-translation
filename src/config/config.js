@@ -34,6 +34,8 @@ const proxyOnlyExtensions = [
   "Other (Polyfill)",
 ];
 
+const proxyOnlyCountries = ["UA", "LV", "LT"];
+
 export {
   workerHost,
   m3u8ProxyHost,
@@ -49,4 +51,5 @@ export {
   maxAudioVolume,
   minLongWaitingCount,
   proxyOnlyExtensions,
+  proxyOnlyCountries,
 };

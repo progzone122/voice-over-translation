@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Gunakna Mung Kanggo Ngliwati MEDIA CSP",
   "VOTNewAudioPlayer": "Gunakake pamuter audio anyar",
   "VOTUseNewModel": "Gunakake variasi eksperimen Swara Yandex kanggo sawetara video",
-  "VOTTranslationErrorsService": "Layanan terjemahan kesalahan",
   "TranslationDelayed": "Terjemahan rada telat",
   "VOTTranslationCompletedNotify": "Terjemahan ing {0} wis rampung!",
   "VOTSendNotifyOnComplete": "Kirimi kabar sing video wis diterjemahaké",
@@ -203,5 +202,9 @@
   "VOTTranslateProxyDisabled": "Cacat",
   "VOTTranslateProxyEnabled": "Diaktifake",
   "VOTTranslateProxyEverything": "Proxy kabèh",
-  "VOTTranslateProxyStatus": "Mode proxy"
+  "VOTTranslateProxyStatus": "Mode proxy",
+  "VOTTranslatedBy": "Dijarwakake dening {0}",
+  "VOTStreamNotAvailable": "Translate stream ora kasedhiya",
+  "VOTTranslationTextService": "Layanan terjemahan teks",
+  "VOTNotAffectToVoice": "Ora mengaruhi terjemahan teks ing swara liwat"
 }

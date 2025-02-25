@@ -125,21 +125,15 @@
 
 Доступные (под)домены:
 
-- `vk.com
-- vk.ru
-- www.vk.com
-- www.vk.ru
-- m.vk.com
-- m.vk.ru`
-- `vkvideo.ru
-- www.vkvideo.ru
-- m.vkvideo.ru`
 - `vk.com`
 - `vk.ru`
 - `www.vk.com`
 - `www.vk.ru`
 - `m.vk.com`
 - `m.vk.ru`
+- `vkvideo.ru`
+- `www.vkvideo.ru`
+- `m.vkvideo.ru`
 
 Доступные пути:
 
@@ -261,6 +255,8 @@
 Доступные (под)домены:
 
 - `(www.)?xvideos.com`
+- `(www.)?xvideos-ar.com`
+- `(www.)?xvideos\d\d\d.com`
 - `(www.)?xv-ru.com`
 
 Доступные пути:
@@ -469,7 +465,9 @@
 
 Доступные (под)домены:
 
-- `disk.yandex.ru`
+- `disk.yandex.(ru|kz|com(\.am)?|by|az|co\.il|ee|lt|lv|md|net|tj|tm|uz)`
+- `disk.yandex.(ru|kz|com(\.ge)?|by|az|co\.il|ee|lt|lv|md|net|tj|tm|uz)`
+- `disk.yandex.(ru|kz|com(\.tr)?|by|az|co\.il|ee|lt|lv|md|net|tj|tm|uz)`
 
 Доступные пути:
 
@@ -843,6 +841,22 @@
 Доступные (под)домены:
 
 - `(www.)?artstation.com`
+
+## Rtnews
+
+Статус: [✅] Работает
+
+Доступные (под)домены:
+
+- `(www.)?rt.com`
+
+## Bitview
+
+Статус: [✅] Работает
+
+Доступные (под)домены:
+
+- `(www.)?bitview.net`
 
 ## Direct link to MP4/WEBM
 

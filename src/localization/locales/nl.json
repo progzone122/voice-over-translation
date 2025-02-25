@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Gebruik het alleen voor het omzeilen van Media CSP",
   "VOTNewAudioPlayer": "De nieuwe audiospeler gebruiken",
   "VOTUseNewModel": "Gebruik een experimentele variant van Yandex voices voor sommige video ' s",
-  "VOTTranslationErrorsService": "Error translation service",
   "TranslationDelayed": "De vertaling is iets vertraagd",
   "VOTTranslationCompletedNotify": "De vertaling op {0} is voltooid!",
   "VOTSendNotifyOnComplete": "Stuur een melding dat de video is vertaald",
@@ -203,5 +202,9 @@
   "VOTTranslateProxyDisabled": "Gehandicapten",
   "VOTTranslateProxyEnabled": "Ingeschakeld",
   "VOTTranslateProxyEverything": "Proxy alles",
-  "VOTTranslateProxyStatus": "Proxy-modus"
+  "VOTTranslateProxyStatus": "Proxy-modus",
+  "VOTTranslatedBy": "Vertaald door {0}",
+  "VOTStreamNotAvailable": "Translate stream is niet beschikbaar",
+  "VOTTranslationTextService": "Tekst vertaaldienst",
+  "VOTNotAffectToVoice": "Heeft geen invloed op de vertaling van tekst in voice over"
 }

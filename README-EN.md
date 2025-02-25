@@ -6,6 +6,9 @@
 > [!CAUTION]
 > Before creating Issues, we strongly recommend that you read the [FAQ](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) section, as well as with existing [Issues](https://github.com/ilyhalight/voice-over-translation/issues)
 
+> [!WARNING]
+> The extension was created exclusively for research purposes and isn't intended for commercial use. All rights to the original software belong to their respective right holders. The extension isn't affiliated with the original rights holders
+
 The voice-over translation of the video is now available not only in YandexBrowser. Very grateful, **[Yandex.Translate](https://translate.yandex.ru/)**, **[sodapng](https://github.com/sodapng)**, **[mynovelhost](https://github.com/mynovelhost)**, **[SashaXser](https://github.com/SashaXser)** and to all other contributors. Thanks <3
 
 ## Installing the extension:
@@ -31,6 +34,7 @@ The voice-over translation of the video is now available not only in YandexBrows
 11. Limiting the translation of videos from your native language (you can select the language in the menu)
 12. Translation with hotkey
 13. Setting up the design of subtitles
+14. Showing translation for separated words in subtitles
 
 ### Useful links:
 
@@ -114,33 +118,47 @@ bun install --yarn
    npm run build:default-min
    ```
 
-### How to patch vot.js
+### How to patch vot.js?
 
-1. Make the necessary changes to node_modules/vot.js/the required file
+1. Make the necessary changes to node_modules/@vot.js/package_name/required file
 2. Save the changes using:
 
-NPM (not tested, but it should work):
+NPM:
 
 ```bash
-npx patch-package vot.js
+npx patch-package @vot.js/package_name
 ```
 
 Bun:
 
 ```bash
-bunx patch-package --use-yarn vot.js
+bunx patch-package --use-yarn @vot.js/package_name
 ```
 
 Do not use patches from the `bun patch` or from any npm packages. They will be incompatible with the patch-package, and may also break when updating the package.
 
-### How to update localization files
+### How to update localization files?
 
 For all interaction with localization files, the localize-tui utility is made.
 
 To call the utility, use the command:
 
+NPM:
+
 ```bash
 npx @toil/localize-tui
+```
+
+Bun:
+
+```bash
+bunx @toil/localize-tui
+```
+
+or
+
+```bash
+bun localize
 ```
 
 You can read more about the utility [here](https://github.com/ilyhalight/localize)

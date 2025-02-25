@@ -1,24 +1,24 @@
 diff --git a/node_modules/@vot.js/core/dist/client.js b/node_modules/@vot.js/core/dist/client.js
-index 6357a58..4b142de 100644
+index 315f703..dc62faf 100644
 --- a/node_modules/@vot.js/core/dist/client.js
 +++ b/node_modules/@vot.js/core/dist/client.js
 @@ -6,6 +6,8 @@ import { fetchWithTimeout, getTimestamp } from "@vot.js/shared/utils/utils";
- import { yandexProtobuf } from "./protobuf.js";
+ import { YandexVOTProtobuf, YandexSessionProtobuf } from "./protobuf.js";
  import { AudioDownloadType, VideoTranslationStatus } from "./types/yandex.js";
  import { convertVOT } from "./utils/vot.js";
 +import { VOTLocalizedError } from "../../../../src/utils/VOTLocalizedError.js";
 +import debug from "../../../../src/utils/debug.ts";
- class VOTJSError extends Error {
+ export class VOTJSError extends Error {
      data;
      constructor(message, data = undefined) {
-@@ -162,18 +164,18 @@ export default class VOTClient {
+@@ -185,18 +187,18 @@ export default class VOTClient extends MinimalClient {
              ...headers,
          });
          if (!res.success) {
 -            throw new VOTJSError("Failed to request video translation", res);
 +            throw new VOTLocalizedError("requestTranslationFailed");
          }
-         const translationData = yandexProtobuf.decodeTranslationResponse(res.data);
+         const translationData = YandexVOTProtobuf.decodeTranslationResponse(res.data);
          Logger.log("translateVideo", translationData);
          const { status, translationId, } = translationData;
          switch (status) {
@@ -33,37 +33,25 @@ index 6357a58..4b142de 100644
                  }
                  return {
                      translationId,
-@@ -228,7 +230,7 @@ export default class VOTClient {
-             rawVideo: url,
-         }, headers);
+@@ -254,7 +256,7 @@ export default class VOTClient extends MinimalClient {
+             ...headers,
+         });
          if (!res.success) {
 -            throw new VOTJSError("Failed to request video translation", res);
 +            throw new VOTLocalizedError("requestTranslationFailed");
          }
          const translationData = res.data;
          switch (translationData.status) {
-@@ -236,7 +238,7 @@ export default class VOTClient {
+@@ -262,7 +264,7 @@ export default class VOTClient extends MinimalClient {
                  throw new VOTJSError("Yandex couldn't translate video", translationData);
              case "success":
-                 if (!translationData.translatedUrl) {
+                 if (!translationData.translated_url) {
 -                    throw new VOTJSError("Audio link wasn't received from VOT response", translationData);
 +                    throw new VOTLocalizedError("audioNotReceived");
                  }
                  return {
                      translationId: String(translationData.id),
-@@ -302,7 +304,10 @@ export default class VOTClient {
-     async getSubtitles({ videoData, requestLang = this.requestLang, headers = {}, }) {
-         const { url } = videoData;
-         if (this.isCustomLink(url)) {
--            throw new VOTJSError("Unsupported video URL for getting subtitles");
-+            return {
-+                waiting: false,
-+                subtitles: []
-+            }
-         }
-         const session = await this.getSession("video-translation");
-         const body = yandexProtobuf.encodeSubtitlesRequest(url, requestLang);
-@@ -334,7 +339,7 @@ export default class VOTClient {
+@@ -417,7 +419,7 @@ export default class VOTClient extends MinimalClient {
      async translateStream({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
          const { url } = videoData;
          if (this.isCustomLink(url)) {
@@ -71,4 +59,4 @@ index 6357a58..4b142de 100644
 +            throw new VOTLocalizedError("VOTStreamNotSupportedUrl");
          }
          const session = await this.getSession("video-translation");
-         const body = yandexProtobuf.encodeStreamRequest(url, requestLang, responseLang);
+         const body = YandexVOTProtobuf.encodeStreamRequest(url, requestLang, responseLang);

@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "မီဒီယာ CSP ကိုရှောင်လွှဲဖို့ပဲသုံးပါ။",
   "VOTNewAudioPlayer": "အသံဖွင့်စက်အသစ်ကိုအသုံးပြုပါ",
   "VOTUseNewModel": "ဗီဒီယိုအချို့အတွက် Yandex အသံများ၏စမ်းသပ်ပြောင်းလဲမှုတစ်ခုကိုအသုံးပြုပါ။",
-  "VOTTranslationErrorsService": "အမှားဘာသာပြန်ဝန်ဆောင်မှု",
   "TranslationDelayed": "ဘာသာပြန်မှုအနည်းငယ်နှောင့်နှေးပါတယ်။",
   "VOTTranslationCompletedNotify": "{0}မှာဘာသာပြန်ပြီးပါပြီ။",
   "VOTSendNotifyOnComplete": "ဗီဒီယိုကိုဘာသာပြန်ထားကြောင်းအသိပေးချက်ပို့ပါ။",
@@ -203,5 +202,9 @@
   "VOTTranslateProxyDisabled": "မသန်စွမ်း",
   "VOTTranslateProxyEnabled": "ခွင့်ပြုထားသည်",
   "VOTTranslateProxyEverything": "Proxy အရာရာတိုင်း",
-  "VOTTranslateProxyStatus": "Proxying mode ကို"
+  "VOTTranslateProxyStatus": "Proxying mode ကို",
+  "VOTTranslatedBy": "{0}မှဘာသာပြန်ထားသည်",
+  "VOTStreamNotAvailable": "Translate stream ကိုမသုံးနိုင်ပါ။",
+  "VOTTranslationTextService": "စာသားဘာသာပြန်ဝန်ဆောင်မှု",
+  "VOTNotAffectToVoice": "Voice over တွင်စာသားဘာသာပြန်မှုကိုမသက်ရောက်စေပါ။"
 }

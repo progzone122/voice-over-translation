@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "استخدامه فقط لتجاوز وسائل الإعلام سب",
   "VOTNewAudioPlayer": "استخدم مشغل الصوت الجديد",
   "VOTUseNewModel": "استخدم تباينا تجريبيا لأصوات ياندكس لبعض مقاطع الفيديو",
-  "VOTTranslationErrorsService": "خدمة ترجمة الأخطاء",
   "TranslationDelayed": "الترجمة متأخرة قليلا",
   "VOTTranslationCompletedNotify": "تم الانتهاء من الترجمة على {0}!",
   "VOTSendNotifyOnComplete": "إرسال إشعار بأن الفيديو قد تمت ترجمته",
@@ -203,5 +202,9 @@
   "VOTTranslateProxyDisabled": "معاق",
   "VOTTranslateProxyEnabled": "ممكن",
   "VOTTranslateProxyEverything": "وكيل كل شيء",
-  "VOTTranslateProxyStatus": "وضع الوكيل"
+  "VOTTranslateProxyStatus": "وضع الوكيل",
+  "VOTTranslatedBy": "ترجمه {0}",
+  "VOTStreamNotAvailable": "ترجمة تيار غير متوفر",
+  "VOTTranslationTextService": "خدمة ترجمة النصوص",
+  "VOTNotAffectToVoice": "لا يؤثر على ترجمة النص في الصوت"
 }

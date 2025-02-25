@@ -172,7 +172,7 @@
   },
   "streamNoConnectionToServer": "Нет подключения к серверу",
   "searchField": "Поиск...",
-  "VOTTranslateAPIErrors": "Перевод ошибок из API",
+  "VOTTranslateAPIErrors": "Переводить ошибки из API",
   "VOTDetectService": "Сервис определения языка",
   "VOTProxyWorkerHost": "Введите адрес worker прокси-сервера",
   "VOTM3u8ProxyHost": "Введите адрес m3u8 прокси-сервера",
@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Использовать только для обхода Media CSP",
   "VOTNewAudioPlayer": "Использовать новый аудиоплеер",
   "VOTUseNewModel": "Использовать экспериментальный вариант голосов Yandex для некоторых видеороликов",
-  "VOTTranslationErrorsService": "Сервис перевода ошибок",
   "TranslationDelayed": "Перевод немного задерживается",
   "VOTTranslationCompletedNotify": "Перевод на {0} завершен!",
   "VOTSendNotifyOnComplete": "Отправлять уведомление о том, что видео было переведено",
@@ -203,5 +202,9 @@
   "VOTTranslateProxyDisabled": "Отключено",
   "VOTTranslateProxyEnabled": "Включено",
   "VOTTranslateProxyEverything": "Проксировать всё",
-  "VOTTranslateProxyStatus": "Режим проксирования"
+  "VOTTranslateProxyStatus": "Режим проксирования",
+  "VOTTranslatedBy": "Переведено {0}",
+  "VOTStreamNotAvailable": "Трансляция перевода недоступна",
+  "VOTTranslationTextService": "Сервис перевода текста",
+  "VOTNotAffectToVoice": "Не влияет на перевод текста при озвучивании"
 }

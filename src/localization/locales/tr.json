@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Yalnızca Medya csp'sini atlamak için kullanın",
   "VOTNewAudioPlayer": "Yeni ses çaları kullanma",
   "VOTUseNewModel": "Bazı videolar için Yandex seslerinin deneysel bir varyasyonunu kullanın",
-  "VOTTranslationErrorsService": "Hata çeviri hizmeti",
   "TranslationDelayed": "Çeviri biraz gecikti",
   "VOTTranslationCompletedNotify": "{0}'daki çeviri tamamlandı!",
   "VOTSendNotifyOnComplete": "Videonun çevrildiğine dair bir bildirim gönderin",
@@ -203,5 +202,9 @@
   "VOTTranslateProxyDisabled": "Engelli",
   "VOTTranslateProxyEnabled": "Etkin",
   "VOTTranslateProxyEverything": "Proxy her şey",
-  "VOTTranslateProxyStatus": "Proxy modu"
+  "VOTTranslateProxyStatus": "Proxy modu",
+  "VOTTranslatedBy": "Çeviren: {0}",
+  "VOTStreamNotAvailable": "Çeviri akışı kullanılamıyor",
+  "VOTTranslationTextService": "Metin çeviri hizmeti",
+  "VOTNotAffectToVoice": "Sesli metnin çevirisini etkilemez"
 }

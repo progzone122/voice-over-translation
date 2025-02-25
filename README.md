@@ -6,6 +6,9 @@
 > [!CAUTION]
 > Перед созданием Issues настоятельно рекомендуем ознакомиться с разделом [FAQ](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ), а так же с уже существующими [Issues](https://github.com/ilyhalight/voice-over-translation/issues)
 
+> [!WARNING]
+> Расширение создано исключительно в исследовательских целях и не предназначена для коммерческого использования. Все права на оригинальное программное обеспечение принадлежат их правообладателям. Расширение не связана с оригинальными правообладателями
+
 Закадровый перевод видео, теперь, доступен не только в YandexBrowser.
 Очень признателен, **[Yandex.Translate](https://translate.yandex.ru/)**, **[sodapng](https://github.com/sodapng)**, **[mynovelhost](https://github.com/mynovelhost)**, **[SashaXser](https://github.com/SashaXser)** и всем остальным контрибьюторам. Спасиб <3
 
@@ -32,6 +35,7 @@
 11. Ограничение перевода видео с родного языка (язык можно выбрать в меню)
 12. Перевод с помощью горячей клавиши
 13. Настройка оформления субтитров
+14. Просмотр перевода для отдельных слов в субтитрах
 
 ### Полезные ссылки:
 
@@ -117,33 +121,47 @@ bun install --yarn
    npm run build:default-min
    ```
 
-### Как патчить vot.js
+### Как патчить vot.js?
 
-1. Внесите нужные изменения в node_modules/vot.js/нужный файл
+1. Внесите нужные изменения в node_modules/@vot.js/package_name/нужный файл
 2. Сохраните изменения с помощью:
 
-NPM (не тестил, но должно работать):
+NPM:
 
 ```bash
-npx patch-package vot.js
+npx patch-package @vot.js/package_name
 ```
 
 Bun:
 
 ```bash
-bunx patch-package --use-yarn vot.js
+bunx patch-package --use-yarn @vot.js/package_name
 ```
 
 Не пользуйтесь патчами из `bun patch` или из каких-либо npm пакетов. Они будут несовместимы с patch-package, а так же могут ломаться при обновлении пакета.
 
-### Как обновлять файлы локализации
+### Как обновлять файлы локализации?
 
 Для всего взаимодействия с файлами локализации сделана консольная утилита localize-tui.
 
 Для вызова утилиты используйте команду:
 
+NPM:
+
 ```bash
 npx @toil/localize-tui
+```
+
+Bun:
+
+```bash
+bunx @toil/localize-tui
+```
+
+или
+
+```bash
+bun localize
 ```
 
 Подробнее о утилите можно прочитать [тут](https://github.com/ilyhalight/localize)

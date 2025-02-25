@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Kasutage seda ainult mööda meedia CSP",
   "VOTNewAudioPlayer": "Kasutage uut helipleierit",
   "VOTUseNewModel": "Mõne video jaoks kasutage Yandexi häälte eksperimentaalset variatsiooni",
-  "VOTTranslationErrorsService": "Viga tõlketeenus",
   "TranslationDelayed": "Tõlge on veidi hilinenud",
   "VOTTranslationCompletedNotify": "{0} tõlge on lõpetatud!",
   "VOTSendNotifyOnComplete": "Saada teade, et video on tõlgitud",
@@ -203,5 +202,9 @@
   "VOTTranslateProxyDisabled": "Puudega",
   "VOTTranslateProxyEnabled": "Võimaldama",
   "VOTTranslateProxyEverything": "Puhverserver kõik",
-  "VOTTranslateProxyStatus": "Puhverserveri režiim"
+  "VOTTranslateProxyStatus": "Puhverserveri režiim",
+  "VOTTranslatedBy": "Tõlkinud {0}",
+  "VOTStreamNotAvailable": "Tõlgi voog pole saadaval",
+  "VOTTranslationTextService": "Teksti tõlketeenus",
+  "VOTNotAffectToVoice": "Ei mõjuta teksti tõlkimist häälega"
 }

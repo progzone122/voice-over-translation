@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Använd den bara för att kringgå Media CSP",
   "VOTNewAudioPlayer": "Använd den nya ljudspelaren",
   "VOTUseNewModel": "Använd en experimentell variant av Yandex-Röster För vissa videor",
-  "VOTTranslationErrorsService": "Fel översättningstjänst",
   "TranslationDelayed": "Översättningen är något försenad",
   "VOTTranslationCompletedNotify": "Översättningen på {0} är klar!",
   "VOTSendNotifyOnComplete": "Skicka ett meddelande om att videon har översatts",
@@ -203,5 +202,9 @@
   "VOTTranslateProxyDisabled": "Inaktiverad",
   "VOTTranslateProxyEnabled": "Aktiverad",
   "VOTTranslateProxyEverything": "Proxy allt",
-  "VOTTranslateProxyStatus": "Proxying-läge"
+  "VOTTranslateProxyStatus": "Proxying-läge",
+  "VOTTranslatedBy": "Översatt av {0}",
+  "VOTStreamNotAvailable": "Translate stream är inte tillgängligt",
+  "VOTTranslationTextService": "Textöversättningstjänst",
+  "VOTNotAffectToVoice": "Påverkar inte översättningen av text i voice over"
 }

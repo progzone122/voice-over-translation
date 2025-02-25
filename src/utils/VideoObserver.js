@@ -5,6 +5,7 @@ import debug from "./debug.ts";
 export class VideoObserver {
   static adKeywords = new Set([
     "advertise",
+    "advertisement",
     "promo",
     "sponsor",
     "banner",
@@ -18,70 +19,92 @@ export class VideoObserver {
 
   constructor() {
     this.videoCache = new WeakSet();
-    this.observedAddedNodes = new Set();
-    this.observedRemovedNodes = new Set();
+    this.observedNodes = {
+      added: new Set(),
+      removed: new Set(),
+    };
     this.onVideoAdded = new EventImpl();
     this.onVideoRemoved = new EventImpl();
     this.observer = new MutationObserver(this.handleMutations);
   }
 
   isAdRelated(element) {
-    if (!element) return false;
-    const { classList, id, title } = element;
-    for (const cls of classList) {
-      if (VideoObserver.adKeywords.has(cls)) return true;
+    const attributes = ["class", "id", "title"];
+    for (const attr of attributes) {
+      const value = element.getAttribute(attr);
+      if (value && VideoObserver.adKeywords.has(value.toLowerCase())) {
+        return true;
+      }
     }
-    return (
-      VideoObserver.adKeywords.has(id) || VideoObserver.adKeywords.has(title)
-    );
+    return false;
+  }
+
+  hasAudio(video) {
+    if (typeof video.mozHasAudio !== "undefined") {
+      return video.mozHasAudio;
+    }
+    if (typeof video.webkitAudioDecodedByteCount !== "undefined") {
+      return video.webkitAudioDecodedByteCount > 0;
+    }
+    if ("audioTracks" in video) {
+      return video.audioTracks.length > 0 || !video.muted;
+    }
+    return !video.muted;
   }
 
   isValidVideo(video) {
     if (this.isAdRelated(video)) return false;
+
     let parent = video.parentElement;
-    while (parent) {
-      if (this.isAdRelated(parent)) return false;
+    while (parent && !this.isAdRelated(parent)) {
       parent = parent.parentElement;
     }
-    if (
-      (video.hasAttribute("muted") &&
-        !video.classList.contains("vjs-tech") &&
-        !video.preload) ||
-      video.src.includes("v.redd.it") // temp fix for reddit
-    ) {
-      debug.log("Ignore muted video:", video);
+    if (parent) return false;
+
+    if (!this.hasAudio(video)) {
+      debug.log("Ignoring video without audio:", video);
       return false;
     }
+
     return true;
   }
 
-  findVideosAndProcess(root) {
-    if (!root) return;
-    const elements = [root];
+  traverseDOM(root) {
+    const treeWalker = document.createTreeWalker(
+      root,
+      NodeFilter.SHOW_ELEMENT,
+      {
+        acceptNode: (node) =>
+          node.tagName === "VIDEO" || node.shadowRoot
+            ? NodeFilter.FILTER_ACCEPT
+            : NodeFilter.FILTER_SKIP,
+      },
+    );
 
-    if (root.querySelectorAll) {
-      elements.push(...root.querySelectorAll("*"));
-    }
-
-    for (const element of elements) {
-      if (element instanceof HTMLVideoElement) {
-        this.checkVideoState(element);
+    while (treeWalker.nextNode()) {
+      const currentNode = treeWalker.currentNode;
+      if (currentNode instanceof HTMLVideoElement) {
+        this.checkVideoState(currentNode);
       }
-
-      if (element.shadowRoot) {
-        this.findVideosAndProcess(element.shadowRoot);
+      if (currentNode.shadowRoot) {
+        this.traverseDOM(currentNode.shadowRoot);
       }
     }
   }
 
   checkVideoState(video) {
-    if (this.videoCache.has(video) || !this.isValidVideo(video)) return;
+    if (this.videoCache.has(video)) return;
+
     this.videoCache.add(video);
-    video.addEventListener(
-      "timeupdate",
-      () => this.onVideoAdded.dispatch(video),
-      { once: true },
-    );
+
+    const onTimeUpdate = () => {
+      if (this.isValidVideo(video)) {
+        this.onVideoAdded.dispatch(video);
+        video.removeEventListener("timeupdate", onTimeUpdate);
+      }
+    };
+
+    video.addEventListener("timeupdate", onTimeUpdate);
   }
 
   handleMutations = (mutations) => {
@@ -89,25 +112,23 @@ export class VideoObserver {
       if (mutation.type !== "childList") continue;
 
       for (const node of mutation.addedNodes) {
-        if (node instanceof HTMLElement) {
-          this.observedAddedNodes.add(node);
-        }
+        this.observedNodes.added.add(node);
       }
       for (const node of mutation.removedNodes) {
-        if (node instanceof HTMLElement) {
-          this.observedRemovedNodes.add(node);
-        }
+        this.observedNodes.removed.add(node);
       }
     }
 
     window.requestIdleCallback(
       () => {
-        for (const node of this.observedAddedNodes) {
-          this.findVideosAndProcess(node);
+        for (const node of this.observedNodes.added) {
+          this.traverseDOM(node);
         }
-        for (const node of this.observedRemovedNodes) {
+
+        for (const node of this.observedNodes.removed) {
           if (node.querySelectorAll) {
-            for (const video of node.querySelectorAll("video")) {
+            const videos = node.querySelectorAll("video");
+            for (const video of videos) {
               if (!video.isConnected) {
                 this.onVideoRemoved.dispatch(video);
                 this.videoCache.delete(video);
@@ -115,8 +136,9 @@ export class VideoObserver {
             }
           }
         }
-        this.observedAddedNodes.clear();
-        this.observedRemovedNodes.clear();
+
+        this.observedNodes.added.clear();
+        this.observedNodes.removed.clear();
       },
       { timeout: 1000 },
     );
@@ -127,10 +149,11 @@ export class VideoObserver {
       childList: true,
       subtree: true,
     });
-    this.findVideosAndProcess(document.documentElement);
+    this.traverseDOM(document.documentElement);
   }
 
   disable() {
     this.observer.disconnect();
+    this.videoCache = new WeakSet();
   }
 }

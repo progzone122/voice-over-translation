@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Gunakan ia hanya untuk memintas media CSP",
   "VOTNewAudioPlayer": "Gunakan pemain audio baru",
   "VOTUseNewModel": "Gunakan variasi percubaan suara Yandex untuk beberapa video",
-  "VOTTranslationErrorsService": "Perkhidmatan terjemahan ralat",
   "TranslationDelayed": "Terjemahan sedikit ditangguhkan",
   "VOTTranslationCompletedNotify": "Terjemahan pada {0} telah selesai!",
   "VOTSendNotifyOnComplete": "Hantar pemberitahuan bahawa video telah diterjemahkan",
@@ -203,5 +202,9 @@
   "VOTTranslateProxyDisabled": "Dimatikan",
   "VOTTranslateProxyEnabled": "Diaktifkan",
   "VOTTranslateProxyEverything": "Proksi semuanya",
-  "VOTTranslateProxyStatus": "Mod proksi"
+  "VOTTranslateProxyStatus": "Mod proksi",
+  "VOTTranslatedBy": "Diterjemahkan oleh {0}",
+  "VOTStreamNotAvailable": "Aliran Terjemah tidak tersedia",
+  "VOTTranslationTextService": "Perkhidmatan terjemahan teks",
+  "VOTNotAffectToVoice": "Tidak menjejaskan terjemahan teks dalam voice over"
 }

@@ -195,7 +195,6 @@
   "VOTOnlyBypassMediaCSP": "Përdoreni atë vetëm për anashkalimin E CSP-Së Mediatike",
   "VOTNewAudioPlayer": "Përdorni luajtësin e ri audio",
   "VOTUseNewModel": "Përdorni një variant eksperimental Të Zërave Yandex për disa video",
-  "VOTTranslationErrorsService": "Shërbimi i përkthimit të gabimeve",
   "TranslationDelayed": "Përkthimi është vonuar pak",
   "VOTTranslationCompletedNotify": "Përkthimi në {0} ka përfunduar!",
   "VOTSendNotifyOnComplete": "Dërgoni një njoftim se videoja është përkthyer",
@@ -203,5 +202,9 @@
   "VOTTranslateProxyDisabled": "Me aftësi të kufizuara",
   "VOTTranslateProxyEnabled": "Aktivizuar",
   "VOTTranslateProxyEverything": "Proxy gjithçka",
-  "VOTTranslateProxyStatus": "Modaliteti i Proxying"
+  "VOTTranslateProxyStatus": "Modaliteti i Proxying",
+  "VOTTranslatedBy": "Përkthyer nga {0}",
+  "VOTStreamNotAvailable": "Translate stream nuk është në dispozicion",
+  "VOTTranslationTextService": "Shërbimi i përkthimit të tekstit",
+  "VOTNotAffectToVoice": "Nuk ndikon në përkthimin e tekstit me zë mbi"
 }
