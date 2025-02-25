@@ -1,5 +1,5 @@
 diff --git a/node_modules/@vot.js/core/dist/client.js b/node_modules/@vot.js/core/dist/client.js
-index 3859281..b32434a 100644
+index 315f703..ce74965 100644
 --- a/node_modules/@vot.js/core/dist/client.js
 +++ b/node_modules/@vot.js/core/dist/client.js
 @@ -6,6 +6,8 @@ import { fetchWithTimeout, getTimestamp } from "@vot.js/shared/utils/utils";
@@ -33,42 +33,21 @@ index 3859281..b32434a 100644
                  }
                  return {
                      translationId,
-@@ -251,7 +253,7 @@ export default class VOTClient extends MinimalClient {
-             rawVideo: url,
-         }, headers);
+@@ -254,7 +256,7 @@ export default class VOTClient extends MinimalClient {
+             ...headers,
+         });
          if (!res.success) {
 -            throw new VOTJSError("Failed to request video translation", res);
 +            throw new VOTLocalizedError("requestTranslationFailed");
          }
          const translationData = res.data;
          switch (translationData.status) {
-@@ -259,7 +261,7 @@ export default class VOTClient extends MinimalClient {
+@@ -262,7 +264,7 @@ export default class VOTClient extends MinimalClient {
                  throw new VOTJSError("Yandex couldn't translate video", translationData);
              case "success":
-                 if (!translationData.translatedUrl) {
+                 if (!translationData.translated_url) {
 -                    throw new VOTJSError("Audio link wasn't received from VOT response", translationData);
 +                    throw new VOTLocalizedError("audioNotReceived");
                  }
                  return {
                      translationId: String(translationData.id),
-@@ -325,7 +327,10 @@ export default class VOTClient extends MinimalClient {
-     async getSubtitles({ videoData, requestLang = this.requestLang, headers = {}, }) {
-         const { url } = videoData;
-         if (this.isCustomLink(url)) {
--            throw new VOTJSError("Unsupported video URL for getting subtitles");
-+            return {
-+                waiting: false,
-+                subtitles: []
-+            }
-         }
-         const session = await this.getSession("video-translation");
-         const body = YandexVOTProtobuf.encodeSubtitlesRequest(url, requestLang);
-@@ -357,7 +362,7 @@ export default class VOTClient extends MinimalClient {
-     async translateStream({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
-         const { url } = videoData;
-         if (this.isCustomLink(url)) {
--            throw new VOTJSError("Unsupported video URL for getting stream translation");
-+            throw new VOTLocalizedError("VOTStreamNotSupportedUrl");
-         }
-         const session = await this.getSession("video-translation");
-         const body = YandexVOTProtobuf.encodeStreamRequest(url, requestLang, responseLang);

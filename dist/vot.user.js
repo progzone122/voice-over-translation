@@ -1575,12 +1575,12 @@ class Chaimu {
     hostWorker: "vot-worker.toil.cc",
     mediaProxy: "media-proxy.toil.cc",
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 YaBrowser/25.2.0.0 Safari/537.36",
-    componentVersion: "25.2.0.2122",
+    componentVersion: "25.2.1.887",
     hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.2.6",
+    version: "2.3.0",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -4536,7 +4536,7 @@ class YandexVOTProtobuf {
             language: requestLang,
             forceSourceLang,
             unknown1: 0,
-            translationHelp: translationHelp ? translationHelp : [],
+            translationHelp: translationHelp ?? [],
             responseLanguage: responseLang,
             wasStream,
             unknown2: 1,
@@ -5454,11 +5454,14 @@ class client_VOTClient extends MinimalClient {
         const res = await this.requestVOT(this.paths.videoTranslation, {
             provider: "yandex",
             service: votData.service,
-            videoId: votData.videoId,
-            fromLang: requestLang,
-            toLang: responseLang,
-            rawVideo: url,
-        }, headers);
+            video_id: votData.videoId,
+            from_lang: requestLang,
+            to_lang: responseLang,
+            raw_video: url,
+        }, {
+            "X-Use-Snake-Case": "Yes",
+            ...headers,
+        });
         if (!res.success) {
             throw new VOTLocalizedError("requestTranslationFailed");
         }
@@ -5467,13 +5470,13 @@ class client_VOTClient extends MinimalClient {
             case "failed":
                 throw new VOTJSError("Yandex couldn't translate video", translationData);
             case "success":
-                if (!translationData.translatedUrl) {
+                if (!translationData.translated_url) {
                     throw new VOTLocalizedError("audioNotReceived");
                 }
                 return {
                     translationId: String(translationData.id),
                     translated: true,
-                    url: translationData.translatedUrl,
+                    url: translationData.translated_url,
                     status: 1,
                     remainingTime: -1,
                 };
@@ -5481,7 +5484,7 @@ class client_VOTClient extends MinimalClient {
                 return {
                     translationId: "",
                     translated: false,
-                    remainingTime: translationData.remainingTime,
+                    remainingTime: translationData.remaining_time,
                     status: 2,
                     message: translationData.message,
                 };
@@ -5531,14 +5534,8 @@ class client_VOTClient extends MinimalClient {
                 shouldSendFailedAudio,
             });
     }
-    async getSubtitles({ videoData, requestLang = this.requestLang, headers = {}, }) {
+    async getSubtitlesYAImpl({ videoData, requestLang = this.requestLang, headers = {}, }) {
         const { url } = videoData;
-        if (this.isCustomLink(url)) {
-            return {
-                waiting: false,
-                subtitles: []
-            }
-        }
         const session = await this.getSession("video-translation");
         const body = YandexVOTProtobuf.encodeSubtitlesRequest(url, requestLang);
         const path = this.paths.videoSubtitles;
@@ -5550,7 +5547,67 @@ class client_VOTClient extends MinimalClient {
         if (!res.success) {
             throw new VOTJSError("Failed to request video subtitles", res);
         }
-        return YandexVOTProtobuf.decodeSubtitlesResponse(res.data);
+        const subtitlesData = YandexVOTProtobuf.decodeSubtitlesResponse(res.data);
+        const subtitles = subtitlesData.subtitles.map((subtitle) => {
+            const { language, url, translatedLanguage, translatedUrl } = subtitle;
+            return {
+                language,
+                url,
+                translatedLanguage,
+                translatedUrl,
+            };
+        });
+        return {
+            waiting: subtitlesData.waiting,
+            subtitles,
+        };
+    }
+    async getSubtitlesVOTImpl({ url, videoId, service, headers = {}, }) {
+        const votData = convertVOT(service, videoId, url);
+        const res = await this.requestVOT(this.paths.videoSubtitles, {
+            provider: "yandex",
+            service: votData.service,
+            video_id: votData.videoId,
+        }, headers);
+        if (!res.success) {
+            throw new VOTJSError("Failed to request video subtitles", res);
+        }
+        const subtitlesData = res.data;
+        const subtitles = subtitlesData.reduce((result, subtitle) => {
+            if (!subtitle.lang_from) {
+                return result;
+            }
+            const originalSubtitle = subtitlesData.find((sub) => sub.lang === subtitle.lang_from);
+            if (!originalSubtitle) {
+                return result;
+            }
+            result.push({
+                language: originalSubtitle.lang,
+                url: originalSubtitle.subtitle_url,
+                translatedLanguage: subtitle.lang,
+                translatedUrl: subtitle.subtitle_url,
+            });
+            return result;
+        }, []);
+        return {
+            waiting: false,
+            subtitles,
+        };
+    }
+    async getSubtitles({ videoData, requestLang = this.requestLang, headers = {}, }) {
+        const { url, videoId, host } = videoData;
+        return this.isCustomLink(url)
+            ? await this.getSubtitlesVOTImpl({
+                url,
+                videoId,
+                service: host,
+                headers,
+            })
+            : await this.getSubtitlesYAImpl({
+                videoData,
+                requestLang,
+                headers,
+            });
     }
     async pingStream({ pingId, headers = {} }) {
         const session = await this.getSession("video-translation");
@@ -5569,7 +5626,7 @@ class client_VOTClient extends MinimalClient {
     async translateStream({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
         const { url } = videoData;
         if (this.isCustomLink(url)) {
-            throw new VOTLocalizedError("VOTStreamNotSupportedUrl");
+            throw new VOTJSError("Unsupported video URL for getting stream translation");
         }
         const session = await this.getSession("video-translation");
         const body = YandexVOTProtobuf.encodeStreamRequest(url, requestLang, responseLang);
