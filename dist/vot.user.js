@@ -212,7 +212,7 @@
 // @connect        speed.cloudflare.com
 // @connect        porntn.com
 // @namespace      vot
-// @version        1.9.0
+// @version        1.9.1
 // @icon           https://translate.yandex.ru/icons/favicon.ico
 // @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation
@@ -1580,7 +1580,7 @@ class Chaimu {
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.3.0",
+    version: "2.3.2",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -5867,14 +5867,6 @@ var ExtVideoService;
         host: VideoService.youtube,
         url: "https://youtu.be/",
         match: /^m.youtube.com$/,
-        selector: "shorts-video #player",
-        needExtraData: true,
-    },
-    {
-        additionalData: "mobile",
-        host: VideoService.youtube,
-        url: "https://youtu.be/",
-        match: /^m.youtube.com$/,
         selector: ".player-container",
         needExtraData: true,
     },
@@ -8325,6 +8317,9 @@ class UdemyHelper extends BaseHelper {
     getLectureId() {
         return /learn\/lecture\/([^/]+)/.exec(window.location.pathname)?.[1];
     }
+    isErrorData(data) {
+        return !Object.hasOwn(data, "error");
+    }
     async getLectureData(courseId, lectureId) {
         try {
             const res = await this.fetch(`${this.API_ORIGIN}/users/me/subscribed-courses/${courseId}/lectures/${lectureId}/?` +
@@ -8332,7 +8327,11 @@ class UdemyHelper extends BaseHelper {
                     "fields[lecture]": "title,description,asset",
                     "fields[asset]": "length,media_sources,captions",
                 }).toString());
-            return (await res.json());
+            const data = (await res.json());
+            if (this.isErrorData(data)) {
+                throw new VideoHelperError(data.detail ?? "unknown error");
+            }
+            return data;
         }
         catch (err) {
             Logger.error(`Failed to get lecture data by courseId: ${courseId} and lectureId: ${lectureId}`, err.message);
@@ -8345,7 +8344,11 @@ class UdemyHelper extends BaseHelper {
                 new URLSearchParams({
                     "fields[course]": "locale",
                 }).toString());
-            return (await res.json());
+            const data = (await res.json());
+            if (this.isErrorData(data)) {
+                throw new VideoHelperError(data.detail ?? "unknown error");
+            }
+            return data;
         }
         catch (err) {
             Logger.error(`Failed to get course lang by courseId: ${courseId}`, err.message);
