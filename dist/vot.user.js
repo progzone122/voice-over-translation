@@ -11221,6 +11221,11 @@ class VideoObserver {
   }
 
   traverseDOM(root) {
+    if (root instanceof HTMLVideoElement) {
+      this.checkVideoState(root);
+      return;
+    }
+
     const treeWalker = document.createTreeWalker(
       root,
       NodeFilter.SHOW_ELEMENT,
