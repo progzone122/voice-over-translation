@@ -212,7 +212,7 @@
 // @connect        speed.cloudflare.com
 // @connect        porntn.com
 // @namespace      vot
-// @version        1.9.1
+// @version        1.9.2
 // @icon           https://translate.yandex.ru/icons/favicon.ico
 // @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation
@@ -1580,7 +1580,7 @@ class Chaimu {
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.3.2",
+    version: "2.3.3",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -7784,7 +7784,8 @@ class YandexDiskHelper extends BaseHelper {
         }
     }
     async getVideoData(videoId) {
-        if (videoId.startsWith(this.INLINE_PREFIX)) {
+        if (videoId.startsWith(this.INLINE_PREFIX) ||
+            /^\/d\/([^/]+)$/.exec(videoId)) {
             return {
                 url: this.service.url + videoId.slice(1),
             };
@@ -7803,9 +7804,7 @@ class YandexDiskHelper extends BaseHelper {
         if (fileId) {
             return fileId;
         }
-        return /\/d\/([^/]+)\/([^/]+)/.exec(url.pathname)
-            ? url.pathname
-            : undefined;
+        return /\/d\/([^/]+)/.exec(url.pathname) ? url.pathname : undefined;
     }
 }
 
