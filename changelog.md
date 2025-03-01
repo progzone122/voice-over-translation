@@ -7,8 +7,9 @@
 <!-- Придумать как нормально реализовать отображение кнопки в Google Drive -->
 <!-- - Исправлена работа Google Drive (#888, #883, #912) -->
 
-# 1.x
+# 1.9.2
 
+- Добавлена поддержка ссылок на файл /d/VIDEO_ID для Yandex Disk ([#1052#discussioncomment-12362384](https://github.com/ilyhalight/voice-over-translation/discussions/1052#discussioncomment-12362384))
 - Исправлена работа в мобильном Firefox (#1123)
 
 # 1.9.1
