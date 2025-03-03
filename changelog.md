@@ -7,6 +7,10 @@
 <!-- Придумать как нормально реализовать отображение кнопки в Google Drive -->
 <!-- - Исправлена работа Google Drive (#888, #883, #912) -->
 
+# 1.x
+
+- Добавлена поддержка Kickstarter (#1136)
+
 # 1.9.2
 
 - Добавлена поддержка ссылок на файл /d/VIDEO_ID для Yandex Disk ([#1052#discussioncomment-12362384](https://github.com/ilyhalight/voice-over-translation/discussions/1052#discussioncomment-12362384))

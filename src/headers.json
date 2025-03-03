@@ -85,6 +85,7 @@
     "*://*.artstation.com/learning/*",
     "*://*.rt.com/*",
     "*://*.bitview.net/*",
+    "*://*.kickstarter.com/*",
     "*://*/*.mp4*",
     "*://*/*.webm*"
   ],
