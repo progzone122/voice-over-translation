@@ -219,6 +219,27 @@ class VOTUIManager {
     }
   }
 
+  getPortalContainer() {
+    return this.videoHandler.site.host === "youtube" &&
+      this.videoHandler.site.additionalData !== "mobile"
+      ? this.videoHandler.container.parentElement
+      : this.videoHandler.container;
+  }
+
+  getTooltipLayoutRoot() {
+    switch (this.videoHandler.site.host) {
+      case "kickstarter": {
+        return document.getElementById("react-project-header");
+      }
+      case "custom": {
+        return undefined;
+      }
+      default: {
+        return this.videoHandler.container;
+      }
+    }
+  }
+
   /**
    * Creates and initializes all UI elements.
    */
@@ -226,11 +247,7 @@ class VOTUIManager {
     // ----- VOT Button creation -----
     // Create local Portal for button and subtitles tooltips and global for dialogs
     this.videoHandler.votPortal = ui.createPortal(true);
-    const portalContainer =
-      this.videoHandler.site.host === "youtube" &&
-      this.videoHandler.site.additionalData !== "mobile"
-        ? this.videoHandler.container.parentElement
-        : this.videoHandler.container;
+    const portalContainer = this.getPortalContainer();
     portalContainer.appendChild(this.videoHandler.votPortal);
     this.videoHandler.votGlobalPortal = ui.createPortal();
     document.documentElement.appendChild(this.videoHandler.votGlobalPortal);
@@ -253,7 +270,7 @@ class VOTUIManager {
       content: localizationProvider.get("translateVideo"),
       position: this.getButtonTooltipPos(votPosition),
       parentElement: this.videoHandler.votPortal,
-      layoutRoot: this.videoHandler.container,
+      layoutRoot: this.getTooltipLayoutRoot(),
     });
 
     // Hide Picture-in-Picture (PiP) button if not available or not enabled.
@@ -2319,9 +2336,10 @@ class VideoHandler {
     // Initialize subtitles widget.
     this.subtitlesWidget = new SubtitlesWidget(
       this.video,
-      this.container,
+      this.uiManager.getPortalContainer(),
       this.site,
       this.votPortal,
+      this.uiManager.getTooltipLayoutRoot(),
     );
     this.subtitlesWidget.setMaxLength(this.data.subtitlesMaxLength);
     this.subtitlesWidget.setHighlightWords(this.data.highlightWords);

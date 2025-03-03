@@ -335,13 +335,11 @@ export class SubtitlesProcessor {
 }
 
 export class SubtitlesWidget {
-  constructor(video, container, site, portal) {
+  constructor(video, container, site, portal, tooltipLayoutRoot = undefined) {
     this.video = video;
-    this.container =
-      site.host === "youtube" && site.additionalData !== "mobile"
-        ? container.parentElement
-        : container;
+    this.container = container;
     this.site = site;
+    this.tooltipLayoutRoot = tooltipLayoutRoot;
 
     this.portal = portal;
     this.subtitlesContainer = this.createSubtitlesContainer();
@@ -551,7 +549,7 @@ export class SubtitlesWidget {
     this.tokenTooltip = new Tooltip({
       target: e.target,
       anchor: this.subtitlesBlock,
-      layoutRoot: this.site.host === "custom" ? undefined : this.container,
+      layoutRoot: this.tooltipLayoutRoot,
       content: subtitlesInfo.container,
       parentElement: this.portal,
       maxWidth: this.subtitlesContainer.offsetWidth,
