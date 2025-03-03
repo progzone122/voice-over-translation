@@ -104,6 +104,7 @@
 // @match          *://*.artstation.com/learning/*
 // @match          *://*.rt.com/*
 // @match          *://*.bitview.net/*
+// @match          *://*.kickstarter.com/*
 // @match          *://*/*.mp4*
 // @match          *://*/*.webm*
 // @match          *://*.yewtu.be/*
@@ -1580,7 +1581,7 @@ class Chaimu {
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.3.3",
+    version: "2.3.4",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -5855,6 +5856,7 @@ var ExtVideoService;
     ExtVideoService["coursera"] = "coursera";
     ExtVideoService["douyin"] = "douyin";
     ExtVideoService["artstation"] = "artstation";
+    ExtVideoService["kickstarter"] = "kickstarter";
 })(ExtVideoService || (ExtVideoService = {}));
 
 ;// ./node_modules/@vot.js/ext/dist/data/sites.js
@@ -6321,6 +6323,13 @@ var ExtVideoService;
         url: "https://www.bitview.net/watch?v=",
         match: /^(www.)?bitview.net$/,
         selector: ".vlScreen",
+        needExtraData: true,
+    },
+    {
+        host: ExtVideoService.kickstarter,
+        url: "https://www.kickstarter.com/",
+        match: /^(www.)?kickstarter.com/,
+        selector: ".ksr-video-player",
         needExtraData: true,
     },
     {
@@ -7078,7 +7087,7 @@ class OdyseeHelper extends BaseHelper {
             const content = await res.text();
             const url = /"contentUrl":(\s)?"([^"]+)"/.exec(content)?.[2];
             if (!url) {
-                throw new Error("Odysee url doesn't parsed");
+                throw new VideoHelperError("Odysee url doesn't parsed");
             }
             return { url };
         }
@@ -8791,7 +8800,50 @@ class BitviewHelper extends BaseHelper {
     }
 }
 
+;// ./node_modules/@vot.js/ext/dist/helpers/kickstarter.js
+
+
+
+class KickstarterHelper extends BaseHelper {
+    async getVideoData(videoId) {
+        try {
+            const videoEl = document.querySelector(".ksr-video-player > video");
+            const url = videoEl?.querySelector("source[type^='video/mp4']")?.src;
+            if (!url) {
+                throw new VideoHelperError("Failed to find video URL");
+            }
+            const subtitles = videoEl?.querySelectorAll("track") ?? [];
+            return {
+                url,
+                subtitles: Array.from(subtitles).reduce((result, sub) => {
+                    const lang = sub.getAttribute("srclang");
+                    const url = sub.getAttribute("src");
+                    if (!lang || !url) {
+                        return result;
+                    }
+                    result.push({
+                        language: normalizeLang(lang),
+                        url,
+                        format: "vtt",
+                        source: "kickstarter",
+                    });
+                    return result;
+                }, []),
+            };
+        }
+        catch (err) {
+            Logger.error(`Failed to get Kickstarter data by videoId: ${videoId}`, err.message);
+            return undefined;
+        }
+    }
+    async getVideoId(url) {
+        return url.pathname.slice(1);
+    }
+}
+
 ;// ./node_modules/@vot.js/ext/dist/helpers/index.js
+
+
 
 
 
@@ -8954,6 +9006,7 @@ const availableHelpers = {
     [ExtVideoService.coursera]: CourseraHelper,
     [ExtVideoService.douyin]: DouyinHelper,
     [ExtVideoService.artstation]: ArtstationHelper,
+    [ExtVideoService.kickstarter]: KickstarterHelper,
 };
 class VideoHelper {
     helpersData;
@@ -9145,7 +9198,7 @@ function getSubsFormat(data) {
     if (typeof data !== "string") {
         return "json";
     }
-    if (/^(WEBVTT)(\r?\n)/.exec(data)) {
+    if (/^(WEBVTT([^\n]+)?)(\r?\n)/.exec(data)) {
         return "vtt";
     }
     return "srt";
@@ -10730,13 +10783,11 @@ class SubtitlesProcessor {
 }
 
 class SubtitlesWidget {
-  constructor(video, container, site, portal) {
+  constructor(video, container, site, portal, tooltipLayoutRoot = undefined) {
     this.video = video;
-    this.container =
-      site.host === "youtube" && site.additionalData !== "mobile"
-        ? container.parentElement
-        : container;
+    this.container = container;
     this.site = site;
+    this.tooltipLayoutRoot = tooltipLayoutRoot;
 
     this.portal = portal;
     this.subtitlesContainer = this.createSubtitlesContainer();
@@ -10946,7 +10997,7 @@ class SubtitlesWidget {
     this.tokenTooltip = new Tooltip({
       target: e.target,
       anchor: this.subtitlesBlock,
-      layoutRoot: this.site.host === "custom" ? undefined : this.container,
+      layoutRoot: this.tooltipLayoutRoot,
       content: subtitlesInfo.container,
       parentElement: this.portal,
       maxWidth: this.subtitlesContainer.offsetWidth,
@@ -11496,6 +11547,27 @@ class VOTUIManager {
     }
   }
 
+  getPortalContainer() {
+    return this.videoHandler.site.host === "youtube" &&
+      this.videoHandler.site.additionalData !== "mobile"
+      ? this.videoHandler.container.parentElement
+      : this.videoHandler.container;
+  }
+
+  getTooltipLayoutRoot() {
+    switch (this.videoHandler.site.host) {
+      case "kickstarter": {
+        return document.getElementById("react-project-header");
+      }
+      case "custom": {
+        return undefined;
+      }
+      default: {
+        return this.videoHandler.container;
+      }
+    }
+  }
+
   /**
    * Creates and initializes all UI elements.
    */
@@ -11503,11 +11575,7 @@ class VOTUIManager {
     // ----- VOT Button creation -----
     // Create local Portal for button and subtitles tooltips and global for dialogs
     this.videoHandler.votPortal = UI.createPortal(true);
-    const portalContainer =
-      this.videoHandler.site.host === "youtube" &&
-      this.videoHandler.site.additionalData !== "mobile"
-        ? this.videoHandler.container.parentElement
-        : this.videoHandler.container;
+    const portalContainer = this.getPortalContainer();
     portalContainer.appendChild(this.videoHandler.votPortal);
     this.videoHandler.votGlobalPortal = UI.createPortal();
     document.documentElement.appendChild(this.videoHandler.votGlobalPortal);
@@ -11530,7 +11598,7 @@ class VOTUIManager {
       content: localizationProvider.get("translateVideo"),
       position: this.getButtonTooltipPos(votPosition),
       parentElement: this.videoHandler.votPortal,
-      layoutRoot: this.videoHandler.container,
+      layoutRoot: this.getTooltipLayoutRoot(),
     });
 
     // Hide Picture-in-Picture (PiP) button if not available or not enabled.
@@ -13596,9 +13664,10 @@ class VideoHandler {
     // Initialize subtitles widget.
     this.subtitlesWidget = new SubtitlesWidget(
       this.video,
-      this.container,
+      this.uiManager.getPortalContainer(),
       this.site,
       this.votPortal,
+      this.uiManager.getTooltipLayoutRoot(),
     );
     this.subtitlesWidget.setMaxLength(this.data.subtitlesMaxLength);
     this.subtitlesWidget.setHighlightWords(this.data.highlightWords);
