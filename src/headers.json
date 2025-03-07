@@ -86,6 +86,7 @@
     "*://*.rt.com/*",
     "*://*.bitview.net/*",
     "*://*.kickstarter.com/*",
+    "*://*.thisvid.com/*",
     "*://*/*.mp4*",
     "*://*/*.webm*"
   ],

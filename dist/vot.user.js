@@ -105,6 +105,7 @@
 // @match          *://*.rt.com/*
 // @match          *://*.bitview.net/*
 // @match          *://*.kickstarter.com/*
+// @match          *://*.thisvid.com/*
 // @match          *://*/*.mp4*
 // @match          *://*/*.webm*
 // @match          *://*.yewtu.be/*
@@ -1576,12 +1577,12 @@ class Chaimu {
     hostWorker: "vot-worker.toil.cc",
     mediaProxy: "media-proxy.toil.cc",
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 YaBrowser/25.2.0.0 Safari/537.36",
-    componentVersion: "25.2.1.887",
+    componentVersion: "25.2.2.834",
     hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.3.4",
+    version: "2.3.5",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -3047,6 +3048,8 @@ function createBaseVideoTranslationResponse() {
         translationId: "",
         language: undefined,
         message: undefined,
+        unknown1: 0,
+        unknown2: undefined,
     };
 }
 const VideoTranslationResponse = {
@@ -3074,6 +3077,12 @@ const VideoTranslationResponse = {
         }
         if (message.message !== undefined) {
             writer.uint32(74).string(message.message);
+        }
+        if (message.unknown1 !== 0) {
+            writer.uint32(80).int32(message.unknown1);
+        }
+        if (message.unknown2 !== undefined) {
+            writer.uint32(88).int32(message.unknown2);
         }
         return writer;
     },
@@ -3140,6 +3149,20 @@ const VideoTranslationResponse = {
                     message.message = reader.string();
                     continue;
                 }
+                case 10: {
+                    if (tag !== 80) {
+                        break;
+                    }
+                    message.unknown1 = reader.int32();
+                    continue;
+                }
+                case 11: {
+                    if (tag !== 88) {
+                        break;
+                    }
+                    message.unknown2 = reader.int32();
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -3158,6 +3181,8 @@ const VideoTranslationResponse = {
             translationId: isSet(object.translationId) ? globalThis.String(object.translationId) : "",
             language: isSet(object.language) ? globalThis.String(object.language) : undefined,
             message: isSet(object.message) ? globalThis.String(object.message) : undefined,
+            unknown1: isSet(object.unknown1) ? globalThis.Number(object.unknown1) : 0,
+            unknown2: isSet(object.unknown2) ? globalThis.Number(object.unknown2) : undefined,
         };
     },
     toJSON(message) {
@@ -3186,6 +3211,12 @@ const VideoTranslationResponse = {
         if (message.message !== undefined) {
             obj.message = message.message;
         }
+        if (message.unknown1 !== 0) {
+            obj.unknown1 = Math.round(message.unknown1);
+        }
+        if (message.unknown2 !== undefined) {
+            obj.unknown2 = Math.round(message.unknown2);
+        }
         return obj;
     },
     create(base) {
@@ -3201,6 +3232,8 @@ const VideoTranslationResponse = {
         message.translationId = object.translationId ?? "";
         message.language = object.language ?? undefined;
         message.message = object.message ?? undefined;
+        message.unknown1 = object.unknown1 ?? 0;
+        message.unknown2 = object.unknown2 ?? undefined;
         return message;
     },
 };
@@ -4540,7 +4573,7 @@ class YandexVOTProtobuf {
             translationHelp: translationHelp ?? [],
             responseLanguage: responseLang,
             wasStream,
-            unknown2: 1,
+            unknown2: 0,
             unknown3: 1,
             bypassCache,
             useNewModel,
@@ -4691,6 +4724,7 @@ var VideoService;
     VideoService["loom"] = "loom";
     VideoService["rtnews"] = "rtnews";
     VideoService["bitview"] = "bitview";
+    VideoService["thisvid"] = "thisvid";
 })(VideoService || (VideoService = {}));
 
 ;// ./node_modules/@vot.js/core/dist/utils/vot.js
@@ -6331,6 +6365,12 @@ var ExtVideoService;
         match: /^(www.)?kickstarter.com/,
         selector: ".ksr-video-player",
         needExtraData: true,
+    },
+    {
+        host: VideoService.thisvid,
+        url: "https://thisvid.com/",
+        match: /^(www.)?thisvid.com$/,
+        selector: ".fp-player",
     },
     {
         host: VideoService.custom,
@@ -8841,7 +8881,17 @@ class KickstarterHelper extends BaseHelper {
     }
 }
 
+;// ./node_modules/@vot.js/ext/dist/helpers/thisvid.js
+
+class ThisVidHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /(videos|embed)\/[^/]+/.exec(url.pathname)?.[0];
+    }
+}
+
 ;// ./node_modules/@vot.js/ext/dist/helpers/index.js
+
+
 
 
 
@@ -9002,6 +9052,7 @@ const availableHelpers = {
     [VideoService.loom]: LoomHelper,
     [VideoService.rtnews]: RtNewsHelper,
     [VideoService.bitview]: BitviewHelper,
+    [VideoService.thisvid]: ThisVidHelper,
     [ExtVideoService.udemy]: UdemyHelper,
     [ExtVideoService.coursera]: CourseraHelper,
     [ExtVideoService.douyin]: DouyinHelper,
