@@ -195,27 +195,28 @@ Example of changing styles:
 
 ## The extension has been tested in the following browsers:
 
-| Status | Browser                   | Browser Version                   | Platform                | Extension                                                                                   |
-| ------ | ------------------------- | --------------------------------- | ----------------------- | ------------------------------------------------------------------------------------------- |
-| ⠀✅    | Firefox Developer Edition | v106 — v129, 64 bit               | Windows                 | Tampermonkey (MV2), FireMonkey, VioletMonkey, Greasemonkey                                  |
-| ⠀✅    | Firefox                   | v116.0.2                          | Windows, Linux, Android | Tampermonkey (MV2), Violetmonkey                                                            |
-| ⠀✅    | Firefox Nightly           | v118.0a1                          | Windows, Android        | Tampermonkey (MV2)                                                                          |
-| ⠀✅    | LibreWolf                 | v100.0.2-1                        | Windows                 | Tampermonkey (MV2)                                                                          |
-| ⠀✅    | Brave                     | v1.46 - v1.68.134                 | Windows                 | Tampermonkey (MV2)                                                                          |
-| ⠀✅    | MS Edge                   | v106.0.1370.34                    | Windows, Linux          | Tampermonkey (MV2)                                                                          |
-| ⠀✅    | Cent Browser              | v4.3.9.248, 32 bit                | Windows                 | Tampermonkey (MV2)                                                                          |
-| ⠀✅    | Cent Browser Beta         | v5.0.1002.182, 64 bit             | Windows                 | Tampermonkey (MV2)                                                                          |
-| ⠀✅    | Google Chrome             | v106 — v127                       | Windows, MacOS, Linux   | Tampermonkey (MV2), Tampermonkey (MV3), Violetmonkey, OrangeMonkey, User Javascript and CSS |
-| ⠀✅    | Opera GX                  | LVL4 (core: 91) - LVL5 (core 109) | Windows                 | Tampermonkey Opera                                                                          |
-| ⠀✅    | Opera                     | v92.0.4561.43                     | Windows                 | Tampermonkey Opera                                                                          |
-| ⠀✅    | Vivaldi                   | 5.7.2921.63                       | Windows, Linux          | Tampermonkey (MV2)                                                                          |
-| ⠀✅    | Safari                    | v15.6.1                           | MacOS, iOS              | Userscripts                                                                                 |
-| ⠀✅    | Kiwi Browser              | v116.0.5845.61                    | Android                 | Tampermonkey (MV2)                                                                          |
-| ⠀✅    | Yandex Browser            | v24.4-24.6                        | Windows                 | Tampermonkey (MV2), Tampermonkey (MV3)                                                      |
-| ⠀✅    | Arc                       | v1.6.1                            | Windows                 | Tampermonkey (MV3)                                                                          |
-| ⠀✅    | Incognition               | v4.1.1.0 (v125)                   | Windows                 | Tampermonkey (MV3), Tampermonkey (MV2)                                                      |
+| Status | Browser                   | Min. Browser Version | Platform                | Extension                                                                                   |
+| ------ | ------------------------- | -------------------- | ----------------------- | ------------------------------------------------------------------------------------------- |
+| ⠀✅    | Firefox Developer Edition | v106                 | Windows                 | Tampermonkey (MV2), FireMonkey, VioletMonkey, Greasemonkey                                  |
+| ⠀✅    | Firefox                   | v116.0.2             | Windows, Linux, Android | Tampermonkey (MV2), Violetmonkey                                                            |
+| ⠀✅    | Firefox Nightly           | v118.0a1             | Windows, Android        | Tampermonkey (MV2)                                                                          |
+| ⠀✅    | LibreWolf                 | v100.0.2-1           | Windows                 | Tampermonkey (MV2)                                                                          |
+| ⠀✅    | Brave                     | v1.46                | Windows                 | Tampermonkey (MV2)                                                                          |
+| ⠀✅    | MS Edge                   | v106.0.1370.34       | Windows, Linux          | Tampermonkey (MV2)                                                                          |
+| ⠀✅    | Cent Browser              | v4.3.9.248           | Windows                 | Tampermonkey (MV2)                                                                          |
+| ⠀✅    | Cent Browser Beta         | v5.0.1002.182        | Windows                 | Tampermonkey (MV2)                                                                          |
+| ⠀✅    | Google Chrome             | v106                 | Windows, MacOS, Linux   | Tampermonkey (MV2), Tampermonkey (MV3), Violetmonkey, OrangeMonkey, User Javascript and CSS |
+| ⠀✅    | Opera GX (LVL4)           | core91               | Windows                 | Tampermonkey Opera                                                                          |
+| ⠀✅    | Opera GX (LVL5)           | core109              | Windows                 | Tampermonkey Opera                                                                          |
+| ⠀✅    | Opera                     | v92.0.4561.43        | Windows                 | Tampermonkey Opera                                                                          |
+| ⠀✅    | Vivaldi                   | 5.7.2921.63          | Windows, Linux          | Tampermonkey (MV2)                                                                          |
+| ⠀✅    | Safari                    | v15.6.1              | MacOS, iOS              | Userscripts                                                                                 |
+| ⠀✅    | Kiwi Browser              | v116.0.5845.61       | Android                 | Tampermonkey (MV2)                                                                          |
+| ⠀✅    | Yandex Browser            | v24.4                | Windows                 | Tampermonkey (MV2), Tampermonkey (MV3)                                                      |
+| ⠀✅    | Arc                       | v1.6.1               | Windows                 | Tampermonkey (MV3)                                                                          |
+| ⠀✅    | Incognition               | v4.1.1.0 (v125)      | Windows                 | Tampermonkey (MV3), Tampermonkey (MV2)                                                      |
 
-Working with the modern version of Tampermonkey (MV3) has not been tested in most browsers. If there are problems, it is recommended to use Tampermonkey Legacy (MV2)
+Min. Browser version it's a minimal version of which extension has been tested. However, this doesn't mean that it willn't run in older versions. Please note that we **don't** support or fix errors in outdated browsers.
 
 To activate the script in Tampermonkey (MV3), you must [enable "Developer Mode"](https://www.tampermonkey.net/faq.php#Q209)
 
