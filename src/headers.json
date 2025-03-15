@@ -97,8 +97,8 @@
     "*://accounts.youtube.com/*"
   ],
   "require": [
-    "https://unpkg.com/hls.js/dist/hls.light.min.js",
-    "https://unpkg.com/animejs@3/lib/anime.min.js",
+    "https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.18/hls.light.min.js",
+    "https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js",
     "https://gist.githubusercontent.com/ilyhalight/6eb5bb4dffc7ca9e3c57d6933e2452f3/raw/7ab38af2228d0bed13912e503bc8a9ee4b11828d/gm-addstyle-polyfill.js"
   ],
   "connect": [
