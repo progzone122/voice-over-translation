@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "source": "src/index.js",
   "author": "Toil",
-  "license": "MIT",
+  "license": "CC-BY-NC-SA-4.0",
   "description": "A small extension that adds a Yandex Browser video translation to other browsers",
   "type": "module",
   "repository": {
