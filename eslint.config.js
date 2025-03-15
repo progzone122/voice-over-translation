@@ -1,26 +1,17 @@
+import { defineConfig } from "eslint/config";
 import js from "@eslint/js";
 import globals from "globals";
 import oxlint from "eslint-plugin-oxlint";
-// import github from "eslint-plugin-github";
 
-export default [
+export default defineConfig([
   {
     ignores: ["dist/*"],
   },
   js.configs.recommended,
   {
-    // plugins: {
-    //   github: github,
-    // },
     rules: {
       "no-control-regex": 0,
       "no-async-promise-executor": 0,
-      // return after update github eslint plugin to full support eslint 9
-      // "github/no-innerText": "error",
-      // "github/no-inner-html": "error",
-      // "github/no-useless-passive": "error",
-      // "github/prefer-observers": "error",
-      // "github/require-passive-events": "error",
     },
     languageOptions: {
       ecmaVersion: "latest",
@@ -44,4 +35,4 @@ export default [
     },
   },
   oxlint.configs["flat/recommended"], // oxlint should be the last one
-];
+]);
