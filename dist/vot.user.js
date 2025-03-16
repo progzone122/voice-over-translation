@@ -214,7 +214,7 @@
 // @connect        speed.cloudflare.com
 // @connect        porntn.com
 // @namespace      vot
-// @version        1.9.3
+// @version        1.9.4
 // @icon           https://translate.yandex.ru/icons/favicon.ico
 // @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation
@@ -1582,7 +1582,7 @@ class Chaimu {
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.3.5",
+    version: "2.3.6",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -8366,7 +8366,7 @@ class UdemyHelper extends BaseHelper {
         return /learn\/lecture\/([^/]+)/.exec(window.location.pathname)?.[1];
     }
     isErrorData(data) {
-        return !Object.hasOwn(data, "error");
+        return Object.hasOwn(data, "error");
     }
     async getLectureData(courseId, lectureId) {
         try {
