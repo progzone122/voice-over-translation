@@ -858,6 +858,22 @@
 
 - `(www.)?bitview.net`
 
+## Kickstarter
+
+Статус: [✅] Работает
+
+Доступные (под)домены:
+
+- `(www.)?kickstarter.com`
+
+## Thisvid
+
+Статус: [✅] Работает
+
+Доступные (под)домены:
+
+- `(www.)?thisvid.com`
+
 ## Direct link to MP4/WEBM
 
 Статус: [✅] Работает

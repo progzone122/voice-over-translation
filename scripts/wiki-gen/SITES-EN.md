@@ -858,6 +858,22 @@ Available (sub)domains:
 
 - `(www.)?bitview.net`
 
+## Kickstarter
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `(www.)?kickstarter.com`
+
+## Thisvid
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `(www.)?thisvid.com`
+
 ## Direct link to MP4/WEBM
 
 Status: [✅] Working
