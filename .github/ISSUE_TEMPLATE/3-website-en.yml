@@ -1,0 +1,25 @@
+name: 🌍 Website Support Request [EN]
+title: Add support for ...
+description: Suggest a website for adding support
+labels:
+  - support request
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for submitting a website. It helps make voice-over-translation better.
+
+        Please note that we **don't** support websites where access to videos is provided exclusively on a paid basis.
+  - type: textarea
+    id: name
+    attributes:
+      label: Enter the name/domain of the website
+      description: If possible, please provide a link to the video.
+    validations:
+      required: true
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional information
+      description: You can provide additional information here.

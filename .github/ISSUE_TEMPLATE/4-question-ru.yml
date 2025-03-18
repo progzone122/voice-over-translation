@@ -1,0 +1,15 @@
+name: 💬 Ask a Question [RU]
+description: Задайте вопрос о расширении
+labels:
+  - question
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Прежде чем создавать новую issue, убедитесь, что ранее не создавались подобные.
+  - type: textarea
+    id: content
+    attributes:
+      label: Content
+      description: Кратко и понятно опишите свой вопрос.

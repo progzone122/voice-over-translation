@@ -1,0 +1,104 @@
+name: 🐛 Bug Report [EN]
+description: Report an issue that should be fixed
+labels:
+  - bug
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **USE THIS FORM ONLY FOR BUGS**
+
+        Voice-over-translation does not guarantee to work with every video or at all. If Voice-over-translation can't translate some media, this is most likely not a software bug, and you should not report it here.
+        Please only report software bugs, such as:
+          * menu issues
+          * feature issus
+          * other problems (not feature request)
+
+        Make sure you are running the latest version of voice-over-translation.
+        The bug you are experiencing may already have been fixed.
+
+        Please try to include as much information as possible.
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue for this?
+      description: Please [search here](https://github.com/ilyhalight/voice-over-translation/issues) to see if an issue already exists for your problem.
+      options:
+        - label: I have searched the existing issues
+          required: true
+  - type: input
+    id: script-version
+    attributes:
+      label: What version of voice-over-translation is used?
+      description: View the script version in the settings menu of the translation button or in the userscript manager.
+      placeholder: ex. 1.9.4
+    validations:
+      required: true
+  - type: dropdown
+    id: userscript-manager
+    attributes:
+      label: Select the userscript manager you use
+      description: Using the user script manager, you run the voice-over-translation script.
+      options:
+        - Tampermonkey
+        - Violentmonkey
+        - Greasemonkey
+        - OrangeMonkey
+        - AdGuard
+        - FireMonkey
+        - UserScripts
+        - Other / Другой
+    validations:
+      required: true
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Select your browser
+      description: The browser you are using
+      options:
+        - Chrome
+        - Firefox
+        - Edge
+        - Opera
+        - Safari
+        - Other / Другой
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Enter your Operating System
+      description: |
+        If you don't know the exact version, use one of these commands and copy the result:
+
+        For MacOS and Linux: `uname -mprs`
+        For Windows: run in PowerShell:
+        `"$([Environment]::OSVersion | ForEach-Object VersionString) $(if ([Environment]::Is64BitOperatingSystem) { "x64" } else { "x86" })"`
+      placeholder: ex. Windows 10 20H2
+    validations:
+      required: false
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: What steps can reproduce the bug?
+      description: Explain the error and provide steps that can reproduce it.
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: What is the expected behavior?
+      description: If possible, please provide text/screenshots.
+  - type: textarea
+    id: what-you-see
+    attributes:
+      label: What do you see instead?
+      description: If possible, please provide text/screenshots.
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional information
+      description: |
+        If you have any suggestions about the source of the bug, you can state them here.
+
+        If you think this is a technical error, please provide the console logs.

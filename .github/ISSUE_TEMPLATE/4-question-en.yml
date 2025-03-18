@@ -1,0 +1,15 @@
+name: 💬 Ask a Question [EN]
+description: Ask a question about the extension
+labels:
+  - question
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before creating new issue, make sure that no similar ones have been created before.
+  - type: textarea
+    id: content
+    attributes:
+      label: Content
+      description: Briefly and clearly describe your question.

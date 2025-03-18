@@ -1,0 +1,19 @@
+name: 🚀 Feature Request [EN]
+description: Suggest an idea, feature, or enhancement
+labels:
+  - enhancement
+
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for submitting an idea. It helps make voice-over-translation better.
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe your feature
+      description: |
+        Please describe your idea in detail.
+
+        If necessary, you can attach screenshots of examples (for example, if your idea is related to UX/UI)
+    validations:
+      required: true
