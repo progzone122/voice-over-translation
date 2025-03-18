@@ -11,5 +11,5 @@ body:
   - type: textarea
     id: content
     attributes:
-      label: Content
+      label: Содержимое
       description: Кратко и понятно опишите свой вопрос.

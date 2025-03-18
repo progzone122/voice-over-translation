@@ -10,7 +10,7 @@ body:
       value: |
         Thank you for submitting a website. It helps make voice-over-translation better.
 
-        Please note that we **don't** support websites where access to videos is provided exclusively on a paid basis.
+        Please note that we **don't support** websites where access to videos is provided exclusively on a paid basis.
   - type: textarea
     id: name
     attributes:

@@ -72,6 +72,7 @@ body:
         Если не знаете точную версию, используйте одну из этих команд и скопируйте результат:
 
         Для MacOS и Linux: `uname -mprs`
+
         Для Windows: выполните в PowerShell:
         `"$([Environment]::OSVersion | ForEach-Object VersionString) $(if ([Environment]::Is64BitOperatingSystem) { "x64" } else { "x86" })"`
       placeholder: ex. Windows 10 20H2
