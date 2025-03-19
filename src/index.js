@@ -3263,9 +3263,10 @@ class VideoHandler {
   <li>Proxying mode: ${this.data.translateProxyEnabled}</li>
 </ul>
 </details>`;
+    const template = `1-bug-report-${localizationProvider.lang === "ru" ? "ru" : "en"}.yml`;
     return {
       assignees: "ilyhalight",
-      template: "bug.yml",
+      template,
       os,
       "script-version": GM_info.script.version,
       "additional-info": additionalInfo,
