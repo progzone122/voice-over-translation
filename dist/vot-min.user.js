@@ -34,6 +34,7 @@
 // @match          *://*.xvideos005.com/*
 // @match          *://*.xv-ru.com/*
 // @match          *://*.pornhub.com/*
+// @match          *://*.pornhub.org/*
 // @match          *://*.vk.com/*
 // @match          *://*.vkvideo.ru/*
 // @match          *://*.vk.ru/*
