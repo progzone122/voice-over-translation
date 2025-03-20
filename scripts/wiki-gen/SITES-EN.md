@@ -273,8 +273,8 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- `pornhub.com`
 - `[a-z]+.pornhub.com`
+- `[a-z]+.pornhub.org`
 
 Available paths:
 
@@ -325,7 +325,7 @@ Status: [✅] Working
 
 Available (sub)domains:
 
-- `facebook.com`
+-
 
 Available paths:
 

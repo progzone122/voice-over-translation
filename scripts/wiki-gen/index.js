@@ -62,8 +62,8 @@ function fixRegexStr(str) {
   brackets = brackets.map((bracket) => bracket[0]);
   const optionalBrackets = brackets.filter((bracket) => bracket.includes("?"));
   if (optionalBrackets.length) {
-    for (const dom of getDomainFromRegex(domain, optionalBrackets)) {
-      domains.add(dom);
+    for (const resultDomain of getDomainFromRegex(domain, optionalBrackets)) {
+      domains.add(resultDomain);
     }
   }
 
@@ -71,8 +71,11 @@ function fixRegexStr(str) {
     const parts = bracket.replace(/[?()]+/g, "").split("|");
     for (const part of parts) {
       let partedDomain = domain.replace(bracket, part);
-      for (const dom of getDomainFromRegex(partedDomain, optionalBrackets)) {
-        domains.add(dom);
+      for (const resultDomain of getDomainFromRegex(
+        partedDomain,
+        optionalBrackets,
+      )) {
+        domains.add(resultDomain);
       }
     }
   }
@@ -81,6 +84,10 @@ function fixRegexStr(str) {
 }
 
 function getDomains(match) {
+  if (match instanceof Function) {
+    return [];
+  }
+
   return Array.isArray(match)
     ? match.map((s) => fixRegexStr(s)).flat()
     : fixRegexStr(match);

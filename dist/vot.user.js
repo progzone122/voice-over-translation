@@ -214,7 +214,7 @@
 // @connect        speed.cloudflare.com
 // @connect        porntn.com
 // @namespace      vot
-// @version        1.9.4
+// @version        1.9.5
 // @icon           https://translate.yandex.ru/icons/favicon.ico
 // @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation
@@ -1577,12 +1577,12 @@ class Chaimu {
     hostWorker: "vot-worker.toil.cc",
     mediaProxy: "media-proxy.toil.cc",
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 YaBrowser/25.2.0.0 Safari/537.36",
-    componentVersion: "25.2.2.834",
+    componentVersion: "25.2.3.808",
     hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.3.6",
+    version: "2.3.7",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -6031,7 +6031,7 @@ var ExtVideoService;
     {
         host: VideoService.pornhub,
         url: "https://rt.pornhub.com/view_video.php?viewkey=",
-        match: /^[a-z]+.pornhub.com$/,
+        match: /^[a-z]+.pornhub.(com|org)$/,
         selector: ".mainPlayerDiv > .video-element-wrapper-js > div",
         eventSelector: ".mgp_eventCatcher",
     },
@@ -6039,7 +6039,8 @@ var ExtVideoService;
         additionalData: "embed",
         host: VideoService.pornhub,
         url: "https://rt.pornhub.com/view_video.php?viewkey=",
-        match: (url) => url.host.includes("pornhub.com") && url.pathname.startsWith("/embed/"),
+        match: (url) => /^[a-z]+.pornhub.(com|org)$/.exec(url.host) &&
+            url.pathname.startsWith("/embed/"),
         selector: "#player",
     },
     {
@@ -6607,20 +6608,12 @@ class WeverseHelper extends BaseHelper {
 
 class KodikHelper extends BaseHelper {
     API_ORIGIN = window.location.origin;
-    async getSecureData(videoPath) {
+    getSecureData(videoPath) {
         try {
-            const res = await this.fetch(`${this.API_ORIGIN}${videoPath}`, {
-                headers: {
-                    "User-Agent": data_config.userAgent,
-                    Origin: this.API_ORIGIN,
-                    Referer: this.API_ORIGIN,
-                },
-            });
-            const content = await res.text();
             const [videoType, videoId, hash] = videoPath.split("/").filter((a) => a);
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(content, "text/html");
-            const secureScript = Array.from(doc.getElementsByTagName("script")).filter((s) => s.innerHTML.includes(`videoId = "${videoId}"`));
+            const allScripts = Array.from(document.getElementsByTagName("script"));
+            const secureScript = allScripts.filter((s) => s.innerHTML.includes(`videoId = "${videoId}"`) ||
+                s.innerHTML.includes(`serialId = Number(${videoId})`));
             if (!secureScript.length) {
                 throw new VideoHelperError("Failed to find secure script");
             }
@@ -6629,10 +6622,30 @@ class KodikHelper extends BaseHelper {
                 throw new VideoHelperError("Secure json wasn't found in secure script");
             }
             const secureJSON = JSON.parse(secureContent.replaceAll("'", ""));
+            if (videoType !== "serial") {
+                return {
+                    videoType: videoType,
+                    videoId,
+                    hash,
+                    ...secureJSON,
+                };
+            }
+            const videoInfoContent = allScripts
+                .filter((s) => s.innerHTML.includes(`var videoInfo = {}`))?.[0]
+                ?.textContent?.trim();
+            if (!videoInfoContent) {
+                throw new VideoHelperError("Failed to find videoInfo content");
+            }
+            const realVideoType = /videoInfo\.type\s+?=\s+?'([^']+)'/.exec(videoInfoContent)?.[1];
+            const realVideoId = /videoInfo\.id\s+?=\s+?'([^']+)'/.exec(videoInfoContent)?.[1];
+            const realHash = /videoInfo\.hash\s+?=\s+?'([^']+)'/.exec(videoInfoContent)?.[1];
+            if (!realVideoType || !realVideoId || !realHash) {
+                throw new VideoHelperError("Failed to parse videoInfo content");
+            }
             return {
-                videoType: videoType,
-                videoId,
-                hash,
+                videoType: realVideoType,
+                videoId: realVideoId,
+                hash: realHash,
                 ...secureJSON,
             };
         }
@@ -6682,7 +6695,7 @@ class KodikHelper extends BaseHelper {
         return "https:" + decryptedUrl;
     }
     async getVideoData(videoId) {
-        const secureData = await this.getSecureData(videoId);
+        const secureData = this.getSecureData(videoId);
         if (!secureData) {
             return undefined;
         }
@@ -6696,11 +6709,13 @@ class KodikHelper extends BaseHelper {
             return undefined;
         }
         return {
-            url: this.decryptUrl(videoLink.src),
+            url: videoLink.src.startsWith("//")
+                ? `https:${videoLink.src}`
+                : this.decryptUrl(videoLink.src),
         };
     }
     async getVideoId(url) {
-        return /\/(seria|video)\/([^/]+)\/([^/]+)\/([\d]+)p/.exec(url.pathname)?.[0];
+        return /\/(uv|video|seria|episode|season|serial)\/([^/]+)\/([^/]+)\/([\d]+)p/.exec(url.pathname)?.[0];
     }
 }
 
