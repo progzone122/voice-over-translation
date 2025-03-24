@@ -8,7 +8,7 @@ import { styleLoaderInsertStyleElement } from "webpack-monkey/lib/client/css.js"
 import ESLintPlugin from "eslint-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
 
-import configShared from "./config.shared.js";
+import configShared from "./shared.config.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.resolve(path.dirname(__filename), "..");

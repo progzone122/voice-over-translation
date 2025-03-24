@@ -17,7 +17,7 @@ import {
   sitesPoketube,
   sitesCoursehunterLike,
 } from "@vot.js/shared/alternativeUrls";
-import configShared from "./config.shared.js";
+import configShared from "./shared.config.js";
 
 import { repositoryUrl, contentUrl } from "../src/config/config.js";
 
@@ -32,7 +32,7 @@ const availableLocales = getAvailableLocales();
 
 console.log("development mode: ", dev);
 
-function getHeaders(lang) {
+function getHeaders(lang = "") {
   const headersPath = lang
     ? path.resolve(localesDir, "headers", lang)
     : path.resolve(__dirname, "src", "headers.json");
