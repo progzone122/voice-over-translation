@@ -173,7 +173,8 @@
   }
 
   & svg {
-    // width: fit-content;
     width: 24px;
+    fill: inherit;
+    stroke: inherit;
   }
 }

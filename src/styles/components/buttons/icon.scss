@@ -95,4 +95,11 @@
       opacity: 0;
     }
   }
+
+  & svg {
+    fill: inherit;
+    stroke: inherit;
+    width: 24px;
+    height: 36px;
+  }
 }
