@@ -4,8 +4,8 @@
     "": {
       "name": "voice-over-translation",
       "dependencies": {
-        "@vot.js/ext": "^2.3.8",
-        "@vot.js/shared": "^2.3.8",
+        "@vot.js/ext": "^2.3.10",
+        "@vot.js/shared": "^2.3.10",
         "bowser": "^2.11.0",
         "chaimu": "^1.0.4",
         "lit": "^3.2.1",
@@ -192,11 +192,11 @@
 
     "@types/yargs-parser": ["@types/yargs-parser@21.0.2", "", {}, ""],
 
-    "@vot.js/core": ["@vot.js/core@2.3.8", "", { "dependencies": { "@vot.js/shared": "^2.3.8" }, "peerDependencies": { "typescript": "^5.0.0" } }, "sha512-+GcMb0Du8Z9VOuI+Otki9/2zO2Eg+6S3zJG3kMx4Pjxy5bh/pw+TlqXVDjK2OJXvFZEbI4XsJ8D1fZXpFibdyQ=="],
+    "@vot.js/core": ["@vot.js/core@2.3.10", "", { "dependencies": { "@vot.js/shared": "^2.3.10" }, "peerDependencies": { "typescript": "^5.0.0" } }, "sha512-7uYpXXgrV72uFalKIfe4XbU0xMlEQxwfRmNFx5n+0c/4OFtopbmOgX/i0ON/TqCUkSVuRHoCfrwWkJYuKtG4Ow=="],
 
-    "@vot.js/ext": ["@vot.js/ext@2.3.8", "", { "dependencies": { "@vot.js/core": "^2.3.8", "@vot.js/shared": "^2.3.8" }, "peerDependencies": { "typescript": "^5.0.0" } }, "sha512-PfFkOEngcwBzIw8WzPHCSEAsA9vyrecEdo9lMNZpnC0FVM6Flhkyf9glJlKmQWGkZkp/hMQQAxCHeFMWTR+hlQ=="],
+    "@vot.js/ext": ["@vot.js/ext@2.3.10", "", { "dependencies": { "@vot.js/core": "^2.3.10", "@vot.js/shared": "^2.3.10" }, "peerDependencies": { "typescript": "^5.0.0" } }, "sha512-5DG+Ce60FK2JXFQUoJQHBxlvVaxLFr5W/9ly8uRu5RrSfWvsg6nemLyM01D2b8Asp0X5H+F2yS21/xZSlcNaDg=="],
 
-    "@vot.js/shared": ["@vot.js/shared@2.3.8", "", { "dependencies": { "@bufbuild/protobuf": "^2.0.0" }, "peerDependencies": { "typescript": "^5.0.0" } }, "sha512-9cLfo3nnU74Ph4tXt2meqd5UDiqcSnTOy9ykIIP/nPaowYQ7Zts1zakjhcdcYARwG1vTYb18DqSLIUx+ryr4ug=="],
+    "@vot.js/shared": ["@vot.js/shared@2.3.10", "", { "dependencies": { "@bufbuild/protobuf": "^2.0.0" }, "peerDependencies": { "typescript": "^5.0.0" } }, "sha512-OiGaaqcZdmdAd448JSxv7OxpM7Rq9lnJirCPYcSkTjxxT7KTF3jYeuE14GQknLeQjaKJ71/Rf/A1OQika8Nm/A=="],
 
     "@webassemblyjs/ast": ["@webassemblyjs/ast@1.14.1", "", { "dependencies": { "@webassemblyjs/helper-numbers": "1.13.2", "@webassemblyjs/helper-wasm-bytecode": "1.13.2" } }, "sha512-nuBEDgQfm1ccRp/8bCQrx1frohyufl4JlbMMZ4P1wpeOfDhF6FQkxZJ1b/e+PLwr6X1Nhw6OLme5usuBWYBvuQ=="],
 
