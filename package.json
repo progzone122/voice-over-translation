@@ -17,6 +17,7 @@
   ],
   "devDependencies": {
     "@sucrase/webpack-loader": "^2.0.0",
+    "@toil/gm-types": "^1.0.1",
     "@toil/translate": "^1.0.6",
     "@types/bun": "^1.2.5",
     "browser-id3-writer": "^6.2.0",

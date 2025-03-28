@@ -13,6 +13,7 @@
       },
       "devDependencies": {
         "@sucrase/webpack-loader": "^2.0.0",
+        "@toil/gm-types": "^1.0.1",
         "@toil/translate": "^1.0.6",
         "@types/bun": "^1.2.5",
         "browser-id3-writer": "^6.2.0",
@@ -126,6 +127,8 @@
     "@sinclair/typebox": ["@sinclair/typebox@0.27.8", "", {}, ""],
 
     "@sucrase/webpack-loader": ["@sucrase/webpack-loader@2.0.0", "", { "dependencies": { "loader-utils": "^1.1.0" }, "peerDependencies": { "sucrase": "^3" } }, "sha512-KUfWr83g70Qm+ZqjGL+M4tX01taDP3BldQcI6NSMlDf7WTDfuo0RvLlS0ekF6dPVslNyZhbFFBy2OBTB6Sa6+Q=="],
+
+    "@toil/gm-types": ["@toil/gm-types@1.0.1", "", { "peerDependencies": { "typescript": "^5" } }, "sha512-OdDiRZU80RAJ/DEjO9+hXF1mga870QU0orgj9xt3iXBvdErKvC7cniHZ/EQVnraPtFOBKKw5PpL0bNn+GG3RZg=="],
 
     "@toil/translate": ["@toil/translate@1.0.6", "", { "peerDependencies": { "typescript": "^5.7.3" } }, "sha512-fuWRWozqBeEKSs4K2f/XdppyiuSqFbzE6h+fC475BMMcpcCWAR2UWwJIzj9SIbUlY2obLJjlDCh7DgBC/dFrhg=="],
 
