@@ -815,6 +815,10 @@
 
 - `dzen.ru`
 
+Доступные пути:
+
+- /video/watch/VIDEO_ID
+
 ## Cloudflarestream
 
 Статус: [✅] Работает
@@ -834,6 +838,15 @@
 
 - `(www.)?loom.com`
 
+Доступные пути:
+
+- /embed/VIDEO_ID
+- /share/VIDEO_ID
+
+Ограничения:
+
+- Для гарантированной работы скрипта необходимо [включить настройку "Обход Media CSP"](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ) в расширение или удалить CSP другим способом
+
 ## Artstation
 
 Статус: [✅] Работает
@@ -841,6 +854,10 @@
 Доступные (под)домены:
 
 - `(www.)?artstation.com`
+
+Доступные пути:
+
+- /courses/XXX/XXX/chapters/XXX
 
 ## Rtnews
 
@@ -858,6 +875,11 @@
 
 - `(www.)?bitview.net`
 
+Доступные пути:
+
+- /watch?v=VIDEO_ID
+- /embed?v=VIDEO_ID
+
 ## Kickstarter
 
 Статус: [✅] Работает
@@ -873,6 +895,51 @@
 Доступные (под)домены:
 
 - `(www.)?thisvid.com`
+
+Доступные пути:
+
+- /videos/VIDEO_ID
+- /embed/VIDEO_ID
+
+## Ign
+
+Статус: [✅] Работает
+
+Доступные (под)домены:
+
+- `ign.com`
+- `\w{2}.ign.com`
+
+Доступные пути:
+
+- /XXX/CONTENT_ID/video/XXX
+
+## Bunkr
+
+Статус: [✅] Работает
+
+Доступные (под)домены:
+
+- `bunkr.site`
+- `bunkr.black`
+- `bunkr.cat`
+- `bunkr.media`
+- `bunkr.red`
+- `bunkr.ws`
+- `bunkr.org`
+- `bunkr.s[kiu]`
+- `bunkr.c[ir]`
+- `bunkr.fi`
+- `bunkr.p[hks]`
+- `bunkr.ru`
+- `bunkr.la`
+- `bunkr.is`
+- `bunkr.to`
+- `bunkr.a[cx]`
+
+Доступные пути:
+
+- /f/VIDEO_ID
 
 ## Direct link to MP4/WEBM
 

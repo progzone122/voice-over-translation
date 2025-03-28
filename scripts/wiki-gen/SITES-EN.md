@@ -815,6 +815,10 @@ Available (sub)domains:
 
 - `dzen.ru`
 
+Available paths:
+
+- /video/watch/VIDEO_ID
+
 ## Cloudflarestream
 
 Status: [✅] Working
@@ -834,6 +838,15 @@ Available (sub)domains:
 
 - `(www.)?loom.com`
 
+Available paths:
+
+- /embed/VIDEO_ID
+- /share/VIDEO_ID
+
+Limitations:
+
+- To ensure that the script works, you need to [enable the "Bypass Media CSP" setting](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) in the extension or delete the CSP in another way
+
 ## Artstation
 
 Status: [✅] Working
@@ -841,6 +854,10 @@ Status: [✅] Working
 Available (sub)domains:
 
 - `(www.)?artstation.com`
+
+Available paths:
+
+- /courses/XXX/XXX/chapters/XXX
 
 ## Rtnews
 
@@ -858,6 +875,11 @@ Available (sub)domains:
 
 - `(www.)?bitview.net`
 
+Available paths:
+
+- /watch?v=VIDEO_ID
+- /embed?v=VIDEO_ID
+
 ## Kickstarter
 
 Status: [✅] Working
@@ -873,6 +895,51 @@ Status: [✅] Working
 Available (sub)domains:
 
 - `(www.)?thisvid.com`
+
+Available paths:
+
+- /videos/VIDEO_ID
+- /embed/VIDEO_ID
+
+## Ign
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `ign.com`
+- `\w{2}.ign.com`
+
+Available paths:
+
+- /XXX/CONTENT_ID/video/XXX
+
+## Bunkr
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `bunkr.site`
+- `bunkr.black`
+- `bunkr.cat`
+- `bunkr.media`
+- `bunkr.red`
+- `bunkr.ws`
+- `bunkr.org`
+- `bunkr.s[kiu]`
+- `bunkr.c[ir]`
+- `bunkr.fi`
+- `bunkr.p[hks]`
+- `bunkr.ru`
+- `bunkr.la`
+- `bunkr.is`
+- `bunkr.to`
+- `bunkr.a[cx]`
+
+Available paths:
+
+- /f/VIDEO_ID
 
 ## Direct link to MP4/WEBM
 

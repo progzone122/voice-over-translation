@@ -174,6 +174,36 @@ const siteData = {
   incestflix: {
     paths: ["/watch/VIDEO_ID"],
   },
+  dzen: {
+    paths: ["/video/watch/VIDEO_ID"],
+  },
+  cloudflarestream: {
+    paths: [],
+  },
+  loom: {
+    paths: ["/embed/VIDEO_ID", "/share/VIDEO_ID"],
+  },
+  artstation: {
+    paths: ["/courses/XXX/XXX/chapters/XXX"],
+  },
+  rtnews: {
+    paths: [],
+  },
+  bitview: {
+    paths: ["/watch?v=VIDEO_ID", "/embed?v=VIDEO_ID"],
+  },
+  kickstarter: {
+    paths: [],
+  },
+  thisvid: {
+    paths: ["/videos/VIDEO_ID", "/embed/VIDEO_ID"],
+  },
+  ign: {
+    paths: ["/XXX/CONTENT_ID/video/XXX"],
+  },
+  bunkr: {
+    paths: ["/f/VIDEO_ID"],
+  },
   directlink: {
     paths: ["/*.mp4", "/*.webm"],
     limits: [locales.noLocalLinks],
