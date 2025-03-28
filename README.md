@@ -1,28 +1,81 @@
 # Закадровый перевод видео
 
-[![en](https://img.shields.io/badge/lang-English%20%F0%9F%87%AC%F0%9F%87%A7-white)](README-EN.md)
-[![ru](https://img.shields.io/badge/%D1%8F%D0%B7%D1%8B%D0%BA-%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9%20%F0%9F%87%B7%F0%9F%87%BA-white)](README.md)
+<!-- loaders links (website > github > store) -->
+
+[tampermonkey-link]: https://www.tampermonkey.net/index.php
+[tampermonkey-opera]: https://www.tampermonkey.net/index.php?browser=opera&locale=en
+[userscripts-safari]: https://github.com/quoid/userscripts
+[violetmonkey-link]: https://violentmonkey.github.io
+[adguard-userscripts]: https://kb.adguard.com/en/general/userscripts#supported-apps
+[firemonkey-link]: https://erosman.github.io/firemonkey/
+[greasemonkey-link]: https://github.com/greasemonkey/greasemonkey
+[orangemonkey-link]: https://chromewebstore.google.com/detail/OrangeMonkey/ekmeppjgajofkpiofbebgcbohbmfldaf
+[user-js-and-css-link]: https://tenrabbits.github.io/user-js-css-docs/ru/
+
+<!-- FAQs / Wiki -->
+
+[firemonkey-how-to]: https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ#%D0%BA%D0%B0%D0%BA-%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D1%8C-%D1%80%D0%B0%D1%81%D1%88%D0%B8%D1%80%D0%B5%D0%BD%D0%B8%D0%B5-%D1%81-firemonkey
+[user-js-and-css-how-to]: https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ#%D0%BA%D0%B0%D0%BA-%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D1%8C-%D1%80%D0%B0%D1%81%D1%88%D0%B8%D1%80%D0%B5%D0%BD%D0%B8%D0%B5-%D1%81-user-js-and-css
+[devmode-enable]: https://www.tampermonkey.net/faq.php#Q209
+[vot-faq]: https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ
+[vot-supported-sites]: https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-Supported-sites
+[vot-wiki]: https://github.com/ilyhalight/voice-over-translation/wiki
+
+<!-- Our servers -->
+
+[vot-balancer]: https://vot-worker.toil.cc/health
+[vot-worker]: https://github.com/FOSWLY/vot-worker
+[media-proxy]: https://github.com/FOSWLY/media-proxy
+[vot-backend]: https://github.com/FOSWLY/vot-backend
+
+<!-- Install / Build -->
+
+[vot-dist]: https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot.user.js
+[nodejs-link]: https://nodejs.org
+[bun-link]: https://bun.sh/
+
+<!-- Badges -->
+
+[badge-en]: https://img.shields.io/badge/lang-English%20%F0%9F%87%AC%F0%9F%87%A7-white
+[badge-ru]: https://img.shields.io/badge/%D1%8F%D0%B7%D1%8B%D0%BA-%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9%20%F0%9F%87%B7%F0%9F%87%BA-white
+
+<!-- Other -->
+
+[vot-readme-ru]: README.md
+[vot-readme-en]: README-EN.md
+[vot-langs]: LANG_SUPPORT.md
+[vot-issues]: https://github.com/ilyhalight/voice-over-translation/issues
+[votjs-link]: https://github.com/FOSWLY/vot.js
+[vot-cli-link]: https://github.com/FOSWLY/vot-cli
+[localize-link]: https://github.com/ilyhalight/localize
+[yabrowser-link]: https://yandex.ru/project/browser/streams/technology
+[yatranslate-link]: https://translate.yandex.ru/
+[contributors-link]: https://github.com/ilyhalight/voice-over-translation/graphs/contributors
+
+<!-- Content -->
+
+[![en][badge-en]][vot-readme-ru]
+[![ru][badge-ru]][vot-readme-en]
 
 > [!CAUTION]
-> Перед созданием Issues настоятельно рекомендуем ознакомиться с разделом [FAQ](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ), а так же с уже существующими [Issues](https://github.com/ilyhalight/voice-over-translation/issues)
+> Перед созданием Issues настоятельно рекомендуем ознакомиться с разделом [FAQ][vot-faq] и уже существующими [Issues][vot-issues].
 
 > [!WARNING]
-> Расширение создано исключительно в исследовательских целях и не предназначена для коммерческого использования. Все права на оригинальное программное обеспечение принадлежат их правообладателям. Расширение не связано с оригинальными правообладателями
+> Расширение создано исключительно в исследовательских целях и не предназначено для коммерческого использования. Все права на оригинальное программное обеспечение принадлежат их правообладателям. Расширение не связано с оригинальными правообладателями
 
-Закадровый перевод видео, теперь, доступен не только в YandexBrowser.
-Очень признателен, **[Yandex.Translate](https://translate.yandex.ru/)**, **[sodapng](https://github.com/sodapng)**, **[mynovelhost](https://github.com/mynovelhost)**, **[SashaXser](https://github.com/SashaXser)** и всем остальным контрибьюторам. Спасиб <3
+Закадровый перевод видео, теперь, доступен не только в [YandexBrowser][yabrowser-link]. Очень признателен разработчикам создающим **[Yandex.Translate][yatranslate-link]**, а также всем [контрибьюторам][contributors-link] за помощь в улучшении расширения. Спасиб <3
 
 ## Установка расширения:
 
 > [!WARNING]
-> Если вы пользуетесь Tampermonkey 5.2.0+, не забудьте [включить](https://github.com/ilyhalight/voice-over-translation/issues/662#issuecomment-2160768958) режим разработчика или используйте Tampermonkey MV2
+> Если вы пользуетесь Tampermonkey 5.2.0+, не забудьте [включить "Режим разработчика"][devmode-enable]!
 
-1. Установите расширение **[Tampermonkey](https://www.tampermonkey.net/)** (Альтернатива для Safari: **[UserScripts](https://apps.apple.com/app/userscripts/id1463298887)**)
-2. **[«Установите Скрипт»](https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot.user.js)**
+1. Установите расширение **[Tampermonkey][tampermonkey-link]** (Альтернатива для Safari: **[UserScripts][userscripts-safari]**)
+2. **[«Установите Скрипт»][vot-dist]**
 
 ## Список функционала:
 
-1. Перевод видео с [одного из доступных языков](LANG_SUPPORT.md) на русский, английский или казахский
+1. Перевод видео с [одного из доступных языков][vot-langs] на русский, английский или казахский
 2. Перевод стримов на YouTube (работает с небольшой задержкой)
 3. Отображение субтитров сгенерированных нейросетью
 4. Отображение субтитров от сайта (на YouTube дополнительно отображаются субтитры, которые автоматически переводятся сайтом на выбранный язык)
@@ -39,9 +92,9 @@
 
 ### Полезные ссылки:
 
-1. Библиотека для JS (vot.js): **[Ссылка](https://github.com/FOSWLY/vot.js)**
-2. Версия для терминала (vot-cli): **[Ссылка](https://github.com/FOSWLY/vot-cli)**
-3. Вики: **[Ссылка](https://github.com/ilyhalight/voice-over-translation/wiki)**
+1. Библиотека для JS (vot.js): **[Ссылка][votjs-link]**
+2. Версия для терминала (vot-cli): **[Ссылка][vot-cli-link]**
+3. Вики: **[Ссылка][vot-wiki]**
 
 ## Примечание:
 
@@ -50,7 +103,7 @@
 
 ## Список поддерживаемых сайтов:
 
-Полный список поддерживаемых веб-сайтов и все ограничения, связанные с их поддержкой, вы можете увидеть в **[вики](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-Supported-sites)**
+Полный список поддерживаемых веб-сайтов и все ограничения, связанные с их поддержкой, вы можете увидеть в **[вики][vot-supported-sites]**
 
 ### Наши домены:
 
@@ -60,27 +113,27 @@
 
 Необходим для проксирования запросов, если не получается сделать прямой запрос к серверам Яндекса
 
-- [vot-worker.toil.cc](https://vot-worker.toil.cc/health) (Балансировщик между прокси серверами)
-- [vot-worker-s1.toil.cc](https://github.com/FOSWLY/vot-worker)
-- [vot-worker-s2.toil.cc](https://github.com/FOSWLY/vot-worker)
-- [vot.deno.dev](https://github.com/FOSWLY/vot-worker)
-- [vot-new.toil-dump.workers.dev](https://github.com/FOSWLY/vot-worker) (⚠️ не работает в РФ)
+- [vot-worker.toil.cc][vot-balancer] (Балансировщик между прокси серверами)
+- [vot-worker-s1.toil.cc][vot-worker]
+- [vot-worker-s2.toil.cc][vot-worker]
+- [vot.deno.dev][vot-worker]
+- [vot-new.toil-dump.workers.dev][vot-worker] (⚠️ не работает в РФ)
 
 #### Media Proxy-сервер
 
 Необходим для проксирования `.m3u8` файлов и исправления перевода для непрямых ссылок на `.mp4` или `.webm` (подробнее в репозитории)
 
-- [media-proxy.toil.cc](https://github.com/FOSWLY/media-proxy)
+- [media-proxy.toil.cc][media-proxy]
 
 #### VOT-Backend
 
 Необходим для перевода дополнительных сайтов, которые используют формат видео, который не поддерживается серверами Яндекса.
 
-- [vot.toil.cc](https://github.com/FOSWLY/vot-backend)
+- [vot.toil.cc][vot-backend]
 
 ## Как собрать расширение?
 
-1. Установите Node.js 18.18+ / Bun
+1. Установите [Node.js 18.18+][nodejs-link] / [Bun.sh][bun-link]
 2. Установите зависимости:
 
 NPM:
@@ -138,7 +191,7 @@ Bun:
 bunx patch-package --use-yarn @vot.js/package_name
 ```
 
-Не пользуйтесь патчами из `bun patch` или из каких-либо npm пакетов. Они будут несовместимы с patch-package, а так же могут ломаться при обновлении пакета.
+Не пользуйтесь патчами из `bun patch` или из каких-либо других npm пакетов. Они будут несовместимы с patch-package, а так же могут ломаться при обновлении пакета.
 
 ### Как обновлять файлы локализации?
 
@@ -146,25 +199,11 @@ bunx patch-package --use-yarn @vot.js/package_name
 
 Для вызова утилиты используйте команду:
 
-NPM:
-
-```bash
-npx @toil/localize-tui
-```
-
-Bun:
-
-```bash
-bunx @toil/localize-tui
-```
-
-или
-
 ```bash
 bun localize
 ```
 
-Подробнее о утилите можно прочитать [тут](https://github.com/ilyhalight/localize)
+Подробнее о утилите можно прочитать [тут][localize-link]
 
 ## Кастомизация внешнего вида:
 
@@ -196,7 +235,9 @@ bun localize
 }
 ```
 
-## Расширение протестировано в следующих браузерах:
+## Проотестированные браузеры и загрузчики
+
+Расширение протестировано в следующих браузерах:
 
 | Статус | Браузер                   | Мин. версия браузера | Платформа               | Расширение                                                                                  |
 | ------ | ------------------------- | -------------------- | ----------------------- | ------------------------------------------------------------------------------------------- |
@@ -221,21 +262,21 @@ bun localize
 
 Мин. версия браузера - это минимальная версия, на которой расширение было протестировано. Однако это не означает, что оно не запустится в более старых версиях. Учтите, что поддержкой и исправление ошибок в устаревших браузерах мы **не занимаемся**.
 
-Для активации скрипта в Tampermonkey (MV3) необходимо [включить "Developer Mode"](https://www.tampermonkey.net/faq.php#Q209)
+Для активации скрипта в Tampermonkey (MV3) необходимо [включить "Режим разработчика"][devmode-enable]
 
-## Протестировано в следующих расширениях для юзерскриптов:
+Расширение было протестировано в следующих расширениях-загрузчиках для юзерскриптов:
 
-| Статус                                                                                                                                                                                                                                                                       | Браузер | Расширение                                                                         |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------- |
-| ⠀✅                                                                                                                                                                                                                                                                          | Любой   | Tampermonkey Legacy (MV2)                                                          |
-| ⠀✅                                                                                                                                                                                                                                                                          | Opera   | Tampermonkey Opera                                                                 |
-| ⠀✅                                                                                                                                                                                                                                                                          | Chrome  | Tampermonkey (MV3)                                                                 |
-| ⠀❔                                                                                                                                                                                                                                                                          | Safari  | Userscripts                                                                        |
-| ⠀✅                                                                                                                                                                                                                                                                          | Любой   | Violetmonkey                                                                       |
-| ⠀❔                                                                                                                                                                                                                                                                          | Любой   | [AdGuard Usercripts](https://kb.adguard.com/en/general/userscripts#supported-apps) |
-| ⠀[Гайд по установке](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ#%D0%BA%D0%B0%D0%BA-%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D1%8C-%D1%80%D0%B0%D1%81%D1%88%D0%B8%D1%80%D0%B5%D0%BD%D0%B8%D0%B5-%D1%81-firemonkey)      | Firefox | Firemonkey                                                                         |
-| ⠀✅                                                                                                                                                                                                                                                                          | Firefox | Greasemonkey                                                                       |
-| ⚠️ RequestIdleCallback сыпет ошибками, но работает                                                                                                                                                                                                                           | Любой   | OrangeMonkey                                                                       |
-| ⠀[Гайд по установке](https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ#%D0%BA%D0%B0%D0%BA-%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D1%8C-%D1%80%D0%B0%D1%81%D1%88%D0%B8%D1%80%D0%B5%D0%BD%D0%B8%D0%B5-%D1%81-user-js-and-css) | Любой   | User Javascript and CSS                                                            |
+| Статус                                             | Браузер | Расширение                                      |
+| -------------------------------------------------- | ------- | ----------------------------------------------- |
+| ⠀✅                                                | Любой   | [Tampermonkey Legacy (MV2)][tampermonkey-link]  |
+| ⠀✅                                                | Opera   | [Tampermonkey Opera][tampermonkey-opera]        |
+| ⠀✅                                                | Chrome  | [Tampermonkey (MV3)][tampermonkey-link]         |
+| ⠀❔                                                | Safari  | [Userscripts][userscripts-safari]               |
+| ⠀✅                                                | Любой   | [Violetmonkey][violetmonkey-link]               |
+| ⠀❔                                                | Любой   | [AdGuard Usercripts][adguard-userscripts]       |
+| ⠀[Гайд по установке][firemonkey-how-to]            | Firefox | [Firemonkey][firemonkey-link]                   |
+| ⠀✅                                                | Firefox | [Greasemonkey][greasemonkey-link]               |
+| ⚠️ RequestIdleCallback сыпет ошибками, но работает | Любой   | [OrangeMonkey][orangemonkey-link]               |
+| ⠀[Гайд по установке][user-js-and-css-how-to]       | Любой   | [User Javascript and CSS][user-js-and-css-link] |
 
 ![example btn](https://github.com/ilyhalight/voice-over-translation/blob/master/img/example.png "btn")
