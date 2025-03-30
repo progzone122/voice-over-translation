@@ -102,14 +102,28 @@ export class VideoObserver {
 
     this.videoCache.add(video);
 
-    const onTimeUpdate = () => {
+    const onLoadedData = () => {
       if (this.isValidVideo(video)) {
         this.onVideoAdded.dispatch(video);
-        video.removeEventListener("timeupdate", onTimeUpdate);
+      }
+      video.removeEventListener("loadeddata", onLoadedData);
+    };
+
+    const onEmptied = () => {
+      if (!video.isConnected) {
+        this.onVideoRemoved.dispatch(video);
+        this.videoCache.delete(video);
+        video.removeEventListener("emptied", onEmptied);
       }
     };
 
-    video.addEventListener("timeupdate", onTimeUpdate);
+    video.addEventListener("emptied", onEmptied);
+
+    if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+      onLoadedData();
+    } else {
+      video.addEventListener("loadeddata", onLoadedData);
+    }
   }
 
   handleMutations = (mutations) => {
