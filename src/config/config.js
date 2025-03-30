@@ -25,14 +25,7 @@ const defaultDetectService = "yandexbrowser";
 const foswlyTranslateUrl = "https://translate.toil.cc/v2";
 const detectRustServerUrl = "https://rust-server-531j.onrender.com/detect";
 
-const proxyOnlyExtensions = [
-  "FireMonkey",
-  "Greasemonkey",
-  "AdGuard",
-  "OrangeMonkey",
-  "Userscripts",
-  "Other (Polyfill)",
-];
+const nonProxyExtensions = ["Tampermonkey", "Violentmonkey"];
 
 const proxyOnlyCountries = ["UA", "LV", "LT"];
 
@@ -50,6 +43,6 @@ export {
   defaultAutoVolume,
   maxAudioVolume,
   minLongWaitingCount,
-  proxyOnlyExtensions,
+  nonProxyExtensions,
   proxyOnlyCountries,
 };

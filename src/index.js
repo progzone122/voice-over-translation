@@ -29,7 +29,7 @@ import {
   minLongWaitingCount,
   votBackendUrl,
   workerHost,
-  proxyOnlyExtensions,
+  nonProxyExtensions,
   proxyOnlyCountries,
 } from "./config/config.js";
 import {
@@ -1689,10 +1689,9 @@ class VOTUIManager {
       (async () => {
         localizationProvider.reset();
         const valuesForClear = await votStorage.list();
-        for (let i = 0; i < valuesForClear.length; i++) {
-          const v = valuesForClear[i];
-          if (!localizationProvider.gmValues.includes(v)) {
-            votStorage.syncDelete(v);
+        for (const key of valuesForClear) {
+          if (!localizationProvider.gmValues.includes(key)) {
+            votStorage.syncDelete(key);
           }
         }
         window.location.reload();
@@ -2301,11 +2300,11 @@ class VideoHandler {
       Array.isArray(this.data.dontTranslateLanguage),
     );
 
-    // Enable translate proxy if running in a supported script handler.
+    // Enable translate proxy if extension is not compatible with GM_xmlhttpRequest.
     if (
       !this.data.translateProxyEnabled &&
       GM_info?.scriptHandler &&
-      proxyOnlyExtensions.includes(GM_info.scriptHandler)
+      !nonProxyExtensions.includes(GM_info.scriptHandler)
     ) {
       this.data.translateProxyEnabled = 1;
     }
