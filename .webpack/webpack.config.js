@@ -79,7 +79,7 @@ export default (env) => {
     ]
       .map((sites) =>
         sites.map((site) => {
-          const isSubdomain = /\./g.exec(site)?.length > 1;
+          const isSubdomain = site.match(/\./g)?.length > 1;
           return `*://${isSubdomain ? "" : "*."}${site}/*`;
         }),
       )
