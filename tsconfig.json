@@ -2,7 +2,7 @@
   "compilerOptions": {
     // Enable latest features
     "lib": ["ESNext", "DOM"],
-    "types": ["@toil/gm-types/v3"],
+    "types": ["@toil/gm-types/v3", "@toil/gm-types/v4"],
     "target": "ESNext",
     "module": "ESNext",
     "moduleDetection": "force",
