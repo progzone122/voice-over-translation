@@ -1,6 +1,4 @@
-declare global {
-  // DEFINED IN WEBPACK
-  const DEBUG_MODE: boolean;
-  const IS_BETA_VERSION: boolean;
-  const AVAILABLE_LOCALES: string[];
-}
+// DEFINED IN WEBPACK
+const DEBUG_MODE: boolean;
+const AVAILABLE_LOCALES: string[];
+const REPO_BRANCH: "master" | "dev";
