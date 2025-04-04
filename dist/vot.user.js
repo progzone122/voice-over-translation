@@ -95,7 +95,6 @@
 // @match          *://learning.sap.com/*
 // @match          *://*.watchporn.to/*
 // @match          *://*.linkedin.com/*
-// @match          *://*.ricktube.ru/*
 // @match          *://*.incestflix.net/*
 // @match          *://*.incestflix.to/*
 // @match          *://*.porntn.com/*
@@ -133,77 +132,78 @@
 // @match          *://*/*.mp4*
 // @match          *://*/*.webm*
 // @match          *://*.yewtu.be/*
-// @match          *://yt.artemislena.eu/*
-// @match          *://invidious.flokinet.to/*
-// @match          *://iv.melmac.space/*
-// @match          *://inv.nadeko.net/*
-// @match          *://inv.tux.pizza/*
-// @match          *://invidious.private.coffee/*
-// @match          *://yt.drgnz.club/*
-// @match          *://vid.puffyan.us/*
-// @match          *://invidious.dhusch.de/*
+// @match          *://*.yt.artemislena.eu/*
+// @match          *://*.invidious.flokinet.to/*
+// @match          *://*.iv.melmac.space/*
+// @match          *://*.inv.nadeko.net/*
+// @match          *://*.inv.tux.pizza/*
+// @match          *://*.invidious.private.coffee/*
+// @match          *://*.yt.drgnz.club/*
+// @match          *://*.vid.puffyan.us/*
+// @match          *://*.invidious.dhusch.de/*
 // @match          *://*.piped.video/*
-// @match          *://piped.tokhmi.xyz/*
-// @match          *://piped.moomoo.me/*
-// @match          *://piped.syncpundit.io/*
-// @match          *://piped.mha.fi/*
-// @match          *://watch.whatever.social/*
-// @match          *://piped.garudalinux.org/*
-// @match          *://efy.piped.pages.dev/*
-// @match          *://watch.leptons.xyz/*
-// @match          *://piped.lunar.icu/*
-// @match          *://yt.dc09.ru/*
-// @match          *://piped.mint.lgbt/*
+// @match          *://*.piped.tokhmi.xyz/*
+// @match          *://*.piped.moomoo.me/*
+// @match          *://*.piped.syncpundit.io/*
+// @match          *://*.piped.mha.fi/*
+// @match          *://*.watch.whatever.social/*
+// @match          *://*.piped.garudalinux.org/*
+// @match          *://*.efy.piped.pages.dev/*
+// @match          *://*.watch.leptons.xyz/*
+// @match          *://*.piped.lunar.icu/*
+// @match          *://*.yt.dc09.ru/*
+// @match          *://*.piped.mint.lgbt/*
 // @match          *://*.il.ax/*
-// @match          *://piped.privacy.com.de/*
-// @match          *://piped.esmailelbob.xyz/*
-// @match          *://piped.projectsegfau.lt/*
-// @match          *://piped.in.projectsegfau.lt/*
-// @match          *://piped.us.projectsegfau.lt/*
-// @match          *://piped.privacydev.net/*
-// @match          *://piped.palveluntarjoaja.eu/*
-// @match          *://piped.smnz.de/*
-// @match          *://piped.adminforge.de/*
-// @match          *://piped.qdi.fi/*
-// @match          *://piped.hostux.net/*
-// @match          *://piped.chauvet.pro/*
-// @match          *://piped.jotoma.de/*
-// @match          *://piped.pfcd.me/*
-// @match          *://piped.frontendfriendly.xyz/*
-// @match          *://proxitok.pabloferreiro.es/*
-// @match          *://proxitok.pussthecat.org/*
-// @match          *://tok.habedieeh.re/*
-// @match          *://proxitok.esmailelbob.xyz/*
-// @match          *://proxitok.privacydev.net/*
-// @match          *://tok.artemislena.eu/*
-// @match          *://tok.adminforge.de/*
-// @match          *://tt.vern.cc/*
-// @match          *://cringe.whatever.social/*
-// @match          *://proxitok.lunar.icu/*
-// @match          *://proxitok.privacy.com.de/*
-// @match          *://peertube.1312.media/*
-// @match          *://tube.shanti.cafe/*
+// @match          *://*.piped.privacy.com.de/*
+// @match          *://*.piped.esmailelbob.xyz/*
+// @match          *://*.piped.projectsegfau.lt/*
+// @match          *://*.piped.in.projectsegfau.lt/*
+// @match          *://*.piped.us.projectsegfau.lt/*
+// @match          *://*.piped.privacydev.net/*
+// @match          *://*.piped.palveluntarjoaja.eu/*
+// @match          *://*.piped.smnz.de/*
+// @match          *://*.piped.adminforge.de/*
+// @match          *://*.piped.qdi.fi/*
+// @match          *://*.piped.hostux.net/*
+// @match          *://*.piped.chauvet.pro/*
+// @match          *://*.piped.jotoma.de/*
+// @match          *://*.piped.pfcd.me/*
+// @match          *://*.piped.frontendfriendly.xyz/*
+// @match          *://*.proxitok.pabloferreiro.es/*
+// @match          *://*.proxitok.pussthecat.org/*
+// @match          *://*.tok.habedieeh.re/*
+// @match          *://*.proxitok.esmailelbob.xyz/*
+// @match          *://*.proxitok.privacydev.net/*
+// @match          *://*.tok.artemislena.eu/*
+// @match          *://*.tok.adminforge.de/*
+// @match          *://*.tt.vern.cc/*
+// @match          *://*.cringe.whatever.social/*
+// @match          *://*.proxitok.lunar.icu/*
+// @match          *://*.proxitok.privacy.com.de/*
+// @match          *://*.peertube.1312.media/*
+// @match          *://*.tube.shanti.cafe/*
 // @match          *://*.bee-tube.fr/*
-// @match          *://video.sadmin.io/*
+// @match          *://*.video.sadmin.io/*
 // @match          *://*.dalek.zone/*
-// @match          *://review.peertube.biz/*
+// @match          *://*.review.peertube.biz/*
 // @match          *://*.peervideo.club/*
-// @match          *://tube.la-dina.net/*
-// @match          *://peertube.tmp.rcp.tf/*
+// @match          *://*.tube.la-dina.net/*
+// @match          *://*.peertube.tmp.rcp.tf/*
 // @match          *://*.peertube.su/*
-// @match          *://video.blender.org/*
-// @match          *://videos.viorsan.com/*
-// @match          *://tube-sciences-technologies.apps.education.fr/*
-// @match          *://tube-numerique-educatif.apps.education.fr/*
-// @match          *://tube-arts-lettres-sciences-humaines.apps.education.fr/*
+// @match          *://*.video.blender.org/*
+// @match          *://*.videos.viorsan.com/*
+// @match          *://*.tube-sciences-technologies.apps.education.fr/*
+// @match          *://*.tube-numerique-educatif.apps.education.fr/*
+// @match          *://*.tube-arts-lettres-sciences-humaines.apps.education.fr/*
 // @match          *://*.beetoons.tv/*
-// @match          *://comics.peertube.biz/*
+// @match          *://*.comics.peertube.biz/*
 // @match          *://*.makertube.net/*
 // @match          *://*.poketube.fun/*
-// @match          *://pt.sudovanilla.org/*
-// @match          *://poke.ggtyler.dev/*
-// @match          *://poke.uk2.littlekai.co.uk/*
-// @match          *://poke.blahai.gay/*
+// @match          *://*.pt.sudovanilla.org/*
+// @match          *://*.poke.ggtyler.dev/*
+// @match          *://*.poke.uk2.littlekai.co.uk/*
+// @match          *://*.poke.blahai.gay/*
+// @match          *://*.ricktube.ru/*
 // @match          *://*.coursehunter.net/*
 // @match          *://*.coursetrain.net/*
 // @exclude        file://*/*.mp4*
@@ -4789,18 +4789,32 @@ const en_namespaceObject = /*#__PURE__*/JSON.parse('{"recommended":"recommended"
 const workerHost = "api.browser.yandex.ru";
 /**
  * used for streaming
+ *
+ * @see https://github.com/FOSWLY/media-proxy
  */
 const m3u8ProxyHost = "media-proxy.toil.cc/v1/proxy/m3u8";
+/**
+ * @see https://github.com/FOSWLY/vot-worker
+ */
 const proxyWorkerHost = "vot-worker.toil.cc";
 const votBackendUrl = "https://vot.toil.cc/v1";
-const contentUrl =
-  "https://raw.githubusercontent.com/ilyhalight/voice-over-translation";
-const repositoryUrl = "https://github.com/ilyhalight/voice-over-translation";
+/**
+ * @see https://github.com/FOSWLY/translate-backend
+ */
+const foswlyTranslateUrl = "https://translate.toil.cc/v2";
+const detectRustServerUrl = "https://rust-server-531j.onrender.com/detect";
+
+const repoPath = "ilyhalight/voice-over-translation";
+const contentUrl = `https://raw.githubusercontent.com/${repoPath}`;
+const repositoryUrl = `https://github.com/${repoPath}`;
 
 /**
  * 0.0 - 1.0 (0% - 100%) - default volume of the video with the translation
  */
 const defaultAutoVolume = 0.15;
+/**
+ * Max audio volume percentage (if available)
+ */
 const maxAudioVolume = 900;
 /**
  * The number of repeated responses after which the message turns into "translation is delayed, please wait"
@@ -4809,18 +4823,7 @@ const minLongWaitingCount = 5;
 const defaultTranslationService = "yandexbrowser";
 const defaultDetectService = "yandexbrowser";
 
-const foswlyTranslateUrl = "https://translate.toil.cc/v2";
-const detectRustServerUrl = "https://rust-server-531j.onrender.com/detect";
-
-const proxyOnlyExtensions = [
-  "FireMonkey",
-  "Greasemonkey",
-  "AdGuard",
-  "OrangeMonkey",
-  "Userscripts",
-  "Other (Polyfill)",
-];
-
+const nonProxyExtensions = ["Tampermonkey", "Violentmonkey"];
 const proxyOnlyCountries = ["UA", "LV", "LT"];
 
 
@@ -4846,14 +4849,20 @@ async function convertData(
 }
 
 const votStorage = new (class {
-  gmSupport;
+  supportGM;
+  supportGMPromises;
   constructor() {
-    this.gmSupport = typeof GM_getValue === "function";
-    utils_debug.log(`GM Storage Status: ${this.gmSupport}`);
+    this.supportGM = typeof GM_getValue === "function";
+    // this.supportGMPromises = typeof GM?.getValue === "function";
+    this.supportGMPromises = false;
+    utils_debug.log(
+      `[VOT Storage] GM Promises: ${this.supportGMPromises} | GM: ${this.supportGM}`,
+    );
   }
 
-  syncGet(name, def = undefined) {
-    if (this.gmSupport) {
+  // private syncGet<T = unknown>(name: string, def?: unknown) {
+  syncGet(name, def) {
+    if (this.supportGM) {
       return GM_getValue(name, def);
     }
 
@@ -4861,19 +4870,19 @@ const votStorage = new (class {
     let val = window.localStorage.getItem(name);
 
     const result = val ?? def;
-    return toNumber ? Number(result) : result;
+    return (toNumber ? Number(result) : result) ;
   }
 
-  async get(name, def = undefined) {
-    if (this.gmSupport) {
-      return await GM_getValue(name, def);
+  async get(name, def) {
+    if (this.supportGMPromises) {
+      return await GM.getValue(name, def);
     }
 
     return Promise.resolve(this.syncGet(name, def));
   }
 
   syncSet(name, value) {
-    if (this.gmSupport) {
+    if (this.supportGM) {
       return GM_setValue(name, value);
     }
 
@@ -4881,15 +4890,15 @@ const votStorage = new (class {
   }
 
   async set(name, value) {
-    if (this.gmSupport) {
-      return await GM_setValue(name, value);
+    if (this.supportGMPromises) {
+      return await GM.setValue(name, value);
     }
 
     return Promise.resolve(this.syncSet(name, value));
   }
 
   syncDelete(name) {
-    if (this.gmSupport) {
+    if (this.supportGM) {
       return GM_deleteValue(name);
     }
 
@@ -4897,15 +4906,15 @@ const votStorage = new (class {
   }
 
   async delete(name) {
-    if (this.gmSupport) {
-      return await GM_deleteValue(name);
+    if (this.supportGMPromises) {
+      return await GM.deleteValue(name);
     }
 
     return Promise.resolve(this.syncDelete(name));
   }
 
   syncList() {
-    if (this.gmSupport) {
+    if (this.supportGM) {
       return GM_listValues();
     }
 
@@ -4919,6 +4928,9 @@ const votStorage = new (class {
       "showVideoSlider",
       "syncVolume",
       "subtitlesMaxLength",
+      "subtitlesOpacity",
+      "subtitlesFontSize",
+      "subtitlesDownloadFormat",
       "highlightWords",
       "responseLanguage",
       "defaultVolume",
@@ -4932,6 +4944,7 @@ const votStorage = new (class {
       "hotkeyButton",
       "proxyWorkerHost",
       "audioBooster",
+      "useNewModel",
       "locale-version",
       "locale-lang",
       "locale-phrases",
@@ -4939,8 +4952,8 @@ const votStorage = new (class {
   }
 
   async list() {
-    if (this.gmSupport) {
-      return await GM_listValues();
+    if (this.supportGMPromises) {
+      return await GM.listValues();
     }
 
     return Promise.resolve(this.syncList());
@@ -5154,7 +5167,7 @@ function clamp(value, min = 0, max = 100) {
 
 
 
-;// ./src/localization/localizationProvider.js
+;// ./src/localization/localizationProvider.ts
 
 
 
@@ -5162,17 +5175,27 @@ function clamp(value, min = 0, max = 100) {
 
 
 
-const localeCacheTTL = 7200;
-const localizationUrl = `${contentUrl}/${
-   false ? 0 : "master"
-}/src/localization`;
-
-// TODO: add get from hashes.json or use DEFAULT_LOCALES
-const availableLocales = ["auto","en","ru","af","am","ar","az","bg","bn","bs","ca","cs","cy","da","de","el","es","et","eu","fa","fi","fr","gl","hi","hr","hu","hy","id","it","ja","jv","kk","km","kn","ko","lo","mk","ml","mn","ms","mt","my","ne","nl","pa","pl","pt","ro","si","sk","sl","sq","sr","su","sv","sw","tr","uk","ur","uz","vi","zh","zu"];
 
 class LocalizationProvider {
+  storageKeys;
+  /**
+   * Language used before page was reloaded
+   */
+  lang;
+  // /**
+  //  * Language used after page is reloaded (auto = autodetected language)
+  //  */
+  // langOverride: string;
+  /**
+   * Locale phrases with current language
+   */
+  locale;
+
+  cacheTTL = 7200;
+  localizationUrl = `${contentUrl}/${"master"}/src/localization`;
+
   constructor() {
-    this.gmValues = [
+    this.storageKeys = [
       "locale-phrases",
       "locale-lang",
       "locale-hash",
@@ -5184,23 +5207,34 @@ class LocalizationProvider {
     this.setLocaleFromJsonString(votStorage.syncGet("locale-phrases", ""));
   }
 
+  getLangOverride() {
+    return votStorage.syncGet("locale-lang-override", "auto");
+  }
+
   getLang() {
-    const langOverride = votStorage.syncGet("locale-lang-override", "auto");
+    const langOverride = this.getLangOverride();
     return langOverride !== "auto" ? langOverride : lang;
   }
 
+  getAvailableLangs() {
+    return ["auto","en","ru","af","am","ar","az","bg","bn","bs","ca","cs","cy","da","de","el","es","et","eu","fa","fi","fr","gl","hi","hr","hu","hy","id","it","ja","jv","kk","km","kn","ko","lo","mk","ml","mn","ms","mt","my","ne","nl","pa","pl","pt","ro","si","sk","sl","sq","sr","su","sv","sw","tr","uk","ur","uz","vi","zh","zu"];
+  }
+
   reset() {
-    for (const key of this.gmValues) {
+    for (const key of this.storageKeys) {
       votStorage.syncDelete(key);
     }
+  }
+
+   buildUrl(path, force = false) {
+    const query = force ? `?timestamp=${utils_getTimestamp()}` : "";
+    return `${this.localizationUrl}${path}${query}`;
   }
 
   async checkUpdates(force = false) {
     utils_debug.log("Check locale updates...");
     try {
-      const res = await GM_fetch(
-        `${localizationUrl}/hashes.json${force ? `?timestamp=${utils_getTimestamp()}` : ""}`,
-      );
+      const res = await GM_fetch(this.buildUrl("/hashes.json", force));
       if (!res.ok) throw res.status;
       const hashes = await res.json();
       return (await votStorage.get("locale-hash")) !== hashes[this.lang]
@@ -5216,10 +5250,13 @@ class LocalizationProvider {
   }
 
   async update(force = false) {
-    const localeUpdatedAt = await votStorage.get("locale-updated-at", 0);
+    const localeUpdatedAt = await votStorage.get(
+      "locale-updated-at",
+      0,
+    );
     if (
       !force &&
-      localeUpdatedAt + localeCacheTTL > utils_getTimestamp() &&
+      localeUpdatedAt + this.cacheTTL > utils_getTimestamp() &&
       (await votStorage.get("locale-lang")) === this.lang
     )
       return;
@@ -5231,7 +5268,7 @@ class LocalizationProvider {
     utils_debug.log("Updating locale...");
     try {
       const res = await GM_fetch(
-        `${localizationUrl}/locales/${this.lang}.json${force ? `?timestamp=${utils_getTimestamp()}` : ""}`,
+        this.buildUrl(`/locales/${this.lang}.json`, force),
       );
       if (!res.ok) throw res.status;
       // We use it .text() in order for there to be a single logic for GM_Storage and localStorage
@@ -11666,14 +11703,28 @@ class VideoObserver {
 
     this.videoCache.add(video);
 
-    const onTimeUpdate = () => {
+    const onLoadedData = () => {
       if (this.isValidVideo(video)) {
         this.onVideoAdded.dispatch(video);
-        video.removeEventListener("timeupdate", onTimeUpdate);
+      }
+      video.removeEventListener("loadeddata", onLoadedData);
+    };
+
+    const onEmptied = () => {
+      if (!video.isConnected) {
+        this.onVideoRemoved.dispatch(video);
+        this.videoCache.delete(video);
+        video.removeEventListener("emptied", onEmptied);
       }
     };
 
-    video.addEventListener("timeupdate", onTimeUpdate);
+    video.addEventListener("emptied", onEmptied);
+
+    if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+      onLoadedData();
+    } else {
+      video.addEventListener("loadeddata", onLoadedData);
+    }
   }
 
   handleMutations = (mutations) => {
@@ -11873,6 +11924,8 @@ class CacheManager {
 /*  Handles creation of UI elements, event registration, and UI logic  */
 /*─────────────────────────────────────────────────────────────*/
 class VOTUIManager {
+  cancelDraggingEvents = ["pointercancel", "touchcancel"];
+
   /**
    * @param {VideoHandler} videoHandler Parent VideoHandler instance.
    */
@@ -11951,8 +12004,6 @@ class VOTUIManager {
 
     const { position: votPosition, direction: votDirection } =
       this.getButtonPos();
-    this.videoHandler.votButton.container.dataset.direction = votDirection;
-    this.videoHandler.votButton.container.dataset.position = votPosition;
     this.videoHandler.container.appendChild(
       this.videoHandler.votButton.container,
     );
@@ -11963,6 +12014,7 @@ class VOTUIManager {
       parentElement: this.videoHandler.votPortal,
       layoutRoot: this.getTooltipLayoutRoot(),
     });
+    this.updateButtonPos(votPosition, votDirection);
 
     // Hide Picture-in-Picture (PiP) button if not available or not enabled.
     this.videoHandler.votButton.pipButton.hidden =
@@ -12507,20 +12559,35 @@ class VOTUIManager {
     );
 
     this.videoHandler.votLanguageSelect = UI.createVOTSelect(
-      localizationProvider.get("langs")[
-        votStorage.syncGet("locale-lang-override", "auto")
-      ],
+      localizationProvider.get("langs")[localizationProvider.getLangOverride()],
       localizationProvider.get("VOTMenuLanguage"),
       genOptionsByOBJ(
-        availableLocales,
-        votStorage.syncGet("locale-lang-override", "auto"),
+        localizationProvider.getAvailableLangs(),
+        localizationProvider.getLangOverride(),
       ),
       {
         onSelectCb: async (e) => {
-          await votStorage.set(
-            "locale-lang-override",
-            e.target.dataset.votValue,
+          const newLang = e.target.dataset.votValue;
+          const oldLang = localizationProvider.getLangOverride();
+          if (newLang === oldLang) {
+            return;
+          }
+
+          await votStorage.set("locale-lang-override", newLang);
+          localizationProvider.lang = localizationProvider.getLang();
+          await localizationProvider.update(true);
+          this.videoHandler.data.localeUpdatedAt = await votStorage.get(
+            "locale-updated-at",
+            0,
           );
+          this.videoHandler.stopTranslation();
+          this.release();
+          this.initUI();
+          this.initUIEvents();
+          await this.videoHandler.updateSubtitlesLangSelect();
+          this.videoHandler.subtitlesWidget.portal =
+            this.videoHandler.votPortal;
+          this.videoHandler.subtitlesWidget.strTranslatedTokens = "";
         },
         labelElement: UI.createVOTSelectLabel(
           localizationProvider.get("VOTMenuLanguage"),
@@ -12619,6 +12686,56 @@ class VOTUIManager {
     return this;
   }
 
+  calcButtonPos(percentX, isBigContainer) {
+    if (!isBigContainer) {
+      return "default";
+    }
+
+    return percentX <= 44 ? "left" : percentX >= 66 ? "right" : "default";
+  }
+
+  async moveButton(percentX) {
+    const isBigContainer = this.videoHandler.container.clientWidth > 550;
+    const position = this.calcButtonPos(percentX, isBigContainer);
+    if (position === this.videoHandler.votMenu.container.dataset.position) {
+      return;
+    }
+
+    const direction = position === "default" ? "row" : "column";
+    this.videoHandler.data.buttonPos = position;
+    this.videoHandler.votMenu.container.dataset.position = position;
+    this.updateButtonPos(position, direction);
+    if (isBigContainer) await votStorage.set("buttonPos", position);
+  }
+
+  async handleDragMove(
+    event,
+    clientX,
+    rect = this.videoHandler.container.getBoundingClientRect(),
+  ) {
+    if (!this.videoHandler.dragging) return;
+    event.preventDefault();
+    const x = clientX - rect.left;
+    const percentX = (x / rect.width) * 100;
+    await this.moveButton(percentX);
+  }
+
+  disableDragging = () => {
+    this.videoHandler.dragging = false;
+  };
+
+  handleContainerPointerMove = async (event) => {
+    await this.handleDragMove(event, event.clientX);
+  };
+
+  handleContainerTouchMove = async (event) => {
+    await this.handleDragMove(
+      event,
+      event.touches[0].clientX,
+      this.videoHandler.container.getBoundingClientRect(),
+    );
+  };
+
   /**
    * Registers UI event listeners.
    */
@@ -12651,86 +12768,49 @@ class VOTUIManager {
     );
 
     // ----- Position Update (Drag and Touch) -----
-    const moveButton = async (percentX) => {
-      const isBigContainer = this.videoHandler.container.clientWidth > 550;
-      const position = isBigContainer
-        ? percentX <= 44
-          ? "left"
-          : percentX >= 66
-            ? "right"
-            : "default"
-        : "default";
-      const direction = position === "default" ? "row" : "column";
-      this.videoHandler.data.buttonPos = position;
-      this.videoHandler.votMenu.container.dataset.position = position;
-      this.updateButtonPos(position, direction);
-      if (isBigContainer) await votStorage.set("buttonPos", position);
-    };
-
-    const handleDragMove = async (
-      event,
-      clientX,
-      rect = this.videoHandler.container.getBoundingClientRect(),
-    ) => {
-      if (!this.videoHandler.dragging) return;
+    const enableDraggingByEvent = (event) => {
+      this.videoHandler.dragging = true;
       event.preventDefault();
-      const x = clientX - rect.left;
-      const percentX = (x / rect.width) * 100;
-      await moveButton(percentX);
     };
 
     // Mouse/pointer events for dragging.
     this.videoHandler.votButton.container.addEventListener(
       "pointerdown",
-      (e) => {
-        this.videoHandler.dragging = true;
-        e.preventDefault();
-      },
+      enableDraggingByEvent,
     );
     this.videoHandler.container.addEventListener(
       "pointerup",
-      () => (this.videoHandler.dragging = false),
+      this.disableDragging,
     );
-    this.videoHandler.container.addEventListener("pointermove", (e) =>
-      handleDragMove(e, e.clientX),
+    this.videoHandler.container.addEventListener(
+      "pointermove",
+      this.handleContainerPointerMove,
     );
 
     // Touch events for dragging.
     this.videoHandler.votButton.container.addEventListener(
       "touchstart",
-      (e) => {
-        this.videoHandler.dragging = true;
-        e.preventDefault();
-      },
+      enableDraggingByEvent,
       {
         passive: false,
       },
     );
     this.videoHandler.container.addEventListener(
       "touchend",
-      () => (this.videoHandler.dragging = false),
+      this.disableDragging,
     );
     this.videoHandler.container.addEventListener(
       "touchmove",
-      (e) => {
-        handleDragMove(
-          e,
-          e.touches[0].clientX,
-          this.videoHandler.container.getBoundingClientRect(),
-        );
-      },
+      this.handleContainerTouchMove,
       {
         passive: false,
       },
     );
 
     // Cancel drag on pointer/touch cancel events.
-    ["pointercancel", "touchcancel"].forEach((event) => {
-      document.addEventListener(
-        event,
-        () => (this.videoHandler.dragging = false),
-      );
-    });
+    for (const event of this.cancelDraggingEvents) {
+      document.addEventListener(event, this.disableDragging);
+    }
 
     // ----- VOT Menu Events -----
     this.videoHandler.votDownloadButton.addEventListener("click", async () => {
@@ -13380,15 +13460,64 @@ class VOTUIManager {
       (async () => {
         localizationProvider.reset();
         const valuesForClear = await votStorage.list();
-        for (let i = 0; i < valuesForClear.length; i++) {
-          const v = valuesForClear[i];
-          if (!localizationProvider.gmValues.includes(v)) {
-            votStorage.syncDelete(v);
+        for (const key of valuesForClear) {
+          if (!localizationProvider.storageKeys.includes(key)) {
+            votStorage.syncDelete(key);
           }
         }
         window.location.reload();
       })();
     });
+  }
+
+  /**
+   * Releases resources and removes UI elements
+   */
+  releaseUI() {
+    this.videoHandler.votButtonTooltip.release();
+    this.videoHandler.votAudioBoosterTooltip?.release();
+    this.videoHandler.votTranslationTextServiceTooltip?.release();
+    this.videoHandler.votNewAudioPlayerTooltip?.release();
+    this.videoHandler.votOnlyBypassMediaCSPTooltip?.release();
+    this.videoHandler.votPortal.remove();
+    this.videoHandler.votGlobalPortal.remove();
+    this.videoHandler.votButton.container.remove();
+    this.videoHandler.votMenu.container.remove();
+  }
+
+  /**
+   * Relesae UI event listeners
+   */
+  releaseUIEvents() {
+    this.videoHandler.container.removeEventListener(
+      "pointerup",
+      this.disableDragging,
+    );
+    this.videoHandler.container.removeEventListener(
+      "pointermove",
+      this.handleContainerPointerMove,
+    );
+
+    this.videoHandler.container.removeEventListener(
+      "touchend",
+      this.disableDragging,
+    );
+    this.videoHandler.container.removeEventListener(
+      "touchmove",
+      this.handleContainerTouchMove,
+      {
+        passive: false,
+      },
+    );
+
+    for (const event of this.cancelDraggingEvents) {
+      document.removeEventListener(event, this.disableDragging);
+    }
+  }
+
+  release() {
+    this.releaseUI();
+    this.releaseUIEvents();
   }
 }
 
@@ -13992,11 +14121,11 @@ class VideoHandler {
       Array.isArray(this.data.dontTranslateLanguage),
     );
 
-    // Enable translate proxy if running in a supported script handler.
+    // Enable translate proxy if extension is not compatible with GM_xmlhttpRequest.
     if (
       !this.data.translateProxyEnabled &&
       GM_info?.scriptHandler &&
-      proxyOnlyExtensions.includes(GM_info.scriptHandler)
+      !nonProxyExtensions.includes(GM_info.scriptHandler)
     ) {
       this.data.translateProxyEnabled = 1;
     }
@@ -14931,8 +15060,7 @@ class VideoHandler {
     this.initialized = false;
     this.releaseExtraEvents();
     this.subtitlesWidget.release();
-    this.votButton.container.remove();
-    this.votMenu.container.remove();
+    this.uiManager.release();
   }
 
   /**
