@@ -32,10 +32,7 @@ import {
   nonProxyExtensions,
   proxyOnlyCountries,
 } from "./config/config.js";
-import {
-  availableLocales,
-  localizationProvider,
-} from "./localization/localizationProvider.js";
+import { localizationProvider } from "./localization/localizationProvider.ts";
 import { SubtitlesWidget, SubtitlesProcessor } from "./subtitles.js";
 
 import Tooltip from "./ui/tooltip.ts";
@@ -182,6 +179,8 @@ class CacheManager {
 /*  Handles creation of UI elements, event registration, and UI logic  */
 /*─────────────────────────────────────────────────────────────*/
 class VOTUIManager {
+  cancelDraggingEvents = ["pointercancel", "touchcancel"];
+
   /**
    * @param {VideoHandler} videoHandler Parent VideoHandler instance.
    */
@@ -260,8 +259,6 @@ class VOTUIManager {
 
     const { position: votPosition, direction: votDirection } =
       this.getButtonPos();
-    this.videoHandler.votButton.container.dataset.direction = votDirection;
-    this.videoHandler.votButton.container.dataset.position = votPosition;
     this.videoHandler.container.appendChild(
       this.videoHandler.votButton.container,
     );
@@ -272,6 +269,7 @@ class VOTUIManager {
       parentElement: this.videoHandler.votPortal,
       layoutRoot: this.getTooltipLayoutRoot(),
     });
+    this.updateButtonPos(votPosition, votDirection);
 
     // Hide Picture-in-Picture (PiP) button if not available or not enabled.
     this.videoHandler.votButton.pipButton.hidden =
@@ -816,20 +814,35 @@ class VOTUIManager {
     );
 
     this.videoHandler.votLanguageSelect = ui.createVOTSelect(
-      localizationProvider.get("langs")[
-        votStorage.syncGet("locale-lang-override", "auto")
-      ],
+      localizationProvider.get("langs")[localizationProvider.getLangOverride()],
       localizationProvider.get("VOTMenuLanguage"),
       genOptionsByOBJ(
-        availableLocales,
-        votStorage.syncGet("locale-lang-override", "auto"),
+        localizationProvider.getAvailableLangs(),
+        localizationProvider.getLangOverride(),
       ),
       {
         onSelectCb: async (e) => {
-          await votStorage.set(
-            "locale-lang-override",
-            e.target.dataset.votValue,
+          const newLang = e.target.dataset.votValue;
+          const oldLang = localizationProvider.getLangOverride();
+          if (newLang === oldLang) {
+            return;
+          }
+
+          await votStorage.set("locale-lang-override", newLang);
+          localizationProvider.lang = localizationProvider.getLang();
+          await localizationProvider.update(true);
+          this.videoHandler.data.localeUpdatedAt = await votStorage.get(
+            "locale-updated-at",
+            0,
           );
+          this.videoHandler.stopTranslation();
+          this.release();
+          this.initUI();
+          this.initUIEvents();
+          await this.videoHandler.updateSubtitlesLangSelect();
+          this.videoHandler.subtitlesWidget.portal =
+            this.videoHandler.votPortal;
+          this.videoHandler.subtitlesWidget.strTranslatedTokens = "";
         },
         labelElement: ui.createVOTSelectLabel(
           localizationProvider.get("VOTMenuLanguage"),
@@ -928,6 +941,56 @@ class VOTUIManager {
     return this;
   }
 
+  calcButtonPos(percentX, isBigContainer) {
+    if (!isBigContainer) {
+      return "default";
+    }
+
+    return percentX <= 44 ? "left" : percentX >= 66 ? "right" : "default";
+  }
+
+  async moveButton(percentX) {
+    const isBigContainer = this.videoHandler.container.clientWidth > 550;
+    const position = this.calcButtonPos(percentX, isBigContainer);
+    if (position === this.videoHandler.votMenu.container.dataset.position) {
+      return;
+    }
+
+    const direction = position === "default" ? "row" : "column";
+    this.videoHandler.data.buttonPos = position;
+    this.videoHandler.votMenu.container.dataset.position = position;
+    this.updateButtonPos(position, direction);
+    if (isBigContainer) await votStorage.set("buttonPos", position);
+  }
+
+  async handleDragMove(
+    event,
+    clientX,
+    rect = this.videoHandler.container.getBoundingClientRect(),
+  ) {
+    if (!this.videoHandler.dragging) return;
+    event.preventDefault();
+    const x = clientX - rect.left;
+    const percentX = (x / rect.width) * 100;
+    await this.moveButton(percentX);
+  }
+
+  disableDragging = () => {
+    this.videoHandler.dragging = false;
+  };
+
+  handleContainerPointerMove = async (event) => {
+    await this.handleDragMove(event, event.clientX);
+  };
+
+  handleContainerTouchMove = async (event) => {
+    await this.handleDragMove(
+      event,
+      event.touches[0].clientX,
+      this.videoHandler.container.getBoundingClientRect(),
+    );
+  };
+
   /**
    * Registers UI event listeners.
    */
@@ -960,86 +1023,49 @@ class VOTUIManager {
     );
 
     // ----- Position Update (Drag and Touch) -----
-    const moveButton = async (percentX) => {
-      const isBigContainer = this.videoHandler.container.clientWidth > 550;
-      const position = isBigContainer
-        ? percentX <= 44
-          ? "left"
-          : percentX >= 66
-            ? "right"
-            : "default"
-        : "default";
-      const direction = position === "default" ? "row" : "column";
-      this.videoHandler.data.buttonPos = position;
-      this.videoHandler.votMenu.container.dataset.position = position;
-      this.updateButtonPos(position, direction);
-      if (isBigContainer) await votStorage.set("buttonPos", position);
-    };
-
-    const handleDragMove = async (
-      event,
-      clientX,
-      rect = this.videoHandler.container.getBoundingClientRect(),
-    ) => {
-      if (!this.videoHandler.dragging) return;
+    const enableDraggingByEvent = (event) => {
+      this.videoHandler.dragging = true;
       event.preventDefault();
-      const x = clientX - rect.left;
-      const percentX = (x / rect.width) * 100;
-      await moveButton(percentX);
     };
 
     // Mouse/pointer events for dragging.
     this.videoHandler.votButton.container.addEventListener(
       "pointerdown",
-      (e) => {
-        this.videoHandler.dragging = true;
-        e.preventDefault();
-      },
+      enableDraggingByEvent,
     );
     this.videoHandler.container.addEventListener(
       "pointerup",
-      () => (this.videoHandler.dragging = false),
+      this.disableDragging,
     );
-    this.videoHandler.container.addEventListener("pointermove", (e) =>
-      handleDragMove(e, e.clientX),
+    this.videoHandler.container.addEventListener(
+      "pointermove",
+      this.handleContainerPointerMove,
     );
 
     // Touch events for dragging.
     this.videoHandler.votButton.container.addEventListener(
       "touchstart",
-      (e) => {
-        this.videoHandler.dragging = true;
-        e.preventDefault();
-      },
+      enableDraggingByEvent,
       {
         passive: false,
       },
     );
     this.videoHandler.container.addEventListener(
       "touchend",
-      () => (this.videoHandler.dragging = false),
+      this.disableDragging,
     );
     this.videoHandler.container.addEventListener(
       "touchmove",
-      (e) => {
-        handleDragMove(
-          e,
-          e.touches[0].clientX,
-          this.videoHandler.container.getBoundingClientRect(),
-        );
-      },
+      this.handleContainerTouchMove,
       {
         passive: false,
       },
     );
 
     // Cancel drag on pointer/touch cancel events.
-    ["pointercancel", "touchcancel"].forEach((event) => {
-      document.addEventListener(
-        event,
-        () => (this.videoHandler.dragging = false),
-      );
-    });
+    for (const event of this.cancelDraggingEvents) {
+      document.addEventListener(event, this.disableDragging);
+    }
 
     // ----- VOT Menu Events -----
     this.videoHandler.votDownloadButton.addEventListener("click", async () => {
@@ -1690,13 +1716,63 @@ class VOTUIManager {
         localizationProvider.reset();
         const valuesForClear = await votStorage.list();
         for (const key of valuesForClear) {
-          if (!localizationProvider.gmValues.includes(key)) {
+          if (!localizationProvider.storageKeys.includes(key)) {
             votStorage.syncDelete(key);
           }
         }
         window.location.reload();
       })();
     });
+  }
+
+  /**
+   * Releases resources and removes UI elements
+   */
+  releaseUI() {
+    this.videoHandler.votButtonTooltip.release();
+    this.videoHandler.votAudioBoosterTooltip?.release();
+    this.videoHandler.votTranslationTextServiceTooltip?.release();
+    this.videoHandler.votNewAudioPlayerTooltip?.release();
+    this.videoHandler.votOnlyBypassMediaCSPTooltip?.release();
+    this.videoHandler.votPortal.remove();
+    this.videoHandler.votGlobalPortal.remove();
+    this.videoHandler.votButton.container.remove();
+    this.videoHandler.votMenu.container.remove();
+  }
+
+  /**
+   * Relesae UI event listeners
+   */
+  releaseUIEvents() {
+    this.videoHandler.container.removeEventListener(
+      "pointerup",
+      this.disableDragging,
+    );
+    this.videoHandler.container.removeEventListener(
+      "pointermove",
+      this.handleContainerPointerMove,
+    );
+
+    this.videoHandler.container.removeEventListener(
+      "touchend",
+      this.disableDragging,
+    );
+    this.videoHandler.container.removeEventListener(
+      "touchmove",
+      this.handleContainerTouchMove,
+      {
+        passive: false,
+      },
+    );
+
+    for (const event of this.cancelDraggingEvents) {
+      document.removeEventListener(event, this.disableDragging);
+    }
+  }
+
+  release() {
+    this.releaseUI();
+    this.releaseUIEvents();
   }
 }
 
@@ -3239,8 +3315,7 @@ class VideoHandler {
     this.initialized = false;
     this.releaseExtraEvents();
     this.subtitlesWidget.release();
-    this.votButton.container.remove();
-    this.votMenu.container.remove();
+    this.uiManager.release();
   }
 
   /**
