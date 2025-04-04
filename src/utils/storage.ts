@@ -18,50 +18,55 @@ export async function convertData(
 }
 
 export const votStorage = new (class {
-  gmSupport: boolean;
+  supportGM: boolean;
+  supportGMPromises: boolean;
   constructor() {
-    this.gmSupport = typeof GM_getValue === "function";
-    debug.log(`GM Storage Status: ${this.gmSupport}`);
+    this.supportGM = typeof GM_getValue === "function";
+    // this.supportGMPromises = typeof GM?.getValue === "function";
+    this.supportGMPromises = false;
+    debug.log(
+      `[VOT Storage] GM Promises: ${this.supportGMPromises} | GM: ${this.supportGM}`,
+    );
   }
 
-  syncGet(name: string, def: unknown = undefined) {
-    if (this.gmSupport) {
-      return GM_getValue(name, def);
+  syncGet<T = unknown>(name: string, def?: unknown) {
+    if (this.supportGM) {
+      return GM_getValue<T>(name, def);
     }
 
     const toNumber = typeof def === "number";
     let val = window.localStorage.getItem(name);
 
     const result = val ?? def;
-    return toNumber ? Number(result) : result;
+    return (toNumber ? Number(result) : result) as T;
   }
 
-  async get(name: string, def: unknown = undefined) {
-    if (this.gmSupport) {
-      return await GM_getValue(name, def);
+  async get<T = unknown>(name: string, def?: unknown) {
+    if (this.supportGMPromises) {
+      return await GM.getValue<T>(name, def);
     }
 
-    return Promise.resolve(this.syncGet(name, def));
+    return Promise.resolve(this.syncGet<T>(name, def));
   }
 
-  syncSet(name: string, value: string | boolean | number | undefined) {
-    if (this.gmSupport) {
+  syncSet<T = string | boolean | number | undefined>(name: string, value: T) {
+    if (this.supportGM) {
       return GM_setValue(name, value);
     }
 
     return window.localStorage.setItem(name, value as string);
   }
 
-  async set(name: string, value: string | boolean | number | undefined) {
-    if (this.gmSupport) {
-      return await GM_setValue(name, value);
+  async set<T = string | boolean | number | undefined>(name: string, value: T) {
+    if (this.supportGMPromises) {
+      return await GM.setValue<T>(name, value);
     }
 
-    return Promise.resolve(this.syncSet(name, value));
+    return Promise.resolve(this.syncSet<T>(name, value));
   }
 
   syncDelete(name: string) {
-    if (this.gmSupport) {
+    if (this.supportGM) {
       return GM_deleteValue(name);
     }
 
@@ -69,15 +74,15 @@ export const votStorage = new (class {
   }
 
   async delete(name: string) {
-    if (this.gmSupport) {
-      return await GM_deleteValue(name);
+    if (this.supportGMPromises) {
+      return await GM.deleteValue(name);
     }
 
     return Promise.resolve(this.syncDelete(name));
   }
 
   syncList() {
-    if (this.gmSupport) {
+    if (this.supportGM) {
       return GM_listValues();
     }
 
@@ -91,6 +96,9 @@ export const votStorage = new (class {
       "showVideoSlider",
       "syncVolume",
       "subtitlesMaxLength",
+      "subtitlesOpacity",
+      "subtitlesFontSize",
+      "subtitlesDownloadFormat",
       "highlightWords",
       "responseLanguage",
       "defaultVolume",
@@ -104,6 +112,7 @@ export const votStorage = new (class {
       "hotkeyButton",
       "proxyWorkerHost",
       "audioBooster",
+      "useNewModel",
       "locale-version",
       "locale-lang",
       "locale-phrases",
@@ -111,8 +120,8 @@ export const votStorage = new (class {
   }
 
   async list() {
-    if (this.gmSupport) {
-      return await GM_listValues();
+    if (this.supportGMPromises) {
+      return await GM.listValues();
     }
 
     return Promise.resolve(this.syncList());

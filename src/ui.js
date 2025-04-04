@@ -1,6 +1,6 @@
 import { svg, render } from "lit-html";
 import "./styles/main.scss";
-import { localizationProvider } from "./localization/localizationProvider.js";
+import { localizationProvider } from "./localization/localizationProvider.ts";
 
 export default class UI {
   static undefinedPhrase = "#UNDEFINED";

@@ -4,7 +4,7 @@ import { convertSubs } from "@vot.js/shared/utils/subs";
 import { defaultTranslationService } from "./config/config.js";
 import { lang, GM_fetch } from "./utils/utils.js";
 import { translate } from "./utils/translateApis.ts";
-import { localizationProvider } from "./localization/localizationProvider.js";
+import { localizationProvider } from "./localization/localizationProvider.ts";
 import { votStorage } from "./utils/storage.ts";
 import Tooltip from "./ui/tooltip.ts";
 import UI from "./ui.js";

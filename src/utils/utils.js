@@ -1,6 +1,6 @@
 import { availableTTS } from "@vot.js/shared/consts";
 
-import { localizationProvider } from "../localization/localizationProvider.js";
+import { localizationProvider } from "../localization/localizationProvider.ts";
 import debug from "./debug.ts";
 
 const userlang = navigator.language || navigator.userLanguage;

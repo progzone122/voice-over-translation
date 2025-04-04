@@ -1,21 +1,27 @@
 import defaultLocale from "./locales/en.json";
 
-import debug from "../utils/debug.ts";
+import debug from "../utils/debug";
 import { contentUrl } from "../config/config.js";
-import { votStorage } from "../utils/storage.ts";
+import { votStorage } from "../utils/storage";
 import { getTimestamp, GM_fetch, lang } from "../utils/utils.js";
-
-const localeCacheTTL = 7200;
-const localizationUrl = `${contentUrl}/${
-  DEBUG_MODE || IS_BETA_VERSION ? "dev" : "master"
-}/src/localization`;
-
-// TODO: add get from hashes.json or use DEFAULT_LOCALES
-export const availableLocales = AVAILABLE_LOCALES;
+import { LocaleData, LocaleStorageKey } from "../types/locales";
 
 class LocalizationProvider {
+  storageKeys: LocaleStorageKey[];
+  /**
+   * Language used before page was reloaded
+   */
+  lang: string;
+  /**
+   * Locale phrases with current language
+   */
+  locale: LocaleData;
+
+  cacheTTL = 7200;
+  localizationUrl = `${contentUrl}/${REPO_BRANCH}/src/localization`;
+
   constructor() {
-    this.gmValues = [
+    this.storageKeys = [
       "locale-phrases",
       "locale-lang",
       "locale-hash",
@@ -27,23 +33,34 @@ class LocalizationProvider {
     this.setLocaleFromJsonString(votStorage.syncGet("locale-phrases", ""));
   }
 
+  getLangOverride() {
+    return votStorage.syncGet("locale-lang-override", "auto");
+  }
+
   getLang() {
-    const langOverride = votStorage.syncGet("locale-lang-override", "auto");
+    const langOverride = this.getLangOverride();
     return langOverride !== "auto" ? langOverride : lang;
   }
 
+  getAvailableLangs() {
+    return AVAILABLE_LOCALES;
+  }
+
   reset() {
-    for (const key of this.gmValues) {
+    for (const key of this.storageKeys) {
       votStorage.syncDelete(key);
     }
+  }
+
+  private buildUrl(path: string, force = false) {
+    const query = force ? `?timestamp=${getTimestamp()}` : "";
+    return `${this.localizationUrl}${path}${query}`;
   }
 
   async checkUpdates(force = false) {
     debug.log("Check locale updates...");
     try {
-      const res = await GM_fetch(
-        `${localizationUrl}/hashes.json${force ? `?timestamp=${getTimestamp()}` : ""}`,
-      );
+      const res = await GM_fetch(this.buildUrl("/hashes.json", force));
       if (!res.ok) throw res.status;
       const hashes = await res.json();
       return (await votStorage.get("locale-hash")) !== hashes[this.lang]
@@ -59,10 +76,13 @@ class LocalizationProvider {
   }
 
   async update(force = false) {
-    const localeUpdatedAt = await votStorage.get("locale-updated-at", 0);
+    const localeUpdatedAt = await votStorage.get<number>(
+      "locale-updated-at",
+      0,
+    );
     if (
       !force &&
-      localeUpdatedAt + localeCacheTTL > getTimestamp() &&
+      localeUpdatedAt + this.cacheTTL > getTimestamp() &&
       (await votStorage.get("locale-lang")) === this.lang
     )
       return;
@@ -74,7 +94,7 @@ class LocalizationProvider {
     debug.log("Updating locale...");
     try {
       const res = await GM_fetch(
-        `${localizationUrl}/locales/${this.lang}.json${force ? `?timestamp=${getTimestamp()}` : ""}`,
+        this.buildUrl(`/locales/${this.lang}.json`, force),
       );
       if (!res.ok) throw res.status;
       // We use it .text() in order for there to be a single logic for GM_Storage and localStorage
@@ -89,7 +109,7 @@ class LocalizationProvider {
     }
   }
 
-  setLocaleFromJsonString(json) {
+  setLocaleFromJsonString(json: string) {
     try {
       this.locale = JSON.parse(json) || {};
     } catch (err) {
@@ -98,14 +118,14 @@ class LocalizationProvider {
     }
   }
 
-  getFromLocale(locale, key) {
+  getFromLocale(locale: LocaleData, key: string) {
     return (
       key.split(".").reduce((acc, k) => acc?.[k], locale) ??
       this.warnMissingKey(locale, key)
     );
   }
 
-  warnMissingKey(locale, key) {
+  warnMissingKey(locale: LocaleData, key: string) {
     console.warn(
       "[VOT] [localizationProvider] locale",
       locale,
@@ -115,11 +135,11 @@ class LocalizationProvider {
     return undefined;
   }
 
-  getDefault(key) {
+  getDefault(key: string) {
     return this.getFromLocale(defaultLocale, key) ?? key;
   }
 
-  get(key) {
+  get(key: string) {
     return this.getFromLocale(this.locale, key) ?? this.getDefault(key);
   }
 }
