@@ -1606,7 +1606,7 @@ class Chaimu {
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.3.10",
+    version: "2.3.11",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -1970,7 +1970,7 @@ function varint32read() {
 }
 
 ;// ./node_modules/@bufbuild/protobuf/dist/esm/proto-int64.js
-// Copyright 2021-2024 Buf Technologies, Inc.
+// Copyright 2021-2025 Buf Technologies, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -2095,7 +2095,7 @@ function assertUInt64String(value) {
 }
 
 ;// ./node_modules/@bufbuild/protobuf/dist/esm/wire/text-encoding.js
-// Copyright 2021-2024 Buf Technologies, Inc.
+// Copyright 2021-2025 Buf Technologies, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -2147,7 +2147,7 @@ function getTextEncoding() {
 }
 
 ;// ./node_modules/@bufbuild/protobuf/dist/esm/wire/binary-encoding.js
-// Copyright 2021-2024 Buf Technologies, Inc.
+// Copyright 2021-2025 Buf Technologies, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -6463,11 +6463,19 @@ var ExtVideoService;
         selector: ".fp-player",
     },
     {
+        additionalData: "regional",
         host: VideoService.ign,
         url: "https://de.ign.com/",
         match: /^(\w{2}.)?ign.com$/,
         needExtraData: true,
         selector: ".video-container",
+    },
+    {
+        host: VideoService.ign,
+        url: "https://www.ign.com/",
+        match: /^(www.)?ign.com$/,
+        selector: ".player",
+        needExtraData: true,
     },
     {
         host: VideoService.bunkr,
@@ -9010,8 +9018,10 @@ class ThisVidHelper extends BaseHelper {
 ;// ./node_modules/@vot.js/ext/dist/helpers/ign.js
 
 
+
+
 class IgnHelper extends BaseHelper {
-    async getVideoData(videoId) {
+    getVideoDataBySource(videoId) {
         const url = document.querySelector('.icms.video > source[type="video/mp4"][data-quality="360"]')?.src;
         if (!url) {
             return this.returnBaseData(videoId);
@@ -9020,8 +9030,39 @@ class IgnHelper extends BaseHelper {
             url: proxyMedia(url),
         };
     }
+    getVideoDataByNext(videoId) {
+        try {
+            const nextContent = document.getElementById("__NEXT_DATA__")?.textContent;
+            if (!nextContent) {
+                throw new VideoDataError("Not found __NEXT_DATA__ content");
+            }
+            const data = JSON.parse(nextContent);
+            const { props: { pageProps: { page: { description, title, video: { videoMetadata: { duration }, assets, }, }, }, }, } = data;
+            const videoUrl = assets.find((asset) => asset.height === 360 && asset.url.includes(".mp4"))?.url;
+            if (!videoUrl) {
+                throw new VideoDataError("Not found video URL in assets");
+            }
+            return {
+                url: proxyMedia(videoUrl),
+                duration,
+                title,
+                description,
+            };
+        }
+        catch (err) {
+            Logger.warn(`Failed to get ign video data by video ID: ${videoId}, because ${err.message}. Using clear link instead...`);
+            return this.returnBaseData(videoId);
+        }
+    }
+    async getVideoData(videoId) {
+        if (document.getElementById("__NEXT_DATA__")) {
+            return this.getVideoDataByNext(videoId);
+        }
+        return this.getVideoDataBySource(videoId);
+    }
     async getVideoId(url) {
-        return /([^/]+)\/([\d]+)\/video\/([^/]+)/.exec(url.pathname)?.[0];
+        return (/([^/]+)\/([\d]+)\/video\/([^/]+)/.exec(url.pathname)?.[0] ??
+            /\/videos\/([^/]+)/.exec(url.pathname)?.[0]);
     }
 }
 
