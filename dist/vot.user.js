@@ -39,6 +39,7 @@
 // @match          *://*.vkvideo.ru/*
 // @match          *://*.vk.ru/*
 // @match          *://*.vimeo.com/*
+// @match          *://*.imdb.com/*
 // @match          *://*.9gag.com/*
 // @match          *://*.twitter.com/*
 // @match          *://*.x.com/*
@@ -90,7 +91,6 @@
 // @match          *://developer.apple.com/*
 // @match          *://dev.epicgames.com/*
 // @match          *://*.rapid-cloud.co/*
-// @match          *://9animetv.to/*
 // @match          *://odysee.com/*
 // @match          *://learning.sap.com/*
 // @match          *://*.watchporn.to/*
@@ -1131,7 +1131,7 @@ class PitchShifter {
 
 ;// ./node_modules/chaimu/dist/debug.js
 
-/* harmony default export */ const debug = ({
+/* harmony default export */ const dist_debug = ({
     log: (...text) => {
         if (!config.debug) {
             return;
@@ -1181,7 +1181,7 @@ class BasePlayer {
         return this;
     }
     handleVideoEvent = (event) => {
-        debug.log(`handle video ${event.type}`);
+        dist_debug.log(`handle video ${event.type}`);
         this.lipSync(event.type);
         return this;
     };
@@ -1274,17 +1274,17 @@ class AudioPlayer extends BasePlayer {
         console.error("[AudioPlayer]", e);
     };
     lipSync(mode = false) {
-        debug.log("[AudioPlayer] lipsync video", this.chaimu.video);
+        dist_debug.log("[AudioPlayer] lipsync video", this.chaimu.video);
         if (!this.chaimu.video) {
             return this;
         }
         this.audio.currentTime = this.chaimu.video.currentTime;
         this.audio.playbackRate = this.chaimu.video.playbackRate;
         if (!mode) {
-            debug.log("[AudioPlayer] lipsync mode isn't set");
+            dist_debug.log("[AudioPlayer] lipsync mode isn't set");
             return this;
         }
-        debug.log(`[AudioPlayer] lipsync mode is ${mode}`);
+        dist_debug.log(`[AudioPlayer] lipsync mode is ${mode}`);
         switch (mode) {
             case "play":
             case "playing":
@@ -1313,18 +1313,18 @@ class AudioPlayer extends BasePlayer {
         });
     }
     syncPlay() {
-        debug.log("[AudioPlayer] sync play called");
+        dist_debug.log("[AudioPlayer] sync play called");
         this.audio.play().catch(this.audioErrorHandle);
         return this;
     }
     async play() {
-        debug.log("[AudioPlayer] play called");
+        dist_debug.log("[AudioPlayer] play called");
         await this.audio.play().catch(this.audioErrorHandle);
         return this;
     }
     async pause() {
         return new Promise((resolve) => {
-            debug.log("[AudioPlayer] pause called");
+            dist_debug.log("[AudioPlayer] pause called");
             this.audio.pause();
             return resolve(this);
         });
@@ -1377,10 +1377,10 @@ class ChaimuPlayer extends BasePlayer {
         if (!this.chaimu.audioContext) {
             throw new Error("No audio context available");
         }
-        debug.log(`[ChaimuPlayer] Fetching audio from ${this._src}...`);
+        dist_debug.log(`[ChaimuPlayer] Fetching audio from ${this._src}...`);
         try {
             const res = await this.fetch(this._src, this.fetchOpts);
-            debug.log(`[ChaimuPlayer] Decoding fetched audio...`);
+            dist_debug.log(`[ChaimuPlayer] Decoding fetched audio...`);
             const data = await res.arrayBuffer();
             this.audioBuffer = await this.chaimu.audioContext.decodeAudioData(data);
         }
@@ -1405,15 +1405,15 @@ class ChaimuPlayer extends BasePlayer {
         return this;
     }
     lipSync(mode = false) {
-        debug.log("[ChaimuPlayer] lipsync video", this.chaimu.video, this);
+        dist_debug.log("[ChaimuPlayer] lipsync video", this.chaimu.video, this);
         if (!this.chaimu.video) {
             return this;
         }
         if (!mode) {
-            debug.log("[ChaimuPlayer] lipsync mode isn't set");
+            dist_debug.log("[ChaimuPlayer] lipsync mode isn't set");
             return this;
         }
-        debug.log(`[ChaimuPlayer] lipsync mode is ${mode}`);
+        dist_debug.log(`[ChaimuPlayer] lipsync mode is ${mode}`);
         switch (mode) {
             case "play":
             case "playing":
@@ -1449,7 +1449,7 @@ class ChaimuPlayer extends BasePlayer {
         if (!this.chaimu.audioContext) {
             throw new Error("No audio context available");
         }
-        debug.log("clear audio context");
+        dist_debug.log("clear audio context");
         this.cleanerRunned = true;
         await this.pause();
         if (!this.gainNode) {
@@ -1484,14 +1484,14 @@ class ChaimuPlayer extends BasePlayer {
         }
         if (!this.gainNode ||
             (this.audioShifter && this.audioShifter.duration < this.chaimu.video.currentTime)) {
-            debug.log("Skip starting player");
+            dist_debug.log("Skip starting player");
             return this;
         }
         if (this.cleanerRunned) {
-            debug.log("The other cleaner is still running, waiting...");
+            dist_debug.log("The other cleaner is still running, waiting...");
             return this;
         }
-        debug.log("starting audio");
+        dist_debug.log("starting audio");
         await this.clear();
         await this.play();
         this.audioShifter = new PitchShifter(this.chaimu.audioContext, this.audioBuffer, 1024);
@@ -1606,7 +1606,7 @@ class Chaimu {
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.3.11",
+    version: "2.3.12",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -1622,34 +1622,34 @@ var LoggerLevel;
 ;// ./node_modules/@vot.js/shared/dist/utils/logger.js
 
 
-class Logger {
+class logger_Logger {
     static prefix = `[vot.js v${data_config.version}]`;
     static canLog(level) {
         return data_config.loggerLevel <= level;
     }
     static log(...messages) {
-        if (!Logger.canLog(LoggerLevel.DEBUG)) {
+        if (!logger_Logger.canLog(LoggerLevel.DEBUG)) {
             return;
         }
-        console.log(Logger.prefix, ...messages);
+        console.log(logger_Logger.prefix, ...messages);
     }
     static info(...messages) {
-        if (!Logger.canLog(LoggerLevel.INFO)) {
+        if (!logger_Logger.canLog(LoggerLevel.INFO)) {
             return;
         }
-        console.info(Logger.prefix, ...messages);
+        console.info(logger_Logger.prefix, ...messages);
     }
     static warn(...messages) {
-        if (!Logger.canLog(LoggerLevel.WARN)) {
+        if (!logger_Logger.canLog(LoggerLevel.WARN)) {
             return;
         }
-        console.warn(Logger.prefix, ...messages);
+        console.warn(logger_Logger.prefix, ...messages);
     }
     static error(...messages) {
-        if (!Logger.canLog(LoggerLevel.ERROR)) {
+        if (!logger_Logger.canLog(LoggerLevel.ERROR)) {
             return;
         }
-        console.error(Logger.prefix, ...messages);
+        console.error(logger_Logger.prefix, ...messages);
     }
 }
 
@@ -1970,7 +1970,7 @@ function varint32read() {
 }
 
 ;// ./node_modules/@bufbuild/protobuf/dist/esm/proto-int64.js
-// Copyright 2021-2025 Buf Technologies, Inc.
+// Copyright 2021-2024 Buf Technologies, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -2095,7 +2095,7 @@ function assertUInt64String(value) {
 }
 
 ;// ./node_modules/@bufbuild/protobuf/dist/esm/wire/text-encoding.js
-// Copyright 2021-2025 Buf Technologies, Inc.
+// Copyright 2021-2024 Buf Technologies, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -2147,7 +2147,7 @@ function getTextEncoding() {
 }
 
 ;// ./node_modules/@bufbuild/protobuf/dist/esm/wire/binary-encoding.js
-// Copyright 2021-2025 Buf Technologies, Inc.
+// Copyright 2021-2024 Buf Technologies, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -4734,7 +4734,6 @@ var VideoService;
     VideoService["appledeveloper"] = "apple_developer";
     VideoService["poketube"] = "poketube";
     VideoService["epicgames"] = "epicgames";
-    VideoService["nineanimetv"] = "nineanimetv";
     VideoService["odysee"] = "odysee";
     VideoService["coursehunterLike"] = "coursehunterLike";
     VideoService["sap"] = "sap";
@@ -4751,6 +4750,7 @@ var VideoService;
     VideoService["thisvid"] = "thisvid";
     VideoService["ign"] = "ign";
     VideoService["bunkr"] = "bunkr";
+    VideoService["imdb"] = "imdb";
 })(VideoService || (VideoService = {}));
 
 ;// ./node_modules/@vot.js/core/dist/utils/vot.js
@@ -5115,7 +5115,7 @@ async function GM_fetch(url, opts = {}) {
   } catch (err) {
     // Если fetch завершился ошибкой, используем GM_xmlhttpRequest
     // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
-    utils_debug.log("GM_fetch preventing CORS by GM_xmlhttpRequest", err.message);
+    debug.log("GM_fetch preventing CORS by GM_xmlhttpRequest", err.message);
 
     return new Promise((resolve, reject) => {
       GM_xmlhttpRequest({
@@ -5520,7 +5520,7 @@ class client_VOTClient extends MinimalClient {
             throw new VOTLocalizedError("requestTranslationFailed");
         }
         const translationData = YandexVOTProtobuf.decodeTranslationResponse(res.data);
-        Logger.log("translateVideo", translationData);
+        logger_Logger.log("translateVideo", translationData);
         const { status, translationId, } = translationData;
         switch (status) {
             case VideoTranslationStatus.FAILED:
@@ -5568,7 +5568,7 @@ class client_VOTClient extends MinimalClient {
                     remainingTime: translationData.remainingTime ?? -1,
                 };
             default:
-                Logger.error("Unknown response", translationData);
+                logger_Logger.error("Unknown response", translationData);
                 throw new VOTJSError("Unknown response from Yandex", translationData);
         }
     }
@@ -5783,7 +5783,7 @@ class client_VOTClient extends MinimalClient {
                 };
             }
             default:
-                Logger.error("Unknown response", translateResponse);
+                logger_Logger.error("Unknown response", translateResponse);
                 throw new VOTJSError("Unknown response from Yandex", translateResponse);
         }
     }
@@ -6337,13 +6337,6 @@ var ExtVideoService;
         needExtraData: true,
     },
     {
-        host: VideoService.nineanimetv,
-        url: "https://9animetv.to/watch/",
-        match: /^rapid-cloud.co$/,
-        selector: ".jw-media",
-        needExtraData: true,
-    },
-    {
         host: VideoService.odysee,
         url: "stub",
         match: /^odysee.com$/,
@@ -6483,6 +6476,12 @@ var ExtVideoService;
         match: /^bunkr.(site|black|cat|media|red|site|ws|org|s[kiu]|c[ir]|fi|p[hks]|ru|la|is|to|a[cx])$/,
         needExtraData: true,
         selector: ".plyr__video-wrapper",
+    },
+    {
+        host: VideoService.imdb,
+        url: "https://www.imdb.com/video/",
+        match: /^(www.)?imdb.com$/,
+        selector: ".jw-media",
     },
     {
         host: VideoService.custom,
@@ -7125,119 +7124,6 @@ class EpicGamesHelper extends BaseHelper {
                 return resolve(videoId);
             });
             window.top.postMessage(`getVideoId:${reqId}`, origin);
-        });
-    }
-}
-
-;// ./node_modules/@vot.js/ext/dist/helpers/nineanimetv.js
-
-
-
-class NineAnimeTVHelper extends BaseHelper {
-    API_ORIGIN = "https://9animetv.to/ajax/episode";
-    RAPID_CLOUD_ORIGIN = "https://rapid-cloud.co/ajax/embed-6-v2";
-    async getSourceId(episodeId) {
-        try {
-            const res = await this.fetch(`${this.API_ORIGIN}/servers?episodeId=${episodeId}`);
-            const content = (await res.json());
-            if (!content.html) {
-                return false;
-            }
-            return /data-id="(\d+)"/.exec(content.html)?.[1];
-        }
-        catch (err) {
-            Logger.error(`Failed to get 9animetv servers info by episodeId: ${episodeId}.`, err.message);
-            return false;
-        }
-    }
-    async getPlayerLink(sourceId) {
-        try {
-            const res = await this.fetch(`${this.API_ORIGIN}/sources?id=${sourceId}`);
-            const content = (await res.json());
-            if (!content.link.includes("rapid-cloud.co")) {
-                return false;
-            }
-            return content.link;
-        }
-        catch (err) {
-            Logger.error(`Failed to get player link by sourceId: ${sourceId}.`, err.message);
-            return false;
-        }
-    }
-    async getRapidCloudData(rapidId) {
-        try {
-            const res = await this.fetch(`${this.RAPID_CLOUD_ORIGIN}/getSources?id=${rapidId}`);
-            const content = (await res.json());
-            if (content.encrypted) {
-                Logger.warn("Encrypted RapidCloud data found. Let us know about it", content);
-                return false;
-            }
-            return content;
-        }
-        catch (err) {
-            Logger.error(`Failed to get rapid cloud data by rapidId: ${rapidId}.`, err.message);
-            return false;
-        }
-    }
-    async getVideoData(videoId) {
-        const episodeId = videoId.split("?ep=")[1];
-        const sourceId = await this.getSourceId(episodeId);
-        if (!sourceId) {
-            return undefined;
-        }
-        const playerLink = await this.getPlayerLink(sourceId);
-        if (!playerLink) {
-            return undefined;
-        }
-        const rapidCloudId = /\/([^/?]+)\?/.exec(playerLink)?.[1];
-        if (!rapidCloudId) {
-            return undefined;
-        }
-        const rapidData = await this.getRapidCloudData(rapidCloudId);
-        if (!rapidData) {
-            return undefined;
-        }
-        const videoUrl = rapidData.sources.find((file) => file.type === "hls")?.file;
-        if (!videoUrl) {
-            return undefined;
-        }
-        const subtitles = rapidData.tracks.reduce((result, track) => {
-            const fileName = /([\w+]+)(-\d)?\.vtt/.exec(track.file)?.[1];
-            if (!fileName) {
-                return result;
-            }
-            const lang = fileName.length === 3 ? fileName : track.label;
-            const language = normalizeLang(lang);
-            if (result.find((t) => t.language === language)) {
-                return result;
-            }
-            result.push({
-                language,
-                source: "nineanimetv",
-                format: "vtt",
-                url: track.file,
-            });
-            return result;
-        }, []);
-        return {
-            url: videoUrl,
-            subtitles,
-        };
-    }
-    async getVideoId(url) {
-        return new Promise((resolve) => {
-            const origin = "https://9animetv.to";
-            window.addEventListener("message", (e) => {
-                if (e.origin !== origin) {
-                    return undefined;
-                }
-                if (typeof e.data === "string" && e.data.startsWith("getVideoId:")) {
-                    const videoId = e.data.replace("getVideoId:", "");
-                    return resolve(videoId);
-                }
-                return undefined;
-            });
-            window.top.postMessage("getVideoId", origin);
         });
     }
 }
@@ -8113,10 +7999,10 @@ class PornTNHelper extends BaseHelper {
             }
             const getFileUrl = new URL(source);
             getFileUrl.searchParams.append("rnd", rnd);
-            Logger.log("PornTN get_file link", getFileUrl.href);
+            logger_Logger.log("PornTN get_file link", getFileUrl.href);
             const cdnResponse = await this.fetch(getFileUrl.href, { method: "head" });
             const cdnUrl = new URL(cdnResponse.url);
-            Logger.log("PornTN cdn link", cdnUrl.href);
+            logger_Logger.log("PornTN cdn link", cdnUrl.href);
             const proxiedUrl = proxyMedia(cdnUrl);
             return {
                 url: proxiedUrl,
@@ -8363,7 +8249,7 @@ class YoutubeHelper extends BaseHelper {
         return false;
     }
     static videoSeek(video, time) {
-        Logger.log("videoSeek", time);
+        logger_Logger.log("videoSeek", time);
         const preTime = YoutubeHelper.getPlayer()?.getProgressState()?.seekableEnd ??
             video.currentTime;
         const finalTime = preTime - time;
@@ -8414,7 +8300,7 @@ class YoutubeHelper extends BaseHelper {
             }
             return result;
         }, []);
-        Logger.log("youtube subtitles:", subtitles);
+        logger_Logger.log("youtube subtitles:", subtitles);
         return subtitles;
     }
     static getLanguage() {
@@ -8547,7 +8433,7 @@ class UdemyHelper extends BaseHelper {
         }
         const { courseId } = moduleData;
         const lectureId = this.getLectureId();
-        Logger.log(`[Udemy] courseId: ${courseId}, lectureId: ${lectureId}`);
+        logger_Logger.log(`[Udemy] courseId: ${courseId}, lectureId: ${lectureId}`);
         if (!lectureId) {
             return undefined;
         }
@@ -8559,7 +8445,7 @@ class UdemyHelper extends BaseHelper {
         const { length: duration, media_sources, captions } = asset;
         const videoUrl = this.findVideoUrl(media_sources);
         if (!videoUrl) {
-            Logger.log("Failed to find .mp4 video file in media_sources", media_sources);
+            logger_Logger.log("Failed to find .mp4 video file in media_sources", media_sources);
             return undefined;
         }
         let courseLang = "en";
@@ -8573,7 +8459,7 @@ class UdemyHelper extends BaseHelper {
         }
         const subtitleUrl = this.findSubtitleUrl(captions, courseLang);
         if (!subtitleUrl) {
-            Logger.log("Failed to find subtitle file in captions", captions);
+            logger_Logger.log("Failed to find subtitle file in captions", captions);
         }
         return {
             ...(subtitleUrl
@@ -8660,7 +8546,7 @@ class CourseraHelper extends VideoJSHelper {
             data.subtitles?.[0];
         const subtitleUrl = subtitleItem?.url;
         if (!subtitleUrl) {
-            Logger.warn("Failed to find any subtitle file");
+            logger_Logger.warn("Failed to find any subtitle file");
         }
         const { url, duration } = data;
         const translationHelp = subtitleUrl
@@ -9083,6 +8969,14 @@ class BunkrHelper extends BaseHelper {
     }
 }
 
+;// ./node_modules/@vot.js/ext/dist/helpers/imdb.js
+
+class IMDbHelper extends BaseHelper {
+    async getVideoId(url) {
+        return /video\/([^/]+)/.exec(url.pathname)?.[1];
+    }
+}
+
 ;// ./node_modules/@vot.js/ext/dist/helpers/index.js
 
 
@@ -9207,7 +9101,6 @@ const availableHelpers = {
     [VideoService.kick]: KickHelper,
     [VideoService.appledeveloper]: AppleDeveloperHelper,
     [VideoService.epicgames]: EpicGamesHelper,
-    [VideoService.nineanimetv]: NineAnimeTVHelper,
     [VideoService.odysee]: OdyseeHelper,
     [VideoService.coursehunterLike]: CoursehunterLikeHelper,
     [VideoService.twitch]: TwitchHelper,
@@ -9253,6 +9146,7 @@ const availableHelpers = {
     [VideoService.thisvid]: ThisVidHelper,
     [VideoService.ign]: IgnHelper,
     [VideoService.bunkr]: BunkrHelper,
+    [VideoService.imdb]: IMDbHelper,
     [ExtVideoService.udemy]: UdemyHelper,
     [ExtVideoService.coursera]: CourseraHelper,
     [ExtVideoService.douyin]: DouyinHelper,
