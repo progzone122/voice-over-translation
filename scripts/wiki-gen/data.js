@@ -136,27 +136,23 @@ const siteData = {
   },
   patreon: {
     paths: ["/posts/POST_ID"],
-    limits: [locales.noSubtitles],
+    limits: [],
   },
   reddit: {
     paths: ["/r/SUB_REDDIT/comments/VIDEO_ID/VIDEO_NAME"],
-    limits: [locales.noSubtitles],
+    limits: [],
   },
   kick: {
     paths: ["/video/VIDEO_ID", "/NICKNAME?clip=clip_CLIPID"],
-    limits: [locales.noSubtitles, locales.noStreams],
+    limits: [locales.noStreams],
   },
   apple_developer: {
     paths: ["/videos/play/XXX/XXX"],
-    limits: [locales.noSubtitles],
+    limits: [],
   },
   epicgames: {
     paths: ["/community/learning/courses/XXX/XXX/XXX/XXX"],
-    limits: [locales.noSubtitles],
-  },
-  nineanimetv: {
-    paths: ["/watch/anime-name-ANIME_ID?ep=EPISODE_ID"],
-    limits: [locales.noSubtitles],
+    limits: [],
   },
   odysee: {
     paths: ["/@USERNAME/VIDEO_NAME"],

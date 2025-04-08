@@ -602,10 +602,6 @@ Available paths:
 
 - /posts/POST_ID
 
-Limitations:
-
-- There are no subtitles
-
 ## Reddit
 
 Status: [✅] Working
@@ -623,7 +619,6 @@ Available paths:
 
 Limitations:
 
-- There are no subtitles
 - To ensure that the script works, you need to [enable the "Bypass Media CSP" setting](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) in the extension or delete the CSP in another way
 
 ## Kick
@@ -641,7 +636,6 @@ Available paths:
 
 Limitations:
 
-- There are no subtitles
 - Translation of live broadcasts is not available
 
 ## Apple_developer
@@ -658,7 +652,6 @@ Available paths:
 
 Limitations:
 
-- There are no subtitles
 - To ensure that the script works, you need to [enable the "Bypass Media CSP" setting](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ) in the extension or delete the CSP in another way
 
 ## Epicgames
@@ -672,10 +665,6 @@ Available (sub)domains:
 Available paths:
 
 - /community/learning/courses/XXX/XXX/XXX/XXX
-
-Limitations:
-
-- There are no subtitles
 
 ## Odysee
 
