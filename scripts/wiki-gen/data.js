@@ -199,10 +199,13 @@ const siteData = {
     paths: ["/videos/VIDEO_ID", "/embed/VIDEO_ID"],
   },
   ign: {
-    paths: ["/XXX/CONTENT_ID/video/XXX"],
+    paths: ["/XXX/CONTENT_ID/video/XXX", "/videos/VIDEO_ID"],
   },
   bunkr: {
     paths: ["/f/VIDEO_ID"],
+  },
+  imdb: {
+    paths: ["/video/VIDEO_ID"],
   },
   directlink: {
     paths: ["/*.mp4", "/*.webm"],

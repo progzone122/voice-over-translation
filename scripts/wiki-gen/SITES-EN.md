@@ -677,22 +677,6 @@ Limitations:
 
 - There are no subtitles
 
-## 9AnimeTV
-
-Status: [✅] Working
-
-Available (sub)domains:
-
-- `9animetv.to (vidstreaming / vidcloud)`
-
-Available paths:
-
-- /watch/anime-name-ANIME_ID?ep=EPISODE_ID
-
-Limitations:
-
-- There are no subtitles
-
 ## Odysee
 
 Status: [✅] Working
@@ -907,12 +891,14 @@ Status: [✅] Working
 
 Available (sub)domains:
 
+- `(www.)?ign.com`
 - `ign.com`
 - `\w{2}.ign.com`
 
 Available paths:
 
 - /XXX/CONTENT_ID/video/XXX
+- /videos/VIDEO_ID
 
 ## Bunkr
 
@@ -940,6 +926,18 @@ Available (sub)domains:
 Available paths:
 
 - /f/VIDEO_ID
+
+## Imdb
+
+Status: [✅] Working
+
+Available (sub)domains:
+
+- `(www.)?imdb.com`
+
+Available paths:
+
+- /video/VIDEO_ID
 
 ## Direct link to MP4/WEBM
 

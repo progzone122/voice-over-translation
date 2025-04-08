@@ -677,22 +677,6 @@
 
 - Нет субтитров
 
-## 9AnimeTV
-
-Статус: [✅] Работает
-
-Доступные (под)домены:
-
-- `9animetv.to (vidstreaming / vidcloud)`
-
-Доступные пути:
-
-- /watch/anime-name-ANIME_ID?ep=EPISODE_ID
-
-Ограничения:
-
-- Нет субтитров
-
 ## Odysee
 
 Статус: [✅] Работает
@@ -907,12 +891,14 @@
 
 Доступные (под)домены:
 
+- `(www.)?ign.com`
 - `ign.com`
 - `\w{2}.ign.com`
 
 Доступные пути:
 
 - /XXX/CONTENT_ID/video/XXX
+- /videos/VIDEO_ID
 
 ## Bunkr
 
@@ -940,6 +926,18 @@
 Доступные пути:
 
 - /f/VIDEO_ID
+
+## Imdb
+
+Статус: [✅] Работает
+
+Доступные (под)домены:
+
+- `(www.)?imdb.com`
+
+Доступные пути:
+
+- /video/VIDEO_ID
 
 ## Direct link to MP4/WEBM
 
