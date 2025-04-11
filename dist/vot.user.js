@@ -1131,7 +1131,7 @@ class PitchShifter {
 
 ;// ./node_modules/chaimu/dist/debug.js
 
-/* harmony default export */ const dist_debug = ({
+/* harmony default export */ const debug = ({
     log: (...text) => {
         if (!config.debug) {
             return;
@@ -1181,7 +1181,7 @@ class BasePlayer {
         return this;
     }
     handleVideoEvent = (event) => {
-        dist_debug.log(`handle video ${event.type}`);
+        debug.log(`handle video ${event.type}`);
         this.lipSync(event.type);
         return this;
     };
@@ -1274,17 +1274,17 @@ class AudioPlayer extends BasePlayer {
         console.error("[AudioPlayer]", e);
     };
     lipSync(mode = false) {
-        dist_debug.log("[AudioPlayer] lipsync video", this.chaimu.video);
+        debug.log("[AudioPlayer] lipsync video", this.chaimu.video);
         if (!this.chaimu.video) {
             return this;
         }
         this.audio.currentTime = this.chaimu.video.currentTime;
         this.audio.playbackRate = this.chaimu.video.playbackRate;
         if (!mode) {
-            dist_debug.log("[AudioPlayer] lipsync mode isn't set");
+            debug.log("[AudioPlayer] lipsync mode isn't set");
             return this;
         }
-        dist_debug.log(`[AudioPlayer] lipsync mode is ${mode}`);
+        debug.log(`[AudioPlayer] lipsync mode is ${mode}`);
         switch (mode) {
             case "play":
             case "playing":
@@ -1313,18 +1313,18 @@ class AudioPlayer extends BasePlayer {
         });
     }
     syncPlay() {
-        dist_debug.log("[AudioPlayer] sync play called");
+        debug.log("[AudioPlayer] sync play called");
         this.audio.play().catch(this.audioErrorHandle);
         return this;
     }
     async play() {
-        dist_debug.log("[AudioPlayer] play called");
+        debug.log("[AudioPlayer] play called");
         await this.audio.play().catch(this.audioErrorHandle);
         return this;
     }
     async pause() {
         return new Promise((resolve) => {
-            dist_debug.log("[AudioPlayer] pause called");
+            debug.log("[AudioPlayer] pause called");
             this.audio.pause();
             return resolve(this);
         });
@@ -1377,10 +1377,10 @@ class ChaimuPlayer extends BasePlayer {
         if (!this.chaimu.audioContext) {
             throw new Error("No audio context available");
         }
-        dist_debug.log(`[ChaimuPlayer] Fetching audio from ${this._src}...`);
+        debug.log(`[ChaimuPlayer] Fetching audio from ${this._src}...`);
         try {
             const res = await this.fetch(this._src, this.fetchOpts);
-            dist_debug.log(`[ChaimuPlayer] Decoding fetched audio...`);
+            debug.log(`[ChaimuPlayer] Decoding fetched audio...`);
             const data = await res.arrayBuffer();
             this.audioBuffer = await this.chaimu.audioContext.decodeAudioData(data);
         }
@@ -1405,15 +1405,15 @@ class ChaimuPlayer extends BasePlayer {
         return this;
     }
     lipSync(mode = false) {
-        dist_debug.log("[ChaimuPlayer] lipsync video", this.chaimu.video, this);
+        debug.log("[ChaimuPlayer] lipsync video", this.chaimu.video, this);
         if (!this.chaimu.video) {
             return this;
         }
         if (!mode) {
-            dist_debug.log("[ChaimuPlayer] lipsync mode isn't set");
+            debug.log("[ChaimuPlayer] lipsync mode isn't set");
             return this;
         }
-        dist_debug.log(`[ChaimuPlayer] lipsync mode is ${mode}`);
+        debug.log(`[ChaimuPlayer] lipsync mode is ${mode}`);
         switch (mode) {
             case "play":
             case "playing":
@@ -1449,7 +1449,7 @@ class ChaimuPlayer extends BasePlayer {
         if (!this.chaimu.audioContext) {
             throw new Error("No audio context available");
         }
-        dist_debug.log("clear audio context");
+        debug.log("clear audio context");
         this.cleanerRunned = true;
         await this.pause();
         if (!this.gainNode) {
@@ -1484,14 +1484,14 @@ class ChaimuPlayer extends BasePlayer {
         }
         if (!this.gainNode ||
             (this.audioShifter && this.audioShifter.duration < this.chaimu.video.currentTime)) {
-            dist_debug.log("Skip starting player");
+            debug.log("Skip starting player");
             return this;
         }
         if (this.cleanerRunned) {
-            dist_debug.log("The other cleaner is still running, waiting...");
+            debug.log("The other cleaner is still running, waiting...");
             return this;
         }
-        dist_debug.log("starting audio");
+        debug.log("starting audio");
         await this.clear();
         await this.play();
         this.audioShifter = new PitchShifter(this.chaimu.audioContext, this.audioBuffer, 1024);
@@ -1622,34 +1622,34 @@ var LoggerLevel;
 ;// ./node_modules/@vot.js/shared/dist/utils/logger.js
 
 
-class logger_Logger {
+class Logger {
     static prefix = `[vot.js v${data_config.version}]`;
     static canLog(level) {
         return data_config.loggerLevel <= level;
     }
     static log(...messages) {
-        if (!logger_Logger.canLog(LoggerLevel.DEBUG)) {
+        if (!Logger.canLog(LoggerLevel.DEBUG)) {
             return;
         }
-        console.log(logger_Logger.prefix, ...messages);
+        console.log(Logger.prefix, ...messages);
     }
     static info(...messages) {
-        if (!logger_Logger.canLog(LoggerLevel.INFO)) {
+        if (!Logger.canLog(LoggerLevel.INFO)) {
             return;
         }
-        console.info(logger_Logger.prefix, ...messages);
+        console.info(Logger.prefix, ...messages);
     }
     static warn(...messages) {
-        if (!logger_Logger.canLog(LoggerLevel.WARN)) {
+        if (!Logger.canLog(LoggerLevel.WARN)) {
             return;
         }
-        console.warn(logger_Logger.prefix, ...messages);
+        console.warn(Logger.prefix, ...messages);
     }
     static error(...messages) {
-        if (!logger_Logger.canLog(LoggerLevel.ERROR)) {
+        if (!Logger.canLog(LoggerLevel.ERROR)) {
             return;
         }
-        console.error(logger_Logger.prefix, ...messages);
+        console.error(Logger.prefix, ...messages);
     }
 }
 
@@ -5115,7 +5115,7 @@ async function GM_fetch(url, opts = {}) {
   } catch (err) {
     // Если fetch завершился ошибкой, используем GM_xmlhttpRequest
     // https://greasyfork.org/ru/scripts/421384-gm-fetch/code
-    debug.log("GM_fetch preventing CORS by GM_xmlhttpRequest", err.message);
+    utils_debug.log("GM_fetch preventing CORS by GM_xmlhttpRequest", err.message);
 
     return new Promise((resolve, reject) => {
       GM_xmlhttpRequest({
@@ -5520,7 +5520,7 @@ class client_VOTClient extends MinimalClient {
             throw new VOTLocalizedError("requestTranslationFailed");
         }
         const translationData = YandexVOTProtobuf.decodeTranslationResponse(res.data);
-        logger_Logger.log("translateVideo", translationData);
+        Logger.log("translateVideo", translationData);
         const { status, translationId, } = translationData;
         switch (status) {
             case VideoTranslationStatus.FAILED:
@@ -5568,7 +5568,7 @@ class client_VOTClient extends MinimalClient {
                     remainingTime: translationData.remainingTime ?? -1,
                 };
             default:
-                logger_Logger.error("Unknown response", translationData);
+                Logger.error("Unknown response", translationData);
                 throw new VOTJSError("Unknown response from Yandex", translationData);
         }
     }
@@ -5783,7 +5783,7 @@ class client_VOTClient extends MinimalClient {
                 };
             }
             default:
-                logger_Logger.error("Unknown response", translateResponse);
+                Logger.error("Unknown response", translateResponse);
                 throw new VOTJSError("Unknown response from Yandex", translateResponse);
         }
     }
@@ -7999,10 +7999,10 @@ class PornTNHelper extends BaseHelper {
             }
             const getFileUrl = new URL(source);
             getFileUrl.searchParams.append("rnd", rnd);
-            logger_Logger.log("PornTN get_file link", getFileUrl.href);
+            Logger.log("PornTN get_file link", getFileUrl.href);
             const cdnResponse = await this.fetch(getFileUrl.href, { method: "head" });
             const cdnUrl = new URL(cdnResponse.url);
-            logger_Logger.log("PornTN cdn link", cdnUrl.href);
+            Logger.log("PornTN cdn link", cdnUrl.href);
             const proxiedUrl = proxyMedia(cdnUrl);
             return {
                 url: proxiedUrl,
@@ -8249,7 +8249,7 @@ class YoutubeHelper extends BaseHelper {
         return false;
     }
     static videoSeek(video, time) {
-        logger_Logger.log("videoSeek", time);
+        Logger.log("videoSeek", time);
         const preTime = YoutubeHelper.getPlayer()?.getProgressState()?.seekableEnd ??
             video.currentTime;
         const finalTime = preTime - time;
@@ -8300,7 +8300,7 @@ class YoutubeHelper extends BaseHelper {
             }
             return result;
         }, []);
-        logger_Logger.log("youtube subtitles:", subtitles);
+        Logger.log("youtube subtitles:", subtitles);
         return subtitles;
     }
     static getLanguage() {
@@ -8433,7 +8433,7 @@ class UdemyHelper extends BaseHelper {
         }
         const { courseId } = moduleData;
         const lectureId = this.getLectureId();
-        logger_Logger.log(`[Udemy] courseId: ${courseId}, lectureId: ${lectureId}`);
+        Logger.log(`[Udemy] courseId: ${courseId}, lectureId: ${lectureId}`);
         if (!lectureId) {
             return undefined;
         }
@@ -8445,7 +8445,7 @@ class UdemyHelper extends BaseHelper {
         const { length: duration, media_sources, captions } = asset;
         const videoUrl = this.findVideoUrl(media_sources);
         if (!videoUrl) {
-            logger_Logger.log("Failed to find .mp4 video file in media_sources", media_sources);
+            Logger.log("Failed to find .mp4 video file in media_sources", media_sources);
             return undefined;
         }
         let courseLang = "en";
@@ -8459,7 +8459,7 @@ class UdemyHelper extends BaseHelper {
         }
         const subtitleUrl = this.findSubtitleUrl(captions, courseLang);
         if (!subtitleUrl) {
-            logger_Logger.log("Failed to find subtitle file in captions", captions);
+            Logger.log("Failed to find subtitle file in captions", captions);
         }
         return {
             ...(subtitleUrl
@@ -8546,7 +8546,7 @@ class CourseraHelper extends VideoJSHelper {
             data.subtitles?.[0];
         const subtitleUrl = subtitleItem?.url;
         if (!subtitleUrl) {
-            logger_Logger.warn("Failed to find any subtitle file");
+            Logger.warn("Failed to find any subtitle file");
         }
         const { url, duration } = data;
         const translationHelp = subtitleUrl
