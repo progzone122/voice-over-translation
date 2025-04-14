@@ -329,11 +329,11 @@ var es5 = __webpack_require__("./node_modules/bowser/es5.js");
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const n=globalThis,c=n.trustedTypes,h=c?c.createPolicy("lit-html",{createHTML:t=>t}):void 0,f="$lit$",v=`lit$${Math.random().toFixed(9).slice(2)}$`,m="?"+v,_=`<${m}>`,w=document,lt=()=>w.createComment(""),st=t=>null===t||"object"!=typeof t&&"function"!=typeof t,g=Array.isArray,$=t=>g(t)||"function"==typeof t?.[Symbol.iterator],x="[ \t\n\f\r]",T=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,E=/-->/g,k=/>/g,O=RegExp(`>|${x}(?:([^\\s"'>=/]+)(${x}*=${x}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),S=/'/g,j=/"/g,M=/^(?:script|style|textarea|title)$/i,P=t=>(i,...s)=>({_$litType$:t,strings:i,values:s}),ke=P(1),Oe=P(2),Se=P(3),R=Symbol.for("lit-noChange"),D=Symbol.for("lit-nothing"),V=new WeakMap,I=w.createTreeWalker(w,129);function N(t,i){if(!g(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==h?h.createHTML(i):i}const U=(t,i)=>{const s=t.length-1,e=[];let h,o=2===i?"<svg>":3===i?"<math>":"",n=T;for(let i=0;i<s;i++){const s=t[i];let r,l,c=-1,a=0;for(;a<s.length&&(n.lastIndex=a,l=n.exec(s),null!==l);)a=n.lastIndex,n===T?"!--"===l[1]?n=E:void 0!==l[1]?n=k:void 0!==l[2]?(M.test(l[2])&&(h=RegExp("</"+l[2],"g")),n=O):void 0!==l[3]&&(n=O):n===O?">"===l[0]?(n=h??T,c=-1):void 0===l[1]?c=-2:(c=n.lastIndex-l[2].length,r=l[1],n=void 0===l[3]?O:'"'===l[3]?j:S):n===j||n===S?n=O:n===E||n===k?n=T:(n=O,h=void 0);const u=n===O&&t[i+1].startsWith("/>")?" ":"";o+=n===T?s+_:c>=0?(e.push(r),s.slice(0,c)+f+s.slice(c)+v+u):s+v+(-2===c?i:u)}return[N(t,o+(t[s]||"<?>")+(2===i?"</svg>":3===i?"</math>":"")),e]};class B{constructor({strings:t,_$litType$:i},s){let e;this.parts=[];let h=0,o=0;const n=t.length-1,r=this.parts,[l,a]=U(t,i);if(this.el=B.createElement(l,s),I.currentNode=this.el.content,2===i||3===i){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(e=I.nextNode())&&r.length<n;){if(1===e.nodeType){if(e.hasAttributes())for(const t of e.getAttributeNames())if(t.endsWith(f)){const i=a[o++],s=e.getAttribute(t).split(v),n=/([.?@])?(.*)/.exec(i);r.push({type:1,index:h,name:n[2],strings:s,ctor:"."===n[1]?Y:"?"===n[1]?Z:"@"===n[1]?q:G}),e.removeAttribute(t)}else t.startsWith(v)&&(r.push({type:6,index:h}),e.removeAttribute(t));if(M.test(e.tagName)){const t=e.textContent.split(v),i=t.length-1;if(i>0){e.textContent=c?c.emptyScript:"";for(let s=0;s<i;s++)e.append(t[s],lt()),I.nextNode(),r.push({type:2,index:++h});e.append(t[i],lt())}}}else if(8===e.nodeType)if(e.data===m)r.push({type:2,index:h});else{let t=-1;for(;-1!==(t=e.data.indexOf(v,t+1));)r.push({type:7,index:h}),t+=v.length-1}h++}}static createElement(t,i){const s=w.createElement("template");return s.innerHTML=t,s}}function z(t,i,s=t,e){if(i===R)return i;let h=void 0!==e?s.o?.[e]:s.l;const o=st(i)?void 0:i._$litDirective$;return h?.constructor!==o&&(h?._$AO?.(!1),void 0===o?h=void 0:(h=new o(t),h._$AT(t,s,e)),void 0!==e?(s.o??=[])[e]=h:s.l=h),void 0!==h&&(i=z(t,h._$AS(t,i.values),h,e)),i}class F{constructor(t,i){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=i}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:i},parts:s}=this._$AD,e=(t?.creationScope??w).importNode(i,!0);I.currentNode=e;let h=I.nextNode(),o=0,n=0,r=s[0];for(;void 0!==r;){if(o===r.index){let i;2===r.type?i=new et(h,h.nextSibling,this,t):1===r.type?i=new r.ctor(h,r.name,r.strings,this,t):6===r.type&&(i=new K(h,this,t)),this._$AV.push(i),r=s[++n]}o!==r?.index&&(h=I.nextNode(),o++)}return I.currentNode=w,e}p(t){let i=0;for(const s of this._$AV)void 0!==s&&(void 0!==s.strings?(s._$AI(t,s,i),i+=s.strings.length-2):s._$AI(t[i])),i++}}class et{get _$AU(){return this._$AM?._$AU??this.v}constructor(t,i,s,e){this.type=2,this._$AH=D,this._$AN=void 0,this._$AA=t,this._$AB=i,this._$AM=s,this.options=e,this.v=e?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const i=this._$AM;return void 0!==i&&11===t?.nodeType&&(t=i.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,i=this){t=z(this,t,i),st(t)?t===D||null==t||""===t?(this._$AH!==D&&this._$AR(),this._$AH=D):t!==this._$AH&&t!==R&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):$(t)?this.k(t):this._(t)}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t))}_(t){this._$AH!==D&&st(this._$AH)?this._$AA.nextSibling.data=t:this.T(w.createTextNode(t)),this._$AH=t}$(t){const{values:i,_$litType$:s}=t,e="number"==typeof s?this._$AC(t):(void 0===s.el&&(s.el=B.createElement(N(s.h,s.h[0]),this.options)),s);if(this._$AH?._$AD===e)this._$AH.p(i);else{const t=new F(e,this),s=t.u(this.options);t.p(i),this.T(s),this._$AH=t}}_$AC(t){let i=V.get(t.strings);return void 0===i&&V.set(t.strings,i=new B(t)),i}k(t){g(this._$AH)||(this._$AH=[],this._$AR());const i=this._$AH;let s,e=0;for(const h of t)e===i.length?i.push(s=new et(this.O(lt()),this.O(lt()),this,this.options)):s=i[e],s._$AI(h),e++;e<i.length&&(this._$AR(s&&s._$AB.nextSibling,e),i.length=e)}_$AR(t=this._$AA.nextSibling,i){for(this._$AP?.(!1,!0,i);t&&t!==this._$AB;){const i=t.nextSibling;t.remove(),t=i}}setConnected(t){void 0===this._$AM&&(this.v=t,this._$AP?.(t))}}class G{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,i,s,e,h){this.type=1,this._$AH=D,this._$AN=void 0,this.element=t,this.name=i,this._$AM=e,this.options=h,s.length>2||""!==s[0]||""!==s[1]?(this._$AH=Array(s.length-1).fill(new String),this.strings=s):this._$AH=D}_$AI(t,i=this,s,e){const h=this.strings;let o=!1;if(void 0===h)t=z(this,t,i,0),o=!st(t)||t!==this._$AH&&t!==R,o&&(this._$AH=t);else{const e=t;let n,r;for(t=h[0],n=0;n<h.length-1;n++)r=z(this,e[s+n],i,n),r===R&&(r=this._$AH[n]),o||=!st(r)||r!==this._$AH[n],r===D?t=D:t!==D&&(t+=(r??"")+h[n+1]),this._$AH[n]=r}o&&!e&&this.j(t)}j(t){t===D?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class Y extends G{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===D?void 0:t}}class Z extends G{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==D)}}class q extends G{constructor(t,i,s,e,h){super(t,i,s,e,h),this.type=5}_$AI(t,i=this){if((t=z(this,t,i,0)??D)===R)return;const s=this._$AH,e=t===D&&s!==D||t.capture!==s.capture||t.once!==s.once||t.passive!==s.passive,h=t!==D&&(s===D||e);e&&this.element.removeEventListener(this.name,this,s),h&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class K{constructor(t,i,s){this.element=t,this.type=6,this._$AN=void 0,this._$AM=i,this.options=s}get _$AU(){return this._$AM._$AU}_$AI(t){z(this,t)}}const si={M:f,P:v,A:m,C:1,L:U,R:F,D:$,V:z,I:et,H:G,N:Z,U:q,B:Y,F:K},Re=n.litHtmlPolyfillSupport;Re?.(B,et),(n.litHtmlVersions??=[]).push("3.2.0");const Q=(t,i,s)=>{const e=s?.renderBefore??i;let h=e._$litPart$;if(void 0===h){const t=s?.renderBefore??null;e._$litPart$=h=new et(i.insertBefore(lt(),t),t,void 0,s??{})}return h._$AI(t),h};
+const t=globalThis,i=t.trustedTypes,s=i?i.createPolicy("lit-html",{createHTML:t=>t}):void 0,e="$lit$",h=`lit$${Math.random().toFixed(9).slice(2)}$`,o="?"+h,n=`<${o}>`,r=document,l=()=>r.createComment(""),c=t=>null===t||"object"!=typeof t&&"function"!=typeof t,a=Array.isArray,u=t=>a(t)||"function"==typeof t?.[Symbol.iterator],d="[ \t\n\f\r]",f=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,v=/-->/g,_=/>/g,m=RegExp(`>|${d}(?:([^\\s"'>=/]+)(${d}*=${d}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),p=/'/g,g=/"/g,$=/^(?:script|style|textarea|title)$/i,y=t=>(i,...s)=>({_$litType$:t,strings:i,values:s}),x=y(1),b=y(2),w=y(3),T=Symbol.for("lit-noChange"),E=Symbol.for("lit-nothing"),A=new WeakMap,C=r.createTreeWalker(r,129);function P(t,i){if(!a(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==s?s.createHTML(i):i}const V=(t,i)=>{const s=t.length-1,o=[];let r,l=2===i?"<svg>":3===i?"<math>":"",c=f;for(let i=0;i<s;i++){const s=t[i];let a,u,d=-1,y=0;for(;y<s.length&&(c.lastIndex=y,u=c.exec(s),null!==u);)y=c.lastIndex,c===f?"!--"===u[1]?c=v:void 0!==u[1]?c=_:void 0!==u[2]?($.test(u[2])&&(r=RegExp("</"+u[2],"g")),c=m):void 0!==u[3]&&(c=m):c===m?">"===u[0]?(c=r??f,d=-1):void 0===u[1]?d=-2:(d=c.lastIndex-u[2].length,a=u[1],c=void 0===u[3]?m:'"'===u[3]?g:p):c===g||c===p?c=m:c===v||c===_?c=f:(c=m,r=void 0);const x=c===m&&t[i+1].startsWith("/>")?" ":"";l+=c===f?s+n:d>=0?(o.push(a),s.slice(0,d)+e+s.slice(d)+h+x):s+h+(-2===d?i:x)}return[P(t,l+(t[s]||"<?>")+(2===i?"</svg>":3===i?"</math>":"")),o]};class N{constructor({strings:t,_$litType$:s},n){let r;this.parts=[];let c=0,a=0;const u=t.length-1,d=this.parts,[f,v]=V(t,s);if(this.el=N.createElement(f,n),C.currentNode=this.el.content,2===s||3===s){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(r=C.nextNode())&&d.length<u;){if(1===r.nodeType){if(r.hasAttributes())for(const t of r.getAttributeNames())if(t.endsWith(e)){const i=v[a++],s=r.getAttribute(t).split(h),e=/([.?@])?(.*)/.exec(i);d.push({type:1,index:c,name:e[2],strings:s,ctor:"."===e[1]?H:"?"===e[1]?I:"@"===e[1]?L:k}),r.removeAttribute(t)}else t.startsWith(h)&&(d.push({type:6,index:c}),r.removeAttribute(t));if($.test(r.tagName)){const t=r.textContent.split(h),s=t.length-1;if(s>0){r.textContent=i?i.emptyScript:"";for(let i=0;i<s;i++)r.append(t[i],l()),C.nextNode(),d.push({type:2,index:++c});r.append(t[s],l())}}}else if(8===r.nodeType)if(r.data===o)d.push({type:2,index:c});else{let t=-1;for(;-1!==(t=r.data.indexOf(h,t+1));)d.push({type:7,index:c}),t+=h.length-1}c++}}static createElement(t,i){const s=r.createElement("template");return s.innerHTML=t,s}}function S(t,i,s=t,e){if(i===T)return i;let h=void 0!==e?s._$Co?.[e]:s._$Cl;const o=c(i)?void 0:i._$litDirective$;return h?.constructor!==o&&(h?._$AO?.(!1),void 0===o?h=void 0:(h=new o(t),h._$AT(t,s,e)),void 0!==e?(s._$Co??=[])[e]=h:s._$Cl=h),void 0!==h&&(i=S(t,h._$AS(t,i.values),h,e)),i}class M{constructor(t,i){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=i}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:i},parts:s}=this._$AD,e=(t?.creationScope??r).importNode(i,!0);C.currentNode=e;let h=C.nextNode(),o=0,n=0,l=s[0];for(;void 0!==l;){if(o===l.index){let i;2===l.type?i=new R(h,h.nextSibling,this,t):1===l.type?i=new l.ctor(h,l.name,l.strings,this,t):6===l.type&&(i=new z(h,this,t)),this._$AV.push(i),l=s[++n]}o!==l?.index&&(h=C.nextNode(),o++)}return C.currentNode=r,e}p(t){let i=0;for(const s of this._$AV)void 0!==s&&(void 0!==s.strings?(s._$AI(t,s,i),i+=s.strings.length-2):s._$AI(t[i])),i++}}class R{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,i,s,e){this.type=2,this._$AH=E,this._$AN=void 0,this._$AA=t,this._$AB=i,this._$AM=s,this.options=e,this._$Cv=e?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const i=this._$AM;return void 0!==i&&11===t?.nodeType&&(t=i.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,i=this){t=S(this,t,i),c(t)?t===E||null==t||""===t?(this._$AH!==E&&this._$AR(),this._$AH=E):t!==this._$AH&&t!==T&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):u(t)?this.k(t):this._(t)}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t))}_(t){this._$AH!==E&&c(this._$AH)?this._$AA.nextSibling.data=t:this.T(r.createTextNode(t)),this._$AH=t}$(t){const{values:i,_$litType$:s}=t,e="number"==typeof s?this._$AC(t):(void 0===s.el&&(s.el=N.createElement(P(s.h,s.h[0]),this.options)),s);if(this._$AH?._$AD===e)this._$AH.p(i);else{const t=new M(e,this),s=t.u(this.options);t.p(i),this.T(s),this._$AH=t}}_$AC(t){let i=A.get(t.strings);return void 0===i&&A.set(t.strings,i=new N(t)),i}k(t){a(this._$AH)||(this._$AH=[],this._$AR());const i=this._$AH;let s,e=0;for(const h of t)e===i.length?i.push(s=new R(this.O(l()),this.O(l()),this,this.options)):s=i[e],s._$AI(h),e++;e<i.length&&(this._$AR(s&&s._$AB.nextSibling,e),i.length=e)}_$AR(t=this._$AA.nextSibling,i){for(this._$AP?.(!1,!0,i);t&&t!==this._$AB;){const i=t.nextSibling;t.remove(),t=i}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t))}}class k{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,i,s,e,h){this.type=1,this._$AH=E,this._$AN=void 0,this.element=t,this.name=i,this._$AM=e,this.options=h,s.length>2||""!==s[0]||""!==s[1]?(this._$AH=Array(s.length-1).fill(new String),this.strings=s):this._$AH=E}_$AI(t,i=this,s,e){const h=this.strings;let o=!1;if(void 0===h)t=S(this,t,i,0),o=!c(t)||t!==this._$AH&&t!==T,o&&(this._$AH=t);else{const e=t;let n,r;for(t=h[0],n=0;n<h.length-1;n++)r=S(this,e[s+n],i,n),r===T&&(r=this._$AH[n]),o||=!c(r)||r!==this._$AH[n],r===E?t=E:t!==E&&(t+=(r??"")+h[n+1]),this._$AH[n]=r}o&&!e&&this.j(t)}j(t){t===E?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class H extends k{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===E?void 0:t}}class I extends k{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==E)}}class L extends k{constructor(t,i,s,e,h){super(t,i,s,e,h),this.type=5}_$AI(t,i=this){if((t=S(this,t,i,0)??E)===T)return;const s=this._$AH,e=t===E&&s!==E||t.capture!==s.capture||t.once!==s.once||t.passive!==s.passive,h=t!==E&&(s===E||e);e&&this.element.removeEventListener(this.name,this,s),h&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class z{constructor(t,i,s){this.element=t,this.type=6,this._$AN=void 0,this._$AM=i,this.options=s}get _$AU(){return this._$AM._$AU}_$AI(t){S(this,t)}}const Z={M:e,P:h,A:o,C:1,L:V,R:M,D:u,V:S,I:R,H:k,N:I,U:L,B:H,F:z},j=t.litHtmlPolyfillSupport;j?.(N,R),(t.litHtmlVersions??=[]).push("3.3.0");const B=(t,i,s)=>{const e=s?.renderBefore??i;let h=e._$litPart$;if(void 0===h){const t=s?.renderBefore??null;e._$litPart$=h=new R(i.insertBefore(l(),t),t,void 0,s??{})}return h._$AI(t),h};
 //# sourceMappingURL=lit-html.js.map
 
 ;// ./node_modules/browser-id3-writer/dist/browser-id3-writer.mjs
-function e(e){return String(e).split("").map((e=>e.charCodeAt(0)))}function t(t){return new Uint8Array(e(t))}function a(t){const a=new ArrayBuffer(2*t.length),r=new Uint8Array(a);return new Uint16Array(a).set(e(t)),r}function r(e){const t=255;return[e>>>24&t,e>>>16&t,e>>>8&t,e&t]}function browser_id3_writer_n(e){return 11+e}function s(e,t,a,r){return 11+t+1+1+(r?2+2*(a+1):a+1)+e}function i(e){let t=0;return e.forEach((e=>{t+=2+2*e[0].length+2+2+2*e[1].length+2})),11+t}function browser_id3_writer_c(e,t){const a=2*t;let r=0;return e.forEach((e=>{r+=2+2*e[0].length+2+4})),18+a+2+r}class o{_setIntegerFrame(e,t){const a=parseInt(t,10);this.frames.push({name:e,value:a,size:browser_id3_writer_n(a.toString().length)})}_setStringFrame(e,t){const a=t.toString();let r=13+2*a.length;"TDAT"===e&&(r=browser_id3_writer_n(a.length)),this.frames.push({name:e,value:a,size:r})}_setPictureFrame(e,t,a,r){const n=function(e){if(!e||!e.length)return null;if(255===e[0]&&216===e[1]&&255===e[2])return"image/jpeg";if(137===e[0]&&80===e[1]&&78===e[2]&&71===e[3])return"image/png";if(71===e[0]&&73===e[1]&&70===e[2])return"image/gif";if(87===e[8]&&69===e[9]&&66===e[10]&&80===e[11])return"image/webp";const t=73===e[0]&&73===e[1]&&42===e[2]&&0===e[3],a=77===e[0]&&77===e[1]&&0===e[2]&&42===e[3];return t||a?"image/tiff":66===e[0]&&77===e[1]?"image/bmp":0===e[0]&&0===e[1]&&1===e[2]&&0===e[3]?"image/x-icon":null}(new Uint8Array(t)),i=a.toString();if(!n)throw new Error("Unknown picture MIME type");a||(r=!1),this.frames.push({name:"APIC",value:t,pictureType:e,mimeType:n,useUnicodeEncoding:r,description:i,size:s(t.byteLength,n.length,i.length,r)})}_setLyricsFrame(e,t,a){const r=e.split("").map((e=>e.charCodeAt(0))),n=t.toString(),s=a.toString();var i,c;this.frames.push({name:"USLT",value:s,language:r,description:n,size:(i=n.length,c=s.length,16+2*i+2+2+2*c)})}_setCommentFrame(e,t,a){const r=e.split("").map((e=>e.charCodeAt(0))),n=t.toString(),s=a.toString();var i,c;this.frames.push({name:"COMM",value:s,language:r,description:n,size:(i=n.length,c=s.length,16+2*i+2+2+2*c)})}_setPrivateFrame(e,t){const a=e.toString();var r,n;this.frames.push({name:"PRIV",value:t,id:a,size:(r=a.length,n=t.byteLength,10+r+1+n)})}_setUserStringFrame(e,t){const a=e.toString(),r=t.toString();var n,s;this.frames.push({name:"TXXX",description:a,value:r,size:(n=a.length,s=r.length,13+2*n+2+2+2*s)})}_setUrlLinkFrame(e,t){const a=t.toString();var r;this.frames.push({name:e,value:a,size:(r=a.length,10+r)})}_setPairedTextFrame(e,t){this.frames.push({name:e,value:t,size:i(t)})}_setSynchronisedLyricsFrame(e,t,a,r,n){const s=n.toString(),i=r.split("").map((e=>e.charCodeAt(0)));this.frames.push({name:"SYLT",value:t,language:i,description:s,type:e,timestampFormat:a,size:browser_id3_writer_c(t,s.length)})}constructor(e){if(!e||"object"!=typeof e||!("byteLength"in e))throw new Error("First argument should be an instance of ArrayBuffer or Buffer");this.arrayBuffer=e,this.padding=4096,this.frames=[],this.url=""}setFrame(e,t){switch(e){case"TPE1":case"TCOM":case"TCON":{if(!Array.isArray(t))throw new Error(`${e} frame value should be an array of strings`);const a="TCON"===e?";":"/",r=t.join(a);this._setStringFrame(e,r);break}case"TLAN":case"TIT1":case"TIT2":case"TIT3":case"TALB":case"TPE2":case"TPE3":case"TPE4":case"TRCK":case"TPOS":case"TMED":case"TPUB":case"TCOP":case"TKEY":case"TEXT":case"TDAT":case"TCMP":case"TSRC":this._setStringFrame(e,t);break;case"TBPM":case"TLEN":case"TYER":this._setIntegerFrame(e,t);break;case"USLT":if(t.language=t.language||"eng","object"!=typeof t||!("description"in t)||!("lyrics"in t))throw new Error("USLT frame value should be an object with keys description and lyrics");if(t.language&&!t.language.match(/[a-z]{3}/i))throw new Error("Language must be coded following the ISO 639-2 standards");this._setLyricsFrame(t.language,t.description,t.lyrics);break;case"APIC":if("object"!=typeof t||!("type"in t)||!("data"in t)||!("description"in t))throw new Error("APIC frame value should be an object with keys type, data and description");if(t.type<0||t.type>20)throw new Error("Incorrect APIC frame picture type");this._setPictureFrame(t.type,t.data,t.description,!!t.useUnicodeEncoding);break;case"TXXX":if("object"!=typeof t||!("description"in t)||!("value"in t))throw new Error("TXXX frame value should be an object with keys description and value");this._setUserStringFrame(t.description,t.value);break;case"WCOM":case"WCOP":case"WOAF":case"WOAR":case"WOAS":case"WORS":case"WPAY":case"WPUB":this._setUrlLinkFrame(e,t);break;case"COMM":if(t.language=t.language||"eng","object"!=typeof t||!("description"in t)||!("text"in t))throw new Error("COMM frame value should be an object with keys description and text");if(t.language&&!t.language.match(/[a-z]{3}/i))throw new Error("Language must be coded following the ISO 639-2 standards");this._setCommentFrame(t.language,t.description,t.text);break;case"PRIV":if("object"!=typeof t||!("id"in t)||!("data"in t))throw new Error("PRIV frame value should be an object with keys id and data");this._setPrivateFrame(t.id,t.data);break;case"IPLS":if(!Array.isArray(t)||!Array.isArray(t[0]))throw new Error("IPLS frame value should be an array of pairs");this._setPairedTextFrame(e,t);break;case"SYLT":if("object"!=typeof t||!("type"in t)||!("text"in t)||!("timestampFormat"in t))throw new Error("SYLT frame value should be an object with keys type, text and timestampFormat");if(!Array.isArray(t.text)||!Array.isArray(t.text[0]))throw new Error("SYLT frame text value should be an array of pairs");if(t.type<0||t.type>6)throw new Error("Incorrect SYLT frame content type");if(t.timestampFormat<1||t.timestampFormat>2)throw new Error("Incorrect SYLT frame time stamp format");t.language=t.language||"eng",t.description=t.description||"",this._setSynchronisedLyricsFrame(t.type,t.text,t.timestampFormat,t.language,t.description);break;default:throw new Error(`Unsupported frame ${e}`)}return this}removeTag(){if(this.arrayBuffer.byteLength<10)return;const e=new Uint8Array(this.arrayBuffer),t=e[3],a=((r=[e[6],e[7],e[8],e[9]])[0]<<21)+(r[1]<<14)+(r[2]<<7)+r[3]+10;var r,n;73!==(n=e)[0]||68!==n[1]||51!==n[2]||t<2||t>4||(this.arrayBuffer=new Uint8Array(e.subarray(a)).buffer)}addTag(){this.removeTag();const e=[255,254],n=10+this.frames.reduce(((e,t)=>e+t.size),0)+this.padding,s=new ArrayBuffer(this.arrayBuffer.byteLength+n),i=new Uint8Array(s);let c=0,o=[];return o=[73,68,51,3],i.set(o,c),c+=o.length,c++,c++,o=function(e){const t=127;return[e>>>21&t,e>>>14&t,e>>>7&t,e&t]}(n-10),i.set(o,c),c+=o.length,this.frames.forEach((n=>{switch(o=t(n.name),i.set(o,c),c+=o.length,o=r(n.size-10),i.set(o,c),c+=o.length,c+=2,n.name){case"WCOM":case"WCOP":case"WOAF":case"WOAR":case"WOAS":case"WORS":case"WPAY":case"WPUB":o=t(n.value),i.set(o,c),c+=o.length;break;case"TPE1":case"TCOM":case"TCON":case"TLAN":case"TIT1":case"TIT2":case"TIT3":case"TALB":case"TPE2":case"TPE3":case"TPE4":case"TRCK":case"TPOS":case"TKEY":case"TMED":case"TPUB":case"TCOP":case"TEXT":case"TSRC":o=[1].concat(e),i.set(o,c),c+=o.length,o=a(n.value),i.set(o,c),c+=o.length;break;case"TXXX":case"USLT":case"COMM":o=[1],"USLT"!==n.name&&"COMM"!==n.name||(o=o.concat(n.language)),o=o.concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,o=[0,0].concat(e),i.set(o,c),c+=o.length,o=a(n.value),i.set(o,c),c+=o.length;break;case"TBPM":case"TLEN":case"TDAT":case"TYER":c++,o=t(n.value),i.set(o,c),c+=o.length;break;case"PRIV":o=t(n.id),i.set(o,c),c+=o.length,c++,i.set(new Uint8Array(n.value),c),c+=n.value.byteLength;break;case"APIC":o=[n.useUnicodeEncoding?1:0],i.set(o,c),c+=o.length,o=t(n.mimeType),i.set(o,c),c+=o.length,o=[0,n.pictureType],i.set(o,c),c+=o.length,n.useUnicodeEncoding?(o=[].concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,c+=2):(o=t(n.description),i.set(o,c),c+=o.length,c++),i.set(new Uint8Array(n.value),c),c+=n.value.byteLength;break;case"IPLS":o=[1],i.set(o,c),c+=o.length,n.value.forEach((t=>{o=[].concat(e),i.set(o,c),c+=o.length,o=a(t[0].toString()),i.set(o,c),c+=o.length,o=[0,0].concat(e),i.set(o,c),c+=o.length,o=a(t[1].toString()),i.set(o,c),c+=o.length,o=[0,0],i.set(o,c),c+=o.length}));break;case"SYLT":o=[1].concat(n.language).concat(n.timestampFormat).concat(n.type),i.set(o,c),c+=o.length,o=[].concat(e),i.set(o,c),c+=o.length,o=a(n.description),i.set(o,c),c+=o.length,c+=2,n.value.forEach((t=>{o=[].concat(e),i.set(o,c),c+=o.length,o=a(t[0].toString()),i.set(o,c),c+=o.length,o=[0,0],i.set(o,c),c+=o.length,o=r(t[1]),i.set(o,c),c+=o.length}))}})),c+=this.padding,i.set(new Uint8Array(this.arrayBuffer),c),this.arrayBuffer=s,s}getBlob(){return new Blob([this.arrayBuffer],{type:"audio/mpeg"})}getURL(){return this.url||(this.url=URL.createObjectURL(this.getBlob())),this.url}revokeURL(){URL.revokeObjectURL(this.url)}}
+function browser_id3_writer_e(e){return String(e).split("").map((e=>e.charCodeAt(0)))}function browser_id3_writer_t(t){return new Uint8Array(browser_id3_writer_e(t))}function browser_id3_writer_a(t){const a=new ArrayBuffer(2*t.length),r=new Uint8Array(a);return new Uint16Array(a).set(browser_id3_writer_e(t)),r}function browser_id3_writer_r(e){const t=255;return[e>>>24&t,e>>>16&t,e>>>8&t,e&t]}function browser_id3_writer_n(e){return 11+e}function browser_id3_writer_s(e,t,a,r){return 11+t+1+1+(r?2+2*(a+1):a+1)+e}function browser_id3_writer_i(e){let t=0;return e.forEach((e=>{t+=2+2*e[0].length+2+2+2*e[1].length+2})),11+t}function browser_id3_writer_c(e,t){const a=2*t;let r=0;return e.forEach((e=>{r+=2+2*e[0].length+2+4})),18+a+2+r}class browser_id3_writer_o{_setIntegerFrame(e,t){const a=parseInt(t,10);this.frames.push({name:e,value:a,size:browser_id3_writer_n(a.toString().length)})}_setStringFrame(e,t){const a=t.toString();let r=13+2*a.length;"TDAT"===e&&(r=browser_id3_writer_n(a.length)),this.frames.push({name:e,value:a,size:r})}_setPictureFrame(e,t,a,r){const n=function(e){if(!e||!e.length)return null;if(255===e[0]&&216===e[1]&&255===e[2])return"image/jpeg";if(137===e[0]&&80===e[1]&&78===e[2]&&71===e[3])return"image/png";if(71===e[0]&&73===e[1]&&70===e[2])return"image/gif";if(87===e[8]&&69===e[9]&&66===e[10]&&80===e[11])return"image/webp";const t=73===e[0]&&73===e[1]&&42===e[2]&&0===e[3],a=77===e[0]&&77===e[1]&&0===e[2]&&42===e[3];return t||a?"image/tiff":66===e[0]&&77===e[1]?"image/bmp":0===e[0]&&0===e[1]&&1===e[2]&&0===e[3]?"image/x-icon":null}(new Uint8Array(t)),i=a.toString();if(!n)throw new Error("Unknown picture MIME type");a||(r=!1),this.frames.push({name:"APIC",value:t,pictureType:e,mimeType:n,useUnicodeEncoding:r,description:i,size:browser_id3_writer_s(t.byteLength,n.length,i.length,r)})}_setLyricsFrame(e,t,a){const r=e.split("").map((e=>e.charCodeAt(0))),n=t.toString(),s=a.toString();var i,c;this.frames.push({name:"USLT",value:s,language:r,description:n,size:(i=n.length,c=s.length,16+2*i+2+2+2*c)})}_setCommentFrame(e,t,a){const r=e.split("").map((e=>e.charCodeAt(0))),n=t.toString(),s=a.toString();var i,c;this.frames.push({name:"COMM",value:s,language:r,description:n,size:(i=n.length,c=s.length,16+2*i+2+2+2*c)})}_setPrivateFrame(e,t){const a=e.toString();var r,n;this.frames.push({name:"PRIV",value:t,id:a,size:(r=a.length,n=t.byteLength,10+r+1+n)})}_setUserStringFrame(e,t){const a=e.toString(),r=t.toString();var n,s;this.frames.push({name:"TXXX",description:a,value:r,size:(n=a.length,s=r.length,13+2*n+2+2+2*s)})}_setUrlLinkFrame(e,t){const a=t.toString();var r;this.frames.push({name:e,value:a,size:(r=a.length,10+r)})}_setPairedTextFrame(e,t){this.frames.push({name:e,value:t,size:browser_id3_writer_i(t)})}_setSynchronisedLyricsFrame(e,t,a,r,n){const s=n.toString(),i=r.split("").map((e=>e.charCodeAt(0)));this.frames.push({name:"SYLT",value:t,language:i,description:s,type:e,timestampFormat:a,size:browser_id3_writer_c(t,s.length)})}constructor(e){if(!e||"object"!=typeof e||!("byteLength"in e))throw new Error("First argument should be an instance of ArrayBuffer or Buffer");this.arrayBuffer=e,this.padding=4096,this.frames=[],this.url=""}setFrame(e,t){switch(e){case"TPE1":case"TCOM":case"TCON":{if(!Array.isArray(t))throw new Error(`${e} frame value should be an array of strings`);const a="TCON"===e?";":"/",r=t.join(a);this._setStringFrame(e,r);break}case"TLAN":case"TIT1":case"TIT2":case"TIT3":case"TALB":case"TPE2":case"TPE3":case"TPE4":case"TRCK":case"TPOS":case"TMED":case"TPUB":case"TCOP":case"TKEY":case"TEXT":case"TDAT":case"TCMP":case"TSRC":this._setStringFrame(e,t);break;case"TBPM":case"TLEN":case"TYER":this._setIntegerFrame(e,t);break;case"USLT":if(t.language=t.language||"eng","object"!=typeof t||!("description"in t)||!("lyrics"in t))throw new Error("USLT frame value should be an object with keys description and lyrics");if(t.language&&!t.language.match(/[a-z]{3}/i))throw new Error("Language must be coded following the ISO 639-2 standards");this._setLyricsFrame(t.language,t.description,t.lyrics);break;case"APIC":if("object"!=typeof t||!("type"in t)||!("data"in t)||!("description"in t))throw new Error("APIC frame value should be an object with keys type, data and description");if(t.type<0||t.type>20)throw new Error("Incorrect APIC frame picture type");this._setPictureFrame(t.type,t.data,t.description,!!t.useUnicodeEncoding);break;case"TXXX":if("object"!=typeof t||!("description"in t)||!("value"in t))throw new Error("TXXX frame value should be an object with keys description and value");this._setUserStringFrame(t.description,t.value);break;case"WCOM":case"WCOP":case"WOAF":case"WOAR":case"WOAS":case"WORS":case"WPAY":case"WPUB":this._setUrlLinkFrame(e,t);break;case"COMM":if(t.language=t.language||"eng","object"!=typeof t||!("description"in t)||!("text"in t))throw new Error("COMM frame value should be an object with keys description and text");if(t.language&&!t.language.match(/[a-z]{3}/i))throw new Error("Language must be coded following the ISO 639-2 standards");this._setCommentFrame(t.language,t.description,t.text);break;case"PRIV":if("object"!=typeof t||!("id"in t)||!("data"in t))throw new Error("PRIV frame value should be an object with keys id and data");this._setPrivateFrame(t.id,t.data);break;case"IPLS":if(!Array.isArray(t)||!Array.isArray(t[0]))throw new Error("IPLS frame value should be an array of pairs");this._setPairedTextFrame(e,t);break;case"SYLT":if("object"!=typeof t||!("type"in t)||!("text"in t)||!("timestampFormat"in t))throw new Error("SYLT frame value should be an object with keys type, text and timestampFormat");if(!Array.isArray(t.text)||!Array.isArray(t.text[0]))throw new Error("SYLT frame text value should be an array of pairs");if(t.type<0||t.type>6)throw new Error("Incorrect SYLT frame content type");if(t.timestampFormat<1||t.timestampFormat>2)throw new Error("Incorrect SYLT frame time stamp format");t.language=t.language||"eng",t.description=t.description||"",this._setSynchronisedLyricsFrame(t.type,t.text,t.timestampFormat,t.language,t.description);break;default:throw new Error(`Unsupported frame ${e}`)}return this}removeTag(){if(this.arrayBuffer.byteLength<10)return;const e=new Uint8Array(this.arrayBuffer),t=e[3],a=((r=[e[6],e[7],e[8],e[9]])[0]<<21)+(r[1]<<14)+(r[2]<<7)+r[3]+10;var r,n;73!==(n=e)[0]||68!==n[1]||51!==n[2]||t<2||t>4||(this.arrayBuffer=new Uint8Array(e.subarray(a)).buffer)}addTag(){this.removeTag();const e=[255,254],n=10+this.frames.reduce(((e,t)=>e+t.size),0)+this.padding,s=new ArrayBuffer(this.arrayBuffer.byteLength+n),i=new Uint8Array(s);let c=0,o=[];return o=[73,68,51,3],i.set(o,c),c+=o.length,c++,c++,o=function(e){const t=127;return[e>>>21&t,e>>>14&t,e>>>7&t,e&t]}(n-10),i.set(o,c),c+=o.length,this.frames.forEach((n=>{switch(o=browser_id3_writer_t(n.name),i.set(o,c),c+=o.length,o=browser_id3_writer_r(n.size-10),i.set(o,c),c+=o.length,c+=2,n.name){case"WCOM":case"WCOP":case"WOAF":case"WOAR":case"WOAS":case"WORS":case"WPAY":case"WPUB":o=browser_id3_writer_t(n.value),i.set(o,c),c+=o.length;break;case"TPE1":case"TCOM":case"TCON":case"TLAN":case"TIT1":case"TIT2":case"TIT3":case"TALB":case"TPE2":case"TPE3":case"TPE4":case"TRCK":case"TPOS":case"TKEY":case"TMED":case"TPUB":case"TCOP":case"TEXT":case"TSRC":o=[1].concat(e),i.set(o,c),c+=o.length,o=browser_id3_writer_a(n.value),i.set(o,c),c+=o.length;break;case"TXXX":case"USLT":case"COMM":o=[1],"USLT"!==n.name&&"COMM"!==n.name||(o=o.concat(n.language)),o=o.concat(e),i.set(o,c),c+=o.length,o=browser_id3_writer_a(n.description),i.set(o,c),c+=o.length,o=[0,0].concat(e),i.set(o,c),c+=o.length,o=browser_id3_writer_a(n.value),i.set(o,c),c+=o.length;break;case"TBPM":case"TLEN":case"TDAT":case"TYER":c++,o=browser_id3_writer_t(n.value),i.set(o,c),c+=o.length;break;case"PRIV":o=browser_id3_writer_t(n.id),i.set(o,c),c+=o.length,c++,i.set(new Uint8Array(n.value),c),c+=n.value.byteLength;break;case"APIC":o=[n.useUnicodeEncoding?1:0],i.set(o,c),c+=o.length,o=browser_id3_writer_t(n.mimeType),i.set(o,c),c+=o.length,o=[0,n.pictureType],i.set(o,c),c+=o.length,n.useUnicodeEncoding?(o=[].concat(e),i.set(o,c),c+=o.length,o=browser_id3_writer_a(n.description),i.set(o,c),c+=o.length,c+=2):(o=browser_id3_writer_t(n.description),i.set(o,c),c+=o.length,c++),i.set(new Uint8Array(n.value),c),c+=n.value.byteLength;break;case"IPLS":o=[1],i.set(o,c),c+=o.length,n.value.forEach((t=>{o=[].concat(e),i.set(o,c),c+=o.length,o=browser_id3_writer_a(t[0].toString()),i.set(o,c),c+=o.length,o=[0,0].concat(e),i.set(o,c),c+=o.length,o=browser_id3_writer_a(t[1].toString()),i.set(o,c),c+=o.length,o=[0,0],i.set(o,c),c+=o.length}));break;case"SYLT":o=[1].concat(n.language).concat(n.timestampFormat).concat(n.type),i.set(o,c),c+=o.length,o=[].concat(e),i.set(o,c),c+=o.length,o=browser_id3_writer_a(n.description),i.set(o,c),c+=o.length,c+=2,n.value.forEach((t=>{o=[].concat(e),i.set(o,c),c+=o.length,o=browser_id3_writer_a(t[0].toString()),i.set(o,c),c+=o.length,o=[0,0],i.set(o,c),c+=o.length,o=browser_id3_writer_r(t[1]),i.set(o,c),c+=o.length}))}})),c+=this.padding,i.set(new Uint8Array(this.arrayBuffer),c),this.arrayBuffer=s,s}getBlob(){return new Blob([this.arrayBuffer],{type:"audio/mpeg"})}getURL(){return this.url||(this.url=URL.createObjectURL(this.getBlob())),this.url}revokeURL(){URL.revokeObjectURL(this.url)}}
 ;// ./node_modules/chaimu/dist/config.js
 /* harmony default export */ const config = ({
     version: "1.0.4",
@@ -1601,12 +1601,12 @@ class Chaimu {
     hostWorker: "vot-worker.toil.cc",
     mediaProxy: "media-proxy.toil.cc",
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 YaBrowser/25.2.0.0 Safari/537.36",
-    componentVersion: "25.2.4.954",
+    componentVersion: "25.2.5.953",
     hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.3.12",
+    version: "2.4.0",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -5582,7 +5582,6 @@ class client_VOTClient extends MinimalClient {
             to_lang: responseLang,
             raw_video: url,
         }, {
-            "X-Use-Snake-Case": "Yes",
             ...headers,
         });
         if (!res.success) {
@@ -5972,6 +5971,7 @@ const sitesCoursehunterLike = ["coursehunter.net", "coursetrain.net"];
 
 
 ;// ./node_modules/@vot.js/ext/dist/types/service.js
+
 var ExtVideoService;
 (function (ExtVideoService) {
     ExtVideoService["udemy"] = "udemy";
@@ -5980,6 +5980,10 @@ var ExtVideoService;
     ExtVideoService["artstation"] = "artstation";
     ExtVideoService["kickstarter"] = "kickstarter";
 })(ExtVideoService || (ExtVideoService = {}));
+const service_VideoService = {
+    ...VideoService,
+    ...ExtVideoService,
+};
 
 ;// ./node_modules/@vot.js/ext/dist/data/sites.js
 
@@ -6798,7 +6802,7 @@ class KodikHelper extends BaseHelper {
     }
     decryptUrl(encryptedUrl) {
         const decryptedUrl = atob(encryptedUrl.replace(/[a-zA-Z]/g, function (e) {
-            const charCode = e.charCodeAt(0) + 13;
+            const charCode = e.charCodeAt(0) + 18;
             const pos = e <= "Z" ? 90 : 122;
             return String.fromCharCode(pos >= charCode ? charCode : charCode - 26);
         }));
@@ -7476,9 +7480,7 @@ class LinkedinHelper extends VideoJSHelper {
 class VimeoHelper extends BaseHelper {
     API_KEY = "";
     DEFAULT_SITE_ORIGIN = "https://vimeo.com";
-    SITE_ORIGIN = this.isPrivatePlayer()
-        ? (this.service?.url?.slice(0, -1) ?? this.DEFAULT_SITE_ORIGIN)
-        : this.DEFAULT_SITE_ORIGIN;
+    SITE_ORIGIN = this.service?.url?.slice(0, -1) ?? this.DEFAULT_SITE_ORIGIN;
     isErrorData(data) {
         return Object.hasOwn(data, "error");
     }
@@ -7487,7 +7489,7 @@ class VimeoHelper extends BaseHelper {
     }
     async getViewerData() {
         try {
-            const res = await this.fetch(`https://vimeo.com/_next/viewer`);
+            const res = await this.fetch("https://vimeo.com/_next/viewer");
             const data = (await res.json());
             const { apiUrl, jwt } = data;
             this.API_ORIGIN = `https://${apiUrl}`;
@@ -7529,18 +7531,7 @@ class VimeoHelper extends BaseHelper {
                 throw new VideoHelperError(await res.text());
             }
             const data = (await res.json());
-            const baseUrl = new URL(cdnUrl);
-            const pathLength = Array.from(data.base_url.matchAll(/\.\.\//g)).length + 1;
-            const pathFragments = baseUrl.pathname.split("/");
-            let extraPath = data.base_url.replaceAll("../", "");
-            extraPath =
-                extraPath && !extraPath.startsWith("/") ? `/${extraPath}` : extraPath;
-            baseUrl.pathname =
-                pathFragments.slice(0, pathFragments.length - pathLength).join("/") +
-                    extraPath;
-            if (!baseUrl.pathname.endsWith("/")) {
-                baseUrl.pathname += "/";
-            }
+            const baseUrl = new URL(data.base_url, cdnUrl);
             const videoData = data.audio.find((v) => v.mime_type === "audio/mp4" && v.format === "dash");
             if (!videoData) {
                 throw new VideoHelperError("Failed to find video data");
@@ -7552,9 +7543,7 @@ class VimeoHelper extends BaseHelper {
             const [videoName, videoParams] = segmentUrl.split("?", 2);
             const params = new URLSearchParams(videoParams);
             params.delete("range");
-            baseUrl.pathname += `${videoData.base_url}${videoName}`;
-            baseUrl.href = baseUrl.href.split("?")[0] + "?" + params.toString();
-            return baseUrl.href;
+            return new URL(`${videoData.base_url}${videoName}?${params.toString()}`, baseUrl).href;
         }
         catch (err) {
             Logger.error(`Failed to get private video source`, err.message);
@@ -7566,12 +7555,11 @@ class VimeoHelper extends BaseHelper {
             if (typeof playerConfig === "undefined") {
                 return undefined;
             }
-            const vimeoPlayerConfig = playerConfig;
-            const videoSource = await this.getPrivateVideoSource(vimeoPlayerConfig.request.files);
+            const videoSource = await this.getPrivateVideoSource(playerConfig.request.files);
             if (!videoSource) {
                 throw new VideoHelperError("Failed to get private video source");
             }
-            const { video: { title, duration }, request: { text_tracks: subs }, } = vimeoPlayerConfig;
+            const { video: { title, duration }, request: { text_tracks: subs }, } = playerConfig;
             return {
                 url: `${this.SITE_ORIGIN}/${videoId}`,
                 video_url: videoSource,
@@ -7596,22 +7584,19 @@ class VimeoHelper extends BaseHelper {
                     Authorization: this.API_KEY,
                 },
             });
-            const data = (await res.json());
-            if (this.isErrorData(data)) {
-                throw new Error(data.developer_message ?? data.error);
+            const content = (await res.json());
+            if (this.isErrorData(content)) {
+                throw new Error(content.developer_message ?? content.error);
             }
-            return data;
+            return content.data;
         }
         catch (err) {
             Logger.error(`Failed to get subtitles info by video ID: ${videoId}`, err.message);
-            return false;
+            return [];
         }
     }
     async getVideoData(videoId) {
         const isPrivate = this.isPrivatePlayer();
-        if (!this.extraInfo) {
-            return this.returnBaseData(videoId);
-        }
         if (isPrivate) {
             const videoInfo = await this.getPrivateVideoInfo(videoId);
             if (!videoInfo) {
@@ -7645,8 +7630,8 @@ class VimeoHelper extends BaseHelper {
                 duration,
             };
         }
-        if (videoId.startsWith("video/")) {
-            videoId = videoId.replace("video/", "");
+        if (!this.extraInfo) {
+            return this.returnBaseData(videoId);
         }
         if (videoId.includes("/")) {
             videoId = videoId.replace("/", ":");
@@ -7660,18 +7645,16 @@ class VimeoHelper extends BaseHelper {
             return this.returnBaseData(videoId);
         }
         const subsData = await this.getSubsInfo(videoId);
-        const subtitles = subsData
-            ? subsData.data.map((caption) => ({
-                language: normalizeLang(caption.language),
-                source: "vimeo",
-                format: "vtt",
-                url: caption.link,
-                isAutoGenerated: caption.language.includes("autogen"),
-            }))
-            : [];
-        const { link, duration, name: title, description } = videoInfo;
+        const subtitles = subsData.map((caption) => ({
+            language: normalizeLang(caption.language),
+            source: "vimeo",
+            format: "vtt",
+            url: caption.link,
+            isAutoGenerated: caption.language.includes("autogen"),
+        }));
+        const { link: url, duration, name: title, description } = videoInfo;
         return {
-            url: link,
+            url,
             title,
             description,
             subtitles,
@@ -7679,13 +7662,22 @@ class VimeoHelper extends BaseHelper {
         };
     }
     async getVideoId(url) {
-        const embedId = /[^/]+\/[^/]+$/.exec(url.pathname)?.[0];
+        const embedId = /video\/[^/]+$/.exec(url.pathname)?.[0];
         if (this.isPrivatePlayer()) {
             return embedId;
         }
-        return embedId?.startsWith("video/")
-            ? embedId.replace("video/", "")
-            : (embedId ?? /[^/]+$/.exec(url.pathname)?.[0]);
+        if (embedId) {
+            const hash = url.searchParams.get("h");
+            const videoId = embedId.replace("video/", "");
+            return hash ? `${videoId}/${hash}` : videoId;
+        }
+        const categoriesVideoId = /channels\/[^/]+\/([^/]+)/.exec(url.pathname)?.[1] ??
+            /groups\/[^/]+\/videos\/([^/]+)/.exec(url.pathname)?.[1] ??
+            /(showcase|album)\/[^/]+\/video\/([^/]+)/.exec(url.pathname)?.[2];
+        if (categoriesVideoId) {
+            return categoriesVideoId;
+        }
+        return /([^/]+\/)?[^/]+$/.exec(url.pathname)?.[0];
     }
 }
 
@@ -7714,30 +7706,28 @@ class YandexDiskHelper extends BaseHelper {
         try {
             const preloadedData = JSON.parse(preloadedScript.innerText);
             const { idClient, sk } = preloadedData.config;
-            const res = await this.fetch(this.API_ORIGIN + "/models/?_m=resource", {
+            const res = await this.fetch(this.API_ORIGIN + "/models-v2?m=mpfs/info", {
                 method: "POST",
-                body: new URLSearchParams({
-                    idClient,
+                body: JSON.stringify({
+                    apiMethod: "mpfs/info",
+                    connection_id: idClient,
+                    requestParams: {
+                        path: dialogId.replaceAll(" ", "+"),
+                    },
                     sk,
-                    "_model.0": "resource",
-                    "id.0": dialogId.replaceAll(" ", "+"),
-                })
-                    .toString()
-                    .replaceAll(/%2B/g, "+"),
+                }),
                 headers: {
-                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                    "Content-Type": "application/json",
                 },
             });
             const data = (await res.json());
-            if (!data.models) {
+            if (this.isErrorData(data)) {
+                throw new VideoHelperError(data.error?.message ?? data.error?.code);
+            }
+            if (data?.type !== "file") {
                 throw new VideoHelperError("Failed to get resource info");
             }
-            const model = data.models[0];
-            const modelData = model.data;
-            if (this.isErrorData(modelData)) {
-                throw new VideoHelperError(modelData.error?.message);
-            }
-            const { meta: { short_url, video_info }, name, } = modelData;
+            const { meta: { short_url, video_info }, name, } = data;
             if (!video_info) {
                 throw new VideoHelperError("There's no video open right now");
             }
@@ -7878,8 +7868,7 @@ class VKHelper extends BaseHelper {
         if (typeof Videoview === "undefined") {
             return undefined;
         }
-        const videoView = Videoview;
-        return videoView?.getPlayerObject?.call(undefined);
+        return Videoview?.getPlayerObject?.call(undefined);
     }
     async getVideoData(videoId) {
         const player = VKHelper.getPlayer();
@@ -7993,7 +7982,7 @@ class PornTNHelper extends BaseHelper {
             if (typeof flashvars === "undefined") {
                 return undefined;
             }
-            const { rnd, video_url: source, video_title: title, } = flashvars;
+            const { rnd, video_url: source, video_title: title } = flashvars;
             if (!source || !rnd) {
                 throw new VideoHelperError("Failed to find video source or rnd");
             }
@@ -8681,8 +8670,7 @@ class LoomHelper extends BaseHelper {
         if (typeof SENTRY_RELEASE === "undefined") {
             return undefined;
         }
-        const release = SENTRY_RELEASE;
-        return release.id;
+        return SENTRY_RELEASE.id;
     }
     async getVideoData(videoId) {
         try {
@@ -9573,7 +9561,7 @@ var main = __webpack_require__("./src/styles/main.scss");
 
 class UI {
   static undefinedPhrase = "#UNDEFINED";
-  static arrowIconRaw = Oe`<svg
+  static arrowIconRaw = b`<svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
     height="24"
@@ -9633,9 +9621,9 @@ class UI {
   static createInformation(labelHtml, valueHtml) {
     const container = this.createEl("vot-block", ["vot-info"]);
     const header = this.createEl("vot-block");
-    Q(labelHtml, header);
+    B(labelHtml, header);
     const value = this.createEl("vot-block");
-    Q(valueHtml, value);
+    B(valueHtml, value);
     container.append(header, value);
     return { container, header, value };
   }
@@ -9684,7 +9672,7 @@ class UI {
    */
   static createIconButton(templateHtml) {
     const button = this.createEl("vot-block", ["vot-icon-button"]);
-    Q(templateHtml, button);
+    B(templateHtml, button);
     return button;
   }
 
@@ -9744,7 +9732,7 @@ class UI {
     input.max = max;
     input.value = value;
     const label = this.createEl("span");
-    Q(labelHtml, label);
+    B(labelHtml, label);
     container.append(input, label);
     input.addEventListener("input", (e) => this.updateSlider(e.target));
     this.updateSlider(input);
@@ -9820,7 +9808,7 @@ class UI {
       "vot-dialog-title-container",
     ]);
     const closeButton = this.createIconButton(
-      Oe`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="100%" viewBox="0 -960 960 960">
+      b`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="100%" viewBox="0 -960 960 960">
         <path d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z"/>
       </svg>`,
     );
@@ -9874,8 +9862,8 @@ class UI {
       "vot-segment",
       "vot-translate-button",
     ]);
-    Q(
-      Oe`<svg
+    B(
+      b`<svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
         height="24"
@@ -9900,8 +9888,8 @@ class UI {
 
     const separator = this.createEl("vot-block", ["vot-separator"]);
     const pipButton = this.createEl("vot-block", ["vot-segment-only-icon"]);
-    Q(
-      Oe`<svg
+    B(
+      b`<svg
         xmlns="http://www.w3.org/2000/svg"
         height="24"
         viewBox="0 -960 960 960"
@@ -9916,8 +9904,8 @@ class UI {
 
     const separator2 = this.createEl("vot-block", ["vot-separator"]);
     const menuButton = this.createEl("vot-block", ["vot-segment-only-icon"]);
-    Q(
-      Oe`<svg
+    B(
+      b`<svg
         xmlns="http://www.w3.org/2000/svg"
         height="24"
         viewBox="0 -960 960 960"
@@ -10067,7 +10055,7 @@ class UI {
     updateTitle();
 
     const arrowIcon = this.createEl("vot-block", ["vot-select-arrow-icon"]);
-    Q(this.arrowIconRaw, arrowIcon);
+    B(this.arrowIconRaw, arrowIcon);
 
     const updateSelectedState = () => {
       if (selectedItems.length > 0) {
@@ -10229,8 +10217,8 @@ class UI {
       },
     );
     const icon = this.createEl("vot-block", ["vot-lang-select-icon"]);
-    Q(
-      Oe`<svg
+    B(
+      b`<svg
         xmlns="http://www.w3.org/2000/svg"
         height="24"
         viewBox="0 -960 960 960"
@@ -10264,7 +10252,7 @@ class UI {
     const header = this.createEl("vot-block");
     header.append(titleHtml);
     const arrowIcon = this.createEl("vot-block", ["vot-details-arrow-icon"]);
-    Q(this.arrowIconRaw, arrowIcon);
+    B(this.arrowIconRaw, arrowIcon);
     container.append(header, arrowIcon);
     return { container, header, arrowIcon };
   }
@@ -10979,9 +10967,7 @@ class SubtitlesProcessor {
 
       if (source === "youtube") {
         subtitles = this.formatYoutubeSubtitles(subtitles, isAutoGenerated);
-      }
-
-      if (source === "vk") {
+      } else if (source === "vk") {
         subtitles = this.cleanJsonSubtitles(subtitles);
       }
 
@@ -11357,9 +11343,9 @@ class SubtitlesWidget {
           (time > token.startMs - 100 &&
             token.startMs + token.durationMs / 2 - time < 275));
 
-      return ke`<span
+      return x`<span
         @click="${this.onClick}"
-        class="${passed ? "passed" : D}"
+        class="${passed ? "passed" : E}"
       >
         ${token.text.replace("\\n", "<br>")}
       </span>`;
@@ -11371,7 +11357,7 @@ class SubtitlesWidget {
     this.subtitleLang = lang;
     if (!subtitles || !this.video) {
       this.subtitles = null;
-      Q(null, this.subtitlesContainer);
+      B(null, this.subtitlesContainer);
       return;
     }
 
@@ -11426,7 +11412,7 @@ class SubtitlesWidget {
     );
 
     if (!line) {
-      Q(null, this.subtitlesContainer);
+      B(null, this.subtitlesContainer);
       this.subtitlesBlock = null;
       this.releaseTooltip();
       return;
@@ -11445,8 +11431,8 @@ class SubtitlesWidget {
         this.strTranslatedTokens = "";
       }
 
-      Q(
-        ke`<vot-block
+      B(
+        x`<vot-block
           class="vot-subtitles"
           style="font-size: ${this.fontSize}px; --vot-subtitles-opacity: ${this
             .opacity}"
@@ -11976,7 +11962,7 @@ class VOTUIManager {
     // ----- SVG Icon Buttons -----
     // Download Translation Button
     this.videoHandler.votDownloadButton = UI.createIconButton(
-      Oe`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="100%" viewBox="0 0 24 24" class="vot-loader" id="vot-loader-download">
+      b`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="100%" viewBox="0 0 24 24" class="vot-loader" id="vot-loader-download">
             <path class="vot-loader-main" d="M12 15.575C11.8667 15.575 11.7417 15.5542 11.625 15.5125C11.5083 15.4708 11.4 15.4 11.3 15.3L7.7 11.7C7.5 11.5 7.40417 11.2667 7.4125 11C7.42083 10.7333 7.51667 10.5 7.7 10.3C7.9 10.1 8.1375 9.99583 8.4125 9.9875C8.6875 9.97917 8.925 10.075 9.125 10.275L11 12.15V5C11 4.71667 11.0958 4.47917 11.2875 4.2875C11.4792 4.09583 11.7167 4 12 4C12.2833 4 12.5208 4.09583 12.7125 4.2875C12.9042 4.47917 13 4.71667 13 5V12.15L14.875 10.275C15.075 10.075 15.3125 9.97917 15.5875 9.9875C15.8625 9.99583 16.1 10.1 16.3 10.3C16.4833 10.5 16.5792 10.7333 16.5875 11C16.5958 11.2667 16.5 11.5 16.3 11.7L12.7 15.3C12.6 15.4 12.4917 15.4708 12.375 15.5125C12.2583 15.5542 12.1333 15.575 12 15.575ZM6 20C5.45 20 4.97917 19.8042 4.5875 19.4125C4.19583 19.0208 4 18.55 4 18V16C4 15.7167 4.09583 15.4792 4.2875 15.2875C4.47917 15.0958 4.71667 15 5 15C5.28333 15 5.52083 15.0958 5.7125 15.2875C5.90417 15.4792 6 15.7167 6 16V18H18V16C18 15.7167 18.0958 15.4792 18.2875 15.2875C18.4792 15.0958 18.7167 15 19 15C19.2833 15 19.5208 15.0958 19.7125 15.2875C19.9042 15.4792 20 15.7167 20 16V18C20 18.55 19.8042 19.0208 19.4125 19.4125C19.0208 19.8042 18.55 20 18 20H6Z"/>
             <path class="vot-loader-helper" d=""/>
          </svg>`,
@@ -11988,7 +11974,7 @@ class VOTUIManager {
 
     // Download Subtitles Button
     this.videoHandler.votDownloadSubtitlesButton = UI.createIconButton(
-      Oe`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="100%" viewBox="0 0 24 24">
+      b`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="100%" viewBox="0 0 24 24">
             <path d="M4 20q-.825 0-1.413-.588T2 18V6q0-.825.588-1.413T4 4h16q.825 0 1.413.588T22 6v12q0 .825-.588 1.413T20 20H4Zm2-4h8v-2H6v2Zm10 0h2v-2h-2v2ZM6 12h2v-2H6v2Zm4 0h8v-2h-8v2Z"/>
          </svg>`,
     );
@@ -11999,7 +11985,7 @@ class VOTUIManager {
 
     // Settings Button
     this.videoHandler.votSettingsButton = UI.createIconButton(
-      Oe`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="100%" viewBox="0 -960 960 960">
+      b`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="100%" viewBox="0 -960 960 960">
             <path d="M555-80H405q-15 0-26-10t-13-25l-12-93q-13-5-24.5-12T307-235l-87 36q-14 5-28 1t-22-17L96-344q-8-13-5-28t15-24l75-57q-1-7-1-13.5v-27q0-6.5 1-13.5l-75-57q-12-9-15-24t5-28l74-129q7-14 21.5-17.5T220-761l87 36q11-8 23-15t24-12l12-93q2-15 13-25t26-10h150q15 0 26 10t13 25l12 93q13 5 24.5 12t22.5 15l87-36q14-5 28-1t22 17l74 129q8 13 5 28t-15 24l-75 57q1 7 1 13.5v27q0 6.5-2 13.5l75 57q12 9 15 24t-5 28l-74 128q-8 13-22.5 17.5T738-199l-85-36q-11 8-23 15t-24 12l-12 93q-2 15-13 25t-26 10Zm-73-260q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm0-80q-25 0-42.5-17.5T422-480q0-25 17.5-42.5T482-540q25 0 42.5 17.5T542-480q0 25-17.5 42.5T482-420Zm-2-60Zm-40 320h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Z"/>
          </svg>`,
     );
@@ -12101,7 +12087,7 @@ class VOTUIManager {
 
     // Create the volume sliders for video and translation audio.
     this.videoHandler.votVideoVolumeSlider = UI.createSlider(
-      ke`${localizationProvider.get("VOTVolume")}:
+      x`${localizationProvider.get("VOTVolume")}:
         <strong>${this.videoHandler.getVideoVolume() * 100}%</strong>`,
       this.videoHandler.getVideoVolume() * 100,
     );
@@ -12113,7 +12099,7 @@ class VOTUIManager {
     );
 
     this.videoHandler.votVideoTranslationVolumeSlider = UI.createSlider(
-      ke`${localizationProvider.get("VOTVolumeTranslation")}:
+      x`${localizationProvider.get("VOTVolumeTranslation")}:
         <strong>${this.videoHandler.data?.defaultVolume ?? 100}%</strong>`,
       this.videoHandler.data?.defaultVolume ?? 100,
       0,
@@ -12215,7 +12201,7 @@ class VOTUIManager {
 
     // Auto-set volume slider.
     this.videoHandler.votAutoSetVolumeSlider = UI.createSlider(
-      ke`<strong
+      x`<strong
         >${Math.round(
           (this.videoHandler.data?.autoVolume ?? defaultAutoVolume) * 100,
         )}%</strong
@@ -12573,7 +12559,7 @@ class VOTUIManager {
 
     this.videoHandler.votLocaleInfo = UI.createInformation(
       `${localizationProvider.get("VOTLocaleHash")}:`,
-      ke`${this.videoHandler.data.localeHash}<br />(${localizationProvider.get(
+      x`${this.videoHandler.data.localeHash}<br />(${localizationProvider.get(
           "VOTUpdatedAt",
         )}
         ${new Date(
@@ -12782,7 +12768,7 @@ class VOTUIManager {
         const filename = clearFileName(
           this.videoHandler.videoData.downloadTitle,
         );
-        const writer = new o(chunksBuffer.buffer);
+        const writer = new browser_id3_writer_o(chunksBuffer.buffer);
         writer.setFrame("TIT2", filename);
         writer.addTag();
         downloadBlob(writer.getBlob(), `${filename}.mp3`);
@@ -13153,7 +13139,7 @@ class VOTUIManager {
         );
 
         this.videoHandler.votSubtitlesMaxLengthSlider = UI.createSlider(
-          ke`${localizationProvider.get("VOTSubtitlesMaxLength")}:
+          x`${localizationProvider.get("VOTSubtitlesMaxLength")}:
             <strong
               >${this.videoHandler.data?.subtitlesMaxLength ?? 300}</strong
             >`,
@@ -13166,7 +13152,7 @@ class VOTUIManager {
         );
 
         this.videoHandler.votSubtitlesFontSizeSlider = UI.createSlider(
-          ke`${localizationProvider.get("VOTSubtitlesFontSize")}:
+          x`${localizationProvider.get("VOTSubtitlesFontSize")}:
             <strong
               >${this.videoHandler.data?.subtitlesFontSize ?? 20}</strong
             >`,
@@ -13179,7 +13165,7 @@ class VOTUIManager {
         );
 
         this.videoHandler.votSubtitlesOpacitySlider = UI.createSlider(
-          ke`${localizationProvider.get("VOTSubtitlesOpacity")}:
+          x`${localizationProvider.get("VOTSubtitlesOpacity")}:
             <strong>${this.videoHandler.data?.subtitlesOpacity ?? 20}</strong>`,
           this.videoHandler.data?.subtitlesOpacity ?? 20,
           0,
