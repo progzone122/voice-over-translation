@@ -43,7 +43,16 @@ const siteData = {
     limits: [locales.noFeedVideos],
   },
   vimeo: {
-    paths: ["/CHANNEL_ID/VIDEO_ID", "/VIDEO_ID"],
+    paths: [
+      "/CHANNEL_ID/VIDEO_ID",
+      "/VIDEO_ID",
+      "/video/VIDEO_ID",
+      "/video/VIDEO?h=HASH_ID",
+      "/channels/CHANNEL_NAME/VIDEO_ID",
+      "/groups/GROUP_NAME/videos/VIDEO_ID",
+      "/showcase/SHOWCASE_ID/video/VIDEO_ID",
+      "/album/SHOWCASE_ID/video/VIDEO_ID",
+    ],
   },
   xvideos: {
     paths: ["/VIDEO_ID/VIDEO_NAME"],
