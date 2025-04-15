@@ -4,7 +4,3 @@ export type LocaleStorageKey =
   | "locale-hash"
   | "locale-updated-at"
   | "locale-lang-override";
-
-export type LocaleData = {
-  [key: string]: any;
-};

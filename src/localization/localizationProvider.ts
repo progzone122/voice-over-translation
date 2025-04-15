@@ -1,10 +1,11 @@
-import defaultLocale from "./locales/en.json";
+import rawDefaultLocale from "./locales/en.json";
 
 import debug from "../utils/debug";
 import { contentUrl } from "../config/config.js";
 import { votStorage } from "../utils/storage";
-import { getTimestamp, GM_fetch, lang } from "../utils/utils.js";
-import { LocaleData, LocaleStorageKey } from "../types/locales";
+import { getTimestamp, GM_fetch, lang, toFlatObj } from "../utils/utils.js";
+import { LocaleStorageKey } from "../types/storage";
+import { FlatPhrases, Phrase, Phrases } from "../types/localization";
 
 class LocalizationProvider {
   storageKeys: LocaleStorageKey[];
@@ -15,7 +16,8 @@ class LocalizationProvider {
   /**
    * Locale phrases with current language
    */
-  locale: LocaleData;
+  locale: Partial<FlatPhrases>;
+  defaultLocale: FlatPhrases = toFlatObj(rawDefaultLocale);
 
   cacheTTL = 7200;
   localizationUrl = `${contentUrl}/${REPO_BRANCH}/src/localization`;
@@ -111,21 +113,19 @@ class LocalizationProvider {
 
   setLocaleFromJsonString(json: string) {
     try {
-      this.locale = JSON.parse(json) || {};
+      const locale = JSON.parse(json) || {};
+      this.locale = toFlatObj(locale);
     } catch (err) {
       console.error("[VOT] [localizationProvider]", err);
       this.locale = {};
     }
   }
 
-  getFromLocale(locale: LocaleData, key: string) {
-    return (
-      key.split(".").reduce((acc, k) => acc?.[k], locale) ??
-      this.warnMissingKey(locale, key)
-    );
+  getFromLocale(locale: Partial<Phrases>, key: Phrase) {
+    return this.locale?.[key] ?? this.warnMissingKey(locale, key);
   }
 
-  warnMissingKey(locale: LocaleData, key: string) {
+  warnMissingKey(locale: Partial<Phrases>, key: Phrase) {
     console.warn(
       "[VOT] [localizationProvider] locale",
       locale,
@@ -135,11 +135,11 @@ class LocalizationProvider {
     return undefined;
   }
 
-  getDefault(key: string) {
-    return this.getFromLocale(defaultLocale, key) ?? key;
+  getDefault(key: Phrase) {
+    return this.getFromLocale(this.defaultLocale, key) ?? key;
   }
 
-  get(key: string) {
+  get(key: Phrase) {
     return this.getFromLocale(this.locale, key) ?? this.getDefault(key);
   }
 }

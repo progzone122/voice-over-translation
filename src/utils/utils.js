@@ -182,6 +182,31 @@ function clamp(value, min = 0, max = 100) {
   return Math.min(Math.max(value, min), max);
 }
 
+function toFlatObj(data) {
+  return Object.entries(data).reduce((result, [key, val]) => {
+    if (val === undefined) {
+      return result;
+    }
+
+    if (typeof val !== "object") {
+      result[key] = val;
+      return result;
+    }
+
+    const nestedItem = Object.entries(toFlatObj(data[key])).reduce(
+      (res, [k, v]) => {
+        res[`${key}.${k}`] = v;
+        return res;
+      },
+      {},
+    );
+    return {
+      ...result,
+      ...nestedItem,
+    };
+  }, {});
+}
+
 export {
   secsToStrTime,
   isPiPAvailable,
@@ -192,4 +217,5 @@ export {
   GM_fetch,
   getTimestamp,
   clamp,
+  toFlatObj,
 };

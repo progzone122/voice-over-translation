@@ -71,11 +71,15 @@ const browserInfo = Bowser.getParser(window.navigator.userAgent).getResult();
  * @returns {Array<{label: string, value: string, selected: boolean}>}
  */
 function genOptionsByOBJ(obj, conditionString) {
-  return obj.map((code) => ({
-    label: localizationProvider.get("langs")[code] ?? code.toUpperCase(),
-    value: code,
-    selected: conditionString === code,
-  }));
+  return obj.map((code) => {
+    const phrase = `langs.${code}`;
+    const label = localizationProvider.get(phrase);
+    return {
+      label: label === phrase ? code.toUpperCase() : label,
+      value: code,
+      selected: conditionString === code,
+    };
+  });
 }
 
 /**
@@ -335,10 +339,9 @@ class VOTUIManager {
     // Create language selection menu (both source and target) using the ui helper.
     this.videoHandler.votTranslationLanguageSelect = ui.createVOTLanguageSelect(
       {
-        fromTitle:
-          localizationProvider.get("langs")[
-            this.videoHandler.video.detectedLanguage
-          ],
+        fromTitle: localizationProvider.get(
+          `langs.${this.videoHandler.video.detectedLanguage}`,
+        ),
         fromDialogTitle: localizationProvider.get("videoLanguage"),
         fromItems: genOptionsByOBJ(
           availableLangs,
@@ -354,10 +357,9 @@ class VOTUIManager {
             this.videoHandler.videoData.responseLanguage,
           );
         },
-        toTitle:
-          localizationProvider.get("langs")[
-            this.videoHandler.video.responseLanguage
-          ],
+        toTitle: localizationProvider.get(
+          `langs.${this.videoHandler.video.responseLanguage}`,
+        ),
         toDialogTitle: localizationProvider.get("translationLanguage"),
         toItems: genOptionsByOBJ(
           availableTTS,
@@ -487,8 +489,8 @@ class VOTUIManager {
     // Don't translate your language select.
     this.videoHandler.votDontTranslateYourLangSelect = ui.createVOTSelect(
       this.videoHandler.data.dontTranslateLanguage
-        .map((lang) => localizationProvider.get("langs")[lang])
-        .join(", ") || localizationProvider.get("langs")[lang],
+        .map((lang) => localizationProvider.get(`langs.${lang}`))
+        .join(", ") || localizationProvider.get(`langs.${lang}`),
       localizationProvider.get("VOTDontTranslateYourLang"),
       genOptionsByOBJ(availableLangs).map((option) => ({
         ...option,
@@ -506,8 +508,8 @@ class VOTUIManager {
           );
           this.videoHandler.votDontTranslateYourLangSelect.setTitle(
             selectedValues
-              .map((lang) => localizationProvider.get("langs")[lang])
-              .join(", ") || localizationProvider.get("langs")[lang],
+              .map((lang) => localizationProvider.get(`langs.${lang}`))
+              .join(", ") || localizationProvider.get(`langs.${lang}`),
           );
         },
         labelElement: ui.createCheckbox(
@@ -814,7 +816,9 @@ class VOTUIManager {
     );
 
     this.videoHandler.votLanguageSelect = ui.createVOTSelect(
-      localizationProvider.get("langs")[localizationProvider.getLangOverride()],
+      localizationProvider.get(
+        `langs.${localizationProvider.getLangOverride()}`,
+      ),
       localizationProvider.get("VOTMenuLanguage"),
       genOptionsByOBJ(
         localizationProvider.getAvailableLangs(),
@@ -2141,10 +2145,10 @@ class VOTVideoManager {
    */
   setSelectMenuValues(from, to) {
     this.videoHandler.votTranslationLanguageSelect.fromSelect.setTitle(
-      localizationProvider.get("langs")[from],
+      localizationProvider.get(`langs.${from}`),
     );
     this.videoHandler.votTranslationLanguageSelect.toSelect.setTitle(
-      localizationProvider.get("langs")[to],
+      localizationProvider.get(`langs.${to}`),
     );
     this.videoHandler.votTranslationLanguageSelect.fromSelect.setSelected(from);
     this.videoHandler.votTranslationLanguageSelect.toSelect.setSelected(to);
@@ -2789,11 +2793,11 @@ class VideoHandler {
       },
       ...this.subtitles.map((s, idx) => ({
         label:
-          (localizationProvider.get("langs")[s.language] ??
+          (localizationProvider.get(`langs.${s.language}`) ??
             s.language.toUpperCase()) +
           (s.translatedFromLanguage
             ? ` ${localizationProvider.get("VOTTranslatedFrom")} ${
-                localizationProvider.get("langs")[s.translatedFromLanguage] ??
+                localizationProvider.get(`langs.${s.translatedFromLanguage}`) ??
                 s.translatedFromLanguage.toUpperCase()
               }`
             : "") +
