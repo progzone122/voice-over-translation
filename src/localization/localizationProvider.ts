@@ -121,11 +121,11 @@ class LocalizationProvider {
     }
   }
 
-  getFromLocale(locale: Partial<Phrases>, key: Phrase) {
-    return this.locale?.[key] ?? this.warnMissingKey(locale, key);
+  getFromLocale(locale: Partial<FlatPhrases>, key: Phrase) {
+    return locale?.[key] ?? this.warnMissingKey(locale, key);
   }
 
-  warnMissingKey(locale: Partial<Phrases>, key: Phrase) {
+  warnMissingKey(locale: Partial<FlatPhrases>, key: Phrase) {
     console.warn(
       "[VOT] [localizationProvider] locale",
       locale,
