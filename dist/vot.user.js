@@ -215,7 +215,7 @@
 // @connect        speed.cloudflare.com
 // @connect        porntn.com
 // @namespace      vot
-// @version        1.9.5
+// @version        1.9.5.1
 // @icon           https://translate.yandex.ru/icons/favicon.ico
 // @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation
@@ -4575,7 +4575,7 @@ class YandexVOTProtobuf {
             responseLanguage: responseLang,
             wasStream,
             unknown2: 0,
-            unknown3: 1,
+            unknown3: window.location.hostname.includes("youtube.com") ? 2 : 1,
             bypassCache,
             useNewModel,
             videoTitle,
