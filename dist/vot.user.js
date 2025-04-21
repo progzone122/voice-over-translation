@@ -215,7 +215,7 @@
 // @connect        speed.cloudflare.com
 // @connect        porntn.com
 // @namespace      vot
-// @version        1.9.5.1
+// @version        1.9.5.2
 // @icon           https://translate.yandex.ru/icons/favicon.ico
 // @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation
@@ -4562,7 +4562,7 @@ function proxyMedia(url, format = "mp4") {
 ;// ./node_modules/@vot.js/core/dist/protobuf.js
 
 class YandexVOTProtobuf {
-    static encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp, { forceSourceLang = false, wasStream = false, videoTitle = "", bypassCache = false, useNewModel = true, } = {}) {
+    static encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp, { forceSourceLang = false, wasStream = false, videoTitle = "", bypassCache = false, useNewModel = false, } = {}) {
         return VideoTranslationRequest.encode({
             url,
             firstRequest: true,
@@ -13648,7 +13648,7 @@ class VideoHandler {
       proxyWorkerHost: votStorage.get("proxyWorkerHost", proxyWorkerHost),
       translateProxyEnabled: votStorage.get("translateProxyEnabled", 0),
       audioBooster: votStorage.get("audioBooster", 0),
-      useNewModel: votStorage.get("useNewModel", 1),
+      useNewModel: votStorage.get("useNewModel", 0),
       localeHash: votStorage.get("locale-hash", ""),
       localeUpdatedAt: votStorage.get("locale-updated-at", 0),
     };
