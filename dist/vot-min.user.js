@@ -217,7 +217,7 @@
 // @namespace      vot-min
 // @version        1.9.5.2
 // @icon           https://translate.yandex.ru/icons/favicon.ico
-// @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
+// @author         Toil, SashaXser, MrSoczekXD, mynovelhost, sodapng
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation
 // @updateURL      https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot-min.user.js
 // @downloadURL    https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot-min.user.js
