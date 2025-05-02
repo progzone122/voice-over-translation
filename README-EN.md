@@ -210,7 +210,7 @@ Example of changing styles:
 | ⠀✅    | Opera GX (LVL5)           | core109              | Windows                 | Tampermonkey Opera                                                                          |
 | ⠀✅    | Opera                     | v92.0.4561.43        | Windows                 | Tampermonkey Opera                                                                          |
 | ⠀✅    | Vivaldi                   | 5.7.2921.63          | Windows, Linux          | Tampermonkey (MV2)                                                                          |
-| ⠀✅    | Safari                    | v15.6.1              | MacOS, iOS              | Userscripts                                                                                 |
+| ⠀✅    | Safari                    | v15.6.1              | MacOS, iOS              | Userscripts, Tampermonkey                                                                   |
 | ⠀✅    | Kiwi Browser              | v116.0.5845.61       | Android                 | Tampermonkey (MV2)                                                                          |
 | ⠀✅    | Yandex Browser            | v24.4                | Windows                 | Tampermonkey (MV2), Tampermonkey (MV3)                                                      |
 | ⠀✅    | Arc                       | v1.6.1               | Windows                 | Tampermonkey (MV3)                                                                          |
@@ -227,7 +227,7 @@ To activate the script in Tampermonkey (MV3), you must [enable "Developer Mode"]
 | ⠀✅                                                                                                                                    | Any     | Tampermonkey Legacy (MV2)                                                          |
 | ⠀✅                                                                                                                                    | Opera   | Tampermonkey Opera                                                                 |
 | ⠀✅                                                                                                                                    | Chrome  | Tampermonkey (MV3)                                                                 |
-| ⠀❔                                                                                                                                    | Safari  | Userscripts                                                                        |
+| ⠀⚠️ It works in proxying mode                                                                                                          | Safari  | Userscripts, Tampermonkey                                                          |
 | ⠀✅                                                                                                                                    | Any     | Violetmonkey                                                                       |
 | ⠀❔                                                                                                                                    | Any     | [AdGuard Usercripts](https://kb.adguard.com/en/general/userscripts#supported-apps) |
 | ⠀[Install guide](https://github.com/ilyhalight/voice-over-translation/wiki/%5BEN%5D-FAQ#how-to-use-the-extension-with-firemonkey)      | Firefox | Firemonkey                                                                         |
