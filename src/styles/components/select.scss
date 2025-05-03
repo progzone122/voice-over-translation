@@ -34,6 +34,12 @@
     font-family: inherit;
   }
 
+  &-warning {
+    font-size: 14px;
+    font-family: inherit;
+    color: orange !important;
+  }
+
   &-outer {
     display: flex;
     align-items: center;

@@ -203,6 +203,7 @@
   "VOTTranslateProxyEnabled": "Включений",
   "VOTTranslateProxyEverything": "Проксіровать всьо",
   "VOTTranslateProxyStatus": "Режим проксирования",
+  "VOTTranslateProxyStatusWarning": "Вимкнення проксування у вашій країні може порушити роботу розширення",
   "VOTTranslatedBy": "Перекладено {0}",
   "VOTStreamNotAvailable": "Трансляція перекладу недоступна",
   "VOTTranslationTextService": "Сервіс перекладу текстів",

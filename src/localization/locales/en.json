@@ -203,6 +203,7 @@
   "VOTTranslateProxyEnabled": "Enabled",
   "VOTTranslateProxyEverything": "Proxy everything",
   "VOTTranslateProxyStatus": "Proxying mode",
+  "VOTTranslateProxyStatusWarning": "Disabling proxying in your country may disrupt the functionality of the extension",
   "VOTTranslatedBy": "Translated by {0}",
   "VOTStreamNotAvailable": "Translate stream isn't available",
   "VOTTranslationTextService": "Text translation service",

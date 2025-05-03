@@ -435,12 +435,23 @@ export default class UI {
    * Create VOTSelectLabel
    *
    * @param {string} text - label text
+   * @param {string?} warning - Optional warning text
    * @return {HTMLSpanElement} VOTSelectLabel element
    */
-  static createVOTSelectLabel(text) {
+  static createVOTSelectLabel(text, warning = null) {
+    const container = this.createEl("vot-col", []);
+
     const label = this.createEl("span", ["vot-select-label"]);
     label.textContent = text;
-    return label;
+    container.append(label);
+
+    if (warning) {
+      const warning_label = this.createEl("span", ["vot-select-warning"]);
+      warning_label.textContent = warning;
+      container.append(warning_label);
+    }
+
+    return container;
   }
 
   /**

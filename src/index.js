@@ -753,6 +753,9 @@ class VOTUIManager {
         },
         labelElement: ui.createVOTSelectLabel(
           localizationProvider.get("VOTTranslateProxyStatus"),
+          proxyOnlyCountries.includes(countryCode)
+            ? localizationProvider.get("VOTTranslateProxyStatusWarning")
+            : null,
         ),
         dialogParent: this.videoHandler.votGlobalPortal,
       },
@@ -2321,9 +2324,6 @@ class VideoHandler {
       }
     }
 
-    if (proxyOnlyCountries.includes(countryCode)) {
-      this.data.translateProxyEnabled = 2;
-    }
     debug.log("translateProxyEnabled", this.data.translateProxyEnabled);
     debug.log("Extension compatibility passed...");
 
