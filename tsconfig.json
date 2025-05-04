@@ -7,6 +7,7 @@
     "module": "ESNext",
     "moduleDetection": "force",
     "allowJs": true,
+    "outDir": "dist",
 
     // Bundler mode
     "moduleResolution": "Bundler",
@@ -24,5 +25,6 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false
-  }
+  },
+  "include": ["src/**/*.ts"]
 }

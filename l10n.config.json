@@ -3,5 +3,6 @@
   "service": "yandexbrowser",
   "rootPath": "./src/localization",
   "typesFile": "../types/localization.ts",
-  "withTypes": true
+  "withTypes": true,
+  "parseDotNotation": true
 }
