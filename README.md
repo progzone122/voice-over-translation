@@ -60,8 +60,7 @@
 > [!CAUTION]
 > Перед созданием Issues настоятельно рекомендуем ознакомиться с разделом [FAQ][vot-faq] и уже существующими [Issues][vot-issues].
 
-> [!WARNING]
-> Расширение создано исключительно в исследовательских целях и не предназначено для коммерческого использования. Все права на оригинальное программное обеспечение принадлежат их правообладателям. Расширение не связано с оригинальными правообладателями
+> Все права на оригинальное программное обеспечение принадлежат их правообладателям. Расширение не связано с оригинальными правообладателями
 
 Закадровый перевод видео, теперь, доступен не только в [YandexBrowser][yabrowser-link]. Очень признателен разработчикам создающим **[Yandex.Translate][yatranslate-link]**, а также всем [контрибьюторам][contributors-link] за помощь в улучшении расширения. Спасиб <3
 
@@ -254,7 +253,7 @@ bun localize
 | ⠀✅    | Opera GX (LVL5)           | core109              | Windows                 | Tampermonkey Opera                                                                          |
 | ⠀✅    | Opera                     | v92.0.4561.43        | Windows                 | Tampermonkey Opera                                                                          |
 | ⠀✅    | Vivaldi                   | 5.7.2921.63          | Windows, Linux          | Tampermonkey (MV2)                                                                          |
-| ⠀✅    | Safari                    | v15.6.1              | MacOS, iOS              | Userscripts                                                                                 |
+| ⠀✅    | Safari                    | v15.6.1              | MacOS, iOS              | Userscripts, Tampermonkey                                                                   |
 | ⠀✅    | Kiwi Browser              | v116.0.5845.61       | Android                 | Tampermonkey (MV2)                                                                          |
 | ⠀✅    | Yandex Browser            | v24.4                | Windows                 | Tampermonkey (MV2), Tampermonkey (MV3)                                                      |
 | ⠀✅    | Arc                       | v1.6.1               | Windows                 | Tampermonkey (MV3)                                                                          |
@@ -271,7 +270,7 @@ bun localize
 | ⠀✅                                                | Любой   | [Tampermonkey Legacy (MV2)][tampermonkey-link]  |
 | ⠀✅                                                | Opera   | [Tampermonkey Opera][tampermonkey-opera]        |
 | ⠀✅                                                | Chrome  | [Tampermonkey (MV3)][tampermonkey-link]         |
-| ⠀❔                                                | Safari  | [Userscripts][userscripts-safari]               |
+| ⠀⚠️ Работает в режиме проксирования                | Safari  | [Userscripts][userscripts-safari]               |
 | ⠀✅                                                | Любой   | [Violetmonkey][violetmonkey-link]               |
 | ⠀❔                                                | Любой   | [AdGuard Usercripts][adguard-userscripts]       |
 | ⠀[Гайд по установке][firemonkey-how-to]            | Firefox | [Firemonkey][firemonkey-link]                   |
@@ -280,3 +279,5 @@ bun localize
 | ⠀[Гайд по установке][user-js-and-css-how-to]       | Любой   | [User Javascript and CSS][user-js-and-css-link] |
 
 ![example btn](https://github.com/ilyhalight/voice-over-translation/blob/master/img/example.png "btn")
+
+> Основано на проекте [sodapng/voice-over-translation](https://github.com/sodapng/voice-over-translation) (license MIT)

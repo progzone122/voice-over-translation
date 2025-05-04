@@ -61,7 +61,7 @@
 > Before creating Issues, we strongly recommend that you read the [FAQ][vot-faq] section and with existing [Issues][vot-issues].
 
 > [!WARNING]
-> The extension was created exclusively for research purposes and isn't intended for commercial use. All rights to the original software belong to their respective right holders. The extension isn't affiliated with the original rights holders
+> All rights to the original software belong to their respective right holders. The extension isn't affiliated with the original rights holders
 
 The voice-over translation of the video is now available not only in [YandexBrowser][yabrowser-link]. Very grateful to devs who create **[Yandex.Translate][yatranslate-link]**, and all [contributors][contributors-link] who help make the extension better. Thanks <3
 
@@ -252,7 +252,7 @@ The extension has been tested in the following browsers:
 | ⠀✅    | Opera GX (LVL5)           | core109              | Windows                 | Tampermonkey Opera                                                                          |
 | ⠀✅    | Opera                     | v92.0.4561.43        | Windows                 | Tampermonkey Opera                                                                          |
 | ⠀✅    | Vivaldi                   | 5.7.2921.63          | Windows, Linux          | Tampermonkey (MV2)                                                                          |
-| ⠀✅    | Safari                    | v15.6.1              | MacOS, iOS              | Userscripts                                                                                 |
+| ⠀✅    | Safari                    | v15.6.1              | MacOS, iOS              | Userscripts, Tampermonkey                                                                   |
 | ⠀✅    | Kiwi Browser              | v116.0.5845.61       | Android                 | Tampermonkey (MV2)                                                                          |
 | ⠀✅    | Yandex Browser            | v24.4                | Windows                 | Tampermonkey (MV2), Tampermonkey (MV3)                                                      |
 | ⠀✅    | Arc                       | v1.6.1               | Windows                 | Tampermonkey (MV3)                                                                          |
@@ -269,7 +269,7 @@ Tested in the following extensions-loaders for userscripts:
 | ⠀✅                                                    | Any     | [Tampermonkey Legacy (MV2)][tampermonkey-link]  |
 | ⠀✅                                                    | Opera   | [Tampermonkey Opera][tampermonkey-opera]        |
 | ⠀✅                                                    | Chrome  | [Tampermonkey (MV3)][tampermonkey-link]         |
-| ⠀❔                                                    | Safari  | [Userscripts][userscripts-safari]               |
+| ⠀⚠️ It works in proxying mode                          | Safari  | [Userscripts][userscripts-safari]               |
 | ⠀✅                                                    | Any     | [Violetmonkey][violetmonkey-link]               |
 | ⠀❔                                                    | Any     | [AdGuard Usercripts][adguard-userscripts]       |
 | ⠀[Install guide][firemonkey-how-to]                    | Firefox | [Firemonkey][firemonkey-link]                   |
@@ -278,3 +278,5 @@ Tested in the following extensions-loaders for userscripts:
 | ⠀[Install guide][user-js-and-css-how-to]               | Any     | [User Javascript and CSS][user-js-and-css-link] |
 
 ![example btn](https://github.com/ilyhalight/voice-over-translation/blob/master/img/example_en.png "btn")
+
+> Based on [sodapng/voice-over-translation](https://github.com/sodapng/voice-over-translation) project (license MIT)
