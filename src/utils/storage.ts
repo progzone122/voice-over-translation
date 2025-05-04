@@ -1,8 +1,12 @@
+import { KeysOrDefaultValue } from "@toil/gm-types/types/utils";
+
 import debug from "./debug";
+import { StorageKey, storageKeys } from "../types/storage";
+import { isSupportGM4 } from "./utils";
 
 export async function convertData(
   data: Record<string, unknown>,
-  option: string,
+  option: StorageKey,
   oldValue: unknown,
   newValue: string | number | boolean,
   optionValue: string | number | boolean | undefined = undefined,
@@ -20,28 +24,36 @@ export async function convertData(
 export const votStorage = new (class {
   supportGM: boolean;
   supportGMPromises: boolean;
+  supportGMGetValues: boolean;
+
   constructor() {
     this.supportGM = typeof GM_getValue === "function";
-    // this.supportGMPromises = typeof GM?.getValue === "function";
-    this.supportGMPromises = false;
+    this.supportGMPromises = isSupportGM4 && typeof GM?.getValue === "function";
+    this.supportGMGetValues =
+      isSupportGM4 && typeof GM?.getValues === "function";
     debug.log(
       `[VOT Storage] GM Promises: ${this.supportGMPromises} | GM: ${this.supportGM}`,
     );
   }
 
-  syncGet<T = unknown>(name: string, def?: unknown) {
+  syncGet<T = unknown>(name: StorageKey, def?: unknown): T {
     if (this.supportGM) {
       return GM_getValue<T>(name, def);
     }
 
-    const toNumber = typeof def === "number";
     let val = window.localStorage.getItem(name);
+    if (!val) {
+      return def as T;
+    }
 
-    const result = val ?? def;
-    return (toNumber ? Number(result) : result) as T;
+    try {
+      return JSON.parse(val);
+    } catch {
+      return def as T;
+    }
   }
 
-  async get<T = unknown>(name: string, def?: unknown) {
+  async get<T = unknown>(name: StorageKey, def?: unknown) {
     if (this.supportGMPromises) {
       return await GM.getValue<T>(name, def);
     }
@@ -49,15 +61,43 @@ export const votStorage = new (class {
     return Promise.resolve(this.syncGet<T>(name, def));
   }
 
-  syncSet<T = string | boolean | number | undefined>(name: string, value: T) {
-    if (this.supportGM) {
-      return GM_setValue(name, value);
+  async getValues<
+    T extends Record<StorageKey, KeysOrDefaultValue> = Record<
+      StorageKey,
+      KeysOrDefaultValue
+    >,
+  >(data: T): Promise<T> {
+    if (this.supportGMGetValues) {
+      return await GM.getValues<T>(data);
     }
 
-    return window.localStorage.setItem(name, value as string);
+    return Object.fromEntries(
+      await Promise.all(
+        Object.entries(data as Record<StorageKey, KeysOrDefaultValue>).map(
+          async ([key, value]) => {
+            const val = await this.get<T[keyof T]>(key as StorageKey, value);
+            return [key, val];
+          },
+        ),
+      ),
+    );
   }
 
-  async set<T = string | boolean | number | undefined>(name: string, value: T) {
+  syncSet<T extends KeysOrDefaultValue = undefined>(
+    name: StorageKey,
+    value: T,
+  ) {
+    if (this.supportGM) {
+      return GM_setValue<T>(name, value);
+    }
+
+    return window.localStorage.setItem(name, JSON.stringify(value));
+  }
+
+  async set<T extends KeysOrDefaultValue = undefined>(
+    name: StorageKey,
+    value: T,
+  ) {
     if (this.supportGMPromises) {
       return await GM.setValue<T>(name, value);
     }
@@ -65,7 +105,7 @@ export const votStorage = new (class {
     return Promise.resolve(this.syncSet<T>(name, value));
   }
 
-  syncDelete(name: string) {
+  syncDelete(name: StorageKey) {
     if (this.supportGM) {
       return GM_deleteValue(name);
     }
@@ -73,7 +113,7 @@ export const votStorage = new (class {
     return window.localStorage.removeItem(name);
   }
 
-  async delete(name: string) {
+  async delete(name: StorageKey) {
     if (this.supportGMPromises) {
       return await GM.deleteValue(name);
     }
@@ -81,47 +121,17 @@ export const votStorage = new (class {
     return Promise.resolve(this.syncDelete(name));
   }
 
-  syncList() {
+  syncList(): readonly StorageKey[] {
     if (this.supportGM) {
-      return GM_listValues();
+      return GM_listValues<StorageKey>();
     }
 
-    return [
-      "autoTranslate",
-      "dontTranslateLanguage",
-      "dontTranslateYourLang",
-      "autoSetVolumeYandexStyle",
-      "autoVolume",
-      "buttonPos",
-      "showVideoSlider",
-      "syncVolume",
-      "subtitlesMaxLength",
-      "subtitlesOpacity",
-      "subtitlesFontSize",
-      "subtitlesDownloadFormat",
-      "highlightWords",
-      "responseLanguage",
-      "defaultVolume",
-      "audioProxy",
-      "showPiPButton",
-      "translateAPIErrors",
-      "translationService",
-      "detectService",
-      "m3u8ProxyHost",
-      "translateProxyEnabled",
-      "hotkeyButton",
-      "proxyWorkerHost",
-      "audioBooster",
-      "useNewModel",
-      "locale-version",
-      "locale-lang",
-      "locale-phrases",
-    ];
+    return storageKeys;
   }
 
   async list() {
     if (this.supportGMPromises) {
-      return await GM.listValues();
+      return await GM.listValues<StorageKey>();
     }
 
     return Promise.resolve(this.syncList());
