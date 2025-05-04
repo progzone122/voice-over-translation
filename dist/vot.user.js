@@ -23,7 +23,6 @@
 // @grant          GM_info
 // @grant          window.focus
 // @require        https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.18/hls.light.min.js
-// @require        https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js
 // @require        https://gist.githubusercontent.com/ilyhalight/6eb5bb4dffc7ca9e3c57d6933e2452f3/raw/7ab38af2228d0bed13912e503bc8a9ee4b11828d/gm-addstyle-polyfill.js
 // @match          *://*.youtube.com/*
 // @match          *://*.youtube-nocookie.com/*
@@ -129,6 +128,7 @@
 // @match          *://*.bunkr.to/*
 // @match          *://*.bunkr.ac/*
 // @match          *://*.bunkr.ax/*
+// @match          *://web.telegram.org/k/*
 // @match          *://*/*.mp4*
 // @match          *://*/*.webm*
 // @match          *://*.yewtu.be/*
@@ -238,7 +238,7 @@
 // @connect        speed.cloudflare.com
 // @connect        porntn.com
 // @namespace      vot
-// @version        1.9.5
+// @version        1.10.0
 // @icon           https://translate.yandex.ru/icons/favicon.ico
 // @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation
@@ -286,7 +286,7 @@ window.cancelIdleCallback =
 /***/ "./src/styles/main.scss":
 /***/ (() => {
 
-GM_addStyle(".vot-button{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));--vot-helper-ontheme:var(--vot-ontheme-rgb,var(--vot-onprimary-rgb,255,255,255));box-sizing:border-box;vertical-align:middle;text-align:center;text-overflow:ellipsis;min-width:64px;height:36px;color:rgb(var(--vot-helper-ontheme));background-color:rgb(var(--vot-helper-theme));font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;outline:none;font-size:14px;font-weight:500;line-height:36px;transition:box-shadow .2s;display:inline-block;position:relative;box-shadow:0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px rgba(0,0,0,.14),0 1px 5px rgba(0,0,0,.12);border:none!important;border-radius:4px!important;padding:0 16px!important}.vot-button[hidden]{display:none!important}.vot-button::-moz-focus-inner{border:none!important}.vot-button:before,.vot-button:after{content:\"\";opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;border-radius:inherit!important}.vot-button:before{background-color:rgb(var(--vot-helper-ontheme));transition:opacity .2s}.vot-button:after{background:radial-gradient(circle,currentColor 1%,transparent 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-button:hover{box-shadow:0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px rgba(0,0,0,.14),0 1px 10px rgba(0,0,0,.12)}.vot-button:hover:before{opacity:.08}.vot-button:active{box-shadow:0 5px 5px -3px rgba(0,0,0,.2),0 8px 10px 1px rgba(0,0,0,.14),0 3px 14px 2px rgba(0,0,0,.12)}.vot-button:active:after{opacity:.32;background-size:100% 100%;transition:background-size}.vot-button[disabled=true]{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.12);color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);box-shadow:none;cursor:initial}.vot-button[disabled=true]:before{opacity:0}.vot-button[disabled=true]:after{opacity:0}.vot-outlined-button{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));box-sizing:border-box;vertical-align:middle;text-align:center;text-overflow:ellipsis;min-width:64px;height:36px;color:rgb(var(--vot-helper-theme));font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;background-color:transparent;outline:none;font-size:14px;font-weight:500;line-height:34px;display:inline-block;position:relative;border:solid 1px rgba(var(--vot-onsurface-rgb,0,0,0),.24)!important;border-radius:4px!important;margin:0!important;padding:0 16px!important}.vot-outlined-button[hidden]{display:none!important}.vot-outlined-button::-moz-focus-inner{border:none!important}.vot-outlined-button:before,.vot-outlined-button:after{content:\"\";opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;border-radius:3px!important}.vot-outlined-button:before{background-color:rgb(var(--vot-helper-theme));transition:opacity .2s}.vot-outlined-button:after{background:radial-gradient(circle,currentColor 1%,transparent 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-outlined-button:hover:before{opacity:.04}.vot-outlined-button:active:after{opacity:.16;background-size:100% 100%;transition:background-size}.vot-outlined-button[disabled=true]{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial;background-color:transparent}.vot-outlined-button[disabled=true]:before{opacity:0}.vot-outlined-button[disabled=true]:after{opacity:0}.vot-text-button{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));box-sizing:border-box;vertical-align:middle;text-align:center;text-overflow:ellipsis;min-width:64px;height:36px;color:rgb(var(--vot-helper-theme));font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;background-color:transparent;outline:none;font-size:14px;font-weight:500;line-height:36px;display:inline-block;position:relative;border:none!important;border-radius:4px!important;margin:0!important;padding:0 8px!important}.vot-text-button[hidden]{display:none!important}.vot-text-button::-moz-focus-inner{border:none!important}.vot-text-button:before,.vot-text-button:after{content:\"\";opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;border-radius:inherit!important}.vot-text-button:before{background-color:rgb(var(--vot-helper-theme));transition:opacity .2s}.vot-text-button:after{background:radial-gradient(circle,currentColor 1%,transparent 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-text-button:hover:before{opacity:.04}.vot-text-button:active:after{opacity:.16;background-size:100% 100%;transition:background-size}.vot-text-button[disabled=true]{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial;background-color:transparent}.vot-text-button[disabled=true]:before{opacity:0}.vot-text-button[disabled=true]:after{opacity:0}.vot-icon-button{--vot-helper-onsurface:rgba(var(--vot-onsurface-rgb,0,0,0),.87);box-sizing:border-box;vertical-align:middle;text-align:center;text-overflow:ellipsis;width:36px;height:36px;fill:var(--vot-helper-onsurface);color:var(--vot-helper-onsurface);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:pointer;background-color:transparent;outline:none;font-size:14px;font-weight:500;line-height:36px;display:inline-block;position:relative;border:none!important;border-radius:50%!important;margin:0!important;padding:0!important}.vot-icon-button[hidden]{display:none!important}.vot-icon-button::-moz-focus-inner{border:none!important}.vot-icon-button:before,.vot-icon-button:after{content:\"\";opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;border-radius:inherit!important}.vot-icon-button:before{background-color:var(--vot-helper-onsurface);transition:opacity .2s}.vot-icon-button:after{background:radial-gradient(circle,currentColor 1%,transparent 1%) 50%/10000% 10000% no-repeat;transition:opacity .3s,background-size .4s}.vot-icon-button:hover:before{opacity:.04}.vot-icon-button:active:after{opacity:.32;background-size:100% 100%;transition:background-size,opacity}.vot-icon-button[disabled=true]{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);fill:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial;background-color:transparent}.vot-icon-button[disabled=true]:before{opacity:0}.vot-icon-button[disabled=true]:after{opacity:0}.vot-icon-button svg{fill:inherit;stroke:inherit;width:24px;height:36px}.vot-textfield{display:inline-block;--vot-helper-theme:rgb(var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243)))!important;--vot-helper-safari1:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important;--vot-helper-safari2:rgba(var(--vot-onsurface-rgb,0,0,0),.6)!important;--vot-helper-safari3:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important;font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system)!important;text-align:start!important;padding-top:6px!important;font-size:16px!important;line-height:1.5!important;position:relative!important}.vot-textfield[hidden]{display:none!important}.vot-textfield>input,.vot-textfield>textarea{box-sizing:border-box!important;border-style:solid!important;border-width:1px!important;border-color:transparent var(--vot-helper-safari2)var(--vot-helper-safari2)!important;width:100%!important;height:inherit!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important;-webkit-text-fill-color:currentColor!important;font-family:inherit!important;font-size:inherit!important;line-height:inherit!important;caret-color:var(--vot-helper-theme)!important;background-color:transparent!important;border-radius:4px!important;margin:0!important;padding:15px 13px!important;transition:border .2s,box-shadow .2s!important;box-shadow:inset 1px 0 transparent,inset -1px 0 transparent,inset 0 -1px transparent!important}.vot-textfield>input:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:transparent!important}.vot-textfield>textarea:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:transparent!important}.vot-textfield>input:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:transparent!important}.vot-textfield>textarea:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:transparent!important}.vot-textfield>input:not(:focus):not(.vot-show-placeholer)::-webkit-input-placeholder{color:transparent!important}.vot-textfield>textarea:not(:focus):not(.vot-show-placeholer)::-webkit-input-placeholder{color:transparent!important}.vot-textfield>input:not(:focus):placeholder-shown{border-top-color:var(--vot-helper-safari2)!important}.vot-textfield>textarea:not(:focus):placeholder-shown{border-top-color:var(--vot-helper-safari2)!important}.vot-textfield>input+span,.vot-textfield>textarea+span{font-family:inherit;width:100%!important;max-height:100%!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.6)!important;cursor:text!important;pointer-events:none!important;font-size:75%!important;line-height:15px!important;transition:color .2s,font-size .2s,line-height .2s!important;display:flex!important;position:absolute!important;top:0!important;left:0!important}.vot-textfield>input:not(:focus):placeholder-shown+span{font-size:inherit!important;line-height:68px!important}.vot-textfield>textarea:not(:focus):placeholder-shown+span{font-size:inherit!important;line-height:68px!important}.vot-textfield>input+span:before,.vot-textfield>input+span:after,.vot-textfield>textarea+span:before,.vot-textfield>textarea+span:after{content:\"\"!important;box-sizing:border-box!important;border-top:solid 1px var(--vot-helper-safari2)!important;pointer-events:none!important;min-width:10px!important;height:8px!important;margin-top:6px!important;transition:border .2s,box-shadow .2s!important;display:block!important;box-shadow:inset 0 1px transparent!important}.vot-textfield>input+span:before,.vot-textfield>textarea+span:before{border-left:1px solid transparent!important;border-radius:4px 0!important;margin-right:4px!important}.vot-textfield>input+span:after,.vot-textfield>textarea+span:after{border-right:1px solid transparent!important;border-radius:0 4px!important;flex-grow:1!important;margin-left:4px!important}.vot-textfield>input.vot-show-placeholer+span:before,.vot-textfield>textarea.vot-show-placeholer+span:before{margin-right:0!important}.vot-textfield>input.vot-show-placeholer+span:after,.vot-textfield>textarea.vot-show-placeholer+span:after{margin-left:0!important}.vot-textfield>input:not(:focus):placeholder-shown+span:before{border-top-color:transparent!important}.vot-textfield>input:not(:focus):placeholder-shown+span:after{border-top-color:transparent!important}.vot-textfield>textarea:not(:focus):placeholder-shown+span:before{border-top-color:transparent!important}.vot-textfield>textarea:not(:focus):placeholder-shown+span:after{border-top-color:transparent!important}.vot-textfield:hover>input:not(:disabled),.vot-textfield:hover>textarea:not(:disabled){border-color:transparent var(--vot-helper-safari3)var(--vot-helper-safari3)!important}.vot-textfield:hover>input:not(:disabled)+span:before,.vot-textfield:hover>input:not(:disabled)+span:after,.vot-textfield:hover>textarea:not(:disabled)+span:before,.vot-textfield:hover>textarea:not(:disabled)+span:after{border-top-color:var(--vot-helper-safari3)!important}.vot-textfield:hover>input:not(:disabled):not(:focus):placeholder-shown{border-color:var(--vot-helper-safari3)!important}.vot-textfield:hover>textarea:not(:disabled):not(:focus):placeholder-shown{border-color:var(--vot-helper-safari3)!important}.vot-textfield>input:focus,.vot-textfield>textarea:focus{border-color:transparent var(--vot-helper-theme)var(--vot-helper-theme)!important;box-shadow:inset 1px 0 var(--vot-helper-theme),inset -1px 0 var(--vot-helper-theme),inset 0 -1px var(--vot-helper-theme)!important;outline:none!important}.vot-textfield>input:focus+span,.vot-textfield>textarea:focus+span{color:var(--vot-helper-theme)!important}.vot-textfield>input:focus+span:before,.vot-textfield>input:focus+span:after,.vot-textfield>textarea:focus+span:before,.vot-textfield>textarea:focus+span:after{border-top-color:var(--vot-helper-theme)!important;box-shadow:inset 0 1px var(--vot-helper-theme)!important}.vot-textfield>input:disabled,.vot-textfield>input:disabled+span,.vot-textfield>textarea:disabled,.vot-textfield>textarea:disabled+span{border-color:transparent var(--vot-helper-safari1)var(--vot-helper-safari1)!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important;pointer-events:none!important}.vot-textfield>input:disabled+span:before,.vot-textfield>input:disabled+span:after,.vot-textfield>textarea:disabled+span:before,.vot-textfield>textarea:disabled+span:after{border-top-color:var(--vot-helper-safari1)!important}.vot-textfield>input:disabled:placeholder-shown{border-top-color:var(--vot-helper-safari1)!important}.vot-textfield>input:disabled:placeholder-shown+span{border-top-color:var(--vot-helper-safari1)!important}.vot-textfield>textarea:disabled:placeholder-shown{border-top-color:var(--vot-helper-safari1)!important}.vot-textfield>textarea:disabled:placeholder-shown+span{border-top-color:var(--vot-helper-safari1)!important}.vot-textfield>input:disabled:placeholder-shown+span:before{border-top-color:transparent!important}.vot-textfield>input:disabled:placeholder-shown+span:after{border-top-color:transparent!important}.vot-textfield>textarea:disabled:placeholder-shown+span:before{border-top-color:transparent!important}.vot-textfield>textarea:disabled:placeholder-shown+span:after{border-top-color:transparent!important}@media not all and (-webkit-min-device-pixel-ratio:.0000264583),not all and (min-resolution:.001dpcm){@supports ((-webkit-appearance:none)){.vot-textfield>input,.vot-textfield>input+span,.vot-textfield>textarea,.vot-textfield>textarea+span,.vot-textfield>input+span:before,.vot-textfield>input+span:after,.vot-textfield>textarea+span:before,.vot-textfield>textarea+span:after{transition-duration:.1s!important}}}.vot-checkbox{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));--vot-helper-ontheme:var(--vot-ontheme-rgb,var(--vot-onprimary-rgb,255,255,255));z-index:0;color:rgba(var(--vot-onsurface-rgb,0,0,0),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;font-size:16px;line-height:1.5;display:inline-block;position:relative}.vot-checkbox-sub{padding-left:16px!important}.vot-checkbox[hidden]{display:none!important}.vot-checkbox>input{-webkit-appearance:none;appearance:none;z-index:10000;box-sizing:border-box;cursor:pointer;background:0 0;outline:none;width:18px;height:18px;transition:border-color .2s,background-color .2s;display:block;position:absolute;border:2px solid!important;border-color:rgba(var(--vot-onsurface-rgb,0,0,0),.6)!important;border-radius:2px!important;margin:3px 1px!important;padding:0!important}.vot-checkbox>input+span{box-sizing:border-box;width:inherit;cursor:pointer;font-family:inherit;font-weight:400;display:inline-block;position:relative;padding-left:30px!important}.vot-checkbox>input+span:before{content:\"\";background-color:rgb(var(--vot-onsurface-rgb,0,0,0));opacity:0;pointer-events:none;width:40px;height:40px;transition:opacity .3s,transform .2s;display:block;position:absolute;top:-8px;left:-10px;transform:scale(1);border-radius:50%!important}.vot-checkbox>input+span:after{content:\"\";z-index:10000;pointer-events:none;width:10px;height:5px;transition:border-color .2s;display:block;position:absolute;top:3px;left:1px;transform:translate(3px,4px)rotate(-45deg);box-sizing:content-box!important;border:0 solid transparent!important;border-width:0 0 2px 2px!important}.vot-checkbox>input:checked{background-color:rgb(var(--vot-helper-theme));border-color:rgb(var(--vot-helper-theme))!important}.vot-checkbox>input:indeterminate{background-color:rgb(var(--vot-helper-theme));border-color:rgb(var(--vot-helper-theme))!important}.vot-checkbox>input:checked+span:before{background-color:rgb(var(--vot-helper-theme))}.vot-checkbox>input:indeterminate+span:before{background-color:rgb(var(--vot-helper-theme))}.vot-checkbox>input:checked+span:after{border-color:rgb(var(--vot-helper-ontheme,255,255,255))!important}.vot-checkbox>input:indeterminate+span:after{border-color:rgb(var(--vot-helper-ontheme,255,255,255))!important}.vot-checkbox>input:hover{box-shadow:none!important}.vot-checkbox>input:indeterminate+span:after{transform:translate(4px,3px);border-left-width:0!important}.vot-checkbox:hover>input+span:before{opacity:.04}.vot-checkbox:active>input,.vot-checkbox:active:hover>input:not(:disabled){border-color:rgb(var(--vot-helper-theme))!important}.vot-checkbox:active>input:checked{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.6);border-color:transparent!important}.vot-checkbox:active>input+span:before{opacity:1;transition:transform,opacity;transform:scale(0)}.vot-checkbox>input:disabled{cursor:initial;border-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-checkbox>input:disabled:checked{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);border-color:transparent!important}.vot-checkbox>input:disabled:indeterminate{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);border-color:transparent!important}.vot-checkbox>input:disabled+span{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial}.vot-checkbox>input:disabled+span:before{opacity:0;transform:scale(0)}.vot-slider{display:inline-block;--vot-safari-helper1:rgba(var(--vot-primary-rgb,33,150,243),.04)!important;--vot-safari-helper2:rgba(var(--vot-primary-rgb,33,150,243),.12)!important;--vot-safari-helper3:rgba(var(--vot-primary-rgb,33,150,243),.16)!important;--vot-safari-helper4:rgba(var(--vot-primary-rgb,33,150,243),.24)!important;width:100%!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important;font-family:var(--vot-font,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system)!important;text-align:start!important;font-size:16px!important;line-height:1.5!important}.vot-slider[hidden]{display:none!important}.vot-slider>input{-webkit-appearance:none!important;appearance:none!important;cursor:pointer!important;background-color:transparent!important;border:none!important;width:100%!important;height:36px!important;margin:0 0 -36px!important;padding:0!important;display:block!important;position:relative!important;top:24px!important}.vot-slider>input:hover{box-shadow:none!important}.vot-slider>input:last-child{margin:0!important;position:static!important}.vot-slider>input:before{content:\"\"!important;width:calc(100%*var(--vot-progress,0))!important;background:rgb(var(--vot-primary-rgb,33,150,243))!important;height:2px!important;display:block!important;position:absolute!important;top:calc(50% - 1px)!important}.vot-slider>input:disabled{cursor:default!important;opacity:.38!important}.vot-slider>input:disabled+span{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-webkit-slider-runnable-track{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-moz-range-track{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-ms-fill-lower{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-ms-fill-upper{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-moz-range-thumb{background-color:rgb(var(--vot-onsurface-rgb,0,0,0))!important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb,255,255,255))!important;transform:scale(4)!important}.vot-slider>input:disabled::-ms-thumb{background-color:rgb(var(--vot-onsurface-rgb,0,0,0))!important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb,255,255,255))!important;transform:scale(4)!important}.vot-slider>input:disabled::-webkit-slider-thumb{background-color:rgb(var(--vot-onsurface-rgb,0,0,0))!important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb,255,255,255))!important;transform:scale(4)!important}.vot-slider>input:disabled::-ms-fill-upper{opacity:.38!important}.vot-slider>input:disabled::-moz-range-progress{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important}.vot-slider>input:disabled:-webkit-slider-thumb{color:rgb(var(--vot-surface-rgb,255,255,255))!important}.vot-slider>input:active::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--vot-safari-helper4)!important}.vot-slider>input:active::-moz-range-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.24)!important}.vot-slider>input:active::-ms-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.24)!important}.vot-slider>input:focus{outline:none!important}.vot-slider>input::-webkit-slider-runnable-track{background-color:rgba(var(--vot-primary-rgb,33,150,243),.24)!important;border-radius:1px!important;width:100%!important;height:2px!important;margin:17px 0!important}.vot-slider>input::-moz-range-track{background-color:rgba(var(--vot-primary-rgb,33,150,243),.24)!important;border-radius:1px!important;width:100%!important;height:2px!important;margin:17px 0!important}.vot-slider>input::-ms-track{box-sizing:border-box!important;background-color:transparent!important;border:none!important;border-radius:1px!important;width:100%!important;height:2px!important;margin:17px 0!important;padding:0 17px!important}.vot-slider>input::-webkit-slider-thumb{-webkit-appearance:none!important;appearance:none!important;background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border:none!important;border-radius:50%!important;width:2px!important;height:2px!important;transition:box-shadow .2s!important;transform:scale(6)!important}.vot-slider>input::-moz-range-thumb{-webkit-appearance:none!important;appearance:none!important;background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border:none!important;border-radius:50%!important;width:2px!important;height:2px!important;transition:box-shadow .2s!important;transform:scale(6)!important}.vot-slider>input::-ms-thumb{-webkit-appearance:none!important;appearance:none!important;background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border:none!important;border-radius:50%!important;width:2px!important;height:2px!important;transition:box-shadow .2s!important;transform:scale(6)!important}.vot-slider>input::-webkit-slider-thumb{-webkit-appearance:none!important;margin:0!important}.vot-slider>input::-moz-range-thumb{-moz-appearance:none!important}.vot-slider>input::-ms-thumb{margin:0 17px!important}.vot-slider>input::-moz-range-progress{background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border-radius:1px!important;height:2px!important}.vot-slider>input::-ms-fill-lower{background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border-radius:1px!important;height:2px!important}.vot-slider>input::-ms-fill-upper{background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border-radius:1px!important;height:2px!important}.vot-slider>input::-moz-focus-outer{border:none!important}.vot-slider>span{margin-bottom:36px!important;display:inline-block!important}.vot-slider:hover>input::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--vot-safari-helper1)!important}.vot-slider:hover>input::-ms-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.04)!important}.vot-slider:hover>input:hover::-moz-range-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.04)!important}.vot-select{font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;color:var(--vot-helper-theme);fill:var(--vot-helper-theme);justify-content:space-between;align-items:center;font-size:14px;font-weight:400;line-height:1.5;display:flex;--vot-helper-theme-rgb:var(--vot-onsurface-rgb,0,0,0)!important;--vot-helper-theme:rgba(var(--vot-helper-theme-rgb),.87)!important;--vot-helper-safari1:rgba(var(--vot-onsurface-rgb,0,0,0),.6)!important;--vot-helper-safari2:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important}.vot-select[hidden]{display:none!important}.vot-select-label{font-family:inherit;font-size:16px}.vot-select-outer{cursor:pointer;justify-content:space-between;align-items:center;width:120px;max-width:120px;display:flex;border:1px solid var(--vot-helper-safari1)!important;border-radius:4px!important;padding:0 5px!important;transition:border .2s!important}.vot-select-outer:hover{border-color:var(--vot-helper-safari2)!important}.vot-select-title{text-overflow:ellipsis;white-space:nowrap;font-family:inherit;overflow:hidden}.vot-select-arrow-icon{justify-content:center;align-items:center;width:20px;height:32px;display:flex}.vot-select-arrow-icon svg{fill:inherit;stroke:inherit}.vot-select-content-list{flex-direction:column;display:flex}.vot-select-content-list .vot-select-content-item{cursor:pointer;border-radius:8px!important;padding:5px 10px!important}.vot-select-content-list .vot-select-content-item:not([inert]):hover{background-color:#2a2c31}.vot-select-content-list .vot-select-content-item[data-vot-selected=true]{color:rgb(var(--vot-primary-rgb,33,150,243));background-color:rgba(var(--vot-primary-rgb,33,150,243),.2)}.vot-select-content-list .vot-select-content-item[data-vot-selected=true]:hover{background-color:rgba(var(--vot-primary-rgb,33,150,243),.1)!important}.vot-select-content-list .vot-select-content-item[data-vot-disabled=true]{cursor:default}.vot-select-content-list .vot-select-content-item[hidden]{display:none!important}.vot-header{color:rgba(var(--vot-helper-onsurface-rgb),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;font-weight:700;line-height:1.5}.vot-header[hidden]{display:none!important}.vot-header:not(:first-child){padding-top:8px}.vot-header-level-1{font-size:2em}.vot-header-level-2{font-size:1.5em}.vot-header-level-3{font-size:1.17em}.vot-header-level-4{font-size:1em}.vot-header-level-5{font-size:.83em}.vot-header-level-6{font-size:.67em}.vot-info{color:rgba(var(--vot-helper-onsurface-rgb),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;-webkit-user-select:text;user-select:text;font-size:16px;line-height:1.5;display:flex}.vot-info[hidden]{display:none!important}.vot-info>:not(:first-child){color:rgba(var(--vot-helper-onsurface-rgb),.5);flex:1;margin-left:8px!important}.vot-details{color:rgba(var(--vot-helper-onsurface-rgb),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);text-align:start;cursor:pointer;justify-content:space-between;align-items:center;font-size:16px;line-height:1.5;transition:background .5s;display:flex;border-radius:.5em!important;margin:0 -.5em!important;padding:.5em!important}.vot-details[hidden]{display:none!important}.vot-details-arrow-icon{width:20px;height:32px;fill:rgba(var(--vot-helper-onsurface-rgb),.87);justify-content:center;align-items:center;display:flex;transform:scale(1.25)rotate(-90deg)}.vot-details:hover{background:rgba(var(--vot-onsurface-rgb,0,0,0),.04)}.vot-lang-select{--vot-helper-theme-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-theme:rgba(var(--vot-helper-theme-rgb),.87);color:var(--vot-helper-theme);fill:var(--vot-helper-theme);justify-content:space-between;align-items:center;display:flex}.vot-lang-select[hidden]{display:none!important}.vot-lang-select-icon{justify-content:center;align-items:center;width:32px;height:32px;display:flex}.vot-lang-select-icon svg{fill:inherit;stroke:inherit}.vot-segmented-button{--vot-helper-theme-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-theme:rgba(var(--vot-helper-theme-rgb),.87);-webkit-user-select:none;user-select:none;background:rgb(var(--vot-surface-rgb,255,255,255));max-width:100vw;height:32px;color:var(--vot-helper-theme);fill:var(--vot-helper-theme);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:default;z-index:2147483647;align-items:center;font-size:16px;line-height:1.5;transition:opacity .5s;display:flex;position:absolute;top:5rem;left:50%;overflow:hidden;transform:translate(-50%);border-radius:4px!important}.vot-segmented-button[hidden]{display:none!important}.vot-segmented-button *{box-sizing:border-box!important}.vot-segmented-button .vot-separator{background:rgba(var(--vot-helper-theme-rgb),.1);width:1px;height:50%}.vot-segmented-button .vot-separator[hidden]{display:none!important}.vot-segmented-button .vot-segment,.vot-segmented-button .vot-segment-only-icon{height:100%;color:inherit;background-color:transparent;justify-content:center;align-items:center;transition:background-color .1s ease-in-out;display:flex;position:relative;overflow:hidden;border:none!important;padding:0 8px!important}.vot-segmented-button .vot-segment[hidden],.vot-segmented-button [hidden].vot-segment-only-icon{display:none!important}.vot-segmented-button .vot-segment:before,.vot-segmented-button .vot-segment-only-icon:before,.vot-segmented-button .vot-segment:after,.vot-segmented-button .vot-segment-only-icon:after{content:\"\";opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;border-radius:inherit!important}.vot-segmented-button .vot-segment:before,.vot-segmented-button .vot-segment-only-icon:before{background-color:rgb(var(--vot-helper-theme-rgb));transition:opacity .2s}.vot-segmented-button .vot-segment:after,.vot-segmented-button .vot-segment-only-icon:after{background:radial-gradient(circle,currentColor 1%,transparent 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-segmented-button .vot-segment:hover:before,.vot-segmented-button .vot-segment-only-icon:hover:before{opacity:.04}.vot-segmented-button .vot-segment:active:after,.vot-segmented-button .vot-segment-only-icon:active:after{opacity:.16;background-size:100% 100%;transition:background-size}.vot-segmented-button .vot-segment-only-icon{min-width:32px;padding:0!important}.vot-segmented-button .vot-segment-label{white-space:nowrap;color:inherit;font-weight:400;margin-left:8px!important}.vot-segmented-button[data-status=success] .vot-translate-button{color:rgb(var(--vot-primary-rgb,33,150,243));fill:rgb(var(--vot-primary-rgb,33,150,243))}.vot-segmented-button[data-status=error] .vot-translate-button{color:#f28b82;fill:#f28b82}.vot-segmented-button[data-loading=true] #vot-loading-icon{display:block!important}.vot-segmented-button[data-loading=true] #vot-translate-icon{display:none!important}.vot-segmented-button[data-direction=column]{flex-direction:column;height:fit-content}.vot-segmented-button[data-direction=column] .vot-segment-label{display:none}.vot-segmented-button[data-direction=column]>.vot-segment-only-icon,.vot-segmented-button[data-direction=column]>.vot-segment{padding:8px!important}.vot-segmented-button[data-direction=column] .vot-separator{width:50%;height:1px}.vot-segmented-button[data-position=left]{top:12.5vh;left:50px}.vot-segmented-button[data-position=right]{top:12.5vh;left:auto;right:0}.vot-segmented-button svg{width:24px;fill:inherit;stroke:inherit}.vot-tooltip{--vot-helper-theme-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-theme:rgba(var(--vot-helper-theme-rgb),.87);--vot-helper-ondialog:rgb(var(--vot-ondialog-rgb,37,38,40));-webkit-user-select:none;user-select:none;background:rgb(var(--vot-surface-rgb,255,255,255));color:var(--vot-helper-theme);fill:var(--vot-helper-theme);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:default;z-index:2147483647;opacity:0;align-items:center;width:max-content;max-width:calc(100vw - 10px);height:max-content;font-size:14px;line-height:1.5;transition:opacity .5s;display:flex;position:absolute;top:0;bottom:0;left:0;right:0;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.12);border-radius:4px!important;padding:4px 8px!important}.vot-tooltip[hidden]{display:none!important}.vot-tooltip[data-trigger=click]{-webkit-user-select:text;user-select:text}.vot-tooltip *{box-sizing:border-box!important}.vot-menu{--vot-helper-surface-rgb:var(--vot-surface-rgb,255,255,255);--vot-helper-surface:rgb(var(--vot-helper-surface-rgb));--vot-helper-onsurface-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-onsurface:rgba(var(--vot-helper-onsurface-rgb),.87);-webkit-user-select:none;user-select:none;background-color:var(--vot-helper-surface);color:var(--vot-helper-onsurface);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);cursor:default;z-index:2147483647;visibility:visible;opacity:1;transform-origin:top;min-width:300px;font-size:16px;line-height:1.5;transition:opacity .3s,transform .1s;position:absolute;top:calc(5rem + 48px);left:50%;overflow:hidden;transform:translate(-50%)scale(1);border-radius:8px!important}.vot-menu *{box-sizing:border-box!important}.vot-menu[hidden]{pointer-events:none;visibility:hidden;opacity:0;transform:translate(-50%)scale(0);display:block!important}.vot-menu-content-wrapper{min-height:100px;max-height:calc(var(--vot-container-height,75vh) - (5rem + 32px + 16px)*2);flex-direction:column;display:flex;overflow:auto}.vot-menu-header-container{flex-shrink:0;align-items:flex-start;min-height:31px;display:flex}.vot-menu-header-container:empty{padding:0 0 16px!important}.vot-menu-header-container>.vot-icon-button{margin-inline-end:4px!important;margin-top:4px!important}.vot-menu-title-container{font-size:inherit;font-weight:inherit;text-align:start;outline:0;flex:1;display:flex;margin:0!important}.vot-menu-title{flex:1;font-size:16px;font-weight:400;line-height:1;padding:16px!important}.vot-menu-body-container{box-sizing:border-box;overscroll-behavior:contain;flex-direction:column;gap:8px;min-height:1.375rem;display:flex;overflow:auto;scrollbar-color:rgba(var(--vot-helper-onsurface-rgb),.1)var(--vot-helper-surface)!important;padding:0 16px!important}.vot-menu-body-container::-webkit-scrollbar{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-menu-body-container::-webkit-scrollbar-track{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-menu-body-container::-webkit-scrollbar-thumb{background:rgba(var(--vot-helper-onsurface-rgb),.1)!important;border:5px solid var(--vot-helper-surface)!important;-webkit-border-radius:1ex!important}.vot-menu-body-container::-webkit-scrollbar-thumb:hover{border:3px solid var(--vot-helper-surface)!important}.vot-menu-body-container::-webkit-scrollbar-corner{background:var(--vot-helper-surface)!important}.vot-menu-footer-container{flex-shrink:0;justify-content:flex-end;display:flex;padding:16px!important}.vot-menu-footer-container:empty{padding:16px 0 0!important}.vot-menu[data-position=left]{transform-origin:0;top:12.5vh;left:240px}.vot-menu[data-position=right]{transform-origin:100%;top:12.5vh;left:auto;right:-80px}.vot-dialog{--vot-helper-surface-rgb:var(--vot-surface-rgb,255,255,255);--vot-helper-surface:rgb(var(--vot-helper-surface-rgb));--vot-helper-onsurface-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-onsurface:rgba(var(--vot-helper-onsurface-rgb),.87);max-width:initial;max-height:initial;width:min(var(--vot-dialog-width,512px),100%);top:50%;bottom:50%;background-color:var(--vot-helper-surface);height:fit-content;color:var(--vot-helper-onsurface);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);-webkit-user-select:none;user-select:none;visibility:visible;opacity:1;transform-origin:50%;border-radius:8px;font-size:16px;line-height:1.5;transition:opacity .3s,transform .1s;display:block;position:fixed;top:0;bottom:0;left:0;right:0;overflow-x:auto;overflow-y:hidden;transform:scale(1);box-shadow:0 0 16px rgba(0,0,0,.12),0 16px 16px rgba(0,0,0,.24);margin:auto!important;padding:0!important}[hidden]>.vot-dialog{pointer-events:none;opacity:0;transition:opacity .1s,transform .2s;transform:scale(.5)}.vot-dialog-container{visibility:visible;z-index:2147483647;position:absolute}.vot-dialog-container[hidden]{pointer-events:none;visibility:hidden;display:block!important}.vot-dialog-container *{box-sizing:border-box!important}.vot-dialog-backdrop{opacity:1;background-color:rgba(0,0,0,.6);transition:opacity .3s;position:fixed;top:0;bottom:0;left:0;right:0}[hidden]>.vot-dialog-backdrop{pointer-events:none;opacity:0}.vot-dialog-content-wrapper{flex-direction:column;max-height:75vh;display:flex;overflow:auto}.vot-dialog-header-container{flex-shrink:0;align-items:flex-start;min-height:31px;display:flex}.vot-dialog-header-container:empty{padding:0 0 20px}.vot-dialog-header-container>.vot-icon-button{margin-inline-end:4px!important;margin-top:4px!important}.vot-dialog-title-container{font-size:inherit;font-weight:inherit;outline:0;flex:1;display:flex;margin:0!important}.vot-dialog-title{flex:1;font-size:115.385%;font-weight:700;line-height:1;padding:20px 20px 16px!important}.vot-dialog-body-container{box-sizing:border-box;overscroll-behavior:contain;flex-direction:column;gap:16px;min-height:1.375rem;display:flex;overflow:auto;scrollbar-color:rgba(var(--vot-helper-onsurface-rgb),.1)var(--vot-helper-surface)!important;padding:0 20px!important}.vot-dialog-body-container::-webkit-scrollbar{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-dialog-body-container::-webkit-scrollbar-track{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-dialog-body-container::-webkit-scrollbar-thumb{background:rgba(var(--vot-helper-onsurface-rgb),.1)!important;border:5px solid var(--vot-helper-surface)!important;-webkit-border-radius:1ex!important}.vot-dialog-body-container::-webkit-scrollbar-thumb:hover{border:3px solid var(--vot-helper-surface)!important}.vot-dialog-body-container::-webkit-scrollbar-corner{background:var(--vot-helper-surface)!important}.vot-dialog-footer-container{flex-shrink:0;justify-content:flex-end;display:flex;padding:16px!important}.vot-dialog-footer-container:empty{padding:20px 0 0!important}.vot-subtitles{--vot-subtitles-background:rgba(var(--vot-surface-rgb,46,47,52),var(--vot-subtitles-opacity,.8));background:var(--vot-subtitles-background,rgba(46,47,52,.8));width:max-content;max-width:100%;max-height:100%;color:var(--vot-subtitles-color,#e3e3e3);pointer-events:all;font-size:20px;font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system);box-sizing:border-box;-webkit-user-select:none;user-select:none;flex-wrap:wrap;gap:0 3px;line-height:normal;display:flex;position:relative;border-radius:.5em!important;padding:.5em!important}.vot-subtitles-widget{z-index:2147483647;pointer-events:none;justify-content:center;align-items:center;width:50%;min-height:20%;max-height:100%;display:flex;position:absolute;top:75%;left:25%}.vot-subtitles-info{flex-direction:column;gap:2px;display:flex;padding:6px!important}.vot-subtitles-info-service{color:var(--vot-subtitles-context-color,#86919b);margin-bottom:8px!important;font-size:10px!important;line-height:1!important}.vot-subtitles-info-header{color:var(--vot-subtitles-header-color,#fff);margin-bottom:6px!important;font-size:20px!important;font-weight:500!important;line-height:1!important}.vot-subtitles-info-context{color:var(--vot-subtitles-context-color,#86919b);font-size:12px!important;line-height:1.2!important}.vot-subtitles span{cursor:pointer;position:relative;font-size:inherit!important;font-family:inherit!important;line-height:normal!important}.vot-subtitles span.passed{color:var(--vot-subtitles-passed-color,#2196f3)}.vot-subtitles span:before{content:\"\";z-index:-1;width:100%;height:100%;position:absolute;top:2px;bottom:2px;left:-2px;right:-2px;border-radius:4px!important;padding:0 2px!important}.vot-subtitles span:hover:before{background:var(--vot-subtitles-hover-color,rgba(255,255,255,.55))}.vot-subtitles span.selected:before{background:var(--vot-subtitles-passed-color,#2196f3)}#vot-subtitles-info.vot-subtitles-info *{-webkit-user-select:text!important;user-select:text!important}:root{--vot-font-family:\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system;--vot-primary-rgb:139,180,245;--vot-onprimary-rgb:32,33,36;--vot-surface-rgb:32,33,36;--vot-onsurface-rgb:227,227,227;--vot-subtitles-color:rgb(var(--vot-onsurface-rgb,227,227,227));--vot-subtitles-passed-color:rgb(var(--vot-primary-rgb,33,150,243))}vot-block{font-family:inherit;display:block;visibility:visible!important}.vot-portal{display:inline}.vot-portal-local{z-index:2147483647;position:fixed;top:0;left:0}")
+GM_addStyle(".vot-button{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));--vot-helper-ontheme:var(--vot-ontheme-rgb,var(--vot-onprimary-rgb,255,255,255));box-sizing:border-box;vertical-align:middle;text-align:center;text-overflow:ellipsis;min-width:64px;height:36px;color:rgb(var(--vot-helper-ontheme));background-color:rgb(var(--vot-helper-theme));font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",system-ui,sans-serif);cursor:pointer;outline:none;font-size:14px;font-weight:500;line-height:36px;transition:box-shadow .2s;display:inline-block;position:relative;box-shadow:0 3px 1px -2px #0003,0 2px 2px #00000024,0 1px 5px #0000001f;border:none!important;border-radius:4px!important;padding:0 16px!important}.vot-button[hidden]{display:none!important}.vot-button::-moz-focus-inner{border:none!important}.vot-button:before,.vot-button:after{content:\"\";opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;border-radius:inherit!important}.vot-button:before{background-color:rgb(var(--vot-helper-ontheme));transition:opacity .2s}.vot-button:after{background:radial-gradient(circle,currentColor 1%,#0000 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-button:hover{box-shadow:0 2px 4px -1px #0003,0 4px 5px #00000024,0 1px 10px #0000001f}.vot-button:hover:before{opacity:.08}.vot-button:active{box-shadow:0 5px 5px -3px #0003,0 8px 10px 1px #00000024,0 3px 14px 2px #0000001f}.vot-button:active:after{opacity:.32;background-size:100% 100%;transition:background-size}.vot-button[disabled=true]{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.12);color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);box-shadow:none;cursor:initial}.vot-button[disabled=true]:before,.vot-button[disabled=true]:after{opacity:0}.vot-outlined-button{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));box-sizing:border-box;vertical-align:middle;text-align:center;text-overflow:ellipsis;min-width:64px;height:36px;color:rgb(var(--vot-helper-theme));font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",system-ui,sans-serif);cursor:pointer;background-color:#0000;outline:none;font-size:14px;font-weight:500;line-height:34px;display:inline-block;position:relative;border:solid 1px rgba(var(--vot-onsurface-rgb,0,0,0),.24)!important;border-radius:4px!important;margin:0!important;padding:0 16px!important}.vot-outlined-button[hidden]{display:none!important}.vot-outlined-button::-moz-focus-inner{border:none!important}.vot-outlined-button:before,.vot-outlined-button:after{content:\"\";opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;border-radius:3px!important}.vot-outlined-button:before{background-color:rgb(var(--vot-helper-theme));transition:opacity .2s}.vot-outlined-button:after{background:radial-gradient(circle,currentColor 1%,#0000 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-outlined-button:hover:before{opacity:.04}.vot-outlined-button:active:after{opacity:.16;background-size:100% 100%;transition:background-size}.vot-outlined-button[disabled=true]{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial;background-color:#0000}.vot-outlined-button[disabled=true]:before,.vot-outlined-button[disabled=true]:after{opacity:0}.vot-text-button{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));box-sizing:border-box;vertical-align:middle;text-align:center;text-overflow:ellipsis;min-width:64px;height:36px;color:rgb(var(--vot-helper-theme));font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",system-ui,sans-serif);cursor:pointer;background-color:#0000;outline:none;font-size:14px;font-weight:500;line-height:36px;display:inline-block;position:relative;border:none!important;border-radius:4px!important;margin:0!important;padding:0 8px!important}.vot-text-button[hidden]{display:none!important}.vot-text-button::-moz-focus-inner{border:none!important}.vot-text-button:before,.vot-text-button:after{content:\"\";opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;border-radius:inherit!important}.vot-text-button:before{background-color:rgb(var(--vot-helper-theme));transition:opacity .2s}.vot-text-button:after{background:radial-gradient(circle,currentColor 1%,#0000 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-text-button:hover:before{opacity:.04}.vot-text-button:active:after{opacity:.16;background-size:100% 100%;transition:background-size}.vot-text-button[disabled=true]{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial;background-color:#0000}.vot-text-button[disabled=true]:before,.vot-text-button[disabled=true]:after{opacity:0}.vot-icon-button{--vot-helper-onsurface:rgba(var(--vot-onsurface-rgb,0,0,0),.87);box-sizing:border-box;vertical-align:middle;text-align:center;text-overflow:ellipsis;width:36px;height:36px;fill:var(--vot-helper-onsurface);color:var(--vot-helper-onsurface);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",system-ui,sans-serif);cursor:pointer;background-color:#0000;outline:none;font-size:14px;font-weight:500;line-height:36px;display:inline-block;position:relative;border:none!important;border-radius:50%!important;margin:0!important;padding:0!important}.vot-icon-button[hidden]{display:none!important}.vot-icon-button::-moz-focus-inner{border:none!important}.vot-icon-button:before,.vot-icon-button:after{content:\"\";opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;border-radius:inherit!important}.vot-icon-button:before{background-color:var(--vot-helper-onsurface);transition:opacity .2s}.vot-icon-button:after{background:radial-gradient(circle,currentColor 1%,#0000 1%) 50%/10000% 10000% no-repeat;transition:opacity .3s,background-size .4s}.vot-icon-button:hover:before{opacity:.04}.vot-icon-button:active:after{opacity:.32;background-size:100% 100%;transition:background-size,opacity}.vot-icon-button[disabled=true]{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);fill:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial;background-color:#0000}.vot-icon-button[disabled=true]:before,.vot-icon-button[disabled=true]:after{opacity:0}.vot-icon-button svg{fill:inherit;stroke:inherit;width:24px;height:36px}.vot-hotkey{justify-content:space-between;align-items:start;display:flex}.vot-hotkey-label{word-break:break-word;max-width:80%}.vot-hotkey-button{--vot-helper-surface:rgba(var(--vot-onsurface-rgb),.2);--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));box-sizing:border-box;vertical-align:middle;text-align:center;width:fit-content;min-width:32px;height:fit-content;font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",system-ui,sans-serif);cursor:pointer;background-color:#0000;outline:none;font-size:15px;line-height:1.5;display:inline-block;position:relative;border:solid 1px rgba(var(--vot-onsurface-rgb,0,0,0),.24)!important;border-radius:4px!important;margin:0!important;padding:0 8px!important}.vot-hotkey-button[hidden]{display:none!important}.vot-hotkey-button::-moz-focus-inner{border:none!important}.vot-hotkey-button:before,.vot-hotkey-button:after{content:\"\";opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;border-radius:3px!important}.vot-hotkey-button:before{background-color:rgb(var(--vot-helper-theme));transition:opacity .2s}.vot-hotkey-button:after{background:radial-gradient(circle,currentColor 1%,#0000 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-hotkey-button:hover:before{opacity:.04}.vot-hotkey-button:active:after{opacity:.16;background-size:100% 100%;transition:background-size}.vot-hotkey-button[data-status=active]{color:rgb(var(--vot-helper-theme))}.vot-hotkey-button[data-status=active]:before{opacity:.04}.vot-hotkey-button[disabled=true]{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial;background-color:#0000}.vot-hotkey-button[disabled=true]:before,.vot-hotkey-button[disabled=true]:after{opacity:0}.vot-textfield{display:inline-block;--vot-helper-theme:rgb(var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243)))!important;--vot-helper-safari1:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important;--vot-helper-safari2:rgba(var(--vot-onsurface-rgb,0,0,0),.6)!important;--vot-helper-safari3:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important;font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",system-ui,sans-serif)!important;text-align:start!important;padding-top:6px!important;font-size:16px!important;line-height:1.5!important;position:relative!important}.vot-textfield[hidden]{display:none!important}.vot-textfield>input,.vot-textfield>textarea{box-sizing:border-box!important;border-style:solid!important;border-width:1px!important;border-color:transparent var(--vot-helper-safari2)var(--vot-helper-safari2)!important;width:100%!important;height:inherit!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important;-webkit-text-fill-color:currentColor!important;font-family:inherit!important;font-size:inherit!important;line-height:inherit!important;caret-color:var(--vot-helper-theme)!important;background-color:#0000!important;border-radius:4px!important;margin:0!important;padding:15px 13px!important;transition:border .2s,box-shadow .2s!important;box-shadow:inset 1px 0 #0000,inset -1px 0 #0000,inset 0 -1px #0000!important}.vot-textfield>input:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:#0000!important}.vot-textfield>textarea:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:#0000!important}.vot-textfield>input:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:#0000!important}.vot-textfield>textarea:not(:focus):not(.vot-show-placeholer)::-moz-placeholder{color:#0000!important}.vot-textfield>input:not(:focus):not(.vot-show-placeholer)::-webkit-input-placeholder{color:#0000!important}.vot-textfield>textarea:not(:focus):not(.vot-show-placeholer)::-webkit-input-placeholder{color:#0000!important}.vot-textfield>input:not(:focus):placeholder-shown,.vot-textfield>textarea:not(:focus):placeholder-shown{border-top-color:var(--vot-helper-safari2)!important}.vot-textfield>input+span,.vot-textfield>textarea+span{font-family:inherit;width:100%!important;max-height:100%!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.6)!important;cursor:text!important;pointer-events:none!important;font-size:75%!important;line-height:15px!important;transition:color .2s,font-size .2s,line-height .2s!important;display:flex!important;position:absolute!important;top:0!important;left:0!important}.vot-textfield>input:not(:focus):placeholder-shown+span,.vot-textfield>textarea:not(:focus):placeholder-shown+span{font-size:inherit!important;line-height:68px!important}.vot-textfield>input+span:before,.vot-textfield>input+span:after,.vot-textfield>textarea+span:before,.vot-textfield>textarea+span:after{content:\"\"!important;box-sizing:border-box!important;border-top:solid 1px var(--vot-helper-safari2)!important;pointer-events:none!important;min-width:10px!important;height:8px!important;margin-top:6px!important;transition:border .2s,box-shadow .2s!important;display:block!important;box-shadow:inset 0 1px #0000!important}.vot-textfield>input+span:before,.vot-textfield>textarea+span:before{border-left:1px solid #0000!important;border-radius:4px 0!important;margin-right:4px!important}.vot-textfield>input+span:after,.vot-textfield>textarea+span:after{border-right:1px solid #0000!important;border-radius:0 4px!important;flex-grow:1!important;margin-left:4px!important}.vot-textfield>input.vot-show-placeholer+span:before,.vot-textfield>textarea.vot-show-placeholer+span:before{margin-right:0!important}.vot-textfield>input.vot-show-placeholer+span:after,.vot-textfield>textarea.vot-show-placeholer+span:after{margin-left:0!important}.vot-textfield>input:not(:focus):placeholder-shown+span:before,.vot-textfield>input:not(:focus):placeholder-shown+span:after,.vot-textfield>textarea:not(:focus):placeholder-shown+span:before,.vot-textfield>textarea:not(:focus):placeholder-shown+span:after{border-top-color:#0000!important}.vot-textfield:hover>input:not(:disabled),.vot-textfield:hover>textarea:not(:disabled){border-color:transparent var(--vot-helper-safari3)var(--vot-helper-safari3)!important}.vot-textfield:hover>input:not(:disabled)+span:before,.vot-textfield:hover>input:not(:disabled)+span:after,.vot-textfield:hover>textarea:not(:disabled)+span:before,.vot-textfield:hover>textarea:not(:disabled)+span:after{border-top-color:var(--vot-helper-safari3)!important}.vot-textfield:hover>input:not(:disabled):not(:focus):placeholder-shown,.vot-textfield:hover>textarea:not(:disabled):not(:focus):placeholder-shown{border-color:var(--vot-helper-safari3)!important}.vot-textfield>input:focus,.vot-textfield>textarea:focus{border-color:transparent var(--vot-helper-theme)var(--vot-helper-theme)!important;box-shadow:inset 1px 0 var(--vot-helper-theme),inset -1px 0 var(--vot-helper-theme),inset 0 -1px var(--vot-helper-theme)!important;outline:none!important}.vot-textfield>input:focus+span,.vot-textfield>textarea:focus+span{color:var(--vot-helper-theme)!important}.vot-textfield>input:focus+span:before,.vot-textfield>input:focus+span:after,.vot-textfield>textarea:focus+span:before,.vot-textfield>textarea:focus+span:after{border-top-color:var(--vot-helper-theme)!important;box-shadow:inset 0 1px var(--vot-helper-theme)!important}.vot-textfield>input:disabled,.vot-textfield>input:disabled+span,.vot-textfield>textarea:disabled,.vot-textfield>textarea:disabled+span{border-color:transparent var(--vot-helper-safari1)var(--vot-helper-safari1)!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important;pointer-events:none!important}.vot-textfield>input:disabled+span:before,.vot-textfield>input:disabled+span:after,.vot-textfield>textarea:disabled+span:before,.vot-textfield>textarea:disabled+span:after,.vot-textfield>input:disabled:placeholder-shown,.vot-textfield>input:disabled:placeholder-shown+span,.vot-textfield>textarea:disabled:placeholder-shown,.vot-textfield>textarea:disabled:placeholder-shown+span{border-top-color:var(--vot-helper-safari1)!important}.vot-textfield>input:disabled:placeholder-shown+span:before,.vot-textfield>input:disabled:placeholder-shown+span:after,.vot-textfield>textarea:disabled:placeholder-shown+span:before,.vot-textfield>textarea:disabled:placeholder-shown+span:after{border-top-color:#0000!important}@media not all and (-webkit-min-device-pixel-ratio:.0000264583),not all and (min-resolution:.001dpcm){@supports ((-webkit-appearance:none)){.vot-textfield>input,.vot-textfield>input+span,.vot-textfield>textarea,.vot-textfield>textarea+span,.vot-textfield>input+span:before,.vot-textfield>input+span:after,.vot-textfield>textarea+span:before,.vot-textfield>textarea+span:after{transition-duration:.1s!important}}}.vot-checkbox{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primary-rgb,33,150,243));--vot-helper-ontheme:var(--vot-ontheme-rgb,var(--vot-onprimary-rgb,255,255,255));z-index:0;color:rgba(var(--vot-onsurface-rgb,0,0,0),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",system-ui,sans-serif);text-align:start;font-size:16px;line-height:1.5;display:inline-block;position:relative}.vot-checkbox-sub{padding-left:28px!important}.vot-checkbox[hidden]{display:none!important}.vot-checkbox>input{-webkit-appearance:none;appearance:none;z-index:10000;box-sizing:border-box;opacity:1;cursor:pointer;background:0 0;outline:none;width:18px;height:18px;transition:border-color .2s,background-color .2s;display:block;position:absolute;border:2px solid!important;border-color:rgba(var(--vot-onsurface-rgb,0,0,0),.6)!important;border-radius:2px!important;margin:3px 1px!important;padding:0!important}.vot-checkbox>input+span{box-sizing:border-box;width:inherit;cursor:pointer;font-family:inherit;font-weight:400;display:inline-block;position:relative;padding-left:30px!important}.vot-checkbox>input+span:before{content:\"\";background-color:rgb(var(--vot-onsurface-rgb,0,0,0));opacity:0;pointer-events:none;width:40px;height:40px;transition:opacity .3s,transform .2s;display:block;position:absolute;top:-8px;left:-10px;transform:scale(1);border-radius:50%!important}.vot-checkbox>input+span:after{content:\"\";z-index:10000;pointer-events:none;width:10px;height:5px;transition:border-color .2s;display:block;position:absolute;top:3px;left:1px;transform:translate(3px,4px)rotate(-45deg);box-sizing:content-box!important;border:0 solid #0000!important;border-width:0 0 2px 2px!important}.vot-checkbox>input:checked,.vot-checkbox>input:indeterminate{background-color:rgb(var(--vot-helper-theme));border-color:rgb(var(--vot-helper-theme))!important}.vot-checkbox>input:checked+span:before,.vot-checkbox>input:indeterminate+span:before{background-color:rgb(var(--vot-helper-theme))}.vot-checkbox>input:checked+span:after,.vot-checkbox>input:indeterminate+span:after{border-color:rgb(var(--vot-helper-ontheme,255,255,255))!important}.vot-checkbox>input:hover{box-shadow:none!important}.vot-checkbox>input:indeterminate+span:after{transform:translate(4px,3px);border-left-width:0!important}.vot-checkbox:hover>input+span:before{opacity:.04}.vot-checkbox:active>input,.vot-checkbox:active:hover>input:not(:disabled){border-color:rgb(var(--vot-helper-theme))!important}.vot-checkbox:active>input:checked{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.6);border-color:#0000!important}.vot-checkbox:active>input+span:before{opacity:1;transition:transform,opacity;transform:scale(0)}.vot-checkbox>input:disabled{cursor:initial;border-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-checkbox>input:disabled:checked,.vot-checkbox>input:disabled:indeterminate{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);border-color:#0000!important}.vot-checkbox>input:disabled+span{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38);cursor:initial}.vot-checkbox>input:disabled+span:before{opacity:0;transform:scale(0)}.vot-slider{display:inline-block;--vot-safari-helper1:rgba(var(--vot-primary-rgb,33,150,243),.04)!important;--vot-safari-helper2:rgba(var(--vot-primary-rgb,33,150,243),.12)!important;--vot-safari-helper3:rgba(var(--vot-primary-rgb,33,150,243),.16)!important;--vot-safari-helper4:rgba(var(--vot-primary-rgb,33,150,243),.24)!important;width:100%!important;color:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important;font-family:var(--vot-font,\"Roboto\",\"Segoe UI\",BlinkMacSystemFont,system-ui,-apple-system)!important;text-align:start!important;font-size:16px!important;line-height:1.5!important}.vot-slider[hidden]{display:none!important}.vot-slider>input{-webkit-appearance:none!important;appearance:none!important;cursor:pointer!important;background-color:#0000!important;border:none!important;width:100%!important;height:36px!important;margin:0 0 -36px!important;padding:0!important;display:block!important;position:relative!important;top:24px!important}.vot-slider>input:hover{box-shadow:none!important}.vot-slider>input:last-child{margin:0!important;position:static!important}.vot-slider>input:before{content:\"\"!important;width:calc(100%*var(--vot-progress,0))!important;background:rgb(var(--vot-primary-rgb,33,150,243))!important;height:2px!important;display:block!important;position:absolute!important;top:calc(50% - 1px)!important}.vot-slider>input:disabled{cursor:default!important;opacity:.38!important}.vot-slider>input:disabled+span{color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-webkit-slider-runnable-track{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-moz-range-track{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-ms-fill-lower{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-ms-fill-upper{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)!important}.vot-slider>input:disabled::-moz-range-thumb{background-color:rgb(var(--vot-onsurface-rgb,0,0,0))!important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb,255,255,255))!important;transform:scale(4)!important}.vot-slider>input:disabled::-ms-thumb{background-color:rgb(var(--vot-onsurface-rgb,0,0,0))!important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb,255,255,255))!important;transform:scale(4)!important}.vot-slider>input:disabled::-webkit-slider-thumb{background-color:rgb(var(--vot-onsurface-rgb,0,0,0))!important;box-shadow:0 0 0 1px rgb(var(--vot-surface-rgb,255,255,255))!important;transform:scale(4)!important}.vot-slider>input:disabled::-ms-fill-upper{opacity:.38!important}.vot-slider>input:disabled::-moz-range-progress{background-color:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important}.vot-slider>input:disabled:-webkit-slider-thumb{color:rgb(var(--vot-surface-rgb,255,255,255))!important}.vot-slider>input:active::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--vot-safari-helper4)!important}.vot-slider>input:active::-moz-range-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.24)!important}.vot-slider>input:active::-ms-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.24)!important}.vot-slider>input:focus{outline:none!important}.vot-slider>input::-webkit-slider-runnable-track{background-color:rgba(var(--vot-primary-rgb,33,150,243),.24)!important;border-radius:1px!important;width:100%!important;height:2px!important;margin:17px 0!important}.vot-slider>input::-moz-range-track{background-color:rgba(var(--vot-primary-rgb,33,150,243),.24)!important;border-radius:1px!important;width:100%!important;height:2px!important;margin:17px 0!important}.vot-slider>input::-ms-track{box-sizing:border-box!important;background-color:#0000!important;border:none!important;border-radius:1px!important;width:100%!important;height:2px!important;margin:17px 0!important;padding:0 17px!important}.vot-slider>input::-webkit-slider-thumb{-webkit-appearance:none!important;appearance:none!important;background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border:none!important;border-radius:50%!important;width:2px!important;height:2px!important;transition:box-shadow .2s!important;transform:scale(6)!important}.vot-slider>input::-moz-range-thumb{-webkit-appearance:none!important;appearance:none!important;background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border:none!important;border-radius:50%!important;width:2px!important;height:2px!important;transition:box-shadow .2s!important;transform:scale(6)!important}.vot-slider>input::-ms-thumb{-webkit-appearance:none!important;appearance:none!important;background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border:none!important;border-radius:50%!important;width:2px!important;height:2px!important;transition:box-shadow .2s!important;transform:scale(6)!important}.vot-slider>input::-webkit-slider-thumb{-webkit-appearance:none!important;margin:0!important}.vot-slider>input::-moz-range-thumb{-moz-appearance:none!important}.vot-slider>input::-ms-thumb{margin:0 17px!important}.vot-slider>input::-moz-range-progress{background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border-radius:1px!important;height:2px!important}.vot-slider>input::-ms-fill-lower{background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border-radius:1px!important;height:2px!important}.vot-slider>input::-ms-fill-upper{background-color:rgb(var(--vot-primary-rgb,33,150,243))!important;border-radius:1px!important;height:2px!important}.vot-slider>input::-moz-focus-outer{border:none!important}.vot-slider>span{margin-bottom:36px!important;display:inline-block!important}.vot-slider:hover>input::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--vot-safari-helper1)!important}.vot-slider:hover>input::-ms-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.04)!important}.vot-slider:hover>input:hover::-moz-range-thumb{box-shadow:0 0 0 2px rgba(var(--vot-primary-rgb,33,150,243),.04)!important}.vot-slider-label-value{margin-left:4px!important}.vot-select{font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",system-ui,sans-serif);text-align:start;color:var(--vot-helper-theme);fill:var(--vot-helper-theme);justify-content:space-between;align-items:center;font-size:14px;font-weight:400;line-height:1.5;display:flex;--vot-helper-theme-rgb:var(--vot-onsurface-rgb,0,0,0)!important;--vot-helper-theme:rgba(var(--vot-helper-theme-rgb),.87)!important;--vot-helper-safari1:rgba(var(--vot-onsurface-rgb,0,0,0),.6)!important;--vot-helper-safari2:rgba(var(--vot-onsurface-rgb,0,0,0),.87)!important}.vot-select[hidden]{display:none!important}.vot-select-label{align-items:center;gap:4px;font-family:inherit;font-size:16px;display:flex}.vot-select-label .vot-select-label-icon{width:20px;height:20px;margin-top:2px}.vot-select-label .vot-select-label-icon>svg{width:20px;height:20px}.vot-select-outer{cursor:pointer;justify-content:space-between;align-items:center;width:120px;max-width:120px;display:flex;border:1px solid var(--vot-helper-safari1)!important;border-radius:4px!important;padding:0 5px!important;transition:border .2s!important}.vot-select-outer:hover{border-color:var(--vot-helper-safari2)!important}.vot-select-title{text-overflow:ellipsis;white-space:nowrap;font-family:inherit;overflow:hidden}.vot-select-arrow-icon{justify-content:center;align-items:center;width:20px;height:32px;display:flex}.vot-select-arrow-icon svg{fill:inherit;stroke:inherit}.vot-select-content-list{flex-direction:column;display:flex}.vot-select-content-list .vot-select-content-item{cursor:pointer;border-radius:8px!important;padding:5px 10px!important}.vot-select-content-list .vot-select-content-item:not([inert]):hover{background-color:#2a2c31}.vot-select-content-list .vot-select-content-item[data-vot-selected=true]{color:rgb(var(--vot-primary-rgb,33,150,243));background-color:rgba(var(--vot-primary-rgb,33,150,243),.2)}.vot-select-content-list .vot-select-content-item[data-vot-selected=true]:hover{background-color:rgba(var(--vot-primary-rgb,33,150,243),.1)!important}.vot-select-content-list .vot-select-content-item[inert]{cursor:default;color:rgba(var(--vot-onsurface-rgb,0,0,0),.38)}.vot-select-content-list .vot-select-content-item[hidden]{display:none!important}.vot-header{color:rgba(var(--vot-helper-onsurface-rgb),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",system-ui,sans-serif);text-align:start;font-weight:700;line-height:1.5}.vot-header[hidden]{display:none!important}.vot-header:not(:first-child){padding-top:8px}.vot-header-level-1{font-size:2em}.vot-header-level-2{font-size:1.5em}.vot-header-level-3{font-size:1.17em}.vot-header-level-4{font-size:1em}.vot-header-level-5{font-size:.83em}.vot-header-level-6{font-size:.67em}.vot-info{color:rgba(var(--vot-helper-onsurface-rgb),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",system-ui,sans-serif);text-align:start;-webkit-user-select:text;user-select:text;font-size:16px;line-height:1.5;display:flex}.vot-info[hidden]{display:none!important}.vot-info>:not(:first-child){color:rgba(var(--vot-helper-onsurface-rgb),.5);flex:1;margin-left:8px!important}.vot-details{color:rgba(var(--vot-helper-onsurface-rgb),.87);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",system-ui,sans-serif);text-align:start;cursor:pointer;justify-content:space-between;align-items:center;font-size:16px;line-height:1.5;transition:background .5s;display:flex;border-radius:.5em!important;margin:-.5em!important;padding:.5em!important}.vot-details[hidden]{display:none!important}.vot-details-arrow-icon{width:20px;height:32px;fill:rgba(var(--vot-helper-onsurface-rgb),.87);justify-content:center;align-items:center;display:flex;transform:scale(1.25)rotate(-90deg)}.vot-details:hover{background:rgba(var(--vot-onsurface-rgb,0,0,0),.04)}.vot-lang-select{--vot-helper-theme-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-theme:rgba(var(--vot-helper-theme-rgb),.87);color:var(--vot-helper-theme);fill:var(--vot-helper-theme);justify-content:space-between;align-items:center;display:flex}.vot-lang-select[hidden]{display:none!important}.vot-lang-select-icon{justify-content:center;align-items:center;width:32px;height:32px;display:flex}.vot-lang-select-icon svg{fill:inherit;stroke:inherit}.vot-segmented-button{--vot-helper-theme-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-theme:rgba(var(--vot-helper-theme-rgb),.87);-webkit-user-select:none;user-select:none;background:rgb(var(--vot-surface-rgb,255,255,255));max-width:100vw;height:32px;color:var(--vot-helper-theme);fill:var(--vot-helper-theme);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",system-ui,sans-serif);cursor:default;z-index:2147483647;align-items:center;font-size:16px;line-height:1.5;transition:opacity .5s;display:flex;position:absolute;top:5rem;left:50%;overflow:hidden;transform:translate(-50%);border-radius:4px!important}.vot-segmented-button[hidden]{display:none!important}.vot-segmented-button *{box-sizing:border-box!important}.vot-segmented-button .vot-separator{background:rgba(var(--vot-helper-theme-rgb),.1);width:1px;height:50%}.vot-segmented-button .vot-separator[hidden]{display:none!important}.vot-segmented-button .vot-segment,.vot-segmented-button .vot-segment-only-icon{height:100%;color:inherit;background-color:#0000;justify-content:center;align-items:center;transition:background-color .1s ease-in-out;display:flex;position:relative;overflow:hidden;border:none!important;padding:0 8px!important}.vot-segmented-button .vot-segment[hidden],.vot-segmented-button [hidden].vot-segment-only-icon{display:none!important}.vot-segmented-button .vot-segment:before,.vot-segmented-button .vot-segment-only-icon:before,.vot-segmented-button .vot-segment:after,.vot-segmented-button .vot-segment-only-icon:after{content:\"\";opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;border-radius:inherit!important}.vot-segmented-button .vot-segment:before,.vot-segmented-button .vot-segment-only-icon:before{background-color:rgb(var(--vot-helper-theme-rgb));transition:opacity .2s}.vot-segmented-button .vot-segment:after,.vot-segmented-button .vot-segment-only-icon:after{background:radial-gradient(circle,currentColor 1%,#0000 1%) 50%/10000% 10000% no-repeat;transition:opacity 1s,background-size .5s}.vot-segmented-button .vot-segment:hover:before,.vot-segmented-button .vot-segment-only-icon:hover:before{opacity:.04}.vot-segmented-button .vot-segment:active:after,.vot-segmented-button .vot-segment-only-icon:active:after{opacity:.16;background-size:100% 100%;transition:background-size}.vot-segmented-button .vot-segment-only-icon{min-width:32px;padding:0!important}.vot-segmented-button .vot-segment-label{white-space:nowrap;color:inherit;font-weight:400;margin-left:8px!important}.vot-segmented-button[data-status=success] .vot-translate-button{color:rgb(var(--vot-primary-rgb,33,150,243));fill:rgb(var(--vot-primary-rgb,33,150,243))}.vot-segmented-button[data-status=error] .vot-translate-button{color:#f28b82;fill:#f28b82}.vot-segmented-button[data-loading=true] #vot-loading-icon{display:block!important}.vot-segmented-button[data-loading=true] #vot-translate-icon{display:none!important}.vot-segmented-button[data-direction=column]{flex-direction:column;height:fit-content}.vot-segmented-button[data-direction=column] .vot-segment-label{display:none}.vot-segmented-button[data-direction=column]>.vot-segment-only-icon,.vot-segmented-button[data-direction=column]>.vot-segment{padding:8px!important}.vot-segmented-button[data-direction=column] .vot-separator{width:50%;height:1px}.vot-segmented-button[data-position=left]{top:12.5vh;left:50px}.vot-segmented-button[data-position=right]{top:12.5vh;left:auto;right:0}.vot-segmented-button svg{width:24px;fill:inherit;stroke:inherit}.vot-tooltip{--vot-helper-theme-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-theme:rgba(var(--vot-helper-theme-rgb),.87);--vot-helper-ondialog:rgb(var(--vot-ondialog-rgb,37,38,40));--vot-helper-border:rgb(var(--vot-tooltip-border,69,69,69));-webkit-user-select:none;user-select:none;background:rgb(var(--vot-surface-rgb,255,255,255));color:var(--vot-helper-theme);fill:var(--vot-helper-theme);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",system-ui,sans-serif);cursor:default;z-index:2147483647;opacity:0;align-items:center;width:max-content;max-width:calc(100vw - 10px);height:max-content;font-size:14px;line-height:1.5;transition:opacity .5s;display:flex;position:absolute;top:0;bottom:0;left:0;right:0;overflow:hidden;box-shadow:0 1px 3px #0000001f;border-radius:4px!important;padding:4px 8px!important}.vot-tooltip[hidden]{display:none!important}.vot-tooltip[data-trigger=click]{-webkit-user-select:text;user-select:text}.vot-tooltip.vot-tooltip-bordered{border:1px solid var(--vot-helper-border)}.vot-tooltip *{box-sizing:border-box!important}.vot-menu{--vot-helper-surface-rgb:var(--vot-surface-rgb,255,255,255);--vot-helper-surface:rgb(var(--vot-helper-surface-rgb));--vot-helper-onsurface-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-onsurface:rgba(var(--vot-helper-onsurface-rgb),.87);-webkit-user-select:none;user-select:none;background-color:var(--vot-helper-surface);color:var(--vot-helper-onsurface);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",system-ui,sans-serif);cursor:default;z-index:2147483647;visibility:visible;opacity:1;transform-origin:top;min-width:300px;font-size:16px;line-height:1.5;transition:opacity .3s,transform .1s;position:absolute;top:calc(5rem + 48px);left:50%;overflow:hidden;transform:translate(-50%)scale(1);border-radius:8px!important}.vot-menu *{box-sizing:border-box!important}.vot-menu[hidden]{pointer-events:none;visibility:hidden;opacity:0;transform:translate(-50%)scale(0);display:block!important}.vot-menu-content-wrapper{min-height:100px;max-height:calc(var(--vot-container-height,75vh) - (5rem + 32px + 16px)*2);flex-direction:column;display:flex;overflow:auto}.vot-menu-header-container{flex-shrink:0;align-items:flex-start;min-height:31px;display:flex}.vot-menu-header-container:empty{padding:0 0 16px!important}.vot-menu-header-container>.vot-icon-button{margin-inline-end:4px!important;margin-top:4px!important}.vot-menu-title-container{font-size:inherit;font-weight:inherit;text-align:start;outline:0;flex:1;display:flex;margin:0!important}.vot-menu-title{flex:1;font-size:16px;font-weight:400;line-height:1;padding:16px!important}.vot-menu-body-container{box-sizing:border-box;overscroll-behavior:contain;flex-direction:column;gap:8px;min-height:1.375rem;display:flex;overflow:auto;scrollbar-color:rgba(var(--vot-helper-onsurface-rgb),.1)var(--vot-helper-surface)!important;padding:0 16px!important}.vot-menu-body-container::-webkit-scrollbar{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-menu-body-container::-webkit-scrollbar-track{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-menu-body-container::-webkit-scrollbar-thumb{background:rgba(var(--vot-helper-onsurface-rgb),.1)!important;border:5px solid var(--vot-helper-surface)!important;-webkit-border-radius:1ex!important}.vot-menu-body-container::-webkit-scrollbar-thumb:hover{border:3px solid var(--vot-helper-surface)!important}.vot-menu-body-container::-webkit-scrollbar-corner{background:var(--vot-helper-surface)!important}.vot-menu-footer-container{flex-shrink:0;justify-content:flex-end;display:flex;padding:16px!important}.vot-menu-footer-container:empty{padding:16px 0 0!important}.vot-menu[data-position=left]{transform-origin:0;top:12.5vh;left:240px}.vot-menu[data-position=right]{transform-origin:100%;top:12.5vh;left:auto;right:-80px}.vot-dialog{--vot-helper-surface-rgb:var(--vot-surface-rgb,255,255,255);--vot-helper-surface:rgb(var(--vot-helper-surface-rgb));--vot-helper-onsurface-rgb:var(--vot-onsurface-rgb,0,0,0);--vot-helper-onsurface:rgba(var(--vot-helper-onsurface-rgb),.87);max-width:initial;max-height:initial;width:min(var(--vot-dialog-width,512px),100%);top:50%;bottom:50%;background-color:var(--vot-helper-surface);height:fit-content;color:var(--vot-helper-onsurface);font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",system-ui,sans-serif);-webkit-user-select:none;user-select:none;visibility:visible;opacity:1;transform-origin:50%;border-radius:8px;font-size:16px;line-height:1.5;transition:opacity .3s,transform .1s;display:block;position:fixed;top:0;bottom:0;left:0;right:0;overflow-x:auto;overflow-y:hidden;transform:scale(1);box-shadow:0 0 16px #0000001f,0 16px 16px #0000003d;margin:auto!important;padding:0!important}[hidden]>.vot-dialog{pointer-events:none;opacity:0;transition:opacity .1s,transform .2s;transform:scale(.5)}.vot-dialog-container{visibility:visible;z-index:2147483647;position:absolute}.vot-dialog-container[hidden]{pointer-events:none;visibility:hidden;display:block!important}.vot-dialog-container *{box-sizing:border-box!important}.vot-dialog-backdrop{opacity:1;background-color:#0009;transition:opacity .3s;position:fixed;top:0;bottom:0;left:0;right:0}[hidden]>.vot-dialog-backdrop{pointer-events:none;opacity:0}.vot-dialog-content-wrapper{flex-direction:column;max-height:75vh;display:flex;overflow:auto}.vot-dialog-header-container{flex-shrink:0;align-items:flex-start;min-height:31px;display:flex}.vot-dialog-header-container:empty{padding:0 0 20px}.vot-dialog-header-container>.vot-icon-button{margin-inline-end:4px!important;margin-top:4px!important}.vot-dialog-title-container{font-size:inherit;font-weight:inherit;outline:0;flex:1;display:flex;margin:0!important}.vot-dialog-title{flex:1;font-size:115.385%;font-weight:700;line-height:1;padding:20px 20px 16px!important}.vot-dialog-body-container{box-sizing:border-box;overscroll-behavior:contain;flex-direction:column;gap:16px;min-height:1.375rem;display:flex;overflow:auto;scrollbar-color:rgba(var(--vot-helper-onsurface-rgb),.1)var(--vot-helper-surface)!important;padding:0 20px!important}.vot-dialog-body-container::-webkit-scrollbar{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-dialog-body-container::-webkit-scrollbar-track{background:var(--vot-helper-surface)!important;width:12px!important;height:12px!important}.vot-dialog-body-container::-webkit-scrollbar-thumb{background:rgba(var(--vot-helper-onsurface-rgb),.1)!important;border:5px solid var(--vot-helper-surface)!important;-webkit-border-radius:1ex!important}.vot-dialog-body-container::-webkit-scrollbar-thumb:hover{border:3px solid var(--vot-helper-surface)!important}.vot-dialog-body-container::-webkit-scrollbar-corner{background:var(--vot-helper-surface)!important}.vot-dialog-footer-container{flex-shrink:0;justify-content:flex-end;display:flex;padding:16px!important}.vot-dialog-footer-container:empty{padding:20px 0 0!important}.vot-inline-loader{aspect-ratio:5;--vot-loader-bg:no-repeat radial-gradient(farthest-side,rgba(var(--vot-onsurface-rgb,0,0,0),.38)94%,transparent);background:var(--vot-loader-bg),var(--vot-loader-bg),var(--vot-loader-bg),var(--vot-loader-bg);background-size:20% 100%;height:8px;animation:.75s infinite alternate dotsSlide,1.5s infinite alternate dotsFlip}@keyframes dotsSlide{0%,10%{background-position:0 0,0 0,0 0,0 0}33%{background-position:0 0,33.3333% 0,33.3333% 0,33.3333% 0}66%{background-position:0 0,33.3333% 0,66.6667% 0,66.6667% 0}90%,to{background-position:0 0,33.3333% 0,66.6667% 0,100% 0}}@keyframes dotsFlip{0%,49.99%{transform:scale(1)}50%,to{transform:scale(-1)}}.vot-subtitles{--vot-subtitles-background:rgba(var(--vot-surface-rgb,46,47,52),var(--vot-subtitles-opacity,.8));background:var(--vot-subtitles-background,#2e2f34cc);width:max-content;max-width:100%;max-height:100%;color:var(--vot-subtitles-color,#e3e3e3);pointer-events:all;font-size:20px;font-family:var(--vot-font-family,\"Roboto\",\"Segoe UI\",system-ui,sans-serif);box-sizing:border-box;-webkit-user-select:none;user-select:none;flex-wrap:wrap;gap:0 3px;line-height:normal;display:flex;position:relative;border-radius:.5em!important;padding:.5em!important}.vot-subtitles-widget{z-index:2147483647;pointer-events:none;justify-content:center;align-items:center;width:50%;min-height:20%;max-height:100%;display:flex;position:absolute;top:75%;left:25%}.vot-subtitles-info{flex-direction:column;gap:2px;display:flex;padding:6px!important}.vot-subtitles-info-service{color:var(--vot-subtitles-context-color,#86919b);margin-bottom:8px!important;font-size:10px!important;line-height:1!important}.vot-subtitles-info-header{color:var(--vot-subtitles-header-color,#fff);margin-bottom:6px!important;font-size:20px!important;font-weight:500!important;line-height:1!important}.vot-subtitles-info-context{color:var(--vot-subtitles-context-color,#86919b);font-size:12px!important;line-height:1.2!important}.vot-subtitles span{cursor:pointer;position:relative;font-size:inherit!important;font-family:inherit!important;line-height:normal!important}.vot-subtitles span.passed{color:var(--vot-subtitles-passed-color,#2196f3)}.vot-subtitles span:before{content:\"\";z-index:-1;width:100%;height:100%;position:absolute;top:2px;bottom:2px;left:-2px;right:-2px;border-radius:4px!important;padding:0 2px!important}.vot-subtitles span:hover:before{background:var(--vot-subtitles-hover-color,#ffffff8c)}.vot-subtitles span.selected:before{background:var(--vot-subtitles-passed-color,#2196f3)}#vot-subtitles-info.vot-subtitles-info *{-webkit-user-select:text!important;user-select:text!important}:root{--vot-font-family:\"Roboto\",\"Segoe UI\",system-ui,sans-serif;--vot-primary-rgb:139,180,245;--vot-onprimary-rgb:32,33,36;--vot-surface-rgb:32,33,36;--vot-onsurface-rgb:227,227,227;--vot-subtitles-color:rgb(var(--vot-onsurface-rgb,227,227,227));--vot-subtitles-passed-color:rgb(var(--vot-primary-rgb,33,150,243))}vot-block{font-family:inherit;display:block;visibility:visible!important}.vot-portal{display:inline}.vot-portal-local{z-index:2147483647;position:fixed;top:0;left:0}")
 
 /***/ })
 
@@ -323,17 +323,6 @@ GM_addStyle(".vot-button{--vot-helper-theme:var(--vot-theme-rgb,var(--vot-primar
 
 // EXTERNAL MODULE: ./node_modules/bowser/es5.js
 var es5 = __webpack_require__("./node_modules/bowser/es5.js");
-;// ./node_modules/lit-html/lit-html.js
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-const t=globalThis,i=t.trustedTypes,s=i?i.createPolicy("lit-html",{createHTML:t=>t}):void 0,e="$lit$",h=`lit$${Math.random().toFixed(9).slice(2)}$`,o="?"+h,n=`<${o}>`,r=document,l=()=>r.createComment(""),c=t=>null===t||"object"!=typeof t&&"function"!=typeof t,a=Array.isArray,u=t=>a(t)||"function"==typeof t?.[Symbol.iterator],d="[ \t\n\f\r]",f=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,v=/-->/g,_=/>/g,m=RegExp(`>|${d}(?:([^\\s"'>=/]+)(${d}*=${d}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),p=/'/g,g=/"/g,$=/^(?:script|style|textarea|title)$/i,y=t=>(i,...s)=>({_$litType$:t,strings:i,values:s}),x=y(1),b=y(2),w=y(3),T=Symbol.for("lit-noChange"),E=Symbol.for("lit-nothing"),A=new WeakMap,C=r.createTreeWalker(r,129);function P(t,i){if(!a(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==s?s.createHTML(i):i}const V=(t,i)=>{const s=t.length-1,o=[];let r,l=2===i?"<svg>":3===i?"<math>":"",c=f;for(let i=0;i<s;i++){const s=t[i];let a,u,d=-1,y=0;for(;y<s.length&&(c.lastIndex=y,u=c.exec(s),null!==u);)y=c.lastIndex,c===f?"!--"===u[1]?c=v:void 0!==u[1]?c=_:void 0!==u[2]?($.test(u[2])&&(r=RegExp("</"+u[2],"g")),c=m):void 0!==u[3]&&(c=m):c===m?">"===u[0]?(c=r??f,d=-1):void 0===u[1]?d=-2:(d=c.lastIndex-u[2].length,a=u[1],c=void 0===u[3]?m:'"'===u[3]?g:p):c===g||c===p?c=m:c===v||c===_?c=f:(c=m,r=void 0);const x=c===m&&t[i+1].startsWith("/>")?" ":"";l+=c===f?s+n:d>=0?(o.push(a),s.slice(0,d)+e+s.slice(d)+h+x):s+h+(-2===d?i:x)}return[P(t,l+(t[s]||"<?>")+(2===i?"</svg>":3===i?"</math>":"")),o]};class N{constructor({strings:t,_$litType$:s},n){let r;this.parts=[];let c=0,a=0;const u=t.length-1,d=this.parts,[f,v]=V(t,s);if(this.el=N.createElement(f,n),C.currentNode=this.el.content,2===s||3===s){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(r=C.nextNode())&&d.length<u;){if(1===r.nodeType){if(r.hasAttributes())for(const t of r.getAttributeNames())if(t.endsWith(e)){const i=v[a++],s=r.getAttribute(t).split(h),e=/([.?@])?(.*)/.exec(i);d.push({type:1,index:c,name:e[2],strings:s,ctor:"."===e[1]?H:"?"===e[1]?I:"@"===e[1]?L:k}),r.removeAttribute(t)}else t.startsWith(h)&&(d.push({type:6,index:c}),r.removeAttribute(t));if($.test(r.tagName)){const t=r.textContent.split(h),s=t.length-1;if(s>0){r.textContent=i?i.emptyScript:"";for(let i=0;i<s;i++)r.append(t[i],l()),C.nextNode(),d.push({type:2,index:++c});r.append(t[s],l())}}}else if(8===r.nodeType)if(r.data===o)d.push({type:2,index:c});else{let t=-1;for(;-1!==(t=r.data.indexOf(h,t+1));)d.push({type:7,index:c}),t+=h.length-1}c++}}static createElement(t,i){const s=r.createElement("template");return s.innerHTML=t,s}}function S(t,i,s=t,e){if(i===T)return i;let h=void 0!==e?s._$Co?.[e]:s._$Cl;const o=c(i)?void 0:i._$litDirective$;return h?.constructor!==o&&(h?._$AO?.(!1),void 0===o?h=void 0:(h=new o(t),h._$AT(t,s,e)),void 0!==e?(s._$Co??=[])[e]=h:s._$Cl=h),void 0!==h&&(i=S(t,h._$AS(t,i.values),h,e)),i}class M{constructor(t,i){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=i}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:i},parts:s}=this._$AD,e=(t?.creationScope??r).importNode(i,!0);C.currentNode=e;let h=C.nextNode(),o=0,n=0,l=s[0];for(;void 0!==l;){if(o===l.index){let i;2===l.type?i=new R(h,h.nextSibling,this,t):1===l.type?i=new l.ctor(h,l.name,l.strings,this,t):6===l.type&&(i=new z(h,this,t)),this._$AV.push(i),l=s[++n]}o!==l?.index&&(h=C.nextNode(),o++)}return C.currentNode=r,e}p(t){let i=0;for(const s of this._$AV)void 0!==s&&(void 0!==s.strings?(s._$AI(t,s,i),i+=s.strings.length-2):s._$AI(t[i])),i++}}class R{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,i,s,e){this.type=2,this._$AH=E,this._$AN=void 0,this._$AA=t,this._$AB=i,this._$AM=s,this.options=e,this._$Cv=e?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const i=this._$AM;return void 0!==i&&11===t?.nodeType&&(t=i.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,i=this){t=S(this,t,i),c(t)?t===E||null==t||""===t?(this._$AH!==E&&this._$AR(),this._$AH=E):t!==this._$AH&&t!==T&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):u(t)?this.k(t):this._(t)}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t))}_(t){this._$AH!==E&&c(this._$AH)?this._$AA.nextSibling.data=t:this.T(r.createTextNode(t)),this._$AH=t}$(t){const{values:i,_$litType$:s}=t,e="number"==typeof s?this._$AC(t):(void 0===s.el&&(s.el=N.createElement(P(s.h,s.h[0]),this.options)),s);if(this._$AH?._$AD===e)this._$AH.p(i);else{const t=new M(e,this),s=t.u(this.options);t.p(i),this.T(s),this._$AH=t}}_$AC(t){let i=A.get(t.strings);return void 0===i&&A.set(t.strings,i=new N(t)),i}k(t){a(this._$AH)||(this._$AH=[],this._$AR());const i=this._$AH;let s,e=0;for(const h of t)e===i.length?i.push(s=new R(this.O(l()),this.O(l()),this,this.options)):s=i[e],s._$AI(h),e++;e<i.length&&(this._$AR(s&&s._$AB.nextSibling,e),i.length=e)}_$AR(t=this._$AA.nextSibling,i){for(this._$AP?.(!1,!0,i);t&&t!==this._$AB;){const i=t.nextSibling;t.remove(),t=i}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t))}}class k{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,i,s,e,h){this.type=1,this._$AH=E,this._$AN=void 0,this.element=t,this.name=i,this._$AM=e,this.options=h,s.length>2||""!==s[0]||""!==s[1]?(this._$AH=Array(s.length-1).fill(new String),this.strings=s):this._$AH=E}_$AI(t,i=this,s,e){const h=this.strings;let o=!1;if(void 0===h)t=S(this,t,i,0),o=!c(t)||t!==this._$AH&&t!==T,o&&(this._$AH=t);else{const e=t;let n,r;for(t=h[0],n=0;n<h.length-1;n++)r=S(this,e[s+n],i,n),r===T&&(r=this._$AH[n]),o||=!c(r)||r!==this._$AH[n],r===E?t=E:t!==E&&(t+=(r??"")+h[n+1]),this._$AH[n]=r}o&&!e&&this.j(t)}j(t){t===E?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class H extends k{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===E?void 0:t}}class I extends k{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==E)}}class L extends k{constructor(t,i,s,e,h){super(t,i,s,e,h),this.type=5}_$AI(t,i=this){if((t=S(this,t,i,0)??E)===T)return;const s=this._$AH,e=t===E&&s!==E||t.capture!==s.capture||t.once!==s.once||t.passive!==s.passive,h=t!==E&&(s===E||e);e&&this.element.removeEventListener(this.name,this,s),h&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class z{constructor(t,i,s){this.element=t,this.type=6,this._$AN=void 0,this._$AM=i,this.options=s}get _$AU(){return this._$AM._$AU}_$AI(t){S(this,t)}}const Z={M:e,P:h,A:o,C:1,L:V,R:M,D:u,V:S,I:R,H:k,N:I,U:L,B:H,F:z},j=t.litHtmlPolyfillSupport;j?.(N,R),(t.litHtmlVersions??=[]).push("3.3.0");const B=(t,i,s)=>{const e=s?.renderBefore??i;let h=e._$litPart$;if(void 0===h){const t=s?.renderBefore??null;e._$litPart$=h=new R(i.insertBefore(l(),t),t,void 0,s??{})}return h._$AI(t),h};
-//# sourceMappingURL=lit-html.js.map
-
-;// ./node_modules/browser-id3-writer/dist/browser-id3-writer.mjs
-function browser_id3_writer_e(e){return String(e).split("").map((e=>e.charCodeAt(0)))}function browser_id3_writer_t(t){return new Uint8Array(browser_id3_writer_e(t))}function browser_id3_writer_a(t){const a=new ArrayBuffer(2*t.length),r=new Uint8Array(a);return new Uint16Array(a).set(browser_id3_writer_e(t)),r}function browser_id3_writer_r(e){const t=255;return[e>>>24&t,e>>>16&t,e>>>8&t,e&t]}function browser_id3_writer_n(e){return 11+e}function browser_id3_writer_s(e,t,a,r){return 11+t+1+1+(r?2+2*(a+1):a+1)+e}function browser_id3_writer_i(e){let t=0;return e.forEach((e=>{t+=2+2*e[0].length+2+2+2*e[1].length+2})),11+t}function browser_id3_writer_c(e,t){const a=2*t;let r=0;return e.forEach((e=>{r+=2+2*e[0].length+2+4})),18+a+2+r}class browser_id3_writer_o{_setIntegerFrame(e,t){const a=parseInt(t,10);this.frames.push({name:e,value:a,size:browser_id3_writer_n(a.toString().length)})}_setStringFrame(e,t){const a=t.toString();let r=13+2*a.length;"TDAT"===e&&(r=browser_id3_writer_n(a.length)),this.frames.push({name:e,value:a,size:r})}_setPictureFrame(e,t,a,r){const n=function(e){if(!e||!e.length)return null;if(255===e[0]&&216===e[1]&&255===e[2])return"image/jpeg";if(137===e[0]&&80===e[1]&&78===e[2]&&71===e[3])return"image/png";if(71===e[0]&&73===e[1]&&70===e[2])return"image/gif";if(87===e[8]&&69===e[9]&&66===e[10]&&80===e[11])return"image/webp";const t=73===e[0]&&73===e[1]&&42===e[2]&&0===e[3],a=77===e[0]&&77===e[1]&&0===e[2]&&42===e[3];return t||a?"image/tiff":66===e[0]&&77===e[1]?"image/bmp":0===e[0]&&0===e[1]&&1===e[2]&&0===e[3]?"image/x-icon":null}(new Uint8Array(t)),i=a.toString();if(!n)throw new Error("Unknown picture MIME type");a||(r=!1),this.frames.push({name:"APIC",value:t,pictureType:e,mimeType:n,useUnicodeEncoding:r,description:i,size:browser_id3_writer_s(t.byteLength,n.length,i.length,r)})}_setLyricsFrame(e,t,a){const r=e.split("").map((e=>e.charCodeAt(0))),n=t.toString(),s=a.toString();var i,c;this.frames.push({name:"USLT",value:s,language:r,description:n,size:(i=n.length,c=s.length,16+2*i+2+2+2*c)})}_setCommentFrame(e,t,a){const r=e.split("").map((e=>e.charCodeAt(0))),n=t.toString(),s=a.toString();var i,c;this.frames.push({name:"COMM",value:s,language:r,description:n,size:(i=n.length,c=s.length,16+2*i+2+2+2*c)})}_setPrivateFrame(e,t){const a=e.toString();var r,n;this.frames.push({name:"PRIV",value:t,id:a,size:(r=a.length,n=t.byteLength,10+r+1+n)})}_setUserStringFrame(e,t){const a=e.toString(),r=t.toString();var n,s;this.frames.push({name:"TXXX",description:a,value:r,size:(n=a.length,s=r.length,13+2*n+2+2+2*s)})}_setUrlLinkFrame(e,t){const a=t.toString();var r;this.frames.push({name:e,value:a,size:(r=a.length,10+r)})}_setPairedTextFrame(e,t){this.frames.push({name:e,value:t,size:browser_id3_writer_i(t)})}_setSynchronisedLyricsFrame(e,t,a,r,n){const s=n.toString(),i=r.split("").map((e=>e.charCodeAt(0)));this.frames.push({name:"SYLT",value:t,language:i,description:s,type:e,timestampFormat:a,size:browser_id3_writer_c(t,s.length)})}constructor(e){if(!e||"object"!=typeof e||!("byteLength"in e))throw new Error("First argument should be an instance of ArrayBuffer or Buffer");this.arrayBuffer=e,this.padding=4096,this.frames=[],this.url=""}setFrame(e,t){switch(e){case"TPE1":case"TCOM":case"TCON":{if(!Array.isArray(t))throw new Error(`${e} frame value should be an array of strings`);const a="TCON"===e?";":"/",r=t.join(a);this._setStringFrame(e,r);break}case"TLAN":case"TIT1":case"TIT2":case"TIT3":case"TALB":case"TPE2":case"TPE3":case"TPE4":case"TRCK":case"TPOS":case"TMED":case"TPUB":case"TCOP":case"TKEY":case"TEXT":case"TDAT":case"TCMP":case"TSRC":this._setStringFrame(e,t);break;case"TBPM":case"TLEN":case"TYER":this._setIntegerFrame(e,t);break;case"USLT":if(t.language=t.language||"eng","object"!=typeof t||!("description"in t)||!("lyrics"in t))throw new Error("USLT frame value should be an object with keys description and lyrics");if(t.language&&!t.language.match(/[a-z]{3}/i))throw new Error("Language must be coded following the ISO 639-2 standards");this._setLyricsFrame(t.language,t.description,t.lyrics);break;case"APIC":if("object"!=typeof t||!("type"in t)||!("data"in t)||!("description"in t))throw new Error("APIC frame value should be an object with keys type, data and description");if(t.type<0||t.type>20)throw new Error("Incorrect APIC frame picture type");this._setPictureFrame(t.type,t.data,t.description,!!t.useUnicodeEncoding);break;case"TXXX":if("object"!=typeof t||!("description"in t)||!("value"in t))throw new Error("TXXX frame value should be an object with keys description and value");this._setUserStringFrame(t.description,t.value);break;case"WCOM":case"WCOP":case"WOAF":case"WOAR":case"WOAS":case"WORS":case"WPAY":case"WPUB":this._setUrlLinkFrame(e,t);break;case"COMM":if(t.language=t.language||"eng","object"!=typeof t||!("description"in t)||!("text"in t))throw new Error("COMM frame value should be an object with keys description and text");if(t.language&&!t.language.match(/[a-z]{3}/i))throw new Error("Language must be coded following the ISO 639-2 standards");this._setCommentFrame(t.language,t.description,t.text);break;case"PRIV":if("object"!=typeof t||!("id"in t)||!("data"in t))throw new Error("PRIV frame value should be an object with keys id and data");this._setPrivateFrame(t.id,t.data);break;case"IPLS":if(!Array.isArray(t)||!Array.isArray(t[0]))throw new Error("IPLS frame value should be an array of pairs");this._setPairedTextFrame(e,t);break;case"SYLT":if("object"!=typeof t||!("type"in t)||!("text"in t)||!("timestampFormat"in t))throw new Error("SYLT frame value should be an object with keys type, text and timestampFormat");if(!Array.isArray(t.text)||!Array.isArray(t.text[0]))throw new Error("SYLT frame text value should be an array of pairs");if(t.type<0||t.type>6)throw new Error("Incorrect SYLT frame content type");if(t.timestampFormat<1||t.timestampFormat>2)throw new Error("Incorrect SYLT frame time stamp format");t.language=t.language||"eng",t.description=t.description||"",this._setSynchronisedLyricsFrame(t.type,t.text,t.timestampFormat,t.language,t.description);break;default:throw new Error(`Unsupported frame ${e}`)}return this}removeTag(){if(this.arrayBuffer.byteLength<10)return;const e=new Uint8Array(this.arrayBuffer),t=e[3],a=((r=[e[6],e[7],e[8],e[9]])[0]<<21)+(r[1]<<14)+(r[2]<<7)+r[3]+10;var r,n;73!==(n=e)[0]||68!==n[1]||51!==n[2]||t<2||t>4||(this.arrayBuffer=new Uint8Array(e.subarray(a)).buffer)}addTag(){this.removeTag();const e=[255,254],n=10+this.frames.reduce(((e,t)=>e+t.size),0)+this.padding,s=new ArrayBuffer(this.arrayBuffer.byteLength+n),i=new Uint8Array(s);let c=0,o=[];return o=[73,68,51,3],i.set(o,c),c+=o.length,c++,c++,o=function(e){const t=127;return[e>>>21&t,e>>>14&t,e>>>7&t,e&t]}(n-10),i.set(o,c),c+=o.length,this.frames.forEach((n=>{switch(o=browser_id3_writer_t(n.name),i.set(o,c),c+=o.length,o=browser_id3_writer_r(n.size-10),i.set(o,c),c+=o.length,c+=2,n.name){case"WCOM":case"WCOP":case"WOAF":case"WOAR":case"WOAS":case"WORS":case"WPAY":case"WPUB":o=browser_id3_writer_t(n.value),i.set(o,c),c+=o.length;break;case"TPE1":case"TCOM":case"TCON":case"TLAN":case"TIT1":case"TIT2":case"TIT3":case"TALB":case"TPE2":case"TPE3":case"TPE4":case"TRCK":case"TPOS":case"TKEY":case"TMED":case"TPUB":case"TCOP":case"TEXT":case"TSRC":o=[1].concat(e),i.set(o,c),c+=o.length,o=browser_id3_writer_a(n.value),i.set(o,c),c+=o.length;break;case"TXXX":case"USLT":case"COMM":o=[1],"USLT"!==n.name&&"COMM"!==n.name||(o=o.concat(n.language)),o=o.concat(e),i.set(o,c),c+=o.length,o=browser_id3_writer_a(n.description),i.set(o,c),c+=o.length,o=[0,0].concat(e),i.set(o,c),c+=o.length,o=browser_id3_writer_a(n.value),i.set(o,c),c+=o.length;break;case"TBPM":case"TLEN":case"TDAT":case"TYER":c++,o=browser_id3_writer_t(n.value),i.set(o,c),c+=o.length;break;case"PRIV":o=browser_id3_writer_t(n.id),i.set(o,c),c+=o.length,c++,i.set(new Uint8Array(n.value),c),c+=n.value.byteLength;break;case"APIC":o=[n.useUnicodeEncoding?1:0],i.set(o,c),c+=o.length,o=browser_id3_writer_t(n.mimeType),i.set(o,c),c+=o.length,o=[0,n.pictureType],i.set(o,c),c+=o.length,n.useUnicodeEncoding?(o=[].concat(e),i.set(o,c),c+=o.length,o=browser_id3_writer_a(n.description),i.set(o,c),c+=o.length,c+=2):(o=browser_id3_writer_t(n.description),i.set(o,c),c+=o.length,c++),i.set(new Uint8Array(n.value),c),c+=n.value.byteLength;break;case"IPLS":o=[1],i.set(o,c),c+=o.length,n.value.forEach((t=>{o=[].concat(e),i.set(o,c),c+=o.length,o=browser_id3_writer_a(t[0].toString()),i.set(o,c),c+=o.length,o=[0,0].concat(e),i.set(o,c),c+=o.length,o=browser_id3_writer_a(t[1].toString()),i.set(o,c),c+=o.length,o=[0,0],i.set(o,c),c+=o.length}));break;case"SYLT":o=[1].concat(n.language).concat(n.timestampFormat).concat(n.type),i.set(o,c),c+=o.length,o=[].concat(e),i.set(o,c),c+=o.length,o=browser_id3_writer_a(n.description),i.set(o,c),c+=o.length,c+=2,n.value.forEach((t=>{o=[].concat(e),i.set(o,c),c+=o.length,o=browser_id3_writer_a(t[0].toString()),i.set(o,c),c+=o.length,o=[0,0],i.set(o,c),c+=o.length,o=browser_id3_writer_r(t[1]),i.set(o,c),c+=o.length}))}})),c+=this.padding,i.set(new Uint8Array(this.arrayBuffer),c),this.arrayBuffer=s,s}getBlob(){return new Blob([this.arrayBuffer],{type:"audio/mpeg"})}getURL(){return this.url||(this.url=URL.createObjectURL(this.getBlob())),this.url}revokeURL(){URL.revokeObjectURL(this.url)}}
 ;// ./node_modules/chaimu/dist/config.js
 /* harmony default export */ const config = ({
     version: "1.0.4",
@@ -1600,13 +1589,13 @@ class Chaimu {
     hostVOT: "vot.toil.cc/v1",
     hostWorker: "vot-worker.toil.cc",
     mediaProxy: "media-proxy.toil.cc",
-    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 YaBrowser/25.2.0.0 Safari/537.36",
-    componentVersion: "25.2.5.953",
+    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 YaBrowser/25.4.0.0 Safari/537.36",
+    componentVersion: "25.4.0.1746",
     hmac: "bt8xH3VOlb4mqf0nqAibnDOoiPlXsisf",
     defaultDuration: 343,
     minChunkSize: 5295308,
     loggerLevel: 1,
-    version: "2.4.0",
+    version: "2.4.2",
 });
 
 ;// ./node_modules/@vot.js/shared/dist/types/logger.js
@@ -2781,7 +2770,7 @@ function createBaseVideoTranslationRequest() {
         unknown2: 0,
         unknown3: 0,
         bypassCache: false,
-        useNewModel: false,
+        useLivelyVoice: false,
         videoTitle: "",
     };
 }
@@ -2829,8 +2818,8 @@ const VideoTranslationRequest = {
         if (message.bypassCache !== false) {
             writer.uint32(136).bool(message.bypassCache);
         }
-        if (message.useNewModel !== false) {
-            writer.uint32(144).bool(message.useNewModel);
+        if (message.useLivelyVoice !== false) {
+            writer.uint32(144).bool(message.useLivelyVoice);
         }
         if (message.videoTitle !== "") {
             writer.uint32(154).string(message.videoTitle);
@@ -2946,7 +2935,7 @@ const VideoTranslationRequest = {
                     if (tag !== 144) {
                         break;
                     }
-                    message.useNewModel = reader.bool();
+                    message.useLivelyVoice = reader.bool();
                     continue;
                 }
                 case 19: {
@@ -2982,7 +2971,7 @@ const VideoTranslationRequest = {
             unknown2: isSet(object.unknown2) ? globalThis.Number(object.unknown2) : 0,
             unknown3: isSet(object.unknown3) ? globalThis.Number(object.unknown3) : 0,
             bypassCache: isSet(object.bypassCache) ? globalThis.Boolean(object.bypassCache) : false,
-            useNewModel: isSet(object.useNewModel) ? globalThis.Boolean(object.useNewModel) : false,
+            useLivelyVoice: isSet(object.useLivelyVoice) ? globalThis.Boolean(object.useLivelyVoice) : false,
             videoTitle: isSet(object.videoTitle) ? globalThis.String(object.videoTitle) : "",
         };
     },
@@ -3030,8 +3019,8 @@ const VideoTranslationRequest = {
         if (message.bypassCache !== false) {
             obj.bypassCache = message.bypassCache;
         }
-        if (message.useNewModel !== false) {
-            obj.useNewModel = message.useNewModel;
+        if (message.useLivelyVoice !== false) {
+            obj.useLivelyVoice = message.useLivelyVoice;
         }
         if (message.videoTitle !== "") {
             obj.videoTitle = message.videoTitle;
@@ -3057,7 +3046,7 @@ const VideoTranslationRequest = {
         message.unknown2 = object.unknown2 ?? 0;
         message.unknown3 = object.unknown3 ?? 0;
         message.bypassCache = object.bypassCache ?? false;
-        message.useNewModel = object.useNewModel ?? false;
+        message.useLivelyVoice = object.useLivelyVoice ?? false;
         message.videoTitle = object.videoTitle ?? "";
         return message;
     },
@@ -3072,7 +3061,7 @@ function createBaseVideoTranslationResponse() {
         translationId: "",
         language: undefined,
         message: undefined,
-        unknown1: 0,
+        isLivelyVoice: false,
         unknown2: undefined,
     };
 }
@@ -3102,8 +3091,8 @@ const VideoTranslationResponse = {
         if (message.message !== undefined) {
             writer.uint32(74).string(message.message);
         }
-        if (message.unknown1 !== 0) {
-            writer.uint32(80).int32(message.unknown1);
+        if (message.isLivelyVoice !== false) {
+            writer.uint32(80).bool(message.isLivelyVoice);
         }
         if (message.unknown2 !== undefined) {
             writer.uint32(88).int32(message.unknown2);
@@ -3177,7 +3166,7 @@ const VideoTranslationResponse = {
                     if (tag !== 80) {
                         break;
                     }
-                    message.unknown1 = reader.int32();
+                    message.isLivelyVoice = reader.bool();
                     continue;
                 }
                 case 11: {
@@ -3205,7 +3194,7 @@ const VideoTranslationResponse = {
             translationId: isSet(object.translationId) ? globalThis.String(object.translationId) : "",
             language: isSet(object.language) ? globalThis.String(object.language) : undefined,
             message: isSet(object.message) ? globalThis.String(object.message) : undefined,
-            unknown1: isSet(object.unknown1) ? globalThis.Number(object.unknown1) : 0,
+            isLivelyVoice: isSet(object.isLivelyVoice) ? globalThis.Boolean(object.isLivelyVoice) : false,
             unknown2: isSet(object.unknown2) ? globalThis.Number(object.unknown2) : undefined,
         };
     },
@@ -3235,8 +3224,8 @@ const VideoTranslationResponse = {
         if (message.message !== undefined) {
             obj.message = message.message;
         }
-        if (message.unknown1 !== 0) {
-            obj.unknown1 = Math.round(message.unknown1);
+        if (message.isLivelyVoice !== false) {
+            obj.isLivelyVoice = message.isLivelyVoice;
         }
         if (message.unknown2 !== undefined) {
             obj.unknown2 = Math.round(message.unknown2);
@@ -3256,8 +3245,246 @@ const VideoTranslationResponse = {
         message.translationId = object.translationId ?? "";
         message.language = object.language ?? undefined;
         message.message = object.message ?? undefined;
-        message.unknown1 = object.unknown1 ?? 0;
+        message.isLivelyVoice = object.isLivelyVoice ?? false;
         message.unknown2 = object.unknown2 ?? undefined;
+        return message;
+    },
+};
+function createBaseVideoTranslationCacheItem() {
+    return { status: 0, remainingTime: undefined };
+}
+const VideoTranslationCacheItem = {
+    encode(message, writer = new BinaryWriter()) {
+        if (message.status !== 0) {
+            writer.uint32(8).int32(message.status);
+        }
+        if (message.remainingTime !== undefined) {
+            writer.uint32(16).int32(message.remainingTime);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseVideoTranslationCacheItem();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 8) {
+                        break;
+                    }
+                    message.status = reader.int32();
+                    continue;
+                }
+                case 2: {
+                    if (tag !== 16) {
+                        break;
+                    }
+                    message.remainingTime = reader.int32();
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            status: isSet(object.status) ? globalThis.Number(object.status) : 0,
+            remainingTime: isSet(object.remainingTime) ? globalThis.Number(object.remainingTime) : undefined,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.status !== 0) {
+            obj.status = Math.round(message.status);
+        }
+        if (message.remainingTime !== undefined) {
+            obj.remainingTime = Math.round(message.remainingTime);
+        }
+        return obj;
+    },
+    create(base) {
+        return VideoTranslationCacheItem.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseVideoTranslationCacheItem();
+        message.status = object.status ?? 0;
+        message.remainingTime = object.remainingTime ?? undefined;
+        return message;
+    },
+};
+function createBaseVideoTranslationCacheRequest() {
+    return { url: "", duration: 0, language: "", responseLanguage: "" };
+}
+const VideoTranslationCacheRequest = {
+    encode(message, writer = new BinaryWriter()) {
+        if (message.url !== "") {
+            writer.uint32(10).string(message.url);
+        }
+        if (message.duration !== 0) {
+            writer.uint32(17).double(message.duration);
+        }
+        if (message.language !== "") {
+            writer.uint32(26).string(message.language);
+        }
+        if (message.responseLanguage !== "") {
+            writer.uint32(34).string(message.responseLanguage);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseVideoTranslationCacheRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.url = reader.string();
+                    continue;
+                }
+                case 2: {
+                    if (tag !== 17) {
+                        break;
+                    }
+                    message.duration = reader.double();
+                    continue;
+                }
+                case 3: {
+                    if (tag !== 26) {
+                        break;
+                    }
+                    message.language = reader.string();
+                    continue;
+                }
+                case 4: {
+                    if (tag !== 34) {
+                        break;
+                    }
+                    message.responseLanguage = reader.string();
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            url: isSet(object.url) ? globalThis.String(object.url) : "",
+            duration: isSet(object.duration) ? globalThis.Number(object.duration) : 0,
+            language: isSet(object.language) ? globalThis.String(object.language) : "",
+            responseLanguage: isSet(object.responseLanguage) ? globalThis.String(object.responseLanguage) : "",
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.url !== "") {
+            obj.url = message.url;
+        }
+        if (message.duration !== 0) {
+            obj.duration = message.duration;
+        }
+        if (message.language !== "") {
+            obj.language = message.language;
+        }
+        if (message.responseLanguage !== "") {
+            obj.responseLanguage = message.responseLanguage;
+        }
+        return obj;
+    },
+    create(base) {
+        return VideoTranslationCacheRequest.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseVideoTranslationCacheRequest();
+        message.url = object.url ?? "";
+        message.duration = object.duration ?? 0;
+        message.language = object.language ?? "";
+        message.responseLanguage = object.responseLanguage ?? "";
+        return message;
+    },
+};
+function createBaseVideoTranslationCacheResponse() {
+    return { default: undefined, cloning: undefined };
+}
+const VideoTranslationCacheResponse = {
+    encode(message, writer = new BinaryWriter()) {
+        if (message.default !== undefined) {
+            VideoTranslationCacheItem.encode(message.default, writer.uint32(10).fork()).join();
+        }
+        if (message.cloning !== undefined) {
+            VideoTranslationCacheItem.encode(message.cloning, writer.uint32(18).fork()).join();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseVideoTranslationCacheResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.default = VideoTranslationCacheItem.decode(reader, reader.uint32());
+                    continue;
+                }
+                case 2: {
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.cloning = VideoTranslationCacheItem.decode(reader, reader.uint32());
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            default: isSet(object.default) ? VideoTranslationCacheItem.fromJSON(object.default) : undefined,
+            cloning: isSet(object.cloning) ? VideoTranslationCacheItem.fromJSON(object.cloning) : undefined,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.default !== undefined) {
+            obj.default = VideoTranslationCacheItem.toJSON(message.default);
+        }
+        if (message.cloning !== undefined) {
+            obj.cloning = VideoTranslationCacheItem.toJSON(message.cloning);
+        }
+        return obj;
+    },
+    create(base) {
+        return VideoTranslationCacheResponse.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseVideoTranslationCacheResponse();
+        message.default = (object.default !== undefined && object.default !== null)
+            ? VideoTranslationCacheItem.fromPartial(object.default)
+            : undefined;
+        message.cloning = (object.cloning !== undefined && object.cloning !== null)
+            ? VideoTranslationCacheItem.fromPartial(object.cloning)
+            : undefined;
         return message;
     },
 };
@@ -4585,7 +4812,7 @@ function proxyMedia(url, format = "mp4") {
 ;// ./node_modules/@vot.js/core/dist/protobuf.js
 
 class YandexVOTProtobuf {
-    static encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp, { forceSourceLang = false, wasStream = false, videoTitle = "", bypassCache = false, useNewModel = true, } = {}) {
+    static encodeTranslationRequest(url, duration, requestLang, responseLang, translationHelp, { forceSourceLang = false, wasStream = false, videoTitle = "", bypassCache = false, useLivelyVoice = false, } = {}) {
         return VideoTranslationRequest.encode({
             url,
             firstRequest: true,
@@ -4598,14 +4825,25 @@ class YandexVOTProtobuf {
             responseLanguage: responseLang,
             wasStream,
             unknown2: 0,
-            unknown3: 1,
+            unknown3: 2,
             bypassCache,
-            useNewModel,
+            useLivelyVoice,
             videoTitle,
         }).finish();
     }
     static decodeTranslationResponse(response) {
         return VideoTranslationResponse.decode(new Uint8Array(response));
+    }
+    static encodeTranslationCacheRequest(url, duration, requestLang, responseLang) {
+        return VideoTranslationCacheRequest.encode({
+            url,
+            duration,
+            language: requestLang,
+            responseLanguage: responseLang,
+        }).finish();
+    }
+    static decodeTranslationCacheResponse(response) {
+        return VideoTranslationCacheResponse.decode(new Uint8Array(response));
     }
     static encodeTranslationAudioRequest(url, translationId, audioBuffer, partialAudio) {
         return VideoTranslationAudioRequest.encode({
@@ -4674,6 +4912,7 @@ var VideoTranslationStatus;
     VideoTranslationStatus[VideoTranslationStatus["LONG_WAITING"] = 3] = "LONG_WAITING";
     VideoTranslationStatus[VideoTranslationStatus["PART_CONTENT"] = 5] = "PART_CONTENT";
     VideoTranslationStatus[VideoTranslationStatus["AUDIO_REQUESTED"] = 6] = "AUDIO_REQUESTED";
+    VideoTranslationStatus[VideoTranslationStatus["SESSION_REQUIRED"] = 7] = "SESSION_REQUIRED";
 })(VideoTranslationStatus || (VideoTranslationStatus = {}));
 var AudioDownloadType;
 (function (AudioDownloadType) {
@@ -4751,6 +4990,7 @@ var VideoService;
     VideoService["ign"] = "ign";
     VideoService["bunkr"] = "bunkr";
     VideoService["imdb"] = "imdb";
+    VideoService["telegram"] = "telegram";
 })(VideoService || (VideoService = {}));
 
 ;// ./node_modules/@vot.js/core/dist/utils/vot.js
@@ -4769,7 +5009,7 @@ function convertVOT(service, videoId, url) {
 }
 
 ;// ./src/localization/locales/en.json
-const en_namespaceObject = /*#__PURE__*/JSON.parse('{"recommended":"recommended","translateVideo":"Translate video","disableTranslate":"Turn off","translationSettings":"Translation settings","subtitlesSettings":"Subtitles settings","about":"About extension","resetSettings":"Reset settings","videoBeingTranslated":"The video is being translated","videoLanguage":"Video language","translationLanguage":"Translation language","translationTake":"The translation will take","translationTakeMoreThanHour":"The translation will take more than an hour","translationTakeAboutMinute":"The translation will take about a minute","translationTakeFewMinutes":"The translation will take a few minutes","translationTakeApproximatelyMinutes":"The translation will take approximately {0} minutes","translationTakeApproximatelyMinute":"The translation will take approximately {0} minutes","requestTranslationFailed":"Failed to request video translation","audioNotReceived":"Audio link not received","audioFormatNotSupported":"The audio format is not supported","VOTAutoTranslate":"Translate on open","VOTDontTranslateYourLang":"Don\'t translate from my language","VOTVolume":"Video volume","VOTVolumeTranslation":"Translation Volume","VOTAutoSetVolume":"Reduce video volume to ","VOTShowVideoSlider":"Video volume slider","VOTSyncVolume":"Link translation and video volume","VOTDisableFromYourLang":"You have disabled the translation of the video in your language","VOTVideoIsTooLong":"Video is too long","VOTNoVideoIDFound":"No video ID found","VOTSubtitles":"Subtitles","VOTSubtitlesDisabled":"Disabled","VOTSubtitlesMaxLength":"Subtitles max length","VOTHighlightWords":"Highlight words","VOTTranslatedFrom":"translated from","VOTAutogenerated":"autogenerated","VOTSettings":"VOT Settings","VOTMenuLanguage":"Menu language","VOTAuthors":"Authors","VOTVersion":"Version","VOTLoader":"Loader","VOTBrowser":"Browser","VOTShowPiPButton":"Show PiP button","langs":{"auto":"Auto","af":"Afrikaans","ak":"Akan","sq":"Albanian","am":"Amharic","ar":"Arabic","hy":"Armenian","as":"Assamese","ay":"Aymara","az":"Azerbaijani","bn":"Bangla","eu":"Basque","be":"Belarusian","bho":"Bhojpuri","bs":"Bosnian","bg":"Bulgarian","my":"Burmese","ca":"Catalan","ceb":"Cebuano","zh":"Chinese","zh-Hans":"Chinese (Simplified)","zh-Hant":"Chinese (Traditional)","co":"Corsican","hr":"Croatian","cs":"Czech","da":"Danish","dv":"Divehi","nl":"Dutch","en":"English","eo":"Esperanto","et":"Estonian","ee":"Ewe","fil":"Filipino","fi":"Finnish","fr":"French","gl":"Galician","lg":"Ganda","ka":"Georgian","de":"German","el":"Greek","gn":"Guarani","gu":"Gujarati","ht":"Haitian Creole","ha":"Hausa","haw":"Hawaiian","iw":"Hebrew","hi":"Hindi","hmn":"Hmong","hu":"Hungarian","is":"Icelandic","ig":"Igbo","id":"Indonesian","ga":"Irish","it":"Italian","ja":"Japanese","jv":"Javanese","kn":"Kannada","kk":"Kazakh","km":"Khmer","rw":"Kinyarwanda","ko":"Korean","kri":"Krio","ku":"Kurdish","ky":"Kyrgyz","lo":"Lao","la":"Latin","lv":"Latvian","ln":"Lingala","lt":"Lithuanian","lb":"Luxembourgish","mk":"Macedonian","mg":"Malagasy","ms":"Malay","ml":"Malayalam","mt":"Maltese","mi":"Māori","mr":"Marathi","mn":"Mongolian","ne":"Nepali","nso":"Northern Sotho","no":"Norwegian","ny":"Nyanja","or":"Odia","om":"Oromo","ps":"Pashto","fa":"Persian","pl":"Polish","pt":"Portuguese","pa":"Punjabi","qu":"Quechua","ro":"Romanian","ru":"Russian","sm":"Samoan","sa":"Sanskrit","gd":"Scottish Gaelic","sr":"Serbian","sn":"Shona","sd":"Sindhi","si":"Sinhala","sk":"Slovak","sl":"Slovenian","so":"Somali","st":"Southern Sotho","es":"Spanish","su":"Sundanese","sw":"Swahili","sv":"Swedish","tg":"Tajik","ta":"Tamil","tt":"Tatar","te":"Telugu","th":"Thai","ti":"Tigrinya","ts":"Tsonga","tr":"Turkish","tk":"Turkmen","uk":"Ukrainian","ur":"Urdu","ug":"Uyghur","uz":"Uzbek","vi":"Vietnamese","cy":"Welsh","fy":"Western Frisian","xh":"Xhosa","yi":"Yiddish","yo":"Yoruba","zu":"Zulu"},"streamNoConnectionToServer":"There is no connection to the server","searchField":"Search...","VOTTranslateAPIErrors":"Translate errors from the API","VOTDetectService":"Language detection service","VOTProxyWorkerHost":"Enter the proxy worker address","VOTM3u8ProxyHost":"Enter the address of the m3u8 proxy worker","proxySettings":"Proxy Settings","translationTakeApproximatelyMinute2":"The translation will take approximately {0} minutes","VOTAudioBooster":"Extended translation volume increase","VOTSubtitlesDesign":"Subtitles design","VOTSubtitlesFontSize":"Font size of subtitles","VOTSubtitlesOpacity":"Transparency of the subtitle background","VOTPressNewHotkey":"Press the new hotkey...","VOTCreateTranslationHotkey":"Create Hotkey for Translation","VOTChangeHotkeyWithCurrent":"Change Hotkey (Current: {0})","VOTSubtitlesDownloadFormat":"The format for downloading subtitles","VOTDownloadWithName":"Download files with the video name","VOTUpdateLocaleFiles":"Update localization files","VOTLocaleHash":"Locale hash","VOTUpdatedAt":"Updated at","VOTNeedWebAudioAPI":"To enable this, you must have a Web Audio API","VOTMediaCSPEnabledOnSite":"Media CSP is enabled on this site","VOTOnlyBypassMediaCSP":"Use it only for bypassing Media CSP","VOTNewAudioPlayer":"Use the new audio player","VOTUseNewModel":"Use an experimental variation of Yandex voices for some videos","TranslationDelayed":"The translation is slightly delayed","VOTTranslationCompletedNotify":"The translation on the {0} has been completed!","VOTSendNotifyOnComplete":"Send a notification that the video has been translated","VOTBugReport":"Report a bug","VOTTranslateProxyDisabled":"Disabled","VOTTranslateProxyEnabled":"Enabled","VOTTranslateProxyEverything":"Proxy everything","VOTTranslateProxyStatus":"Proxying mode","VOTTranslatedBy":"Translated by {0}","VOTStreamNotAvailable":"Translate stream isn\'t available","VOTTranslationTextService":"Text translation service","VOTNotAffectToVoice":"Doesn\'t affect the translation of text in voice over"}');
+const en_namespaceObject = /*#__PURE__*/JSON.parse('{"recommended":"recommended","translateVideo":"Translate video","disableTranslate":"Turn off","translationSettings":"Translation settings","subtitlesSettings":"Subtitles settings","resetSettings":"Reset settings","videoBeingTranslated":"The video is being translated","videoLanguage":"Video language","translationLanguage":"Translation language","translationTake":"The translation will take","translationTakeMoreThanHour":"The translation will take more than an hour","translationTakeAboutMinute":"The translation will take about a minute","translationTakeFewMinutes":"The translation will take a few minutes","translationTakeApproximatelyMinutes":"The translation will take approximately {0} minutes","translationTakeApproximatelyMinute":"The translation will take approximately {0} minutes","requestTranslationFailed":"Failed to request video translation","audioNotReceived":"Audio link not received","audioFormatNotSupported":"The audio format is not supported","VOTAutoTranslate":"Translate on open","VOTDontTranslateYourLang":"Don\'t translate from my language","VOTVolume":"Video volume:","VOTVolumeTranslation":"Translation volume:","VOTAutoSetVolume":"Reduce video volume to","VOTShowVideoSlider":"Video volume slider","VOTSyncVolume":"Link translation and video volume","VOTDisableFromYourLang":"You have disabled the translation of the video in your language","VOTVideoIsTooLong":"Video is too long","VOTNoVideoIDFound":"No video ID found","VOTSubtitles":"Subtitles","VOTSubtitlesDisabled":"Disabled","VOTSubtitlesMaxLength":"Subtitles max length","VOTHighlightWords":"Highlight words","VOTTranslatedFrom":"translated from","VOTAutogenerated":"autogenerated","VOTSettings":"VOT Settings","VOTMenuLanguage":"Menu language","VOTAuthors":"Authors","VOTVersion":"Version","VOTLoader":"Loader","VOTBrowser":"Browser","VOTShowPiPButton":"Show PiP button","langs":{"auto":"Auto","af":"Afrikaans","ak":"Akan","sq":"Albanian","am":"Amharic","ar":"Arabic","hy":"Armenian","as":"Assamese","ay":"Aymara","az":"Azerbaijani","bn":"Bangla","eu":"Basque","be":"Belarusian","bho":"Bhojpuri","bs":"Bosnian","bg":"Bulgarian","my":"Burmese","ca":"Catalan","ceb":"Cebuano","zh":"Chinese","zh-Hans":"Chinese (Simplified)","zh-Hant":"Chinese (Traditional)","co":"Corsican","hr":"Croatian","cs":"Czech","da":"Danish","dv":"Divehi","nl":"Dutch","en":"English","eo":"Esperanto","et":"Estonian","ee":"Ewe","fil":"Filipino","fi":"Finnish","fr":"French","gl":"Galician","lg":"Ganda","ka":"Georgian","de":"German","el":"Greek","gn":"Guarani","gu":"Gujarati","ht":"Haitian Creole","ha":"Hausa","haw":"Hawaiian","iw":"Hebrew","hi":"Hindi","hmn":"Hmong","hu":"Hungarian","is":"Icelandic","ig":"Igbo","id":"Indonesian","ga":"Irish","it":"Italian","ja":"Japanese","jv":"Javanese","kn":"Kannada","kk":"Kazakh","km":"Khmer","rw":"Kinyarwanda","ko":"Korean","kri":"Krio","ku":"Kurdish","ky":"Kyrgyz","lo":"Lao","la":"Latin","lv":"Latvian","ln":"Lingala","lt":"Lithuanian","lb":"Luxembourgish","mk":"Macedonian","mg":"Malagasy","ms":"Malay","ml":"Malayalam","mt":"Maltese","mi":"Māori","mr":"Marathi","mn":"Mongolian","ne":"Nepali","nso":"Northern Sotho","no":"Norwegian","ny":"Nyanja","or":"Odia","om":"Oromo","ps":"Pashto","fa":"Persian","pl":"Polish","pt":"Portuguese","pa":"Punjabi","qu":"Quechua","ro":"Romanian","ru":"Russian","sm":"Samoan","sa":"Sanskrit","gd":"Scottish Gaelic","sr":"Serbian","sn":"Shona","sd":"Sindhi","si":"Sinhala","sk":"Slovak","sl":"Slovenian","so":"Somali","st":"Southern Sotho","es":"Spanish","su":"Sundanese","sw":"Swahili","sv":"Swedish","tg":"Tajik","ta":"Tamil","tt":"Tatar","te":"Telugu","th":"Thai","ti":"Tigrinya","ts":"Tsonga","tr":"Turkish","tk":"Turkmen","uk":"Ukrainian","ur":"Urdu","ug":"Uyghur","uz":"Uzbek","vi":"Vietnamese","cy":"Welsh","fy":"Western Frisian","xh":"Xhosa","yi":"Yiddish","yo":"Yoruba","zu":"Zulu"},"streamNoConnectionToServer":"There is no connection to the server","searchField":"Search...","VOTTranslateAPIErrors":"Translate errors from the API","VOTDetectService":"Language detection service","VOTProxyWorkerHost":"Enter the proxy worker address","VOTM3u8ProxyHost":"Enter the address of the m3u8 proxy worker","proxySettings":"Proxy Settings","translationTakeApproximatelyMinute2":"The translation will take approximately {0} minutes","VOTAudioBooster":"Extended translation volume increase","VOTSubtitlesDesign":"Subtitles design","VOTSubtitlesFontSize":"Font size of subtitles","VOTSubtitlesOpacity":"Transparency of the subtitle background","VOTPressNewHotkey":"Press the new hotkey...","VOTCreateTranslationHotkey":"Create Hotkey for Translation","VOTChangeHotkeyWithCurrent":"Change Hotkey (Current: {0})","VOTSubtitlesDownloadFormat":"The format for downloading subtitles","VOTDownloadWithName":"Download files with the video name","VOTUpdateLocaleFiles":"Update localization files","VOTLocaleHash":"Locale hash","VOTUpdatedAt":"Updated at","VOTNeedWebAudioAPI":"To enable this, you must have a Web Audio API","VOTMediaCSPEnabledOnSite":"Media CSP is enabled on this site","VOTOnlyBypassMediaCSP":"Use it only for bypassing Media CSP","VOTNewAudioPlayer":"Use the new audio player","VOTUseNewModel":"Use an experimental variation of Yandex voices for some videos","TranslationDelayed":"The translation is slightly delayed","VOTTranslationCompletedNotify":"The translation on the {0} has been completed!","VOTSendNotifyOnComplete":"Send a notification that the video has been translated","VOTBugReport":"Report a bug","VOTTranslateProxyDisabled":"Disabled","VOTTranslateProxyEnabled":"Enabled","VOTTranslateProxyEverything":"Proxy everything","VOTTranslateProxyStatus":"Proxying mode","VOTTranslatedBy":"Translated by {0}","VOTStreamNotAvailable":"Translate stream isn\'t available","VOTTranslationTextService":"Text translation service","VOTNotAffectToVoice":"Doesn\'t affect the translation of text in voice over","DontTranslateSelectedLanguages":"Don\'t translate from selected languages","showVideoVolumeSlider":"Display the video volume slider","hotkeysSettings":"Hotkeys settings","None":"None","VOTUseLivelyVoice":"Use lively voices. Speakers sound like native Russians.","miscSettings":"Misc settings","services":{"yandexbrowser":"Yandex Browser","msedge":"Microsoft Edge","rust-server":"Rust Server"},"aboutExtension":"About extension","appearance":"Appearance","buttonPositionInWidePlayer":"Button position in wide player","position":{"left":"Left","right":"Right","top":"Top","default":"Default"},"secs":"secs","autoHideButtonDelay":"Delay before hiding the translate button","notFound":"not found","downloadFailed":"Failed to download file","minButtonPositionContainer":"The button position only changes in players larger than 600 pixels."}');
 ;// ./src/utils/debug.ts
 /* harmony default export */ const utils_debug = ({
   log: (...text) => {
@@ -4809,9 +5049,9 @@ const contentUrl = `https://raw.githubusercontent.com/${repoPath}`;
 const repositoryUrl = `https://github.com/${repoPath}`;
 
 /**
- * 0.0 - 1.0 (0% - 100%) - default volume of the video with the translation
+ * 0% - 100% - default volume of the video with the translation
  */
-const defaultAutoVolume = 0.15;
+const defaultAutoVolume = 15;
 /**
  * Max audio volume percentage (if available)
  */
@@ -4828,136 +5068,108 @@ const proxyOnlyCountries = ["UA", "LV", "LT"];
 
 
 
-;// ./src/utils/storage.ts
+;// ./src/types/storage.ts
 
 
-async function convertData(
-  data,
-  option,
-  oldValue,
-  newValue,
-  optionValue = undefined,
-) {
-  const optionVal = optionValue ?? data[option];
-  if (optionVal !== oldValue) {
-    return;
-  }
 
-  data[option] = newValue;
-  await votStorage.set(option, newValue);
-  console.log(`[VOT] Old ${option} converted to new ${newValue}`);
-}
 
-const votStorage = new (class {
-  supportGM;
-  supportGMPromises;
-  constructor() {
-    this.supportGM = typeof GM_getValue === "function";
-    // this.supportGMPromises = typeof GM?.getValue === "function";
-    this.supportGMPromises = false;
-    utils_debug.log(
-      `[VOT Storage] GM Promises: ${this.supportGMPromises} | GM: ${this.supportGM}`,
-    );
-  }
 
-  syncGet(name, def) {
-    if (this.supportGM) {
-      return GM_getValue(name, def);
-    }
 
-    const toNumber = typeof def === "number";
-    let val = window.localStorage.getItem(name);
+ 
 
-    const result = val ?? def;
-    return (toNumber ? Number(result) : result) ;
-  }
 
-  async get(name, def) {
-    if (this.supportGMPromises) {
-      return await GM.getValue(name, def);
-    }
 
-    return Promise.resolve(this.syncGet(name, def));
-  }
 
-  syncSet(name, value) {
-    if (this.supportGM) {
-      return GM_setValue(name, value);
-    }
 
-    return window.localStorage.setItem(name, value );
-  }
 
-  async set(name, value) {
-    if (this.supportGMPromises) {
-      return await GM.setValue(name, value);
-    }
+const storageKeys = [
+  "autoTranslate",
+  "dontTranslateLanguages",
+  "enabledDontTranslateLanguages",
+  "enabledAutoVolume",
+  "autoVolume",
+  "buttonPos",
+  "showVideoSlider",
+  "syncVolume",
+  "downloadWithName",
+  "sendNotifyOnComplete",
+  "subtitlesMaxLength",
+  "highlightWords",
+  "subtitlesFontSize",
+  "subtitlesOpacity",
+  "subtitlesDownloadFormat",
+  "responseLanguage",
+  "defaultVolume",
+  "onlyBypassMediaCSP",
+  "newAudioPlayer",
+  "showPiPButton",
+  "translateAPIErrors",
+  "translationService",
+  "detectService",
+  "translationHotkey",
+  "m3u8ProxyHost",
+  "proxyWorkerHost",
+  "translateProxyEnabled",
+  "audioBooster",
+  "useNewModel",
+  "autoHideButtonDelay",
+  "localePhrases",
+  "localeLang",
+  "localeHash",
+  "localeUpdatedAt",
+  "localeLangOverride",
+] ;
 
-    return Promise.resolve(this.syncSet(name, value));
-  }
+ 
 
-  syncDelete(name) {
-    if (this.supportGM) {
-      return GM_deleteValue(name);
-    }
 
-    return window.localStorage.removeItem(name);
-  }
 
-  async delete(name) {
-    if (this.supportGMPromises) {
-      return await GM.deleteValue(name);
-    }
 
-    return Promise.resolve(this.syncDelete(name));
-  }
 
-  syncList() {
-    if (this.supportGM) {
-      return GM_listValues();
-    }
 
-    return [
-      "autoTranslate",
-      "dontTranslateLanguage",
-      "dontTranslateYourLang",
-      "autoSetVolumeYandexStyle",
-      "autoVolume",
-      "buttonPos",
-      "showVideoSlider",
-      "syncVolume",
-      "subtitlesMaxLength",
-      "subtitlesOpacity",
-      "subtitlesFontSize",
-      "subtitlesDownloadFormat",
-      "highlightWords",
-      "responseLanguage",
-      "defaultVolume",
-      "audioProxy",
-      "showPiPButton",
-      "translateAPIErrors",
-      "translationService",
-      "detectService",
-      "m3u8ProxyHost",
-      "translateProxyEnabled",
-      "hotkeyButton",
-      "proxyWorkerHost",
-      "audioBooster",
-      "useNewModel",
-      "locale-version",
-      "locale-lang",
-      "locale-phrases",
-    ];
-  }
 
-  async list() {
-    if (this.supportGMPromises) {
-      return await GM.listValues();
-    }
 
-    return Promise.resolve(this.syncList());
-  }
-})();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ;// ./node_modules/@vot.js/shared/dist/data/consts.js
 const availableLangs = [
@@ -4980,6 +5192,9 @@ const subtitlesFormats = ["srt", "vtt", "json"];
 
 
 ;// ./src/utils/utils.js
+
+
+
 
 
 
@@ -5014,6 +5229,12 @@ const calculatedResLang = (() => {
 
   return "en";
 })();
+const browserInfo = es5.getParser(
+  window.navigator.userAgent,
+).getResult();
+const isProxyOnlyExtension =
+  GM_info?.scriptHandler && !nonProxyExtensions.includes(GM_info.scriptHandler);
+const isSupportGM4 = typeof GM !== "undefined";
 
 function secsToStrTime(secs) {
   let minutes = Math.floor(secs / 60);
@@ -5164,7 +5385,190 @@ function clamp(value, min = 0, max = 100) {
   return Math.min(Math.max(value, min), max);
 }
 
+function toFlatObj(data) {
+  return Object.entries(data).reduce((result, [key, val]) => {
+    if (val === undefined) {
+      return result;
+    }
 
+    if (typeof val !== "object") {
+      result[key] = val;
+      return result;
+    }
+
+    const nestedItem = Object.entries(toFlatObj(data[key])).reduce(
+      (res, [k, v]) => {
+        res[`${key}.${k}`] = v;
+        return res;
+      },
+      {},
+    );
+    return {
+      ...result,
+      ...nestedItem,
+    };
+  }, {});
+}
+
+async function exitFullscreen() {
+  /**
+   * TODO: after rewrite to typescript
+    export interface DocumentWithFullscreen extends Document {
+      webkitFullscreenElement?: Element | null;
+      webkitExitFullscreen?: () => Promise<void>;
+    }
+
+    const doc = document as DocumentWithFullscreen;
+   */
+  const doc = document;
+  if (doc.fullscreenElement || doc.webkitFullscreenElement) {
+    doc.webkitExitFullscreen && (await doc.webkitExitFullscreen());
+    doc.exitFullscreen && (await doc.exitFullscreen());
+  }
+}
+
+
+
+;// ./src/utils/storage.ts
+
+
+
+
+
+
+async function convertData(
+  data,
+  option,
+  oldValue,
+  newValue,
+  optionValue = undefined,
+) {
+  const optionVal = optionValue ?? data[option];
+  if (optionVal !== oldValue) {
+    return;
+  }
+
+  data[option] = newValue;
+  await votStorage.set(option, newValue);
+  console.log(`[VOT] Old ${option} converted to new ${newValue}`);
+}
+
+const votStorage = new (class {
+  supportGM;
+  supportGMPromises;
+  supportGMGetValues;
+
+  constructor() {
+    this.supportGM = typeof GM_getValue === "function";
+    this.supportGMPromises = isSupportGM4 && typeof GM?.getValue === "function";
+    this.supportGMGetValues =
+      isSupportGM4 && typeof GM?.getValues === "function";
+    utils_debug.log(
+      `[VOT Storage] GM Promises: ${this.supportGMPromises} | GM: ${this.supportGM}`,
+    );
+  }
+
+  syncGet(name, def) {
+    if (this.supportGM) {
+      return GM_getValue(name, def);
+    }
+
+    let val = window.localStorage.getItem(name);
+    if (!val) {
+      return def ;
+    }
+
+    try {
+      return JSON.parse(val);
+    } catch {
+      return def ;
+    }
+  }
+
+  async get(name, def) {
+    if (this.supportGMPromises) {
+      return await GM.getValue(name, def);
+    }
+
+    return Promise.resolve(this.syncGet(name, def));
+  }
+
+  async getValues
+
+
+
+
+(data) {
+    if (this.supportGMGetValues) {
+      return await GM.getValues(data);
+    }
+
+    return Object.fromEntries(
+      await Promise.all(
+        Object.entries(data ).map(
+          async ([key, value]) => {
+            const val = await this.get(key , value);
+            return [key, val];
+          },
+        ),
+      ),
+    );
+  }
+
+  syncSet(
+    name,
+    value,
+  ) {
+    if (this.supportGM) {
+      return GM_setValue(name, value);
+    }
+
+    return window.localStorage.setItem(name, JSON.stringify(value));
+  }
+
+  async set(
+    name,
+    value,
+  ) {
+    if (this.supportGMPromises) {
+      return await GM.setValue(name, value);
+    }
+
+    return Promise.resolve(this.syncSet(name, value));
+  }
+
+  syncDelete(name) {
+    if (this.supportGM) {
+      return GM_deleteValue(name);
+    }
+
+    return window.localStorage.removeItem(name);
+  }
+
+  async delete(name) {
+    if (this.supportGMPromises) {
+      return await GM.deleteValue(name);
+    }
+
+    return Promise.resolve(this.syncDelete(name));
+  }
+
+  syncList() {
+    if (this.supportGM) {
+      return GM_listValues();
+    }
+
+    return storageKeys;
+  }
+
+  async list() {
+    if (this.supportGMPromises) {
+      return await GM.listValues();
+    }
+
+    return Promise.resolve(this.syncList());
+  }
+})();
 
 ;// ./src/localization/localizationProvider.ts
 
@@ -5175,8 +5579,15 @@ function clamp(value, min = 0, max = 100) {
 
 
 
+
 class LocalizationProvider {
-  storageKeys;
+  storageKeys = [
+    "localePhrases",
+    "localeLang",
+    "localeHash",
+    "localeUpdatedAt",
+    "localeLangOverride",
+  ];
   /**
    * Language used before page was reloaded
    */
@@ -5185,25 +5596,19 @@ class LocalizationProvider {
    * Locale phrases with current language
    */
   locale;
+  defaultLocale = toFlatObj(en_namespaceObject);
 
   cacheTTL = 7200;
   localizationUrl = `${contentUrl}/${"master"}/src/localization`;
 
   constructor() {
-    this.storageKeys = [
-      "locale-phrases",
-      "locale-lang",
-      "locale-hash",
-      "locale-updated-at",
-      "locale-lang-override",
-    ];
     this.lang = this.getLang();
     this.locale = {};
-    this.setLocaleFromJsonString(votStorage.syncGet("locale-phrases", ""));
+    this.setLocaleFromJsonString(votStorage.syncGet("localePhrases", ""));
   }
 
   getLangOverride() {
-    return votStorage.syncGet("locale-lang-override", "auto");
+    return votStorage.syncGet("localeLangOverride", "auto");
   }
 
   getLang() {
@@ -5232,7 +5637,7 @@ class LocalizationProvider {
       const res = await GM_fetch(this.buildUrl("/hashes.json", force));
       if (!res.ok) throw res.status;
       const hashes = await res.json();
-      return (await votStorage.get("locale-hash")) !== hashes[this.lang]
+      return (await votStorage.get("localeHash")) !== hashes[this.lang]
         ? hashes[this.lang]
         : false;
     } catch (err) {
@@ -5245,19 +5650,16 @@ class LocalizationProvider {
   }
 
   async update(force = false) {
-    const localeUpdatedAt = await votStorage.get(
-      "locale-updated-at",
-      0,
-    );
+    const localeUpdatedAt = await votStorage.get("localeUpdatedAt", 0);
     if (
       !force &&
       localeUpdatedAt + this.cacheTTL > utils_getTimestamp() &&
-      (await votStorage.get("locale-lang")) === this.lang
+      (await votStorage.get("localeLang")) === this.lang
     )
       return;
 
     const hash = await this.checkUpdates(force);
-    await votStorage.set("locale-updated-at", utils_getTimestamp());
+    await votStorage.set("localeUpdatedAt", utils_getTimestamp());
     if (!hash) return;
 
     utils_debug.log("Updating locale...");
@@ -5268,19 +5670,20 @@ class LocalizationProvider {
       if (!res.ok) throw res.status;
       // We use it .text() in order for there to be a single logic for GM_Storage and localStorage
       const text = await res.text();
-      await votStorage.set("locale-phrases", text);
-      await votStorage.set("locale-hash", hash);
-      await votStorage.set("locale-lang", this.lang);
+      await votStorage.set("localePhrases", text);
+      await votStorage.set("localeHash", hash);
+      await votStorage.set("localeLang", this.lang);
       this.setLocaleFromJsonString(text);
     } catch (err) {
       console.error("[VOT] [localizationProvider] Failed to get locale:", err);
-      this.setLocaleFromJsonString(await votStorage.get("locale-phrases", ""));
+      this.setLocaleFromJsonString(await votStorage.get("localePhrases", ""));
     }
   }
 
   setLocaleFromJsonString(json) {
     try {
-      this.locale = JSON.parse(json) || {};
+      const locale = JSON.parse(json) || {};
+      this.locale = toFlatObj(locale);
     } catch (err) {
       console.error("[VOT] [localizationProvider]", err);
       this.locale = {};
@@ -5288,10 +5691,7 @@ class LocalizationProvider {
   }
 
   getFromLocale(locale, key) {
-    return (
-      key.split(".").reduce((acc, k) => acc?.[k], locale) ??
-      this.warnMissingKey(locale, key)
-    );
+    return locale?.[key] ?? this.warnMissingKey(locale, key);
   }
 
   warnMissingKey(locale, key) {
@@ -5305,7 +5705,7 @@ class LocalizationProvider {
   }
 
   getDefault(key) {
-    return this.getFromLocale(en_namespaceObject, key) ?? key;
+    return this.getFromLocale(this.defaultLocale, key) ?? key;
   }
 
   get(key) {
@@ -5328,7 +5728,6 @@ class VOTLocalizedError extends Error {
 }
 
 ;// ./node_modules/@vot.js/core/dist/client.js
-
 
 
 
@@ -5459,6 +5858,7 @@ class client_VOTClient extends MinimalClient {
         videoTranslation: "/video-translation/translate",
         videoTranslationFailAudio: "/video-translation/fail-audio-js",
         videoTranslationAudio: "/video-translation/audio",
+        videoTranslationCache: "/video-translation/cache",
         videoSubtitles: "/video-subtitles/get-subtitles",
         streamPing: "/stream-translation/ping-stream",
         streamTranslation: "/stream-translation/translate-stream",
@@ -5520,6 +5920,7 @@ class client_VOTClient extends MinimalClient {
             throw new VOTLocalizedError("requestTranslationFailed");
         }
         const translationData = YandexVOTProtobuf.decodeTranslationResponse(res.data);
+        console.log(translationData);
         Logger.log("translateVideo", translationData);
         const { status, translationId, } = translationData;
         switch (status) {
@@ -5567,6 +5968,8 @@ class client_VOTClient extends MinimalClient {
                     status,
                     remainingTime: translationData.remainingTime ?? -1,
                 };
+            case VideoTranslationStatus.SESSION_REQUIRED:
+                throw new VOTJSError("Yandex account required to translate video", translationData);
             default:
                 Logger.error("Unknown response", translationData);
                 throw new VOTJSError("Unknown response from Yandex", translationData);
@@ -5634,6 +6037,21 @@ class client_VOTClient extends MinimalClient {
             throw new VOTJSError("Failed to request video translation audio", res);
         }
         return YandexVOTProtobuf.decodeTranslationAudioResponse(res.data);
+    }
+    async translateVideoCache({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
+        const { url, duration = data_config.defaultDuration } = videoData;
+        const session = await this.getSession("video-translation");
+        const body = YandexVOTProtobuf.encodeTranslationCacheRequest(url, duration, requestLang, responseLang);
+        const path = this.paths.videoTranslationCache;
+        const vtransHeaders = await getSecYaHeaders("Vtrans", session, body, path);
+        const res = await this.request(path, body, {
+            ...vtransHeaders,
+            ...headers,
+        }, "POST");
+        if (!res.success) {
+            throw new VOTJSError("Failed to request video translation cache", res);
+        }
+        return YandexVOTProtobuf.decodeTranslationCacheResponse(res.data);
     }
     async translateVideo({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, translationHelp = null, headers = {}, extraOpts = {}, shouldSendFailedAudio = true, }) {
         const { url, videoId, host } = videoData;
@@ -6486,6 +6904,12 @@ const service_VideoService = {
         url: "https://www.imdb.com/video/",
         match: /^(www.)?imdb.com$/,
         selector: ".jw-media",
+    },
+    {
+        host: VideoService.telegram,
+        url: "https://t.me/",
+        match: (url) => /^web.telegram.org$/.test(url.hostname) && url.pathname.startsWith("/k"),
+        selector: ".ckin__player",
     },
     {
         host: VideoService.custom,
@@ -8965,7 +9389,43 @@ class IMDbHelper extends BaseHelper {
     }
 }
 
+;// ./node_modules/@vot.js/ext/dist/helpers/telegram.js
+
+class TelegramHelper extends BaseHelper {
+    static getMediaViewer() {
+        if (typeof appMediaViewer === "undefined") {
+            return undefined;
+        }
+        return appMediaViewer;
+    }
+    async getVideoId(_url) {
+        const mediaViewer = TelegramHelper.getMediaViewer();
+        if (!mediaViewer) {
+            return undefined;
+        }
+        if (mediaViewer.live) {
+            return undefined;
+        }
+        const message = mediaViewer.target.message;
+        if (message.peer_id._ !== "peerChannel") {
+            return undefined;
+        }
+        const media = message.media;
+        if (media._ !== "messageMediaDocument") {
+            return undefined;
+        }
+        if (media.document.type !== "video") {
+            return undefined;
+        }
+        const postId = message.mid & 0xffffffff;
+        const username = await mediaViewer.managers.appPeersManager.getPeerUsername(message.peerId);
+        return `${username}/${postId}`;
+    }
+}
+
 ;// ./node_modules/@vot.js/ext/dist/helpers/index.js
+
+
 
 
 
@@ -9135,6 +9595,7 @@ const availableHelpers = {
     [VideoService.ign]: IgnHelper,
     [VideoService.bunkr]: BunkrHelper,
     [VideoService.imdb]: IMDbHelper,
+    [VideoService.telegram]: TelegramHelper,
     [ExtVideoService.udemy]: UdemyHelper,
     [ExtVideoService.coursera]: CourseraHelper,
     [ExtVideoService.douyin]: DouyinHelper,
@@ -9251,6 +9712,164 @@ async function getVideoData(service, opts = {}) {
 
 
 
+
+;// ./node_modules/lit-html/lit-html.js
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+const t=globalThis,i=t.trustedTypes,s=i?i.createPolicy("lit-html",{createHTML:t=>t}):void 0,e="$lit$",h=`lit$${Math.random().toFixed(9).slice(2)}$`,o="?"+h,n=`<${o}>`,r=document,l=()=>r.createComment(""),c=t=>null===t||"object"!=typeof t&&"function"!=typeof t,a=Array.isArray,u=t=>a(t)||"function"==typeof t?.[Symbol.iterator],d="[ \t\n\f\r]",f=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,v=/-->/g,_=/>/g,m=RegExp(`>|${d}(?:([^\\s"'>=/]+)(${d}*=${d}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),p=/'/g,g=/"/g,$=/^(?:script|style|textarea|title)$/i,y=t=>(i,...s)=>({_$litType$:t,strings:i,values:s}),x=y(1),b=y(2),w=y(3),T=Symbol.for("lit-noChange"),E=Symbol.for("lit-nothing"),A=new WeakMap,C=r.createTreeWalker(r,129);function P(t,i){if(!a(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==s?s.createHTML(i):i}const V=(t,i)=>{const s=t.length-1,o=[];let r,l=2===i?"<svg>":3===i?"<math>":"",c=f;for(let i=0;i<s;i++){const s=t[i];let a,u,d=-1,y=0;for(;y<s.length&&(c.lastIndex=y,u=c.exec(s),null!==u);)y=c.lastIndex,c===f?"!--"===u[1]?c=v:void 0!==u[1]?c=_:void 0!==u[2]?($.test(u[2])&&(r=RegExp("</"+u[2],"g")),c=m):void 0!==u[3]&&(c=m):c===m?">"===u[0]?(c=r??f,d=-1):void 0===u[1]?d=-2:(d=c.lastIndex-u[2].length,a=u[1],c=void 0===u[3]?m:'"'===u[3]?g:p):c===g||c===p?c=m:c===v||c===_?c=f:(c=m,r=void 0);const x=c===m&&t[i+1].startsWith("/>")?" ":"";l+=c===f?s+n:d>=0?(o.push(a),s.slice(0,d)+e+s.slice(d)+h+x):s+h+(-2===d?i:x)}return[P(t,l+(t[s]||"<?>")+(2===i?"</svg>":3===i?"</math>":"")),o]};class N{constructor({strings:t,_$litType$:s},n){let r;this.parts=[];let c=0,a=0;const u=t.length-1,d=this.parts,[f,v]=V(t,s);if(this.el=N.createElement(f,n),C.currentNode=this.el.content,2===s||3===s){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(r=C.nextNode())&&d.length<u;){if(1===r.nodeType){if(r.hasAttributes())for(const t of r.getAttributeNames())if(t.endsWith(e)){const i=v[a++],s=r.getAttribute(t).split(h),e=/([.?@])?(.*)/.exec(i);d.push({type:1,index:c,name:e[2],strings:s,ctor:"."===e[1]?H:"?"===e[1]?I:"@"===e[1]?L:k}),r.removeAttribute(t)}else t.startsWith(h)&&(d.push({type:6,index:c}),r.removeAttribute(t));if($.test(r.tagName)){const t=r.textContent.split(h),s=t.length-1;if(s>0){r.textContent=i?i.emptyScript:"";for(let i=0;i<s;i++)r.append(t[i],l()),C.nextNode(),d.push({type:2,index:++c});r.append(t[s],l())}}}else if(8===r.nodeType)if(r.data===o)d.push({type:2,index:c});else{let t=-1;for(;-1!==(t=r.data.indexOf(h,t+1));)d.push({type:7,index:c}),t+=h.length-1}c++}}static createElement(t,i){const s=r.createElement("template");return s.innerHTML=t,s}}function S(t,i,s=t,e){if(i===T)return i;let h=void 0!==e?s._$Co?.[e]:s._$Cl;const o=c(i)?void 0:i._$litDirective$;return h?.constructor!==o&&(h?._$AO?.(!1),void 0===o?h=void 0:(h=new o(t),h._$AT(t,s,e)),void 0!==e?(s._$Co??=[])[e]=h:s._$Cl=h),void 0!==h&&(i=S(t,h._$AS(t,i.values),h,e)),i}class M{constructor(t,i){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=i}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:i},parts:s}=this._$AD,e=(t?.creationScope??r).importNode(i,!0);C.currentNode=e;let h=C.nextNode(),o=0,n=0,l=s[0];for(;void 0!==l;){if(o===l.index){let i;2===l.type?i=new R(h,h.nextSibling,this,t):1===l.type?i=new l.ctor(h,l.name,l.strings,this,t):6===l.type&&(i=new z(h,this,t)),this._$AV.push(i),l=s[++n]}o!==l?.index&&(h=C.nextNode(),o++)}return C.currentNode=r,e}p(t){let i=0;for(const s of this._$AV)void 0!==s&&(void 0!==s.strings?(s._$AI(t,s,i),i+=s.strings.length-2):s._$AI(t[i])),i++}}class R{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,i,s,e){this.type=2,this._$AH=E,this._$AN=void 0,this._$AA=t,this._$AB=i,this._$AM=s,this.options=e,this._$Cv=e?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const i=this._$AM;return void 0!==i&&11===t?.nodeType&&(t=i.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,i=this){t=S(this,t,i),c(t)?t===E||null==t||""===t?(this._$AH!==E&&this._$AR(),this._$AH=E):t!==this._$AH&&t!==T&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):u(t)?this.k(t):this._(t)}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t))}_(t){this._$AH!==E&&c(this._$AH)?this._$AA.nextSibling.data=t:this.T(r.createTextNode(t)),this._$AH=t}$(t){const{values:i,_$litType$:s}=t,e="number"==typeof s?this._$AC(t):(void 0===s.el&&(s.el=N.createElement(P(s.h,s.h[0]),this.options)),s);if(this._$AH?._$AD===e)this._$AH.p(i);else{const t=new M(e,this),s=t.u(this.options);t.p(i),this.T(s),this._$AH=t}}_$AC(t){let i=A.get(t.strings);return void 0===i&&A.set(t.strings,i=new N(t)),i}k(t){a(this._$AH)||(this._$AH=[],this._$AR());const i=this._$AH;let s,e=0;for(const h of t)e===i.length?i.push(s=new R(this.O(l()),this.O(l()),this,this.options)):s=i[e],s._$AI(h),e++;e<i.length&&(this._$AR(s&&s._$AB.nextSibling,e),i.length=e)}_$AR(t=this._$AA.nextSibling,i){for(this._$AP?.(!1,!0,i);t&&t!==this._$AB;){const i=t.nextSibling;t.remove(),t=i}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t))}}class k{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,i,s,e,h){this.type=1,this._$AH=E,this._$AN=void 0,this.element=t,this.name=i,this._$AM=e,this.options=h,s.length>2||""!==s[0]||""!==s[1]?(this._$AH=Array(s.length-1).fill(new String),this.strings=s):this._$AH=E}_$AI(t,i=this,s,e){const h=this.strings;let o=!1;if(void 0===h)t=S(this,t,i,0),o=!c(t)||t!==this._$AH&&t!==T,o&&(this._$AH=t);else{const e=t;let n,r;for(t=h[0],n=0;n<h.length-1;n++)r=S(this,e[s+n],i,n),r===T&&(r=this._$AH[n]),o||=!c(r)||r!==this._$AH[n],r===E?t=E:t!==E&&(t+=(r??"")+h[n+1]),this._$AH[n]=r}o&&!e&&this.j(t)}j(t){t===E?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class H extends k{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===E?void 0:t}}class I extends k{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==E)}}class L extends k{constructor(t,i,s,e,h){super(t,i,s,e,h),this.type=5}_$AI(t,i=this){if((t=S(this,t,i,0)??E)===T)return;const s=this._$AH,e=t===E&&s!==E||t.capture!==s.capture||t.once!==s.once||t.passive!==s.passive,h=t!==E&&(s===E||e);e&&this.element.removeEventListener(this.name,this,s),h&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class z{constructor(t,i,s){this.element=t,this.type=6,this._$AN=void 0,this._$AM=i,this.options=s}get _$AU(){return this._$AM._$AU}_$AI(t){S(this,t)}}const Z={M:e,P:h,A:o,C:1,L:V,R:M,D:u,V:S,I:R,H:k,N:I,U:L,B:H,F:z},j=t.litHtmlPolyfillSupport;j?.(N,R),(t.litHtmlVersions??=[]).push("3.3.0");const B=(t,i,s)=>{const e=s?.renderBefore??i;let h=e._$litPart$;if(void 0===h){const t=s?.renderBefore??null;e._$litPart$=h=new R(i.insertBefore(l(),t),t,void 0,s??{})}return h._$AI(t),h};
+//# sourceMappingURL=lit-html.js.map
+
+// EXTERNAL MODULE: ./src/styles/main.scss
+var main = __webpack_require__("./src/styles/main.scss");
+;// ./src/ui.js
+
+
+
+
+// biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
+class UI {
+  /**
+   * Auxiliary method for creating HTML elements
+   *
+   * @param {string} tag - Element tag
+   * @param {string[]} classes - List of classes for element
+   * @param {HTMLElement|string|null} content - Internal content (optional)
+   * @return {HTMLElement} Created element
+   */
+  static createEl(tag, classes = [], content = null) {
+    const el = document.createElement(tag);
+    if (classes.length) el.classList.add(...classes);
+    if (content !== null) el.append(content);
+    return el;
+  }
+
+  /**
+   * Create header element
+   *
+   * @param {HTMLElement|string} html - header content
+   * @param {1|2|3|4|5|6} level - header level
+   * @return {HTMLElement} HTML header element
+   */
+  static createHeader(html, level = 4) {
+    const header = UI.createEl("vot-block", [
+      "vot-header",
+      `vot-header-level-${level}`,
+    ]);
+    header.append(html);
+    return header;
+  }
+
+  /**
+   * Create information element
+   *
+   * @param {HTMLElement|string} labelHtml - label content
+   * @param {import("./types/components/shared").LitHtml} valueHtml - value content
+   * @return {{
+   *  container: HTMLElement,
+   *  header: HTMLElement,
+   *  value: HTMLElement
+   * }} information elements
+   */
+  static createInformation(labelHtml, valueHtml) {
+    const container = UI.createEl("vot-block", ["vot-info"]);
+    const header = UI.createEl("vot-block");
+    B(labelHtml, header);
+    const value = UI.createEl("vot-block");
+    B(valueHtml, value);
+    container.append(header, value);
+    return { container, header, value };
+  }
+
+  /**
+   * Create button
+   *
+   * @param {HTMLElement|string} html - button content
+   * @return {HTMLElement} HTML button element
+   */
+  static createButton(html) {
+    const button = UI.createEl("vot-block", ["vot-button"]);
+    button.append(html);
+    return button;
+  }
+
+  /**
+   * Create text button
+   *
+   * @param {HTMLElement|string} html - button content
+   * @return {HTMLElement} HTML text button element
+   */
+  static createTextButton(html) {
+    const button = UI.createEl("vot-block", ["vot-text-button"]);
+    button.append(html);
+    return button;
+  }
+
+  /**
+   * Create outlined button
+   *
+   * @param {HTMLElement|string} html - button content
+   * @return {HTMLElement} HTML outlined button element
+   */
+  static createOutlinedButton(html) {
+    const button = UI.createEl("vot-block", ["vot-outlined-button"]);
+    button.append(html);
+    return button;
+  }
+
+  /**
+   * Create icon button
+   *
+   * @param {TemplateResult} templateHtml - icon svg lit template
+   * @return {HTMLElement} HTML icon button element
+   */
+  static createIconButton(templateHtml) {
+    const button = UI.createEl("vot-block", ["vot-icon-button"]);
+    B(templateHtml, button);
+    return button;
+  }
+
+  static createInlineLoader() {
+    return UI.createEl("vot-block", ["vot-inline-loader"]);
+  }
+
+  static createPortal(local = false) {
+    return UI.createEl("vot-block", [`vot-portal${local ? "-local" : ""}`]);
+  }
+
+  static createSubtitleInfo(word, desc, translationService) {
+    const container = UI.createEl("vot-block", ["vot-subtitles-info"]);
+    container.id = "vot-subtitles-info";
+    const translatedWith = UI.createEl(
+      "vot-block",
+      ["vot-subtitles-info-service"],
+      localizationProvider
+        .get("VOTTranslatedBy")
+        .replace("{0}", translationService),
+    );
+    const header = UI.createEl(
+      "vot-block",
+      ["vot-subtitles-info-header"],
+      word,
+    );
+    const context = UI.createEl(
+      "vot-block",
+      ["vot-subtitles-info-context"],
+      desc,
+    );
+
+    container.append(translatedWith, header, context);
+
+    return {
+      container,
+      translatedWith,
+      header,
+      context,
+    };
+  }
+}
 
 ;// ./node_modules/@vot.js/shared/dist/utils/subs.js
 function convertToStrTime(ms, delimiter = ",") {
@@ -9507,12 +10126,12 @@ async function detect(text) {
   }
 }
 
-const foswlyServices = ["yandexbrowser", "msedge"];
-const detectServices = [...foswlyServices, "rust-server"];
+const foswlyServices = ["yandexbrowser", "msedge"] ;
+const detectServices = [...foswlyServices, "rust-server"] ;
 
 
 
-;// ./src/types/tooltip.ts
+;// ./src/types/components/tooltip.ts
 const positions = ["left", "top", "right", "bottom"] ;
  
 
@@ -9552,858 +10171,12 @@ const triggers = ["hover", "click"] ;
 
 
 
-// EXTERNAL MODULE: ./src/styles/main.scss
-var main = __webpack_require__("./src/styles/main.scss");
-;// ./src/ui.js
 
 
 
 
-class UI {
-  static undefinedPhrase = "#UNDEFINED";
-  static arrowIconRaw = b`<svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-  >
-    <path
-      d="M12 14.975q-.2 0-.375-.062T11.3 14.7l-4.6-4.6q-.275-.275-.275-.7t.275-.7q.275-.275.7-.275t.7.275l3.9 3.9l3.9-3.9q.275-.275.7-.275t.7.275q.275.275.275.7t-.275.7l-4.6 4.6q-.15.15-.325.213t-.375.062Z"
-    />
-  </svg>`;
-  static animeOpts = {
-    easing: "linear",
-    delay: (i) => i * 200,
-  };
 
-  /**
-   * Auxiliary method for creating HTML elements
-   *
-   * @param {string} tag - Element tag
-   * @param {string[]} classes - List of classes for element
-   * @param {HTMLElement|string|null} content - Internal content (optional)
-   * @return {HTMLElement} Created element
-   */
-  static createEl(tag, classes = [], content = null) {
-    const el = document.createElement(tag);
-    if (classes.length) el.classList.add(...classes);
-    if (content !== null) el.append(content);
-    return el;
-  }
-
-  /**
-   * Create header element
-   *
-   * @param {HTMLElement|string} html - header content
-   * @param {1|2|3|4|5|6} level - header level
-   * @return {HTMLElement} HTML header element
-   */
-  static createHeader(html, level = 4) {
-    const header = this.createEl("vot-block", [
-      "vot-header",
-      `vot-header-level-${level}`,
-    ]);
-    header.append(html);
-    return header;
-  }
-
-  /**
-   * Create information element
-   *
-   * @param {HTMLElement|string} labelHtml - label content
-   * @param {HTMLElement|string} valueHtml - value content
-   * @return {{
-   *  container: HTMLElement,
-   *  header: HTMLElement,
-   *  value: HTMLElement
-   * }} information elements
-   */
-  static createInformation(labelHtml, valueHtml) {
-    const container = this.createEl("vot-block", ["vot-info"]);
-    const header = this.createEl("vot-block");
-    B(labelHtml, header);
-    const value = this.createEl("vot-block");
-    B(valueHtml, value);
-    container.append(header, value);
-    return { container, header, value };
-  }
-
-  /**
-   * Create button
-   *
-   * @param {HTMLElement|string} html - button content
-   * @return {HTMLElement} HTML button element
-   */
-  static createButton(html) {
-    const button = this.createEl("vot-block", ["vot-button"]);
-    button.append(html);
-    return button;
-  }
-
-  /**
-   * Create text button
-   *
-   * @param {HTMLElement|string} html - button content
-   * @return {HTMLElement} HTML text button element
-   */
-  static createTextButton(html) {
-    const button = this.createEl("vot-block", ["vot-text-button"]);
-    button.append(html);
-    return button;
-  }
-
-  /**
-   * Create outlined button
-   *
-   * @param {HTMLElement|string} html - button content
-   * @return {HTMLElement} HTML outlined button element
-   */
-  static createOutlinedButton(html) {
-    const button = this.createEl("vot-block", ["vot-outlined-button"]);
-    button.append(html);
-    return button;
-  }
-
-  /**
-   * Create icon button
-   *
-   * @param {TemplateResult} templateHtml - icon svg lit template
-   * @return {HTMLElement} HTML icon button element
-   */
-  static createIconButton(templateHtml) {
-    const button = this.createEl("vot-block", ["vot-icon-button"]);
-    B(templateHtml, button);
-    return button;
-  }
-
-  /**
-   * Create checkbox
-   *
-   * @param {string|HTMLElement} html - label content
-   * @param {boolean} value - checkbox state
-   * @return {{
-   *  container: HTMLElement,
-   *  input: HTMLInputElement,
-   *  label: HTMLSpanElement
-   * }} checkbox elements
-   */
-  static createCheckbox(html, value = false) {
-    const container = this.createEl("label", ["vot-checkbox"]);
-    const input = document.createElement("input");
-    input.type = "checkbox";
-    input.checked = Boolean(value);
-    const label = this.createEl("span");
-    label.append(html);
-    container.append(input, label);
-    return { container, input, label };
-  }
-
-  /**
-   * Update slider value
-   *
-   * @param {HTMLInputElement} input - slider input element
-   */
-  static updateSlider(input) {
-    const value = +input.value;
-    const min = +input.min;
-    const max = +input.max;
-    const progress = (value - min) / (max - min);
-    input.parentElement.setAttribute("style", `--vot-progress: ${progress}`);
-  }
-
-  /**
-   * Create slider
-   *
-   * @param {string|HTMLElement} html - label content
-   * @param {number} value - default value
-   * @param {number} min - min value
-   * @param {number} max - max value
-   * @return {{
-   *  container: HTMLElement,
-   *  input: HTMLInputElement,
-   *  label: HTMLSpanElement
-   * }} slider elements
-   */
-  static createSlider(labelHtml, value = 50, min = 0, max = 100) {
-    const container = this.createEl("vot-block", ["vot-slider"]);
-    const input = document.createElement("input");
-    input.type = "range";
-    input.min = min;
-    input.max = max;
-    input.value = value;
-    const label = this.createEl("span");
-    B(labelHtml, label);
-    container.append(input, label);
-    input.addEventListener("input", (e) => this.updateSlider(e.target));
-    this.updateSlider(input);
-    return { container, input, label };
-  }
-
-  /**
-   * Create textfield
-   *
-   * @param {string|HTMLElement} html - label content
-   * @param {string} value - default value
-   * @param {string} placeholder - textfield placeholder
-   * @param {boolean} multiline - multiline textfield
-   * @return {{
-   *  container: HTMLElement,
-   *  input: HTMLInputElement,
-   *  label: HTMLSpanElement
-   * }} textfield elements
-   */
-  static createTextfield(
-    html,
-    value = "",
-    placeholder = " ",
-    multiline = false,
-  ) {
-    const container = this.createEl("vot-block", ["vot-textfield"]);
-    const input = document.createElement(multiline ? "textarea" : "input");
-    input.placeholder = placeholder;
-    input.value = value;
-    if (!html) input.classList.add("vot-show-placeholer");
-    const label = this.createEl("span");
-    label.append(html);
-    container.append(input, label);
-    return { container, input, label };
-  }
-
-  /**
-   * Create dialog
-   *
-   * @param {string|HTMLElement} html - title content
-   * @return {{
-   *  container: HTMLElement,
-   *  backdrop: HTMLElement,
-   *  dialog: HTMLElement,
-   *  contentWrapper: HTMLElement,
-   *  headerContainer: HTMLElement,
-   *  bodyContainer: HTMLElement,
-   *  footerContainer: HTMLElement,
-   *  titleContainer: HTMLElement,
-   *  closeButton: HTMLElement,
-   *  title: HTMLElement,
-   * }} dialog elements
-   */
-  static createDialog(html) {
-    const container = this.createEl("vot-block", ["vot-dialog-container"]);
-    container.hidden = true;
-
-    const backdrop = this.createEl("vot-block", ["vot-dialog-backdrop"]);
-    const dialog = this.createEl("vot-block", ["vot-dialog"]);
-    const contentWrapper = this.createEl("vot-block", [
-      "vot-dialog-content-wrapper",
-    ]);
-    const headerContainer = this.createEl("vot-block", [
-      "vot-dialog-header-container",
-    ]);
-    const bodyContainer = this.createEl("vot-block", [
-      "vot-dialog-body-container",
-    ]);
-    const footerContainer = this.createEl("vot-block", [
-      "vot-dialog-footer-container",
-    ]);
-    const titleContainer = this.createEl("vot-block", [
-      "vot-dialog-title-container",
-    ]);
-    const closeButton = this.createIconButton(
-      b`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="100%" viewBox="0 -960 960 960">
-        <path d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z"/>
-      </svg>`,
-    );
-    closeButton.classList.add("vot-dialog-close-button");
-
-    // Закрытие диалога по нажатию на фон или кнопку
-    backdrop.onclick = closeButton.onclick = () => {
-      container.hidden = true;
-    };
-
-    const title = this.createEl("vot-block", ["vot-dialog-title"]);
-    title.append(html);
-
-    container.append(backdrop, dialog);
-    dialog.append(contentWrapper);
-    contentWrapper.append(headerContainer, bodyContainer, footerContainer);
-    headerContainer.append(titleContainer, closeButton);
-    titleContainer.append(title);
-
-    return {
-      container,
-      backdrop,
-      dialog,
-      contentWrapper,
-      headerContainer,
-      bodyContainer,
-      footerContainer,
-      titleContainer,
-      closeButton,
-      title,
-    };
-  }
-
-  /**
-   * Create VOTButton
-   *
-   * @param {string|HTMLElement} label - label content
-   * @return {{
-   *  container: HTMLElement,
-   *  translateButton: HTMLElement,
-   *  separator: HTMLElement,
-   *  pipButton: HTMLElement,
-   *  separator2: HTMLElement,
-   *  menuButton: HTMLElement,
-   *  label: HTMLSpanElement,
-   * }} VOTButton elements
-   */
-  static createVOTButton(labelHtml) {
-    const container = this.createEl("vot-block", ["vot-segmented-button"]);
-    const translateButton = this.createEl("vot-block", [
-      "vot-segment",
-      "vot-translate-button",
-    ]);
-    B(
-      b`<svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-      >
-        <path
-          id="vot-translate-icon"
-          fill-rule="evenodd"
-          d="M15.778 18.95L14.903 21.375C14.8364 21.5583 14.7197 21.7083 14.553 21.825C14.3864 21.9417 14.203 22 14.003 22C13.6697 22 13.3989 21.8625 13.1905 21.5875C12.9822 21.3125 12.9447 21.0083 13.078 20.675L16.878 10.625C16.9614 10.4417 17.0864 10.2917 17.253 10.175C17.4197 10.0583 17.603 10 17.803 10H18.553C18.753 10 18.9364 10.0583 19.103 10.175C19.2697 10.2917 19.3947 10.4417 19.478 10.625L23.278 20.7C23.4114 21.0167 23.378 21.3125 23.178 21.5875C22.978 21.8625 22.7114 22 22.378 22C22.1614 22 21.9739 21.9375 21.8155 21.8125C21.6572 21.6875 21.5364 21.525 21.453 21.325L20.628 18.95H15.778ZM19.978 17.2H16.378L18.228 12.25L19.978 17.2Z"
-        ></path>
-        <path
-          d="M9 14L4.7 18.3C4.51667 18.4833 4.28333 18.575 4 18.575C3.71667 18.575 3.48333 18.4833 3.3 18.3C3.11667 18.1167 3.025 17.8833 3.025 17.6C3.025 17.3167 3.11667 17.0833 3.3 16.9L7.65 12.55C7.01667 11.85 6.4625 11.125 5.9875 10.375C5.5125 9.625 5.1 8.83333 4.75 8H6.85C7.15 8.6 7.47083 9.14167 7.8125 9.625C8.15417 10.1083 8.56667 10.6167 9.05 11.15C9.78333 10.35 10.3917 9.52917 10.875 8.6875C11.3583 7.84583 11.7667 6.95 12.1 6H2C1.71667 6 1.47917 5.90417 1.2875 5.7125C1.09583 5.52083 1 5.28333 1 5C1 4.71667 1.09583 4.47917 1.2875 4.2875C1.47917 4.09583 1.71667 4 2 4H8V3C8 2.71667 8.09583 2.47917 8.2875 2.2875C8.47917 2.09583 8.71667 2 9 2C9.28333 2 9.52083 2.09583 9.7125 2.2875C9.90417 2.47917 10 2.71667 10 3V4H16C16.2833 4 16.5208 4.09583 16.7125 4.2875C16.9042 4.47917 17 4.71667 17 5C17 5.28333 16.9042 5.52083 16.7125 5.7125C16.5208 5.90417 16.2833 6 16 6H14.1C13.75 7.18333 13.275 8.33333 12.675 9.45C12.075 10.5667 11.3333 11.6167 10.45 12.6L12.85 15.05L12.1 17.1L9 14Z"
-        ></path>
-        <path
-          id="vot-loading-icon"
-          style="display:none"
-          d="M19.8081 16.3697L18.5842 15.6633V13.0832C18.5842 12.9285 18.5228 12.7801 18.4134 12.6707C18.304 12.5613 18.1556 12.4998 18.0009 12.4998C17.8462 12.4998 17.6978 12.5613 17.5884 12.6707C17.479 12.7801 17.4176 12.9285 17.4176 13.0832V15.9998C17.4176 16.1022 17.4445 16.2028 17.4957 16.2915C17.5469 16.3802 17.6205 16.4538 17.7092 16.505L19.2247 17.38C19.2911 17.4189 19.3645 17.4443 19.4407 17.4547C19.5169 17.4652 19.5945 17.4604 19.6688 17.4407C19.7432 17.4211 19.813 17.3869 19.8741 17.3402C19.9352 17.2934 19.9864 17.2351 20.0249 17.1684C20.0634 17.1018 20.0883 17.0282 20.0982 16.952C20.1081 16.8757 20.1028 16.7982 20.0827 16.7239C20.0625 16.6497 20.0279 16.5802 19.9808 16.5194C19.9336 16.4586 19.8749 16.4077 19.8081 16.3697ZM18.0015 10C16.8478 10 15.6603 10.359 14.7011 11C13.7418 11.641 12.9415 12.4341 12.5 13.5C12.0585 14.5659 11.8852 16.0369 12.1103 17.1684C12.3353 18.3 12.8736 19.4942 13.6894 20.31C14.5053 21.1258 15.8684 21.7749 17 22C18.1316 22.2251 19.4341 21.9415 20.5 21.5C21.5659 21.0585 22.359 20.2573 23 19.298C23.641 18.3387 24.0015 17.1537 24.0015 16C23.9998 14.4534 23.5951 13.0936 22.5015 12C21.4079 10.9064 19.5481 10.0017 18.0015 10ZM18.0009 20.6665C17.0779 20.6665 16.1757 20.3928 15.4082 19.88C14.6408 19.3672 14.0427 18.6384 13.6894 17.7857C13.3362 16.933 13.2438 15.9947 13.4239 15.0894C13.604 14.1842 14.0484 13.3527 14.7011 12.7C15.3537 12.0474 16.1852 11.6029 17.0905 11.4228C17.9957 11.2428 18.934 11.3352 19.7867 11.6884C20.6395 12.0416 21.3683 12.6397 21.8811 13.4072C22.3939 14.1746 22.6676 15.0769 22.6676 15.9998C22.666 17.237 22.1738 18.4231 21.299 19.298C20.4242 20.1728 19.2381 20.665 18.0009 20.6665Z"
-        ></path>
-      </svg>`,
-      translateButton,
-    );
-
-    const separator = this.createEl("vot-block", ["vot-separator"]);
-    const pipButton = this.createEl("vot-block", ["vot-segment-only-icon"]);
-    B(
-      b`<svg
-        xmlns="http://www.w3.org/2000/svg"
-        height="24"
-        viewBox="0 -960 960 960"
-        width="24"
-      >
-        <path
-          d="M120-520q-17 0-28.5-11.5T80-560q0-17 11.5-28.5T120-600h104L80-743q-12-12-12-28.5T80-800q12-12 28.5-12t28.5 12l143 144v-104q0-17 11.5-28.5T320-800q17 0 28.5 11.5T360-760v200q0 17-11.5 28.5T320-520H120Zm40 360q-33 0-56.5-23.5T80-240v-160q0-17 11.5-28.5T120-440q17 0 28.5 11.5T160-400v160h280q17 0 28.5 11.5T480-200q0 17-11.5 28.5T440-160H160Zm680-280q-17 0-28.5-11.5T800-480v-240H480q-17 0-28.5-11.5T440-760q0-17 11.5-28.5T480-800h320q33 0 56.5 23.5T880-720v240q0 17-11.5 28.5T840-440ZM600-160q-17 0-28.5-11.5T560-200v-120q0-17 11.5-28.5T600-360h240q17 0 28.5 11.5T880-320v120q0 17-11.5 28.5T840-160H600Z"
-        />
-      </svg>`,
-      pipButton,
-    );
-
-    const separator2 = this.createEl("vot-block", ["vot-separator"]);
-    const menuButton = this.createEl("vot-block", ["vot-segment-only-icon"]);
-    B(
-      b`<svg
-        xmlns="http://www.w3.org/2000/svg"
-        height="24"
-        viewBox="0 -960 960 960"
-        width="24"
-      >
-        <path
-          d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"
-        />
-      </svg>`,
-      menuButton,
-    );
-
-    const label = this.createEl("span", ["vot-segment-label"]);
-    label.append(labelHtml);
-    container.append(
-      translateButton,
-      separator,
-      pipButton,
-      separator2,
-      menuButton,
-    );
-    translateButton.append(label);
-    return {
-      container,
-      translateButton,
-      separator,
-      pipButton,
-      separator2,
-      menuButton,
-      label,
-    };
-  }
-
-  /**
-   * Create VOTMenu
-   *
-   * @param {string|HTMLElement} html - title content
-   * @return {{
-   *  container: HTMLElement,
-   *  contentWrapper: HTMLElement,
-   *  headerContainer: HTMLElement,
-   *  bodyContainer: HTMLElement,
-   *  footerContainer: HTMLElement,
-   *  titleContainer: HTMLElement,
-   *  title: HTMLSpanElement,
-   * }} VOTMenu elements
-   */
-  static createVOTMenu(html) {
-    const container = this.createEl("vot-block", ["vot-menu"]);
-    container.hidden = true;
-    const contentWrapper = this.createEl("vot-block", [
-      "vot-menu-content-wrapper",
-    ]);
-    const headerContainer = this.createEl("vot-block", [
-      "vot-menu-header-container",
-    ]);
-    const bodyContainer = this.createEl("vot-block", [
-      "vot-menu-body-container",
-    ]);
-    const footerContainer = this.createEl("vot-block", [
-      "vot-menu-footer-container",
-    ]);
-    const titleContainer = this.createEl("vot-block", [
-      "vot-menu-title-container",
-    ]);
-    const title = this.createEl("vot-block", ["vot-menu-title"]);
-    title.append(html);
-    container.append(contentWrapper);
-    contentWrapper.append(headerContainer, bodyContainer, footerContainer);
-    headerContainer.append(titleContainer);
-    titleContainer.append(title);
-    return {
-      container,
-      contentWrapper,
-      headerContainer,
-      bodyContainer,
-      footerContainer,
-      titleContainer,
-      title,
-    };
-  }
-
-  /**
-   * Create VOTSelectLabel
-   *
-   * @param {string} text - label text
-   * @return {HTMLSpanElement} VOTSelectLabel element
-   */
-  static createVOTSelectLabel(text) {
-    const label = this.createEl("span", ["vot-select-label"]);
-    label.textContent = text;
-    return label;
-  }
-
-  /**
-   * Create VOTSelect - A customizable select component with search functionality
-   * and support for single/multi-select modes.
-   *
-   * @param {string} selectTitle - Default title shown when no items are selected
-   * @param {string} dialogTitle - Title displayed in the selection dialog
-   * @param {{label: string, value: string, selected: boolean, disabled?: boolean}[]} items - Array of selectable items
-   * @param {{
-   *   onSelectCb?: function,      // Callback function triggered on item selection
-   *   labelElement?: string,      // Optional label element to display above select
-   *   multiSelect?: boolean       // Enable multiple item selection
-   * }} options - Configuration options
-   * @return {{
-   *  container: HTMLElement,      // Main container element
-   *  title: HTMLSpanElement,      // Title element showing selected items
-   *  arrowIcon: HTMLElement,      // Dropdown arrow icon element
-   *  labelElement: HTMLElement,   // Label element if provided
-   *  setTitle: (newTitle: string) => void,          // Function to update select title
-   *  setSelected: (val: string | string[]) => void, // Function to set selected items
-   *  updateItems: (newItems: {label: string, value: string, selected: boolean}[]) => void, // Update available items
-   *  selectedValues: Set<string>  // Set containing currently selected values
-   * }} VOTSelect elements and control functions
-   */
-  static createVOTSelect(selectTitle, dialogTitle, items, options = {}) {
-    const {
-      onSelectCb = () => {},
-      labelElement = "",
-      multiSelect = false,
-      dialogParent = document.documentElement,
-    } = options;
-    let selectedItems = [];
-    let selectedValues = new Set(
-      items.filter((i) => i.selected).map((i) => i.value),
-    );
-
-    const container = this.createEl("vot-block", ["vot-select"]);
-    if (labelElement) container.append(labelElement);
-
-    const outer = this.createEl("vot-block", ["vot-select-outer"]);
-    const title = this.createEl("span", ["vot-select-title"]);
-    const updateTitle = () => {
-      if (multiSelect) {
-        const selectedLabels = items
-          .filter((i) => selectedValues.has(i.value))
-          .map((i) => i.label)
-          .join(", ");
-        title.textContent = selectedLabels || selectTitle;
-      } else {
-        const selectedItem = items.find((i) => i.selected);
-        title.textContent = selectedItem ? selectedItem.label : selectTitle;
-      }
-    };
-    updateTitle();
-
-    const arrowIcon = this.createEl("vot-block", ["vot-select-arrow-icon"]);
-    B(this.arrowIconRaw, arrowIcon);
-
-    const updateSelectedState = () => {
-      if (selectedItems.length > 0) {
-        for (const item of selectedItems) {
-          item.dataset.votSelected = selectedValues.has(item.dataset.votValue);
-        }
-      }
-      updateTitle();
-    };
-
-    outer.append(title, arrowIcon);
-
-    let isLoading = false;
-    let dialogOpened = false;
-
-    outer.onclick = async () => {
-      if (isLoading || dialogOpened) return;
-      try {
-        isLoading = true;
-        if (options.onBeforeOpen) await options.onBeforeOpen();
-
-        const votSelectDialog = this.createDialog(dialogTitle);
-        votSelectDialog.container.classList.add("vot-dialog-temp");
-        votSelectDialog.container.hidden = false;
-        dialogParent.appendChild(votSelectDialog.container);
-        dialogOpened = true;
-
-        const contentList = this.createEl("vot-block", [
-          "vot-select-content-list",
-        ]);
-
-        for (const item of items) {
-          const contentItem = this.createEl("vot-block", [
-            "vot-select-content-item",
-          ]);
-          contentItem.textContent = item.label;
-          contentItem.dataset.votSelected = item.selected;
-          contentItem.dataset.votValue = item.value;
-          if (item.disabled) contentItem.inert = true;
-
-          contentItem.onclick = async (e) => {
-            if (e.target.inert) return;
-            if (multiSelect) {
-              const value = item.value;
-              if (selectedValues.has(value) && selectedValues.size > 1) {
-                selectedValues.delete(value);
-                item.selected = false;
-              } else {
-                selectedValues.add(value);
-                item.selected = true;
-              }
-              contentItem.dataset.votSelected = selectedValues.has(value);
-              updateSelectedState();
-              await onSelectCb(e, Array.from(selectedValues));
-            } else {
-              const value = e.target.dataset.votValue;
-              selectedValues = new Set([value]);
-              for (const ci of contentList.childNodes) {
-                ci.dataset.votSelected = ci.dataset.votValue === value;
-              }
-              for (const i of items) {
-                i.selected = i.value === value;
-              }
-              updateTitle();
-              await onSelectCb(e, value);
-            }
-          };
-          contentList.appendChild(contentItem);
-        }
-
-        const votSearchLangTextfield = this.createTextfield(
-          localizationProvider.get("searchField"),
-        );
-        votSearchLangTextfield.input.oninput = (e) => {
-          const searchText = e.target.value.toLowerCase();
-          for (const ci of selectedItems) {
-            ci.hidden = !ci.textContent.toLowerCase().includes(searchText);
-          }
-        };
-
-        votSelectDialog.bodyContainer.append(
-          votSearchLangTextfield.container,
-          contentList,
-        );
-        selectedItems = contentList.childNodes;
-
-        votSelectDialog.backdrop.onclick = votSelectDialog.closeButton.onclick =
-          () => {
-            votSelectDialog.container.remove();
-            dialogOpened = false;
-            selectedItems = [];
-          };
-      } finally {
-        isLoading = false;
-      }
-    };
-
-    container.append(outer);
-
-    const setSelected = (val) => {
-      if (multiSelect) {
-        selectedValues = new Set(
-          Array.isArray(val) ? val.map(String) : [String(val)],
-        );
-      } else {
-        selectedValues = new Set([String(val)]);
-      }
-      for (const item of items) {
-        item.selected = selectedValues.has(String(item.value));
-      }
-      updateSelectedState();
-    };
-
-    const updateItems = (newItems) => {
-      items = newItems;
-      selectedValues = new Set(
-        items.filter((i) => i.selected).map((i) => i.value),
-      );
-      updateSelectedState();
-    };
-
-    return {
-      container,
-      title,
-      arrowIcon,
-      labelElement,
-      setTitle: (t) => (selectTitle = t) && updateTitle(),
-      setSelected,
-      updateItems,
-      selectedValues,
-    };
-  }
-
-  /**
-   * Create VOTLanguageSelect
-   *
-   * @param {object} options - language select options
-   * @return {{ container: HTMLElement, fromSelect: object, icon: HTMLElement, toSelect: object }}
-   */
-  static createVOTLanguageSelect(options) {
-    const {
-      fromTitle = this.undefinedPhrase,
-      fromDialogTitle = this.undefinedPhrase,
-      fromItems = [],
-      fromOnSelectCB = null,
-      toTitle = this.undefinedPhrase,
-      toDialogTitle = this.undefinedPhrase,
-      toItems = [],
-      toOnSelectCB = null,
-    } = options;
-
-    const container = this.createEl("vot-block", ["vot-lang-select"]);
-    const fromSelect = this.createVOTSelect(
-      fromTitle,
-      fromDialogTitle,
-      fromItems,
-      {
-        onSelectCb: fromOnSelectCB,
-      },
-    );
-    const icon = this.createEl("vot-block", ["vot-lang-select-icon"]);
-    B(
-      b`<svg
-        xmlns="http://www.w3.org/2000/svg"
-        height="24"
-        viewBox="0 -960 960 960"
-        width="24"
-      >
-        <path
-          d="M647-440H200q-17 0-28.5-11.5T160-480q0-17 11.5-28.5T200-520h447L451-716q-12-12-11.5-28t12.5-28q12-11 28-11.5t28 11.5l264 264q6 6 8.5 13t2.5 15q0 8-2.5 15t-8.5 13L508-188q-11 11-27.5 11T452-188q-12-12-12-28.5t12-28.5l195-195Z"
-        />
-      </svg>`,
-      icon,
-    );
-    const toSelect = this.createVOTSelect(toTitle, toDialogTitle, toItems, {
-      onSelectCb: toOnSelectCB,
-    });
-    container.append(fromSelect.container, icon, toSelect.container);
-    return { container, fromSelect, icon, toSelect };
-  }
-
-  /**
-   * Create details element
-   *
-   * @param {HTMLElement|string} titleHtml - details title
-   * @return {{
-   *  container: HTMLElement,
-   *  header: HTMLElement,
-   *  arrowIcon: HTMLElement
-   * }} details elements
-   */
-  static createDetails(titleHtml) {
-    const container = this.createEl("vot-block", ["vot-details"]);
-    const header = this.createEl("vot-block");
-    header.append(titleHtml);
-    const arrowIcon = this.createEl("vot-block", ["vot-details-arrow-icon"]);
-    B(this.arrowIconRaw, arrowIcon);
-    container.append(header, arrowIcon);
-    return { container, header, arrowIcon };
-  }
-
-  /**
-   *
-   * @export
-   * @param {SVGElement} votLoader
-   * @param {string} [primaryColor="139, 180, 245"]
-   * @return {Function} Update animation function
-   */
-  static animateLoader(votLoader, primaryColor = "139, 180, 245") {
-    const votLoaderHelper = votLoader.querySelector(".vot-loader-helper");
-    const votLoaderMain = votLoader.querySelector(".vot-loader-main");
-    anime
-      .timeline({
-        ...this.animeOpts,
-        targets: [votLoaderHelper, votLoaderMain],
-        duration: 250,
-      })
-      .add({
-        "fill-opacity": 0,
-        "stroke-width": 2,
-        d: "M 12 1.5 C 17.799 1.5 22.5 6.201 22.5 12 C 22.5 17.799 17.799 22.5 12 22.5 C 6.201 22.5 1.5 17.799 1.5 12 C 1.5 6.201 6.201 1.5 12 1.5 Z",
-        duration: 0,
-      })
-      .add(
-        {
-          targets: votLoaderHelper,
-          stroke: `rgb(${primaryColor})`,
-          "stroke-opacity": 0,
-          duration: 0,
-        },
-        0,
-      )
-      .add(
-        {
-          targets: votLoaderMain,
-          stroke: "#888888",
-          "stroke-opacity": 0.25,
-        },
-        0,
-      );
-
-    const animation = anime
-      .timeline({
-        targets: votLoaderHelper,
-        easing: "easeInOutSine",
-        duration: 1000,
-        autoplay: false,
-      })
-      .add({ strokeOpacity: 1, duration: 0 }, 0)
-      .add({ strokeDashoffset: [anime.setDashoffset, 0] }, 0);
-
-    return (percentage) =>
-      animation.seek(animation.duration * (percentage / 100));
-  }
-
-  /**
-   * After the bootloader animation
-   *
-   * @param {SVGElement} votLoader
-   * @param {string} [primaryColor="139, 180, 245"]
-   */
-  static afterAnimateLoader(votLoader, primaryColor = "139, 180, 245") {
-    const votLoaderHelper = votLoader.querySelector(".vot-loader-helper");
-    const votLoaderMain = votLoader.querySelector(".vot-loader-main");
-    anime
-      .timeline({
-        ...this.animeOpts,
-        targets: votLoaderMain,
-        duration: 600,
-      })
-      .add({
-        d: "M 9.0596 14.8571 L 9.7667 15.5642 L 10.4738 14.8571 L 17.0071 8.3238 C 17.0457 8.2852 17.0937 8.25 17.2333 8.25 C 17.373 8.25 17.421 8.2852 17.4596 8.3238 C 17.4981 8.3624 17.5333 8.4104 17.5333 8.55 C 17.5333 8.6896 17.4981 8.7376 17.4596 8.7762 L 9.9929 16.2429 C 9.9011 16.3346 9.8397 16.35 9.7667 16.35 C 9.6937 16.35 9.6322 16.3346 9.5404 16.2429 L 6.0738 12.7762 C 6.0352 12.7376 6 12.6897 6 12.55 C 6 12.4103 6.0352 12.3624 6.0738 12.3238 C 6.1124 12.2852 6.1603 12.25 6.3 12.25 C 6.4397 12.25 6.4876 12.2852 6.5262 12.3238 L 9.0596 14.8571 Z",
-        duration: 0,
-      })
-      .add({
-        strokeDashoffset: [anime.setDashoffset, 0],
-        stroke: `rgb(${primaryColor})`,
-        "stroke-opacity": 1,
-      });
-
-    setTimeout(() => {
-      anime
-        .timeline({
-          ...this.animeOpts,
-          targets: votLoaderMain,
-          duration: 600,
-        })
-        .add({
-          d: "M12 15.575C11.8667 15.575 11.7417 15.5542 11.625 15.5125C11.5083 15.4708 11.4 15.4 11.3 15.3L7.7 11.7C7.5 11.5 7.40417 11.2667 7.4125 11C7.42083 10.7333 7.51667 10.5 7.7 10.3C7.9 10.1 8.1375 9.99583 8.4125 9.9875C8.6875 9.97917 8.925 10.075 9.125 10.275L11 12.15V5C11 4.71667 11.0958 4.47917 11.2875 4.2875C11.4792 4.09583 11.7167 4 12 4C12.2833 4 12.5208 4.09583 12.7125 4.2875C12.9042 4.47917 13 4.71667 13 5V12.15L14.875 10.275C15.075 10.075 15.3125 9.97917 15.5875 9.9875C15.8625 9.99583 16.1 10.1 16.3 10.3C16.4833 10.5 16.5792 10.7333 16.5875 11C16.5958 11.2667 16.5 11.5 16.3 11.7L12.7 15.3C12.6 15.4 12.4917 15.4708 12.375 15.5125C12.2583 15.5542 12.1333 15.575 12 15.575ZM6 20C5.45 20 4.97917 19.8042 4.5875 19.4125C4.19583 19.0208 4 18.55 4 18V16C4 15.7167 4.09583 15.4792 4.2875 15.2875C4.47917 15.0958 4.71667 15 5 15C5.28333 15 5.52083 15.0958 5.7125 15.2875C5.90417 15.4792 6 15.7167 6 16V18H18V16C18 15.7167 18.0958 15.4792 18.2875 15.2875C18.4792 15.0958 18.7167 15 19 15C19.2833 15 19.5208 15.0958 19.7125 15.2875C19.9042 15.4792 20 15.7167 20 16V18C20 18.55 19.8042 19.0208 19.4125 19.4125C19.0208 19.8042 18.55 20 18 20H6Z",
-          duration: 100,
-        })
-        .add(
-          {
-            targets: votLoaderHelper,
-            d: "",
-            duration: 200,
-          },
-          0,
-        )
-        .add({
-          targets: votLoaderMain,
-          "stroke-width": "0",
-          stroke: `rgba(${primaryColor}), 0)`,
-          "fill-opacity": "1",
-          "stroke-dasharray": "0",
-          "stroke-dashoffset": "0",
-          duration: 0,
-        });
-    }, 2000);
-  }
-
-  static createPortal(local = false) {
-    return this.createEl("vot-block", [`vot-portal${local ? "-local" : ""}`]);
-  }
-
-  static createSubtitleInfo(word, desc, translationService) {
-    const container = this.createEl("vot-block", ["vot-subtitles-info"]);
-    container.id = "vot-subtitles-info";
-    const translatedWith = this.createEl(
-      "vot-block",
-      ["vot-subtitles-info-service"],
-      localizationProvider
-        .get("VOTTranslatedBy")
-        .replace("{0}", translationService),
-    );
-    const header = this.createEl(
-      "vot-block",
-      ["vot-subtitles-info-header"],
-      word,
-    );
-    const context = this.createEl(
-      "vot-block",
-      ["vot-subtitles-info-context"],
-      desc,
-    );
-
-    container.append(translatedWith, header, context);
-
-    return {
-      container,
-      translatedWith,
-      header,
-      context,
-    };
-  }
-}
-
-;// ./src/ui/tooltip.ts
+;// ./src/ui/components/tooltip.ts
 
 
 
@@ -10430,6 +10203,7 @@ class Tooltip {
   maxWidth;
   backgroundColor;
   borderRadius;
+  _bordered;
 
   container;
   onResizeObserver;
@@ -10447,6 +10221,7 @@ class Tooltip {
     autoLayout = true,
     backgroundColor = undefined,
     borderRadius = undefined,
+    bordered = true,
     parentElement = document.body,
     layoutRoot = document.documentElement,
   }) {
@@ -10470,6 +10245,7 @@ class Tooltip {
     this.parentElement = parentElement;
     this.layoutRoot = layoutRoot;
     this.borderRadius = borderRadius;
+    this._bordered = bordered;
     this.maxWidth = maxWidth;
     this.backgroundColor = backgroundColor;
     this.updatePageSize();
@@ -10583,7 +10359,9 @@ class Tooltip {
 
   release() {
     this.destroy();
-    document.removeEventListener("scroll", this.onScroll);
+    document.removeEventListener("scroll", this.onScroll, {
+      capture: true,
+    });
     if (this.trigger === "click") {
       this.target.removeEventListener("pointerdown", this.onClick);
       return this;
@@ -10600,6 +10378,10 @@ class Tooltip {
     this.destroy(true);
     this.showed = true;
     this.container = UI.createEl("vot-block", ["vot-tooltip"], this.content);
+    if (this.bordered) {
+      this.container.classList.add("vot-tooltip-bordered");
+    }
+
     this.container.setAttribute("role", "tooltip");
     this.container.dataset.trigger = this.trigger;
     this.container.dataset.position = this.position;
@@ -10629,8 +10411,7 @@ class Tooltip {
       return this;
     }
 
-    let { top, left } = this.calcPos(this.autoLayout);
-
+    const { top, left } = this.calcPos(this.autoLayout);
     const availableWidth = this.pageWidth - this.offsetX * 2;
     const maxWidth =
       this.maxWidth ??
@@ -10761,6 +10542,15 @@ class Tooltip {
 
     return this;
   }
+
+  set bordered(isBordered) {
+    this._bordered = isBordered;
+    this.container?.classList.toggle("vot-tooltip-bordered");
+  }
+
+  get bordered() {
+    return this._bordered;
+  }
 }
 
 ;// ./src/subtitles.js
@@ -10775,6 +10565,7 @@ class Tooltip {
 
 
 
+// biome-ignore lint/complexity/noStaticOnlyClass: waiting rewrite to ts
 class SubtitlesProcessor {
   static formatYandexTokens(line) {
     const lineEndMs = line.startMs + line.durationMs;
@@ -10853,8 +10644,8 @@ class SubtitlesProcessor {
       const tokens =
         hasTokens &&
         (source === "yandex" || (source === "youtube" && isAutoGenerated))
-          ? this.formatYandexTokens(line)
-          : this.createTokens(line, lastToken);
+          ? SubtitlesProcessor.formatYandexTokens(line)
+          : SubtitlesProcessor.createTokens(line, lastToken);
 
       lastToken = tokens[tokens.length - 1];
       result.push({
@@ -10966,12 +10757,18 @@ class SubtitlesProcessor {
       }
 
       if (source === "youtube") {
-        subtitles = this.formatYoutubeSubtitles(subtitles, isAutoGenerated);
+        subtitles = SubtitlesProcessor.formatYoutubeSubtitles(
+          subtitles,
+          isAutoGenerated,
+        );
       } else if (source === "vk") {
-        subtitles = this.cleanJsonSubtitles(subtitles);
+        subtitles = SubtitlesProcessor.cleanJsonSubtitles(subtitles);
       }
 
-      subtitles.subtitles = this.processTokens(subtitles, subtitlesObject);
+      subtitles.subtitles = SubtitlesProcessor.processTokens(
+        subtitles,
+        subtitlesObject,
+      );
       console.log("[VOT] Processed subtitles:", subtitles);
       return subtitles;
     } catch (error) {
@@ -11318,6 +11115,7 @@ class SubtitlesWidget {
       parentElement: this.portal,
       maxWidth: this.subtitlesContainer.offsetWidth,
       borderRadius: 12,
+      bordered: false,
       position: "top",
       trigger: "click",
     });
@@ -11345,7 +11143,7 @@ class SubtitlesWidget {
 
       return x`<span
         @click="${this.onClick}"
-        class="${passed ? "passed" : E}"
+        class="${passed ? "passed" : ""}"
       >
         ${token.text.replace("\\n", "<br>")}
       </span>`;
@@ -11486,8 +11284,11 @@ function syncVolume(element, sliderVolume, otherSliderVolume, tempVolume) {
 
 // EXTERNAL MODULE: ./node_modules/requestidlecallback-polyfill/index.js
 var requestidlecallback_polyfill = __webpack_require__("./node_modules/requestidlecallback-polyfill/index.js");
-;// ./src/utils/EventImpl.js
+;// ./src/core/eventImpl.ts
+
+
 class EventImpl {
+  listeners;
   constructor() {
     this.listeners = new Set();
   }
@@ -11511,6 +11312,10 @@ class EventImpl {
         console.error("[VOT]", exception);
       }
     }
+  }
+
+  clear() {
+    this.listeners.clear();
   }
 }
 
@@ -11694,6 +11499,4244 @@ class VideoObserver {
   }
 }
 
+;// ./node_modules/browser-id3-writer/dist/browser-id3-writer.mjs
+function browser_id3_writer_e(e){return String(e).split("").map((e=>e.charCodeAt(0)))}function browser_id3_writer_t(t){return new Uint8Array(browser_id3_writer_e(t))}function browser_id3_writer_a(t){const a=new ArrayBuffer(2*t.length),r=new Uint8Array(a);return new Uint16Array(a).set(browser_id3_writer_e(t)),r}function browser_id3_writer_r(e){const t=255;return[e>>>24&t,e>>>16&t,e>>>8&t,e&t]}function browser_id3_writer_n(e){return 11+e}function browser_id3_writer_s(e,t,a,r){return 11+t+1+1+(r?2+2*(a+1):a+1)+e}function browser_id3_writer_i(e){let t=0;return e.forEach((e=>{t+=2+2*e[0].length+2+2+2*e[1].length+2})),11+t}function browser_id3_writer_c(e,t){const a=2*t;let r=0;return e.forEach((e=>{r+=2+2*e[0].length+2+4})),18+a+2+r}class browser_id3_writer_o{_setIntegerFrame(e,t){const a=parseInt(t,10);this.frames.push({name:e,value:a,size:browser_id3_writer_n(a.toString().length)})}_setStringFrame(e,t){const a=t.toString();let r=13+2*a.length;"TDAT"===e&&(r=browser_id3_writer_n(a.length)),this.frames.push({name:e,value:a,size:r})}_setPictureFrame(e,t,a,r){const n=function(e){if(!e||!e.length)return null;if(255===e[0]&&216===e[1]&&255===e[2])return"image/jpeg";if(137===e[0]&&80===e[1]&&78===e[2]&&71===e[3])return"image/png";if(71===e[0]&&73===e[1]&&70===e[2])return"image/gif";if(87===e[8]&&69===e[9]&&66===e[10]&&80===e[11])return"image/webp";const t=73===e[0]&&73===e[1]&&42===e[2]&&0===e[3],a=77===e[0]&&77===e[1]&&0===e[2]&&42===e[3];return t||a?"image/tiff":66===e[0]&&77===e[1]?"image/bmp":0===e[0]&&0===e[1]&&1===e[2]&&0===e[3]?"image/x-icon":null}(new Uint8Array(t)),i=a.toString();if(!n)throw new Error("Unknown picture MIME type");a||(r=!1),this.frames.push({name:"APIC",value:t,pictureType:e,mimeType:n,useUnicodeEncoding:r,description:i,size:browser_id3_writer_s(t.byteLength,n.length,i.length,r)})}_setLyricsFrame(e,t,a){const r=e.split("").map((e=>e.charCodeAt(0))),n=t.toString(),s=a.toString();var i,c;this.frames.push({name:"USLT",value:s,language:r,description:n,size:(i=n.length,c=s.length,16+2*i+2+2+2*c)})}_setCommentFrame(e,t,a){const r=e.split("").map((e=>e.charCodeAt(0))),n=t.toString(),s=a.toString();var i,c;this.frames.push({name:"COMM",value:s,language:r,description:n,size:(i=n.length,c=s.length,16+2*i+2+2+2*c)})}_setPrivateFrame(e,t){const a=e.toString();var r,n;this.frames.push({name:"PRIV",value:t,id:a,size:(r=a.length,n=t.byteLength,10+r+1+n)})}_setUserStringFrame(e,t){const a=e.toString(),r=t.toString();var n,s;this.frames.push({name:"TXXX",description:a,value:r,size:(n=a.length,s=r.length,13+2*n+2+2+2*s)})}_setUrlLinkFrame(e,t){const a=t.toString();var r;this.frames.push({name:e,value:a,size:(r=a.length,10+r)})}_setPairedTextFrame(e,t){this.frames.push({name:e,value:t,size:browser_id3_writer_i(t)})}_setSynchronisedLyricsFrame(e,t,a,r,n){const s=n.toString(),i=r.split("").map((e=>e.charCodeAt(0)));this.frames.push({name:"SYLT",value:t,language:i,description:s,type:e,timestampFormat:a,size:browser_id3_writer_c(t,s.length)})}constructor(e){if(!e||"object"!=typeof e||!("byteLength"in e))throw new Error("First argument should be an instance of ArrayBuffer or Buffer");this.arrayBuffer=e,this.padding=4096,this.frames=[],this.url=""}setFrame(e,t){switch(e){case"TPE1":case"TCOM":case"TCON":{if(!Array.isArray(t))throw new Error(`${e} frame value should be an array of strings`);const a="TCON"===e?";":"/",r=t.join(a);this._setStringFrame(e,r);break}case"TLAN":case"TIT1":case"TIT2":case"TIT3":case"TALB":case"TPE2":case"TPE3":case"TPE4":case"TRCK":case"TPOS":case"TMED":case"TPUB":case"TCOP":case"TKEY":case"TEXT":case"TDAT":case"TCMP":case"TSRC":this._setStringFrame(e,t);break;case"TBPM":case"TLEN":case"TYER":this._setIntegerFrame(e,t);break;case"USLT":if(t.language=t.language||"eng","object"!=typeof t||!("description"in t)||!("lyrics"in t))throw new Error("USLT frame value should be an object with keys description and lyrics");if(t.language&&!t.language.match(/[a-z]{3}/i))throw new Error("Language must be coded following the ISO 639-2 standards");this._setLyricsFrame(t.language,t.description,t.lyrics);break;case"APIC":if("object"!=typeof t||!("type"in t)||!("data"in t)||!("description"in t))throw new Error("APIC frame value should be an object with keys type, data and description");if(t.type<0||t.type>20)throw new Error("Incorrect APIC frame picture type");this._setPictureFrame(t.type,t.data,t.description,!!t.useUnicodeEncoding);break;case"TXXX":if("object"!=typeof t||!("description"in t)||!("value"in t))throw new Error("TXXX frame value should be an object with keys description and value");this._setUserStringFrame(t.description,t.value);break;case"WCOM":case"WCOP":case"WOAF":case"WOAR":case"WOAS":case"WORS":case"WPAY":case"WPUB":this._setUrlLinkFrame(e,t);break;case"COMM":if(t.language=t.language||"eng","object"!=typeof t||!("description"in t)||!("text"in t))throw new Error("COMM frame value should be an object with keys description and text");if(t.language&&!t.language.match(/[a-z]{3}/i))throw new Error("Language must be coded following the ISO 639-2 standards");this._setCommentFrame(t.language,t.description,t.text);break;case"PRIV":if("object"!=typeof t||!("id"in t)||!("data"in t))throw new Error("PRIV frame value should be an object with keys id and data");this._setPrivateFrame(t.id,t.data);break;case"IPLS":if(!Array.isArray(t)||!Array.isArray(t[0]))throw new Error("IPLS frame value should be an array of pairs");this._setPairedTextFrame(e,t);break;case"SYLT":if("object"!=typeof t||!("type"in t)||!("text"in t)||!("timestampFormat"in t))throw new Error("SYLT frame value should be an object with keys type, text and timestampFormat");if(!Array.isArray(t.text)||!Array.isArray(t.text[0]))throw new Error("SYLT frame text value should be an array of pairs");if(t.type<0||t.type>6)throw new Error("Incorrect SYLT frame content type");if(t.timestampFormat<1||t.timestampFormat>2)throw new Error("Incorrect SYLT frame time stamp format");t.language=t.language||"eng",t.description=t.description||"",this._setSynchronisedLyricsFrame(t.type,t.text,t.timestampFormat,t.language,t.description);break;default:throw new Error(`Unsupported frame ${e}`)}return this}removeTag(){if(this.arrayBuffer.byteLength<10)return;const e=new Uint8Array(this.arrayBuffer),t=e[3],a=((r=[e[6],e[7],e[8],e[9]])[0]<<21)+(r[1]<<14)+(r[2]<<7)+r[3]+10;var r,n;73!==(n=e)[0]||68!==n[1]||51!==n[2]||t<2||t>4||(this.arrayBuffer=new Uint8Array(e.subarray(a)).buffer)}addTag(){this.removeTag();const e=[255,254],n=10+this.frames.reduce(((e,t)=>e+t.size),0)+this.padding,s=new ArrayBuffer(this.arrayBuffer.byteLength+n),i=new Uint8Array(s);let c=0,o=[];return o=[73,68,51,3],i.set(o,c),c+=o.length,c++,c++,o=function(e){const t=127;return[e>>>21&t,e>>>14&t,e>>>7&t,e&t]}(n-10),i.set(o,c),c+=o.length,this.frames.forEach((n=>{switch(o=browser_id3_writer_t(n.name),i.set(o,c),c+=o.length,o=browser_id3_writer_r(n.size-10),i.set(o,c),c+=o.length,c+=2,n.name){case"WCOM":case"WCOP":case"WOAF":case"WOAR":case"WOAS":case"WORS":case"WPAY":case"WPUB":o=browser_id3_writer_t(n.value),i.set(o,c),c+=o.length;break;case"TPE1":case"TCOM":case"TCON":case"TLAN":case"TIT1":case"TIT2":case"TIT3":case"TALB":case"TPE2":case"TPE3":case"TPE4":case"TRCK":case"TPOS":case"TKEY":case"TMED":case"TPUB":case"TCOP":case"TEXT":case"TSRC":o=[1].concat(e),i.set(o,c),c+=o.length,o=browser_id3_writer_a(n.value),i.set(o,c),c+=o.length;break;case"TXXX":case"USLT":case"COMM":o=[1],"USLT"!==n.name&&"COMM"!==n.name||(o=o.concat(n.language)),o=o.concat(e),i.set(o,c),c+=o.length,o=browser_id3_writer_a(n.description),i.set(o,c),c+=o.length,o=[0,0].concat(e),i.set(o,c),c+=o.length,o=browser_id3_writer_a(n.value),i.set(o,c),c+=o.length;break;case"TBPM":case"TLEN":case"TDAT":case"TYER":c++,o=browser_id3_writer_t(n.value),i.set(o,c),c+=o.length;break;case"PRIV":o=browser_id3_writer_t(n.id),i.set(o,c),c+=o.length,c++,i.set(new Uint8Array(n.value),c),c+=n.value.byteLength;break;case"APIC":o=[n.useUnicodeEncoding?1:0],i.set(o,c),c+=o.length,o=browser_id3_writer_t(n.mimeType),i.set(o,c),c+=o.length,o=[0,n.pictureType],i.set(o,c),c+=o.length,n.useUnicodeEncoding?(o=[].concat(e),i.set(o,c),c+=o.length,o=browser_id3_writer_a(n.description),i.set(o,c),c+=o.length,c+=2):(o=browser_id3_writer_t(n.description),i.set(o,c),c+=o.length,c++),i.set(new Uint8Array(n.value),c),c+=n.value.byteLength;break;case"IPLS":o=[1],i.set(o,c),c+=o.length,n.value.forEach((t=>{o=[].concat(e),i.set(o,c),c+=o.length,o=browser_id3_writer_a(t[0].toString()),i.set(o,c),c+=o.length,o=[0,0].concat(e),i.set(o,c),c+=o.length,o=browser_id3_writer_a(t[1].toString()),i.set(o,c),c+=o.length,o=[0,0],i.set(o,c),c+=o.length}));break;case"SYLT":o=[1].concat(n.language).concat(n.timestampFormat).concat(n.type),i.set(o,c),c+=o.length,o=[].concat(e),i.set(o,c),c+=o.length,o=browser_id3_writer_a(n.description),i.set(o,c),c+=o.length,c+=2,n.value.forEach((t=>{o=[].concat(e),i.set(o,c),c+=o.length,o=browser_id3_writer_a(t[0].toString()),i.set(o,c),c+=o.length,o=[0,0],i.set(o,c),c+=o.length,o=browser_id3_writer_r(t[1]),i.set(o,c),c+=o.length}))}})),c+=this.padding,i.set(new Uint8Array(this.arrayBuffer),c),this.arrayBuffer=s,s}getBlob(){return new Blob([this.arrayBuffer],{type:"audio/mpeg"})}getURL(){return this.url||(this.url=URL.createObjectURL(this.getBlob())),this.url}revokeURL(){URL.revokeObjectURL(this.url)}}
+;// ./src/ui/icons.ts
+
+
+const TRANSLATE_ICON_SVG = b`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <path
+    id="vot-translate-icon"
+    fill-rule="evenodd"
+    d="M15.778 18.95L14.903 21.375C14.8364 21.5583 14.7197 21.7083 14.553 21.825C14.3864 21.9417 14.203 22 14.003 22C13.6697 22 13.3989 21.8625 13.1905 21.5875C12.9822 21.3125 12.9447 21.0083 13.078 20.675L16.878 10.625C16.9614 10.4417 17.0864 10.2917 17.253 10.175C17.4197 10.0583 17.603 10 17.803 10H18.553C18.753 10 18.9364 10.0583 19.103 10.175C19.2697 10.2917 19.3947 10.4417 19.478 10.625L23.278 20.7C23.4114 21.0167 23.378 21.3125 23.178 21.5875C22.978 21.8625 22.7114 22 22.378 22C22.1614 22 21.9739 21.9375 21.8155 21.8125C21.6572 21.6875 21.5364 21.525 21.453 21.325L20.628 18.95H15.778ZM19.978 17.2H16.378L18.228 12.25L19.978 17.2Z"
+  ></path>
+  <path
+    d="M9 14L4.7 18.3C4.51667 18.4833 4.28333 18.575 4 18.575C3.71667 18.575 3.48333 18.4833 3.3 18.3C3.11667 18.1167 3.025 17.8833 3.025 17.6C3.025 17.3167 3.11667 17.0833 3.3 16.9L7.65 12.55C7.01667 11.85 6.4625 11.125 5.9875 10.375C5.5125 9.625 5.1 8.83333 4.75 8H6.85C7.15 8.6 7.47083 9.14167 7.8125 9.625C8.15417 10.1083 8.56667 10.6167 9.05 11.15C9.78333 10.35 10.3917 9.52917 10.875 8.6875C11.3583 7.84583 11.7667 6.95 12.1 6H2C1.71667 6 1.47917 5.90417 1.2875 5.7125C1.09583 5.52083 1 5.28333 1 5C1 4.71667 1.09583 4.47917 1.2875 4.2875C1.47917 4.09583 1.71667 4 2 4H8V3C8 2.71667 8.09583 2.47917 8.2875 2.2875C8.47917 2.09583 8.71667 2 9 2C9.28333 2 9.52083 2.09583 9.7125 2.2875C9.90417 2.47917 10 2.71667 10 3V4H16C16.2833 4 16.5208 4.09583 16.7125 4.2875C16.9042 4.47917 17 4.71667 17 5C17 5.28333 16.9042 5.52083 16.7125 5.7125C16.5208 5.90417 16.2833 6 16 6H14.1C13.75 7.18333 13.275 8.33333 12.675 9.45C12.075 10.5667 11.3333 11.6167 10.45 12.6L12.85 15.05L12.1 17.1L9 14Z"
+  ></path>
+  <path
+    id="vot-loading-icon"
+    style="display:none"
+    d="M19.8081 16.3697L18.5842 15.6633V13.0832C18.5842 12.9285 18.5228 12.7801 18.4134 12.6707C18.304 12.5613 18.1556 12.4998 18.0009 12.4998C17.8462 12.4998 17.6978 12.5613 17.5884 12.6707C17.479 12.7801 17.4176 12.9285 17.4176 13.0832V15.9998C17.4176 16.1022 17.4445 16.2028 17.4957 16.2915C17.5469 16.3802 17.6205 16.4538 17.7092 16.505L19.2247 17.38C19.2911 17.4189 19.3645 17.4443 19.4407 17.4547C19.5169 17.4652 19.5945 17.4604 19.6688 17.4407C19.7432 17.4211 19.813 17.3869 19.8741 17.3402C19.9352 17.2934 19.9864 17.2351 20.0249 17.1684C20.0634 17.1018 20.0883 17.0282 20.0982 16.952C20.1081 16.8757 20.1028 16.7982 20.0827 16.7239C20.0625 16.6497 20.0279 16.5802 19.9808 16.5194C19.9336 16.4586 19.8749 16.4077 19.8081 16.3697ZM18.0015 10C16.8478 10 15.6603 10.359 14.7011 11C13.7418 11.641 12.9415 12.4341 12.5 13.5C12.0585 14.5659 11.8852 16.0369 12.1103 17.1684C12.3353 18.3 12.8736 19.4942 13.6894 20.31C14.5053 21.1258 15.8684 21.7749 17 22C18.1316 22.2251 19.4341 21.9415 20.5 21.5C21.5659 21.0585 22.359 20.2573 23 19.298C23.641 18.3387 24.0015 17.1537 24.0015 16C23.9998 14.4534 23.5951 13.0936 22.5015 12C21.4079 10.9064 19.5481 10.0017 18.0015 10ZM18.0009 20.6665C17.0779 20.6665 16.1757 20.3928 15.4082 19.88C14.6408 19.3672 14.0427 18.6384 13.6894 17.7857C13.3362 16.933 13.2438 15.9947 13.4239 15.0894C13.604 14.1842 14.0484 13.3527 14.7011 12.7C15.3537 12.0474 16.1852 11.6029 17.0905 11.4228C17.9957 11.2428 18.934 11.3352 19.7867 11.6884C20.6395 12.0416 21.3683 12.6397 21.8811 13.4072C22.3939 14.1746 22.6676 15.0769 22.6676 15.9998C22.666 17.237 22.1738 18.4231 21.299 19.298C20.4242 20.1728 19.2381 20.665 18.0009 20.6665Z"
+  ></path>
+</svg>`;
+
+const PIP_ICON_SVG = b`<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+  <path
+    d="M120-520q-17 0-28.5-11.5T80-560q0-17 11.5-28.5T120-600h104L80-743q-12-12-12-28.5T80-800q12-12 28.5-12t28.5 12l143 144v-104q0-17 11.5-28.5T320-800q17 0 28.5 11.5T360-760v200q0 17-11.5 28.5T320-520H120Zm40 360q-33 0-56.5-23.5T80-240v-160q0-17 11.5-28.5T120-440q17 0 28.5 11.5T160-400v160h280q17 0 28.5 11.5T480-200q0 17-11.5 28.5T440-160H160Zm680-280q-17 0-28.5-11.5T800-480v-240H480q-17 0-28.5-11.5T440-760q0-17 11.5-28.5T480-800h320q33 0 56.5 23.5T880-720v240q0 17-11.5 28.5T840-440ZM600-160q-17 0-28.5-11.5T560-200v-120q0-17 11.5-28.5T600-360h240q17 0 28.5 11.5T880-320v120q0 17-11.5 28.5T840-160H600Z"
+  />
+</svg>`;
+
+const MENU_ICON = b`<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+  <path
+    d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"
+  />
+</svg>`;
+
+const DOWNLOAD_ICON = b`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="100%" viewBox="0 0 24 24" class="vot-loader" id="vot-loader-download">
+  <path class="vot-loader-main" d="M12 15.575C11.8667 15.575 11.7417 15.5542 11.625 15.5125C11.5083 15.4708 11.4 15.4 11.3 15.3L7.7 11.7C7.5 11.5 7.40417 11.2667 7.4125 11C7.42083 10.7333 7.51667 10.5 7.7 10.3C7.9 10.1 8.1375 9.99583 8.4125 9.9875C8.6875 9.97917 8.925 10.075 9.125 10.275L11 12.15V5C11 4.71667 11.0958 4.47917 11.2875 4.2875C11.4792 4.09583 11.7167 4 12 4C12.2833 4 12.5208 4.09583 12.7125 4.2875C12.9042 4.47917 13 4.71667 13 5V12.15L14.875 10.275C15.075 10.075 15.3125 9.97917 15.5875 9.9875C15.8625 9.99583 16.1 10.1 16.3 10.3C16.4833 10.5 16.5792 10.7333 16.5875 11C16.5958 11.2667 16.5 11.5 16.3 11.7L12.7 15.3C12.6 15.4 12.4917 15.4708 12.375 15.5125C12.2583 15.5542 12.1333 15.575 12 15.575ZM6 20C5.45 20 4.97917 19.8042 4.5875 19.4125C4.19583 19.0208 4 18.55 4 18V16C4 15.7167 4.09583 15.4792 4.2875 15.2875C4.47917 15.0958 4.71667 15 5 15C5.28333 15 5.52083 15.0958 5.7125 15.2875C5.90417 15.4792 6 15.7167 6 16V18H18V16C18 15.7167 18.0958 15.4792 18.2875 15.2875C18.4792 15.0958 18.7167 15 19 15C19.2833 15 19.5208 15.0958 19.7125 15.2875C19.9042 15.4792 20 15.7167 20 16V18C20 18.55 19.8042 19.0208 19.4125 19.4125C19.0208 19.8042 18.55 20 18 20H6Z"/>
+  <path class="vot-loader-helper" d=""/>
+</svg>`;
+
+const SUBTITLES_ICON = b`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="100%" viewBox="0 0 24 24">
+  <path d="M4 20q-.825 0-1.413-.588T2 18V6q0-.825.588-1.413T4 4h16q.825 0 1.413.588T22 6v12q0 .825-.588 1.413T20 20H4Zm2-4h8v-2H6v2Zm10 0h2v-2h-2v2ZM6 12h2v-2H6v2Zm4 0h8v-2h-8v2Z"/>
+</svg>`;
+
+const SETTINGS_ICON = b`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="100%" viewBox="0 -960 960 960">
+  <path d="M555-80H405q-15 0-26-10t-13-25l-12-93q-13-5-24.5-12T307-235l-87 36q-14 5-28 1t-22-17L96-344q-8-13-5-28t15-24l75-57q-1-7-1-13.5v-27q0-6.5 1-13.5l-75-57q-12-9-15-24t5-28l74-129q7-14 21.5-17.5T220-761l87 36q11-8 23-15t24-12l12-93q2-15 13-25t26-10h150q15 0 26 10t13 25l12 93q13 5 24.5 12t22.5 15l87-36q14-5 28-1t22 17l74 129q8 13 5 28t-15 24l-75 57q1 7 1 13.5v27q0 6.5-2 13.5l75 57q12 9 15 24t-5 28l-74 128q-8 13-22.5 17.5T738-199l-85-36q-11 8-23 15t-24 12l-12 93q-2 15-13 25t-26 10Zm-73-260q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm0-80q-25 0-42.5-17.5T422-480q0-25 17.5-42.5T482-540q25 0 42.5 17.5T542-480q0 25-17.5 42.5T482-420Zm-2-60Zm-40 320h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Z"/>
+</svg>`;
+
+const CHEVRON_ICON = b`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" >
+  <path
+    d="M12 14.975q-.2 0-.375-.062T11.3 14.7l-4.6-4.6q-.275-.275-.275-.7t.275-.7q.275-.275.7-.275t.7.275l3.9 3.9l3.9-3.9q.275-.275.7-.275t.7.275q.275.275.275.7t-.275.7l-4.6 4.6q-.15.15-.325.213t-.375.062Z"
+  />
+</svg>`;
+
+const ARROW_RIGHT_ICON = b`<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+  <path
+    d="M647-440H200q-17 0-28.5-11.5T160-480q0-17 11.5-28.5T200-520h447L451-716q-12-12-11.5-28t12.5-28q12-11 28-11.5t28 11.5l264 264q6 6 8.5 13t2.5 15q0 8-2.5 15t-8.5 13L508-188q-11 11-27.5 11T452-188q-12-12-12-28.5t12-28.5l195-195Z"
+  />
+</svg>`;
+
+const CLOSE_ICON = b`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="100%" viewBox="0 -960 960 960">
+  <path d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z"/>
+</svg>`;
+
+const WARNING_ICON = b`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g fill="none">
+    <path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"/><path fill="currentColor" d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2m0 2a8 8 0 1 0 0 16a8 8 0 0 0 0-16m0 11a1 1 0 1 1 0 2a1 1 0 0 1 0-2m0-9a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0V7a1 1 0 0 1 1-1"/>
+  </g>
+</svg>`;
+
+const HELP_ICON = b`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g fill="none">
+    <path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"/><path fill="currentColor" d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2m0 2a8 8 0 1 0 0 16a8 8 0 0 0 0-16m0 12a1 1 0 1 1 0 2a1 1 0 0 1 0-2m0-9.5a3.625 3.625 0 0 1 1.348 6.99a.8.8 0 0 0-.305.201c-.044.05-.051.114-.05.18L13 14a1 1 0 0 1-1.993.117L11 14v-.25c0-1.153.93-1.845 1.604-2.116a1.626 1.626 0 1 0-2.229-1.509a1 1 0 1 1-2 0A3.625 3.625 0 0 1 12 6.5"/>
+  </g>
+</svg>`;
+
+;// ./src/ui/components/dialog.ts
+
+
+
+
+
+class Dialog {
+  container;
+  backdrop;
+  box;
+  contentWrapper;
+  headerContainer;
+  titleContainer;
+  title;
+  closeButton;
+  bodyContainer;
+  footerContainer;
+
+   onClose = new EventImpl();
+
+   _titleHtml;
+   _isTemp;
+
+  constructor({ titleHtml, isTemp = false }) {
+    this._titleHtml = titleHtml;
+    this._isTemp = isTemp;
+
+    const elements = this.createElements();
+    this.container = elements.container;
+    this.backdrop = elements.backdrop;
+    this.box = elements.box;
+
+    this.contentWrapper = elements.contentWrapper;
+    this.headerContainer = elements.headerContainer;
+    this.titleContainer = elements.titleContainer;
+    this.title = elements.title;
+    this.closeButton = elements.closeButton;
+    this.bodyContainer = elements.bodyContainer;
+    this.footerContainer = elements.footerContainer;
+  }
+
+   createElements() {
+    const container = UI.createEl("vot-block", ["vot-dialog-container"]);
+    if (this._isTemp) {
+      container.classList.add("vot-dialog-temp");
+    }
+
+    container.hidden = !this._isTemp;
+
+    const backdrop = UI.createEl("vot-block", ["vot-dialog-backdrop"]);
+    const box = UI.createEl("vot-block", ["vot-dialog"]);
+    const contentWrapper = UI.createEl("vot-block", [
+      "vot-dialog-content-wrapper",
+    ]);
+    const headerContainer = UI.createEl("vot-block", [
+      "vot-dialog-header-container",
+    ]);
+    const titleContainer = UI.createEl("vot-block", [
+      "vot-dialog-title-container",
+    ]);
+
+    const title = UI.createEl("vot-block", ["vot-dialog-title"]);
+    title.append(this._titleHtml);
+    titleContainer.appendChild(title);
+
+    const closeButton = UI.createIconButton(CLOSE_ICON);
+    closeButton.classList.add("vot-dialog-close-button");
+    backdrop.onclick = closeButton.onclick = () => this.close();
+    headerContainer.append(titleContainer, closeButton);
+
+    const bodyContainer = UI.createEl("vot-block", [
+      "vot-dialog-body-container",
+    ]);
+    const footerContainer = UI.createEl("vot-block", [
+      "vot-dialog-footer-container",
+    ]);
+
+    contentWrapper.append(headerContainer, bodyContainer, footerContainer);
+    box.appendChild(contentWrapper);
+    container.append(backdrop, box);
+
+    return {
+      container,
+      backdrop,
+      box,
+      contentWrapper,
+      headerContainer,
+      titleContainer,
+      title,
+      closeButton,
+      bodyContainer,
+      footerContainer,
+    };
+  }
+
+  addEventListener(type, listener) {
+    this.onClose.addListener(listener);
+
+    return this;
+  }
+
+  removeEventListener(type, listener) {
+    this.onClose.removeListener(listener);
+
+    return this;
+  }
+
+  open() {
+    this.hidden = false;
+    return this;
+  }
+
+  remove() {
+    this.container.remove();
+    this.onClose.dispatch();
+    return this;
+  }
+
+  close() {
+    if (this._isTemp) {
+      return this.remove();
+    }
+
+    this.hidden = true;
+    this.onClose.dispatch();
+    return this;
+  }
+
+  set hidden(isHidden) {
+    this.container.hidden = isHidden;
+  }
+
+  get hidden() {
+    return this.container.hidden;
+  }
+
+  get isDialogOpen() {
+    return !this.container.hidden;
+  }
+}
+
+;// ./src/ui/components/textfield.ts
+
+
+
+
+class Textfield {
+  container;
+  input;
+  label;
+
+   onInput = new EventImpl();
+   onChange = new EventImpl();
+
+   _labelHtml;
+   _multiline;
+   _placeholder;
+   _value;
+
+  constructor({
+    labelHtml = "",
+    placeholder = "",
+    value = "",
+    multiline = false,
+  }) {
+    this._labelHtml = labelHtml;
+    this._multiline = multiline;
+    this._placeholder = placeholder;
+    this._value = value;
+
+    const elements = this.createElements();
+    this.container = elements.container;
+    this.input = elements.input;
+    this.label = elements.label;
+  }
+
+   createElements() {
+    const container = UI.createEl("vot-block", ["vot-textfield"]);
+    const input = document.createElement(
+      this._multiline ? "textarea" : "input",
+    );
+    if (!this._labelHtml) {
+      input.classList.add("vot-show-placeholer");
+    }
+    input.placeholder = this._placeholder;
+    input.value = this._value;
+
+    const label = UI.createEl("span");
+    label.append(this._labelHtml);
+    container.append(input, label);
+    input.addEventListener("input", () => {
+      this._value = this.input.value;
+      this.onInput.dispatch(this._value);
+    });
+    input.addEventListener("change", () => {
+      this._value = this.input.value;
+      this.onChange.dispatch(this._value);
+    });
+
+    return {
+      container,
+      label,
+      input,
+    };
+  }
+
+  addEventListener(
+    type,
+    listener,
+  ) {
+    if (type === "change") {
+      this.onChange.addListener(listener);
+    } else if (type === "input") {
+      this.onInput.addListener(listener);
+    }
+
+    return this;
+  }
+
+  removeEventListener(
+    type,
+    listener,
+  ) {
+    if (type === "change") {
+      this.onChange.removeListener(listener);
+    } else if (type === "input") {
+      this.onInput.removeListener(listener);
+    }
+
+    return this;
+  }
+
+  get value() {
+    return this._value;
+  }
+
+  /**
+   * If you set a different new value, it will trigger the change event
+   */
+  set value(val) {
+    if (this._value === val) {
+      return;
+    }
+
+    this.input.value = this._value = val;
+    this.onChange.dispatch(this._value);
+  }
+
+  get placeholder() {
+    return this._placeholder;
+  }
+
+  set placeholder(text) {
+    this.input.placeholder = this._placeholder = text;
+  }
+
+  set hidden(isHidden) {
+    this.container.hidden = isHidden;
+  }
+
+  get hidden() {
+    return this.container.hidden;
+  }
+}
+
+;// ./src/ui/components/select.ts
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Select
+
+
+ {
+  container;
+  outer;
+  arrowIcon;
+  title;
+
+  dialogParent;
+  labelElement;
+
+   _selectTitle;
+   _dialogTitle;
+   multiSelect;
+   _items;
+
+   isLoading = false;
+   isDialogOpen = false;
+   onSelectItem = new EventImpl();
+   onBeforeOpen = new EventImpl();
+   contentList;
+
+  selectedItems = [];
+  selectedValues;
+
+  constructor({
+    selectTitle,
+    dialogTitle,
+    items,
+    labelElement,
+    dialogParent = document.documentElement,
+    multiSelect,
+  }) {
+    this._selectTitle = selectTitle;
+    this._dialogTitle = dialogTitle;
+    this._items = items;
+    this.multiSelect = (multiSelect ?? false) ;
+    this.labelElement = labelElement;
+    this.dialogParent = dialogParent;
+    this.selectedValues = this.calcSelectedValues();
+
+    const elements = this.createElements();
+    this.container = elements.container;
+    this.outer = elements.outer;
+    this.arrowIcon = elements.arrowIcon;
+    this.title = elements.title;
+  }
+
+  static genLanguageItems(
+    langs,
+    conditionString,
+  ) {
+    return langs.map((lang) => {
+      const phrase = `langs.${lang}` ;
+      const label = localizationProvider.get(phrase);
+      return {
+        label: label === phrase ? lang.toUpperCase() : label,
+        value: lang,
+        selected: conditionString === lang,
+      };
+    });
+  }
+
+   multiSelectItemHandle = (
+    contentItem,
+    item,
+  ) => {
+    const value = item.value;
+    if (this.selectedValues.has(value) && this.selectedValues.size > 1) {
+      this.selectedValues.delete(value);
+      item.selected = false;
+    } else {
+      this.selectedValues.add(value);
+      item.selected = true;
+    }
+
+    contentItem.dataset.votSelected = this.selectedValues.has(value).toString();
+    this.updateSelectedState();
+    this.onSelectItem.dispatch(Array.from(this.selectedValues));
+  };
+
+   singleSelectItemHandle = (item) => {
+    const value = item.value;
+    this.selectedValues = new Set([value]);
+    for (const contentItem of this.selectedItems) {
+      contentItem.dataset.votSelected = (
+        contentItem.dataset.votValue === value
+      ).toString();
+    }
+
+    for (const item of this._items) {
+      item.selected = item.value === value;
+    }
+
+    this.updateTitle();
+    this.onSelectItem.dispatch(value);
+  };
+
+   createDialogContentList() {
+    const contentList = UI.createEl("vot-block", ["vot-select-content-list"]);
+
+    for (const item of this._items) {
+      const contentItem = UI.createEl("vot-block", ["vot-select-content-item"]);
+      contentItem.textContent = item.label;
+      contentItem.dataset.votSelected =
+        item.selected === true ? "true" : "false";
+      contentItem.dataset.votValue = item.value;
+      if (item.disabled) {
+        contentItem.inert = true;
+      }
+
+      contentItem.addEventListener("click", (e) => {
+        if ((e.target ).inert) {
+          return;
+        }
+
+        if (this.multiSelect) {
+          return this.multiSelectItemHandle(contentItem, item);
+        }
+
+        return this.singleSelectItemHandle(item);
+      });
+
+      contentList.appendChild(contentItem);
+    }
+
+    this.selectedItems = Object.values(contentList.childNodes) ;
+
+    return contentList;
+  }
+
+   createElements() {
+    const container = UI.createEl("vot-block", ["vot-select"]);
+    if (this.labelElement) {
+      container.append(this.labelElement);
+    }
+
+    const outer = UI.createEl("vot-block", ["vot-select-outer"]);
+    const title = UI.createEl("vot-block", ["vot-select-title"]);
+    title.textContent = this.visibleText;
+
+    const arrowIcon = UI.createEl("vot-block", ["vot-select-arrow-icon"]);
+    B(CHEVRON_ICON, arrowIcon);
+    outer.append(title, arrowIcon);
+    outer.addEventListener("click", () => {
+      if (this.isLoading || this.isDialogOpen) {
+        return;
+      }
+
+      try {
+        this.isLoading = true;
+        const tempDialog = new Dialog({
+          titleHtml: this._dialogTitle,
+          isTemp: true,
+        });
+
+        this.onBeforeOpen.dispatch(tempDialog);
+        this.dialogParent.appendChild(tempDialog.container);
+
+        const votSearchLangTextfield = new Textfield({
+          labelHtml: localizationProvider.get("searchField"),
+        });
+
+        votSearchLangTextfield.addEventListener("input", (searchText) => {
+          for (const contentItem of this.selectedItems) {
+            contentItem.hidden = !contentItem.textContent
+              ?.toLowerCase()
+              .includes(searchText);
+          }
+        });
+
+        this.contentList = this.createDialogContentList();
+        tempDialog.bodyContainer.append(
+          votSearchLangTextfield.container,
+          this.contentList,
+        );
+        tempDialog.addEventListener("close", () => {
+          this.isDialogOpen = false;
+          this.selectedItems = [];
+        });
+      } finally {
+        this.isLoading = false;
+      }
+    });
+
+    container.appendChild(outer);
+
+    return {
+      container,
+      outer,
+      arrowIcon,
+      title,
+    };
+  }
+
+   calcSelectedValues() {
+    return new Set(
+      this._items.filter((item) => item.selected).map((item) => item.value),
+    );
+  }
+
+  
+
+
+
+
+  addEventListener(
+    type,
+    // biome-ignore lint/suspicious/noExplicitAny: it's ok trust me
+    listener,
+  ) {
+    if (type === "selectItem") {
+      this.onSelectItem.addListener(listener);
+    } else if (type === "beforeOpen") {
+      this.onBeforeOpen.addListener(listener);
+    }
+
+    return this;
+  }
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  removeEventListener(
+    type,
+    // biome-ignore lint/suspicious/noExplicitAny: it's ok trust me
+    listener,
+  ) {
+    if (type === "selectItem") {
+      this.onSelectItem.removeListener(listener);
+    } else if (type === "beforeOpen") {
+      this.onBeforeOpen.removeListener(listener);
+    }
+
+    return this;
+  }
+
+  updateTitle() {
+    this.title.textContent = this.visibleText;
+    return this;
+  }
+
+  updateSelectedState() {
+    if (this.selectedItems.length > 0) {
+      for (const item of this.selectedItems) {
+        const val = item.dataset.votValue ;
+        if (!val) {
+          continue;
+        }
+
+        item.dataset.votSelected = this.selectedValues.has(val).toString();
+      }
+    }
+
+    this.updateTitle();
+    return this;
+  }
+
+  setSelectedValue(value) {
+    if (this.multiSelect) {
+      this.selectedValues = new Set(
+        Array.isArray(value)
+          ? (value.map(String) )
+          : [String(value) ],
+      );
+    } else {
+      this.selectedValues = new Set([String(value) ]);
+    }
+
+    for (const item of this._items) {
+      item.selected = this.selectedValues.has(String(item.value) );
+    }
+
+    this.updateSelectedState();
+    return this;
+  }
+
+  /**
+   * @warning Use chaining with this method or reassign to variable to get the updated type of instance
+   */
+  updateItems(newItems) {
+    this._items = newItems ;
+    this.selectedValues = this.calcSelectedValues();
+    this.updateSelectedState();
+
+    const dialogContainer = this.contentList?.parentElement;
+    if (!this.contentList || !dialogContainer) {
+      return this ;
+    }
+
+    const oldContentList = this.contentList;
+    this.contentList = this.createDialogContentList();
+    dialogContainer.replaceChild(this.contentList, oldContentList);
+    return this ;
+  }
+
+  get visibleText() {
+    if (!this.multiSelect) {
+      return (
+        this._items.find((item) => item.selected)?.label ?? this._selectTitle
+      );
+    }
+
+    return (
+      this._items
+        .filter((item) => this.selectedValues.has(item.value))
+        .map((item) => item.label)
+        .join(", ") ?? this._selectTitle
+    );
+  }
+
+  set selectTitle(title) {
+    this._selectTitle = title;
+    this.updateTitle();
+  }
+
+  set hidden(isHidden) {
+    this.container.hidden = isHidden;
+  }
+
+  get hidden() {
+    return this.container.hidden;
+  }
+}
+
+;// ./src/ui/components/votMenu.ts
+
+
+
+
+class VOTMenu {
+  container;
+  contentWrapper;
+  headerContainer;
+  bodyContainer;
+  footerContainer;
+  titleContainer;
+  title;
+
+   _position;
+   _titleHtml;
+
+  constructor({ position = "default", titleHtml = "" }) {
+    this._position = position;
+    this._titleHtml = titleHtml;
+
+    const elements = this.createElements();
+    this.container = elements.container;
+    this.contentWrapper = elements.contentWrapper;
+    this.headerContainer = elements.headerContainer;
+    this.bodyContainer = elements.bodyContainer;
+    this.footerContainer = elements.footerContainer;
+    this.titleContainer = elements.titleContainer;
+    this.title = elements.title;
+  }
+
+   createElements() {
+    const container = UI.createEl("vot-block", ["vot-menu"]);
+    container.hidden = true;
+    container.dataset.position = this._position;
+
+    const contentWrapper = UI.createEl("vot-block", [
+      "vot-menu-content-wrapper",
+    ]);
+    container.appendChild(contentWrapper);
+
+    // header
+    const headerContainer = UI.createEl("vot-block", [
+      "vot-menu-header-container",
+    ]);
+    const titleContainer = UI.createEl("vot-block", [
+      "vot-menu-title-container",
+    ]);
+    headerContainer.appendChild(titleContainer);
+    const title = UI.createEl("vot-block", ["vot-menu-title"]);
+    title.append(this._titleHtml);
+    titleContainer.appendChild(title);
+
+    // body & footer
+    const bodyContainer = UI.createEl("vot-block", ["vot-menu-body-container"]);
+    const footerContainer = UI.createEl("vot-block", [
+      "vot-menu-footer-container",
+    ]);
+
+    contentWrapper.append(headerContainer, bodyContainer, footerContainer);
+    return {
+      container,
+      contentWrapper,
+      headerContainer,
+      bodyContainer,
+      footerContainer,
+      titleContainer,
+      title,
+    };
+  }
+
+  setText(titleText) {
+    this._titleHtml = this.title.textContent = titleText;
+    return this;
+  }
+
+  remove() {
+    this.container.remove();
+    return this;
+  }
+
+  set hidden(isHidden) {
+    this.container.hidden = isHidden;
+  }
+
+  get hidden() {
+    return this.container.hidden;
+  }
+
+  get position() {
+    return this._position;
+  }
+
+  set position(position) {
+    this._position = this.container.dataset.position = position;
+  }
+}
+
+;// ./src/ui/components/votButton.ts
+
+
+
+
+
+
+
+
+
+
+
+class VOTButton {
+  container;
+  translateButton;
+  separator;
+  pipButton;
+  separator2;
+  menuButton;
+  label;
+
+   _position;
+   _direction;
+   _status;
+   _labelHtml;
+
+  constructor({
+    position = "default",
+    direction = "default",
+    status = "none",
+    labelHtml = "",
+  }) {
+    this._position = position;
+    this._direction = direction;
+    this._status = status;
+    this._labelHtml = labelHtml;
+
+    const elements = this.createElements();
+    this.container = elements.container;
+    this.translateButton = elements.translateButton;
+    this.separator = elements.separator;
+    this.pipButton = elements.pipButton;
+    this.separator2 = elements.separator2;
+    this.menuButton = elements.menuButton;
+    this.label = elements.label;
+  }
+
+  static calcPosition(percentX, isBigContainer) {
+    if (!isBigContainer) {
+      return "default";
+    }
+
+    return percentX <= 44 ? "left" : percentX >= 66 ? "right" : "default";
+  }
+
+  static calcDirection(position) {
+    return ["default", "top"].includes(position) ? "row" : "column";
+  }
+
+   createElements() {
+    const container = UI.createEl("vot-block", ["vot-segmented-button"]);
+    container.dataset.position = this._position;
+    container.dataset.direction = this._direction;
+    container.dataset.status = this._status;
+    const translateButton = UI.createEl("vot-block", [
+      "vot-segment",
+      "vot-translate-button",
+    ]);
+    B(TRANSLATE_ICON_SVG, translateButton);
+
+    const label = UI.createEl("span", ["vot-segment-label"]);
+    label.append(this._labelHtml);
+    translateButton.appendChild(label);
+
+    const separator = UI.createEl("vot-block", ["vot-separator"]);
+    const pipButton = UI.createEl("vot-block", ["vot-segment-only-icon"]);
+    B(PIP_ICON_SVG, pipButton);
+
+    const separator2 = UI.createEl("vot-block", ["vot-separator"]);
+    const menuButton = UI.createEl("vot-block", ["vot-segment-only-icon"]);
+    B(MENU_ICON, menuButton);
+
+    container.append(
+      translateButton,
+      separator,
+      pipButton,
+      separator2,
+      menuButton,
+    );
+    return {
+      container,
+      translateButton,
+      separator,
+      pipButton,
+      separator2,
+      menuButton,
+      label,
+    };
+  }
+
+  showPiPButton(visible) {
+    this.separator2.hidden = this.pipButton.hidden = !visible;
+    return this;
+  }
+
+  setText(labelText) {
+    this._labelHtml = this.label.textContent = labelText;
+    return this;
+  }
+
+  remove() {
+    this.container.remove();
+    return this;
+  }
+
+  get tooltipPos() {
+    switch (this.position) {
+      case "left":
+        return "right";
+      case "right":
+        return "left";
+      default:
+        return "bottom";
+    }
+  }
+
+  set status(status) {
+    this._status = this.container.dataset.status = status;
+  }
+
+  get status() {
+    return this._status;
+  }
+
+  set loading(isLoading) {
+    this.container.dataset.loading = isLoading.toString();
+  }
+
+  get loading() {
+    return this.container.dataset.loading === "true";
+  }
+
+  set hidden(isHidden) {
+    this.container.hidden = isHidden;
+  }
+
+  get hidden() {
+    return this.container.hidden;
+  }
+
+  get position() {
+    return this._position;
+  }
+
+  set position(position) {
+    this._position = this.container.dataset.position = position;
+  }
+
+  get direction() {
+    return this._direction;
+  }
+
+  set direction(direction) {
+    this._direction = this.container.dataset.direction = direction;
+  }
+
+  set opacity(opacity) {
+    this.container.style.opacity = opacity.toString();
+  }
+
+  get opacity() {
+    return Number(this.container.style.opacity);
+  }
+}
+
+;// ./src/ui/components/languagePairSelect.ts
+
+
+
+
+
+
+
+
+
+class LanguagePairSelect
+
+
+ {
+  container;
+  fromSelect;
+  directionIcon;
+  toSelect;
+
+  dialogParent;
+
+  // from select opts
+   _fromSelectTitle;
+   _fromDialogTitle;
+   _fromItems;
+
+  // to select opts
+   _toSelectTitle;
+   _toDialogTitle;
+   _toItems;
+
+  constructor({
+    from: {
+      selectTitle: fromSelectTitle = localizationProvider.get("videoLanguage"),
+      dialogTitle: fromDialogTitle = localizationProvider.get("videoLanguage"),
+      items: fromItems,
+    },
+    to: {
+      selectTitle: toSelectTitle = localizationProvider.get(
+        "translationLanguage",
+      ),
+      dialogTitle: toDialogTitle = localizationProvider.get(
+        "translationLanguage",
+      ),
+      items: toItems,
+    },
+    dialogParent = document.documentElement,
+  }) {
+    this._fromSelectTitle = fromSelectTitle;
+    this._fromDialogTitle = fromDialogTitle;
+    this._fromItems = fromItems;
+
+    this._toSelectTitle = toSelectTitle;
+    this._toDialogTitle = toDialogTitle;
+    this._toItems = toItems;
+
+    this.dialogParent = dialogParent;
+
+    const elements = this.createElements();
+    this.container = elements.container;
+    this.fromSelect = elements.fromSelect;
+    this.directionIcon = elements.directionIcon;
+    this.toSelect = elements.toSelect;
+  }
+
+   createElements() {
+    const container = UI.createEl("vot-block", ["vot-lang-select"]);
+    const fromSelect = new Select({
+      selectTitle: this._fromSelectTitle,
+      dialogTitle: this._fromDialogTitle,
+      items: this._fromItems,
+      dialogParent: this.dialogParent,
+    });
+
+    const directionIcon = UI.createEl("vot-block", ["vot-lang-select-icon"]);
+    B(ARROW_RIGHT_ICON, directionIcon);
+
+    const toSelect = new Select({
+      selectTitle: this._toSelectTitle,
+      dialogTitle: this._toDialogTitle,
+      items: this._toItems,
+      dialogParent: this.dialogParent,
+    });
+
+    container.append(fromSelect.container, directionIcon, toSelect.container);
+
+    return {
+      container,
+      fromSelect,
+      directionIcon,
+      toSelect,
+    };
+  }
+
+  setSelectedValues(from, to) {
+    this.fromSelect.setSelectedValue(from);
+    this.toSelect.setSelectedValue(to);
+    return this;
+  }
+
+  updateItems(
+    fromItems,
+    toItems,
+  ) {
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    this._fromItems = fromItems ;
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    this._toItems = toItems ;
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    this.fromSelect = this.fromSelect.updateItems(fromItems);
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    this.toSelect = this.toSelect.updateItems(toItems);
+    return this ;
+  }
+}
+
+;// ./src/ui/components/slider.ts
+
+
+
+
+
+
+
+class Slider {
+  container;
+  input;
+  label;
+
+   onInput = new EventImpl();
+
+   _labelHtml;
+   _value;
+   _min;
+   _max;
+   _step;
+
+  constructor({
+    labelHtml,
+    value = 50,
+    min = 0,
+    max = 100,
+    step = 1,
+  }) {
+    this._labelHtml = labelHtml;
+    this._value = value;
+    this._min = min;
+    this._max = max;
+    this._step = step;
+
+    const elements = this.createElements();
+    this.container = elements.container;
+    this.input = elements.input;
+    this.label = elements.label;
+    this.update();
+  }
+
+   updateProgress() {
+    const progress = (this._value - this._min) / (this._max - this._min);
+    this.container.style.setProperty("--vot-progress", progress.toString());
+    return this;
+  }
+
+   update() {
+    this._value = this.input.valueAsNumber;
+    this._min = +this.input.min;
+    this._max = +this.input.max;
+    this.updateProgress();
+    return this;
+  }
+
+   createElements() {
+    const container = UI.createEl("vot-block", ["vot-slider"]);
+    const input = document.createElement("input");
+    input.type = "range";
+    input.min = this._min.toString();
+    input.max = this._max.toString();
+    input.step = this._step.toString();
+    input.value = this._value.toString();
+
+    const label = UI.createEl("span");
+    B(this._labelHtml, label);
+
+    container.append(input, label);
+    input.addEventListener("input", () => {
+      this.update();
+      this.onInput.dispatch(this._value);
+    });
+
+    return {
+      container,
+      label,
+      input,
+    };
+  }
+
+  addEventListener(type, listener) {
+    this.onInput.addListener(listener);
+
+    return this;
+  }
+
+  removeEventListener(type, listener) {
+    this.onInput.removeListener(listener);
+
+    return this;
+  }
+
+  get value() {
+    return this._value;
+  }
+
+  /**
+   * If you set a different new value, it will trigger the input event
+   */
+  set value(val) {
+    this._value = val;
+    this.input.value = val.toString();
+    this.updateProgress();
+    this.onInput.dispatch(this._value);
+  }
+
+  get min() {
+    return this._min;
+  }
+
+  set min(val) {
+    this._min = val;
+    this.input.min = this._min.toString();
+    this.updateProgress();
+  }
+
+  get max() {
+    return this._max;
+  }
+
+  set max(val) {
+    this._max = val;
+    this.input.max = this._max.toString();
+    this.updateProgress();
+  }
+
+  get step() {
+    return this._step;
+  }
+
+  set step(val) {
+    this._step = val;
+    this.input.step = this._step.toString();
+  }
+
+  set hidden(isHidden) {
+    this.container.hidden = isHidden;
+  }
+
+  get hidden() {
+    return this.container.hidden;
+  }
+}
+
+;// ./src/ui/components/sliderLabel.ts
+
+
+
+class SliderLabel {
+  container;
+  strong;
+
+   _labelText;
+   _labelEOL;
+   _value;
+   _symbol;
+
+  constructor({
+    labelText,
+    labelEOL = "",
+    value = 50,
+    symbol = "%",
+  }) {
+    this._labelText = labelText;
+    this._labelEOL = labelEOL;
+    this._value = value;
+    this._symbol = symbol;
+
+    const elements = this.createElements();
+    this.container = elements.container;
+    this.strong = elements.strong;
+  }
+
+   createElements() {
+    const container = UI.createEl("vot-block", ["vot-slider-label"]);
+    container.textContent = this.labelText;
+
+    const strong = UI.createEl("strong", ["vot-slider-label-value"]);
+    strong.textContent = this.valueText;
+
+    container.append(strong);
+
+    return {
+      container,
+      strong,
+    };
+  }
+
+  get labelText() {
+    return `${this._labelText}${this._labelEOL}`;
+  }
+
+  get valueText() {
+    return `${this._value}${this._symbol}`;
+  }
+
+  get value() {
+    return this._value;
+  }
+
+  set value(val) {
+    this._value = val;
+    this.strong.textContent = this.valueText;
+  }
+
+  set hidden(isHidden) {
+    this.container.hidden = isHidden;
+  }
+
+  get hidden() {
+    return this.container.hidden;
+  }
+}
+
+;// ./src/ui/components/selectLabel.ts
+
+
+
+
+
+
+
+class SelectLabel {
+  container;
+  icon;
+
+   _labelText;
+   _icon;
+
+  constructor({ labelText, icon }) {
+    this._labelText = labelText;
+    this._icon = icon;
+
+    const elements = this.createElements();
+    this.container = elements.container;
+    this.icon = elements.icon;
+  }
+
+   createElements() {
+    const container = UI.createEl("vot-block", ["vot-select-label"]);
+    container.textContent = this._labelText;
+
+    const icon = UI.createEl("vot-block", ["vot-select-label-icon"]);
+    if (this._icon) {
+      B(this._icon, icon);
+    }
+    container.appendChild(icon);
+
+    return {
+      container,
+      icon,
+    };
+  }
+
+  set hidden(isHidden) {
+    this.container.hidden = isHidden;
+  }
+
+  get hidden() {
+    return this.container.hidden;
+  }
+}
+
+;// ./src/ui/views/overlay.ts
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class OverlayView {
+  root;
+  tooltipLayoutRoot;
+  portalContainer;
+  globalPortal;
+
+   dragging = false;
+   initialized = false;
+   data;
+   videoHandler;
+   cancelDraggingEvents = ["pointercancel", "touchcancel"];
+
+  // events
+   onClickSettings = new EventImpl();
+   onClickPiP = new EventImpl();
+   onClickTranslate = new EventImpl();
+   onClickDownloadTranslation = new EventImpl();
+   onClickDownloadSubtitles = new EventImpl();
+   onSelectFromLanguage = new EventImpl();
+   onSelectToLanguage = new EventImpl();
+   onSelectSubtitles = new EventImpl();
+   onInputVideoVolume = new EventImpl();
+   onInputTranslationVolume = new EventImpl();
+
+  // shared
+  votOverlayPortal;
+  // button
+  votButton;
+  votButtonTooltip;
+  // menu
+  votMenu;
+  downloadTranslationButton;
+  downloadSubtitlesButton;
+  openSettingsButton;
+  languagePairSelect;
+  subtitlesSelectLabel;
+  subtitlesSelect;
+  videoVolumeSliderLabel;
+  videoVolumeSlider;
+  tranlsationVolumeSliderLabel;
+  translationVolumeSlider;
+
+  constructor({
+    root,
+    portalContainer,
+    tooltipLayoutRoot,
+    globalPortal,
+    data = {},
+    videoHandler,
+  }) {
+    this.root = root;
+    this.portalContainer = portalContainer;
+    this.tooltipLayoutRoot = tooltipLayoutRoot;
+    this.globalPortal = globalPortal;
+    this.data = data;
+    this.videoHandler = videoHandler;
+  }
+
+  isInitialized()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {
+    return this.initialized;
+  }
+
+  calcButtonLayout(position) {
+    if (this.isBigContainer && ["left", "right"].includes(position)) {
+      return {
+        direction: "column",
+        position,
+      };
+    }
+
+    return {
+      direction: "row",
+      position: "default",
+    };
+  }
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  addEventListener(
+    type
+
+
+
+
+
+
+
+
+
+,
+    // biome-ignore lint/suspicious/noExplicitAny: it's ok trust me
+    listener,
+  ) {
+    switch (type) {
+      case "click:settings": {
+        this.onClickSettings.addListener(listener);
+        break;
+      }
+      case "click:pip": {
+        this.onClickPiP.addListener(listener);
+        break;
+      }
+      case "click:downloadTranslation": {
+        this.onClickDownloadTranslation.addListener(listener);
+        break;
+      }
+      case "click:downloadSubtitles": {
+        this.onClickDownloadSubtitles.addListener(listener);
+        break;
+      }
+      case "click:translate": {
+        this.onClickTranslate.addListener(listener);
+        break;
+      }
+      case "input:videoVolume": {
+        this.onInputVideoVolume.addListener(listener);
+        break;
+      }
+      case "input:translationVolume": {
+        this.onInputTranslationVolume.addListener(listener);
+        break;
+      }
+      case "select:fromLanguage": {
+        this.onSelectFromLanguage.addListener(listener);
+        break;
+      }
+      case "select:toLanguage": {
+        this.onSelectToLanguage.addListener(listener);
+        break;
+      }
+      case "select:subtitles": {
+        this.onSelectSubtitles.addListener(listener);
+        break;
+      }
+    }
+
+    return this;
+  }
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  removeEventListener(
+    type
+
+
+
+
+
+
+
+
+
+,
+    // biome-ignore lint/suspicious/noExplicitAny: it's ok trust me
+    listener,
+  ) {
+    switch (type) {
+      case "click:settings": {
+        this.onClickSettings.removeListener(listener);
+        break;
+      }
+      case "click:pip": {
+        this.onClickPiP.removeListener(listener);
+        break;
+      }
+      case "click:downloadTranslation": {
+        this.onClickDownloadTranslation.removeListener(listener);
+        break;
+      }
+      case "click:downloadSubtitles": {
+        this.onClickDownloadSubtitles.removeListener(listener);
+        break;
+      }
+      case "click:translate": {
+        this.onClickTranslate.removeListener(listener);
+        break;
+      }
+      case "input:videoVolume": {
+        this.onInputVideoVolume.removeListener(listener);
+        break;
+      }
+      case "input:translationVolume": {
+        this.onInputTranslationVolume.removeListener(listener);
+        break;
+      }
+      case "select:fromLanguage": {
+        this.onSelectFromLanguage.removeListener(listener);
+        break;
+      }
+      case "select:toLanguage": {
+        this.onSelectToLanguage.removeListener(listener);
+        break;
+      }
+      case "select:subtitles": {
+        this.onSelectSubtitles.removeListener(listener);
+        break;
+      }
+    }
+
+    return this;
+  }
+
+  initUI(buttonPosition = "default") {
+    if (this.isInitialized()) {
+      throw new Error("[VOT] OverlayView is already initialized");
+    }
+
+    this.initialized = true;
+
+    // #region Shared logic
+    const { position, direction } = this.calcButtonLayout(buttonPosition);
+
+    this.votOverlayPortal = UI.createPortal(true);
+    this.portalContainer.appendChild(this.votOverlayPortal);
+
+    // #endregion Shared logic
+    // #region VOT Button
+    this.votButton = new VOTButton({
+      position,
+      direction,
+      status: "none",
+      labelHtml: localizationProvider.get("translateVideo"),
+    });
+    this.votButton.opacity = 0;
+    if (!this.pipButtonVisible) {
+      this.votButton.showPiPButton(false);
+    }
+    this.root.appendChild(this.votButton.container);
+    this.votButtonTooltip = new Tooltip({
+      target: this.votButton.translateButton,
+      content: localizationProvider.get("translateVideo"),
+      position: this.votButton.tooltipPos,
+      hidden: direction === "row",
+      bordered: false,
+      parentElement: this.votOverlayPortal,
+      layoutRoot: this.tooltipLayoutRoot,
+    });
+
+    // #endregion VOT Button
+    // #region VOT Menu
+    this.votMenu = new VOTMenu({
+      titleHtml: localizationProvider.get("VOTSettings"),
+      position,
+    });
+    this.root.appendChild(this.votMenu.container);
+
+    // #region VOT Menu Header
+    this.downloadTranslationButton = UI.createIconButton(DOWNLOAD_ICON);
+    this.downloadTranslationButton.hidden = true;
+
+    this.downloadSubtitlesButton = UI.createIconButton(SUBTITLES_ICON);
+    this.downloadSubtitlesButton.hidden = true;
+
+    this.openSettingsButton = UI.createIconButton(SETTINGS_ICON);
+
+    this.votMenu.headerContainer.append(
+      this.downloadTranslationButton,
+      this.downloadSubtitlesButton,
+      this.openSettingsButton,
+    );
+
+    // #endregion VOT Menu Header
+    // #region VOT Menu Body
+
+    const detectedLanguage =
+      this.videoHandler?.videoData?.detectedLanguage ?? "en";
+    const responseLanguage = this.data.responseLanguage ?? "ru";
+    this.languagePairSelect = new LanguagePairSelect({
+      from: {
+        selectTitle: localizationProvider.get(`langs.${detectedLanguage}`),
+        items: Select.genLanguageItems(availableLangs, detectedLanguage),
+      },
+      to: {
+        selectTitle: localizationProvider.get(`langs.${responseLanguage}`),
+        items: Select.genLanguageItems(availableTTS, responseLanguage),
+      },
+    });
+
+    this.subtitlesSelectLabel = new SelectLabel({
+      labelText: localizationProvider.get("VOTSubtitles"),
+    });
+    this.subtitlesSelect = new Select({
+      selectTitle: localizationProvider.get("VOTSubtitlesDisabled"),
+      dialogTitle: localizationProvider.get("VOTSubtitles"),
+      labelElement: this.subtitlesSelectLabel.container,
+      dialogParent: this.globalPortal,
+      items: [
+        {
+          label: localizationProvider.get("VOTSubtitlesDisabled"),
+          value: "disabled",
+          selected: true,
+        },
+      ],
+    });
+
+    const videoVolume = this.videoHandler
+      ? this.videoHandler.getVideoVolume() * 100
+      : 100;
+    this.videoVolumeSliderLabel = new SliderLabel({
+      labelText: localizationProvider.get("VOTVolume"),
+      value: videoVolume,
+    });
+
+    this.videoVolumeSlider = new Slider({
+      labelHtml: this.videoVolumeSliderLabel.container,
+      value: videoVolume,
+    });
+    this.videoVolumeSlider.hidden =
+      !this.data.showVideoSlider || this.votButton.status !== "success";
+
+    const defaultVolume = this.data.defaultVolume ?? 100;
+    this.tranlsationVolumeSliderLabel = new SliderLabel({
+      labelText: localizationProvider.get("VOTVolumeTranslation"),
+      value: defaultVolume,
+    });
+
+    this.translationVolumeSlider = new Slider({
+      labelHtml: this.tranlsationVolumeSliderLabel.container,
+      value: defaultVolume,
+      max: this.data.audioBooster ? maxAudioVolume : 100,
+    });
+    this.translationVolumeSlider.hidden = this.votButton.status !== "success";
+
+    this.votMenu.bodyContainer.append(
+      this.languagePairSelect.container,
+      this.subtitlesSelect.container,
+      this.videoVolumeSlider.container,
+      this.translationVolumeSlider.container,
+    );
+
+    // #endregion VOT Menu Body
+    // #endregion VOT Menu
+    return this;
+  }
+
+  initUIEvents() {
+    if (!this.isInitialized()) {
+      throw new Error("[VOT] OverlayView isn't initialized");
+    }
+
+    // #region [Events] VOT Button
+    // Prevent button click events from propagating.
+    this.votButton.container.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+    });
+
+    this.votButton.translateButton.addEventListener("pointerdown", async () => {
+      this.onClickTranslate.dispatch();
+    });
+
+    this.votButton.pipButton.addEventListener("pointerdown", async () => {
+      this.onClickPiP.dispatch();
+    });
+
+    this.votButton.menuButton.addEventListener("pointerdown", async () => {
+      this.votMenu.hidden = !this.votMenu.hidden;
+    });
+
+    // #region [Events] VOT Button Dragging
+    const enableDraggingByEvent = (event) => {
+      this.dragging = true;
+      event.preventDefault();
+    };
+
+    this.votButton.container.addEventListener(
+      "pointerdown",
+      enableDraggingByEvent,
+    );
+    this.root.addEventListener("pointerup", this.disableDragging);
+    this.root.addEventListener("pointermove", this.handleContainerPointerMove);
+
+    this.votButton.container.addEventListener(
+      "touchstart",
+      enableDraggingByEvent,
+      {
+        passive: false,
+      },
+    );
+    this.root.addEventListener("touchend", this.disableDragging);
+    this.root.addEventListener("touchmove", this.handleContainerTouchMove, {
+      passive: false,
+    });
+
+    for (const event of this.cancelDraggingEvents) {
+      document.addEventListener(event, this.disableDragging);
+    }
+
+    // #endregion [Events] VOT Button Dragging
+    // #endregion [Events] VOT Button
+    // #region [Events] VOT Menu
+    this.votMenu.container.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+    });
+
+    // #region [Events] VOT Menu Header
+    this.downloadTranslationButton.addEventListener("click", async () => {
+      this.onClickDownloadTranslation.dispatch();
+    });
+
+    this.downloadSubtitlesButton.addEventListener("click", async () => {
+      this.onClickDownloadSubtitles.dispatch();
+    });
+
+    this.openSettingsButton.addEventListener("click", async () => {
+      this.onClickSettings.dispatch();
+    });
+
+    // #endregion [Events] VOT Menu Header
+    // #region [Events] VOT Menu Body
+    this.languagePairSelect.fromSelect.addEventListener(
+      "selectItem",
+      (language) => {
+        if (this.videoHandler?.videoData) {
+          this.videoHandler.videoData.detectedLanguage = language;
+        }
+        this.onSelectFromLanguage.dispatch(language);
+      },
+    );
+
+    this.languagePairSelect.toSelect.addEventListener(
+      "selectItem",
+      async (language) => {
+        if (this.videoHandler?.videoData) {
+          this.videoHandler.translateToLang =
+            this.videoHandler.videoData.responseLanguage = language;
+        }
+        this.data.responseLanguage = language;
+        await votStorage.set("responseLanguage", this.data.responseLanguage);
+        this.onSelectToLanguage.dispatch(language);
+      },
+    );
+
+    this.subtitlesSelect.addEventListener("beforeOpen", async (dialog) => {
+      if (!this.videoHandler?.videoData) {
+        return;
+      }
+
+      const cacheKey = `${this.videoHandler.videoData.videoId}_${this.videoHandler.videoData.detectedLanguage}_${this.videoHandler.videoData.responseLanguage}_${this.data.useNewModel}`;
+      if (this.videoHandler.cacheManager.getSubtitles(cacheKey)) {
+        return;
+      }
+
+      this.votButton.loading = true;
+      const loadingEl = UI.createInlineLoader();
+      loadingEl.style.margin = "0 auto";
+      dialog.footerContainer.appendChild(loadingEl);
+      await this.videoHandler.loadSubtitles();
+      dialog.footerContainer.removeChild(loadingEl);
+      this.votButton.loading = false;
+    });
+
+    this.subtitlesSelect.addEventListener("selectItem", (data) => {
+      this.onSelectSubtitles.dispatch(data);
+    });
+
+    this.videoVolumeSlider.addEventListener("input", (value) => {
+      this.videoVolumeSliderLabel.value = value;
+      this.onInputVideoVolume.dispatch(value);
+    });
+
+    this.translationVolumeSlider.addEventListener("input", async (value) => {
+      this.tranlsationVolumeSliderLabel.value = value;
+      this.data.defaultVolume = value;
+      await votStorage.set("defaultVolume", this.data.defaultVolume);
+      this.onInputTranslationVolume.dispatch(value);
+    });
+
+    // #endregion [Events] VOT Menu Body
+    // #endregion [Events] VOT Menu
+    return this;
+  }
+
+  updateButtonLayout(position, direction) {
+    if (!this.isInitialized()) {
+      return this;
+    }
+
+    this.votMenu.position = position;
+
+    this.votButton.position = position;
+    this.votButton.direction = direction;
+
+    this.votButtonTooltip.hidden = direction === "row";
+    this.votButtonTooltip.setPosition(this.votButton.tooltipPos);
+
+    return this;
+  }
+
+  async moveButton(percentX) {
+    if (!this.isInitialized()) {
+      return this;
+    }
+
+    const position = VOTButton.calcPosition(percentX, this.isBigContainer);
+    if (position === this.votButton.position) {
+      return this;
+    }
+
+    const direction = VOTButton.calcDirection(position);
+    this.data.buttonPos = position;
+    this.updateButtonLayout(position, direction);
+    if (this.isBigContainer) {
+      await votStorage.set("buttonPos", position);
+    }
+
+    return this;
+  }
+
+  async handleDragMove(
+    event,
+    clientX,
+    rect = this.root.getBoundingClientRect(),
+  ) {
+    if (!this.dragging) {
+      return this;
+    }
+
+    event.preventDefault();
+    const x = clientX - rect.left;
+    const percentX = (x / rect.width) * 100;
+    await this.moveButton(percentX);
+    return this;
+  }
+
+  disableDragging = () => {
+    this.dragging = false;
+  };
+
+  handleContainerPointerMove = async (event) => {
+    void (await this.handleDragMove(event, event.clientX));
+  };
+
+  handleContainerTouchMove = async (event) => {
+    void (await this.handleDragMove(event, event.touches[0].clientX));
+  };
+
+  updateButtonOpacity(opacity) {
+    if (!this.isInitialized() || !this.votMenu.hidden) {
+      return this;
+    }
+
+    this.votButton.opacity = opacity;
+    return this;
+  }
+
+  releaseUI(initialized = false) {
+    if (!this.isInitialized()) {
+      throw new Error("[VOT] OverlayView isn't initialized");
+    }
+
+    this.votButton.remove();
+    this.votMenu.remove();
+    this.votButtonTooltip.release();
+    this.votOverlayPortal.remove();
+
+    this.initialized = initialized;
+    return this;
+  }
+
+  releaseUIEvents(initialized = false) {
+    if (!this.isInitialized()) {
+      throw new Error("[VOT] OverlayView isn't initialized");
+    }
+
+    this.root.removeEventListener("pointerup", this.disableDragging);
+    this.root.removeEventListener(
+      "pointermove",
+      this.handleContainerPointerMove,
+    );
+
+    this.root.removeEventListener("touchend", this.disableDragging);
+    this.root.removeEventListener("touchmove", this.handleContainerTouchMove);
+
+    for (const event of this.cancelDraggingEvents) {
+      document.removeEventListener(event, this.disableDragging);
+    }
+
+    this.onClickSettings.clear();
+    this.onClickPiP.clear();
+    this.onClickTranslate.clear();
+    this.onClickDownloadTranslation.clear();
+    this.onClickDownloadSubtitles.clear();
+
+    this.onSelectFromLanguage.clear();
+    this.onSelectToLanguage.clear();
+    this.onSelectSubtitles.clear();
+
+    this.onInputVideoVolume.clear();
+    this.onInputTranslationVolume.clear();
+
+    this.initialized = initialized;
+    return this;
+  }
+
+  release() {
+    this.releaseUI(true);
+    this.releaseUIEvents(false);
+    return this;
+  }
+
+  get isBigContainer() {
+    return this.root.clientWidth > 550;
+  }
+
+  get pipButtonVisible() {
+    return isPiPAvailable() && !!this.data.showPiPButton;
+  }
+}
+
+;// ./src/ui/components/checkbox.ts
+
+
+
+
+
+
+
+class Checkbox {
+  container;
+  input;
+  label;
+
+   onChange = new EventImpl();
+
+   _labelHtml;
+   _checked;
+   _isSubCheckbox;
+
+  constructor({
+    labelHtml,
+    checked = false,
+    isSubCheckbox = false,
+  }) {
+    this._labelHtml = labelHtml;
+    this._checked = checked;
+    this._isSubCheckbox = isSubCheckbox;
+
+    const elements = this.createElements();
+    this.container = elements.container;
+    this.input = elements.input;
+    this.label = elements.label;
+  }
+
+   createElements() {
+    const container = UI.createEl("label", ["vot-checkbox"]);
+    if (this._isSubCheckbox) {
+      container.classList.add("vot-checkbox-sub");
+    }
+
+    const input = document.createElement("input");
+    input.type = "checkbox";
+    input.checked = this._checked;
+    input.addEventListener("change", () => {
+      this._checked = input.checked;
+      this.onChange.dispatch(this._checked);
+    });
+
+    const label = UI.createEl("span");
+    B(this._labelHtml, label);
+
+    container.append(input, label);
+    return { container, input, label };
+  }
+
+  addEventListener(type, listener) {
+    this.onChange.addListener(listener);
+
+    return this;
+  }
+
+  removeEventListener(
+    type,
+    listener,
+  ) {
+    this.onChange.removeListener(listener);
+
+    return this;
+  }
+
+  set hidden(isHidden) {
+    this.container.hidden = isHidden;
+  }
+
+  get hidden() {
+    return this.container.hidden;
+  }
+
+  get disabled() {
+    return this.input.disabled;
+  }
+
+  set disabled(isDisabled) {
+    this.input.disabled = isDisabled;
+  }
+
+  get checked() {
+    return this._checked;
+  }
+
+  /**
+   * If you set a different new value, it will trigger the change event
+   */
+  set checked(isChecked) {
+    if (this._checked === isChecked) {
+      return;
+    }
+
+    this._checked = this.input.checked = isChecked;
+    this.onChange.dispatch(this._checked);
+  }
+}
+
+;// ./src/ui/components/hotkeyButton.ts
+
+
+
+
+
+class HotkeyButton {
+  container;
+  button;
+
+   onChange = new EventImpl();
+
+   _labelHtml;
+   _key;
+
+  constructor({ labelHtml, key = null }) {
+    this._labelHtml = labelHtml;
+    this._key = key;
+
+    const elements = this.createElements();
+    this.container = elements.container;
+    this.button = elements.button;
+  }
+
+   keydownHandle = (event) => {
+    event.preventDefault();
+    const key = event.code === "Escape" ? null : event.code;
+    this.button.removeAttribute("data-status");
+    this.key = key;
+  };
+
+   createElements() {
+    const container = UI.createEl("vot-block", ["vot-hotkey"]);
+    const label = UI.createEl("vot-block", ["vot-hotkey-label"]);
+    label.textContent = this._labelHtml;
+
+    const button = UI.createEl("vot-block", ["vot-hotkey-button"]);
+    button.textContent = this.keyText;
+    button.onclick = () => console.log("click onclick");
+    button.addEventListener("click", () => {
+      console.log("click");
+      button.dataset.status = "active";
+      document.addEventListener("keydown", this.keydownHandle, {
+        once: true,
+      });
+    });
+
+    container.append(label, button);
+    return { container, button, label };
+  }
+
+  addEventListener(
+    type,
+    listener,
+  ) {
+    this.onChange.addListener(listener);
+
+    return this;
+  }
+
+  removeEventListener(
+    type,
+    listener,
+  ) {
+    this.onChange.removeListener(listener);
+
+    return this;
+  }
+
+  set hidden(isHidden) {
+    this.container.hidden = isHidden;
+  }
+
+  get hidden() {
+    return this.container.hidden;
+  }
+
+  get key() {
+    return this._key;
+  }
+
+  get keyText() {
+    return (
+      this._key?.replace("Key", "").replace("Digit", "") ??
+      localizationProvider.get("None")
+    );
+  }
+
+  /**
+   * If you set a different new value, it will trigger the change event
+   */
+  set key(newKey) {
+    if (this._key === newKey) {
+      return;
+    }
+
+    this._key = newKey;
+    this.button.textContent = this.keyText;
+    this.onChange.dispatch(this._key);
+  }
+}
+
+;// ./src/ui/components/details.ts
+
+
+
+
+
+
+
+class Details {
+  container;
+  header;
+  arrowIcon;
+
+   onClick = new EventImpl();
+
+   _titleHtml;
+
+  constructor({ titleHtml }) {
+    this._titleHtml = titleHtml;
+
+    const elements = this.createElements();
+    this.container = elements.container;
+    this.header = elements.header;
+    this.arrowIcon = elements.arrowIcon;
+  }
+
+   createElements() {
+    const container = UI.createEl("vot-block", ["vot-details"]);
+
+    const header = UI.createEl("vot-block");
+    header.append(this._titleHtml);
+
+    const arrowIcon = UI.createEl("vot-block", ["vot-details-arrow-icon"]);
+    B(CHEVRON_ICON, arrowIcon);
+    container.append(header, arrowIcon);
+    container.addEventListener("click", () => {
+      this.onClick.dispatch();
+    });
+
+    return {
+      container,
+      header,
+      arrowIcon,
+    };
+  }
+
+  addEventListener(type, listener) {
+    this.onClick.addListener(listener);
+
+    return this;
+  }
+
+  removeEventListener(type, listener) {
+    this.onClick.removeListener(listener);
+
+    return this;
+  }
+
+  set hidden(isHidden) {
+    this.container.hidden = isHidden;
+  }
+
+  get hidden() {
+    return this.container.hidden;
+  }
+}
+
+;// ./src/types/components/votButton.ts
+const votButton_positions = ["default", "top", "left", "right"] ;
+ 
+
+const directions = (/* unused pure expression or super */ null && (["default", "row", "column"])) ;
+ 
+
+
+
+
+
+
+
+
+
+
+;// ./src/ui/views/settings.ts
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class SettingsView {
+  globalPortal;
+
+   initialized = false;
+   data;
+   videoHandler;
+
+   onClickBugReport = new EventImpl();
+   onClickResetSettings = new EventImpl();
+
+   onChangeAutoTranslate = new EventImpl();
+   onChangeShowVideoVolume = new EventImpl();
+   onChangeAudioBooster = new EventImpl();
+   onChangeUseLivelyVoice = new EventImpl();
+   onChangeSubtitlesHighlightWords = new EventImpl();
+   onChangeProxyWorkerHost = new EventImpl();
+   onChangeUseNewAudioPlayer = new EventImpl();
+   onChangeOnlyBypassMediaCSP = new EventImpl();
+   onChangeShowPiPButton = new EventImpl();
+
+   onInputSubtitlesMaxLength = new EventImpl();
+   onInputSubtitlesFontSize = new EventImpl();
+   onInputSubtitlesBackgroundOpacity = new EventImpl();
+   onInputAutoHideButtonDelay = new EventImpl();
+
+   onSelectItemProxyTranslationStatus = new EventImpl();
+   onSelectItemTranslationTextService = new EventImpl();
+   onSelectItemButtonPosition = new EventImpl();
+   onSelectItemMenuLanguage = new EventImpl();
+
+  dialog;
+  translationSettingsHeader;
+  autoTranslateCheckbox;
+  dontTranslateLanguagesCheckbox;
+  dontTranslateLanguagesSelect;
+  autoSetVolumeSliderLabel;
+  autoSetVolumeCheckbox;
+  autoSetVolumeSlider;
+  showVideoVolumeSliderCheckbox;
+  audioBoosterCheckbox;
+  audioBoosterTooltip;
+  syncVolumeCheckbox;
+  downloadWithNameCheckbox;
+  sendNotifyOnCompleteCheckbox;
+  useLivelyVoiceCheckbox;
+  subtitlesSettingsHeader;
+  subtitlesDownloadFormatSelectLabel;
+  subtitlesDownloadFormatSelect;
+  subtitlesDesignDetails;
+  hotkeysSettingsHeader;
+  translateHotkeyButton;
+  proxySettingsHeader;
+  proxyM3U8HostTextfield;
+  proxyWorkerHostTextfield;
+  proxyTranslationStatusSelectLabel;
+  proxyTranslationStatusSelect;
+  miscSettingsHeader;
+  translateAPIErrorsCheckbox;
+  useNewAudioPlayerCheckbox;
+  useNewAudioPlayerTooltip;
+  onlyBypassMediaCSPCheckbox;
+  onlyBypassMediaCSPTooltip;
+  translationTextServiceLabel;
+  translationTextServiceSelect;
+  translationTextServiceTooltip;
+  detectServiceLabel;
+  detectServiceSelect;
+  appearanceDetails;
+  aboutExtensionDetails;
+  bugReportButton;
+  resetSettingsButton;
+
+  constructor({ globalPortal, data = {}, videoHandler }) {
+    this.globalPortal = globalPortal;
+    this.data = data;
+    this.videoHandler = videoHandler;
+  }
+
+  isInitialized()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {
+    return this.initialized;
+  }
+
+  initUI() {
+    if (this.isInitialized()) {
+      throw new Error("[VOT] SettingsView is already initialized");
+    }
+
+    this.initialized = true;
+
+    this.dialog = new Dialog({
+      titleHtml: localizationProvider.get("VOTSettings"),
+    });
+    this.globalPortal.appendChild(this.dialog.container);
+
+    // #region Translation
+    this.translationSettingsHeader = UI.createHeader(
+      localizationProvider.get("translationSettings"),
+    );
+
+    this.autoTranslateCheckbox = new Checkbox({
+      labelHtml: localizationProvider.get("VOTAutoTranslate"),
+      checked: this.data.autoTranslate,
+    });
+
+    const dontTranslateLanguages = this.data.dontTranslateLanguages ?? [];
+    this.dontTranslateLanguagesCheckbox = new Checkbox({
+      labelHtml: localizationProvider.get("DontTranslateSelectedLanguages"),
+      checked: this.data.enabledDontTranslateLanguages,
+    });
+
+    this.dontTranslateLanguagesSelect = new Select({
+      dialogParent: this.globalPortal,
+      dialogTitle: localizationProvider.get("DontTranslateSelectedLanguages"),
+      selectTitle:
+        dontTranslateLanguages
+          .map((lang) => localizationProvider.get(`langs.${lang}`))
+          .join(", ") ??
+        localizationProvider.get("DontTranslateSelectedLanguages"),
+      items: Select.genLanguageItems(availableLangs).map
+
+((item) => ({
+        ...item,
+        selected: dontTranslateLanguages.includes(item.value),
+      })),
+      multiSelect: true,
+      labelElement: this.dontTranslateLanguagesCheckbox.container,
+    });
+
+    const autoVolume = this.data.autoVolume ?? defaultAutoVolume;
+    this.autoSetVolumeSliderLabel = new SliderLabel({
+      labelText: localizationProvider.get("VOTAutoSetVolume"),
+      value: autoVolume,
+    });
+
+    this.autoSetVolumeCheckbox = new Checkbox({
+      labelHtml: this.autoSetVolumeSliderLabel.container,
+      checked: this.data.enabledAutoVolume ?? true,
+    });
+
+    this.autoSetVolumeSlider = new Slider({
+      labelHtml: this.autoSetVolumeCheckbox.container,
+      value: autoVolume,
+    });
+
+    this.showVideoVolumeSliderCheckbox = new Checkbox({
+      labelHtml: localizationProvider.get("showVideoVolumeSlider"),
+      checked: this.data.showVideoSlider,
+    });
+
+    this.audioBoosterCheckbox = new Checkbox({
+      labelHtml: localizationProvider.get("VOTAudioBooster"),
+      checked: this.data.audioBooster,
+    });
+    if (!this.videoHandler?.audioContext) {
+      this.audioBoosterCheckbox.disabled = true;
+      this.audioBoosterTooltip = new Tooltip({
+        target: this.audioBoosterCheckbox.container,
+        content: localizationProvider.get("VOTNeedWebAudioAPI"),
+        position: "bottom",
+        backgroundColor: "var(--vot-helper-ondialog)",
+        parentElement: this.globalPortal,
+      });
+    }
+
+    this.syncVolumeCheckbox = new Checkbox({
+      labelHtml: localizationProvider.get("VOTSyncVolume"),
+      checked: this.data.syncVolume,
+    });
+
+    this.downloadWithNameCheckbox = new Checkbox({
+      labelHtml: localizationProvider.get("VOTDownloadWithName"),
+      checked: this.data.downloadWithName,
+    });
+
+    this.sendNotifyOnCompleteCheckbox = new Checkbox({
+      labelHtml: localizationProvider.get("VOTSendNotifyOnComplete"),
+      checked: this.data.sendNotifyOnComplete,
+    });
+
+    this.useLivelyVoiceCheckbox = new Checkbox({
+      labelHtml: localizationProvider.get("VOTUseLivelyVoice"),
+      checked: this.data.useNewModel,
+    });
+
+    this.dialog.bodyContainer.append(
+      this.translationSettingsHeader,
+      this.autoTranslateCheckbox.container,
+      this.dontTranslateLanguagesSelect.container,
+      this.autoSetVolumeSlider.container,
+      this.showVideoVolumeSliderCheckbox.container,
+      this.audioBoosterCheckbox.container,
+      this.syncVolumeCheckbox.container,
+      this.downloadWithNameCheckbox.container,
+      this.sendNotifyOnCompleteCheckbox.container,
+      this.useLivelyVoiceCheckbox.container,
+    );
+
+    // #endregion Translation
+    // #region Subtitles
+
+    this.subtitlesSettingsHeader = UI.createHeader(
+      localizationProvider.get("subtitlesSettings"),
+    );
+
+    this.subtitlesDownloadFormatSelectLabel = new SelectLabel({
+      labelText: localizationProvider.get("VOTSubtitlesDownloadFormat"),
+    });
+    this.subtitlesDownloadFormatSelect = new Select({
+      selectTitle:
+        this.data.subtitlesDownloadFormat ??
+        localizationProvider.get("VOTSubtitlesDownloadFormat"),
+      dialogTitle: localizationProvider.get("VOTSubtitlesDownloadFormat"),
+      dialogParent: this.globalPortal,
+      labelElement: this.subtitlesDownloadFormatSelectLabel.container,
+      items: subtitlesFormats.map((format) => ({
+        label: format.toUpperCase(),
+        value: format,
+        selected: format === this.data.subtitlesDownloadFormat,
+      })),
+    });
+
+    this.subtitlesDesignDetails = new Details({
+      titleHtml: localizationProvider.get("VOTSubtitlesDesign"),
+    });
+
+    this.dialog.bodyContainer.append(
+      this.subtitlesSettingsHeader,
+      this.subtitlesDownloadFormatSelect.container,
+      this.subtitlesDesignDetails.container,
+    );
+
+    // #endregion Subtitles
+    // #region Hotkeys
+    this.hotkeysSettingsHeader = UI.createHeader(
+      localizationProvider.get("hotkeysSettings"),
+    );
+    this.translateHotkeyButton = new HotkeyButton({
+      labelHtml: "Translate",
+      key: this.data.translationHotkey,
+    });
+
+    this.dialog.bodyContainer.append(
+      this.hotkeysSettingsHeader,
+      this.translateHotkeyButton.container,
+    );
+
+    // #endregion Hotkeys
+    // #region Proxy
+
+    this.proxySettingsHeader = UI.createHeader(
+      localizationProvider.get("proxySettings"),
+    );
+
+    this.proxyM3U8HostTextfield = new Textfield({
+      labelHtml: localizationProvider.get("VOTM3u8ProxyHost"),
+      value: this.data.m3u8ProxyHost,
+      placeholder: m3u8ProxyHost,
+    });
+
+    this.proxyWorkerHostTextfield = new Textfield({
+      labelHtml: localizationProvider.get("VOTProxyWorkerHost"),
+      value: this.data.proxyWorkerHost,
+      placeholder: proxyWorkerHost,
+    });
+
+    const proxyEnabledLabels = [
+      localizationProvider.get("VOTTranslateProxyDisabled"),
+      localizationProvider.get("VOTTranslateProxyEnabled"),
+      localizationProvider.get("VOTTranslateProxyEverything"),
+    ];
+    const translateProxyEnabled = this.data.translateProxyEnabled ?? 0;
+    this.proxyTranslationStatusSelectLabel = new SelectLabel({
+      labelText: localizationProvider.get("VOTTranslateProxyStatus"),
+    });
+    this.proxyTranslationStatusSelect = new Select({
+      selectTitle: proxyEnabledLabels[translateProxyEnabled],
+      dialogTitle: localizationProvider.get("VOTTranslateProxyStatus"),
+      dialogParent: this.globalPortal,
+      labelElement: this.proxyTranslationStatusSelectLabel.container,
+      items: proxyEnabledLabels.map((label, idx) => ({
+        label,
+        value: idx.toString(),
+        selected: idx === translateProxyEnabled,
+        disabled: idx === 0 && isProxyOnlyExtension,
+      })),
+    });
+
+    this.dialog.bodyContainer.append(
+      this.proxySettingsHeader,
+      this.proxyM3U8HostTextfield.container,
+      this.proxyWorkerHostTextfield.container,
+      this.proxyTranslationStatusSelect.container,
+    );
+
+    // #endregion Proxy
+    // #region Misc
+
+    this.miscSettingsHeader = UI.createHeader(
+      localizationProvider.get("miscSettings"),
+    );
+
+    this.translateAPIErrorsCheckbox = new Checkbox({
+      labelHtml: localizationProvider.get("VOTTranslateAPIErrors"),
+      checked: this.data.translateAPIErrors ?? true,
+    });
+    this.translateAPIErrorsCheckbox.hidden = localizationProvider.lang === "ru";
+
+    this.useNewAudioPlayerCheckbox = new Checkbox({
+      labelHtml: localizationProvider.get("VOTNewAudioPlayer"),
+      checked: this.data.newAudioPlayer,
+    });
+    if (!this.videoHandler?.audioContext) {
+      this.useNewAudioPlayerCheckbox.disabled = true;
+      this.useNewAudioPlayerTooltip = new Tooltip({
+        target: this.useNewAudioPlayerCheckbox.container,
+        content: localizationProvider.get("VOTNeedWebAudioAPI"),
+        position: "bottom",
+        backgroundColor: "var(--vot-helper-ondialog)",
+        parentElement: this.globalPortal,
+      });
+    }
+
+    const onlyBypassMediaCSPLabel = this.videoHandler?.site.needBypassCSP
+      ? `${localizationProvider.get("VOTOnlyBypassMediaCSP")} (${localizationProvider.get("VOTMediaCSPEnabledOnSite")})`
+      : localizationProvider.get("VOTOnlyBypassMediaCSP");
+    this.onlyBypassMediaCSPCheckbox = new Checkbox({
+      labelHtml: onlyBypassMediaCSPLabel,
+      checked: this.data.onlyBypassMediaCSP,
+      isSubCheckbox: true,
+    });
+    if (!this.videoHandler?.audioContext) {
+      this.onlyBypassMediaCSPTooltip = new Tooltip({
+        target: this.onlyBypassMediaCSPCheckbox.container,
+        content: localizationProvider.get("VOTNeedWebAudioAPI"),
+        position: "bottom",
+        backgroundColor: "var(--vot-helper-ondialog)",
+        parentElement: this.globalPortal,
+      });
+    }
+    this.onlyBypassMediaCSPCheckbox.disabled =
+      !this.data.newAudioPlayer && !!this.videoHandler?.audioContext;
+    if (!this.data.newAudioPlayer) {
+      this.onlyBypassMediaCSPCheckbox.hidden = true;
+    }
+
+    this.translationTextServiceLabel = new SelectLabel({
+      labelText: localizationProvider.get("VOTTranslationTextService"),
+      icon: HELP_ICON,
+    });
+    const translationService =
+      this.data.translationService ?? defaultTranslationService;
+    this.translationTextServiceSelect = new Select({
+      selectTitle: localizationProvider.get(`services.${translationService}`),
+      dialogTitle: localizationProvider.get("VOTTranslationTextService"),
+      dialogParent: this.globalPortal,
+      labelElement: this.translationTextServiceLabel.container,
+      items: foswlyServices.map((service) => ({
+        label: localizationProvider.get(`services.${service}`),
+        value: service,
+        selected: service === translationService,
+      })),
+    });
+
+    this.translationTextServiceTooltip = new Tooltip({
+      target: this.translationTextServiceLabel.icon,
+      content: localizationProvider.get("VOTNotAffectToVoice"),
+      position: "bottom",
+      backgroundColor: "var(--vot-helper-ondialog)",
+      parentElement: this.globalPortal,
+    });
+
+    this.detectServiceLabel = new SelectLabel({
+      labelText: localizationProvider.get("VOTDetectService"),
+    });
+    const detectService = this.data.detectService ?? defaultDetectService;
+    this.detectServiceSelect = new Select({
+      selectTitle: localizationProvider.get(`services.${detectService}`),
+      dialogTitle: localizationProvider.get("VOTDetectService"),
+      dialogParent: this.globalPortal,
+      labelElement: this.detectServiceLabel.container,
+      items: detectServices.map((service) => ({
+        label: localizationProvider.get(`services.${service}`),
+        value: service,
+        selected: service === detectService,
+      })),
+    });
+
+    this.appearanceDetails = new Details({
+      titleHtml: localizationProvider.get("appearance"),
+    });
+
+    this.aboutExtensionDetails = new Details({
+      titleHtml: localizationProvider.get("aboutExtension"),
+    });
+
+    this.bugReportButton = UI.createOutlinedButton(
+      localizationProvider.get("VOTBugReport"),
+    );
+    this.resetSettingsButton = UI.createButton(
+      localizationProvider.get("resetSettings"),
+    );
+
+    this.dialog.bodyContainer.append(
+      this.miscSettingsHeader,
+      this.translateAPIErrorsCheckbox.container,
+      this.useNewAudioPlayerCheckbox.container,
+      this.onlyBypassMediaCSPCheckbox.container,
+      this.translationTextServiceSelect.container,
+      this.detectServiceSelect.container,
+      this.appearanceDetails.container,
+      this.aboutExtensionDetails.container,
+      this.bugReportButton,
+      this.resetSettingsButton,
+    );
+
+    // #endregion Misc
+    return this;
+  }
+
+  initUIEvents() {
+    if (!this.isInitialized()) {
+      throw new Error("[VOT] SettingsView isn't initialized");
+    }
+
+    // #region [Events]
+    // #region [Events] Translation
+    this.autoTranslateCheckbox.addEventListener("change", async (checked) => {
+      this.data.autoTranslate = checked;
+      await votStorage.set("autoTranslate", this.data.autoTranslate);
+      utils_debug.log("autoTranslate value changed. New value:", checked);
+      this.onChangeAutoTranslate.dispatch(checked);
+    });
+
+    this.dontTranslateLanguagesCheckbox.addEventListener(
+      "change",
+      async (checked) => {
+        this.data.enabledDontTranslateLanguages = checked;
+        await votStorage.set(
+          "enabledDontTranslateLanguages",
+          this.data.enabledDontTranslateLanguages,
+        );
+        utils_debug.log(
+          "enabledDontTranslateLanguages value changed. New value:",
+          checked,
+        );
+      },
+    );
+
+    this.dontTranslateLanguagesSelect.addEventListener(
+      "selectItem",
+      async (values) => {
+        this.data.dontTranslateLanguages = values;
+        await votStorage.set(
+          "dontTranslateLanguages",
+          this.data.dontTranslateLanguages,
+        );
+        utils_debug.log("dontTranslateLanguages value changed. New value:", values);
+      },
+    );
+
+    this.autoSetVolumeCheckbox.addEventListener("change", async (checked) => {
+      this.data.enabledAutoVolume = checked;
+      await votStorage.set("enabledAutoVolume", this.data.enabledAutoVolume);
+      utils_debug.log("enabledAutoVolume value changed. New value:", checked);
+    });
+
+    this.autoSetVolumeSlider.addEventListener("input", async (value) => {
+      this.data.autoVolume = this.autoSetVolumeSliderLabel.value = value;
+      await votStorage.set("autoVolume", this.data.autoVolume);
+      utils_debug.log("autoVolume value changed. New value:", value);
+    });
+
+    this.showVideoVolumeSliderCheckbox.addEventListener(
+      "change",
+      async (checked) => {
+        this.data.showVideoSlider = checked;
+        await votStorage.set("showVideoSlider", this.data.showVideoSlider);
+        utils_debug.log("showVideoVolumeSlider value changed. New value:", checked);
+        this.onChangeShowVideoVolume.dispatch(checked);
+      },
+    );
+
+    this.audioBoosterCheckbox.addEventListener("change", async (checked) => {
+      this.data.audioBooster = checked;
+      await votStorage.set("audioBooster", this.data.audioBooster);
+      utils_debug.log("audioBooster value changed. New value:", checked);
+      this.onChangeAudioBooster.dispatch(checked);
+    });
+
+    this.syncVolumeCheckbox.addEventListener("change", async (checked) => {
+      this.data.syncVolume = checked;
+      await votStorage.set("syncVolume", this.data.syncVolume);
+      utils_debug.log("syncVolume value changed. New value:", checked);
+    });
+
+    this.downloadWithNameCheckbox.addEventListener(
+      "change",
+      async (checked) => {
+        this.data.downloadWithName = checked;
+        await votStorage.set("downloadWithName", this.data.downloadWithName);
+        utils_debug.log("downloadWithName value changed. New value:", checked);
+      },
+    );
+
+    this.sendNotifyOnCompleteCheckbox.addEventListener(
+      "change",
+      async (checked) => {
+        this.data.sendNotifyOnComplete = checked;
+        await votStorage.set(
+          "sendNotifyOnComplete",
+          this.data.sendNotifyOnComplete,
+        );
+        utils_debug.log("sendNotifyOnComplete value changed. New value:", checked);
+      },
+    );
+
+    this.useLivelyVoiceCheckbox.addEventListener("change", async (checked) => {
+      this.data.useNewModel = checked;
+      await votStorage.set("useNewModel", this.data.useNewModel);
+      utils_debug.log("useNewModel value changed. New value:", checked);
+      this.onChangeUseLivelyVoice.dispatch(checked);
+    });
+
+    // #endregion [Events] Translation
+    // #region [Events] Subtitles
+    this.subtitlesDownloadFormatSelect.addEventListener(
+      "selectItem",
+      async (item) => {
+        this.data.subtitlesDownloadFormat = item;
+        await votStorage.set(
+          "subtitlesDownloadFormat",
+          this.data.subtitlesDownloadFormat,
+        );
+        utils_debug.log("subtitlesDownloadFormat value changed. New value:", item);
+      },
+    );
+    this.subtitlesDesignDetails.addEventListener("click", () => {
+      const dialog = new Dialog({
+        titleHtml: localizationProvider.get("VOTSubtitlesDesign"),
+        isTemp: true,
+      });
+      this.globalPortal.appendChild(dialog.container);
+
+      // #region [Events] Subtitles Dialog UI
+      const subtitlesHighlightWordsCheckbox = new Checkbox({
+        labelHtml: localizationProvider.get("VOTHighlightWords"),
+        checked: this.data.highlightWords,
+      });
+
+      const subtitlesMaxLength = this.data.subtitlesMaxLength ?? 300;
+      const subtitlesMaxLengthSliderLabel = new SliderLabel({
+        labelText: localizationProvider.get("VOTSubtitlesMaxLength"),
+        labelEOL: ":",
+        symbol: "",
+        value: subtitlesMaxLength,
+      });
+      const subtitlesMaxLengthSlider = new Slider({
+        labelHtml: subtitlesMaxLengthSliderLabel.container,
+        value: subtitlesMaxLength,
+        min: 50,
+        max: 300,
+      });
+
+      const subtitlesFontSize = this.data.subtitlesFontSize ?? 20;
+      const subtitlesFontSizeSliderLabel = new SliderLabel({
+        labelText: localizationProvider.get("VOTSubtitlesFontSize"),
+        labelEOL: ":",
+        symbol: "px",
+        value: subtitlesFontSize,
+      });
+      const subtitlesFontSizeSlider = new Slider({
+        labelHtml: subtitlesFontSizeSliderLabel.container,
+        value: subtitlesFontSize,
+        min: 8,
+        max: 50,
+      });
+
+      const subtitlesBackgroundOpacity = this.data.subtitlesOpacity ?? 20;
+      const subtitlesBackgroundOpacitySliderLabel = new SliderLabel({
+        labelText: localizationProvider.get("VOTSubtitlesOpacity"),
+        labelEOL: ":",
+        value: subtitlesBackgroundOpacity,
+      });
+
+      const subtitlesBackgroundOpacitySlider = new Slider({
+        labelHtml: subtitlesBackgroundOpacitySliderLabel.container,
+        value: subtitlesBackgroundOpacity,
+      });
+
+      dialog.bodyContainer.append(
+        subtitlesHighlightWordsCheckbox.container,
+        subtitlesMaxLengthSlider.container,
+        subtitlesFontSizeSlider.container,
+        subtitlesBackgroundOpacitySlider.container,
+      );
+
+      // #endregion [Events] Subtitles Dialog UI
+      // #region [Events] Subtitles Dialog Events
+      subtitlesHighlightWordsCheckbox.addEventListener(
+        "change",
+        async (checked) => {
+          this.data.highlightWords = checked;
+          await votStorage.set("highlightWords", this.data.highlightWords);
+          utils_debug.log("highlightWords value changed. New value:", checked);
+          this.onChangeSubtitlesHighlightWords.dispatch(checked);
+        },
+      );
+      subtitlesMaxLengthSlider.addEventListener("input", (value) => {
+        subtitlesMaxLengthSliderLabel.value = value;
+        this.data.subtitlesMaxLength = value;
+        votStorage.set("subtitlesMaxLength", this.data.subtitlesMaxLength);
+        utils_debug.log("highlightWords value changed. New value:", value);
+        this.onInputSubtitlesMaxLength.dispatch(value);
+      });
+
+      subtitlesFontSizeSlider.addEventListener("input", (value) => {
+        subtitlesFontSizeSliderLabel.value = value;
+        this.data.subtitlesFontSize = value;
+        votStorage.set("subtitlesFontSize", this.data.subtitlesFontSize);
+        utils_debug.log("subtitlesFontSize value changed. New value:", value);
+        this.onInputSubtitlesFontSize.dispatch(value);
+      });
+
+      subtitlesBackgroundOpacitySlider.addEventListener("input", (value) => {
+        subtitlesBackgroundOpacitySliderLabel.value = value;
+        this.data.subtitlesOpacity = value;
+        votStorage.set("subtitlesOpacity", this.data.subtitlesOpacity);
+        utils_debug.log("subtitlesOpacity value changed. New value:", value);
+        this.onInputSubtitlesBackgroundOpacity.dispatch(value);
+      });
+
+      // #endregion [Events] Subtitles Dialog Events
+    });
+
+    // #endregion [Events] Settings Subtitles
+    // #region [Events] Hotkeys
+    this.translateHotkeyButton.addEventListener("change", async (key) => {
+      this.data.translationHotkey = key;
+      await votStorage.set("translationHotkey", this.data.translationHotkey);
+      utils_debug.log("translationHotkey value changed. New value:", key);
+    });
+
+    // #endregion [Events] Hotkeys
+    // #region [Events] Proxy
+    this.proxyM3U8HostTextfield.addEventListener("change", async (value) => {
+      this.data.m3u8ProxyHost = value || m3u8ProxyHost;
+      await votStorage.set("m3u8ProxyHost", this.data.m3u8ProxyHost);
+      utils_debug.log(
+        "m3u8ProxyHost value changed. New value:",
+        this.data.m3u8ProxyHost,
+      );
+    });
+
+    this.proxyWorkerHostTextfield.addEventListener("change", async (value) => {
+      this.data.proxyWorkerHost = value || proxyWorkerHost;
+      await votStorage.set("proxyWorkerHost", this.data.proxyWorkerHost);
+      utils_debug.log(
+        "proxyWorkerHost value changed. New value:",
+        this.data.proxyWorkerHost,
+      );
+      this.onChangeProxyWorkerHost.dispatch(value);
+    });
+    this.proxyTranslationStatusSelect.addEventListener(
+      "selectItem",
+      async (item) => {
+        this.data.translateProxyEnabled = Number.parseInt(
+          item,
+        ) ;
+        await votStorage.set(
+          "translateProxyEnabled",
+          this.data.translateProxyEnabled,
+        );
+        utils_debug.log(
+          "translateProxyEnabled value changed. New value:",
+          this.data.translateProxyEnabled,
+        );
+        this.onSelectItemProxyTranslationStatus.dispatch(item);
+      },
+    );
+
+    // #endregion [Events] Proxy
+    // #region [Events] Misc
+    this.translateAPIErrorsCheckbox.addEventListener(
+      "change",
+      async (checked) => {
+        this.data.translateAPIErrors = checked;
+        await votStorage.set(
+          "translateAPIErrors",
+          this.data.translateAPIErrors,
+        );
+        utils_debug.log("translateAPIErrors value changed. New value:", checked);
+      },
+    );
+
+    this.useNewAudioPlayerCheckbox.addEventListener(
+      "change",
+      async (checked) => {
+        this.data.newAudioPlayer = checked;
+        await votStorage.set("newAudioPlayer", this.data.newAudioPlayer);
+        utils_debug.log("newAudioPlayer value changed. New value:", checked);
+        this.onlyBypassMediaCSPCheckbox.disabled =
+          this.onlyBypassMediaCSPCheckbox.hidden = !checked;
+        this.onChangeUseNewAudioPlayer.dispatch(checked);
+      },
+    );
+
+    this.onlyBypassMediaCSPCheckbox.addEventListener(
+      "change",
+      async (checked) => {
+        this.data.onlyBypassMediaCSP = checked;
+        await votStorage.set(
+          "onlyBypassMediaCSP",
+          this.data.onlyBypassMediaCSP,
+        );
+        utils_debug.log("onlyBypassMediaCSP value changed. New value:", checked);
+        this.onChangeOnlyBypassMediaCSP.dispatch(checked);
+      },
+    );
+
+    this.translationTextServiceSelect.addEventListener(
+      "selectItem",
+      async (item) => {
+        this.data.translationService = item;
+        await votStorage.set(
+          "translationService",
+          this.data.translationService,
+        );
+        utils_debug.log("translationService value changed. New value:", item);
+        this.onSelectItemTranslationTextService.dispatch(item);
+      },
+    );
+
+    this.detectServiceSelect.addEventListener("selectItem", async (item) => {
+      this.data.detectService = item;
+      await votStorage.set("detectService", this.data.detectService);
+      utils_debug.log("detectService value changed. New value:", item);
+    });
+
+    this.appearanceDetails.addEventListener("click", () => {
+      const dialog = new Dialog({
+        titleHtml: localizationProvider.get("appearance"),
+        isTemp: true,
+      });
+      this.globalPortal.appendChild(dialog.container);
+
+      // #region [Events] Misc Dialog UI
+      const showPiPButtonCheckbox = new Checkbox({
+        labelHtml: localizationProvider.get("VOTShowPiPButton"),
+        checked: this.data.showPiPButton,
+      });
+      showPiPButtonCheckbox.hidden = !isPiPAvailable();
+
+      const autoHideButtonDelay = this.data.autoHideButtonDelay ?? 1;
+      const autoHideButtonDelaySliderLabel = new SliderLabel({
+        labelText: localizationProvider.get("autoHideButtonDelay"),
+        labelEOL: ":",
+        symbol: ` ${localizationProvider.get("secs")}`,
+        value: autoHideButtonDelay,
+      });
+
+      const autoHideButtonDelaySlider = new Slider({
+        labelHtml: autoHideButtonDelaySliderLabel.container,
+        value: autoHideButtonDelay,
+        min: 0.1,
+        max: 3,
+        step: 0.1,
+      });
+
+      const buttonPositionSelectLabel = new SelectLabel({
+        labelText: localizationProvider.get("buttonPositionInWidePlayer"),
+        icon: HELP_ICON,
+      });
+      const buttonPositionSelect = new Select({
+        selectTitle: localizationProvider.get("buttonPositionInWidePlayer"),
+        dialogTitle: localizationProvider.get("buttonPositionInWidePlayer"),
+        labelElement: buttonPositionSelectLabel.container,
+        dialogParent: this.globalPortal,
+        items: votButton_positions.map((position) => ({
+          label: localizationProvider.get(`position.${position}`),
+          value: position,
+          selected: position === this.data.buttonPos,
+        })),
+      });
+      const buttonPositionTooltip = new Tooltip({
+        target: buttonPositionSelectLabel.icon,
+        content: localizationProvider.get("minButtonPositionContainer"),
+        position: "bottom",
+        backgroundColor: "var(--vot-helper-ondialog)",
+        parentElement: this.globalPortal,
+      });
+
+      const menuLanguageSelectLabel = new SelectLabel({
+        labelText: localizationProvider.get("VOTMenuLanguage"),
+      });
+      const menuLanguageSelect = new Select({
+        selectTitle: localizationProvider.get(
+          `langs.${localizationProvider.getLangOverride() }`,
+        ),
+        dialogTitle: localizationProvider.get("VOTMenuLanguage"),
+        labelElement: menuLanguageSelectLabel.container,
+        dialogParent: this.globalPortal,
+        items: Select.genLanguageItems(
+          localizationProvider.getAvailableLangs(),
+          localizationProvider.getLangOverride(),
+        ),
+      });
+
+      dialog.bodyContainer.append(
+        showPiPButtonCheckbox.container,
+        autoHideButtonDelaySlider.container,
+        buttonPositionSelect.container,
+        menuLanguageSelect.container,
+      );
+
+      // #endregion [Events] Misc Dialog UI
+      // #region [Events] Misc Dialog Events
+      dialog.addEventListener("close", () => {
+        buttonPositionTooltip.release();
+      });
+
+      showPiPButtonCheckbox.addEventListener("change", async (checked) => {
+        this.data.showPiPButton = checked;
+        await votStorage.set("showPiPButton", this.data.showPiPButton);
+        utils_debug.log("showPiPButton value changed. New value:", checked);
+        this.onChangeShowPiPButton.dispatch(checked);
+      });
+
+      autoHideButtonDelaySlider.addEventListener("input", async (value) => {
+        utils_debug.log("autoHideButtonDelay value changed. New value:", value);
+        autoHideButtonDelaySliderLabel.value = value;
+        this.data.autoHideButtonDelay = value;
+        await votStorage.set(
+          "autoHideButtonDelay",
+          this.data.autoHideButtonDelay,
+        );
+        this.onInputAutoHideButtonDelay.dispatch(value);
+      });
+
+      buttonPositionSelect.addEventListener("selectItem", async (item) => {
+        utils_debug.log("buttonPos value changed. New value:", item);
+        this.data.buttonPos = item;
+        await votStorage.set("buttonPos", this.data.buttonPos);
+        this.onSelectItemButtonPosition.dispatch(item);
+      });
+
+      menuLanguageSelect.addEventListener("selectItem", async (item) => {
+        const oldLang = localizationProvider.getLangOverride();
+        if (oldLang === item) {
+          return;
+        }
+
+        utils_debug.log("menuLanguage value changed. New value:", item);
+        await votStorage.set("localeLangOverride", item);
+        localizationProvider.lang = localizationProvider.getLang();
+        await localizationProvider.update(true);
+        this.data.localeUpdatedAt = await votStorage.get("localeUpdatedAt", 0);
+        this.onSelectItemMenuLanguage.dispatch(item);
+      });
+
+      // #endregion [Events] Misc Dialog Events
+    });
+
+    this.aboutExtensionDetails.addEventListener("click", () => {
+      const dialog = new Dialog({
+        titleHtml: localizationProvider.get("aboutExtension"),
+        isTemp: true,
+      });
+      this.globalPortal.appendChild(dialog.container);
+
+      const versionInfo = UI.createInformation(
+        `${localizationProvider.get("VOTVersion")}:`,
+        GM_info.script.version || localizationProvider.get("notFound"),
+      );
+
+      const authorsInfo = UI.createInformation(
+        `${localizationProvider.get("VOTAuthors")}:`,
+        (GM_info.script ).author ??
+          localizationProvider.get("notFound"),
+      );
+
+      const loaderInfo = UI.createInformation(
+        `${localizationProvider.get("VOTLoader")}:`,
+        `${GM_info.scriptHandler} v${GM_info.version}`,
+      );
+
+      const userBrowserInfo = UI.createInformation(
+        `${localizationProvider.get("VOTBrowser")}:`,
+        `${browserInfo.browser.name} ${browserInfo.browser.version} (${browserInfo.os.name} ${browserInfo.os.version})`,
+      );
+
+      const localeUpdatedAt = new Date(
+        (this.data.localeUpdatedAt ?? 0) * 1000,
+      ).toLocaleString();
+      const localeInfoValue = x`${this.data.localeHash}<br />(${localizationProvider.get(
+          "VOTUpdatedAt",
+        )}
+        ${localeUpdatedAt})`;
+
+      const localeInfo = UI.createInformation(
+        `${localizationProvider.get("VOTLocaleHash")}:`,
+        localeInfoValue,
+      );
+
+      const updateLocaleFilesButton = UI.createOutlinedButton(
+        localizationProvider.get("VOTUpdateLocaleFiles"),
+      );
+
+      dialog.bodyContainer.append(
+        versionInfo.container,
+        authorsInfo.container,
+        loaderInfo.container,
+        userBrowserInfo.container,
+        localeInfo.container,
+        updateLocaleFilesButton,
+      );
+
+      updateLocaleFilesButton.addEventListener("click", async () => {
+        await votStorage.set("localeHash", "");
+        await localizationProvider.update(true);
+        window.location.reload();
+      });
+    });
+
+    this.bugReportButton.addEventListener("click", () => {
+      this.onClickBugReport.dispatch();
+    });
+
+    this.resetSettingsButton.addEventListener("click", () => {
+      this.onClickResetSettings.dispatch();
+    });
+
+    // #endregion [Events]
+    return this;
+  }
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  addEventListener(
+    type
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+,
+    // biome-ignore lint/suspicious/noExplicitAny: it's ok trust me
+    listener,
+  ) {
+    switch (type) {
+      case "click:bugReport": {
+        this.onClickBugReport.addListener(listener);
+        break;
+      }
+      case "click:resetSettings": {
+        this.onClickResetSettings.addListener(listener);
+        break;
+      }
+      case "change:autoTranslate": {
+        this.onChangeAutoTranslate.addListener(listener);
+        break;
+      }
+      case "change:showVideoVolume": {
+        this.onChangeShowVideoVolume.addListener(listener);
+        break;
+      }
+      case "change:audioBuster": {
+        this.onChangeAudioBooster.addListener(listener);
+        break;
+      }
+      case "change:useLivelyVoice": {
+        this.onChangeUseLivelyVoice.addListener(listener);
+        break;
+      }
+      case "change:subtitlesHighlightWords": {
+        this.onChangeSubtitlesHighlightWords.addListener(listener);
+        break;
+      }
+      case "change:proxyWorkerHost": {
+        this.onChangeProxyWorkerHost.addListener(listener);
+        break;
+      }
+      case "change:useNewAudioPlayer": {
+        this.onChangeUseNewAudioPlayer.addListener(listener);
+        break;
+      }
+      case "change:onlyBypassMediaCSP": {
+        this.onChangeOnlyBypassMediaCSP.addListener(listener);
+        break;
+      }
+      case "change:showPiPButton": {
+        this.onChangeShowPiPButton.addListener(listener);
+        break;
+      }
+      case "input:subtitlesMaxLength": {
+        this.onInputSubtitlesMaxLength.addListener(listener);
+        break;
+      }
+      case "input:subtitlesFontSize": {
+        this.onInputSubtitlesFontSize.addListener(listener);
+        break;
+      }
+      case "input:subtitlesBackgroundOpacity": {
+        this.onInputSubtitlesBackgroundOpacity.addListener(listener);
+        break;
+      }
+      case "input:autoHideButtonDelay": {
+        this.onInputAutoHideButtonDelay.addListener(listener);
+        break;
+      }
+      case "select:proxyTranslationStatus": {
+        this.onSelectItemProxyTranslationStatus.addListener(listener);
+        break;
+      }
+      case "select:translationTextService": {
+        this.onSelectItemTranslationTextService.addListener(listener);
+        break;
+      }
+      case "select:buttonPosition": {
+        this.onSelectItemButtonPosition.addListener(listener);
+        break;
+      }
+      case "select:menuLanguage": {
+        this.onSelectItemMenuLanguage.addListener(listener);
+        break;
+      }
+    }
+
+    return this;
+  }
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  removeEventListener(
+    type
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+,
+    // biome-ignore lint/suspicious/noExplicitAny: it's ok trust me
+    listener,
+  ) {
+    switch (type) {
+      case "click:bugReport": {
+        this.onClickBugReport.removeListener(listener);
+        break;
+      }
+      case "click:resetSettings": {
+        this.onClickResetSettings.removeListener(listener);
+        break;
+      }
+      case "change:autoTranslate": {
+        this.onChangeAutoTranslate.removeListener(listener);
+        break;
+      }
+      case "change:showVideoVolume": {
+        this.onChangeShowVideoVolume.removeListener(listener);
+        break;
+      }
+      case "change:audioBuster": {
+        this.onChangeAudioBooster.removeListener(listener);
+        break;
+      }
+      case "change:useLivelyVoice": {
+        this.onChangeUseLivelyVoice.removeListener(listener);
+        break;
+      }
+      case "change:subtitlesHighlightWords": {
+        this.onChangeSubtitlesHighlightWords.removeListener(listener);
+        break;
+      }
+      case "change:proxyWorkerHost": {
+        this.onChangeProxyWorkerHost.removeListener(listener);
+        break;
+      }
+      case "change:useNewAudioPlayer": {
+        this.onChangeUseNewAudioPlayer.removeListener(listener);
+        break;
+      }
+      case "change:onlyBypassMediaCSP": {
+        this.onChangeOnlyBypassMediaCSP.removeListener(listener);
+        break;
+      }
+      case "change:showPiPButton": {
+        this.onChangeShowPiPButton.removeListener(listener);
+        break;
+      }
+      case "input:subtitlesMaxLength": {
+        this.onInputSubtitlesMaxLength.removeListener(listener);
+        break;
+      }
+      case "input:subtitlesFontSize": {
+        this.onInputSubtitlesFontSize.removeListener(listener);
+        break;
+      }
+      case "input:subtitlesBackgroundOpacity": {
+        this.onInputSubtitlesBackgroundOpacity.removeListener(listener);
+        break;
+      }
+      case "input:autoHideButtonDelay": {
+        this.onInputAutoHideButtonDelay.removeListener(listener);
+        break;
+      }
+      case "select:proxyTranslationStatus": {
+        this.onSelectItemProxyTranslationStatus.removeListener(listener);
+        break;
+      }
+      case "select:translationTextService": {
+        this.onSelectItemTranslationTextService.removeListener(listener);
+        break;
+      }
+      case "select:buttonPosition": {
+        this.onSelectItemButtonPosition.removeListener(listener);
+        break;
+      }
+      case "select:menuLanguage": {
+        this.onSelectItemMenuLanguage.removeListener(listener);
+        break;
+      }
+    }
+
+    return this;
+  }
+
+  releaseUI(initialized = false) {
+    if (!this.isInitialized()) {
+      throw new Error("[VOT] SettingsView isn't initialized");
+    }
+
+    this.dialog.remove();
+    this.audioBoosterTooltip?.release();
+    this.useNewAudioPlayerTooltip?.release();
+    this.onlyBypassMediaCSPTooltip?.release();
+    this.translationTextServiceTooltip?.release();
+
+    this.initialized = initialized;
+    return this;
+  }
+
+  releaseUIEvents(initialized = false) {
+    if (!this.isInitialized()) {
+      throw new Error("[VOT] SettingsView isn't initialized");
+    }
+
+    this.onClickBugReport.clear();
+    this.onClickResetSettings.clear();
+
+    this.onChangeAutoTranslate.clear();
+    this.onChangeShowVideoVolume.clear();
+    this.onChangeAudioBooster.clear();
+    this.onChangeUseLivelyVoice.clear();
+    this.onChangeSubtitlesHighlightWords.clear();
+    this.onChangeProxyWorkerHost.clear();
+    this.onChangeUseNewAudioPlayer.clear();
+    this.onChangeOnlyBypassMediaCSP.clear();
+    this.onChangeShowPiPButton.clear();
+
+    this.onInputSubtitlesMaxLength.clear();
+    this.onInputSubtitlesFontSize.clear();
+    this.onInputSubtitlesBackgroundOpacity.clear();
+    this.onInputAutoHideButtonDelay.clear();
+
+    this.onSelectItemProxyTranslationStatus.clear();
+    this.onSelectItemTranslationTextService.clear();
+    this.onSelectItemButtonPosition.clear();
+    this.onSelectItemMenuLanguage.clear();
+
+    this.initialized = initialized;
+    return this;
+  }
+
+  release() {
+    this.releaseUI(true);
+    this.releaseUIEvents(false);
+    return this;
+  }
+
+  open() {
+    if (!this.isInitialized()) {
+      throw new Error("[VOT] SettingsView isn't initialized");
+    }
+
+    return this.dialog.open();
+  }
+
+  close() {
+    if (!this.isInitialized()) {
+      throw new Error("[VOT] SettingsView isn't initialized");
+    }
+
+    return this.dialog.close();
+  }
+}
+
+;// ./src/ui/manager.ts
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class UIManager {
+  root;
+  portalContainer;
+  tooltipLayoutRoot;
+
+   initialized = false;
+   data;
+   videoHandler;
+
+  votGlobalPortal;
+  /**
+   * Contains all elements over video player e.g. button, menu and etc
+   */
+  votOverlayView;
+  /**
+   * Dialog settings menu
+   */
+  votSettingsView;
+
+  constructor({
+    root,
+    portalContainer,
+    tooltipLayoutRoot,
+    data = {},
+    videoHandler,
+  }) {
+    this.root = root;
+    this.portalContainer = portalContainer;
+    this.tooltipLayoutRoot = tooltipLayoutRoot;
+    this.videoHandler = videoHandler;
+    this.data = data;
+  }
+
+  isInitialized()
+
+
+
+ {
+    return this.initialized;
+  }
+
+  initUI() {
+    if (this.isInitialized()) {
+      throw new Error("[VOT] UIManager is already initialized");
+    }
+
+    this.initialized = true;
+
+    this.votGlobalPortal = UI.createPortal();
+    document.documentElement.appendChild(this.votGlobalPortal);
+
+    this.votOverlayView = new OverlayView({
+      root: this.root,
+      portalContainer: this.portalContainer,
+      tooltipLayoutRoot: this.tooltipLayoutRoot,
+      globalPortal: this.votGlobalPortal,
+      data: this.data,
+      videoHandler: this.videoHandler,
+    });
+    this.votOverlayView.initUI();
+
+    this.votSettingsView = new SettingsView({
+      globalPortal: this.votGlobalPortal,
+      data: this.data,
+      videoHandler: this.videoHandler,
+    });
+    this.votSettingsView.initUI();
+
+    return this;
+  }
+
+  initUIEvents() {
+    if (!this.isInitialized()) {
+      throw new Error("[VOT] UIManager isn't initialized");
+    }
+
+    // #region overlay view events
+    this.votOverlayView.initUIEvents();
+    this.votOverlayView
+      .addEventListener("click:translate", async () => {
+        await this.videoHandler?.translationHandler.handleTranslationBtnClick();
+      })
+      .addEventListener("click:pip", async () => {
+        if (!this.videoHandler) {
+          return;
+        }
+
+        const isPiPActive =
+          this.videoHandler.video === document.pictureInPictureElement;
+        await (isPiPActive
+          ? document.exitPictureInPicture()
+          : this.videoHandler.video.requestPictureInPicture());
+      })
+      .addEventListener("click:settings", async () => {
+        this.videoHandler?.subtitlesWidget.releaseTooltip();
+        this.votSettingsView.open();
+        await exitFullscreen();
+      })
+      .addEventListener("click:downloadTranslation", async () => {
+        if (!this.videoHandler?.downloadTranslationUrl) return;
+        try {
+          if (!this.data.downloadWithName) {
+            return window
+              .open(this.videoHandler.downloadTranslationUrl, "_blank")
+              ?.focus();
+          }
+          // TODO: add loading animation or change text %
+          const res = await GM_fetch(this.videoHandler.downloadTranslationUrl, {
+            timeout: 0,
+          });
+          if (!res.ok) {
+            throw new Error(`HTTP ${res.status}`);
+          }
+
+          const contentLength = +res.headers.get("Content-Length");
+          const reader = res.body.getReader();
+          const chunksBuffer = new Uint8Array(contentLength);
+          let offset = 0;
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            chunksBuffer.set(value, offset);
+            offset += value.length;
+            // updateAnimation(Math.round((offset / contentLength) * 100));
+          }
+          const filename = clearFileName(
+            // biome-ignore lint/style/noNonNullAssertion: remove ! after rewriting index.js to ts
+            this.videoHandler.videoData.downloadTitle,
+          );
+          const writer = new browser_id3_writer_o(chunksBuffer.buffer);
+          writer.setFrame("TIT2", filename);
+          writer.addTag();
+          downloadBlob(writer.getBlob(), `${filename}.mp3`);
+        } catch (err) {
+          console.error("[VOT] Download failed:", err);
+          this.transformBtn(
+            "error",
+            localizationProvider.get("downloadFailed"),
+          );
+        }
+      })
+      .addEventListener("click:downloadSubtitles", async () => {
+        if (
+          !this.videoHandler ||
+          !this.videoHandler.yandexSubtitles ||
+          !this.videoHandler.videoData
+        ) {
+          return;
+        }
+
+        const subsFormat = this.data.subtitlesDownloadFormat ?? "json";
+        const subsContent = convertSubs(
+          this.videoHandler.yandexSubtitles,
+          subsFormat,
+        );
+        const blob = new Blob(
+          [
+            subsFormat === "json"
+              ? JSON.stringify(subsContent)
+              : (subsContent ),
+          ],
+          {
+            type: "text/plain",
+          },
+        );
+        const filename = this.data.downloadWithName
+          ? clearFileName(this.videoHandler.videoData.downloadTitle)
+          : `subtitles_${this.videoHandler.videoData.videoId}`;
+        downloadBlob(blob, `${filename}.${subsFormat}`);
+      })
+      .addEventListener("input:videoVolume", (volume) => {
+        if (!this.videoHandler) {
+          return;
+        }
+
+        this.videoHandler.setVideoVolume(volume / 100);
+        if (this.data.syncVolume) {
+          this.videoHandler.syncVolumeWrapper("video", volume);
+        }
+      })
+      .addEventListener("input:translationVolume", () => {
+        if (!this.videoHandler) {
+          return;
+        }
+
+        const defaultVolume = this.data.defaultVolume ?? 100;
+        this.videoHandler.audioPlayer.player.volume = defaultVolume / 100;
+        if (!this.data.syncVolume) {
+          return;
+        }
+
+        this.videoHandler.syncVolumeWrapper("translation", defaultVolume);
+        if (
+          ["youtube", "googledrive"].includes(this.videoHandler.site.host) &&
+          this.videoHandler.site.additionalData !== "mobile"
+        ) {
+          this.videoHandler.setVideoVolume(
+            this.videoHandler.tempOriginalVolume / 100,
+          );
+        }
+      })
+      .addEventListener("select:subtitles", async (data) => {
+        await this.videoHandler?.changeSubtitlesLang(data);
+      });
+
+    // #endregion overlay view events
+    // #region settings view events
+    this.votSettingsView.initUIEvents();
+    this.votSettingsView
+      .addEventListener("change:autoTranslate", async (checked) => {
+        if (
+          checked &&
+          this.videoHandler &&
+          !this.videoHandler.audioPlayer.player.src
+        ) {
+          await this.videoHandler.translationHandler.handleTranslationBtnClick();
+        }
+      })
+      .addEventListener("change:showVideoVolume", () => {
+        if (!this.votOverlayView.isInitialized()) {
+          return;
+        }
+
+        this.votOverlayView.videoVolumeSlider.container.hidden =
+          !this.data.showVideoSlider ||
+          this.votOverlayView.votButton.status !== "success";
+      })
+      .addEventListener("change:audioBuster", async () => {
+        if (!this.votOverlayView.isInitialized()) {
+          return;
+        }
+
+        const currentVolume = this.votOverlayView.translationVolumeSlider.value;
+        this.votOverlayView.translationVolumeSlider.max = this.data.audioBooster
+          ? maxAudioVolume
+          : 100;
+        this.votOverlayView.translationVolumeSlider.value = clamp(
+          currentVolume,
+          0,
+          100,
+        );
+      })
+      .addEventListener("change:useLivelyVoice", () => {
+        this.videoHandler?.stopTranslate();
+      })
+      .addEventListener("change:subtitlesHighlightWords", (checked) => {
+        this.videoHandler?.subtitlesWidget.setHighlightWords(
+          this.data.highlightWords ?? checked,
+        );
+      })
+      .addEventListener("input:subtitlesMaxLength", (value) => {
+        this.videoHandler?.subtitlesWidget.setMaxLength(
+          this.data.subtitlesMaxLength ?? value,
+        );
+      })
+      .addEventListener("input:subtitlesFontSize", (value) => {
+        this.videoHandler?.subtitlesWidget.setFontSize(
+          this.data.subtitlesFontSize ?? value,
+        );
+      })
+      .addEventListener("input:subtitlesBackgroundOpacity", (value) => {
+        this.videoHandler?.subtitlesWidget.setOpacity(
+          this.data.subtitlesOpacity ?? value,
+        );
+      })
+      .addEventListener("change:proxyWorkerHost", (value) => {
+        if (!this.data.translateProxyEnabled || !this.videoHandler) {
+          return;
+        }
+
+        this.videoHandler.votClient.host = this.data.proxyWorkerHost ?? value;
+      })
+      .addEventListener("select:proxyTranslationStatus", () => {
+        this.videoHandler?.initVOTClient();
+      })
+      .addEventListener("change:useNewAudioPlayer", () => {
+        if (!this.videoHandler) {
+          return;
+        }
+
+        this.videoHandler.stopTranslate();
+        this.videoHandler.createPlayer();
+      })
+      .addEventListener("change:onlyBypassMediaCSP", () => {
+        if (!this.videoHandler) {
+          return;
+        }
+
+        this.videoHandler.stopTranslate();
+        this.videoHandler.createPlayer();
+      })
+      .addEventListener("select:translationTextService", () => {
+        if (!this.videoHandler) {
+          return;
+        }
+
+        this.videoHandler.subtitlesWidget.strTranslatedTokens = "";
+        this.videoHandler.subtitlesWidget.releaseTooltip();
+      })
+      .addEventListener("change:showPiPButton", () => {
+        if (!this.votOverlayView.isInitialized()) {
+          return;
+        }
+
+        this.votOverlayView.votButton.pipButton.hidden =
+          this.votOverlayView.votButton.separator2.hidden =
+            !this.votOverlayView.pipButtonVisible;
+      })
+      .addEventListener("input:autoHideButtonDelay", (value) => {
+        // TODO: add logic
+      })
+      .addEventListener("select:buttonPosition", (item) => {
+        if (!this.votOverlayView.isInitialized()) {
+          return;
+        }
+
+        const newPosition = this.data.buttonPos ?? item;
+        this.votOverlayView.updateButtonLayout(
+          newPosition,
+          VOTButton.calcDirection(newPosition),
+        );
+      })
+      .addEventListener("select:menuLanguage", async () => {
+        this.videoHandler?.stopTranslation();
+        this.release();
+        this.initUI();
+        this.initUIEvents();
+        if (!this.videoHandler) {
+          return;
+        }
+
+        await this.videoHandler.updateSubtitlesLangSelect();
+        this.videoHandler.subtitlesWidget.portal =
+          this.votOverlayView.votOverlayPortal;
+        this.videoHandler.subtitlesWidget.strTranslatedTokens = "";
+      })
+      .addEventListener("click:bugReport", () => {
+        if (!this.videoHandler) {
+          return;
+        }
+
+        const params = new URLSearchParams(
+          this.videoHandler.collectReportInfo(),
+        ).toString();
+
+        window.open(`${repositoryUrl}/issues/new?${params}`, "_blank")?.focus();
+      })
+      .addEventListener("click:resetSettings", async () => {
+        const valuesForClear = await votStorage.list();
+        await Promise.all(
+          valuesForClear.map(async (val) => await votStorage.delete(val)),
+        );
+
+        window.location.reload();
+      });
+
+    // #endregion settings view events
+  }
+
+   isLoadingText(text) {
+    return (
+      typeof text === "string" &&
+      (text.includes(localizationProvider.get("translationTake")) ||
+        text.includes(localizationProvider.get("TranslationDelayed")))
+    );
+  }
+
+  transformBtn(status, text) {
+    if (!this.votOverlayView?.isInitialized()) {
+      throw new Error("[VOT] OverlayView isn't initialized");
+    }
+
+    this.votOverlayView.votButton.status = status;
+    this.votOverlayView.votButton.loading =
+      status === "error" && this.isLoadingText(text);
+    this.votOverlayView.votButton.setText(text);
+    this.votOverlayView.votButtonTooltip.setContent(text);
+    return this;
+  }
+
+  releaseUI(initialized = false) {
+    if (!this.isInitialized()) {
+      throw new Error("[VOT] UIManager isn't initialized");
+    }
+
+    this.votOverlayView.releaseUI(true);
+    this.votSettingsView.releaseUI(true);
+    this.votGlobalPortal.remove();
+    this.initialized = initialized;
+
+    return this;
+  }
+
+  releaseUIEvents(initialized = false) {
+    if (!this.isInitialized()) {
+      throw new Error("[VOT] UIManager isn't initialized");
+    }
+
+    this.votOverlayView.releaseUIEvents(false);
+    this.votSettingsView.releaseUIEvents(false);
+    this.initialized = initialized;
+    return this;
+  }
+
+  release() {
+    this.releaseUI(true);
+    this.releaseUIEvents(false);
+    return this;
+  }
+}
+
 ;// ./src/index.js
 
 
@@ -11718,38 +15761,6 @@ class VideoObserver {
 
 
 
-
-
-
-
-// Get browser information for later use.
-const browserInfo = es5.getParser(window.navigator.userAgent).getResult();
-
-/**
- * Generates options for language selection.
- * @param {string[]} obj Array of language codes.
- * @param {string} conditionString Current selected language code.
- * @returns {Array<{label: string, value: string, selected: boolean}>}
- */
-function genOptionsByOBJ(obj, conditionString) {
-  return obj.map((code) => ({
-    label: localizationProvider.get("langs")[code] ?? code.toUpperCase(),
-    value: code,
-    selected: conditionString === code,
-  }));
-}
-
-/**
- * Returns the hotkey text based on the current hotkey.
- * @param {string|null} hotkey Current hotkey.
- * @returns {string} The hotkey text.
- */
-const createHotkeyText = (hotkey) =>
-  hotkey
-    ? localizationProvider
-        .get("VOTChangeHotkeyWithCurrent")
-        .replace("{0}", hotkey.replace("Key", ""))
-    : localizationProvider.get("VOTCreateTranslationHotkey");
 
 let countryCode; // Used later for proxy settings
 
@@ -11799,7 +15810,7 @@ class CacheManager {
    * @param {Object} translation The translation data.
    */
   setTranslation(key, translation) {
-    let entry = this.get(key) || {};
+    const entry = this.get(key) || {};
     entry.translation = translation;
     this.set(key, entry);
   }
@@ -11818,7 +15829,7 @@ class CacheManager {
    * @param {Array} subtitles The subtitles data.
    */
   setSubtitles(key, subtitles) {
-    let entry = this.get(key) || {};
+    const entry = this.get(key) || {};
     entry.subtitles = subtitles;
     this.set(key, entry);
   }
@@ -11827,1613 +15838,11 @@ class CacheManager {
    * @param {string} key The composite key.
    */
   deleteSubtitles(key) {
-    let entry = this.get(key);
+    const entry = this.get(key);
     if (entry) {
-      delete entry.subtitles;
+      entry.subtitles = undefined;
       this.set(key, entry);
     }
-  }
-}
-
-/*─────────────────────────────────────────────────────────────*/
-/*           Helper class: VOTUIManager                        */
-/*  Handles creation of UI elements, event registration, and UI logic  */
-/*─────────────────────────────────────────────────────────────*/
-class VOTUIManager {
-  cancelDraggingEvents = ["pointercancel", "touchcancel"];
-
-  /**
-   * @param {VideoHandler} videoHandler Parent VideoHandler instance.
-   */
-  constructor(videoHandler) {
-    this.videoHandler = videoHandler;
-  }
-
-  getButtonPos() {
-    // If a custom button position is set and container width > 550, arrange in column; otherwise row.
-    if (
-      this.videoHandler.data?.buttonPos &&
-      this.videoHandler.data?.buttonPos !== "default" &&
-      this.videoHandler.container.clientWidth > 550
-    ) {
-      return {
-        direction: "column",
-        position: this.videoHandler.data?.buttonPos,
-      };
-    }
-
-    return {
-      direction: "row",
-      position: "default",
-    };
-  }
-
-  getButtonTooltipPos(position) {
-    switch (position) {
-      case "left":
-        return "right";
-      case "right":
-        return "left";
-      default:
-        return "bottom";
-    }
-  }
-
-  getPortalContainer() {
-    return this.videoHandler.site.host === "youtube" &&
-      this.videoHandler.site.additionalData !== "mobile"
-      ? this.videoHandler.container.parentElement
-      : this.videoHandler.container;
-  }
-
-  getTooltipLayoutRoot() {
-    switch (this.videoHandler.site.host) {
-      case "kickstarter": {
-        return document.getElementById("react-project-header");
-      }
-      case "custom": {
-        return undefined;
-      }
-      default: {
-        return this.videoHandler.container;
-      }
-    }
-  }
-
-  /**
-   * Creates and initializes all UI elements.
-   */
-  initUI() {
-    // ----- VOT Button creation -----
-    // Create local Portal for button and subtitles tooltips and global for dialogs
-    this.videoHandler.votPortal = UI.createPortal(true);
-    const portalContainer = this.getPortalContainer();
-    portalContainer.appendChild(this.videoHandler.votPortal);
-    this.videoHandler.votGlobalPortal = UI.createPortal();
-    document.documentElement.appendChild(this.videoHandler.votGlobalPortal);
-
-    // Create the translation button using ui helper and set initial opacity.
-    this.videoHandler.votButton = UI.createVOTButton(
-      localizationProvider.get("translateVideo"),
-    );
-    this.videoHandler.votButton.container.style.opacity = 0;
-
-    const { position: votPosition, direction: votDirection } =
-      this.getButtonPos();
-    this.videoHandler.container.appendChild(
-      this.videoHandler.votButton.container,
-    );
-    this.videoHandler.votButtonTooltip = new Tooltip({
-      target: this.videoHandler.votButton.translateButton,
-      content: localizationProvider.get("translateVideo"),
-      position: this.getButtonTooltipPos(votPosition),
-      parentElement: this.videoHandler.votPortal,
-      layoutRoot: this.getTooltipLayoutRoot(),
-    });
-    this.updateButtonPos(votPosition, votDirection);
-
-    // Hide Picture-in-Picture (PiP) button if not available or not enabled.
-    this.videoHandler.votButton.pipButton.hidden =
-      !isPiPAvailable() || !this.videoHandler.data?.showPiPButton;
-    this.videoHandler.votButton.separator2.hidden =
-      !isPiPAvailable() || !this.videoHandler.data?.showPiPButton;
-
-    // Prevent button click events from propagating.
-    this.videoHandler.votButton.container.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-    });
-
-    // ----- VOT Menu creation -----
-    // Create settings menu and set its position based on container width.
-    this.videoHandler.votMenu = UI.createVOTMenu(
-      localizationProvider.get("VOTSettings"),
-    );
-    this.videoHandler.votMenu.container.dataset.position =
-      this.videoHandler.container.clientWidth &&
-      this.videoHandler.container.clientWidth > 550
-        ? this.videoHandler.data?.buttonPos
-        : "default";
-    this.videoHandler.container.appendChild(
-      this.videoHandler.votMenu.container,
-    );
-
-    // ----- SVG Icon Buttons -----
-    // Download Translation Button
-    this.videoHandler.votDownloadButton = UI.createIconButton(
-      b`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="100%" viewBox="0 0 24 24" class="vot-loader" id="vot-loader-download">
-            <path class="vot-loader-main" d="M12 15.575C11.8667 15.575 11.7417 15.5542 11.625 15.5125C11.5083 15.4708 11.4 15.4 11.3 15.3L7.7 11.7C7.5 11.5 7.40417 11.2667 7.4125 11C7.42083 10.7333 7.51667 10.5 7.7 10.3C7.9 10.1 8.1375 9.99583 8.4125 9.9875C8.6875 9.97917 8.925 10.075 9.125 10.275L11 12.15V5C11 4.71667 11.0958 4.47917 11.2875 4.2875C11.4792 4.09583 11.7167 4 12 4C12.2833 4 12.5208 4.09583 12.7125 4.2875C12.9042 4.47917 13 4.71667 13 5V12.15L14.875 10.275C15.075 10.075 15.3125 9.97917 15.5875 9.9875C15.8625 9.99583 16.1 10.1 16.3 10.3C16.4833 10.5 16.5792 10.7333 16.5875 11C16.5958 11.2667 16.5 11.5 16.3 11.7L12.7 15.3C12.6 15.4 12.4917 15.4708 12.375 15.5125C12.2583 15.5542 12.1333 15.575 12 15.575ZM6 20C5.45 20 4.97917 19.8042 4.5875 19.4125C4.19583 19.0208 4 18.55 4 18V16C4 15.7167 4.09583 15.4792 4.2875 15.2875C4.47917 15.0958 4.71667 15 5 15C5.28333 15 5.52083 15.0958 5.7125 15.2875C5.90417 15.4792 6 15.7167 6 16V18H18V16C18 15.7167 18.0958 15.4792 18.2875 15.2875C18.4792 15.0958 18.7167 15 19 15C19.2833 15 19.5208 15.0958 19.7125 15.2875C19.9042 15.4792 20 15.7167 20 16V18C20 18.55 19.8042 19.0208 19.4125 19.4125C19.0208 19.8042 18.55 20 18 20H6Z"/>
-            <path class="vot-loader-helper" d=""/>
-         </svg>`,
-    );
-    this.videoHandler.votDownloadButton.hidden = true;
-    this.videoHandler.votMenu.headerContainer.appendChild(
-      this.videoHandler.votDownloadButton,
-    );
-
-    // Download Subtitles Button
-    this.videoHandler.votDownloadSubtitlesButton = UI.createIconButton(
-      b`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="100%" viewBox="0 0 24 24">
-            <path d="M4 20q-.825 0-1.413-.588T2 18V6q0-.825.588-1.413T4 4h16q.825 0 1.413.588T22 6v12q0 .825-.588 1.413T20 20H4Zm2-4h8v-2H6v2Zm10 0h2v-2h-2v2ZM6 12h2v-2H6v2Zm4 0h8v-2h-8v2Z"/>
-         </svg>`,
-    );
-    this.videoHandler.votDownloadSubtitlesButton.hidden = true;
-    this.videoHandler.votMenu.headerContainer.appendChild(
-      this.videoHandler.votDownloadSubtitlesButton,
-    );
-
-    // Settings Button
-    this.videoHandler.votSettingsButton = UI.createIconButton(
-      b`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="100%" viewBox="0 -960 960 960">
-            <path d="M555-80H405q-15 0-26-10t-13-25l-12-93q-13-5-24.5-12T307-235l-87 36q-14 5-28 1t-22-17L96-344q-8-13-5-28t15-24l75-57q-1-7-1-13.5v-27q0-6.5 1-13.5l-75-57q-12-9-15-24t5-28l74-129q7-14 21.5-17.5T220-761l87 36q11-8 23-15t24-12l12-93q2-15 13-25t26-10h150q15 0 26 10t13 25l12 93q13 5 24.5 12t22.5 15l87-36q14-5 28-1t22 17l74 129q8 13 5 28t-15 24l-75 57q1 7 1 13.5v27q0 6.5-2 13.5l75 57q12 9 15 24t-5 28l-74 128q-8 13-22.5 17.5T738-199l-85-36q-11 8-23 15t-24 12l-12 93q-2 15-13 25t-26 10Zm-73-260q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm0-80q-25 0-42.5-17.5T422-480q0-25 17.5-42.5T482-540q25 0 42.5 17.5T542-480q0 25-17.5 42.5T482-420Zm-2-60Zm-40 320h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Z"/>
-         </svg>`,
-    );
-    this.videoHandler.votMenu.headerContainer.appendChild(
-      this.videoHandler.votSettingsButton,
-    );
-
-    // Create language selection menu (both source and target) using the ui helper.
-    this.videoHandler.votTranslationLanguageSelect = UI.createVOTLanguageSelect(
-      {
-        fromTitle:
-          localizationProvider.get("langs")[
-            this.videoHandler.video.detectedLanguage
-          ],
-        fromDialogTitle: localizationProvider.get("videoLanguage"),
-        fromItems: genOptionsByOBJ(
-          availableLangs,
-          this.videoHandler.videoData.detectedLanguage,
-        ),
-        fromOnSelectCB: async (e) => {
-          utils_debug.log(
-            "[fromOnSelectCB] select from language",
-            e.target.dataset.votValue,
-          );
-          this.videoHandler.setSelectMenuValues(
-            e.target.dataset.votValue,
-            this.videoHandler.videoData.responseLanguage,
-          );
-        },
-        toTitle:
-          localizationProvider.get("langs")[
-            this.videoHandler.video.responseLanguage
-          ],
-        toDialogTitle: localizationProvider.get("translationLanguage"),
-        toItems: genOptionsByOBJ(
-          availableTTS,
-          this.videoHandler.videoData.responseLanguage,
-        ),
-        toOnSelectCB: async (e) => {
-          const newLang = e.target.dataset.votValue;
-          utils_debug.log("[toOnSelectCB] select to language", newLang);
-          this.videoHandler.data.responseLanguage =
-            this.videoHandler.translateToLang = newLang;
-          await votStorage.set(
-            "responseLanguage",
-            this.videoHandler.data.responseLanguage,
-          );
-          utils_debug.log(
-            "Response Language value changed. New value: ",
-            this.videoHandler.data.responseLanguage,
-          );
-          this.videoHandler.setSelectMenuValues(
-            this.videoHandler.videoData.detectedLanguage,
-            this.videoHandler.data.responseLanguage,
-          );
-        },
-      },
-    );
-    this.videoHandler.votMenu.bodyContainer.appendChild(
-      this.videoHandler.votTranslationLanguageSelect.container,
-    );
-
-    // Create Subtitles selection menu – initially only with the "disabled" option.
-    this.videoHandler.votSubtitlesSelect = UI.createVOTSelect(
-      localizationProvider.get("VOTSubtitlesDisabled"),
-      localizationProvider.get("VOTSubtitles"),
-      [
-        {
-          label: localizationProvider.get("VOTSubtitlesDisabled"),
-          value: "disabled",
-          selected: true,
-          disabled: false,
-        },
-      ],
-      {
-        onSelectCb: async (e) => {
-          await this.videoHandler.changeSubtitlesLang(
-            e.target.dataset.votValue,
-          );
-        },
-        labelElement: UI.createVOTSelectLabel(
-          localizationProvider.get("VOTSubtitles"),
-        ),
-        onBeforeOpen: async () => {
-          // If subtitles cache for the current parameters is missing, load subtitles.
-          const cacheKey = `${this.videoHandler.videoData.videoId}_${this.videoHandler.videoData.detectedLanguage}_${this.videoHandler.videoData.responseLanguage}_${this.videoHandler.data.useNewModel}`;
-          if (!this.videoHandler.cacheManager.getSubtitles(cacheKey)) {
-            this.videoHandler.setLoadingBtn(true);
-            await this.videoHandler.loadSubtitles();
-            this.videoHandler.setLoadingBtn(false);
-          }
-        },
-        dialogParent: this.videoHandler.votGlobalPortal,
-      },
-    );
-    this.videoHandler.votMenu.bodyContainer.appendChild(
-      this.videoHandler.votSubtitlesSelect.container,
-    );
-
-    // Create the volume sliders for video and translation audio.
-    this.videoHandler.votVideoVolumeSlider = UI.createSlider(
-      x`${localizationProvider.get("VOTVolume")}:
-        <strong>${this.videoHandler.getVideoVolume() * 100}%</strong>`,
-      this.videoHandler.getVideoVolume() * 100,
-    );
-    this.videoHandler.votVideoVolumeSlider.container.hidden =
-      this.videoHandler.data.showVideoSlider !== 1 ||
-      this.videoHandler.votButton.container.dataset.status !== "success";
-    this.videoHandler.votMenu.bodyContainer.appendChild(
-      this.videoHandler.votVideoVolumeSlider.container,
-    );
-
-    this.videoHandler.votVideoTranslationVolumeSlider = UI.createSlider(
-      x`${localizationProvider.get("VOTVolumeTranslation")}:
-        <strong>${this.videoHandler.data?.defaultVolume ?? 100}%</strong>`,
-      this.videoHandler.data?.defaultVolume ?? 100,
-      0,
-      this.videoHandler.data.audioBooster ? maxAudioVolume : 100,
-    );
-    this.videoHandler.votVideoTranslationVolumeSlider.container.hidden =
-      this.videoHandler.votButton.container.dataset.status !== "success";
-    this.videoHandler.votMenu.bodyContainer.appendChild(
-      this.videoHandler.votVideoTranslationVolumeSlider.container,
-    );
-
-    // Prevent event propagation on the menu container.
-    this.videoHandler.votMenu.container.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-    });
-
-    // ----- VOT Settings Dialog creation -----
-    // Create a dialog for settings using ui helper.
-    this.videoHandler.votSettingsDialog = UI.createDialog(
-      localizationProvider.get("VOTSettings"),
-    );
-    this.videoHandler.votGlobalPortal.appendChild(
-      this.videoHandler.votSettingsDialog.container,
-    );
-
-    // Append headers and checkboxes, textfields etc. (Preserving original comments)
-    // Translation settings header.
-    this.videoHandler.votTranslationHeader = UI.createHeader(
-      localizationProvider.get("translationSettings"),
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votTranslationHeader,
-    );
-
-    // Auto translate checkbox.
-    this.videoHandler.votAutoTranslateCheckbox = UI.createCheckbox(
-      localizationProvider.get("VOTAutoTranslate"),
-      this.videoHandler.data?.autoTranslate ?? false,
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votAutoTranslateCheckbox.container,
-    );
-
-    // Don't translate your language select.
-    this.videoHandler.votDontTranslateYourLangSelect = UI.createVOTSelect(
-      this.videoHandler.data.dontTranslateLanguage
-        .map((lang) => localizationProvider.get("langs")[lang])
-        .join(", ") || localizationProvider.get("langs")[lang],
-      localizationProvider.get("VOTDontTranslateYourLang"),
-      genOptionsByOBJ(availableLangs).map((option) => ({
-        ...option,
-        selected: this.videoHandler.data.dontTranslateLanguage.includes(
-          option.value,
-        ),
-      })),
-      {
-        multiSelect: true,
-        onSelectCb: async (e, selectedValues) => {
-          this.videoHandler.data.dontTranslateLanguage = selectedValues;
-          await votStorage.set(
-            "dontTranslateLanguage",
-            this.videoHandler.data.dontTranslateLanguage,
-          );
-          this.videoHandler.votDontTranslateYourLangSelect.setTitle(
-            selectedValues
-              .map((lang) => localizationProvider.get("langs")[lang])
-              .join(", ") || localizationProvider.get("langs")[lang],
-          );
-        },
-        labelElement: UI.createCheckbox(
-          localizationProvider.get("VOTDontTranslateYourLang"),
-          this.videoHandler.data?.dontTranslateYourLang ?? true,
-        ).container,
-        dialogParent: this.videoHandler.votGlobalPortal,
-      },
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votDontTranslateYourLangSelect.container,
-    );
-
-    // Hotkey change button.
-    this.videoHandler.changehotkeyButton = UI.createOutlinedButton(
-      createHotkeyText(this.videoHandler.data.hotkeyButton),
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.changehotkeyButton,
-    );
-
-    // Auto-set volume checkbox.
-    this.videoHandler.votAutoSetVolumeCheckbox = UI.createCheckbox(
-      `${localizationProvider.get("VOTAutoSetVolume")}`,
-      this.videoHandler.data?.autoSetVolumeYandexStyle ?? true,
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votAutoSetVolumeCheckbox.container,
-    );
-
-    // Auto-set volume slider.
-    this.videoHandler.votAutoSetVolumeSlider = UI.createSlider(
-      x`<strong
-        >${Math.round(
-          (this.videoHandler.data?.autoVolume ?? defaultAutoVolume) * 100,
-        )}%</strong
-      >`,
-      Math.round(
-        (this.videoHandler.data?.autoVolume ?? defaultAutoVolume) * 100,
-      ),
-      0,
-      100,
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votAutoSetVolumeSlider.container,
-    );
-
-    // Show video slider checkbox.
-    this.videoHandler.votShowVideoSliderCheckbox = UI.createCheckbox(
-      localizationProvider.get("VOTShowVideoSlider"),
-      this.videoHandler.data?.showVideoSlider ?? false,
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votShowVideoSliderCheckbox.container,
-    );
-
-    // Audio booster checkbox.
-    this.videoHandler.votAudioBoosterCheckbox = UI.createCheckbox(
-      localizationProvider.get("VOTAudioBooster"),
-      this.videoHandler.data?.audioBooster ?? false,
-    );
-    if (!this.videoHandler.audioContext) {
-      this.videoHandler.votAudioBoosterCheckbox.input.disabled = true;
-      this.videoHandler.votAudioBoosterTooltip = new Tooltip({
-        target: this.videoHandler.votAudioBoosterCheckbox.container,
-        content: localizationProvider.get("VOTNeedWebAudioAPI"),
-        position: "bottom",
-        backgroundColor: "var(--vot-helper-ondialog)",
-        parentElement: this.videoHandler.votGlobalPortal,
-      });
-    }
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votAudioBoosterCheckbox.container,
-    );
-
-    // Sync volume checkbox.
-    this.videoHandler.votSyncVolumeCheckbox = UI.createCheckbox(
-      localizationProvider.get("VOTSyncVolume"),
-      this.videoHandler.data?.syncVolume ?? false,
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votSyncVolumeCheckbox.container,
-    );
-
-    // Download with name checkbox.
-    this.videoHandler.votDownloadWithNameCheckbox = UI.createCheckbox(
-      localizationProvider.get("VOTDownloadWithName"),
-      this.videoHandler.data?.downloadWithName ?? false,
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votDownloadWithNameCheckbox.container,
-    );
-
-    // Send notify on complete checkbox.
-    this.videoHandler.votSendNotifyOnCompleteCheckbox = UI.createCheckbox(
-      localizationProvider.get("VOTSendNotifyOnComplete"),
-      this.videoHandler.data?.sendNotifyOnComplete ?? false,
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votSendNotifyOnCompleteCheckbox.container,
-    );
-
-    // Use new model checkbox.
-    this.videoHandler.votUseNewModelCheckbox = UI.createCheckbox(
-      localizationProvider.get("VOTUseNewModel"),
-      this.videoHandler.data?.useNewModel ?? false,
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votUseNewModelCheckbox.container,
-    );
-
-    this.videoHandler.votTranslateAPIErrorsCheckbox = UI.createCheckbox(
-      localizationProvider.get("VOTTranslateAPIErrors"),
-      this.videoHandler.data?.translateAPIErrors ?? true,
-    );
-    this.videoHandler.votTranslateAPIErrorsCheckbox.container.hidden =
-      localizationProvider.lang === "ru";
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votTranslateAPIErrorsCheckbox.container,
-    );
-
-    this.videoHandler.votTranslationTextServiceSelect = UI.createVOTSelect(
-      this.videoHandler.data.translationService.toUpperCase(),
-      localizationProvider.get("VOTTranslationTextService"),
-      genOptionsByOBJ(
-        foswlyServices,
-        this.videoHandler.data.translationService,
-      ),
-      {
-        onSelectCb: async (e) => {
-          this.videoHandler.data.translationService = e.target.dataset.votValue;
-          await votStorage.set(
-            "translationService",
-            this.videoHandler.data.translationService,
-          );
-          this.videoHandler.subtitlesWidget.strTranslatedTokens = "";
-          this.videoHandler.subtitlesWidget.releaseTooltip();
-        },
-        labelElement: UI.createVOTSelectLabel(
-          localizationProvider.get("VOTTranslationTextService"),
-        ),
-        dialogParent: this.videoHandler.votGlobalPortal,
-      },
-    );
-    this.videoHandler.votTranslationTextServiceTooltip = new Tooltip({
-      target: this.videoHandler.votTranslationTextServiceSelect.labelElement,
-      content: localizationProvider.get("VOTNotAffectToVoice"),
-      position: "bottom",
-      backgroundColor: "var(--vot-helper-ondialog)",
-      parentElement: this.videoHandler.votGlobalPortal,
-    });
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votTranslationTextServiceSelect.container,
-    );
-
-    // Detect service select.
-    this.videoHandler.votDetectServiceSelect = UI.createVOTSelect(
-      this.videoHandler.data.detectService.toUpperCase(),
-      localizationProvider.get("VOTDetectService"),
-      genOptionsByOBJ(detectServices, this.videoHandler.data.detectService),
-      {
-        onSelectCb: async (e) => {
-          this.videoHandler.data.detectService = e.target.dataset.votValue;
-          await votStorage.set(
-            "detectService",
-            this.videoHandler.data.detectService,
-          );
-        },
-        labelElement: UI.createVOTSelectLabel(
-          localizationProvider.get("VOTDetectService"),
-        ),
-        dialogParent: this.videoHandler.votGlobalPortal,
-      },
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votDetectServiceSelect.container,
-    );
-
-    // --- SUBTITLES Settings ---
-    this.videoHandler.votSubtitlesHeader = UI.createHeader(
-      localizationProvider.get("subtitlesSettings"),
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votSubtitlesHeader,
-    );
-
-    this.videoHandler.votSubtitlesDetails = UI.createDetails(
-      localizationProvider.get("VOTSubtitlesDesign"),
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votSubtitlesDetails.container,
-    );
-
-    // --- PROXY Settings ---
-    this.videoHandler.votProxyHeader = UI.createHeader(
-      localizationProvider.get("proxySettings"),
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votProxyHeader,
-    );
-
-    this.videoHandler.votM3u8ProxyHostTextfield = UI.createTextfield(
-      localizationProvider.get("VOTM3u8ProxyHost"),
-      this.videoHandler.data?.m3u8ProxyHost,
-      m3u8ProxyHost,
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votM3u8ProxyHostTextfield.container,
-    );
-
-    this.videoHandler.votProxyWorkerHostTextfield = UI.createTextfield(
-      localizationProvider.get("VOTProxyWorkerHost"),
-      this.videoHandler.data?.proxyWorkerHost,
-      proxyWorkerHost,
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votProxyWorkerHostTextfield.container,
-    );
-
-    const proxyEnabledLabels = [
-      localizationProvider.get("VOTTranslateProxyDisabled"),
-      localizationProvider.get("VOTTranslateProxyEnabled"),
-      localizationProvider.get("VOTTranslateProxyEverything"),
-    ];
-    this.videoHandler.votTranslateProxyEnabledSelect = UI.createVOTSelect(
-      proxyEnabledLabels[this.videoHandler.data.translateProxyEnabled],
-      localizationProvider.get("VOTTranslateProxyStatus"),
-      genOptionsByOBJ(
-        proxyEnabledLabels,
-        proxyEnabledLabels[this.videoHandler.data.translateProxyEnabled],
-      ),
-      {
-        onSelectCb: async (_, selectedValue) => {
-          this.videoHandler.data.translateProxyEnabled =
-            proxyEnabledLabels.findIndex((val) => val === selectedValue) ?? 0;
-          await votStorage.set(
-            "translateProxyEnabled",
-            this.videoHandler.data.translateProxyEnabled,
-          );
-          this.videoHandler.initVOTClient();
-        },
-        labelElement: UI.createVOTSelectLabel(
-          localizationProvider.get("VOTTranslateProxyStatus"),
-        ),
-        dialogParent: this.videoHandler.votGlobalPortal,
-      },
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votTranslateProxyEnabledSelect.container,
-    );
-
-    this.videoHandler.votNewAudioPlayerCheckbox = UI.createCheckbox(
-      localizationProvider.get("VOTNewAudioPlayer"),
-      this.videoHandler.data?.newAudioPlayer ?? false,
-    );
-    if (!this.videoHandler.audioContext) {
-      this.videoHandler.votNewAudioPlayerCheckbox.input.disabled = true;
-      this.videoHandler.votNewAudioPlayerTooltip = new Tooltip({
-        target: this.videoHandler.votNewAudioPlayerCheckbox.container,
-        content: localizationProvider.get("VOTNeedWebAudioAPI"),
-        position: "bottom",
-        backgroundColor: "var(--vot-helper-ondialog)",
-        parentElement: this.videoHandler.votGlobalPortal,
-      });
-    }
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votNewAudioPlayerCheckbox.container,
-    );
-
-    this.videoHandler.votOnlyBypassMediaCSPCheckbox = UI.createCheckbox(
-      localizationProvider.get("VOTOnlyBypassMediaCSP") +
-        (this.videoHandler.site.needBypassCSP
-          ? ` (${localizationProvider.get("VOTMediaCSPEnabledOnSite")})`
-          : ""),
-      this.videoHandler.data?.onlyBypassMediaCSP ?? false,
-    );
-    this.videoHandler.votOnlyBypassMediaCSPCheckbox.container.classList.add(
-      "vot-checkbox-sub",
-    );
-    if (!this.videoHandler.audioContext) {
-      this.videoHandler.votOnlyBypassMediaCSPTooltip = new Tooltip({
-        target: this.videoHandler.votOnlyBypassMediaCSPCheckbox.container,
-        content: localizationProvider.get("VOTNeedWebAudioAPI"),
-        position: "bottom",
-        backgroundColor: "var(--vot-helper-ondialog)",
-        parentElement: this.videoHandler.votGlobalPortal,
-      });
-    }
-    this.videoHandler.votOnlyBypassMediaCSPCheckbox.input.disabled =
-      !this.videoHandler.data.newAudioPlayer && this.videoHandler.audioContext;
-    if (!this.videoHandler.data.newAudioPlayer) {
-      this.videoHandler.votOnlyBypassMediaCSPCheckbox.container.hidden = true;
-    }
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votOnlyBypassMediaCSPCheckbox.container,
-    );
-
-    // --- ABOUT Section ---
-    this.videoHandler.votAboutHeader = UI.createHeader(
-      localizationProvider.get("about"),
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votAboutHeader,
-    );
-
-    this.videoHandler.votLanguageSelect = UI.createVOTSelect(
-      localizationProvider.get("langs")[localizationProvider.getLangOverride()],
-      localizationProvider.get("VOTMenuLanguage"),
-      genOptionsByOBJ(
-        localizationProvider.getAvailableLangs(),
-        localizationProvider.getLangOverride(),
-      ),
-      {
-        onSelectCb: async (e) => {
-          const newLang = e.target.dataset.votValue;
-          const oldLang = localizationProvider.getLangOverride();
-          if (newLang === oldLang) {
-            return;
-          }
-
-          await votStorage.set("locale-lang-override", newLang);
-          localizationProvider.lang = localizationProvider.getLang();
-          await localizationProvider.update(true);
-          this.videoHandler.data.localeUpdatedAt = await votStorage.get(
-            "locale-updated-at",
-            0,
-          );
-          this.videoHandler.stopTranslation();
-          this.release();
-          this.initUI();
-          this.initUIEvents();
-          await this.videoHandler.updateSubtitlesLangSelect();
-          this.videoHandler.subtitlesWidget.portal =
-            this.videoHandler.votPortal;
-          this.videoHandler.subtitlesWidget.strTranslatedTokens = "";
-        },
-        labelElement: UI.createVOTSelectLabel(
-          localizationProvider.get("VOTMenuLanguage"),
-        ),
-        dialogParent: this.videoHandler.votGlobalPortal,
-      },
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votLanguageSelect.container,
-    );
-
-    this.videoHandler.votShowPiPButtonCheckbox = UI.createCheckbox(
-      localizationProvider.get("VOTShowPiPButton"),
-      this.videoHandler.data?.showPiPButton ?? false,
-    );
-    this.videoHandler.votShowPiPButtonCheckbox.container.hidden =
-      !isPiPAvailable();
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votShowPiPButtonCheckbox.container,
-    );
-
-    this.videoHandler.votVersionInfo = UI.createInformation(
-      `${localizationProvider.get("VOTVersion")}:`,
-      GM_info.script.version,
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votVersionInfo.container,
-    );
-
-    this.videoHandler.votAuthorsInfo = UI.createInformation(
-      `${localizationProvider.get("VOTAuthors")}:`,
-      GM_info.script.author,
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votAuthorsInfo.container,
-    );
-
-    this.videoHandler.votLoaderInfo = UI.createInformation(
-      `${localizationProvider.get("VOTLoader")}:`,
-      `${GM_info.scriptHandler} v${GM_info.version}`,
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votLoaderInfo.container,
-    );
-
-    this.videoHandler.votBrowserInfo = UI.createInformation(
-      `${localizationProvider.get("VOTBrowser")}:`,
-      `${browserInfo.browser.name} ${browserInfo.browser.version} (${browserInfo.os.name} ${browserInfo.os.version})`,
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votBrowserInfo.container,
-    );
-
-    this.videoHandler.votLocaleInfo = UI.createInformation(
-      `${localizationProvider.get("VOTLocaleHash")}:`,
-      x`${this.videoHandler.data.localeHash}<br />(${localizationProvider.get(
-          "VOTUpdatedAt",
-        )}
-        ${new Date(
-          this.videoHandler.data.localeUpdatedAt * 1000,
-        ).toLocaleString()})`,
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votLocaleInfo.container,
-    );
-
-    this.videoHandler.votBugReportButton = UI.createOutlinedButton(
-      localizationProvider.get("VOTBugReport"),
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votBugReportButton,
-    );
-
-    this.videoHandler.votUpdateLocaleFilesButton = UI.createOutlinedButton(
-      localizationProvider.get("VOTUpdateLocaleFiles"),
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votUpdateLocaleFilesButton,
-    );
-
-    this.videoHandler.votResetSettingsButton = UI.createButton(
-      localizationProvider.get("resetSettings"),
-    );
-    this.videoHandler.votSettingsDialog.bodyContainer.appendChild(
-      this.videoHandler.votResetSettingsButton,
-    );
-  }
-
-  updateButtonPos(position, direction) {
-    this.videoHandler.votButton.container.dataset.direction = direction;
-    this.videoHandler.votButton.container.dataset.position = position;
-    this.videoHandler.votButtonTooltip.hidden = direction === "row";
-    this.videoHandler.votButtonTooltip.setPosition(
-      this.getButtonTooltipPos(position),
-    );
-    return this;
-  }
-
-  calcButtonPos(percentX, isBigContainer) {
-    if (!isBigContainer) {
-      return "default";
-    }
-
-    return percentX <= 44 ? "left" : percentX >= 66 ? "right" : "default";
-  }
-
-  async moveButton(percentX) {
-    const isBigContainer = this.videoHandler.container.clientWidth > 550;
-    const position = this.calcButtonPos(percentX, isBigContainer);
-    if (position === this.videoHandler.votMenu.container.dataset.position) {
-      return;
-    }
-
-    const direction = position === "default" ? "row" : "column";
-    this.videoHandler.data.buttonPos = position;
-    this.videoHandler.votMenu.container.dataset.position = position;
-    this.updateButtonPos(position, direction);
-    if (isBigContainer) await votStorage.set("buttonPos", position);
-  }
-
-  async handleDragMove(
-    event,
-    clientX,
-    rect = this.videoHandler.container.getBoundingClientRect(),
-  ) {
-    if (!this.videoHandler.dragging) return;
-    event.preventDefault();
-    const x = clientX - rect.left;
-    const percentX = (x / rect.width) * 100;
-    await this.moveButton(percentX);
-  }
-
-  disableDragging = () => {
-    this.videoHandler.dragging = false;
-  };
-
-  handleContainerPointerMove = async (event) => {
-    await this.handleDragMove(event, event.clientX);
-  };
-
-  handleContainerTouchMove = async (event) => {
-    await this.handleDragMove(
-      event,
-      event.touches[0].clientX,
-      this.videoHandler.container.getBoundingClientRect(),
-    );
-  };
-
-  /**
-   * Registers UI event listeners.
-   */
-  initUIEvents() {
-    // ----- VOT Button Events -----
-    this.videoHandler.votButton.translateButton.addEventListener(
-      "pointerdown",
-      async () => {
-        await this.videoHandler.translationHandler.handleTranslationBtnClick();
-      },
-    );
-
-    this.videoHandler.votButton.pipButton.addEventListener(
-      "pointerdown",
-      async () => {
-        const isPiPActive =
-          this.videoHandler.video === document.pictureInPictureElement;
-        await (isPiPActive
-          ? document.exitPictureInPicture()
-          : this.videoHandler.video.requestPictureInPicture());
-      },
-    );
-
-    this.videoHandler.votButton.menuButton.addEventListener(
-      "pointerdown",
-      async () => {
-        this.videoHandler.votMenu.container.hidden =
-          !this.videoHandler.votMenu.container.hidden;
-      },
-    );
-
-    // ----- Position Update (Drag and Touch) -----
-    const enableDraggingByEvent = (event) => {
-      this.videoHandler.dragging = true;
-      event.preventDefault();
-    };
-
-    // Mouse/pointer events for dragging.
-    this.videoHandler.votButton.container.addEventListener(
-      "pointerdown",
-      enableDraggingByEvent,
-    );
-    this.videoHandler.container.addEventListener(
-      "pointerup",
-      this.disableDragging,
-    );
-    this.videoHandler.container.addEventListener(
-      "pointermove",
-      this.handleContainerPointerMove,
-    );
-
-    // Touch events for dragging.
-    this.videoHandler.votButton.container.addEventListener(
-      "touchstart",
-      enableDraggingByEvent,
-      {
-        passive: false,
-      },
-    );
-    this.videoHandler.container.addEventListener(
-      "touchend",
-      this.disableDragging,
-    );
-    this.videoHandler.container.addEventListener(
-      "touchmove",
-      this.handleContainerTouchMove,
-      {
-        passive: false,
-      },
-    );
-
-    // Cancel drag on pointer/touch cancel events.
-    for (const event of this.cancelDraggingEvents) {
-      document.addEventListener(event, this.disableDragging);
-    }
-
-    // ----- VOT Menu Events -----
-    this.videoHandler.votDownloadButton.addEventListener("click", async () => {
-      if (!this.videoHandler.downloadTranslationUrl) return;
-      try {
-        if (!this.videoHandler.data.downloadWithName) {
-          window
-            .open(this.videoHandler.downloadTranslationUrl, "_blank")
-            .focus();
-          return;
-        }
-        this.videoHandler.votLoader =
-          this.videoHandler.votDownloadButton.querySelector(
-            "#vot-loader-download",
-          );
-        const primaryColor = getComputedStyle(
-          this.videoHandler.votMenu.container,
-        ).getPropertyValue("--vot-primary-rgb");
-        const updateAnimation = UI.animateLoader(
-          this.videoHandler.votLoader,
-          primaryColor,
-        );
-        const res = await GM_fetch(this.videoHandler.downloadTranslationUrl, {
-          timeout: 0,
-        });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const contentLength = +res.headers.get("Content-Length");
-        const reader = res.body.getReader();
-        const chunksBuffer = new Uint8Array(contentLength);
-        let offset = 0;
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          chunksBuffer.set(value, offset);
-          offset += value.length;
-          updateAnimation(Math.round((offset / contentLength) * 100));
-        }
-        UI.afterAnimateLoader(this.videoHandler.votLoader, primaryColor);
-        const filename = clearFileName(
-          this.videoHandler.videoData.downloadTitle,
-        );
-        const writer = new browser_id3_writer_o(chunksBuffer.buffer);
-        writer.setFrame("TIT2", filename);
-        writer.addTag();
-        downloadBlob(writer.getBlob(), `${filename}.mp3`);
-      } catch (err) {
-        console.error("[VOT] Download failed:", err);
-        this.videoHandler.transformBtn(
-          "error",
-          localizationProvider.get("downloadFailed"),
-        );
-      }
-    });
-
-    this.videoHandler.votDownloadSubtitlesButton.addEventListener(
-      "click",
-      async () => {
-        const format = this.videoHandler.data.subtitlesDownloadFormat;
-        const subsContent = convertSubs(
-          this.videoHandler.yandexSubtitles,
-          format,
-        );
-        const blob = new Blob(
-          [format === "json" ? JSON.stringify(subsContent) : subsContent],
-          {
-            type: "text/plain",
-          },
-        );
-        const filename = this.videoHandler.data.downloadWithName
-          ? clearFileName(this.videoHandler.videoData.downloadTitle)
-          : `subtitles_${this.videoHandler.videoData.videoId}`;
-        downloadBlob(blob, `${filename}.${format}`);
-      },
-    );
-
-    this.videoHandler.votSettingsButton.addEventListener("click", () => {
-      this.videoHandler.votSettingsDialog.container.hidden =
-        !this.videoHandler.votSettingsDialog.container.hidden;
-      if (document.fullscreenElement || document.webkitFullscreenElement) {
-        document.webkitExitFullscreen && document.webkitExitFullscreen();
-        document.exitFullscreen && document.exitFullscreen();
-      }
-      this.videoHandler.subtitlesWidget.releaseTooltip();
-    });
-
-    this.videoHandler.votVideoVolumeSlider.input.addEventListener(
-      "input",
-      (e) => {
-        const value = Number(e.target.value);
-        this.videoHandler.votVideoVolumeSlider.label.querySelector(
-          "strong",
-        ).textContent = `${value}%`;
-        this.videoHandler.setVideoVolume(value / 100);
-        if (this.videoHandler.data.syncVolume)
-          this.videoHandler.syncVolumeWrapper("video", value);
-      },
-    );
-
-    this.videoHandler.votVideoTranslationVolumeSlider.input.addEventListener(
-      "input",
-      (e) => {
-        (async () => {
-          this.videoHandler.data.defaultVolume = Number(e.target.value);
-          await votStorage.set(
-            "defaultVolume",
-            this.videoHandler.data.defaultVolume,
-          );
-          this.videoHandler.votVideoTranslationVolumeSlider.label.querySelector(
-            "strong",
-          ).textContent = `${this.videoHandler.data.defaultVolume}%`;
-          this.videoHandler.audioPlayer.player.volume =
-            this.videoHandler.data.defaultVolume / 100;
-          if (!this.videoHandler.data.syncVolume) return;
-          this.videoHandler.syncVolumeWrapper(
-            "translation",
-            this.videoHandler.data.defaultVolume,
-          );
-          if (
-            ["youtube", "googledrive"].includes(this.videoHandler.site.host) &&
-            this.videoHandler.site.additionalData !== "mobile"
-          ) {
-            this.videoHandler.setVideoVolume(
-              this.videoHandler.tempOriginalVolume / 100,
-            );
-          }
-        })();
-      },
-    );
-
-    // ----- VOT Settings Events -----
-    // Checkbox and select events for all settings; using async arrow functions for brevity.
-    this.videoHandler.votAutoTranslateCheckbox.input.addEventListener(
-      "change",
-      (e) => {
-        (async () => {
-          this.videoHandler.data.autoTranslate = Number(e.target.checked);
-          await votStorage.set(
-            "autoTranslate",
-            this.videoHandler.data.autoTranslate,
-          );
-          if (
-            !this.videoHandler.audioPlayer.player.src &&
-            this.videoHandler.data.autoTranslate === 1
-          ) {
-            await this.videoHandler.translationHandler.handleTranslationBtnClick();
-          }
-          utils_debug.log(
-            "autoTranslate value changed. New value: ",
-            this.videoHandler.data.autoTranslate,
-          );
-        })();
-      },
-    );
-
-    this.videoHandler.votDontTranslateYourLangSelect.labelElement.addEventListener(
-      "change",
-      (e) => {
-        (async () => {
-          this.videoHandler.data.dontTranslateYourLang = Number(
-            e.target.checked,
-          );
-          await votStorage.set(
-            "dontTranslateYourLang",
-            this.videoHandler.data.dontTranslateYourLang,
-          );
-          utils_debug.log(
-            "dontTranslateYourLang value changed. New value: ",
-            this.videoHandler.data.dontTranslateYourLang,
-          );
-        })();
-      },
-    );
-
-    const updateHotkey = async (newKey) => {
-      await votStorage.set("hotkeyButton", newKey);
-      this.videoHandler.data.hotkeyButton = newKey;
-      this.videoHandler.changehotkeyButton.textContent =
-        createHotkeyText(newKey);
-    };
-    const keydownHandler = (e) => {
-      const newKey = e.code === "Escape" ? null : e.code;
-      updateHotkey(newKey);
-      document.removeEventListener("keydown", keydownHandler);
-    };
-    this.videoHandler.changehotkeyButton.addEventListener("click", () => {
-      this.videoHandler.changehotkeyButton.textContent =
-        localizationProvider.get("VOTPressNewHotkey");
-      document.addEventListener("keydown", keydownHandler);
-    });
-
-    this.videoHandler.votAutoSetVolumeCheckbox.input.addEventListener(
-      "change",
-      (e) => {
-        (async () => {
-          this.videoHandler.data.autoSetVolumeYandexStyle = Number(
-            e.target.checked,
-          );
-          await votStorage.set(
-            "autoSetVolumeYandexStyle",
-            this.videoHandler.data.autoSetVolumeYandexStyle,
-          );
-          utils_debug.log(
-            "autoSetVolumeYandexStyle value changed. New value: ",
-            this.videoHandler.data.autoSetVolumeYandexStyle,
-          );
-        })();
-      },
-    );
-
-    this.videoHandler.votAutoSetVolumeSlider.input.addEventListener(
-      "input",
-      (e) => {
-        (async () => {
-          const presetAutoVolume = Number(e.target.value);
-          this.videoHandler.data.autoVolume = (presetAutoVolume / 100).toFixed(
-            2,
-          );
-          await votStorage.set("autoVolume", this.videoHandler.data.autoVolume);
-          this.videoHandler.votAutoSetVolumeSlider.label.querySelector(
-            "strong",
-          ).textContent = `${presetAutoVolume}%`;
-        })();
-      },
-    );
-
-    this.videoHandler.votShowVideoSliderCheckbox.input.addEventListener(
-      "change",
-      (e) => {
-        (async () => {
-          this.videoHandler.data.showVideoSlider = Number(e.target.checked);
-          await votStorage.set(
-            "showVideoSlider",
-            this.videoHandler.data.showVideoSlider,
-          );
-          utils_debug.log(
-            "showVideoSlider value changed. New value: ",
-            this.videoHandler.data.showVideoSlider,
-          );
-          this.videoHandler.votVideoVolumeSlider.container.hidden =
-            this.videoHandler.data.showVideoSlider !== 1 ||
-            this.videoHandler.votButton.container.dataset.status !== "success";
-        })();
-      },
-    );
-
-    this.videoHandler.votAudioBoosterCheckbox.input.addEventListener(
-      "change",
-      (e) => {
-        (async () => {
-          this.videoHandler.data.audioBooster = Number(e.target.checked);
-          await votStorage.set(
-            "audioBooster",
-            this.videoHandler.data.audioBooster,
-          );
-          utils_debug.log(
-            "audioBooster value changed. New value: ",
-            this.videoHandler.data.audioBooster,
-          );
-          const currentAudioVolume =
-            this.videoHandler.votVideoTranslationVolumeSlider.input.value;
-          this.videoHandler.votVideoTranslationVolumeSlider.input.max = this
-            .videoHandler.data.audioBooster
-            ? maxAudioVolume
-            : 100;
-          this.videoHandler.votVideoTranslationVolumeSlider.input.value =
-            currentAudioVolume > 100 ? 100 : currentAudioVolume;
-          this.videoHandler.votVideoTranslationVolumeSlider.input.dispatchEvent(
-            new Event("input"),
-          );
-        })();
-      },
-    );
-
-    this.videoHandler.votSyncVolumeCheckbox.input.addEventListener(
-      "change",
-      (e) => {
-        (async () => {
-          this.videoHandler.data.syncVolume = Number(e.target.checked);
-          await votStorage.set("syncVolume", this.videoHandler.data.syncVolume);
-          utils_debug.log(
-            "syncVolume value changed. New value: ",
-            this.videoHandler.data.syncVolume,
-          );
-        })();
-      },
-    );
-
-    this.videoHandler.votDownloadWithNameCheckbox.input.addEventListener(
-      "change",
-      (e) => {
-        (async () => {
-          this.videoHandler.data.downloadWithName = Number(e.target.checked);
-          await votStorage.set(
-            "downloadWithName",
-            this.videoHandler.data.downloadWithName,
-          );
-          utils_debug.log(
-            "downloadWithName value changed. New value: ",
-            this.videoHandler.data.downloadWithName,
-          );
-        })();
-      },
-    );
-
-    this.videoHandler.votSendNotifyOnCompleteCheckbox.input.addEventListener(
-      "change",
-      (e) => {
-        (async () => {
-          this.videoHandler.data.sendNotifyOnComplete = Number(
-            e.target.checked,
-          );
-          await votStorage.set(
-            "sendNotifyOnComplete",
-            this.videoHandler.data.sendNotifyOnComplete,
-          );
-          utils_debug.log(
-            "sendNotifyOnComplete value changed. New value: ",
-            this.videoHandler.data.sendNotifyOnComplete,
-          );
-        })();
-      },
-    );
-
-    this.videoHandler.votUseNewModelCheckbox.input.addEventListener(
-      "change",
-      (e) => {
-        (async () => {
-          this.videoHandler.data.useNewModel = Number(e.target.checked);
-          await votStorage.set(
-            "useNewModel",
-            this.videoHandler.data.useNewModel,
-          );
-          utils_debug.log(
-            "useNewModel value changed. New value: ",
-            this.videoHandler.data.useNewModel,
-          );
-          this.videoHandler.stopTranslate();
-        })();
-      },
-    );
-
-    this.videoHandler.votTranslateAPIErrorsCheckbox.input.addEventListener(
-      "change",
-      (e) => {
-        (async () => {
-          this.videoHandler.data.translateAPIErrors = Number(e.target.checked);
-          await votStorage.set(
-            "translateAPIErrors",
-            this.videoHandler.data.translateAPIErrors,
-          );
-          utils_debug.log(
-            "translateAPIErrors value changed. New value: ",
-            this.videoHandler.data.translateAPIErrors,
-          );
-        })();
-      },
-    );
-
-    // ----- SUBTITLES Settings Events -----
-    this.videoHandler.votSubtitlesDetails.container.addEventListener(
-      "click",
-      () => {
-        this.videoHandler.votSubtitlesDialog = UI.createDialog(
-          localizationProvider.get("VOTSubtitlesDesign"),
-        );
-        this.videoHandler.votSubtitlesDialog.container.classList.add(
-          "vot-dialog-temp",
-        );
-        this.videoHandler.votSubtitlesDialog.container.hidden = false;
-        // Remove the modal after use.
-        this.videoHandler.votSubtitlesDialog.backdrop.onclick =
-          this.videoHandler.votSubtitlesDialog.closeButton.onclick = () => {
-            this.videoHandler.votSubtitlesDialog.container.remove();
-          };
-
-        // Create subtitles elements.
-        this.videoHandler.votSubtitlesHighlightWordsCheckbox =
-          UI.createCheckbox(
-            localizationProvider.get("VOTHighlightWords"),
-            this.videoHandler.data?.highlightWords ?? false,
-          );
-        this.videoHandler.votSubtitlesDialog.bodyContainer.appendChild(
-          this.videoHandler.votSubtitlesHighlightWordsCheckbox.container,
-        );
-
-        this.videoHandler.votSubtitlesDownloadFormatSelect = UI.createVOTSelect(
-          this.videoHandler.data.subtitlesDownloadFormat.toUpperCase(),
-          localizationProvider.get("VOTSubtitlesDownloadFormat"),
-          genOptionsByOBJ(
-            subtitlesFormats,
-            this.videoHandler.data.subtitlesDownloadFormat,
-          ),
-          {
-            onSelectCb: async (e) => {
-              this.videoHandler.data.subtitlesDownloadFormat =
-                e.target.dataset.votValue;
-              await votStorage.set(
-                "subtitlesDownloadFormat",
-                this.videoHandler.data.subtitlesDownloadFormat,
-              );
-            },
-            labelElement: UI.createVOTSelectLabel(
-              localizationProvider.get("VOTSubtitlesDownloadFormat"),
-            ),
-            dialogParent: this.videoHandler.votGlobalPortal,
-          },
-        );
-        this.videoHandler.votSubtitlesDialog.bodyContainer.appendChild(
-          this.videoHandler.votSubtitlesDownloadFormatSelect.container,
-        );
-
-        this.videoHandler.votSubtitlesMaxLengthSlider = UI.createSlider(
-          x`${localizationProvider.get("VOTSubtitlesMaxLength")}:
-            <strong
-              >${this.videoHandler.data?.subtitlesMaxLength ?? 300}</strong
-            >`,
-          this.videoHandler.data?.subtitlesMaxLength ?? 300,
-          50,
-          300,
-        );
-        this.videoHandler.votSubtitlesDialog.bodyContainer.appendChild(
-          this.videoHandler.votSubtitlesMaxLengthSlider.container,
-        );
-
-        this.videoHandler.votSubtitlesFontSizeSlider = UI.createSlider(
-          x`${localizationProvider.get("VOTSubtitlesFontSize")}:
-            <strong
-              >${this.videoHandler.data?.subtitlesFontSize ?? 20}</strong
-            >`,
-          this.videoHandler.data?.subtitlesFontSize ?? 20,
-          8,
-          50,
-        );
-        this.videoHandler.votSubtitlesDialog.bodyContainer.appendChild(
-          this.videoHandler.votSubtitlesFontSizeSlider.container,
-        );
-
-        this.videoHandler.votSubtitlesOpacitySlider = UI.createSlider(
-          x`${localizationProvider.get("VOTSubtitlesOpacity")}:
-            <strong>${this.videoHandler.data?.subtitlesOpacity ?? 20}</strong>`,
-          this.videoHandler.data?.subtitlesOpacity ?? 20,
-          0,
-          100,
-        );
-        this.videoHandler.votSubtitlesDialog.bodyContainer.appendChild(
-          this.videoHandler.votSubtitlesOpacitySlider.container,
-        );
-
-        // Subtitles events.
-        this.videoHandler.votSubtitlesHighlightWordsCheckbox.input.addEventListener(
-          "change",
-          (e) => {
-            (async () => {
-              this.videoHandler.data.highlightWords = Number(e.target.checked);
-              await votStorage.set(
-                "highlightWords",
-                this.videoHandler.data.highlightWords,
-              );
-              utils_debug.log(
-                "highlightWords value changed. New value: ",
-                this.videoHandler.data.highlightWords,
-              );
-              this.videoHandler.subtitlesWidget.setHighlightWords(
-                this.videoHandler.data.highlightWords,
-              );
-            })();
-          },
-        );
-        this.videoHandler.votSubtitlesMaxLengthSlider.input.addEventListener(
-          "input",
-          (e) => {
-            (async () => {
-              this.videoHandler.data.subtitlesMaxLength = Number(
-                e.target.value,
-              );
-              await votStorage.set(
-                "subtitlesMaxLength",
-                this.videoHandler.data.subtitlesMaxLength,
-              );
-              this.videoHandler.votSubtitlesMaxLengthSlider.label.querySelector(
-                "strong",
-              ).textContent = `${this.videoHandler.data.subtitlesMaxLength}`;
-              this.videoHandler.subtitlesWidget.setMaxLength(
-                this.videoHandler.data.subtitlesMaxLength,
-              );
-            })();
-          },
-        );
-        this.videoHandler.votSubtitlesFontSizeSlider.input.addEventListener(
-          "input",
-          (e) => {
-            (async () => {
-              this.videoHandler.data.subtitlesFontSize = Number(e.target.value);
-              await votStorage.set(
-                "subtitlesFontSize",
-                this.videoHandler.data.subtitlesFontSize,
-              );
-              this.videoHandler.votSubtitlesFontSizeSlider.label.querySelector(
-                "strong",
-              ).textContent = `${this.videoHandler.data.subtitlesFontSize}`;
-              this.videoHandler.subtitlesWidget.setFontSize(
-                this.videoHandler.data.subtitlesFontSize,
-              );
-            })();
-          },
-        );
-        this.videoHandler.votSubtitlesOpacitySlider.input.addEventListener(
-          "input",
-          (e) => {
-            (async () => {
-              this.videoHandler.data.subtitlesOpacity = Number(e.target.value);
-              await votStorage.set(
-                "subtitlesOpacity",
-                this.videoHandler.data.subtitlesOpacity,
-              );
-              this.videoHandler.votSubtitlesOpacitySlider.label.querySelector(
-                "strong",
-              ).textContent = `${this.videoHandler.data.subtitlesOpacity}`;
-              this.videoHandler.subtitlesWidget.setOpacity(
-                this.videoHandler.data.subtitlesOpacity,
-              );
-            })();
-          },
-        );
-
-        this.videoHandler.votGlobalPortal.appendChild(
-          this.videoHandler.votSubtitlesDialog.container,
-        );
-      },
-    );
-
-    // ----- OTHER Settings -----
-    this.videoHandler.votShowPiPButtonCheckbox.input.addEventListener(
-      "change",
-      (e) => {
-        (async () => {
-          this.videoHandler.data.showPiPButton = Number(e.target.checked);
-          await votStorage.set(
-            "showPiPButton",
-            this.videoHandler.data.showPiPButton,
-          );
-          utils_debug.log(
-            "showPiPButton value changed. New value: ",
-            this.videoHandler.data.showPiPButton,
-          );
-          this.videoHandler.votButton.pipButton.hidden =
-            this.videoHandler.votButton.separator2.hidden =
-              !isPiPAvailable() || !this.videoHandler.data.showPiPButton;
-        })();
-      },
-    );
-    this.videoHandler.votM3u8ProxyHostTextfield.input.addEventListener(
-      "change",
-      (e) => {
-        (async () => {
-          this.videoHandler.data.m3u8ProxyHost =
-            e.target.value || m3u8ProxyHost;
-          await votStorage.set(
-            "m3u8ProxyHost",
-            this.videoHandler.data.m3u8ProxyHost,
-          );
-          utils_debug.log(
-            "m3u8ProxyHost value changed. New value: ",
-            this.videoHandler.data.m3u8ProxyHost,
-          );
-        })();
-      },
-    );
-    this.videoHandler.votProxyWorkerHostTextfield.input.addEventListener(
-      "change",
-      (e) => {
-        (async () => {
-          this.videoHandler.data.proxyWorkerHost =
-            e.target.value || proxyWorkerHost;
-          await votStorage.set(
-            "proxyWorkerHost",
-            this.videoHandler.data.proxyWorkerHost,
-          );
-          utils_debug.log(
-            "proxyWorkerHost value changed. New value: ",
-            this.videoHandler.data.proxyWorkerHost,
-          );
-          if (this.videoHandler.data.translateProxyEnabled) {
-            this.videoHandler.votClient.host =
-              this.videoHandler.data.proxyWorkerHost;
-          }
-        })();
-      },
-    );
-    this.videoHandler.votOnlyBypassMediaCSPCheckbox.input.addEventListener(
-      "change",
-      (e) => {
-        (async () => {
-          this.videoHandler.data.onlyBypassMediaCSP = Number(e.target.checked);
-          await votStorage.set(
-            "onlyBypassMediaCSP",
-            this.videoHandler.data.onlyBypassMediaCSP,
-          );
-          utils_debug.log(
-            "onlyBypassMediaCSP value changed. New value: ",
-            this.videoHandler.data.onlyBypassMediaCSP,
-          );
-          this.videoHandler.stopTranslate();
-          this.videoHandler.createPlayer();
-        })();
-      },
-    );
-    this.videoHandler.votNewAudioPlayerCheckbox.input.addEventListener(
-      "change",
-      (e) => {
-        (async () => {
-          const checked = e.target.checked;
-          this.videoHandler.data.newAudioPlayer = Number(checked);
-          await votStorage.set(
-            "newAudioPlayer",
-            this.videoHandler.data.newAudioPlayer,
-          );
-          utils_debug.log(
-            "newAudioPlayer value changed. New value: ",
-            this.videoHandler.data.newAudioPlayer,
-          );
-          this.videoHandler.stopTranslate();
-          this.videoHandler.createPlayer();
-          this.videoHandler.votOnlyBypassMediaCSPCheckbox.input.disabled =
-            this.videoHandler.votOnlyBypassMediaCSPCheckbox.container.hidden =
-              !checked;
-        })();
-      },
-    );
-    this.videoHandler.votBugReportButton.addEventListener("click", () => {
-      const params = new URLSearchParams(
-        this.videoHandler.collectReportInfo(),
-      ).toString();
-      window.open(`${repositoryUrl}/issues/new?${params}`, "_blank").focus();
-    });
-    this.videoHandler.votUpdateLocaleFilesButton.addEventListener(
-      "click",
-      () => {
-        (async () => {
-          await votStorage.set("locale-hash", "");
-          await localizationProvider.update(true);
-          window.location.reload();
-        })();
-      },
-    );
-    this.videoHandler.votResetSettingsButton.addEventListener("click", () => {
-      (async () => {
-        localizationProvider.reset();
-        const valuesForClear = await votStorage.list();
-        for (const key of valuesForClear) {
-          if (!localizationProvider.storageKeys.includes(key)) {
-            votStorage.syncDelete(key);
-          }
-        }
-        window.location.reload();
-      })();
-    });
-  }
-
-  /**
-   * Releases resources and removes UI elements
-   */
-  releaseUI() {
-    this.videoHandler.votButtonTooltip.release();
-    this.videoHandler.votAudioBoosterTooltip?.release();
-    this.videoHandler.votTranslationTextServiceTooltip?.release();
-    this.videoHandler.votNewAudioPlayerTooltip?.release();
-    this.videoHandler.votOnlyBypassMediaCSPTooltip?.release();
-    this.videoHandler.votPortal.remove();
-    this.videoHandler.votGlobalPortal.remove();
-    this.videoHandler.votButton.container.remove();
-    this.videoHandler.votMenu.container.remove();
-  }
-
-  /**
-   * Relesae UI event listeners
-   */
-  releaseUIEvents() {
-    this.videoHandler.container.removeEventListener(
-      "pointerup",
-      this.disableDragging,
-    );
-    this.videoHandler.container.removeEventListener(
-      "pointermove",
-      this.handleContainerPointerMove,
-    );
-
-    this.videoHandler.container.removeEventListener(
-      "touchend",
-      this.disableDragging,
-    );
-    this.videoHandler.container.removeEventListener(
-      "touchmove",
-      this.handleContainerTouchMove,
-      {
-        passive: false,
-      },
-    );
-
-    for (const event of this.cancelDraggingEvents) {
-      document.removeEventListener(event, this.disableDragging);
-    }
-  }
-
-  release() {
-    this.releaseUI();
-    this.releaseUIEvents();
   }
 }
 
@@ -13475,7 +15884,7 @@ class VOTTranslationHandler {
         responseLang,
         translationHelp,
         extraOpts: {
-          useNewModel: this.videoHandler.data?.useNewModel,
+          useLivelyVoice: this.videoHandler.data?.useNewModel,
           videoTitle: this.videoHandler.videoData.title,
         },
       });
@@ -13719,8 +16128,8 @@ class VOTVideoManager {
   videoValidator() {
     utils_debug.log("VideoValidator videoData: ", this.videoHandler.videoData);
     if (
-      this.videoHandler.data.dontTranslateYourLang === 1 &&
-      this.videoHandler.data.dontTranslateLanguage?.includes(
+      this.videoHandler.data.enabledDontTranslateLanguages &&
+      this.videoHandler.data.dontTranslateLanguages?.includes(
         this.videoHandler.videoData.detectedLanguage,
       )
     ) {
@@ -13785,12 +16194,9 @@ class VOTVideoManager {
   syncVideoVolumeSlider() {
     const videoVolume = this.isMuted() ? 0 : this.getVideoVolume() * 100;
     const newSlidersVolume = Math.round(videoVolume);
-    this.videoHandler.votVideoVolumeSlider.input.value = newSlidersVolume;
-    this.videoHandler.votVideoVolumeSlider.label.querySelector(
-      "strong",
-    ).textContent = `${newSlidersVolume}%`;
-    UI.updateSlider(this.videoHandler.votVideoVolumeSlider.input);
-    if (this.videoHandler.data.syncVolume === 1) {
+    this.videoHandler.uiManager.votOverlayView.videoVolumeSlider.value =
+      newSlidersVolume;
+    if (this.videoHandler.data.syncVolume) {
       this.videoHandler.tempOriginalVolume = Number(newSlidersVolume);
     }
   }
@@ -13801,14 +16207,16 @@ class VOTVideoManager {
    * @param {string} to Target language code.
    */
   setSelectMenuValues(from, to) {
-    this.videoHandler.votTranslationLanguageSelect.fromSelect.setTitle(
-      localizationProvider.get("langs")[from],
+    this.videoHandler.uiManager.votOverlayView.languagePairSelect.fromSelect.selectTitle =
+      localizationProvider.get(`langs.${from}`);
+    this.videoHandler.uiManager.votOverlayView.languagePairSelect.toSelect.selectTitle =
+      localizationProvider.get(`langs.${to}`);
+    this.videoHandler.uiManager.votOverlayView.languagePairSelect.fromSelect.setSelectedValue(
+      from,
     );
-    this.videoHandler.votTranslationLanguageSelect.toSelect.setTitle(
-      localizationProvider.get("langs")[to],
+    this.videoHandler.uiManager.votOverlayView.languagePairSelect.toSelect.setSelectedValue(
+      to,
     );
-    this.videoHandler.votTranslationLanguageSelect.fromSelect.setSelected(from);
-    this.videoHandler.votTranslationLanguageSelect.toSelect.setSelected(to);
     console.log(`[VOT] Set translation from ${from} to ${to}`);
     this.videoHandler.videoData.detectedLanguage = from;
     this.videoHandler.videoData.responseLanguage = to;
@@ -13826,13 +16234,16 @@ class VideoHandler {
   translateToLang = calculatedResLang;
   /** @type {number|undefined} */
   timer;
-  /** @type {any} */
-  videoData = "";
+  /** @type {undefined|Partial<StorageData>} */
+  data;
+  /** @type {undefined|object} */
+  videoData;
   /** @type {boolean} */
   firstPlay = true;
   /** @type {AudioContext} */
   audioContext = initAudioContext();
-  hls; // For HLS streaming (if applicable)
+  // For HLS streaming (if applicable)
+  hls;
   /** @type {VOTClient|VOTWorkerClient} */
   votClient;
   /** @type {Chaimu} */
@@ -13848,8 +16259,6 @@ class VideoHandler {
   firstSyncVolume = true; // used for skip 1st syncing with observer
   longWaitingResCount = 0;
   subtitles = []; // current subtitle list
-  /** @type {any} */
-  dragging;
 
   /**
    * Constructs a new VideoHandler instance.
@@ -13871,10 +16280,38 @@ class VideoHandler {
     this.abortController = new AbortController();
     this.extraEvents = [];
     // Create helper instances.
-    this.uiManager = new VOTUIManager(this);
+    this.uiManager = new UIManager({
+      root: this.container,
+      portalContainer: this.getPortalContainer(),
+      tooltipLayoutRoot: this.getTooltipLayoutRoot(),
+      data: this.data,
+      videoHandler: this,
+    });
     this.translationHandler = new VOTTranslationHandler(this);
     this.videoManager = new VOTVideoManager(this);
     this.cacheManager = new CacheManager();
+  }
+
+  // TODO: remove todo after refactor and maybe set as portalContainer getter
+  getPortalContainer() {
+    return this.site.host === "youtube" && this.site.additionalData !== "mobile"
+      ? this.container.parentElement
+      : this.container;
+  }
+
+  // TODO: remove todo after refactor and maybe set as tooltipLayoutRoot getter
+  getTooltipLayoutRoot() {
+    switch (this.site.host) {
+      case "kickstarter": {
+        return document.getElementById("react-project-header");
+      }
+      case "custom": {
+        return undefined;
+      }
+      default: {
+        return this.container;
+      }
+    }
   }
 
   /**
@@ -13892,13 +16329,7 @@ class VideoHandler {
    * Auto-initiates translation if conditions are met.
    */
   async autoTranslate() {
-    if (
-      !(
-        this.firstPlay &&
-        this.data.autoTranslate === 1 &&
-        this.videoData.videoId
-      )
-    )
+    if (!(this.firstPlay && this.data.autoTranslate && this.videoData.videoId))
       return;
     this.firstPlay = false;
     try {
@@ -13949,103 +16380,48 @@ class VideoHandler {
     if (this.initialized) return;
 
     // Retrieve settings from storage.
-    const dataPromises = {
-      autoTranslate: votStorage.get("autoTranslate", 0),
-      dontTranslateLanguage: votStorage.get("dontTranslateLanguage", [
-        calculatedResLang,
-      ]),
-      dontTranslateYourLang: votStorage.get("dontTranslateYourLang", 1),
-      autoSetVolumeYandexStyle: votStorage.get("autoSetVolumeYandexStyle", 1),
-      autoVolume: votStorage.get("autoVolume", defaultAutoVolume),
-      buttonPos: votStorage.get("buttonPos", "default"),
-      showVideoSlider: votStorage.get("showVideoSlider", 1),
-      syncVolume: votStorage.get("syncVolume", 0),
-      downloadWithName: votStorage.get("downloadWithName", 1),
-      sendNotifyOnComplete: votStorage.get("sendNotifyOnComplete", 0),
-      subtitlesMaxLength: votStorage.get("subtitlesMaxLength", 300),
-      highlightWords: votStorage.get("highlightWords", 0),
-      subtitlesFontSize: votStorage.get("subtitlesFontSize", 20),
-      subtitlesOpacity: votStorage.get("subtitlesOpacity", 20),
-      subtitlesDownloadFormat: votStorage.get("subtitlesDownloadFormat", "srt"),
-      responseLanguage: votStorage.get("responseLanguage", calculatedResLang),
-      defaultVolume: votStorage.get("defaultVolume", 100),
-      onlyBypassMediaCSP: votStorage.get(
-        "onlyBypassMediaCSP",
-        Number(!!this.audioContext),
-      ),
-      newAudioPlayer: votStorage.get(
-        "newAudioPlayer",
-        Number(!!this.audioContext),
-      ),
-      showPiPButton: votStorage.get("showPiPButton", 0),
-      translateAPIErrors: votStorage.get("translateAPIErrors", 1),
-      translationService: votStorage.get(
-        "translationService",
-        defaultTranslationService,
-      ),
-      detectService: votStorage.get("detectService", defaultDetectService),
-      hotkeyButton: votStorage.get("hotkeyButton", null),
-      m3u8ProxyHost: votStorage.get("m3u8ProxyHost", m3u8ProxyHost),
-      proxyWorkerHost: votStorage.get("proxyWorkerHost", proxyWorkerHost),
-      translateProxyEnabled: votStorage.get("translateProxyEnabled", 0),
-      audioBooster: votStorage.get("audioBooster", 0),
-      useNewModel: votStorage.get("useNewModel", 1),
-      localeHash: votStorage.get("locale-hash", ""),
-      localeUpdatedAt: votStorage.get("locale-updated-at", 0),
-    };
-
-    this.data = Object.fromEntries(
-      await Promise.all(
-        Object.entries(dataPromises).map(async ([key, promise]) => [
-          key,
-          await promise,
-        ]),
-      ),
-    );
+    this.data = await votStorage.getValues({
+      autoTranslate: false,
+      dontTranslateLanguages: [calculatedResLang],
+      enabledDontTranslateLanguages: true,
+      enabledAutoVolume: true,
+      autoVolume: defaultAutoVolume,
+      buttonPos: "default",
+      showVideoSlider: true,
+      syncVolume: false,
+      downloadWithName: true,
+      sendNotifyOnComplete: false,
+      subtitlesMaxLength: 300,
+      highlightWords: false,
+      subtitlesFontSize: 20,
+      subtitlesOpacity: 20,
+      subtitlesDownloadFormat: "srt",
+      responseLanguage: calculatedResLang,
+      defaultVolume: 100,
+      onlyBypassMediaCSP: Number(!!this.audioContext),
+      newAudioPlayer: Number(!!this.audioContext),
+      showPiPButton: false,
+      translateAPIErrors: true,
+      translationService: defaultTranslationService,
+      detectService: defaultDetectService,
+      translationHotkey: null,
+      m3u8ProxyHost: m3u8ProxyHost,
+      proxyWorkerHost: proxyWorkerHost,
+      translateProxyEnabled: 0,
+      audioBooster: false,
+      useNewModel: false,
+      localeHash: "",
+      localeUpdatedAt: false,
+    });
+    // TODO: TEMP
+    this.uiManager.data = this.data;
     console.log("[VOT] data from db: ", this.data);
 
-    // Convert old settings to new values (backwards compatibility)
-    await convertData(
-      this.data,
-      "m3u8ProxyHost",
-      "m3u8-proxy.toil.cc",
-      m3u8ProxyHost,
-    );
-    await convertData(
-      this.data,
-      "proxyWorkerHost",
-      "vot.toil.cc",
-      proxyWorkerHost,
-    );
-    await convertData(
-      this.data,
-      "detectService",
-      "yandex",
-      defaultDetectService,
-    );
-    await convertData(
-      this.data,
-      "translationService",
-      "yandex",
-      defaultTranslationService,
-    );
-    await convertData(
-      this.data,
-      "dontTranslateLanguage",
-      false,
-      [this.data.dontTranslateLanguage],
-      Array.isArray(this.data.dontTranslateLanguage),
-    );
-
-    // Enable translate proxy if extension is not compatible with GM_xmlhttpRequest.
-    if (
-      !this.data.translateProxyEnabled &&
-      GM_info?.scriptHandler &&
-      !nonProxyExtensions.includes(GM_info.scriptHandler)
-    ) {
+    // Enable translate proxy if extension isn't compatible with GM_xmlhttpRequest
+    if (!this.data.translateProxyEnabled && isProxyOnlyExtension) {
       this.data.translateProxyEnabled = 1;
     }
-    // Determine country for proxy purposes.
+    // Determine country for proxy purposes
     if (!countryCode) {
       try {
         const response = await GM_fetch("https://speed.cloudflare.com/meta", {
@@ -14072,10 +16448,10 @@ class VideoHandler {
     // Initialize subtitles widget.
     this.subtitlesWidget = new SubtitlesWidget(
       this.video,
-      this.uiManager.getPortalContainer(),
+      this.getPortalContainer(),
       this.site,
-      this.votPortal,
-      this.uiManager.getTooltipLayoutRoot(),
+      this.uiManager.votOverlayView.votOverlayPortal,
+      this.getTooltipLayoutRoot(),
     );
     this.subtitlesWidget.setMaxLength(this.data.subtitlesMaxLength);
     this.subtitlesWidget.setHighlightWords(this.data.highlightWords);
@@ -14116,39 +16492,13 @@ class VideoHandler {
   }
 
   /**
-   * Checks if the provided text indicates a loading state.
-   * @param {string} text The text to check.
-   * @returns {boolean} True if text is a loading message.
-   */
-  isLoadingText(text) {
-    return (
-      text.includes(localizationProvider.get("translationTake")) ||
-      text.includes(localizationProvider.get("TranslationDelayed"))
-    );
-  }
-
-  /**
    * Sets the translation button state and text.
    * @param {string} status The new status.
    * @param {string} text The text to display.
    * @returns {VideoHandler} This instance.
    */
   transformBtn(status, text) {
-    this.votButton.container.dataset.status = status;
-    const isLoading = status === "error" && this.isLoadingText(text);
-    this.setLoadingBtn(isLoading);
-    this.votButton.label.textContent = text;
-    this.votButtonTooltip.setContent(text);
-    return this;
-  }
-
-  /**
-   * Sets the loading indicator on the translation button.
-   * @param {boolean} [loading=false] True to show loading indicator.
-   * @returns {VideoHandler} This instance.
-   */
-  setLoadingBtn(loading = false) {
-    this.votButton.container.dataset.loading = loading;
+    this.uiManager.transformBtn(status, text);
     return this;
   }
 
@@ -14168,23 +16518,26 @@ class VideoHandler {
       });
     };
     const addExtraEventListeners = (element, events, handler) => {
-      events.forEach((event) => addExtraEventListener(element, event, handler));
+      for (const event of events) {
+        addExtraEventListener(element, event, handler);
+      }
     };
 
     // Update menu container height on resize.
     this.resizeObserver = new ResizeObserver((entries) => {
-      entries.forEach((e) => {
-        this.votMenu.container.style.setProperty(
+      for (const e of entries) {
+        this.uiManager.votOverlayView.votMenu.container.style.setProperty(
           "--vot-container-height",
           `${e.contentRect.height}px`,
         );
-      });
+      }
 
-      const { position, direction } = this.uiManager.getButtonPos();
-      this.uiManager.updateButtonPos(position, direction);
+      const { position, direction } =
+        this.uiManager.votOverlayView.calcButtonLayout(this.data?.buttonPos);
+      this.uiManager.votOverlayView.updateButtonLayout(position, direction);
     });
     this.resizeObserver.observe(this.video);
-    this.votMenu.container.style.setProperty(
+    this.uiManager.votOverlayView.votMenu.container.style.setProperty(
       "--vot-container-height",
       `${this.video.getBoundingClientRect().height}px`,
     );
@@ -14196,7 +16549,7 @@ class VideoHandler {
     ) {
       this.syncVolumeObserver = new MutationObserver((mutations) => {
         if (!this.audioPlayer.player.src || !this.data.syncVolume) return;
-        mutations.forEach((mutation) => {
+        for (const mutation of mutations) {
           if (
             mutation.type === "attributes" &&
             mutation.attributeName === "aria-valuenow"
@@ -14213,7 +16566,7 @@ class VideoHandler {
             this.audioPlayer.player.volume = this.data.defaultVolume / 100;
             this.syncVolumeWrapper("video", finalVolume);
           }
-        });
+        }
       });
       const ytpVolumePanel = document.querySelector(".ytp-volume-panel");
       if (ytpVolumePanel) {
@@ -14229,10 +16582,10 @@ class VideoHandler {
       "click",
       (event) => {
         const e = event.target;
-        const button = this.votButton.container;
-        const menu = this.votMenu.container;
+        const button = this.uiManager.votOverlayView.votButton.container;
+        const menu = this.uiManager.votOverlayView.votMenu.container;
         const container = this.container;
-        const settings = this.votSettingsDialog.container;
+        const settings = this.uiManager.votSettingsView.dialog.container;
         const tempDialog = document.querySelector(".vot-dialog-temp");
         const isButton = button.contains(e);
         const isMenu = menu.contains(e);
@@ -14243,8 +16596,8 @@ class VideoHandler {
           `[document click] ${isButton} ${isMenu} ${isVideo} ${isSettings} ${isTempDialog}`,
         );
         if (!(!isButton && !isMenu && !isSettings && !isTempDialog)) return;
-        if (!isVideo) this.logout(0);
-        this.votMenu.container.hidden = true;
+        if (!isVideo) this.uiManager.votOverlayView.updateButtonOpacity(0);
+        this.uiManager.votOverlayView.votMenu.hidden = true;
       },
       {
         signal,
@@ -14260,7 +16613,7 @@ class VideoHandler {
         const isInputElement =
           ["input", "textarea"].includes(activeElement.tagName.toLowerCase()) ||
           activeElement.isContentEditable;
-        if (!isInputElement && code === this.data.hotkeyButton)
+        if (!isInputElement && code === this.data.translationHotkey)
           await this.translationHandler.handleTranslationBtnClick();
       },
       {
@@ -14268,7 +16621,7 @@ class VideoHandler {
       },
     );
 
-    let eventContainer = this.getEventContainer();
+    const eventContainer = this.getEventContainer();
     if (eventContainer)
       addExtraEventListeners(
         eventContainer,
@@ -14277,12 +16630,12 @@ class VideoHandler {
       );
 
     addExtraEventListener(
-      this.votButton.container,
+      this.uiManager.votOverlayView.votButton.container,
       "pointermove",
       this.changeOpacityOnEvent,
     );
     addExtraEventListener(
-      this.votMenu.container,
+      this.uiManager.votOverlayView.votMenu.container,
       "pointermove",
       this.changeOpacityOnEvent,
     );
@@ -14291,12 +16644,16 @@ class VideoHandler {
       addExtraEventListener(document, "touchmove", this.resetTimer);
 
     // Prevent propagation on pointerdown events.
-    addExtraEventListener(this.votButton.container, "pointerdown", (e) => {
-      e.stopImmediatePropagation();
-    });
+    addExtraEventListener(
+      this.uiManager.votOverlayView.votButton.container,
+      "pointerdown",
+      (e) => {
+        e.stopImmediatePropagation();
+      },
+    );
     // don't change mousedown, otherwise it may break on youtube
     addExtraEventListeners(
-      this.votMenu.container,
+      this.uiManager.votOverlayView.votMenu.container,
       ["pointerdown", "mousedown"],
       (e) => {
         e.stopImmediatePropagation();
@@ -14321,7 +16678,7 @@ class VideoHandler {
       )
         return;
       utils_debug.log("lipsync mode is emptied");
-      this.videoData = "";
+      this.videoData = undefined;
       this.stopTranslation();
     });
     if (!["rutube", "ok"].includes(this.site.host)) {
@@ -14356,22 +16713,13 @@ class VideoHandler {
   }
 
   /**
-   * Adjusts the opacity of the button container.
-   * @param {number} n The new opacity value.
-   */
-  logout(n) {
-    if (!this.votMenu.container.hidden) return;
-    this.votButton.container.style.opacity = n;
-  }
-
-  /**
    * Resets the auto-hide timer for the UI.
    */
   resetTimer = () => {
     clearTimeout(this.timer);
-    this.logout(1);
+    this.uiManager.votOverlayView.updateButtonOpacity(1);
     this.timer = setTimeout(() => {
-      this.logout(0);
+      this.uiManager.votOverlayView.updateButtonOpacity(0);
     }, 1000);
   };
 
@@ -14381,7 +16729,7 @@ class VideoHandler {
    */
   changeOpacityOnEvent = (event) => {
     clearTimeout(this.timer);
-    this.logout(1);
+    this.uiManager.votOverlayView.updateButtonOpacity(1);
     event.stopPropagation();
   };
 
@@ -14391,16 +16739,13 @@ class VideoHandler {
    */
   async changeSubtitlesLang(subs) {
     utils_debug.log("[onchange] subtitles", subs);
-    this.votSubtitlesSelect.setSelected(subs);
+    this.uiManager.votOverlayView.subtitlesSelect.setSelectedValue(subs);
     if (subs === "disabled") {
-      this.votSubtitlesSelect.setTitle(
-        localizationProvider.get("VOTSubtitlesDisabled"),
-      );
       this.subtitlesWidget.setContent(null);
-      this.votDownloadSubtitlesButton.hidden = true;
+      this.uiManager.votOverlayView.downloadSubtitlesButton.hidden = true;
       this.yandexSubtitles = null;
     } else {
-      const subtitlesObj = this.subtitles.at(parseInt(subs));
+      const subtitlesObj = this.subtitles.at(Number.parseInt(subs));
       if (
         this.data.translateProxyEnabled === 2 &&
         subtitlesObj.url.startsWith(
@@ -14420,7 +16765,7 @@ class VideoHandler {
         this.yandexSubtitles,
         subtitlesObj.language,
       );
-      this.votDownloadSubtitlesButton.hidden = false;
+      this.uiManager.votOverlayView.downloadSubtitlesButton.hidden = false;
     }
   }
 
@@ -14437,7 +16782,7 @@ class VideoHandler {
           disabled: false,
         },
       ];
-      this.votSubtitlesSelect.updateItems(updatedOptions);
+      this.uiManager.votOverlayView.subtitlesSelect.updateItems(updatedOptions);
       await this.changeSubtitlesLang(updatedOptions[0].value);
       return;
     }
@@ -14450,11 +16795,11 @@ class VideoHandler {
       },
       ...this.subtitles.map((s, idx) => ({
         label:
-          (localizationProvider.get("langs")[s.language] ??
+          (localizationProvider.get(`langs.${s.language}`) ??
             s.language.toUpperCase()) +
           (s.translatedFromLanguage
             ? ` ${localizationProvider.get("VOTTranslatedFrom")} ${
-                localizationProvider.get("langs")[s.translatedFromLanguage] ??
+                localizationProvider.get(`langs.${s.translatedFromLanguage}`) ??
                 s.translatedFromLanguage.toUpperCase()
               }`
             : "") +
@@ -14467,7 +16812,7 @@ class VideoHandler {
         disabled: false,
       })),
     ];
-    this.votSubtitlesSelect.updateItems(updatedOptions);
+    this.uiManager.votOverlayView.subtitlesSelect.updateItems(updatedOptions);
     await this.changeSubtitlesLang(updatedOptions[0].value);
   }
 
@@ -14549,8 +16894,8 @@ class VideoHandler {
   syncVolumeWrapper(fromType, newVolume) {
     const slider =
       fromType === "translation"
-        ? this.votVideoVolumeSlider
-        : this.votVideoTranslationVolumeSlider;
+        ? this.uiManager.votOverlayView.videoVolumeSlider
+        : this.uiManager.votOverlayView.translationVolumeSlider;
     const currentSliderValue = Number(slider.input.value);
     const finalValue = syncVolume(
       fromType === "translation" ? this.video : this.audioPlayer.player,
@@ -14590,9 +16935,9 @@ class VideoHandler {
     this.audioPlayer.player.clear();
     this.audioPlayer.player.src = undefined;
     utils_debug.log("audioPlayer after stopTranslate", this.audioPlayer);
-    this.votVideoVolumeSlider.container.hidden = true;
-    this.votVideoTranslationVolumeSlider.container.hidden = true;
-    this.votDownloadButton.hidden = true;
+    this.uiManager.votOverlayView.videoVolumeSlider.hidden = true;
+    this.uiManager.votOverlayView.translationVolumeSlider.hidden = true;
+    this.uiManager.votOverlayView.downloadTranslationButton.hidden = true;
     this.downloadTranslationUrl = null;
     this.longWaitingResCount = 0;
     this.transformBtn("none", localizationProvider.get("translateVideo"));
@@ -14617,6 +16962,7 @@ class VideoHandler {
         : 0;
     utils_debug.log("longWaitingResCount", this.longWaitingResCount);
     if (this.longWaitingResCount > minLongWaitingCount) {
+      // biome-ignore lint/style/noParameterAssign: waiting recode to ts
       errorMessage = new VOTLocalizedError("TranslationDelayed");
     }
     if (errorMessage?.name === "VOTLocalizedError") {
@@ -14624,11 +16970,11 @@ class VideoHandler {
     } else if (errorMessage instanceof Error) {
       this.transformBtn("error", errorMessage?.message);
     } else if (
-      this.data.translateAPIErrors === 1 &&
+      this.data.translateAPIErrors &&
       lang !== "ru" &&
       !errorMessage.includes(translationTake)
     ) {
-      this.setLoadingBtn(true);
+      this.uiManager.votOverlayView.votButton.loading = true;
       const translatedMessage = await translate(errorMessage, "ru", lang);
       this.transformBtn("error", translatedMessage);
     } else {
@@ -14642,7 +16988,7 @@ class VideoHandler {
         "Загружаем переведенное аудио",
       ].includes(errorMessage)
     ) {
-      this.setLoadingBtn(true);
+      this.uiManager.votOverlayView.votButton.loading = false;
     }
   }
 
@@ -14651,18 +16997,19 @@ class VideoHandler {
    * @param {string} audioUrl The URL of the translation audio.
    */
   afterUpdateTranslation(audioUrl) {
-    const isSuccess = this.votButton.container.dataset.status === "success";
-    this.votVideoVolumeSlider.container.hidden =
-      this.data.showVideoSlider !== 1 || !isSuccess;
-    this.votVideoTranslationVolumeSlider.container.hidden = !isSuccess;
-    if (this.data.autoSetVolumeYandexStyle === 1) {
-      this.votVideoVolumeSlider.input.value = this.data.autoVolume * 100;
-      this.votVideoVolumeSlider.label.querySelector("strong").textContent =
-        `${this.data.autoVolume * 100}%`;
-      UI.updateSlider(this.votVideoVolumeSlider.input);
+    const isSuccess =
+      this.uiManager.votOverlayView.votButton.container.dataset.status ===
+      "success";
+    this.uiManager.votOverlayView.videoVolumeSlider.hidden =
+      !this.data.showVideoSlider || !isSuccess;
+    this.uiManager.votOverlayView.translationVolumeSlider.hidden = !isSuccess;
+    if (this.data.enabledAutoVolume) {
+      this.uiManager.votOverlayView.videoVolumeSlider.value =
+        this.data.autoVolume;
     }
+
     if (!this.videoData.isStream) {
-      this.votDownloadButton.hidden = false;
+      this.uiManager.votOverlayView.downloadTranslationButton.hidden = false;
       this.downloadTranslationUrl = audioUrl;
     }
     utils_debug.log(
@@ -14705,9 +17052,10 @@ class VideoHandler {
         return audioUrl;
       }
       utils_debug.log("Yandex returned not valid audio, trying to fix...");
-      let translateRes = await this.translationHandler.translateVideoImpl(
+      this.videoData.detectedLanguage = "auto";
+      const translateRes = await this.translationHandler.translateVideoImpl(
         this.videoData,
-        (this.videoData.detectedLanguage = "auto"),
+        this.videoData.detectedLanguage,
         this.videoData.responseLanguage,
         this.videoData.translationHelp,
       );
@@ -14715,6 +17063,7 @@ class VideoHandler {
         this.videoData.detectedLanguage,
         this.videoData.responseLanguage,
       );
+      // biome-ignore lint/style/noParameterAssign: waiting recode to ts
       audioUrl = translateRes.url;
       utils_debug.log("Fixed audio audioUrl", audioUrl);
     } catch (err) {
@@ -14737,6 +17086,7 @@ class VideoHandler {
         "https://vtrans.s3-private.mds.yandex.net/tts/prod/",
         "",
       );
+      // biome-ignore lint/style/noParameterAssign: waiting recode to ts
       audioUrl = `https://${this.data.proxyWorkerHost}/video-translation/audio-proxy/${audioPath}`;
       console.log(`[VOT] Audio proxied via ${audioUrl}`);
     }
@@ -14749,6 +17099,7 @@ class VideoHandler {
    */
   async updateTranslation(audioUrl) {
     if (audioUrl !== this.audioPlayer.player.currentSrc) {
+      // biome-ignore lint/style/noParameterAssign: waiting recode to ts
       audioUrl = await this.validateAudioUrl(this.proxifyAudio(audioUrl));
     }
     if (this.audioPlayer.player.src !== audioUrl) {
@@ -14788,7 +17139,7 @@ class VideoHandler {
     console.log("[VOT] Video Data: ", this.videoData);
     utils_debug.log("Run videoValidator");
     this.videoValidator();
-    this.setLoadingBtn(true);
+    this.uiManager.votOverlayView.votButton.loading = true;
     this.volumeOnStart = this.getVideoVolume();
     const cacheKey = `${VIDEO_ID}_${requestLang}_${responseLang}_${this.data.useNewModel}`;
     const cachedEntry = this.cacheManager.getTranslation(cacheKey);
@@ -14796,7 +17147,8 @@ class VideoHandler {
       await this.updateTranslation(cachedEntry.url);
       utils_debug.log("[translateFunc] Cached translation was received");
       return;
-    } else if (cachedEntry?.error) {
+    }
+    if (cachedEntry?.error) {
       utils_debug.log("Skip translation - previous attempt failed");
       await this.updateTranslationErrorMsg(cachedEntry.error.data?.message);
       return;
@@ -14871,13 +17223,13 @@ class VideoHandler {
    * @param {string} streamURL The HLS stream URL.
    */
   setupHLS(streamURL) {
+    // biome-ignore lint/complexity/useArrowFunction: waiting recode to ts
     this.hls.on(Hls.Events.MEDIA_ATTACHED, function () {
       utils_debug.log("audio and hls.js are now bound together !");
     });
+    // biome-ignore lint/complexity/useArrowFunction: waiting recode to ts
     this.hls.on(Hls.Events.MANIFEST_PARSED, function (data) {
-      utils_debug.log(
-        "manifest loaded, found " + data?.levels?.length + " quality level",
-      );
+      utils_debug.log(`manifest loaded, found ${data?.levels?.length} quality level`);
     });
     this.hls.loadSource(streamURL);
     this.hls.attachMedia(this.audioPlayer.player.audio);
@@ -14926,11 +17278,8 @@ class VideoHandler {
     if (typeof this.data.defaultVolume === "number") {
       this.audioPlayer.player.volume = this.data.defaultVolume / 100;
     }
-    if (
-      typeof this.data.autoSetVolumeYandexStyle === "number" &&
-      this.data.autoSetVolumeYandexStyle
-    ) {
-      this.setVideoVolume(this.data.autoVolume);
+    if (this.data.enabledAutoVolume) {
+      this.setVideoVolume((this.data.autoVolume / 100).toFixed(2));
     }
   }
 
@@ -14951,11 +17300,18 @@ class VideoHandler {
     this.stopTranslation();
     const hide =
       !this.video.src && !this.video.currentSrc && !this.video.srcObject;
-    this.votButton.container.hidden = hide;
-    if (hide) this.votMenu.container.hidden = hide;
+    this.uiManager.votOverlayView.votButton.container.hidden = hide;
+    if (hide) this.uiManager.votOverlayView.votMenu.hidden = hide;
     if (!this.site.selector) this.container = this.video.parentElement;
-    if (!this.container.contains(this.votButton.container)) {
-      this.container.append(this.votButton.container, this.votMenu.container);
+    if (
+      !this.container.contains(
+        this.uiManager.votOverlayView.votButton.container,
+      )
+    ) {
+      this.container.append(
+        this.uiManager.votOverlayView.votButton.container,
+        this.uiManager.votOverlayView.votMenu.container,
+      );
     }
     this.videoData = await this.getVideoData();
     const cacheKey = `${this.videoData.videoId}_${this.videoData.detectedLanguage}_${this.videoData.responseLanguage}_${this.data.useNewModel}`;
