@@ -1,17 +1,16 @@
 diff --git a/node_modules/@vot.js/core/dist/client.js b/node_modules/@vot.js/core/dist/client.js
-index 315f703..dc62faf 100644
+index d439a91..013f649 100644
 --- a/node_modules/@vot.js/core/dist/client.js
 +++ b/node_modules/@vot.js/core/dist/client.js
-@@ -6,6 +6,8 @@ import { fetchWithTimeout, getTimestamp } from "@vot.js/shared/utils/utils";
+@@ -6,6 +6,7 @@ import { fetchWithTimeout, getTimestamp } from "@vot.js/shared/utils/utils";
  import { YandexVOTProtobuf, YandexSessionProtobuf } from "./protobuf.js";
  import { AudioDownloadType, VideoTranslationStatus } from "./types/yandex.js";
  import { convertVOT } from "./utils/vot.js";
 +import { VOTLocalizedError } from "../../../../src/utils/VOTLocalizedError.js";
-+import debug from "../../../../src/utils/debug.ts";
  export class VOTJSError extends Error {
      data;
      constructor(message, data = undefined) {
-@@ -185,18 +187,18 @@ export default class VOTClient extends MinimalClient {
+@@ -186,7 +187,7 @@ export default class VOTClient extends MinimalClient {
              ...headers,
          });
          if (!res.success) {
@@ -19,7 +18,8 @@ index 315f703..dc62faf 100644
 +            throw new VOTLocalizedError("requestTranslationFailed");
          }
          const translationData = YandexVOTProtobuf.decodeTranslationResponse(res.data);
-         Logger.log("translateVideo", translationData);
+         console.log(translationData);
+@@ -194,11 +195,11 @@ export default class VOTClient extends MinimalClient {
          const { status, translationId, } = translationData;
          switch (status) {
              case VideoTranslationStatus.FAILED:
@@ -33,7 +33,7 @@ index 315f703..dc62faf 100644
                  }
                  return {
                      translationId,
-@@ -254,7 +256,7 @@ export default class VOTClient extends MinimalClient {
+@@ -257,7 +258,7 @@ export default class VOTClient extends MinimalClient {
              ...headers,
          });
          if (!res.success) {
@@ -42,7 +42,7 @@ index 315f703..dc62faf 100644
          }
          const translationData = res.data;
          switch (translationData.status) {
-@@ -262,7 +264,7 @@ export default class VOTClient extends MinimalClient {
+@@ -265,7 +266,7 @@ export default class VOTClient extends MinimalClient {
                  throw new VOTJSError("Yandex couldn't translate video", translationData);
              case "success":
                  if (!translationData.translated_url) {
@@ -51,7 +51,7 @@ index 315f703..dc62faf 100644
                  }
                  return {
                      translationId: String(translationData.id),
-@@ -417,7 +419,7 @@ export default class VOTClient extends MinimalClient {
+@@ -435,7 +436,7 @@ export default class VOTClient extends MinimalClient {
      async translateStream({ videoData, requestLang = this.requestLang, responseLang = this.responseLang, headers = {}, }) {
          const { url } = videoData;
          if (this.isCustomLink(url)) {
