@@ -22,9 +22,9 @@ const contentUrl = `https://raw.githubusercontent.com/${repoPath}`;
 const repositoryUrl = `https://github.com/${repoPath}`;
 
 /**
- * 0.0 - 1.0 (0% - 100%) - default volume of the video with the translation
+ * 0% - 100% - default volume of the video with the translation
  */
-const defaultAutoVolume = 0.15;
+const defaultAutoVolume = 15;
 /**
  * Max audio volume percentage (if available)
  */

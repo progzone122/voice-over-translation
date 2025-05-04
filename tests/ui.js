@@ -1,10 +1,25 @@
 import { svg } from "lit-html";
 import ui from "../src/ui.js";
-import Tooltip from "../src/ui/tooltip.ts";
+import Tooltip from "../src/ui/components/tooltip.ts";
+import Select from "../src/ui/components/select.ts";
+import Checkbox from "../src/ui/components/checkbox.ts";
+import Slider from "../src/ui/components/slider.ts";
+import SliderLabel from "../src/ui/components/sliderLabel.ts";
+import Textfield from "../src/ui/components/textfield.ts";
+import VOTButton from "../src/ui/components/votButton.ts";
+import VOTMenu from "../src/ui/components/votMenu.ts";
+import Dialog from "../src/ui/components/dialog.ts";
+import HotkeyButton from "../src/ui/components/hotkeyButton.ts";
+import Details from "../src/ui/components/details.ts";
+import LanguagePairSelect from "../src/ui/components/languagePairSelect.ts";
+import SelectLabel from "../src/ui/components/selectLabel.ts";
 
 class TestUI {
   initUI() {
-    this.testDialog = ui.createDialog("Test");
+    this.testDialog = new Dialog({
+      titleHtml: "Test Dialog",
+    });
+
     // Header
     this.h1 = ui.createHeader("H1 Lorem ipsum dolor", 1);
     this.h2 = ui.createHeader("H2 Lorem ipsum dolor", 2);
@@ -13,8 +28,8 @@ class TestUI {
     this.h5 = ui.createHeader("H5 Lorem ipsum dolor", 5);
     this.h6 = ui.createHeader("H6 Lorem ipsum dolor", 6);
     this.testHTML = document.createElement("vot-block");
-    this.testHTML.style = "padding: 4px; color: skyblue;";
-    this.testHTML.textContent = "Lorem ipsum dolor";
+    this.testHTML.style = "font-weight:bold; color: skyblue;";
+    this.testHTML.textContent = "Lorem HTML ipsum dolor";
     this.h3WithHTML = ui.createHeader(this.testHTML.cloneNode(true), 3);
     console.log(this.h3WithHTML.outerHTML);
     this.testDialog.bodyContainer.append(
@@ -102,79 +117,116 @@ class TestUI {
     );
 
     // Checkbox
-    this.checkbox = ui.createCheckbox("Checkbox Lorem ipsum dolor", true);
-    this.checkboxDisabled = ui.createCheckbox(
-      "Checkbox Disabled Lorem ipsum dolor",
-      true,
-    );
-    this.checkboxDisabled.input.disabled = true;
-    this.checkboxWithHTML = ui.createCheckbox(
-      this.testHTML.cloneNode(true),
-      false,
-    );
+    this.checkbox = new Checkbox({
+      labelHtml: "Checkbox Lorem ipsum dolor",
+      checked: true,
+    });
+    this.checkboxDisabledWithHtml = new Checkbox({
+      labelHtml: this.testHTML.cloneNode(true),
+      checked: true,
+    });
+    this.checkboxDisabledWithHtml.disabled = true;
 
     this.testDialog.bodyContainer.append(
       this.checkbox.container,
-      this.checkboxDisabled.container,
-      this.checkboxWithHTML.container,
+      this.checkboxDisabledWithHtml.container,
     );
 
     // Slider
-    this.slider = ui.createSlider("Slider Lorem ipsum dolor");
-    this.sliderDisabled = ui.createSlider("Slider Disabled Lorem ipsum dolor");
-    this.sliderDisabled.input.disabled = true;
-    this.sliderWithHTML = ui.createSlider(
-      this.testHTML.cloneNode(true),
-      2,
-      0,
-      300,
-    );
+    const sliderValue = 100;
+    this.sliderLabel = new SliderLabel({
+      labelText: "SliderLabel Lorem ipsum dolor",
+      labelEOL: ":",
+      value: sliderValue,
+      symbol: " thousands",
+    });
+    this.slider = new Slider({
+      labelHtml: this.sliderLabel.container,
+      value: sliderValue,
+    });
+    this.slider.addEventListener("input", (newValue) => {
+      this.sliderLabel.value = newValue;
+    });
+
+    this.sliderWithHTML = new Slider({
+      labelHtml: this.testHTML.cloneNode(true),
+      min: 0,
+      max: 300,
+      value: 123,
+    });
 
     this.testDialog.bodyContainer.append(
       this.slider.container,
-      this.sliderDisabled.container,
       this.sliderWithHTML.container,
     );
 
     // Textfield
-    this.textfield = ui.createTextfield(
-      "Textfield Lorem ipsum dolor",
-      "",
-      "test",
-    );
-    this.textfieldWithoutLabel = ui.createTextfield("", "", "test");
-    this.textfieldWithoutValue = ui.createTextfield(
-      "Textfield Without Value",
-      "",
-      "",
-    );
-    this.textfieldDisabled = ui.createTextfield(
-      "Textfield Disabled Lorem ipsum dolor",
-      "",
-      "",
-    );
-    this.textfieldDisabled.input.disabled = true;
-    this.textfieldWithHTML = ui.createTextfield(
-      this.testHTML.cloneNode(true),
-      "lorem ipsum dolor",
-      "lorem ipsum 1231",
-      true,
-    );
+    this.textfield = new Textfield({
+      labelHtml: "Textfield Lorem ipsum dolor",
+      placeholder: "",
+      value: "test",
+    });
+    this.textfieldWithoutLabel = new Textfield({
+      labelHtml: "",
+      placeholder: "",
+      value: "test",
+    });
+    this.textfieldWithoutValue = new Textfield({
+      labelHtml: "Textfield Without Value",
+      placeholder: "",
+      value: "",
+    });
+    this.textfieldMultiline = new Textfield({
+      labelHtml: "Textfield multi line",
+      placeholder: "hello world",
+      value: "",
+      multiline: true,
+    });
+    this.textfieldWithHTML = new Textfield({
+      labelHtml: this.testHTML.cloneNode(true),
+      placeholder: "lorem ipsum dolor",
+      value: "lorem ipsum 1231",
+      multiline: true,
+    });
+
+    this.hotkeyButton = new HotkeyButton({
+      labelHtml: "HotkeyButton Lorem ipsum dolor",
+      key: "KeyL",
+    });
+
+    this.details = new Details({
+      titleHtml: "Read more...",
+    });
 
     this.testDialog.bodyContainer.append(
       this.textfield.container,
       this.textfieldWithoutLabel.container,
       this.textfieldWithoutValue.container,
-      this.textfieldDisabled.container,
+      this.textfieldMultiline.container,
       this.textfieldWithHTML.container,
+      this.hotkeyButton.container,
     );
 
     // VOTButton
-    this.votButton = ui.createVOTButton("Translate");
-    this.votButton.container.style.left = "20%";
-    this.votButtonWithHTML = ui.createVOTButton(this.testHTML.cloneNode(true));
-    this.votButtonWithHTML.container.style.marginTop = "100px";
-    this.votButtonWithHTML.container.style.left = "20%";
+    this.votButton = new VOTButton({
+      position: "default",
+      direction: VOTButton.calcDirection("default"),
+      status: "none",
+      labelHtml: this.testHTML.cloneNode(true),
+    });
+    this.votButton.menuButton.addEventListener("click", () => {
+      this.testDialog.open();
+    });
+    this.votButtonSuccessLeft = new VOTButton({
+      position: "left",
+      direction: VOTButton.calcDirection("left"),
+      status: "success",
+    });
+    this.votButtonErrorRight = new VOTButton({
+      position: "right",
+      direction: VOTButton.calcDirection("right"),
+      status: "error",
+    });
 
     // tooltip
     // ! Now vot code doesn't have portal
@@ -182,98 +234,129 @@ class TestUI {
     document.documentElement.appendChild(this.votPortal);
 
     this.testTooltipContent = ui.createEl("p", [], "Use logical sides too 👍🏻");
-    this.testTooltipBContent = this.testTooltipContent.cloneNode(true);
     this.testTooltipLContent = this.testTooltipContent.cloneNode(true);
-    // TODO: max width
-    this.testTooltipRContent = ui.createEl(
+    this.testTooltipRContent = this.testTooltipContent.cloneNode(true);
+    this.testTooltipBContent = ui.createEl(
       "p",
       [],
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis ",
     );
     this.tooltipEl = new Tooltip({
-      target: this.votButton.menuButton,
+      target: this.votButton.translateButton,
       content: this.testTooltipContent,
       position: "top",
       parentElement: this.votPortal,
+      bordered: false,
     });
-    this.tooltipBEl = new Tooltip({
-      target: this.votButton.menuButton,
-      content: this.testTooltipBContent,
-      position: "bottom",
+    this.tooltipLEl = new Tooltip({
+      target: this.votButtonErrorRight.translateButton,
+      content: this.testTooltipLContent,
+      position: "left",
       parentElement: this.votPortal,
+      bordered: false,
     });
     this.tooltipREl = new Tooltip({
-      target: this.votButton.menuButton,
+      target: this.votButtonSuccessLeft.translateButton,
       content: this.testTooltipRContent,
       position: "right",
       parentElement: this.votPortal,
+      bordered: false,
     });
-    this.tooltipLEl = new Tooltip({
-      target: this.votButton.container,
-      content: this.testTooltipLContent,
-      position: "left",
+    this.tooltipBEl = new Tooltip({
+      target: this.votButton.translateButton,
+      content: this.testTooltipBContent,
+      position: "bottom",
       trigger: "click",
       parentElement: this.votPortal,
+      bordered: true,
     });
 
     // VOTMenu
-    this.votMenu = ui.createVOTMenu("VOTMenu Lorem ipsum dolor");
-    this.votMenu.container.hidden = false;
-    this.votMenu.container.style.marginTop = "100px";
-    this.votMenu.container.style.left = "20%";
-    this.votMenuWithHTML = ui.createVOTMenu(this.testHTML.cloneNode(true));
-    this.votMenuWithHTML.container.hidden = false;
-    this.votMenuWithHTML.container.style.marginTop = "250px";
-    this.votMenuWithHTML.container.style.left = "20%";
+    this.votMenu = new VOTMenu({
+      position: "default",
+      titleHtml: this.testHTML.cloneNode(true),
+    });
+    this.votMenu.hidden = false;
+    this.languagePair = new LanguagePairSelect({
+      from: {
+        items: [
+          {
+            label: "English",
+            value: "en",
+            selected: true,
+          },
+          {
+            label: "Russian",
+            value: "ru",
+          },
+        ],
+      },
+      to: {
+        items: [
+          {
+            label: "Spanish",
+            value: "es",
+            selected: true,
+          },
+          {
+            label: "French",
+            value: "fr",
+          },
+        ],
+      },
+      dialogParent: this.votPortal,
+    });
+    this.votMenu.bodyContainer.appendChild(this.languagePair.container);
 
     // VOTSelectLabel
-    this.votSelectLabel = ui.createVOTSelectLabel(
-      "VOTSelectLabel Lorem ipsum dolor",
-    );
-    this.testDialog.bodyContainer.append(this.votSelectLabel);
-
-    // VOTSelect
-    this.votSelect = ui.createVOTSelect(
-      "VOTSelect Lorem ipsum dolor",
-      "VOTSelect Dialog Lorem ipsum dolor",
-      [
+    this.votSelectLabel = new SelectLabel({
+      labelText: "VOTSubtitles",
+    });
+    this.subtitlesSelect = new Select({
+      selectTitle: "VOTSubtitles",
+      dialogTitle: "VOTSubtitles",
+      multiSelect: false,
+      labelElement: this.votSelectLabel.container,
+      dialogParent: this.votGlobalPortal,
+      items: [
         {
-          label: "label Lorem ipsum dolor",
-          value: "value Lorem ipsum dolor",
-          selected: false,
+          label: "VOTSubtitlesDisabled",
+          value: "disabled",
+          selected: true,
         },
       ],
-    );
-    this.testDialog.bodyContainer.append(this.votSelect.container);
+    });
+    this.subtitlesSelect.addEventListener("beforeOpen", async (data) => {
+      const loadingEl = ui.createInlineLoader();
+      loadingEl.style.margin = "0 auto";
+      data.footerContainer.appendChild(loadingEl);
+      this.votButton.loading = true;
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      this.subtitlesSelect.updateItems([
+        {
+          label: "VOTSubtitlesDisabled",
+          value: "disabled",
+          selected: true,
+        },
+        {
+          label: "hello world",
+          value: "hello_world",
+          selected: false,
+        },
+      ]);
+      this.votButton.loading = false;
+      data.footerContainer.removeChild(loadingEl);
+    });
 
-    this.testDialog.container.hidden = false;
+    this.testDialog.bodyContainer.append(this.subtitlesSelect.container);
 
-    document.documentElement.append(
-      this.testDialog.container,
+    this.votPortal.append(
       this.votButton.container,
-      this.votButtonWithHTML.container,
+      this.votButtonErrorRight.container,
+      this.votButtonSuccessLeft.container,
       this.votMenu.container,
-      this.votMenuWithHTML.container,
+      this.testDialog.container,
     );
-
-    // test animation
-    const primaryColor = getComputedStyle(
-      this.iconButtonWithProgress,
-    ).getPropertyValue("--vot-primary-rgb");
-    const updateAnimation = ui.animateLoader(
-      this.iconButtonWithProgress,
-      primaryColor,
-    );
-
-    let percentage = 0;
-    let timer = setInterval(() => {
-      updateAnimation(Math.round(percentage));
-      percentage++;
-      if (percentage === 100) {
-        clearInterval(timer);
-        ui.afterAnimateLoader(this.iconButtonWithProgress, primaryColor);
-      }
-    }, 100);
   }
 }
 
