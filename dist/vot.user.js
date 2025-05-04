@@ -238,12 +238,12 @@
 // @connect        speed.cloudflare.com
 // @connect        porntn.com
 // @namespace      vot
-// @version        1.10.0
+// @version        1.10.0beta
 // @icon           https://translate.yandex.ru/icons/favicon.ico
 // @author         sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD
 // @homepageURL    https://github.com/ilyhalight/voice-over-translation
-// @updateURL      https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot.user.js
-// @downloadURL    https://raw.githubusercontent.com/ilyhalight/voice-over-translation/master/dist/vot.user.js
+// @updateURL      https://raw.githubusercontent.com/ilyhalight/voice-over-translation/dev/dist/vot.user.js
+// @downloadURL    https://raw.githubusercontent.com/ilyhalight/voice-over-translation/dev/dist/vot.user.js
 // @supportURL     https://github.com/ilyhalight/voice-over-translation/issues
 // ==/UserScript==
 
@@ -5599,7 +5599,7 @@ class LocalizationProvider {
   defaultLocale = toFlatObj(en_namespaceObject);
 
   cacheTTL = 7200;
-  localizationUrl = `${contentUrl}/${"master"}/src/localization`;
+  localizationUrl = `${contentUrl}/${"dev"}/src/localization`;
 
   constructor() {
     this.lang = this.getLang();
