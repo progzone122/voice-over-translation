@@ -38,6 +38,7 @@ export default () => {
       new webpack.DefinePlugin({
         DEBUG_MODE: true,
         IS_BETA_VERSION: false,
+        REPO_BRANCH: JSON.stringify("master"),
         __MK_GLOBAL__: {
           styleLoaderInsertStyleElement,
         },
