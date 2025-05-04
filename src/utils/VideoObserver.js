@@ -1,5 +1,5 @@
 import "requestidlecallback-polyfill";
-import { EventImpl } from "./EventImpl.js";
+import { EventImpl } from "../core/eventImpl.ts";
 import debug from "./debug.ts";
 
 export class VideoObserver {
