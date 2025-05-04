@@ -22,7 +22,6 @@
     "@types/bun": "^1.2.12",
     "browser-id3-writer": "^6.2.0",
     "browserslist": "^4.24.5",
-    "enquirer": "^2.4.1",
     "eslint": "^9.26.0",
     "eslint-plugin-oxlint": "^0.16.9",
     "eslint-webpack-plugin": "^5.0.1",
