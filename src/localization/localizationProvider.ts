@@ -5,10 +5,16 @@ import { contentUrl } from "../config/config.js";
 import { votStorage } from "../utils/storage";
 import { getTimestamp, GM_fetch, lang, toFlatObj } from "../utils/utils.js";
 import { LocaleStorageKey } from "../types/storage";
-import { FlatPhrases, Phrase, Phrases } from "../types/localization";
+import { FlatPhrases, Phrase } from "../types/localization";
 
 class LocalizationProvider {
-  storageKeys: LocaleStorageKey[];
+  storageKeys: LocaleStorageKey[] = [
+    "localePhrases",
+    "localeLang",
+    "localeHash",
+    "localeUpdatedAt",
+    "localeLangOverride",
+  ];
   /**
    * Language used before page was reloaded
    */
@@ -23,23 +29,16 @@ class LocalizationProvider {
   localizationUrl = `${contentUrl}/${REPO_BRANCH}/src/localization`;
 
   constructor() {
-    this.storageKeys = [
-      "locale-phrases",
-      "locale-lang",
-      "locale-hash",
-      "locale-updated-at",
-      "locale-lang-override",
-    ];
     this.lang = this.getLang();
     this.locale = {};
-    this.setLocaleFromJsonString(votStorage.syncGet("locale-phrases", ""));
+    this.setLocaleFromJsonString(votStorage.syncGet("localePhrases", ""));
   }
 
   getLangOverride() {
-    return votStorage.syncGet("locale-lang-override", "auto");
+    return votStorage.syncGet<string>("localeLangOverride", "auto");
   }
 
-  getLang() {
+  getLang(): string {
     const langOverride = this.getLangOverride();
     return langOverride !== "auto" ? langOverride : lang;
   }
@@ -65,7 +64,7 @@ class LocalizationProvider {
       const res = await GM_fetch(this.buildUrl("/hashes.json", force));
       if (!res.ok) throw res.status;
       const hashes = await res.json();
-      return (await votStorage.get("locale-hash")) !== hashes[this.lang]
+      return (await votStorage.get("localeHash")) !== hashes[this.lang]
         ? hashes[this.lang]
         : false;
     } catch (err) {
@@ -78,19 +77,16 @@ class LocalizationProvider {
   }
 
   async update(force = false) {
-    const localeUpdatedAt = await votStorage.get<number>(
-      "locale-updated-at",
-      0,
-    );
+    const localeUpdatedAt = await votStorage.get<number>("localeUpdatedAt", 0);
     if (
       !force &&
       localeUpdatedAt + this.cacheTTL > getTimestamp() &&
-      (await votStorage.get("locale-lang")) === this.lang
+      (await votStorage.get("localeLang")) === this.lang
     )
       return;
 
     const hash = await this.checkUpdates(force);
-    await votStorage.set("locale-updated-at", getTimestamp());
+    await votStorage.set("localeUpdatedAt", getTimestamp());
     if (!hash) return;
 
     debug.log("Updating locale...");
@@ -101,13 +97,13 @@ class LocalizationProvider {
       if (!res.ok) throw res.status;
       // We use it .text() in order for there to be a single logic for GM_Storage and localStorage
       const text = await res.text();
-      await votStorage.set("locale-phrases", text);
-      await votStorage.set("locale-hash", hash);
-      await votStorage.set("locale-lang", this.lang);
+      await votStorage.set("localePhrases", text);
+      await votStorage.set("localeHash", hash);
+      await votStorage.set("localeLang", this.lang);
       this.setLocaleFromJsonString(text);
     } catch (err) {
       console.error("[VOT] [localizationProvider] Failed to get locale:", err);
-      this.setLocaleFromJsonString(await votStorage.get("locale-phrases", ""));
+      this.setLocaleFromJsonString(await votStorage.get("localePhrases", ""));
     }
   }
 

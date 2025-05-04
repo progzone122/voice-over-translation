@@ -71,7 +71,6 @@ export type Phrase =
   | "disableTranslate"
   | "translationSettings"
   | "subtitlesSettings"
-  | "about"
   | "resetSettings"
   | "videoBeingTranslated"
   | "videoLanguage"
@@ -271,7 +270,28 @@ export type Phrase =
   | "VOTTranslatedBy"
   | "VOTStreamNotAvailable"
   | "VOTTranslationTextService"
-  | "VOTNotAffectToVoice";
+  | "VOTNotAffectToVoice"
+  | "DontTranslateSelectedLanguages"
+  | "showVideoVolumeSlider"
+  | "hotkeysSettings"
+  | "None"
+  | "VOTUseLivelyVoice"
+  | "miscSettings"
+  | "services.yandexbrowser"
+  | "services.msedge"
+  | "services.rust-server"
+  | "aboutExtension"
+  | "appearance"
+  | "buttonPositionInWidePlayer"
+  | "position.left"
+  | "position.right"
+  | "position.top"
+  | "position.default"
+  | "secs"
+  | "autoHideButtonDelay"
+  | "notFound"
+  | "downloadFailed"
+  | "minButtonPositionContainer";
 
 export type Phrases = {
   recommended: string;
@@ -279,7 +299,6 @@ export type Phrases = {
   disableTranslate: string;
   translationSettings: string;
   subtitlesSettings: string;
-  about: string;
   resetSettings: string;
   videoBeingTranslated: string;
   videoLanguage: string;
@@ -482,6 +501,31 @@ export type Phrases = {
   VOTStreamNotAvailable: string;
   VOTTranslationTextService: string;
   VOTNotAffectToVoice: string;
+  DontTranslateSelectedLanguages: string;
+  showVideoVolumeSlider: string;
+  hotkeysSettings: string;
+  None: string;
+  VOTUseLivelyVoice: string;
+  miscSettings: string;
+  services: {
+    yandexbrowser: string;
+    msedge: string;
+    "rust-server": string;
+  };
+  aboutExtension: string;
+  appearance: string;
+  buttonPositionInWidePlayer: string;
+  position: {
+    left: string;
+    right: string;
+    top: string;
+    default: string;
+  };
+  secs: string;
+  autoHideButtonDelay: string;
+  notFound: string;
+  downloadFailed: string;
+  minButtonPositionContainer: string;
 };
 
 export type FlatPhrases = Record<Phrase, string>;
