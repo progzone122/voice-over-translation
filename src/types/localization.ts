@@ -291,7 +291,9 @@ export type Phrase =
   | "autoHideButtonDelay"
   | "notFound"
   | "downloadFailed"
-  | "minButtonPositionContainer";
+  | "minButtonPositionContainer"
+  | "en"
+  | "VOTTranslateProxyStatusDefault";
 
 export type Phrases = {
   recommended: string;
@@ -526,6 +528,8 @@ export type Phrases = {
   notFound: string;
   downloadFailed: string;
   minButtonPositionContainer: string;
+  en: string;
+  VOTTranslateProxyStatusDefault: string;
 };
 
 export type FlatPhrases = Record<Phrase, string>;

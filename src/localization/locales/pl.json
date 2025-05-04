@@ -230,5 +230,6 @@
   "autoHideButtonDelay": "Opóźnienie przed ukryciem przycisku tłumaczenia",
   "notFound": "nie znaleziono",
   "downloadFailed": "Nie udało się pobrać pliku",
-  "minButtonPositionContainer": "Pozycja przycisku zmienia się tylko u graczy większych niż 600 pikseli."
+  "minButtonPositionContainer": "Pozycja przycisku zmienia się tylko u graczy większych niż 600 pikseli.",
+  "VOTTranslateProxyStatusDefault": "Całkowite wyłączenie proxy w Twoim kraju może przerwać rozszerzenie"
 }

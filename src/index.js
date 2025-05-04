@@ -715,9 +715,13 @@ class VideoHandler {
       }
     }
 
-    if (proxyOnlyCountries.includes(countryCode)) {
+    if (
+      proxyOnlyCountries.includes(countryCode) &&
+      (await votStorage.get("translateProxyEnabledDefault", true))
+    ) {
       this.data.translateProxyEnabled = 2;
     }
+    debug.log(await votStorage.get("translateProxyEnabledDefault"));
     debug.log("translateProxyEnabled", this.data.translateProxyEnabled);
     debug.log("Extension compatibility passed...");
 

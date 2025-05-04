@@ -230,5 +230,6 @@
   "autoHideButtonDelay": "Ukubambezeleka ngaphambi kokufihla inkinobho yokuhumusha",
   "notFound": "ayitholakalanga",
   "downloadFailed": "Yehlulekile ukulanda ifayela",
-  "minButtonPositionContainer": "Isikhundla senkinobho sishintsha kuphela kubadlali abanamaphikseli angaphezu kuka-600."
+  "minButtonPositionContainer": "Isikhundla senkinobho sishintsha kuphela kubadlali abanamaphikseli angaphezu kuka-600.",
+  "VOTTranslateProxyStatusDefault": "Ukukhubaza ngokuphelele ukumela izwe lakho kungase kuphule ukunwetshwa"
 }

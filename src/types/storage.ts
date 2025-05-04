@@ -85,6 +85,7 @@ export type StorageData = {
   m3u8ProxyHost: string;
   proxyWorkerHost: string;
   translateProxyEnabled: TranslateProxyStatus;
+  defaultSettings: boolean;
   audioBooster: boolean;
   useNewModel: boolean;
   autoHideButtonDelay: number;
