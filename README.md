@@ -133,7 +133,7 @@
 
 ## Как собрать расширение?
 
-1. Установите [Node.js 18.18+][nodejs-link] / [Bun.sh][bun-link]
+1. Установите [Node.js 22+][nodejs-link] / [Bun.sh][bun-link]
 2. Установите зависимости:
 
 NPM:

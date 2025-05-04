@@ -133,7 +133,7 @@ It's necessary to translate additional sites that use the `.m3u8` or `.mpd` vide
 
 ## How to build an extension?
 
-1. Install [Node.js 18.18+][nodejs-link] / [Bun.sh][bun-link]
+1. Install [Node.js 22+][nodejs-link] / [Bun.sh][bun-link]
 2. Install dependencies:
 
 ```bash
