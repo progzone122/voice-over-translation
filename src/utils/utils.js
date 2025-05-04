@@ -1,5 +1,8 @@
+import Bowser from "bowser";
+
 import { availableTTS } from "@vot.js/shared/consts";
 
+import { nonProxyExtensions } from "../config/config.js";
 import { localizationProvider } from "../localization/localizationProvider.ts";
 import debug from "./debug.ts";
 
@@ -32,6 +35,12 @@ export const calculatedResLang = (() => {
 
   return "en";
 })();
+export const browserInfo = Bowser.getParser(
+  window.navigator.userAgent,
+).getResult();
+export const isProxyOnlyExtension =
+  GM_info?.scriptHandler && !nonProxyExtensions.includes(GM_info.scriptHandler);
+export const isSupportGM4 = typeof GM !== "undefined";
 
 function secsToStrTime(secs) {
   let minutes = Math.floor(secs / 60);
@@ -207,6 +216,23 @@ function toFlatObj(data) {
   }, {});
 }
 
+async function exitFullscreen() {
+  /**
+   * TODO: after rewrite to typescript
+    export interface DocumentWithFullscreen extends Document {
+      webkitFullscreenElement?: Element | null;
+      webkitExitFullscreen?: () => Promise<void>;
+    }
+
+    const doc = document as DocumentWithFullscreen;
+   */
+  const doc = document;
+  if (doc.fullscreenElement || doc.webkitFullscreenElement) {
+    doc.webkitExitFullscreen && (await doc.webkitExitFullscreen());
+    doc.exitFullscreen && (await doc.exitFullscreen());
+  }
+}
+
 export {
   secsToStrTime,
   isPiPAvailable,
@@ -218,4 +244,5 @@ export {
   getTimestamp,
   clamp,
   toFlatObj,
+  exitFullscreen,
 };
