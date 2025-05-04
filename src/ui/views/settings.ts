@@ -102,6 +102,7 @@ export class SettingsView {
   proxyM3U8HostTextfield?: Textfield;
   proxyWorkerHostTextfield?: Textfield;
   proxyTranslationStatusSelectLabel?: SelectLabel;
+  proxyTranslationStatusSelectTooltip?: Tooltip;
   proxyTranslationStatusSelect?: Select;
   miscSettingsHeader?: HTMLElement;
   translateAPIErrorsCheckbox?: Checkbox;
@@ -128,7 +129,7 @@ export class SettingsView {
   isInitialized(): this is {
     // #region Settings type
     dialog: Dialog;
-    // #region Settings Tanslation type
+    // #region Settings Translation type
     translationSettingsHeader: HTMLElement;
     autoTranslateCheckbox: Checkbox;
     dontTranslateLanguagesCheckbox: Checkbox;
@@ -158,6 +159,7 @@ export class SettingsView {
     proxyM3U8HostTextfield: Textfield;
     proxyWorkerHostTextfield: Textfield;
     proxyTranslationStatusSelectLabel: SelectLabel;
+    proxyTranslationStatusSelectTooltip: Tooltip;
     proxyTranslationStatusSelect: Select;
     // #endregion Settings Proxy type
     // #region Settings Misc type
@@ -372,8 +374,19 @@ export class SettingsView {
     ];
     const translateProxyEnabled = this.data.translateProxyEnabled ?? 0;
     this.proxyTranslationStatusSelectLabel = new SelectLabel({
+      icon: votStorage.get("translateProxyEnabledDefault")
+        ? WARNING_ICON
+        : undefined,
       labelText: localizationProvider.get("VOTTranslateProxyStatus"),
     });
+    this.proxyTranslationStatusSelectTooltip = new Tooltip({
+      target: this.proxyTranslationStatusSelectLabel.icon,
+      content: localizationProvider.get("VOTTranslateProxyStatusDefault"),
+      position: "bottom",
+      backgroundColor: "var(--vot-helper-ondialog)",
+      parentElement: this.globalPortal,
+    });
+
     this.proxyTranslationStatusSelect = new Select({
       selectTitle: proxyEnabledLabels[translateProxyEnabled],
       dialogTitle: localizationProvider.get("VOTTranslateProxyStatus"),
@@ -772,6 +785,8 @@ export class SettingsView {
           "translateProxyEnabled",
           this.data.translateProxyEnabled,
         );
+        // User has set the value manually, we don't need to set the default value
+        await votStorage.set("translateProxyEnabledDefault", false);
         debug.log(
           "translateProxyEnabled value changed. New value:",
           this.data.translateProxyEnabled,

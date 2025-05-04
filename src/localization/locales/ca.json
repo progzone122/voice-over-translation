@@ -230,5 +230,6 @@
   "autoHideButtonDelay": "Retard abans d'ocultar el botó traduir",
   "notFound": "no trobat",
   "downloadFailed": "Ha fallat en descarregar el fitxer",
-  "minButtonPositionContainer": "La posició del botó només canvia en jugadors de més de 600 píxels."
+  "minButtonPositionContainer": "La posició del botó només canvia en jugadors de més de 600 píxels.",
+  "VOTTranslateProxyStatusDefault": "Desactivar completament el proxy al vostre país pot trencar l'extensió"
 }

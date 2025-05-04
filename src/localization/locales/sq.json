@@ -230,5 +230,6 @@
   "autoHideButtonDelay": "Vononi para se të fshehni butonin e përkthimit",
   "notFound": "nuk u gjet",
   "downloadFailed": "Nuk arriti të shkarkojë skedarin",
-  "minButtonPositionContainer": "Pozicioni i butonit ndryshon vetëm në lojtarët më të mëdhenj se 600 piksele."
+  "minButtonPositionContainer": "Pozicioni i butonit ndryshon vetëm në lojtarët më të mëdhenj se 600 piksele.",
+  "VOTTranslateProxyStatusDefault": "Çaktivizimi i plotë i proxying në vendin tuaj mund të prishë zgjatjen"
 }

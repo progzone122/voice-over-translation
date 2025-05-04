@@ -230,5 +230,6 @@
   "autoHideButtonDelay": "Késleltetés a Fordítás gomb elrejtése előtt",
   "notFound": "nem található",
   "downloadFailed": "Nem sikerült letölteni a fájlt",
-  "minButtonPositionContainer": "A gomb pozíciója csak a 600 pixelnél nagyobb játékosoknál változik."
+  "minButtonPositionContainer": "A gomb pozíciója csak a 600 pixelnél nagyobb játékosoknál változik.",
+  "VOTTranslateProxyStatusDefault": "A proxy teljes letiltása az Ön országában megszakíthatja a kiterjesztést"
 }
