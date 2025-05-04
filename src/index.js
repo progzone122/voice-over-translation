@@ -749,6 +749,8 @@ class VOTUIManager {
             "translateProxyEnabled",
             this.videoHandler.data.translateProxyEnabled,
           );
+          // User has set the value manually, we don't need to set the default value
+          await votStorage.set("translateProxyEnabledDefault", false);
           this.videoHandler.initVOTClient();
         },
         labelElement: ui.createVOTSelectLabel(
@@ -2322,6 +2324,13 @@ class VideoHandler {
       } catch (err) {
         console.error("[VOT] Error getting country:", err);
       }
+    }
+
+    if (
+      proxyOnlyCountries.includes(countryCode) &&
+      (await votStorage.get("translateProxyEnabledDefault", true))
+    ) {
+      this.data.translateProxyEnabled = 2;
     }
 
     debug.log("translateProxyEnabled", this.data.translateProxyEnabled);
