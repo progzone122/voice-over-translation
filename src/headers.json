@@ -1,7 +1,7 @@
 {
   "name": "[VOT] - Voice Over Translation",
   "description": "A small extension that adds a Yandex Browser video translation to other browsers",
-  "version": "1.9.5",
+  "version": "1.10.0",
   "author": "sodapng, mynovelhost, Toil, SashaXser, MrSoczekXD",
   "namespace": "vot",
   "icon": "https://translate.yandex.ru/icons/favicon.ico",
@@ -111,6 +111,7 @@
     "*://*.bunkr.to/*",
     "*://*.bunkr.ac/*",
     "*://*.bunkr.ax/*",
+    "*://web.telegram.org/k/*",
     "*://*/*.mp4*",
     "*://*/*.webm*"
   ],
@@ -122,7 +123,6 @@
   ],
   "require": [
     "https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.18/hls.light.min.js",
-    "https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js",
     "https://gist.githubusercontent.com/ilyhalight/6eb5bb4dffc7ca9e3c57d6933e2452f3/raw/7ab38af2228d0bed13912e503bc8a9ee4b11828d/gm-addstyle-polyfill.js"
   ],
   "connect": [
