@@ -27,6 +27,8 @@ export class CacheManager {
   deleteSubtitles(key: string): void;
 }
 
+export let countryCode: string | undefined;
+
 export class VideoHandler {
   translateFromLang: string;
   translateToLang: string;

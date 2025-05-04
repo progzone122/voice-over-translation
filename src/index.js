@@ -44,7 +44,7 @@ import { detect, translate } from "./utils/translateApis.ts";
 import { UIManager } from "./ui/manager.ts";
 import { StorageData } from "./types/storage.ts";
 
-let countryCode; // Used later for proxy settings
+export let countryCode; // Used later for proxy settings
 
 /*─────────────────────────────────────────────────────────────*/
 /*           Helper class: CacheManager                        */
@@ -690,6 +690,7 @@ class VideoHandler {
       m3u8ProxyHost,
       proxyWorkerHost,
       translateProxyEnabled: 0,
+      translateProxyEnabledDefault: true,
       audioBooster: false,
       useNewModel: false,
       localeHash: "",
@@ -717,12 +718,16 @@ class VideoHandler {
 
     if (
       proxyOnlyCountries.includes(countryCode) &&
-      (await votStorage.get("translateProxyEnabledDefault", true))
+      this.data.translateProxyEnabledDefault
     ) {
       this.data.translateProxyEnabled = 2;
     }
-    debug.log(await votStorage.get("translateProxyEnabledDefault"));
-    debug.log("translateProxyEnabled", this.data.translateProxyEnabled);
+
+    debug.log(
+      "translateProxyEnabled",
+      this.data.translateProxyEnabled,
+      this.data.translateProxyEnabledDefault,
+    );
     debug.log("Extension compatibility passed...");
 
     this.initVOTClient();

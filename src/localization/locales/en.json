@@ -231,6 +231,5 @@
   "notFound": "not found",
   "downloadFailed": "Failed to download file",
   "minButtonPositionContainer": "The button position only changes in players larger than 600 pixels.",
-  "en": "en",
   "VOTTranslateProxyStatusDefault": "Completely disabling proxying in your country may break the extension"
 }

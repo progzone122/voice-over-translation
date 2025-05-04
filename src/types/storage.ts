@@ -39,6 +39,7 @@ export const storageKeys = [
   "m3u8ProxyHost",
   "proxyWorkerHost",
   "translateProxyEnabled",
+  "translateProxyEnabledDefault",
   "audioBooster",
   "useNewModel",
   "autoHideButtonDelay",
@@ -85,7 +86,7 @@ export type StorageData = {
   m3u8ProxyHost: string;
   proxyWorkerHost: string;
   translateProxyEnabled: TranslateProxyStatus;
-  defaultSettings: boolean;
+  translateProxyEnabledDefault: boolean;
   audioBooster: boolean;
   useNewModel: boolean;
   autoHideButtonDelay: number;

@@ -21,7 +21,7 @@ import type {
 } from "../../types/components/select";
 import type { StorageData, TranslateProxyStatus } from "../../types/storage";
 import type { SettingsViewProps } from "../../types/views/settings";
-import type { VideoHandler } from "../..";
+import { countryCode, type VideoHandler } from "../..";
 import type {
   DetectService,
   TranslateService,
@@ -33,6 +33,7 @@ import {
   defaultDetectService,
   defaultTranslationService,
   m3u8ProxyHost,
+  proxyOnlyCountries,
   proxyWorkerHost,
 } from "../../config/config";
 import { EventImpl } from "../../core/eventImpl";
@@ -143,7 +144,7 @@ export class SettingsView {
     downloadWithNameCheckbox: Checkbox;
     sendNotifyOnCompleteCheckbox: Checkbox;
     useLivelyVoiceCheckbox: Checkbox;
-    // #endregion Settings Tanslation type
+    // #endregion Settings Translation type
     // #region Settings Subtitles type
     subtitlesSettingsHeader: HTMLElement;
     subtitlesDownloadFormatSelectLabel: SelectLabel;
@@ -159,7 +160,6 @@ export class SettingsView {
     proxyM3U8HostTextfield: Textfield;
     proxyWorkerHostTextfield: Textfield;
     proxyTranslationStatusSelectLabel: SelectLabel;
-    proxyTranslationStatusSelectTooltip: Tooltip;
     proxyTranslationStatusSelect: Select;
     // #endregion Settings Proxy type
     // #region Settings Misc type
@@ -373,19 +373,21 @@ export class SettingsView {
       localizationProvider.get("VOTTranslateProxyEverything"),
     ];
     const translateProxyEnabled = this.data.translateProxyEnabled ?? 0;
+    const isTranslateProxyRequired =
+      countryCode && proxyOnlyCountries.includes(countryCode);
     this.proxyTranslationStatusSelectLabel = new SelectLabel({
-      icon: votStorage.get("translateProxyEnabledDefault")
-        ? WARNING_ICON
-        : undefined,
+      icon: isTranslateProxyRequired ? WARNING_ICON : undefined,
       labelText: localizationProvider.get("VOTTranslateProxyStatus"),
     });
-    this.proxyTranslationStatusSelectTooltip = new Tooltip({
-      target: this.proxyTranslationStatusSelectLabel.icon,
-      content: localizationProvider.get("VOTTranslateProxyStatusDefault"),
-      position: "bottom",
-      backgroundColor: "var(--vot-helper-ondialog)",
-      parentElement: this.globalPortal,
-    });
+    if (isTranslateProxyRequired) {
+      this.proxyTranslationStatusSelectTooltip = new Tooltip({
+        target: this.proxyTranslationStatusSelectLabel.icon,
+        content: localizationProvider.get("VOTTranslateProxyStatusDefault"),
+        position: "bottom",
+        backgroundColor: "var(--vot-helper-ondialog)",
+        parentElement: this.globalPortal,
+      });
+    }
 
     this.proxyTranslationStatusSelect = new Select({
       selectTitle: proxyEnabledLabels[translateProxyEnabled],
@@ -1424,6 +1426,7 @@ export class SettingsView {
     this.useNewAudioPlayerTooltip?.release();
     this.onlyBypassMediaCSPTooltip?.release();
     this.translationTextServiceTooltip?.release();
+    this.proxyTranslationStatusSelectTooltip?.release();
 
     this.initialized = initialized;
     return this;
