@@ -13721,6 +13721,7 @@ class HotkeyButton {
     event.preventDefault();
     if (event.code === "Escape") {
       this.pressedKeys.clear();
+      this.key = null;
       this.button.textContent = this.keyText;
       this.recording = false;
       this.button.removeAttribute("data-status");
